@@ -1,56 +1,53 @@
 {
   "package": "irmin-indexeddb",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:29:42.471608",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:47.466450",
   "modules": [
     {
-      "module_path": "Irmin_indexeddb.Content_store",
-      "description": "Computes a deterministic store key from a sequence of strings using a custom hashing function, and provides a smaller integer hash for use in hash tables. It operates on a custom type `t` representing content hashes, with a fixed byte size for hash outputs. This is used to uniquely identify content in a versioned storage system, ensuring consistent key generation and efficient lookups.",
-      "description_length": 388,
+      "module_path": "Irmin_indexeddb.Branch_store",
+      "library": "irmin-indexeddb",
+      "description": "This module implements a branch store for tracking head commit hashes using atomic-write semantics with keys and values parameterized over modules `K` and `V`. It supports operations like membership checks, value retrieval, atomic updates, conditional writes, and key removal, all with Lwt-based asynchronous guarantees. The module is used to manage branch state in a version-controlled store backed by IndexedDB, ensuring consistent updates and watches on branch heads.",
+      "description_length": 470,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Irmin_indexeddb.Branch_store",
-      "description": "Provides operations to serialize and deserialize branch identifiers using Irmin's type system. Works with the `t` type, which represents branch references in a versioned storage system. Used to ensure consistent encoding of branch names across different parts of a distributed version control application.",
-      "description_length": 305,
+      "module_path": "Irmin_indexeddb.Content_store",
+      "library": "irmin-indexeddb",
+      "description": "This module implements a content-addressable store for Irmin, supporting operations to add values and retrieve them by keys derived from their content. It works with abstract key and value types, allowing storage of arbitrary data such as blobs, trees, and commits. Use it to persist Irmin objects in an IndexedDB backend, where keys are generated deterministically from stored values or explicitly provided in unsafe mode.",
+      "description_length": 423,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Irmin_indexeddb.Raw",
-      "description": "Provides direct access to IndexedDB through Lwt-based asynchronous operations, including database creation, store management, and key-value operations. Works with database connections, store names, and string-based keys to perform atomic updates, deletions, and data retrieval. Used in unit tests to initialize and manipulate in-browser storage for controlled data scenarios.",
-      "description_length": 375,
+      "library": "irmin-indexeddb",
+      "description": "This module provides low-level access to an IndexedDB database, allowing creation, deletion, and manipulation of named stores and their key-value pairs. It supports operations like `get`, `set`, atomic `compare_and_set`, and `remove` on string keys and values, along with database and store lifecycle management. Designed for unit-testing, it offers direct control over IndexedDB without the Irmin abstraction layer.",
+      "description_length": 416,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "irmin-indexeddb",
-      "description": "Stores and retrieves versioned data using IndexedDB, supporting operations like commit, branch creation, and history traversal. Works with Irmin's tree and commit structures, enabling persistent storage for web-based applications. Used to maintain state in collaborative editing tools or data synchronization systems within a browser.",
-      "description_length": 334,
+      "module_path": "Irmin_indexeddb",
+      "library": "irmin-indexeddb",
+      "description": "This module implements a backend for versioned data storage using IndexedDB, enabling client-side web applications to manage persistent, version-controlled state with support for both Git and Irmin formats. It provides content-addressable and branch stores with asynchronous operations for adding, retrieving, and atomically updating values, where keys can be derived from content or explicitly assigned. The content store handles serialization of Irmin objects like trees and commits, while the branch store tracks head commit hashes with atomic writes and conditional updates. Low-level access to IndexedDB allows direct manipulation of key-value pairs and store management, supporting use cases such as collaborative, offline-first web applications with versioned persistence.",
+      "description_length": 779,
       "index": 3,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Irmin_indexeddb",
-      "description": "Encapsulates a versioned storage system with content and branch key management, leveraging a custom hash type for deterministic lookups and serialization. Offers asynchronous IndexedDB interactions for atomic data manipulation, enabling browser-based storage with consistent branch and content identification. Supports Git or Irmin-format stores by generating unique keys and handling branch references through type-safe operations. Examples include storing versioned content, tracking branch changes, and performing test-driven data operations in a web environment.",
-      "description_length": 566,
-      "index": 4,
-      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 566,
-    "min_description_length": 305,
-    "avg_description_length": 393.6,
-    "embedding_file_size_mb": 0.018621444702148438
+    "max_description_length": 779,
+    "min_description_length": 416,
+    "avg_description_length": 522.0,
+    "embedding_file_size_mb": 0.014948844909667969
   }
 }

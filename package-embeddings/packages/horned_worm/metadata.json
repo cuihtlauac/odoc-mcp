@@ -1,84 +1,85 @@
 {
   "package": "horned_worm",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:22.100428",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:05:54.525521",
   "modules": [
     {
       "module_path": "Horned_worm.Http_context.Client",
-      "description": "Sends HTTP requests with custom methods, headers, and bodies using asynchronous deferred values. Handles URI parsing, SSL configuration, and body transmission for methods like GET, POST, PUT, and PATCH. Supports form-encoded POSTs and manages response parsing with explicit control over transfer encoding.",
-      "description_length": 305,
+      "library": "horned_worm",
+      "description": "This module implements HTTP client operations for sending requests and handling responses asynchronously. It supports standard HTTP methods like GET, POST, PUT, DELETE, and PATCH, with options to configure SSL, headers, and request bodies. Functions like `request`, `call`, and `post_form` enable use cases such as making raw HTTP requests, streaming data with chunked encoding, and submitting form data.",
+      "description_length": 404,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Horned_worm.Http_context.Body",
-      "description": "Converts between string-based data and pipe structures, supporting asynchronous operations. Handles string lists, S-expression serialization, and HTTP transfer encoding. Enables data transformation, draining, and conversion to or from pipe readers for stream processing.",
-      "description_length": 270,
+      "library": "horned_worm",
+      "description": "This module handles HTTP message bodies with support for both in-memory strings and asynchronous byte streams via pipes. It provides operations to convert bodies to and from strings and pipes, inspect content structure, and apply transformations. Concrete use cases include processing HTTP request/response payloads, streaming large data transfers, and modifying body content asynchronously.",
+      "description_length": 391,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Horned_worm.Http_context",
-      "description": "Encapsulates HTTP communication by enabling asynchronous request sending with full control over methods, headers, and bodies, including support for form data and SSL. Manages data flow between strings and pipes, facilitating serialization, transformation, and stream processing. Operations include URI parsing, response handling, and transfer encoding management. Examples include sending a POST request with a custom header and converting a list of strings into a pipe for streaming.",
-      "description_length": 484,
+      "library": "horned_worm",
+      "description": "This module manages HTTP contexts by providing direct access to request and response data, cookies, and connection details using Cohttp types and a custom body representation. It enables operations such as extracting request headers, sending responses, and handling session cookies within HTTP transactions. The body submodule supports in-memory and streaming data handling, allowing payloads to be processed, transformed, or streamed asynchronously using pipes. The client submodule extends functionality with asynchronous HTTP request capabilities, supporting standard methods and configurations for SSL, headers, and form submissions.",
+      "description_length": 637,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Horned_worm.Http_task",
-      "description": "Handles HTTP request processing with asynchronous context management, supporting task cancellation and timeout handling. Operates on HTTP context objects and asynchronous deferred values to manage request lifecycles. Used to coordinate long-running API calls and ensure proper resource cleanup during interruptions.",
-      "description_length": 315,
+      "module_path": "Horned_worm.Cors_config",
+      "library": "horned_worm",
+      "description": "This module defines a CORS configuration with support for specifying allowed origins as any, a list, or a predicate function. It includes settings for cookies, max age, and exposed headers. Use this to configure cross-origin request policies in web applications.",
+      "description_length": 262,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Horned_worm.Http_handler",
-      "description": "Handles HTTP request processing by defining a function that takes an HTTP context and returns an HTTP task. Operates on custom types representing request contexts and task outcomes. Used to route incoming requests to appropriate handlers and manage response generation.",
-      "description_length": 269,
+      "library": "horned_worm",
+      "description": "Handles HTTP requests by transforming context into tasks. Works with `Horned_worm.Http_context.t` and `Horned_worm.Http_task.t`. Used to define request routing and response generation logic.",
+      "description_length": 190,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Horned_worm.Web_part",
-      "description": "Handles HTTP request processing with a custom handler type, returning task-based responses. Operates on HTTP context and handler structures to manage request flows. Used to define error responses or interrupt request processing with predefined task outcomes.",
-      "description_length": 258,
+      "library": "horned_worm",
+      "description": "This module defines a function type for composing web parts that process HTTP requests and responses. It includes a `fail` value representing a failed HTTP task, used to terminate request processing. It works with HTTP handlers, contexts, and tasks to build modular web request pipelines.",
+      "description_length": 288,
       "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Horned_worm.Http_task",
+      "library": "horned_worm",
+      "description": "Handles asynchronous HTTP request processing with optional context. It provides functions to create, compose, and execute tasks that produce HTTP responses, supporting operations like mapping, binding, and error handling. This module is used to build modular, composable HTTP endpoints where each task represents an individual step or middleware in a request-response pipeline.",
+      "description_length": 377,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Horned_worm.Cors_config",
-      "description": "Provides functions to configure and inspect CORS settings, including checking allowed origins and methods. Works with custom types for origin specifications and a configuration record containing headers and credentials settings. Used to enforce strict origin policies in web server responses.",
-      "description_length": 292,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "horned_worm",
-      "description": "Handles HTTP request routing, middleware composition, and response generation using Web_part.t. Processes HTTP methods, paths, and headers, and transforms request data into structured responses. Used to build real-time web services and API endpoints with custom logic and data processing.",
-      "description_length": 288,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Horned_worm",
-      "description": "combines asynchronous HTTP request handling, context management, and response generation with tools for configuring cross-origin policies. it operates on custom types for HTTP contexts, tasks, and CORS configurations, enabling fine-grained control over request routing, cancellation, and response formatting. it supports sending POST requests with custom headers, streaming data via pipes, and enforcing origin restrictions in responses. examples include managing long-running API calls, converting string lists to streams, and generating error responses with specific task outcomes.",
-      "description_length": 583,
-      "index": 8,
-      "embedding_norm": 1.0
+      "library": "horned_worm",
+      "description": "This module enables composing HTTP request handlers and response logic using `Web_part.t` and `Http_context.t`, offering path and method routing, context inspection, and response manipulation. It supports configuring headers like CORS and security policies, serving static files or JSON, and defining server behavior such as directory browsing, all designed for functional composition and predicate-driven filtering. The `Http_context` submodule provides access to request/response data, cookies, and streaming body handling, while `Http_task` transforms context into composable async tasks for routing and response generation. Use it to build REST APIs, SPAs with strict CORS, or embedded servers with fine-grained control over HTTP semantics and async handling.",
+      "description_length": 763,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 583,
-    "min_description_length": 258,
-    "avg_description_length": 340.44444444444446,
-    "embedding_file_size_mb": 0.033118247985839844
+    "max_description_length": 763,
+    "min_description_length": 190,
+    "avg_description_length": 414.0,
+    "embedding_file_size_mb": 0.029465675354003906
   }
 }

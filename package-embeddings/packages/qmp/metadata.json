@@ -1,91 +1,93 @@
 {
   "package": "qmp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:53.421170",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:52.724831",
   "modules": [
     {
-      "module_path": "Qmp.Device.USB.Driver",
-      "description": "Converts a driver identifier to its string representation. Operates on an abstract type representing driver instances. Used to generate human-readable logs and error messages based on driver configurations.",
-      "description_length": 206,
+      "module_path": "Qmp.Device.PCI.Driver",
+      "library": "qmp",
+      "description": "This module defines a single data type `t` representing PCI driver types, with one constructor `XEN_PCI_PASSTHROUGH`. It provides a function `string_of` to convert values of type `t` to their string representations. This is used to specify and serialize PCI device driver configurations in QMP (QEMU Machine Protocol) commands.",
+      "description_length": 327,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qmp.Device.PCI.Driver",
-      "description": "Converts a driver identifier to its string representation. Works with an abstract type representing driver instances. Used to generate human-readable logs for driver states during system diagnostics.",
-      "description_length": 199,
+      "module_path": "Qmp.Device.VCPU.Driver",
+      "library": "qmp",
+      "description": "This module defines a single variant type representing a 32-bit x86 CPU model and provides a function to convert this type to its string representation. It works directly with the `t` type, which models specific virtual CPU configurations. Use this module when serializing or identifying CPU driver types in virtualization contexts.",
+      "description_length": 332,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qmp.Device.VCPU.Driver",
-      "description": "Converts a driver identifier to its string representation. Operates on an abstract type representing driver instances. Used to generate human-readable labels for driver states in system logs.",
-      "description_length": 191,
+      "module_path": "Qmp.Device.USB.Driver",
+      "library": "qmp",
+      "description": "This module defines types and conversions for USB driver configurations in QEMU. It supports two specific driver types, USB_EHCI and USB_HOST, and provides a function to convert these values to their string representations. Useful for generating QEMU command-line arguments or QMP JSON for USB device setup.",
+      "description_length": 307,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qmp.Device.USB",
-      "description": "Handles driver identification and representation, translating abstract driver instances into human-readable strings for logging and diagnostics. Provides operations to extract and format driver information. Supports tasks such as generating error messages or tracking driver states in system logs. Allows developers to inspect and report on driver configurations programmatically.",
-      "description_length": 380,
+      "module_path": "Qmp.Device.VCPU",
+      "library": "qmp",
+      "description": "This module models virtual CPUs with structured identifiers for socket, core, and thread, and generates unique IDs for managing hotpluggable vCPU devices in QEMU. It includes a hotpluggable type that combines configuration, driver type, and an optional QOM path, enabling dynamic CPU management. The child module defines a 32-bit x86 CPU model with string serialization, directly integrating with the main vCPU type to specify and identify CPU driver configurations. Use this combined interface to configure, serialize, and hotplug virtual CPUs in machine protocol implementations.",
+      "description_length": 581,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qmp.Device.VCPU",
-      "description": "Provides a mechanism to translate abstract driver instances into human-readable string representations, enabling clear logging and debugging. The core data type is an abstract driver instance, with a conversion function as the primary operation. This allows developers to inspect and log driver states effectively. For example, a driver instance representing a network interface can be converted to \"net_driver_01\" for inclusion in system messages.",
-      "description_length": 448,
+      "module_path": "Qmp.Device.PCI",
+      "library": "qmp",
+      "description": "This module manages PCI device configurations through a structured type `t` that captures device identifiers, function numbers, host addresses, and access permissions. It supports creating, modifying, and querying PCI settings, with operations for device attachment, address assignment, and access control, enabling virtual machine device passthrough and system-level PCI resource management. A child module introduces the `t` type for PCI driver types, with the `XEN_PCI_PASSTHROUGH` constructor and `string_of` function to serialize driver configurations in QMP commands. Together, they facilitate precise control and communication of PCI device settings in virtualized environments.",
+      "description_length": 685,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qmp.Device.PCI",
-      "description": "Provides functions to translate driver instances into human-readable strings, enabling clear logging and diagnostics. The core data type is an abstract driver instance, with operations focused on conversion and representation. This allows developers to inspect and log driver states effectively. For example, it can convert a driver handle into a string like \"virtio-net-0\" for debugging purposes.",
-      "description_length": 397,
+      "module_path": "Qmp.Device.USB",
+      "library": "qmp",
+      "description": "This module models USB devices with structured parameters for bus, host bus, and host port, enabling precise configuration and management of USB passthrough devices in virtualization environments. The `Driver` submodule defines specific driver types like USB_EHCI and USB_HOST, along with conversion functions to string representations for integration with QEMU command-line or QMP JSON setups. Main data types include device parameters and driver configurations, with operations to construct, modify, and serialize them. For example, you can create a USB device with a specified host bus and port, assign a driver type, and generate the corresponding QEMU argument string.",
+      "description_length": 673,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Qmp.Device",
-      "description": "manages driver representation and logging by converting abstract driver instances into human-readable strings, enabling clear system diagnostics and error reporting. It provides a core data type of driver instances and operations for formatting and inspecting their states. Developers can use it to generate log entries like \"virtio-net-0\" or \"net_driver_01\" for debugging. This facilitates tracking driver behavior and troubleshooting through programmable string conversion.",
-      "description_length": 475,
+      "library": "qmp",
+      "description": "This module represents a polymorphic device system that unifies USB, VCPU, and PCI device handling through a common type `t`, enabling creation, identification, and configuration of virtual devices used in QEMU's machine protocol. It directly supports pattern matching on device types and includes constructors for building specialized device instances, each of which integrates with its respective child module for detailed configuration. The vCPU child module structures virtual CPU identifiers and hotpluggable configurations, allowing dynamic CPU setup with unique ID generation and QOM path tracking. The PCI module provides structured device configuration with support for passthrough, address assignment, and serialization to QMP, while the USB module enables precise bus and port configuration with driver-specific string serialization for command-line or JSON-based QEMU integration.",
+      "description_length": 892,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "qmp",
-      "description": "Handles message serialization and deserialization for the Qemu Monitor Protocol, including command execution and event parsing. Operates on JSON-encoded data structures and custom protocol messages. Used to interact with QEMU virtual machines for monitoring and control tasks.",
-      "description_length": 276,
+      "module_path": "Qmp_protocol",
+      "library": "qmp",
+      "description": "This module implements the QMP (QEMU Machine Protocol) interface for connecting to and communicating with a QEMU instance over a Unix domain socket. It handles protocol negotiation, message reading and writing, and connection management using a custom type `t` that encapsulates the connection state. Concrete use cases include sending commands like `{\"execute\": \"qmp_capabilities\"}` and receiving structured responses from virtual machines.",
+      "description_length": 441,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Qmp",
-      "description": "manages driver representation and logging by converting abstract driver instances into human-readable strings, enabling clear system diagnostics and error reporting. It provides a core data type of driver instances and operations for formatting and inspecting their states. Developers can use it to generate log entries like \"virtio-net-0\" or \"net_driver_01\" for debugging. This facilitates tracking driver behavior and troubleshooting through programmable string conversion.",
-      "description_length": 475,
+      "library": "qmp",
+      "description": "This module represents a polymorphic device system that unifies USB, VCPU, and PCI device handling through a common type `t`, enabling creation, identification, and configuration of virtual devices used in QEMU's machine protocol. It directly supports pattern matching on device types and includes constructors for building specialized device instances, each of which integrates with its respective child module for detailed configuration. The vCPU module structures virtual CPU identifiers and hotpluggable configurations, allowing dynamic CPU setup with unique ID generation and QOM path tracking, while the PCI module provides structured device configuration with support for passthrough, address assignment, and serialization to QMP. The USB module enables precise bus and port configuration with driver-specific string serialization for command-line or JSON-based QEMU integration.",
+      "description_length": 886,
       "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Qmp_protocol",
-      "description": "Establishes and manages a connection to a QEMU instance via a Unix domain socket, handling protocol negotiation and message exchange. Operates on a custom connection type `t` and interacts with QMP message structures. Enables low-level communication for sending and receiving QMP commands, suitable for monitoring or controlling virtual machines.",
-      "description_length": 346,
-      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 475,
-    "min_description_length": 191,
-    "avg_description_length": 339.3,
-    "embedding_file_size_mb": 0.03319549560546875
+    "max_description_length": 892,
+    "min_description_length": 307,
+    "avg_description_length": 569.3333333333334,
+    "embedding_file_size_mb": 0.03312492370605469
   }
 }

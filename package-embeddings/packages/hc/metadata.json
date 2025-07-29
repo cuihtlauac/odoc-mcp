@@ -1,63 +1,101 @@
 {
   "package": "hc",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:27:50.963777",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:05:54.352852",
   "modules": [
     {
-      "module_path": "Hc.Make",
-      "description": "Compares keys for equality and generates hash values for key-based data structures. Operates on arbitrary types through user-defined equality and hashing functions. Used to implement associative containers like hash tables where key comparison and hashing are critical.",
-      "description_length": 269,
+      "module_path": "Hc.Cache",
+      "library": "hc",
+      "description": "Implements a thread-safe, customizable cache structure with operations to create, clear, add, and retrieve values by key. Works with any key type and stores arbitrary values, supporting efficient lookups and size tracking. Useful for memoization and managing shared, computed data across threads in multi-core environments.",
+      "description_length": 323,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Hc.MakeStrong",
-      "description": "Compares and hashes values of type `t` using a user-defined equality and hash function. It ensures consistent behavior for key-based operations by enforcing that equal values produce identical hash codes. Used to support efficient key lookups in hash tables or sets where custom comparison logic is required.",
-      "description_length": 308,
+      "module_path": "Hc.Make_strong_thread_safe",
+      "library": "hc",
+      "description": "Implements thread-safe hash-consing using a user-defined hash and equality for keys. It ensures that only one instance of each structurally equal key exists, enabling efficient deduplication and comparison. Useful for interning values like abstract syntax tree nodes or symbols in multi-threaded environments.",
+      "description_length": 309,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Hc.Fake",
-      "description": "Compares and hashes values of type `t` using customizable equality and hashing strategies. Supports structural, physical, or custom comparisons, including handling of special float values. Used to ensure consistent key behavior in hash tables or other data structures requiring equality and hashing.",
-      "description_length": 299,
+      "module_path": "Hc.Make",
+      "library": "hc",
+      "description": "Implements hash-consing for values of type `H.t`, ensuring that equal values are physically identical. Uses a hash table with ephemeron to manage weak references, allowing garbage collection of unused values. Useful for reducing memory usage when dealing with many duplicate values, such as in symbolic computation or AST node management.",
+      "description_length": 338,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Hc.Mk",
-      "description": "Provides operations to manage a cache with key-value bindings, including creating, adding, finding, and clearing entries. Works with a custom cache type and a polymorphic key type. Used to track and retrieve data efficiently, such as storing computed results or frequently accessed values.",
-      "description_length": 289,
+      "module_path": "Hc.Make_strong",
+      "library": "hc",
+      "description": "Implements hash-consing for values of type `H.t`, ensuring physical equality for structurally equal values. Provides operations to hash-cons values, clear the hash-cons table, retrieve statistics, and measure the number of stored values. Useful for optimizing memory usage and equality checks in symbolic computation or AST manipulation.",
+      "description_length": 337,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "hc",
-      "description": "Provides hash consing for immutable data structures, enabling efficient sharing of equivalent values through a hash table. Works with arbitrary OCaml types that support hashing and equality. Used to optimize memory usage in applications involving large numbers of duplicate values, such as symbolic computation or compiler intermediate representations.",
-      "description_length": 352,
+      "module_path": "Hc.S",
+      "library": "hc",
+      "description": "This module provides operations for hash-consing values, ensuring that equal values are represented by physically identical nodes. It supports creating hash-consed values with `hashcons`, clearing the table, retrieving statistics, and querying the number of stored values. It is designed for use in multi-core environments where type-safe, efficient deduplication of structured data is required, such as in symbolic computation or AST management.",
+      "description_length": 446,
       "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Hc.Mk",
+      "library": "hc",
+      "description": "Implements hash-consing with a user-defined cache, ensuring physically equal results for equivalent inputs. Operates on values of type `key` from the provided cache module, supporting operations like hash-consing, clearing, and retrieving statistics. Useful for optimizing memory usage and equality checks in symbolic computation or AST manipulation.",
+      "description_length": 350,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Hc.Make_thread_safe",
+      "library": "hc",
+      "description": "Implements thread-safe hash-consing using a hash table with ephemeron keys to manage weak references. Works with any data type through the provided `H` module, ensuring physical equality for equivalent values. Useful for reducing memory usage in multi-threaded applications by deduplicating structurally identical values during operations like term rewriting or AST manipulation.",
+      "description_length": 379,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Hc.Fake",
+      "library": "hc",
+      "description": "Implements a hash-consing interface without actual deduplication, mirroring the behavior of a real hash-consing module for benchmarking purposes. Works with any hashable type through the parameter `H`, providing `hashcons` to simulate hash-consed value allocation, `clear` to reset state, and `stats` and `length` to inspect internal structures. Useful when measuring performance impact of hash-consing in applications like symbolic computation or AST manipulation.",
+      "description_length": 465,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Hc.Mk_thread_safe",
+      "library": "hc",
+      "description": "Implements thread-safe hash-consing using a user-defined cache, ensuring physically equal results for equivalent inputs across concurrent accesses. Provides operations to hash-cons values, clear the cache, retrieve statistics, and query the number of stored values. Designed for multi-core environments where concurrent hash-consing operations must maintain integrity and consistency.",
+      "description_length": 384,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Hc",
-      "description": "Provides operations to manage a hash-consing table, including clearing the table, hash-consing values to ensure uniqueness, retrieving statistics, and determining the number of hash-consed entries. Works with a key type and associated hash-consed values. Used to efficiently manage and deduplicate values in scenarios like symbolic computation or memoization.",
-      "description_length": 359,
-      "index": 5,
-      "embedding_norm": 1.0
+      "library": "hc",
+      "description": "This module provides hash-consing mechanisms that ensure structurally equal values are physically identical, optimizing memory and equality checks. It supports both thread-safe and non-thread-safe variants, configurable cache sizes, and multiple strategies including weak referencing and fake hash-consing. Users can intern values like AST nodes or symbols, manage cache behavior across threads, and measure performance impact through statistics and size tracking. Submodules offer customizable caches, ephemeron-based tables, and benchmarking tools, enabling efficient deduplication in symbolic computation and multi-core environments.",
+      "description_length": 636,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 359,
-    "min_description_length": 269,
-    "avg_description_length": 312.6666666666667,
-    "embedding_file_size_mb": 0.022238731384277344
+    "max_description_length": 636,
+    "min_description_length": 309,
+    "avg_description_length": 396.7,
+    "embedding_file_size_mb": 0.03675079345703125
   }
 }

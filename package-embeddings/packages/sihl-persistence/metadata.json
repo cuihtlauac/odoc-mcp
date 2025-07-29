@@ -1,91 +1,109 @@
 {
   "package": "sihl-persistence",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:33:52.847972",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:07:33.979936",
   "modules": [
     {
-      "module_path": "Sihl_persistence.Migration.Logs",
-      "description": "Provides logging operations for different severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process errors. Enables structured logging and safe error recovery in applications.",
-      "description_length": 315,
+      "module_path": "Sihl_persistence.Migration.PostgreSql",
+      "library": "sihl-persistence",
+      "description": "This module handles PostgreSQL database migrations by providing functions to register individual or multiple migration scripts, execute them asynchronously, and manage their lifecycle. It works with migration data structures defined in `Sihl_contract__Migration` and integrates with the container lifecycle for initialization. Concrete use cases include setting up database schemas, applying versioned migrations, and ensuring database consistency during application startup.",
+      "description_length": 475,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sihl_persistence.Migration.Map",
-      "description": "This module offers operations for managing associative maps with string keys and polymorphic values, including insertion, deletion, lookup, and traversal. It supports transformations, filtering, and conversions between maps and sequences or lists, enabling tasks like dynamic data restructuring or processing hierarchical information. Specific use cases involve building maps from iterative data sources or merging complex key-value structures with custom logic.",
-      "description_length": 462,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sihl_persistence.Migration.PostgreSql",
-      "description": "Handles database lifecycle management and migration execution using predefined steps. Operates on migration definitions consisting of strings and lists of migration steps. Registers and runs migrations, ensuring database schema updates are applied in sequence.",
-      "description_length": 260,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Sihl_persistence.Migration.MariaDb",
-      "description": "Handles database schema versioning through migration registration and execution, supporting sequential step definitions for schema changes. Operates on migration tuples consisting of a name and a list of step operations. Used to apply pending database changes during application startup or on demand.",
-      "description_length": 300,
-      "index": 3,
+      "library": "sihl-persistence",
+      "description": "This module handles database migration workflows for MariaDB. It provides functions to register individual or multiple migrations, execute them asynchronously, and manage their lifecycle within a container. Concrete use cases include setting up or updating database schemas during application startup.",
+      "description_length": 301,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_persistence.Database.Logs",
-      "description": "Provides logging operations for different severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process errors. Enables structured logging and safe error recovery in applications.",
-      "description_length": 315,
-      "index": 4,
+      "module_path": "Sihl_persistence.Migration_repo.MariaDb",
+      "library": "sihl-persistence",
+      "description": "This module handles database schema migrations for MariaDB by ensuring a version tracking table exists, retrieving the current migration state for a namespace, and updating or inserting migration records. It works directly with `Migration.t` values, which represent individual migration steps, and interacts with MariaDB to maintain consistency across deployments. Concrete use cases include initializing a migration tracking table on startup, checking applied migrations before running upgrades, and persisting new migration states after schema changes.",
+      "description_length": 554,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sihl_persistence.Database",
-      "description": "Manages logging with severity-based message handling, supporting error, warning, info, and debug levels. Processes formatted strings and result types to track and recover from errors. Enables structured logging and controlled error flow through configurable log levels. Examples include logging debug information during data retrieval and capturing errors in database transactions.",
-      "description_length": 381,
+      "module_path": "Sihl_persistence.Migration_repo.Sig",
+      "library": "sihl-persistence",
+      "description": "This module handles database table creation and migration state management. It provides functions to create a table if it doesn't exist, retrieve a migration by namespace, and upsert a migration record. It works directly with `Migration.t` values, using a string namespace as a key, and is used to track and update migration states in a persistent store.",
+      "description_length": 354,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sihl_persistence.Migration.Map",
+      "library": "sihl-persistence",
+      "description": "This module implements a map data structure with ordered string keys and arbitrary value types, supporting associative operations like insertion, deletion, and value transformation, as well as ordered traversal for min/max queries. It provides functional combinators for filtering, folding, and partitioning key-value pairs, along with utilities to convert between maps and sequences or lists for bulk manipulation. Typical applications include managing hierarchical data, processing configuration sets with dynamic transformations, and implementing stateful workflows requiring ordered key access or batch updates.",
+      "description_length": 615,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_persistence.Migration_repo.PostgreSql",
+      "library": "sihl-persistence",
+      "description": "This module handles database schema migrations for PostgreSQL. It ensures a migration table exists, retrieves migration records by namespace, and updates or inserts migration states. It directly works with the `Migration.t` type to track versioned schema changes in a PostgreSQL database.",
+      "description_length": 288,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_persistence.Migration",
-      "description": "provides logging, map manipulation, and database migration capabilities. it includes log severity handling, associative map operations, and migration execution with versioning. users can generate structured logs, transform key-value data, and apply database schema updates in sequence. examples include capturing error details, merging configuration maps, and executing predefined migration steps.",
-      "description_length": 397,
+      "module_path": "Sihl_persistence.Migration_repo.Migration",
+      "library": "sihl-persistence",
+      "description": "This module defines a data structure for tracking migration state with a namespace, version, and dirty flag. It provides operations to manipulate this state, including marking as dirty or clean, incrementing the version, and determining steps to apply based on migration data. Concrete use cases include managing database schema versions and tracking pending migration steps in a deployment system.",
+      "description_length": 398,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_persistence.Migration_repo",
-      "description": "provides a framework for managing repository migrations through a set of defined operations includes types for migration steps, version identifiers, and error handling supports applying, rolling back, and checking the status of migrations allows developers to define custom migration logic and integrate it into a structured workflow",
-      "description_length": 333,
+      "module_path": "Sihl_persistence.Migration",
+      "library": "sihl-persistence",
+      "description": "This module orchestrates database migrations across multiple backends, offering functions to register, track, and execute versioned schema changes using a structured map of migrations. It supports direct operations such as applying migrations at startup and querying migration status, while delegating backend-specific logic to child modules. The PostgreSQL and MariaDB submodules handle migration lifecycle management for their respective databases, enabling tasks like schema setup and versioned updates through asynchronous execution. The map submodule enhances these capabilities by providing ordered, transformable storage for migration metadata, supporting efficient lookups, bulk operations, and ordered traversal for migration sequencing.",
+      "description_length": 746,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "sihl-persistence",
-      "description": "Provides functions for routing HTTP requests, parsing query parameters, and generating JSON responses. Works with request objects, response builders, and associative lists for query data. Handles endpoint mapping in web applications and constructs structured API outputs.",
-      "description_length": 271,
+      "module_path": "Sihl_persistence.Database",
+      "library": "sihl-persistence",
+      "description": "This module manages database connections and query execution using Caqti, handling connection pooling, request preparation, and transaction control. It works with SQL queries and connection pools, providing functions to run parameterized queries with sorting and pagination support. Concrete use cases include executing CRUD operations, managing database transactions, and configuring connection pools with custom sizes and URLs.",
+      "description_length": 429,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sihl_persistence.Migration_repo",
+      "library": "sihl-persistence",
+      "description": "This module orchestrates database schema migrations across MariaDB and PostgreSQL by applying, rolling back, and tracking migration versions through SQL scripts and database connections. It manages migration state using a versioned, namespaced model, where each migration step is represented as a `Migration.t` value, and state transitions are persisted in a tracking table created and maintained by the module. Submodules provide database-specific implementations for handling migration records, ensuring consistency across deployments by supporting operations like initializing tracking tables, querying applied versions, and persisting updates. Concrete use cases include deploying schema changes incrementally, verifying migration status before updates, and maintaining synchronized database states in distributed systems.",
+      "description_length": 826,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Sihl_persistence",
-      "description": "handles logging, data transformation, and database migrations with structured severity-based logging, map operations, and versioned migration workflows. it defines types for log levels, migration steps, and versioned schemas, enabling operations like logging errors, merging key-value data, and applying schema updates. users can track application state through detailed logs, manipulate configuration maps, and manage database evolution with rollback and status checks. examples include logging debug data during API calls, combining configuration maps, and executing incremental database migrations.",
-      "description_length": 601,
-      "index": 9,
+      "library": "sihl-persistence",
+      "description": "This module coordinates versioned database schema migrations and query execution across multiple SQL backends, providing structured storage for migration metadata and tools for ordered traversal and transformation. It supports key operations like registering migrations, applying or rolling back versioned changes, and tracking migration status through a versioned, namespaced model backed by a persistent tracking table. Using Caqti for connection management and query execution, it enables parameterized queries, transactions, and connection pooling with support for sorting, pagination, and CRUD operations. Concrete workflows include initializing and synchronizing database schemas, incrementally deploying changes across environments, and ensuring consistent migration states in distributed deployments.",
+      "description_length": 808,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
-    "meaningful_modules": 10,
-    "filtered_empty_modules": 8,
-    "retention_rate": 0.5555555555555556
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 601,
-    "min_description_length": 260,
-    "avg_description_length": 363.5,
-    "embedding_file_size_mb": 0.033181190490722656
+    "max_description_length": 826,
+    "min_description_length": 288,
+    "avg_description_length": 526.7272727272727,
+    "embedding_file_size_mb": 0.04037666320800781
   }
 }

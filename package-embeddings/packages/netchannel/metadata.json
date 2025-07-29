@@ -1,168 +1,197 @@
 {
   "package": "netchannel",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:36:13.227268",
+  "total_modules": 22,
+  "creation_timestamp": "2025-07-15T23:10:45.024852",
   "modules": [
     {
-      "module_path": "Netchannel.Xenstore.Make",
-      "description": "This module facilitates managing Xenstore client interactions through operations like initialization, suspension, resumption, and transactional or immediate data access, focusing on asynchronous I/O and event-driven monitoring. It works with Xenstore paths, nodes, permissions, and an abstract `handle` type to represent client sessions. Use cases include configuring virtualized environments or handling dynamic resource allocation where real-time data synchronization is critical.",
-      "description_length": 482,
+      "module_path": "Netchannel.Assemble.FRAME_MSG",
+      "library": "netchannel",
+      "description": "Processes Xen network messages into complete frames with error handling. Works with Xen message buffers and frame data structures. Used to reassemble fragmented network packets in virtualized environments.",
+      "description_length": 205,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Netchannel.Backend.Make",
-      "description": "Provides asynchronous operations to read and write MAC addresses, MTU, and configuration data for frontend and backend interfaces. Manages device enumeration, connection states, and waits for specific lifecycle events like frontend or backend closure. Works with identifiers, network configurations, and Lwt-based concurrency primitives.",
-      "description_length": 337,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Netchannel.TX.Request",
-      "description": "Writes a request body to a buffer using Cstruct, parses incoming data into a request structure, retrieves request flags, and returns the request size with error handling. Operates on Cstruct.t and custom error types, along with an opaque request type. Used to process HTTP requests in a network protocol stack, extracting headers and body content efficiently.",
-      "description_length": 359,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Netchannel.TX.Response",
-      "description": "Writes a response structure to a Cstruct buffer, and parses a response from a Cstruct buffer. Operates on a status type and a structured response type containing headers and body. Used to encode and decode HTTP-like responses in network protocol implementations.",
-      "description_length": 262,
+      "library": "netchannel",
+      "description": "This module defines types and functions for handling transmission responses in a networking context. It includes a `status` type representing possible outcomes like `OKAY`, `ERROR`, or `DROPPED`, and a `t` record type that pairs an integer ID with a status. The `read` and `write` functions enable serialization and deserialization of response data to and from `Cstruct.t` buffers, facilitating communication over network channels.",
+      "description_length": 431,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Netchannel.Backend.Make",
+      "library": "netchannel",
+      "description": "This module implements network communication primitives for a backend connected to a specific domain and device. It provides operations to send and receive packets, manage connection state, and retrieve or reset network interface statistics. Use cases include handling virtual network device communication in a MirageOS-based unikernel or virtualization environment.",
+      "description_length": 366,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Netchannel.TX.Request",
+      "library": "netchannel",
+      "description": "This module defines a request structure with fields for global reference, offset, flags, identifier, and size, and provides functions to read and write these requests to Cstruct buffers. It works with Cstruct.t for binary serialization and includes accessors for flags and size. Concrete use cases include handling network protocol requests where structured binary data must be parsed or constructed.",
+      "description_length": 400,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.Frontend.Make",
-      "description": "Provides asynchronous operations to read and write MAC addresses, MTU, and configuration data for frontend and backend interfaces. Manages device connection states, backend initialization, and waits for specific lifecycle events like frontend or backend closure. Works with identifiers, MAC addresses, MTU values, and configuration records to control network device behavior.",
-      "description_length": 375,
+      "module_path": "Netchannel.RX.Response",
+      "library": "netchannel",
+      "description": "This module handles the parsing and construction of response messages in a network communication context. It works with Cstruct.t buffers to read and write response structures that include metadata like message ID, offset, flags, and size, where size may contain an error code. Concrete use cases include processing incoming network packets and assembling response frames for transmission.",
+      "description_length": 389,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Netchannel.Assemble.Make",
-      "description": "Returns the flags associated with a build configuration and retrieves the size of a build artifact, handling potential errors. Works with a custom type representing build configurations and an error type for reporting issues. Used to inspect build settings and validate artifact sizes during continuous integration workflows.",
-      "description_length": 325,
+      "library": "netchannel",
+      "description": "This module groups network fragments into complete frames, handling errors in individual fragments. It processes lists of fragment messages, aggregating them into frames with known total sizes, and returns either successfully assembled frames or error information including all messages in the failed frame. It is used to reconstruct full network payloads from split Xen messages, ensuring correctness even when some fragments carry errors.",
+      "description_length": 440,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Netchannel.RX.Request",
-      "description": "Encodes and decodes values between S-expression format and a structured type, using provided serialization functions. Processes binary data using Cstruct buffers for efficient reading and writing operations. Designed for low-level data manipulation in network or file protocols.",
-      "description_length": 278,
+      "module_path": "Netchannel.Frontend.Make",
+      "library": "netchannel",
+      "description": "This module implements the Xen Netfront interface for Ethernet I/O, providing functions to connect to a network device, send and receive packets, and manage connection state. It operates on network interface handles (`t`), MAC addresses (`Macaddr.t`), and network statistics (`Mirage_net.stats`), with packet data handled via `Cstruct.t`. Concrete use cases include establishing a network connection with `connect`, transmitting packets using `write`, and receiving packets asynchronously via `listen`.",
+      "description_length": 502,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.RX.Response",
-      "description": "Reads a structured response from a buffer, writes a response to a buffer, and extracts flags and size information. Works with Cstruct.t for binary data and a custom t type containing message metadata. Used to parse incoming network messages and prepare outgoing responses in protocol implementations.",
-      "description_length": 300,
+      "module_path": "Netchannel.Xenstore.Make",
+      "library": "netchannel",
+      "description": "This module implements Xenstore-based communication for managing network device configurations in a virtualized environment. It provides operations to read and write MAC addresses, MTU, and frontend/backend configurations, as well as to connect, disconnect, and monitor device state changes. Concrete use cases include setting up and tearing down virtual network interfaces, waiting for configuration updates, and initializing backend devices with specific features.",
+      "description_length": 466,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.Assemble",
-      "description": "Returns the flags associated with a binary image and computes its size, returning an integer or an error. Works with binary image representations and error states. Used to inspect compiled code properties and validate binary file integrity.",
-      "description_length": 240,
+      "module_path": "Netchannel.S.CONFIGURATION",
+      "library": "netchannel",
+      "description": "This module manages network device configurations, providing operations to read and write MAC addresses, MTU settings, and frontend/backend configurations. It supports asynchronous interactions with network devices using Lwt threads, allowing clients to wait for configuration changes or device states. Concrete use cases include initializing backends, connecting/disconnecting frontends, and synchronizing configuration state between frontend and backend components.",
+      "description_length": 467,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.Backend",
-      "description": "handles asynchronous reading and writing of network interface data, including MAC addresses, MTU, and configuration details, using Lwt for concurrency. It manages device discovery, connection states, and event-driven workflows such as waiting for interface closures. Key data types include interface identifiers, network configurations, and event triggers. Examples include monitoring interface status changes or dynamically updating MTU values during runtime.",
-      "description_length": 460,
+      "module_path": "Netchannel.RX.Request",
+      "library": "netchannel",
+      "description": "This module defines a data structure for handling request identifiers and global references in network communication. It provides functions to serialize and deserialize the structure using S-expressions and to read and write it from and to a Cstruct buffer. Concrete use cases include managing request metadata in network protocols that require structured data exchange over byte buffers.",
+      "description_length": 388,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.Features",
-      "description": "Provides serialization and deserialization between a feature set and S-expression format using `t_of_sexp` and `sexp_of_t`. Operates on a record type representing a collection of features, with a field indicating the set of supported features. Used to encode and decode feature configurations in data interchange scenarios.",
-      "description_length": 323,
+      "module_path": "Netchannel.Stats",
+      "library": "netchannel",
+      "description": "Tracks network packet statistics with counters for received and transmitted packets. It provides functions to record packet sizes, reset counters, and retrieve statistics. Useful for monitoring network interface traffic in real-time or for debugging transmission issues.",
+      "description_length": 270,
       "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Netchannel.Flags",
-      "description": "Provides bitwise operations on flag sets, including union, difference, and subset checks. Works with an opaque type `t` representing a collection of bit-encoded flags. Used to manage packet transmission flags in network drivers, such as indicating incomplete checksums or fragmented data.",
-      "description_length": 288,
-      "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Netchannel.Frontend",
-      "description": "handles asynchronous reading and writing of network interface parameters such as MAC addresses, MTU, and configuration data, while tracking device states and lifecycle events. it operates on identifiers, MAC addresses, MTU values, and configuration records to manage interface behavior. it can initiate backend initialization, monitor connection states, and respond to events like interface closure. examples include updating a device's MTU, checking its MAC address, or waiting for a backend to become ready.",
-      "description_length": 509,
+      "module_path": "Netchannel.RX",
+      "library": "netchannel",
+      "description": "This module processes HTTP requests and responses, handling buffered and chunked data streams with operations for header extraction, body streaming, and size tracking via `total_size`. It includes submodules for parsing and constructing response messages using Cstruct.t buffers, supporting message ID, offset, flags, and size handling, which is useful for processing network packets and assembling response frames. Another submodule manages request identifiers and global references, providing serialization to and from S-expressions and Cstruct buffers. Together, these enable building HTTP proxies, logging middleware, or custom servers with precise control over message payloads and structured metadata exchange.",
+      "description_length": 716,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Netchannel.Assemble",
+      "library": "netchannel",
+      "description": "This module reconstructs complete network frames from Xen message fragments using a type-safe, modular interface, supporting custom frame and message types through the `FRAME_MSG` module type. It processes XenStore or XenNet data streams, aggregating fragment lists into full frames while handling errors in individual messages, and returns either valid frames or detailed error information. The child modules handle buffer management and fragment grouping, enabling reliable reassembly of split network packets in virtualized environments. For example, it can reconstruct Ethernet frames from partial Xen messages or report which fragments caused assembly failures.",
+      "description_length": 666,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.RX",
-      "description": "Encodes and decodes structured data to and from S-expressions, while handling binary data through Cstruct buffers for efficient protocol operations. It supports reading and writing messages with metadata, including flag extraction and size determination. This enables low-level message parsing and construction in network communication. Examples include serializing a data structure for transmission and parsing an incoming binary message to extract its contents and metadata.",
-      "description_length": 476,
+      "module_path": "Netchannel.Frontend",
+      "library": "netchannel",
+      "description": "This module provides a network interface for Ethernet I/O, enabling connection to a network device, packet transmission, and asynchronous packet reception. It operates on network interface handles, MAC addresses, network statistics, and packet buffers. You can establish a connection with `connect`, send packets using `write`, and receive packets asynchronously via `listen`. Specific operations include managing connection state and inspecting network statistics during communication.",
+      "description_length": 486,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Netchannel.S",
-      "description": "Provides asynchronous operations to manage network device configurations and states, including reading and writing MAC addresses, MTU, frontend/backend configurations, and device enumeration. Works with types such as `id`, `Macaddr.t`, `frontend_configuration`, `backend_configuration`, and `Features.t`. Used to initialize backends, connect/disconnect devices, and wait for state transitions like frontend/backend closure.",
-      "description_length": 423,
+      "library": "netchannel",
+      "description": "This module defines data types for network channel configurations, including client and server identifiers, frontend and backend structures with references to ring buffers, event channels, and feature sets. It provides serialization and deserialization functions for S-expressions, enabling configuration persistence and inter-component communication in distributed systems. The child module extends this by managing device-specific settings like MAC addresses and MTU, supporting asynchronous configuration updates and state synchronization using Lwt threads. Together, they enable initializing network backends, connecting frontends, and maintaining consistent configuration state across virtualized and distributed environments.",
+      "description_length": 731,
       "index": 14,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Netchannel.Shared_page_pool",
-      "description": "Manages reusable shared memory blocks for efficient network packet handling, using a pool of pre-allocated pages. It provides functions to allocate, use, and release memory blocks, along with size calculation for block allocation. Shutdown ensures proper cleanup of all shared resources after all operations complete.",
-      "description_length": 317,
+      "module_path": "Netchannel.Xenstore",
+      "library": "netchannel",
+      "description": "This module enables Xenstore-based management of network device configurations in virtualized environments. It supports reading and writing MAC addresses, MTU, and frontend/backend settings, along with connecting, disconnecting, and monitoring device state changes. Operations allow setup and teardown of virtual interfaces, waiting for config updates, and initializing backends with specific features. Example uses include configuring a virtual NIC's MAC address and monitoring a backend's connection status.",
+      "description_length": 509,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.Stats",
-      "description": "Tracks packet reception and transmission sizes, updating internal counters for each event. Operates on a Mirage_net.stats structure, maintaining cumulative byte counts and packet totals. Used to monitor network activity in real-time, such as measuring data flow in a packet-forwarding service.",
-      "description_length": 293,
+      "module_path": "Netchannel.Shared_page_pool",
+      "library": "netchannel",
+      "description": "This module manages a pool of shared memory blocks for efficient allocation and reuse, avoiding repeated expensive reallocation and sharing operations. It provides functions to create a pool with a custom sharing hook, allocate and use blocks with associated identifiers and grant references, compute block requirements for data sizes, and safely shut down the pool after pending operations complete. It is used in network communication scenarios where fixed-size memory blocks are shared across domains, such as in Xen-based virtualized networking stacks.",
+      "description_length": 556,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netchannel.TX",
-      "description": "Processes HTTP requests and responses by encoding and decoding data between Cstruct buffers and structured representations. Handles request parsing, flag extraction, and size calculation, while enabling response serialization and deserialization with status and header information. Supports efficient network protocol operations by managing request bodies and response content. Examples include extracting headers from incoming data and generating response buffers for transmission.",
-      "description_length": 482,
+      "module_path": "Netchannel.Features",
+      "library": "netchannel",
+      "description": "This module defines a set of boolean flags representing optional features in a network driver, such as receive copy, scatter-gather, and TCP segmentation offload. It includes functions to convert feature sets to and from S-expressions for serialization or configuration purposes. The `supported` value indicates which features are available in the current driver implementation, enabling runtime feature detection and negotiation.",
+      "description_length": 430,
       "index": 17,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Netchannel.Xenstore",
-      "description": "Manages Xenstore client interactions with asynchronous I/O and event-driven monitoring, using an abstract `handle` to represent sessions and operating on paths, nodes, and permissions. Supports initialization, suspension, resumption, and transactional or immediate data access. Enables real-time configuration of virtualized environments and dynamic resource allocation. Examples include updating guest configurations or monitoring changes in guest state.",
-      "description_length": 455,
+      "module_path": "Netchannel.TX",
+      "library": "netchannel",
+      "description": "This module manages HTTP request and response serialization over network channels, working directly with socket descriptors and string buffers for efficient data transmission. It defines core types like `Cstruct.t` for binary handling, along with operations for reading and writing structured data, such as request headers and response statuses. The response submodule introduces a `status` type and `t` record for tracking transmission outcomes, while the request submodule provides structured parsing and construction of binary protocol requests with fields like identifier, offset, and flags. Example uses include implementing lightweight HTTP clients or servers that require fine-grained control over network I/O without external dependencies.",
+      "description_length": 747,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "netchannel",
-      "description": "Provides functions to encapsulate and decapsulate Ethernet frames, including parsing source and destination MAC addresses, and handling Ethernet type fields. Operates on byte sequences and custom data types representing frame headers and payloads. Used to implement network communication in virtualized environments using the Netfront/netback interface.",
-      "description_length": 353,
+      "module_path": "Netchannel.Backend",
+      "library": "netchannel",
+      "description": "This module handles network communication for a backend system connected to a specific domain and device. It supports sending and receiving packets, managing connection states, and retrieving or resetting network interface statistics. Key data types include packet structures, connection state enums, and statistics counters. You can use it to implement virtual network device communication in environments like MirageOS unikernels or virtualized systems.",
+      "description_length": 455,
       "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Netchannel.Flags",
+      "library": "netchannel",
+      "description": "This module represents and manipulates bit flags used in network channel operations, particularly for handling packet metadata and transmission states. It supports operations like union, difference, and membership checks on flag sets, and provides conversions to and from integers and S-expressions. Concrete use cases include marking packets with incomplete checksums, indicating fragmented data availability, and validating data presence in network drivers.",
+      "description_length": 459,
+      "index": 20,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Netchannel",
-      "description": "provides low-level network and data manipulation capabilities, including interface management, binary inspection, serialization, bitwise flag operations, shared memory handling, and HTTP processing. it supports asynchronous I/O, device state tracking, and data encoding/decoding using S-expressions and Cstruct buffers. key types include interface identifiers, feature sets, flag sets, and memory pools, with operations like MTU updates, feature serialization, and packet statistics tracking. examples include validating binary images, managing network device configurations, and parsing HTTP requests with metadata extraction.",
-      "description_length": 627,
-      "index": 20,
+      "library": "netchannel",
+      "description": "This module suite provides a comprehensive framework for managing network communication in virtualized and distributed systems, integrating packet statistics, Ethernet I/O, HTTP processing, and Xen-specific functionality. Core data types include packet counters, Cstruct buffers, frame and message descriptors, shared memory pools, feature flags, and network configuration structures, with operations spanning packet transmission, buffer management, HTTP request/response handling, and virtual device configuration. Users can monitor network traffic in real-time, assemble Ethernet frames from Xen fragments, serialize network configurations, manage shared memory for cross-domain communication, and implement custom HTTP proxies or virtual network backends. Specific applications include configuring virtual NICs, reconstructing split network packets, and building lightweight HTTP servers with direct socket control.",
+      "description_length": 918,
+      "index": 21,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 21,
+    "total_modules_in_package": 22,
+    "meaningful_modules": 22,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 627,
-    "min_description_length": 240,
-    "avg_description_length": 379.23809523809524,
-    "embedding_file_size_mb": 0.0767049789428711
+    "max_description_length": 918,
+    "min_description_length": 205,
+    "avg_description_length": 499.8636363636364,
+    "embedding_file_size_mb": 0.08034133911132812
   }
 }

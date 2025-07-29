@@ -1,119 +1,125 @@
 {
   "package": "mirage-xen",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:33:36.489419",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:07:57.053165",
   "modules": [
     {
       "module_path": "Xen_os.Xen.Import.Local_mapping",
-      "description": "Provides functions to convert a mapping to a buffer, safely unmap a single mapping, and handle unmapping with error recovery. Operates on an opaque type representing a memory mapping. Used to manage low-level memory regions in systems programming, such as device memory access or direct I/O operations.",
-      "description_length": 302,
+      "library": "mirage-xen",
+      "description": "Handles mapping and unmapping of local memory regions in a Xen environment, specifically working with `Io_page.t` for buffer representation. Provides `to_buf` to retrieve mapped memory, `unmap_exn` and `unmap` to safely release mappings, with the latter returning a result for error handling. Useful when managing direct memory access for device drivers or shared memory communication in Xen guests.",
+      "description_length": 399,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Xen_os.Xen.Gntref",
-      "description": "Parses and formats 32-bit unsigned integers from and to strings, converting between OCaml's `Int32.t` and a custom type `t`. Provides pretty-printing for human-readable output and safe conversions between string representations and integer values. Used to handle numeric input validation and standardized output in systems requiring 32-bit unsigned integer handling.",
-      "description_length": 366,
+      "library": "mirage-xen",
+      "description": "This module implements operations for parsing, formatting, and converting 32-bit unsigned decimal values to and from string and Int32 representations. It supports data types including strings, Int32.t, and a custom abstract type t for safe handling of 32-bit unsigned integers. Use cases include safely converting grant reference identifiers between string and numeric forms in Xen device drivers or inter-domain communication protocols.",
+      "description_length": 437,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Xen_os.Xen.Import",
-      "description": "manages low-level memory mappings through an opaque type, offering safe conversion to buffers, controlled unmap operations, and error-resilient cleanup. It supports direct access to foreign memory regions, enabling precise control over device memory or I/O buffers. Operations include mapping, unmapping, and buffer conversion, allowing for efficient memory management in system-level tasks. For example, it can be used to map a GPU buffer for direct data transfer or to safely release a memory region after use.",
-      "description_length": 512,
+      "library": "mirage-xen",
+      "description": "This module manages memory grants from foreign domains and maps them into the local address space, enabling secure sharing of memory between virtual machines. It supports creating single or contiguous mappings with read or write access, and ensures proper cleanup with functions like `unmap` and `unmap_exn`. The child module extends this by handling local memory regions using `Io_page.t`, allowing retrieval of mapped buffers with `to_buf` and safe unmapping with result-returning operations. Together, they enable efficient and safe memory sharing in Xen guests, such as for device drivers or inter-VM communication.",
+      "description_length": 619,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Xen_os.Xen.Export",
-      "description": "Provides operations to manage shared memory and grant references in a Xen environment. It handles functions for sharing and unsharing pages, allocating and deallocating grant table indices, and granting access to foreign domains. Specific use cases include securely sharing memory regions between domains and managing lifecycle of shared resources to prevent leaks.",
-      "description_length": 365,
+      "library": "mirage-xen",
+      "description": "This module manages sharing and unsharing of memory pages with foreign domains via Xen grant tables. It provides operations to allocate and deallocate grant references, map shared memory, and control access permissions for specific domains. Concrete use cases include securely exporting memory regions to virtual machines and managing cleanup of shared resources to prevent leaks.",
+      "description_length": 380,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xen_os.Lifecycle",
-      "description": "Handles shutdown and reboot requests in a concurrent environment. Accepts optional flags to specify supported actions and returns a promise that resolves to the requested operation. Used to gracefully terminate or restart processes in response to external signals.",
-      "description_length": 264,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Xen_os.Main",
-      "description": "Provides a single entry point to start asynchronous operations using Lwt. Accepts a unit-returning Lwt promise and executes it in a blocking manner. Used to launch the main event loop or initialize background tasks in a non-interactive application.",
-      "description_length": 248,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xen_os.Memory",
-      "description": "Provides memory allocation statistics through `stat` and `quick_stat`, and releases unused heap memory with `trim`. Operates on a `stat` record containing detailed memory usage data. Used to monitor and optimize memory usage in applications requiring periodic resource tracking.",
-      "description_length": 278,
-      "index": 6,
+      "library": "mirage-xen",
+      "description": "This module provides the `run` function, which executes an Lwt thread and initializes the event loop for asynchronous operations. It works with Lwt threads and unit values to manage program entry points. A typical use case is starting an event-driven Xen-based application by launching the main thread.",
+      "description_length": 302,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Xen_os.Xs",
-      "description": "The module offers operations for managing Xenstore interactions, including initializing sessions, handling atomic transactions, and performing low-level read/write actions on nodes and paths. It works with handle types, permission configurations, and event-driven mechanisms to facilitate system-level configuration management and domain-specific operations. Use cases include dynamic resource allocation, real-time state synchronization, and secure access control within virtualized environments.",
-      "description_length": 497,
-      "index": 7,
+      "library": "mirage-xen",
+      "description": "This module enables transactional and atomic operations on a hierarchical key-value store, along with managing permissions, watches, and domain lifecycle events. It operates on `client` and `handle` types, using string-based paths for interactions, and supports use cases like domain permission delegation (e.g., `set_target`) in toolstack environments.",
+      "description_length": 353,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Xen_os.Eventchn",
-      "description": "Converts event channel identifiers to and from integers, initializes and closes event channel interfaces, and manages notifications and bindings between domains. Operates on handles for interface management and channel tokens for interdomain communication. Used to establish connections between virtual machines, trigger event notifications, and handle domain exception interrupts.",
-      "description_length": 381,
-      "index": 8,
+      "library": "mirage-xen",
+      "description": "This module provides low-level operations for managing event channels in a Xen environment, including initialization, binding, notification, and unbinding of event channels. It works with event channel handles and port numbers, supporting interdomain communication and virtual interrupt handling. Concrete use cases include setting up event channels for domain exceptions, connecting to remote domains, and signaling events between virtual machines.",
+      "description_length": 449,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Xen_os.Activations",
-      "description": "Handles event channel interactions for unikernel synchronization. Provides blocking waits for events, asynchronous event polling, and state management after system resume. Used to coordinate task execution and handle notifications in event-driven unikernel environments.",
-      "description_length": 270,
-      "index": 9,
+      "module_path": "Xen_os.Device_state",
+      "library": "mirage-xen",
+      "description": "This module defines a sum type representing the various lifecycle states of a device in a virtualization environment. It provides functions to convert between string representations and the enumerated state values, along with a function to generate human-readable output for logging or monitoring. These operations are used to track and display device status transitions during runtime.",
+      "description_length": 386,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xen_os.Device_state",
-      "description": "Converts between string representations and an internal state type, with formatting options for human-readable output. Works with a custom state type representing device configurations. Used to serialize and deserialize device settings for logging and configuration management.",
-      "description_length": 277,
-      "index": 10,
+      "module_path": "Xen_os.Memory",
+      "library": "mirage-xen",
+      "description": "This module provides functions to query and manage heap memory statistics, including live, free, and total heap usage in words, along with stack usage. It offers precise and fast approximated stat retrieval, memory trimming, and metric registration for monitoring. Use for tracking memory consumption in long-running processes or optimizing memory-intensive operations.",
+      "description_length": 369,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Xen_os.Xen",
-      "description": "handles 32-bit unsigned integer conversion, memory mapping, and shared memory management in Xen environments. It includes types for 32-bit integers, memory mappings, and shared memory references, with operations for parsing, formatting, mapping, unmapping, sharing, and releasing resources. Users can validate and display integer inputs, access device memory directly, and securely manage inter-domain memory sharing. Examples include converting string-based numeric inputs, mapping GPU buffers, and granting access to shared memory regions between domains.",
-      "description_length": 557,
+      "library": "mirage-xen",
+      "description": "This module coordinates inter-domain memory sharing in Xen through grant tables, enabling domains to securely access memory regions exported by others. It provides core operations for exporting and importing memory pages, tracking grant references, and managing access permissions, with main data types including grant references and memory mappings. The first child module handles safe conversion of 32-bit unsigned integers, crucial for parsing and formatting grant identifiers in communication protocols. The second child module maps foreign memory into the local address space, supporting safe, efficient access with operations like `map` and `unmap`, while the third manages grant lifecycle and page sharing, enabling secure export and cleanup of shared memory for virtual device communication.",
+      "description_length": 799,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xen_os.Activations",
+      "library": "mirage-xen",
+      "description": "This module manages event channel activations and synchronization in a Xen unikernel environment. It provides functions to wait for events on specific channels, track event generations, and handle system suspension and resumption. Concrete use cases include coordinating asynchronous I/O operations, managing event-driven device drivers, and debugging event channel state during runtime.",
+      "description_length": 387,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xen_os.Lifecycle",
+      "library": "mirage-xen",
+      "description": "This module provides a function `await_shutdown_request` that waits for a shutdown signal from the host, returning a thread that resolves to either `Poweroff` or `Reboot`. It works with Lwt threads and accepts optional boolean flags to indicate supported shutdown modes. A concrete use case is coordinating graceful shutdowns of a guest domain in response to host-initiated requests.",
+      "description_length": 383,
       "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "mirage-xen",
-      "description": "Handles the main loop and timer management for MirageOS on Xen, with support for asynchronous event processing. Operates on event channels, timers, and low-level C structures interfacing with the Xen hypervisor. Used to build lightweight, event-driven network and system applications in a constrained environment.",
-      "description_length": 313,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Xen_os",
-      "description": "manages system shutdown, event handling, memory optimization, Xenstore interactions, and device configuration through a suite of specialized operations. It provides types such as `stat`, event channel handles, and device state records, along with functions for memory trimming, event waiting, and configuration serialization. It supports tasks like initiating graceful reboots, launching asynchronous processes, monitoring memory usage, and managing shared memory between domains. Examples include trimming unused heap, handling Xenstore transactions, and synchronizing events across virtual machines.",
-      "description_length": 601,
-      "index": 13,
+      "library": "mirage-xen",
+      "description": "This module orchestrates core Xen virtualization functionality, integrating asynchronous event handling, memory management, inter-domain communication, and device lifecycle tracking. It centers around data types like Lwt threads, event channel handles, grant references, and device state enumerations, with operations for initializing event loops, sharing memory securely, managing domain permissions, and responding to shutdown signals. Examples include launching an event-driven Xen application with `run`, coordinating domain communication via event channels, delegating memory access with grant tables, and handling guest shutdown requests through `await_shutdown_request`.",
+      "description_length": 677,
+      "index": 12,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 13,
+    "meaningful_modules": 13,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 601,
-    "min_description_length": 248,
-    "avg_description_length": 373.64285714285717,
-    "embedding_file_size_mb": 0.051278114318847656
+    "max_description_length": 799,
+    "min_description_length": 302,
+    "avg_description_length": 456.9230769230769,
+    "embedding_file_size_mb": 0.047669410705566406
   }
 }

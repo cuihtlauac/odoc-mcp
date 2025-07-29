@@ -1,98 +1,101 @@
 {
   "package": "scgi",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:31:58.005213",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:06:09.624250",
   "modules": [
     {
-      "module_path": "Scgi.Client",
-      "description": "Handles SCGI protocol communication over TCP and Unix sockets. Accepts a server name and port or a socket filename, along with an SCGI request, and returns the corresponding response. Used to send structured HTTP-like requests to SCGI servers and retrieve their outputs asynchronously.",
-      "description_length": 285,
-      "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Scgi.Headers",
-      "description": "Parses a string into a list of (key, value) pairs representing HTTP headers. Processes raw header data by splitting on colons and trimming whitespace. Used to convert incoming request headers into a structured format for processing.",
-      "description_length": 232,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Scgi.Http_header",
-      "description": "Encodes and decodes HTTP headers, supporting parsing from raw strings and serialization to formatted strings. Works with a variant type representing header fields, including name-value pairs and special directives. Used to process incoming HTTP requests and generate valid response headers in web server implementations.",
-      "description_length": 320,
-      "index": 2,
+      "library": "scgi",
+      "description": "This module defines a polymorphic variant type for representing HTTP headers, including common headers like content length, content type, location, and cookies, as well as custom headers and status codes. It provides a `to_string` function to convert these header values into their string representations. Use this module to construct and serialize HTTP headers when building HTTP responses in a web application.",
+      "description_length": 412,
+      "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Scgi.Http_method",
-      "description": "Represents HTTP methods with operations to convert between string representations and the internal type. Supports parsing and serialization of method names like \"GET\", \"POST\", and \"PUT\". Used to validate and encode HTTP request methods in network communication.",
-      "description_length": 261,
+      "module_path": "Scgi.Http_status",
+      "library": "scgi",
+      "description": "This module defines an enumerated type representing HTTP status codes, including standard statuses and a custom code constructor. It provides functions to convert between status values and their integer-string representations, enabling precise handling of HTTP responses. Use cases include validating server response codes, generating appropriate HTTP headers, and mapping application logic to specific HTTP status semantics.",
+      "description_length": 425,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Scgi.Server",
+      "library": "scgi",
+      "description": "This module implements SCGI servers that handle requests over Internet or Unix-domain sockets. It provides handler functions to process incoming connections with customizable timeouts, buffer sizes, and connection backlogs, using Lwt for asynchronous I/O. Concrete use cases include deploying lightweight web applications or APIs where SCGI is used as the communication protocol between a web server and application server.",
+      "description_length": 423,
+      "index": 2,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Scgi.Client",
+      "library": "scgi",
+      "description": "This module sends SCGI requests over an internet socket or a Unix domain socket. It handles communication with an SCGI server, sending a request and returning the server's response. Use it to interact with SCGI-based services such as web applications or backend servers.",
+      "description_length": 270,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Scgi.Http_status",
-      "description": "Provides functions to convert between a status code and its corresponding string representation, and to extract the integer or string value from a status. Works with a sum type that encapsulates HTTP status codes and their names. Used to standardize status handling in HTTP response generation and parsing.",
-      "description_length": 306,
+      "module_path": "Scgi.Headers",
+      "library": "scgi",
+      "description": "This module parses SCGI request headers from a string into a list of key-value pairs. It processes raw header data into a structured format for easy lookup and manipulation. Use it to extract header fields like `CONTENT_LENGTH` or `REQUEST_METHOD` from incoming SCGI requests.",
+      "description_length": 276,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Scgi.Netstring",
-      "description": "Consumes and decodes a netstring from a character stream, returning the decoded string. Encodes a string into a netstring format by prepending its length and a colon, followed by a comma. Used to serialize and deserialize data in protocols requiring strict length-prefixed messages.",
-      "description_length": 282,
+      "library": "scgi",
+      "description": "This module handles netstring encoding and decoding. It provides `encode` to convert a string into a netstring format and `decode` to read and parse a netstring from a character stream. It is used for communication protocols requiring netstring framing, such as SCGI.",
+      "description_length": 267,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Scgi.Request",
-      "description": "Provides methods to construct and manipulate HTTP requests, extract headers, query parameters, and form data, and convert requests to strings. Works with HTTP methods, URIs, headers, and string-based content. Used to process incoming HTTP traffic, extract specific parameters from queries or POST bodies, and generate debug representations of requests.",
-      "description_length": 352,
+      "library": "scgi",
+      "description": "This module constructs and processes SCGI request objects from streams or components like HTTP methods, URIs, headers, and body content. It provides accessors to retrieve request metadata such as method, URI path, headers, cookies, and query or POST parameters. Use cases include parsing incoming SCGI requests, extracting user input from query strings or form data, and inspecting headers for routing or authentication.",
+      "description_length": 420,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Scgi.Response",
-      "description": "Creates HTTP responses with specified status codes, headers, and body content. Operates on HTTP status codes, headers, and binary or string-based body data. Used to generate debug-friendly representations of HTTP responses with controlled body truncation.",
-      "description_length": 255,
+      "library": "scgi",
+      "description": "This module constructs and manipulates HTTP responses for SCGI applications. It supports setting response status, headers, and body content using either a string or a character stream. Concrete use cases include building custom HTTP responses with streaming content or debugging responses by converting them to human-readable strings.",
+      "description_length": 334,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Scgi.Server",
-      "description": "Handles SCGI requests over both internet and Unix-domain sockets, supporting timeout configurations and custom error handling. Processes requests using a callback that transforms `Request.t` into `Response.t` within an Lwt-based asynchronous context. Accepts IP addresses, ports, and socket file paths to bind the server.",
-      "description_length": 321,
+      "module_path": "Scgi.Http_method",
+      "library": "scgi",
+      "description": "This module defines an enumerated type representing HTTP methods, including standard operations like `GET`, `POST`, and `DELETE`. It provides functions to convert between string representations and the corresponding type values. Useful for parsing and generating HTTP requests, particularly in web servers or clients handling method-specific logic.",
+      "description_length": 348,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "scgi",
-      "description": "Provides functions for parsing and generating SCGI protocol messages, including request headers and body handling. Works with byte sequences, strings, and LWT threads for asynchronous communication. Used to integrate SCGI-based web applications with OCaml servers, enabling request routing and response generation.",
-      "description_length": 314,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Scgi",
-      "description": "handles SCGI protocol communication, HTTP header parsing and encoding, method and status code conversion, netstring serialization, and request/response construction. it works with types such as headers, methods, status codes, and requests, enabling operations like parsing headers from strings, encoding HTTP methods, and generating responses with custom bodies. it supports asynchronous processing over TCP and Unix sockets, allowing for timeout management and custom error handling in server implementations. examples include converting \"GET\" to a method type, decoding SCGI requests into responses, and generating HTTP responses with specified status and headers.",
-      "description_length": 666,
-      "index": 10,
+      "library": "scgi",
+      "description": "This module handles SCGI protocol operations for building and processing web requests and responses. It provides data types for HTTP methods, status codes, and headers, along with utilities to encode and decode netstrings, parse SCGI headers, and construct request and response objects. You can use it to implement SCGI servers and clients, handle HTTP communication with precise status and header control, and extract or build request components like query parameters, cookies, and body content. Examples include deploying a lightweight web service over SCGI, sending requests to a backend server, or parsing and responding to HTTP methods with custom routing logic.",
+      "description_length": 667,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 666,
-    "min_description_length": 232,
-    "avg_description_length": 326.72727272727275,
-    "embedding_file_size_mb": 0.040373802185058594
+    "max_description_length": 667,
+    "min_description_length": 267,
+    "avg_description_length": 384.2,
+    "embedding_file_size_mb": 0.036746978759765625
   }
 }

@@ -1,70 +1,69 @@
 {
   "package": "grpc-async",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:31:18.491039",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:52.957875",
   "modules": [
     {
-      "module_path": "Grpc_async.Server.Rpc",
-      "description": "Handles gRPC request processing with distinct interaction patterns: unary calls, client and server streaming, and bidirectional streaming. Accepts request data through pipes or direct strings and manages response delivery via deferred computations. Processes RPCs by invoking handler functions that return status and optional payload responses.",
-      "description_length": 344,
+      "module_path": "Grpc_async.Server.Service",
+      "library": "grpc-async",
+      "description": "This module manages gRPC service definitions and request routing. It provides operations to create a service, register RPC methods under specific names, and route incoming HTTP/2 requests to the appropriate RPC handler. It works directly with `Grpc_async.Server.Rpc.t` and `H2.Reqd.t` to enable concrete use cases like implementing a gRPC server that responds to specific method calls over HTTP/2.",
+      "description_length": 397,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Grpc_async.Server.Service",
-      "description": "Creates a service instance and allows adding named RPC handlers, which can be invoked based on incoming HTTP/2 requests. Operates on a custom type `t` that encapsulates registered RPCs and their routing logic. Used to build interactive server components that respond to specific request paths by executing corresponding RPCs.",
-      "description_length": 325,
+      "module_path": "Grpc_async.Client.Rpc",
+      "library": "grpc-async",
+      "description": "This module implements gRPC client RPC handlers for different streaming patterns. It works with `Async.Pipe.Reader` and `Writer` for streaming data, and uses `Async.Deferred` for asynchronous result handling. Concrete use cases include sending unary requests with optional responses, handling server-sent streams, managing client-sent streams, and bidirectional streaming communication with a gRPC server.",
+      "description_length": 405,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Grpc_async.Client.Rpc",
-      "description": "Provides functions for handling RPC calls with bidirectional, client-streaming, server-streaming, and unary patterns. Operates on Async.Pipe.Writer.t, Async.Pipe.Reader.t, and H2.Body.Writer.t, H2.Body.Reader.t Async.Deferred.t for stream management. Used to process HTTP/2 requests by sending encoded data and managing response streams through handler functions that return deferred values.",
-      "description_length": 391,
+      "module_path": "Grpc_async.Server.Rpc",
+      "library": "grpc-async",
+      "description": "This module defines and handles the four core gRPC request types\u2014unary, client streaming, server streaming, and bidirectional streaming\u2014by processing HTTP/2 requests and managing data exchange through strings and async pipes. It works directly with `H2.Reqd.t` for handling HTTP/2 streams and uses `Async.Deferred.t` for asynchronous response handling. Concrete use cases include implementing gRPC service methods that receive and send serialized messages over HTTP/2, such as handling a stream of incoming requests or sending a sequence of responses to a client.",
+      "description_length": 563,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Grpc_async.Client",
-      "description": "Handles RPC calls with various streaming patterns, using asynchronous pipes and HTTP/2 bodies to manage data flow. Supports operations on writers and readers for bidirectional, client-streaming, and server-streaming interactions. Processes HTTP/2 requests by encoding data and managing response streams via handler functions that return deferred values. Examples include sending real-time updates, receiving continuous data feeds, and executing asynchronous procedures with structured input and output.",
-      "description_length": 502,
+      "library": "grpc-async",
+      "description": "This module implements gRPC client operations over HTTP/2, handling typed remote procedure calls through request/response interactions with remote services. It supports unary method invocations with serialized requests and deserialized responses over persistent connections, while its child module extends this functionality to handle all gRPC streaming patterns using `Async.Pipe.Reader`, `Writer`, and `Async.Deferred`. Together, they enable sending unary requests, consuming server streams, producing client streams, and managing bidirectional streaming communication with a gRPC server. Specific operations include invoking RPC methods like `call` for unary calls and `server_stream` for receiving streamed responses.",
+      "description_length": 721,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Grpc_async.Server",
-      "description": "manages gRPC and HTTP/2 request handling by defining service endpoints and processing various interaction patterns. It operates on a custom type `t` that tracks registered RPCs and their routing, enabling invocation based on request paths. Unary, client, server, and bidirectional streaming interactions are supported, with handlers returning status and payload responses. Examples include setting up a service that responds to a specific endpoint with a streamed response or handling a bidirectional flow for real-time communication.",
-      "description_length": 534,
+      "library": "grpc-async",
+      "description": "This module implements a gRPC server for handling asynchronous RPC requests over HTTP/2, allowing creation of server instances and registration of named services that route incoming `H2.Reqd.t` requests to specific RPC handlers. It defines core gRPC request types\u2014unary, client streaming, server streaming, and bidirectional streaming\u2014processing each through async pipes and deferred responses. The server integrates service definitions and method handlers, enabling concrete use cases such as building a high-performance backend that serves multiple streaming RPC endpoints over HTTP/2. Direct API operations include server setup and service registration, while submodules manage RPC method definitions and streaming logic.",
+      "description_length": 724,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "grpc-async",
-      "description": "Provides functions for establishing HTTP/2 connections, sending and receiving protocol buffers, and handling various RPC styles including unary calls, server and client streaming, and bidirectional streams. Operates on byte sequences, protocol buffer messages, and connection state objects. Used to build efficient, low-level gRPC clients and servers in OCaml applications.",
-      "description_length": 373,
+      "module_path": "Grpc_async",
+      "library": "grpc-async",
+      "description": "This module provides asynchronous gRPC communication over HTTP/2 for both clients and servers, supporting unary, server-streaming, client-streaming, and bidirectional streaming RPC patterns. Core data types include `Async.Pipe.Reader` and `Writer` for streaming, `Async.Deferred` for unary responses, and `H2.Reqd.t` for handling HTTP/2 requests on the server. Operations allow clients to invoke RPCs like `call` for unary requests and `server_stream` for receiving multiple responses, while servers can register services and handle incoming streams with typed method handlers. Example uses include building a high-performance streaming API backend or consuming a remote gRPC service with persistent, typed connections.",
+      "description_length": 719,
       "index": 5,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Grpc_async",
-      "description": "manages gRPC and HTTP/2 interactions through a custom type `t` that routes and executes RPCs, supporting unary, client, server, and bidirectional streaming. It enables asynchronous data flow using pipes and handles request processing with handlers that return deferred values, allowing for real-time updates and continuous data exchange. Operations include sending and receiving streamed data, executing asynchronous procedures, and managing response streams via handler functions. Examples include setting up a service endpoint that returns a streamed response or facilitating bidirectional communication for real-time applications.",
-      "description_length": 633,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 633,
-    "min_description_length": 325,
-    "avg_description_length": 443.14285714285717,
-    "embedding_file_size_mb": 0.025850296020507812
+    "max_description_length": 724,
+    "min_description_length": 397,
+    "avg_description_length": 588.1666666666666,
+    "embedding_file_size_mb": 0.022202491760253906
   }
 }

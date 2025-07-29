@@ -1,63 +1,69 @@
 {
   "package": "FPauth",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:29:05.032970",
+  "creation_timestamp": "2025-07-15T23:05:13.692289",
   "modules": [
     {
-      "module_path": "FPauth.Make_Auth.Variables",
-      "description": "Provides functions to access and update authentication state, including whether a request is authenticated, the current user entity, and any authentication errors. Operates on `entity` type and `Dream.field` structures to manage session data during a request. Used to track user sessions and handle authentication failures within a single request lifecycle.",
-      "description_length": 357,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "FPauth.Make_Auth.Session_manager",
-      "description": "Handles session-based authentication by extracting and validating auth strings, setting up helper functions, and managing authentication status for each request. Works with session data and entity types derived from M.t. Used to secure endpoints by ensuring valid session state before processing requests, invalidating sessions on errors, and returning appropriate HTTP responses.",
-      "description_length": 380,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "FPauth.Make_Auth.Authenticator",
-      "description": "Handles authentication by executing a list of predefined strategies against a request, determining success based on their combined results. Operates on request objects and custom authentication strategies that define entity handling. Used to verify user identity before granting access to protected resources.",
-      "description_length": 309,
-      "index": 2,
+      "library": "FPauth",
+      "description": "Authenticator runs a list of authentication strategies against a Dream request to determine authentication success and provides a function to invalidate sessions by logging out users. It works with strategies conforming to `FPauth_core.Auth_sign.STRATEGY` and entity types defined by the parent module. This module is used to implement per-request authentication checks and session logout functionality in Dream web applications.",
+      "description_length": 429,
+      "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "FPauth.Make_Auth.Router",
-      "description": "Handles authentication and logout workflows by linking strategies to response handlers, generating routes for \"/auth\" and \"/logout\" with customizable parameters and response logic. Operates on authentication strategies and response modules, extracting request parameters to manage user sessions. Used to integrate authentication flows into web applications, routing requests based on configured strategies and response behaviors.",
-      "description_length": 429,
+      "library": "FPauth",
+      "description": "Router defines routes for authentication workflows, handling login and logout actions. It works with authentication strategies and HTTP requests/responses, using Dream's routing system. Concrete use cases include setting up login endpoints that trigger specific authentication strategies and logging out users by invalidating their session.",
+      "description_length": 340,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "FPauth.Make_Auth.Variables",
+      "library": "FPauth",
+      "description": "This module defines local variables and types used during authentication, including flags for authentication status, current user entities, and error handling. It provides functions to update the current user and manage session state within a Dream web application. These variables are essential for tracking authentication state and user data across individual requests.",
+      "description_length": 371,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "FPauth.Make_Auth.Session_manager",
+      "library": "FPauth",
+      "description": "SessionManager handles session-based authentication by extracting user data from the session and setting it as local variables for each request. It works with session data structures and user entities defined by the application's authentication model. This enables downstream handlers to access authenticated user information directly from the request context.",
+      "description_length": 360,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "FPauth.Make_Auth",
-      "description": "Provides functions to serialize and deserialize a type `t` for session storage, and to identify a user from a request, returning a promise with the result. Operates on the type `t` and base string and error types. Used to manage user authentication state across HTTP requests by converting user data to and from a string representation.",
-      "description_length": 336,
+      "library": "FPauth",
+      "description": "This module implements a comprehensive authentication system for Dream web applications by integrating strategies, session management, and routing. It centers around authentication workflows using strategies conforming to `Auth_sign.STRATEGY`, with core data types including user entities, session data, authentication flags, and local state variables. Operations include per-request authentication checks, session-based user tracking, login/logout route handling, and session invalidation. Example use cases include securing routes by requiring authentication, associating user data with requests via sessions, and triggering specific authentication flows on login endpoints.",
+      "description_length": 676,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "FPauth",
-      "description": "provides serialization and deserialization functions for type `t` and operations to extract user identity from HTTP requests, enabling session management in web applications. It supports converting user data to and from string representations and returns results as promises. This module allows developers to track authenticated users across requests using a custom type `t`. Examples include storing user IDs in sessions and retrieving them to authorize subsequent actions.",
-      "description_length": 474,
+      "library": "FPauth",
+      "description": "This module provides a structured authentication framework for Dream web applications, orchestrating strategies, session handling, and route protection. It revolves around user entities, session data, and authentication flags, offering operations to authenticate requests, manage logged-in users, and control access to routes. It enables securing endpoints by requiring login, associating user data with sessions, and defining custom authentication flows for login and logout actions.",
+      "description_length": 484,
       "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
+    "total_modules_in_package": 6,
     "meaningful_modules": 6,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.6
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 474,
-    "min_description_length": 309,
-    "avg_description_length": 380.8333333333333,
-    "embedding_file_size_mb": 0.02221965789794922
+    "max_description_length": 676,
+    "min_description_length": 340,
+    "avg_description_length": 443.3333333333333,
+    "embedding_file_size_mb": 0.02222919464111328
   }
 }

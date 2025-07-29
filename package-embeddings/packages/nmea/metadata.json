@@ -1,70 +1,69 @@
 {
   "package": "nmea",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:00.749581",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:30.482280",
   "modules": [
     {
-      "module_path": "Nmea.Coord",
-      "description": "Returns true when two coordinates are identical, extracts latitude and longitude values, and converts coordinates to strings. Operates on tuples combining floating-point numbers with direction indicators (north-south, east-west). Parses NMEA latitude and longitude values from numeric and directional inputs.",
-      "description_length": 308,
+      "module_path": "Nmea.Sentence",
+      "library": "nmea",
+      "description": "This module defines data structures for parsing and representing NMEA GPS sentences, including GGA, RMC, GSV, and others, along with associated types for coordinates, satellite data, and magnetic variation. It provides functions to convert time and date values from NMEA formats to Unix timestamps, and a function to convert sentence data into a human-readable string. Use cases include processing GPS data streams for navigation, logging, and real-time tracking applications.",
+      "description_length": 476,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Nmea.Lexer",
-      "description": "Processes input streams to identify and extract tokens according to predefined lexical rules. Operates on lexing buffers and returns parsed tokens matching a grammar's lexical structure. Used to convert raw source code into a sequence of recognized syntactic elements for further processing.",
-      "description_length": 291,
+      "library": "nmea",
+      "description": "This module provides functions for lexing NMEA sentences by converting raw input into structured tokens. It operates on `Lexing.lexbuf` and produces tokens defined in `Nmea.Parser`, using internal lexing tables for efficient parsing. It is used to break down NMEA message streams into meaningful components for further processing.",
+      "description_length": 330,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Nmea.Parse",
-      "description": "Parses strings into Sentence.t values, with a fallback version that returns an option. Reads sentences and coordinates from input channels, returning them as options. Used to process textual input and extract structured data for further analysis.",
-      "description_length": 246,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Nmea.Parser",
-      "description": "Parses a stream of tokens into a structured sentence representation using a provided lexer. It processes input through a lexical buffer and maps token sequences to syntactic constructs. This enables transformation of raw input into a domain-specific abstract syntax tree.",
-      "description_length": 271,
+      "library": "nmea",
+      "description": "Parses NMEA 0183 sentences into structured tokens and sentence types. It processes raw input using a lexer to identify message types like GGA, RMC, and VDM, along with numeric and string values. This module is used to decode GPS and marine instrument data streams into usable message records.",
+      "description_length": 292,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Nmea.Coord",
+      "library": "nmea",
+      "description": "This module defines data types for geographic coordinates, including latitude and longitude values paired with cardinal directions (N/S/E/W). It provides functions to construct, compare, and convert coordinate values, such as parsing raw values into typed coordinates and transforming coordinates into readable strings. Concrete use cases include processing GPS data from NMEA sentences where latitude and longitude are represented with degrees and direction.",
+      "description_length": 459,
       "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Nmea.Parse",
+      "library": "nmea",
+      "description": "Parses NMEA sentences from strings or input channels, returning structured sentence or coordinate data. Works with raw string inputs and standard input channels to extract GPS-related data. Useful for reading GPS logs line-by-line or extracting position data directly from a serial stream.",
+      "description_length": 289,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Nmea.Sentence",
-      "description": "Converts NMEA time and date formats to Unix time using specific integer inputs. Handles geographic data types such as magnetic variation and deviation, along with GPS message structures like GGA, RMC, and ZDA. Generates human-readable representations of structured sentence data for logging or display.",
-      "description_length": 302,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "nmea",
-      "description": "Parses NMEA sentences to extract position, velocity, and time data from GPS sources. Processes GGA, RMC, and other common sentence types to retrieve structured location information. Converts raw string data into typed records for use in navigation and tracking applications.",
-      "description_length": 274,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Nmea",
-      "description": "Processes NMEA data by comparing and converting coordinates, parsing input streams into tokens, extracting structured sentences, and converting time and geographic information into usable formats. It handles tuples with floating-point values and direction indicators, token sequences, and string-based sentence representations. Operations include coordinate comparison, lexical analysis, sentence parsing, and time conversion, enabling tasks like GPS data extraction and format transformation. Examples include checking coordinate equality, parsing raw input into syntactic elements, and converting NMEA time to Unix time.",
-      "description_length": 622,
-      "index": 6,
+      "library": "nmea",
+      "description": "This module processes NMEA GPS data streams by parsing raw input into structured sentence types and extracting geographic coordinates. It supports key sentence types like GGA, RMC, and GSV, and handles conversion of time, date, and coordinate values into standard formats. Lexing functions break down input into tokens for further processing, while coordinate types manage direction-based values and string representations. Examples include decoding GPS logs into usable message records, converting latitude/longitude from NMEA format, and transforming timestamp data into Unix time.",
+      "description_length": 583,
+      "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 622,
-    "min_description_length": 246,
-    "avg_description_length": 330.57142857142856,
-    "embedding_file_size_mb": 0.025859832763671875
+    "max_description_length": 583,
+    "min_description_length": 289,
+    "avg_description_length": 404.8333333333333,
+    "embedding_file_size_mb": 0.022231101989746094
   }
 }

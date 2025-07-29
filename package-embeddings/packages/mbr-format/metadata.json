@@ -1,49 +1,45 @@
 {
   "package": "mbr-format",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:28:07.393272",
+  "total_modules": 3,
+  "creation_timestamp": "2025-07-15T23:04:50.631101",
   "modules": [
     {
-      "module_path": "Mbr.Geometry",
-      "description": "Provides functions to convert between disk geometry representations, including parsing from a byte buffer and calculating CHS addresses from LBA offsets. Works with disk geometry data structured as a record containing sector, head, and cylinder counts. Used to generate valid geometry configurations for small disks and translate LBA addresses into low-level disk coordinates.",
-      "description_length": 376,
+      "module_path": "Mbr.Partition",
+      "library": "mbr-format",
+      "description": "This module defines a data structure for representing and manipulating MBR partition entries, including fields for bootability, disk geometry, and LBA addressing. It provides functions to create partitions with specified start and size, convert sector values to 64-bit integers, and decode partition entries from binary buffers. Use cases include parsing and constructing MBR partition tables for disk imaging, bootloaders, or disk management tools.",
+      "description_length": 449,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mbr.Partition",
-      "description": "Provides functions to create and query partition entries, including determining the starting sector, size in sectors, and constructing partitions with specified types and boot flags. Operates on a private type representing partition metadata, including LBA start, sector count, and boot status. Used to parse and generate partition entries for disk layout manipulation, particularly for legacy BIOS systems.",
-      "description_length": 407,
+      "module_path": "Mbr.Geometry",
+      "library": "mbr-format",
+      "description": "This module defines a disk geometry structure with cylinders, heads, and sectors, and provides functions to parse this geometry from a binary buffer, infer it from an LBA size, and convert LBA offsets to CHS (Cylinder-Head-Sector) addresses. It works directly with 32-bit integers for geometry components and 64-bit integers for LBA offsets. It is used to interpret and translate disk addressing schemes for legacy MBR partitioning.",
+      "description_length": 432,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mbr-format",
-      "description": "Reads and writes Master Boot Record data, parses partition tables, and constructs bootable disk images. Operates on byte arrays and structured data representing MBR sectors. Used to generate bootable media and extract partition information from physical or virtual disks.",
-      "description_length": 271,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Mbr",
-      "description": "Constructs and manipulates MBRs by combining disk geometry conversion and partition management. Handles CHS and LBA address translation, and creates partition entries with specified start, size, and type. Allows generating valid disk configurations and defining BIOS-compatible partition layouts. Example tasks include calculating CHS from LBA, setting bootable partitions, and assembling a complete MBR structure.",
-      "description_length": 414,
-      "index": 3,
+      "library": "mbr-format",
+      "description": "This module provides tools for constructing and manipulating Master Boot Records, including partition layout management and time field handling. It supports creating MBRs from partition lists, serializing and deserializing binary buffers, and working with fixed offsets and sizes for standard layouts. The partition module defines structures for MBR partition entries, enabling creation, parsing, and LBA conversion, while the geometry module handles disk geometry representation, CHS addressing, and LBA-to-CHS translation. Use cases include disk image generation, bootloader development, and low-level partition management using concrete operations like partition table construction, boot sector manipulation, and disk addressing translation.",
+      "description_length": 744,
+      "index": 2,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 4,
-    "meaningful_modules": 4,
+    "total_modules_in_package": 3,
+    "meaningful_modules": 3,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 414,
-    "min_description_length": 271,
-    "avg_description_length": 367.0,
-    "embedding_file_size_mb": 0.014950752258300781
+    "max_description_length": 744,
+    "min_description_length": 432,
+    "avg_description_length": 541.6666666666666,
+    "embedding_file_size_mb": 0.011327743530273438
   }
 }

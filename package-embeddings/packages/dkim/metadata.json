@@ -1,63 +1,85 @@
 {
   "package": "dkim",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:29:23.863636",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:05:48.576387",
   "modules": [
     {
-      "module_path": "Dkim.Sigs.Make",
-      "description": "Provides functions to construct, transform, and deconstruct values of type 'a t, including mapping over contained values and combining them with custom logic. Operates on monadic-like structures, enabling sequential computation and error handling. Used to build complex data pipelines where each step depends on the result of the previous one.",
-      "description_length": 343,
+      "module_path": "Dkim.Digest",
+      "library": "dkim",
+      "description": "This module computes and verifies DKIM message digests by processing email headers and body content. It handles whitespace normalization, string updates, and field-specific digest operations using signed DKIM values and domain keys. Concrete use cases include signing outgoing emails and validating received messages by checking DKIM signatures against published domain keys.",
+      "description_length": 375,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dkim.Sigs",
-      "description": "Provides functions to create and retrieve values from a stateful channel, using a custom `backend` type for underlying storage and a polymorphic `t` type to manage state. The `create` function returns a writer and a reader, enabling asynchronous value exchange. Used to coordinate data flow between independent components in event-driven systems.",
-      "description_length": 346,
+      "module_path": "Dkim.Decoder",
+      "library": "dkim",
+      "description": "This module provides parsing and validation operations for DKIM data structures using character-level predicates and Angstrom parser combinators. It processes email headers, domain names, cryptographic algorithms (e.g., RSA, SHA256), canonicalization modes, and DNS tag-value pairs into structured formats like typed maps (`Hmap.Make(Dkim__.Map.Info)`), handling tasks such as quoted-string decoding, base64 validation, and incremental parsing of DKIM records from character streams. Key use cases include extracting cryptographic parameters, normalizing header fields, and constructing DKIM metadata from DNS records.",
+      "description_length": 618,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkim.Encoder",
-      "description": "Handles DKIM signature formatting and field extraction for email headers, operating on signed DKIM structures. Processes and serializes DKIM fields into human-readable formats. Used to generate and validate DKIM signatures in email transmission workflows.",
-      "description_length": 255,
+      "module_path": "Dkim.Canon",
+      "library": "dkim",
+      "description": "This module processes DKIM fields in email messages, applying canonicalization to headers and DKIM-specific fields using a folding function. It works with DKIM structures, field names from Mrmime, and unstructured string data via the Unstrctrd type. Concrete use cases include normalizing email headers for DKIM signature verification and preparing message parts for cryptographic operations.",
+      "description_length": 392,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dkim.Body",
-      "description": "Handles decoding of binary data streams using a stateful decoder object. Accepts byte sequences and applies specific decoding logic to extract structured data. Used to process network packets and binary file formats with custom encoding schemes.",
-      "description_length": 245,
+      "module_path": "Dkim.Verify",
+      "library": "dkim",
+      "description": "This module verifies DKIM signatures by processing email content and querying DNS records for domain keys. It handles signature expiration, DNS errors, and constructs verification results with matched domain keys and signed data. Concrete use cases include validating incoming email authenticity and checking DKIM signatures during message transit.",
+      "description_length": 348,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dkim",
-      "description": "Handles email verification and signing using DKIM protocols, supporting cryptographic operations for message integrity. Works with email message structures, cryptographic keys, and DNS records. Used to filter incoming SMTP traffic for authenticity or to append DKIM signatures to outgoing emails.",
-      "description_length": 296,
+      "module_path": "Dkim.Sign",
+      "library": "dkim",
+      "description": "This module implements DKIM signing operations for email messages, handling the creation and processing of digital signatures. It works with DKIM keys and email metadata to generate or validate signed email structures. Concrete use cases include signing outgoing emails with a domain key and verifying incoming email signatures during message reception.",
+      "description_length": 353,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkim",
-      "description": "Manages stateful data exchange, DKIM signature processing, and binary decoding through integrated components. Supports operations on a custom backend type, DKIM structures, and byte streams, enabling asynchronous communication, signature validation, and data parsing. Allows creation of shared state channels, extraction of header fields, and decoding of structured binary content. Can coordinate component communication, generate email signatures, and parse network protocols with custom encodings.",
-      "description_length": 499,
+      "module_path": "Dkim.Encoder",
+      "library": "dkim",
+      "description": "This module encodes DKIM-related data structures into wire format for use in email headers. It provides serializers for DKIM signatures, algorithms, timestamps, domains, and selectors, producing properly formatted header fields. Use cases include generating `DKIM-Signature` and `Authentication-Results` headers during email signing and verification.",
+      "description_length": 350,
       "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dkim.Body",
+      "library": "dkim",
+      "description": "This module processes email message bodies by decoding their content according to DKIM specifications. It handles input through a push-based interface, allowing incremental parsing of byte sequences into structured tokens like data chunks, whitespace, and line endings. Typical use cases include verifying DKIM signatures by extracting and normalizing message body content during email authentication workflows.",
+      "description_length": 411,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dkim",
+      "library": "dkim",
+      "description": "This module orchestrates DKIM signature handling by integrating core operations for constructing, parsing, and validating signatures with domain keys, selectors, and canonicalized email content. It processes email headers and bodies through structured maps (`Unstrctrd.t`, `map`), cryptographic primitives, and DNS-based key resolution to support message signing, verification, and canonicalization workflows. Child modules refine this pipeline by handling digest computation, Angstrom-based parsing of DKIM records, field-level canonicalization, DNS key lookup, signature encoding, and body content decoding. Examples include signing outgoing emails with a domain key, verifying received messages against published keys, and normalizing headers and bodies for cryptographic operations using typed maps and folding functions.",
+      "description_length": 825,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 499,
-    "min_description_length": 245,
-    "avg_description_length": 330.6666666666667,
-    "embedding_file_size_mb": 0.022210121154785156
+    "max_description_length": 825,
+    "min_description_length": 348,
+    "avg_description_length": 459.0,
+    "embedding_file_size_mb": 0.02948760986328125
   }
 }

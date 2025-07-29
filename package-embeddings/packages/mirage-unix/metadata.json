@@ -1,56 +1,53 @@
 {
   "package": "mirage-unix",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:14.443924",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:53.072245",
   "modules": [
     {
       "module_path": "Unix_os.Lifecycle",
-      "description": "Handles shutdown and reboot requests in a concurrent environment. Accepts boolean flags to specify supported actions and returns the requested operation as a tagged value. Used to coordinate graceful termination or restart of services in response to external signals.",
-      "description_length": 267,
+      "library": "mirage-unix",
+      "description": "This module provides a function to await shutdown requests in a Unix-based MirageOS environment, returning whether the system should power off or reboot. It works with Lwt threads and returns a variant type indicating the requested shutdown action. Concrete use cases include handling graceful shutdowns in server applications or virtualized environments where MirageOS runs as a unikernel.",
+      "description_length": 390,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Unix_os.Main",
-      "description": "Provides a single entry point to start asynchronous operations using Lwt. Accepts a unit-producing Lwt promise and executes it synchronously. Used to initialize and run the main event loop of an application.",
-      "description_length": 207,
+      "module_path": "Unix_os.Time",
+      "library": "mirage-unix",
+      "description": "Handles time-related operations using POSIX time functions. Provides functions to retrieve the current time in seconds and nanoseconds, and to sleep for a specified duration in nanoseconds. Useful for precise timing measurements and delays in concurrent programs.",
+      "description_length": 263,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Unix_os.Time",
-      "description": "Provides sleep functionality with nanosecond precision, allowing threads to pause execution for exact durations. Operates on 64-bit integers to represent time intervals. Used to synchronize tasks in real-time applications or control execution timing in concurrent systems.",
-      "description_length": 272,
+      "module_path": "Unix_os.Main",
+      "library": "mirage-unix",
+      "description": "Implements the entry point for Unix-based MirageOS applications, defining the `run` function that executes Lwt threads. Coordinates initialization and shutdown of Unix-specific runtime components. Used to launch unikernels with Unix OS hooks.",
+      "description_length": 242,
       "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "mirage-unix",
-      "description": "Handles event loop management and precise timer operations for Unix-based MirageOS applications. Operates on event channels, time intervals, and callback functions. Used to implement asynchronous I/O processing and scheduled task execution in networked services.",
-      "description_length": 262,
-      "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Unix_os",
-      "description": "manages system shutdown, startup, and timing in concurrent applications. it supports boolean-configured shutdown/reboot operations, executes Lwt-based entry points synchronously, and enables precise nanosecond-level sleep intervals. operations include graceful termination, event loop initialization, and real-time task synchronization. examples include handling SIGTERM signals, launching background processes, and enforcing strict timing constraints in distributed systems.",
-      "description_length": 475,
-      "index": 4,
-      "embedding_norm": 1.0
+      "library": "mirage-unix",
+      "description": "This module integrates Unix-specific functionality for MirageOS unikernels, enabling control over shutdown behavior, precise time management, and application execution. It offers a variant type to represent shutdown actions, functions to retrieve time and sleep with nanosecond precision, and a `run` function to launch and manage Lwt-based applications. You can use it to gracefully shut down a server, schedule timed events, or start a unikernel with Unix runtime support.",
+      "description_length": 474,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 475,
-    "min_description_length": 207,
-    "avg_description_length": 296.6,
-    "embedding_file_size_mb": 0.018602371215820312
+    "max_description_length": 474,
+    "min_description_length": 242,
+    "avg_description_length": 342.25,
+    "embedding_file_size_mb": 0.014925003051757812
   }
 }

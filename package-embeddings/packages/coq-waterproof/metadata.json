@@ -1,112 +1,127 @@
 {
   "package": "coq-waterproof",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 15,
-  "creation_timestamp": "2025-06-18T16:34:10.208100",
+  "creation_timestamp": "2025-07-15T23:08:29.929422",
   "modules": [
     {
-      "module_path": "Waterproof.Proofutils.StringMap",
-      "description": "This module provides a generic dictionary structure with string keys, supporting operations like adding, removing, and looking up entries, along with higher-order functions for iteration, folding, and filtering. It enables efficient key-based data management, suitable for tasks such as configuration handling or data aggregation where structured, string-keyed storage is required. Specific use cases include transforming key-value pairs, extracting subsets via filtering, or converting mappings to sequences for processing.",
-      "description_length": 524,
+      "module_path": "Waterproof.Proofutils.TraceTactics",
+      "library": "coq-waterproof.plugin",
+      "description": "This module provides combinators for structuring and sequencing proof tactics that carry tracing information. It works with traced tactics and proof goals, enabling precise control over tactic application, including sequential execution, scoped entry into goals, and independent backtracking. Concrete use cases include building complex proof strategies with fine-grained traceability, such as applying a series of dependent tactics across multiple proof branches or isolating tactic effects within specific goal contexts.",
+      "description_length": 522,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Waterproof.Proofutils.TypedTactics",
-      "description": "Provides operations to create and combine elements of type `elt`, including an empty value and a merge function that combines two elements into one. Works with abstract data structures representing logical states or proof terms. Used to unify and accumulate proof steps in theorem proving contexts.",
-      "description_length": 298,
+      "module_path": "Waterproof.Proofutils.Mergeable",
+      "library": "coq-waterproof.plugin",
+      "description": "This module defines a generic type with operations to combine elements, specifically providing `empty` as a neutral value and `merge` to combine two elements. It works with any data type that can be merged, such as sets, maps, or custom structures with a defined combination rule. Concrete use cases include merging configuration settings, combining transaction logs, or aggregating statistics from parallel computations.",
+      "description_length": 421,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Waterproof.Proofutils.TraceTactics",
-      "description": "Executes a sequence of proof tactics with type-checked goal transitions, combining backtracking-aware operations for structured proof development. Operates on proof tactics and goal states within a backtracking framework. Used to manage nested proof steps, parallel subproofs, and goal-specific transformations in interactive theorem proving.",
-      "description_length": 342,
+      "module_path": "Waterproof.Proofutils.TypedTactics",
+      "library": "coq-waterproof.plugin",
+      "description": "This module provides combinators for composing tactics that operate on mergeable data types, such as those used in proof automation. It supports sequential tactic application with `typedThen` and `typedLongThen`, entering into proof goals with `typedGoalEnter`, and enforcing independence with `typedIndependant`. These functions are used to build structured, composable proof scripts that handle complex goal manipulations and tactic chaining in a type-safe manner.",
+      "description_length": 466,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Waterproof.Backtracking",
-      "description": "Tracks and manipulates trace information during backtracking processes, supporting operations like merging, marking failures, and filtering applied atoms. It works with trace atoms, which consist of boolean flags, integers, and pretty-printing objects, and traces, which are collections of these atoms. Use cases include debugging tactic execution, logging applied hints, and generating detailed execution summaries.",
-      "description_length": 416,
+      "module_path": "Waterproof.Proofutils.StringMap",
+      "library": "coq-waterproof.plugin",
+      "description": "The module implements a string-keyed dictionary with polymorphic values, supporting standard operations like insertion, deletion, and lookup, along with functional transformations such as map, filter, and fold. It emphasizes safe access through optional-returning variants, ordered traversal, and conversions to sequences, while enabling comparison, merging, and cardinality checks. Typical applications include configuration management, JSON processing, and scenarios requiring functional manipulation of string-indexed data.",
+      "description_length": 526,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Waterproof.Exceptions",
-      "description": "Handles error and feedback management in a proof system, providing functions to log warnings, errors, and messages, and to redirect them to specific outputs. Works with proof-related data types such as `Pp.t` for pretty-printed messages and `wexn` for custom exceptions. Used to report failed casts, solver failures, and invalid imports during proof development and testing.",
-      "description_length": 374,
+      "library": "coq-waterproof.plugin",
+      "description": "This module defines custom exception types for handling errors in a Coq plugin, including cast failures, automation issues, and dataset errors. It provides functions to throw and handle these exceptions, along with logging mechanisms for warnings, notices, and errors at different feedback levels. It is used to manage feedback during proof automation, test execution, and hint database interactions.",
+      "description_length": 400,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Waterproof.Hint_dataset",
-      "description": "Manages a collection of named hint datasets, each associated with specific database types and hint lists. Provides operations to load, remove, clear, and populate datasets, as well as retrieve databases by type from the currently loaded dataset. Used to dynamically manage and query hint sources in a proof system context.",
-      "description_length": 322,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Waterproof.Hint_dataset_declarations",
-      "description": "Converts strings to database_type, retrieves dataset names, and manages database lists for specific dataset instances. Operates on hint_dataset and database_type, which represent structured collections of hints and their associated database categories. Used to initialize predefined datasets, modify database configurations, and extract database names for analysis.",
-      "description_length": 365,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Waterproof.Proofutils",
-      "description": "Provides operations to create and combine elements of a generic type `elt` using a specified merge function. Works with any data type that can be merged according to a custom-defined strategy. Used to consolidate proof states or logical expressions during automated reasoning tasks.",
-      "description_length": 282,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Waterproof.Waterprove",
-      "description": "Controls proof search with configurable constraints and hint databases. Uses delayed constraints and database types to apply automated solving strategies. Enables restricted or standard proof automation with depth limits and forbidden pattern checks.",
-      "description_length": 250,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Waterproof.Wp_auto",
-      "description": "Provides functions to check evaluable references, print debug information, and execute tactics with failure handling. Operates on environment data, evar maps, hint databases, and proof tactics. Used to search for valid proof strategies, track used hints, and enforce restrictions on lemma usage during automated proofs.",
-      "description_length": 319,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Waterproof.Wp_eauto",
-      "description": "Performs tactic search using a list of delayed constraints and hint databases, returning proof traces and tracking used hints. Operates on delayed open constructions, hint databases, and proof traces to solve goals with existential variables. Restricts proof attempts by rejecting solutions that include forbidden hints or unused mandatory lemmas.",
-      "description_length": 347,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Waterproof.Wp_evars",
-      "description": "Checks if an evar is a user-entered blank in an evar map, refines a goal with a named evar based on a string input, and extracts unresolved blank evars from a term. Operates on evar maps, evars, and existential constraints. Used to manage named evars during proof development, enabling reference to unassigned placeholders.",
-      "description_length": 323,
-      "index": 11,
+      "library": "coq-waterproof.plugin",
+      "description": "This module implements automated proof search tactics with configurable shielding and debugging options. It operates on Coq's tactic context, working with delayed open constraints, econstructor terms, and a specific hint database type. The core tactics `waterprove` and `rwaterprove` apply rewrite hints to solve goals, with the latter restricting application to specified left and right term lists.",
+      "description_length": 399,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Waterproof.Wp_rewrite",
-      "description": "Performs automated rewriting using current hypotheses as rewrite rules, with control over hint printing and backtracking. Operates on proof contexts and rewrite hints within a tactic framework. Used to systematically replace terms in a proof goal based on locally available assumptions.",
-      "description_length": 286,
+      "library": "coq-waterproof.plugin",
+      "description": "Performs automated rewriting in proof contexts using a backtracking strategy, applying rules until no further changes occur. Works with proof terms and rewrite rules registered in the system, operating on logical expressions during tactic execution. Useful for simplifying goals by repeatedly applying conditional and unconditional equalities derived from lemmas.",
+      "description_length": 363,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Waterproof.Wp_eauto",
+      "library": "coq-waterproof.plugin",
+      "description": "This module implements automated proof search tactics that explore sequences of up to `n` steps using hints from specified databases or lemmas. It works with delayed open constraints, hint databases, and traceable backtracking states to solve proof goals. Concrete use cases include automating logic puzzle solving, validating proof scripts with bounded complexity, and assisting interactive theorem proving by reducing manual tactic application.",
+      "description_length": 446,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Waterproof.Proofutils",
+      "library": "coq-waterproof.plugin",
+      "description": "This module offers utilities for manipulating lists, string maps, and traced Coq tactics, enabling automation of proof search, transformation of proof states, and customization of tactic output with detailed trace handling. It includes operations for slicing and mapping over lists, composing and logging tactics, and working with mergeable data structures through combinators that support sequential execution, goal scoping, and independent backtracking. Submodules enhance tactic composition with type-safe combinators, structured goal entry, and independent tactic application, while also providing a flexible string-keyed dictionary for managing polymorphic, mergeable data. Examples include building traceable proof strategies, aggregating transaction logs, and processing JSON configurations with safe, functional transformations.",
+      "description_length": 836,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Waterproof.Backtracking",
+      "library": "coq-waterproof.plugin",
+      "description": "This module manages trace information during backtracking computations, providing operations to create, modify, and print structured traces. It works with trace atoms that represent individual steps, each marked as successful or not, along with depth and pretty-printed values. Concrete use cases include logging and debugging backtracking decisions in proof automation, such as tracking the application of hints in a tactic like `wp_auto`.",
+      "description_length": 440,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Waterproof.Wp_evars",
+      "library": "coq-waterproof.plugin",
+      "description": "This module provides operations to identify and manipulate blank existential variables (evars) in Coq proofs. It includes functions to check if an evar is blank, refine a goal with a named evar, and collect unresolved blank evars in a term. It works directly with `Evd.evar_map`, `Evar.t`, and `Evd.econstr` types, and is used to improve evar handling during interactive proof development. Concrete use cases include replacing unnamed evars with named ones and tracking user-introduced blanks in proof terms.",
+      "description_length": 508,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Waterproof.Hint_dataset_declarations",
+      "library": "coq-waterproof.plugin",
+      "description": "This module defines types and operations for managing hint datasets, including creating datasets, setting and retrieving associated databases by type, and converting strings to database types. It works with `hint_dataset` and `database_type` (Main, Decidability, Shorten) to organize and access named hint databases. Concrete use cases include configuring specific datasets like `core`, `algebra`, or `integers` with their respective hint databases for theorem proving tasks.",
+      "description_length": 475,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Waterproof.Hint_dataset",
+      "library": "coq-waterproof.plugin",
+      "description": "This module manages collections of hint datasets, allowing users to load, create, populate, and remove datasets containing lists of strings associated with database types. It provides operations to manipulate datasets stored in a dictionary structure, enabling dynamic updates to the currently loaded dataset. Concrete use cases include managing different sets of proof hints for theorem proving tasks, where each dataset corresponds to a specific proof context or strategy.",
+      "description_length": 474,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "coq-waterproof",
-      "description": "Provides tactics for structuring proofs with natural language-like syntax, including `assert`, `proof`, and `qed` commands. Operates on Coq's proof states and goal structures, enabling step-by-step development of mathematical proofs. Used to generate human-readable proof scripts that mirror traditional mathematical reasoning in academic settings.",
-      "description_length": 348,
+      "module_path": "Waterproof.Wp_auto",
+      "library": "coq-waterproof.plugin",
+      "description": "This module implements automated proof search tactics and hint evaluation mechanisms for Coq goals. It includes functions to check evaluable references, generate hint lists from databases, and execute bounded-depth tactic searches using customizable hint databases. Concrete use cases include automating goal resolution in interactive proofs and providing traceable, restricted proof search strategies.",
+      "description_length": 402,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Waterproof",
-      "description": "Manages proof processes through trace tracking, error logging, hint dataset manipulation, and tactic execution. It handles boolean and integer-based trace atoms, error messages with custom exceptions, named hint databases, and generic mergeable elements. Operations include merging traces, logging warnings, loading hint datasets, and executing tactics with failure handling. It supports debugging proof steps, managing rewrite rules, and controlling automated reasoning with constraints and backtracking.",
-      "description_length": 505,
+      "library": "coq-waterproof.plugin",
+      "description": "This collection builds a framework for automated theorem proving in Coq, centered around configurable proof search, hint-based rewriting, and structured backtracking. Core data types include hint databases, traceable tactic states, and existential variables, manipulated through operations like `waterprove`, rewriting loops, and evar refinement. Users can automate goal solving with bounded tactics, customize proof strategies via datasets, and inspect backtracking behavior through structured traces. Specific applications include solving logic puzzles, simplifying proof terms with rewrite rules, and managing named existential variables during interactive proof development.",
+      "description_length": 678,
       "index": 14,
       "embedding_norm": 1.0
     }
@@ -118,9 +133,9 @@
     "retention_rate": 0.8333333333333334
   },
   "statistics": {
-    "max_description_length": 524,
-    "min_description_length": 250,
-    "avg_description_length": 353.4,
-    "embedding_file_size_mb": 0.05490303039550781
+    "max_description_length": 836,
+    "min_description_length": 363,
+    "avg_description_length": 490.4,
+    "embedding_file_size_mb": 0.054909706115722656
   }
 }

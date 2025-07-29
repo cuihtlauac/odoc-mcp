@@ -1,91 +1,93 @@
 {
   "package": "streaming",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:33:04.843498",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:55.613019",
   "modules": [
     {
       "module_path": "Streaming.Sink.Syntax",
-      "description": "Provides binding and sequencing operations for composable syntax structures, allowing nested transformations and combinations of parsed elements. Works with tagged tuples representing syntax states and transformations. Used to construct complex parsing rules by chaining bindings and combining parsed results.",
-      "description_length": 309,
+      "library": "streaming",
+      "description": "This module defines syntactic operators for transforming and combining sinks. It provides `let+` for mapping a function over a sink's result and `and+` for zipping two sinks into one that produces a pair. These operations work with any sink that consumes values of a given type and produces a result, enabling concise composition of data consumers that aggregate values incrementally. Use cases include building complex data processors from simpler sinks, such as collecting stream elements into multiple structures simultaneously or deriving derived metrics from a single pass over the data.",
+      "description_length": 592,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Sink.Functor",
-      "description": "Applies a function to the contents of a structured value, transforming elements while preserving the overall structure. Operates on a type that wraps values with an associated input context. Used to adjust data within a pipeline without altering the flow or context of processing.",
-      "description_length": 280,
+      "module_path": "Streaming.Stream.Syntax",
+      "library": "streaming",
+      "description": "This module provides `yield` to create a stream with a single element and `let*` for chaining stream transformations. It works with the `Stream.t` type to enable incremental processing of sequential data. Use `yield` to emit individual values and `let*` to flatten stream pipelines, such as transforming lines read from standard input before outputting them.",
+      "description_length": 358,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Sink.Applicative",
-      "description": "Provides functions to lift values into a context and apply functions within that context. Operates on a sink type that wraps input and output values, enabling sequential and parallel composition of operations. Used to construct complex data processing pipelines, such as calculating averages by combining sum and length computations.",
-      "description_length": 333,
+      "module_path": "Streaming.Sink.Functor",
+      "library": "streaming",
+      "description": "This module provides the `map` function, which transforms the result of a sink by applying a given function to its final value. It operates on sinks that process input values and produce a result of a specific type. A concrete use case is adapting the output of a sink that sums integers into one that converts the sum to a string, without changing how the summing logic consumes input.",
+      "description_length": 386,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Stream.Syntax",
-      "description": "Produces a stream containing a single element using `yield`, and enables sequencing of stream operations with `let*`, which binds the result of one stream to a function producing another. Works with the `'a t` type, representing a stream of elements of type `'a`. Used to construct and chain asynchronous or lazy computations in a monadic style.",
-      "description_length": 345,
+      "module_path": "Streaming.Sink.Applicative",
+      "library": "streaming",
+      "description": "This module provides `pure` and `<*>` operations to apply functions within a sink context, enabling the combination of values and functions that are consumed incrementally from a stream. It works with sinks that hold values or functions, allowing the result of one sink to be used to influence another in a structured, applicative way. Concrete use cases include composing sinks that parse or aggregate structured data, such as combining separate sinks for reading JSON fields into a single structured value.",
+      "description_length": 508,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Source",
-      "description": "This module provides operations for transforming, filtering, and combining elements from lazy, single-use sources, working with data structures such as lists, arrays, sequences, and custom generators. It enables streaming processing through functions like `drop_while`, `fold`, and `each`, ideal for handling large datasets or on-demand element generation. Use cases include decoupled producer-consumer workflows and efficient memory management in data pipelines.",
-      "description_length": 463,
+      "module_path": "Streaming.Sink",
+      "library": "streaming",
+      "description": "This module processes streams by consuming values and building results from incremental state, supporting early termination and resource management. It offers core operations like `zip`, `seq`, and `map` to compose stateful consumers in parallel or sequence, with built-in sinks for aggregation into arrays, buffers, or arithmetic summaries. The `let+` and `and+` operators enable concise syntactic composition, while applicative combinators allow structured combination of incremental values. Examples include collecting stream elements into multiple containers, computing derived metrics, or writing to files incrementally with guaranteed resource cleanup.",
+      "description_length": 658,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Sink",
-      "description": "combines binding, transformation, and lifting operations to enable structured data processing. it works with tagged syntax states, context-aware values, and wrapped sink types to support nested transformations, context preservation, and pipeline composition. it allows tasks like parsing complex syntax, adjusting data within processing flows, and calculating aggregates by combining operations. examples include building nested parsing rules, modifying values without disrupting context, and aggregating data through sequential computation.",
-      "description_length": 541,
+      "module_path": "Streaming.Stream",
+      "library": "streaming",
+      "description": "This module enables incremental, push-based processing of sequences through composable streams that guarantee resource safety, even with early termination or exceptions. It supports creating streams from sources, transforming them with flows, and consuming them with sinks, while providing direct operations like `map`, `filter`, and `concat` for stream manipulation. The `yield` function emits single-element streams, and `let*` enables chaining transformations, allowing workflows like reading lines from input, processing them, and printing results incrementally. Example usage includes building pipelines that stream file contents, process log lines in real-time, or handle interactive input without buffering.",
+      "description_length": 714,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Streaming.Flow",
-      "description": "Processes streams by applying transformations, filters, and buffering, with support for composing operations into pipelines. Operates on elements of type 'a, producing outputs of type 'b, and handles array buffers and sink-based processing. Used to build efficient data processing pipelines, such as filtering even numbers after incrementing values from a range.",
-      "description_length": 362,
+      "library": "streaming",
+      "description": "This module defines flows that process sequential data through transformations, filtering, and grouping operations applied one element at a time. It works with streams by intercepting internal folding functions to modify data flow without handling input or output directly. Concrete use cases include filtering elements with a predicate, mapping values to a new type, buffering fixed-size chunks, and composing multiple processing steps into a single flow.",
+      "description_length": 456,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Streaming.Stream",
-      "description": "Provides a monadic interface for constructing and chaining streams, allowing single-element streams to be created with `yield` and operations to be sequenced with `let*`. Operates on the `'a t` type, enabling asynchronous or lazy computations to be combined seamlessly. Examples include building pipelines that process data incrementally or handling event-driven workflows. Supports complex transformations by binding stream results to functions that generate new streams.",
-      "description_length": 472,
+      "module_path": "Streaming.Source",
+      "library": "streaming",
+      "description": "The module provides operations to construct, transform, and consume sequential data producers that yield elements on demand. It works with sources backed by lists, arrays, strings, queues, or custom state machines, supporting finite and infinite streams through lazy evaluation. These sources are ideal for resource-safe processing of large datasets, real-time data pipelines, or deterministic input consumption where explicit state management and cleanup are required.",
+      "description_length": 469,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "streaming",
-      "description": "Processes streams by combining, transforming, and reducing sequential data with constant memory usage. Operates on lazy lists and iterators, ensuring resource safety during large-scale data processing. Enables efficient pipeline construction for real-time data analysis and log aggregation.",
-      "description_length": 290,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Streaming",
-      "description": "combines lazy processing, structured transformations, and monadic composition to handle sequential data efficiently. it operates on elements of type 'a, supporting operations like filtering, mapping, and folding, while preserving context and enabling pipeline composition. it allows building complex workflows such as parsing nested syntax, buffering data, or incrementally processing event streams. examples include filtering and transforming elements in a range, aggregating values through chained operations, and managing context-aware data flows.",
-      "description_length": 550,
-      "index": 9,
+      "library": "streaming",
+      "description": "This module combines incremental data processing with resource-safe abstractions for building and composing streams, flows, and sinks that handle sequential data efficiently. It centers around streams as push-based sequences, flows as element-wise transformations, and sinks as stateful consumers, enabling operations like `map`, `filter`, `zip`, and `fold` to process data in constant space. The `let*` and `let+` operators support fluent composition of transformations and aggregations, while sources from lists, files, or custom state enable flexible input. Examples include streaming log files line by line, filtering and aggregating values in real-time, or writing processed data to multiple outputs concurrently with guaranteed resource cleanup.",
+      "description_length": 751,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 550,
-    "min_description_length": 280,
-    "avg_description_length": 394.5,
-    "embedding_file_size_mb": 0.03677177429199219
+    "max_description_length": 751,
+    "min_description_length": 358,
+    "avg_description_length": 543.5555555555555,
+    "embedding_file_size_mb": 0.033168792724609375
   }
 }

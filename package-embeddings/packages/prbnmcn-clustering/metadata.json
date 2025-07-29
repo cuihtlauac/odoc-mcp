@@ -1,98 +1,125 @@
 {
   "package": "prbnmcn-clustering",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:55.442464",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:08:07.454438",
   "modules": [
     {
       "module_path": "Clustering.Agglomerative.Make",
-      "description": "Creates and manipulates clusters of elements, supporting operations to form single-element clusters, compute distances between clusters using a provided function, and merge clusters through union or overapproximation. Works with abstract cluster types and element types, allowing flexible definitions of distance and merging strategies. Used for tasks like clustering geometric data or combining sets with custom similarity measures.",
-      "description_length": 433,
+      "library": "prbnmcn-clustering",
+      "description": "This module performs agglomerative clustering by merging elements into hierarchical clusters based on a metric space defined by the parameter module S. It provides operations to create clusters from element lists, truncate clusters at specified depths, and list all clusters with their depths. It works with sets of elements equipped with a distance metric, suitable for applications like hierarchical document clustering or phylogenetic tree construction.",
+      "description_length": 456,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.K_medoids.Make",
-      "description": "Calculates the symmetric distance between two instances of type `t` using a metric that satisfies the triangular inequality. Operates on custom data types defined as `t` within the module. Used to compare geometric points, vectors, or any structured data requiring quantitative similarity assessment.",
-      "description_length": 300,
+      "module_path": "Clustering.K_means.Element",
+      "library": "prbnmcn-clustering",
+      "description": "This module defines the data type `t` and the operations `dist` and `mean` for computing distances and means in a convex space. It supports concrete types like vectors or numerical tuples where arithmetic operations and distance metrics are well-defined. Use cases include clustering numerical data points in machine learning and statistical analysis.",
+      "description_length": 351,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.K_means.Make",
-      "description": "Calculates pairwise distances between elements of type t using a symmetric, triangle-inequality-compliant metric. Computes the arithmetic mean of an array of t values, assuming t represents elements of a convex space. Works with numerical or geometric types that support these operations.",
-      "description_length": 288,
+      "module_path": "Clustering.K_medoids.Make",
+      "library": "prbnmcn-clustering",
+      "description": "This module implements the k-medoids clustering algorithm, computing clusters from an array of elements and returning grouped elements along with their medoids. It operates on elements of type `E.t`, using precomputed distances when enabled, and supports customizable initialization, algorithm variant, and termination conditions. The module also calculates the total clustering cost based on medoid-element distances within each cluster.",
+      "description_length": 438,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.Agglomerative",
-      "description": "Creates clusters from individual elements and computes distances between them using a user-provided function. Combines clusters through operations like union or convex hull approximation. Used for hierarchical clustering tasks where custom distance metrics and cluster merging strategies are required.",
-      "description_length": 301,
+      "module_path": "Clustering.K_means.Make",
+      "library": "prbnmcn-clustering",
+      "description": "Implements k-means clustering with configurable initialization and termination criteria. Operates on arrays of elements with distances defined by the provided module. Useful for partitioning numerical data into groups based on similarity, such as segmenting customer data or image color quantization.",
+      "description_length": 300,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.Helpers",
-      "description": "Takes the first `n` elements from the first list and returns them with the remaining elements from both lists. Selects a random sample without replacement from a list using a provided random state. Initializes a K-means clustering array by randomly selecting elements from an array. Computes the sum of a float array.",
-      "description_length": 317,
+      "module_path": "Clustering.Agglomerative.Element_set",
+      "library": "prbnmcn-clustering",
+      "description": "This module represents sets of elements that form clusters during agglomerative clustering. It supports creating singleton clusters, measuring distances between clusters, and merging clusters. It is used when implementing clustering algorithms that require hierarchical merging based on pairwise distances.",
+      "description_length": 306,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.Intf",
-      "description": "Calculates the symmetric distance between two instances of type t using a metric that satisfies the triangular inequality. Operates on abstract values of type t, ensuring numerical consistency in comparisons. Used to quantify similarity or separation in geometric or structured data representations.",
-      "description_length": 299,
+      "module_path": "Clustering.Intf.Metric",
+      "library": "prbnmcn-clustering",
+      "description": "This module defines a distance function for values of type `t`, ensuring it satisfies the properties of a proper metric: symmetry, zero self-distance, and the triangle inequality. It is used in clustering algorithms that require a measure of dissimilarity between data points. Concrete use cases include comparing numerical vectors, strings, or any structured data where a meaningful distance can be defined.",
+      "description_length": 408,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering.K_means",
-      "description": "Calculates pairwise distances between elements of type t using a symmetric, triangle-inequality-compliant metric and computes the arithmetic mean of an array of t values, assuming they belong to a convex space. Works with any data type that supports these operations, such as numerical vectors or points in a geometric space. Used to implement the centroid update step in clustering algorithms and to measure similarity between data points.",
-      "description_length": 440,
+      "module_path": "Clustering.MultiStart",
+      "library": "prbnmcn-clustering",
+      "description": "Performs multiple independent runs of a given function, tracking the result with the lowest associated cost. It operates on functions that return a float cost and a value of any type, and is useful for optimization scenarios where repeated sampling is needed to find a minimum-cost outcome. This module is suited for stochastic optimization problems, such as parameter tuning or heuristic search algorithms.",
+      "description_length": 407,
       "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Clustering.K_medoids",
-      "description": "Provides a metric-based comparison framework for structured data, enabling distance calculations between instances of type `t`. Supports operations that quantify similarity, such as clustering or nearest-neighbor searches. Examples include measuring geometric distances between points or assessing similarity in vector spaces. The triangular inequality ensures reliable distance computations for algorithmic stability.",
-      "description_length": 418,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Clustering.MultiStart",
-      "description": "Performs multiple independent executions of a function that returns a float and a value, selecting the result with the lowest float. Supports parallel execution by forking processes, reinitializing random states in each. Used to find optimal outcomes in stochastic or randomized computations.",
-      "description_length": 292,
+      "module_path": "Clustering.Agglomerative",
+      "library": "prbnmcn-clustering",
+      "description": "This module implements hierarchical clustering by iteratively merging the most similar clusters based on a distance metric, organizing data into a dendrogram structure. It supports operations to build clusters from element lists, compute pairwise distances, and truncate clusters at specific depths, working with numeric data points or precomputed distance matrices. The clustering process relies on submodules that model individual clusters and define merging behavior, enabling applications like customer segmentation, gene expression analysis, and phylogenetic tree construction. Example usage includes clustering documents by similarity or grouping genes based on expression levels using a custom distance function.",
+      "description_length": 719,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Clustering.K_means",
+      "library": "prbnmcn-clustering",
+      "description": "This module implements the K-means clustering algorithm with customizable initialization strategies and termination conditions, operating on numeric data points in a convex space. It defines core types and operations for computing distances and centroids, supporting concrete types like floats and vectors. Child modules provide clustering functionality over arrays, enabling tasks like customer segmentation, image compression, and document classification. Specific configurations allow clustering based on Euclidean similarity with control over convergence behavior.",
+      "description_length": 568,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "prbnmcn-clustering",
-      "description": "Provides functions to perform K-medoids clustering with two distinct strategies and to generate dendrograms through agglomerative methods. Operates on numerical arrays and distance matrices to group data points into clusters. Used for exploratory data analysis in scenarios requiring hierarchical or partitioned clustering of structured datasets.",
-      "description_length": 346,
+      "module_path": "Clustering.Intf",
+      "library": "prbnmcn-clustering",
+      "description": "This module provides distance metrics for clustering algorithms, centered around a core `distance` function that computes dissimilarity between numerical data points such as integers and floats, either as individual values or sequences. It enforces the mathematical properties of a proper metric\u2014symmetry, zero self-distance, and the triangle inequality\u2014making it suitable for algorithms like k-means and hierarchical clustering. A child module specializes the distance function to a specific data type `t`, enabling custom metric definitions for structured data such as vectors or strings. For example, it can calculate Euclidean distances between float arrays or Levenshtein distances between strings within clustering workflows.",
+      "description_length": 731,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Clustering",
-      "description": "Organizes and merges elements into clusters using custom distance functions and merging strategies, while supporting operations like union and convex hull approximation. Handles structured data types with symmetric, triangle-inequality-compliant metrics, enabling distance calculations and centroid updates. Provides sampling, random initialization, and parallel execution capabilities to enhance clustering accuracy and efficiency. Examples include hierarchical clustering with user-defined metrics, K-means initialization, and finding optimal results through repeated stochastic runs.",
-      "description_length": 586,
+      "module_path": "Clustering.Helpers",
+      "library": "prbnmcn-clustering",
+      "description": "This module provides functions for list and array manipulation specific to clustering algorithms. It includes operations for splitting lists, sampling without replacement, initializing cluster centers using the Forgy method, and summing float arrays. These functions are used in implementing k-means clustering and related algorithms where data partitioning and initialization are required.",
+      "description_length": 390,
       "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Clustering.K_medoids",
+      "library": "prbnmcn-clustering",
+      "description": "This module provides k-medoids clustering with support for arbitrary data types and distance metrics, enabling partitioning of datasets into k clusters using actual data points as medoids. It includes initialization strategies like Forgy and KmedoidsPP, and algorithms such as PAM and VoronoiIteration, with customizable termination conditions and optional precomputed distances for efficiency. The core functionality operates on elements of type `E.t`, grouping them while tracking medoids and computing total clustering cost based on intra-cluster distances. It is particularly suited for non-Euclidean or categorical data where traditional centroid-based methods are less effective.",
+      "description_length": 685,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Clustering",
+      "library": "prbnmcn-clustering",
+      "description": "This module organizes data into meaningful groups using a variety of clustering techniques. It supports hierarchical clustering through iterative merging of similar clusters, k-means clustering with customizable initialization and distance metrics, and k-medoids clustering for handling arbitrary or non-Euclidean data. Core operations include distance computation, cluster initialization, and optimization via repeated sampling or iterative refinement. Examples include segmenting customers, compressing images, clustering documents, and analyzing gene expressions using custom distance functions or precomputed metrics.",
+      "description_length": 621,
+      "index": 12,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 13,
+    "meaningful_modules": 13,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 586,
-    "min_description_length": 288,
-    "avg_description_length": 365.45454545454544,
-    "embedding_file_size_mb": 0.040370941162109375
+    "max_description_length": 731,
+    "min_description_length": 300,
+    "avg_description_length": 490.7692307692308,
+    "embedding_file_size_mb": 0.04765892028808594
   }
 }

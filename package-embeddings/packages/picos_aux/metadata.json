@@ -1,70 +1,85 @@
 {
   "package": "picos_aux",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:11.528519",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:07:26.217624",
   "modules": [
     {
-      "module_path": "Picos_aux_rc.Make",
-      "description": "Compares and hashes resource instances, and releases system-level resources after use. Operates on a type representing managed resources, such as file handles or network connections. Used to ensure proper cleanup and identity checks in resource-intensive applications.",
-      "description_length": 268,
+      "module_path": "Picos_aux_mpscq",
+      "library": "picos_aux.mpscq",
+      "description": "This module implements a lock-free multi-producer, single-consumer queue optimized for use as a fair ready queue in a single-threaded scheduler. It supports constant-time push operations to both the head and tail of the queue, and provides atomic pop operations for the consumer, returning values in FIFO order. The queue is designed for high-throughput task scheduling where producers from multiple threads can enqueue work items and a single thread processes them in order.",
+      "description_length": 475,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos_aux_rc.Resource",
-      "description": "Manages resources requiring explicit cleanup, providing equality checks, hashing, and disposal. Operates on a unique resource type representing external assets like file handles or network connections. Used to ensure proper release of system resources after use, preventing leaks.",
-      "description_length": 280,
+      "module_path": "Picos_aux_rc.S-Resource",
+      "library": "picos_aux.rc",
+      "description": "This module defines a resource type with explicit disposal, supporting equality checks, hashing, and release operations. It works with disposable resources that require manual management, such as file handles or network connections. Concrete use cases include tracking and managing the lifecycle of external resources to ensure proper cleanup.",
+      "description_length": 343,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "picos_aux",
-      "description": "Provides lock-free data structures including hash tables, multi-producer queues, and reference counting tables for managing disposable resources. Operates with atomic operations and concurrent access patterns to ensure thread safety. Used in high-performance systems requiring efficient resource management and inter-thread communication.",
-      "description_length": 338,
+      "module_path": "Picos_aux_rc.Resource",
+      "library": "picos_aux.rc",
+      "description": "This module defines a reference-counted resource type `t` with operations to check equality, compute hash values, and explicitly release the resource. It works with opaque resource values that require manual disposal. Concrete use cases include managing external resources like file handles or network connections where explicit cleanup is required.",
+      "description_length": 349,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos_aux_mpscq",
-      "description": "Provides operations to add elements to the head or tail of a lock-free queue, extract the head element, and retrieve all elements as a sequence. Works with a parameterized type 'a t representing the queue state. Used to manage task scheduling in a single-threaded, FIFO-based system where multiple producers add tasks and one consumer processes them.",
-      "description_length": 350,
+      "module_path": "Picos_aux_rc.Make",
+      "library": "picos_aux.rc",
+      "description": "This module creates and manages external reference counting tables for arbitrary resource types, providing thread-safe sharing of disposable resources across independent execution contexts. It supports operations to increment and decrement reference counts, retrieve resource metadata, and inspect current entries. Concrete use cases include tracking file descriptors shared between domains or managing lifecycle of network handles across concurrent fibers.",
+      "description_length": 457,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Picos_aux_htbl",
-      "description": "Provides atomic read, write, and compare-and-swap operations for key-value pairs, supporting concurrent access without locks. Operates on arbitrary key types with customizable hash and equality functions, and returns bindings as sequences or individual values. Used in distributed systems for implementing consensus algorithms and maintaining consistent state across multiple processes.",
-      "description_length": 386,
+      "module_path": "Picos_aux_rc.S",
+      "library": "picos_aux.rc",
+      "description": "Manages external reference counting for shared resources across threads, domains, or fibers. It provides operations to create, increment, and decrement reference counts, along with safe disposal when the count reaches zero. Exposes detailed tracking info for debugging and introspection.",
+      "description_length": 287,
       "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Picos_aux_mpmcq",
-      "description": "Provides atomic push and pop operations for concurrent access, with support for adding elements to the head or tail of a queue. Operates on a lock-free, thread-safe queue structure that tracks element count and emptiness. Used to implement efficient, low-contention task scheduling in multi-threaded systems.",
-      "description_length": 308,
-      "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Picos_aux_rc",
-      "description": "Manages externally reference counted resources, enabling safe sharing across threads by tracking usage through increment and decrement operations. It defines a resource type for external assets and supports equality, hashing, and disposal to ensure proper cleanup. Operations include creating, referencing, and releasing resources, with examples like managing file handles or network sockets across concurrent tasks. The module enforces correct lifecycle management to prevent leaks in multi-threaded environments.",
-      "description_length": 514,
+      "library": "picos_aux.rc",
+      "description": "This module implements external reference counting for disposable resources, combining abstract resource management with thread-safe sharing across execution contexts. It defines a core resource type with equality, hashing, and release operations, and builds on this with reference-counted wrappers and global tracking tables that support concurrent access. Operations include incrementing and decrementing counts, querying metadata, and inspecting active entries, enabling safe handling of shared file descriptors, network connections, and memory buffers. Specific use cases include tracking lifecycle of OS resources across domains and managing concurrent access to external handles with automatic cleanup on last release.",
+      "description_length": 724,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Picos_aux_mpmcq",
+      "library": "picos_aux.mpmcq",
+      "description": "This module implements a lock-free multi-producer, multi-consumer queue optimized for high-performance concurrency scenarios such as task scheduling in a multi-threaded environment. It supports operations to create a queue, push values to the tail or head, pop values from the head (raising an exception if empty), and query the length or emptiness of the queue. Concrete use cases include building ready queues for fair fiber scheduling, where threads push tasks locally and steal from other threads' queues when idle.",
+      "description_length": 519,
       "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Picos_aux_htbl",
+      "library": "picos_aux.htbl",
+      "description": "This module implements a lock-free hash table with wait-free single-key reads, supporting concurrent operations for building non-blocking algorithms and consensus protocols. It provides atomic operations like `try_add`, `try_set`, `try_compare_and_set`, and `try_compare_and_remove` for thread-safe modifications, along with snapshotting via `to_seq` and bulk removal via `remove_all`. Concrete use cases include coordinating shared state in concurrent systems, implementing distributed agreement protocols, and managing dynamic mappings in multi-threaded environments without locks.",
+      "description_length": 583,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 8,
-    "meaningful_modules": 7,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.875
+    "meaningful_modules": 8,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 514,
-    "min_description_length": 268,
-    "avg_description_length": 349.14285714285717,
-    "embedding_file_size_mb": 0.025857925415039062
+    "max_description_length": 724,
+    "min_description_length": 287,
+    "avg_description_length": 467.125,
+    "embedding_file_size_mb": 0.029438018798828125
   }
 }

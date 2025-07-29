@@ -1,231 +1,253 @@
 {
   "package": "mysql_protocol",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 30,
-  "creation_timestamp": "2025-06-18T16:38:21.692797",
+  "total_modules": 29,
+  "creation_timestamp": "2025-07-15T23:11:16.533723",
   "modules": [
     {
-      "module_path": "Mysql_protocol.Mp_auth_switch_request",
-      "description": "Encodes and decodes authentication switch request packets, converting between bitstring representations and structured data. Processes binary data with specific field layouts, including user name and plugin name. Used to parse and generate network protocol messages in database client implementations.",
-      "description_length": 301,
+      "module_path": "Mysql_protocol.Mp_result_packet",
+      "library": "mysql_protocol",
+      "description": "This module defines a variant type for representing different kinds of MySQL response packets, including OK, error, EOF, result set, and prepare OK packets. It includes a function to convert these packets to string representations and a function to process incoming packets from a channel, handling field definitions and accumulating results based on the command type. It is used for parsing and managing server responses during MySQL protocol communication.",
+      "description_length": 458,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mysql_protocol.Mp_authentication",
-      "description": "Performs XOR encryption on two strings and generates a client authentication packet with handshake details, capabilities, and credentials. Works with strings, integers, and bitstrings to construct database connection authentication data. Used to prepare secure authentication messages for database clients during handshake protocols.",
-      "description_length": 333,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_binary",
-      "description": "Handles encoding and decoding of length-coded binary data using bitstrings. Processes variable-length integers and associated byte sequences, extracting or constructing them with precise control over byte offsets. Used for parsing and generating binary protocols that require length-prefixed fields.",
-      "description_length": 299,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_bitstring",
-      "description": "Computes a 32-bit checksum from an input integer. Operates on raw integer values and bitwise representations. Used to generate compact, fixed-size identifiers for data validation.",
-      "description_length": 179,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_capabilities",
-      "description": "Converts a list of capabilities to a string representation, decodes server capabilities from byte data into a list, and encodes client capabilities into an integer. Works with a custom capabilities type representing protocol features. Used to serialize and deserialize protocol support information during network communication.",
-      "description_length": 327,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_change_user",
-      "description": "Constructs a binary representation of a user change request using a handshake, username, password, database name, character set number, and authentication plugin name. Operates on strings, integers, and bitstring types to encode protocol-specific data. Used to generate client-side packets for altering user credentials in a database connection.",
-      "description_length": 345,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_charset",
-      "description": "Converts charset and collation identifiers to strings, combines them into a single string, and maps between numeric codes and their corresponding name pairs. Operates on opaque types representing character set and collation names, as well as tuples of these types. Used to generate human-readable representations of database encoding configurations and to translate between numeric identifiers and their symbolic equivalents.",
-      "description_length": 425,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_client",
-      "description": "The module enables establishing and managing MySQL client connections, executing SQL queries, and processing results, operating on database configurations, connection objects, and query result structures. It supports use cases such as interacting with MySQL servers, handling prepared statements, and converting errors to strings, while noting limitations like 32-bit size constraints and absence of features like compression or encryption.",
-      "description_length": 440,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_com",
-      "description": "Converts strings and bitstrings to protocol-specific commands with length prefixes, generates command codes, and handles database connection management, query execution, and communication with a server using bitstring representations. Operates on strings, integers, and Bitstring.bitstring values to construct and manipulate database protocol messages. Used to build MySQL protocol packets for operations like querying, preparing statements, executing, fetching results, and closing connections.",
-      "description_length": 495,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_data",
-      "description": "This module offers functions for constructing and converting MySQL-specific data types, such as VARBINARY, ENUM, and GEOMETRY, from OCaml values like integers, strings, and dates, while also enabling reverse conversions for MySQL column data into OCaml types. It handles precise type mappings, including numeric, date/time, and binary formats, with support for specialized representations like BLOB and BIT. Use cases include database serialization, data validation, and interoperability between MySQL and OCaml applications.",
-      "description_length": 525,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_data_binary",
-      "description": "Processes MySQL datetime and timestamp data by converting bitstring representations into structured date-time values. Operates on field packet types and bitstring inputs to extract and format temporal data. Used to map database field values to SQL-compatible datetime objects for query processing.",
-      "description_length": 297,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_data_process",
-      "description": "Converts field packets and raw data into structured data records, maps SQL values to bitstring representations, and handles big integer conversions for binary serialization. Operates on field packets, row data, and SQL values, producing lists of processed data or bitstring outputs. Used to prepare database results for network transmission or storage in binary formats.",
-      "description_length": 370,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_data_simple",
-      "description": "Splits date, time, and datetime strings into component parts, with time handling a sign indicator. Processes data values into SQL-compatible formats using field packet metadata. Designed for parsing and formatting temporal data in a structured, application-specific manner.",
-      "description_length": 273,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_eof_packet",
-      "description": "Provides functions to create and manipulate end-of-file packets, convert them to strings, and handle server flags as integers. Works with custom types `eof_packet` and `flag_server`, and processes bitstrings and input channels. Used to parse and validate EOF markers in network communication protocols.",
-      "description_length": 302,
-      "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_error_packet",
-      "description": "Encodes and decodes error packets from bitstring representations, converting them to and from string formats for logging or display. It processes structured error data including error codes, timestamps, and descriptive messages. Used in network communication to handle and report protocol violations or system errors.",
-      "description_length": 317,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Mysql_protocol.Mp_execute",
-      "description": "Converts flag and bind values to integers, constructs parameter parts for database queries using SQL data lists, and builds complete execute commands with specified handlers, flags, parameters, and fields. Operates on custom flag and bind types, SQL data lists, and bitstring structures. Used to generate low-level database execution packets for network communication in a database driver implementation.",
-      "description_length": 404,
-      "index": 15,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_fetch",
-      "description": "Constructs a bitstring representing a fetch operation with a specified handler ID and number of rows. Operates on integer identifiers and bitstring data structures. Used to generate protocol-specific messages for data retrieval in networked applications.",
-      "description_length": 254,
-      "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_field",
-      "description": "Converts a field name tuple to a string representation and extracts real field names from a list of field packets. Works with tuples of strings and integers to represent field names and processes lists of field packets. Used to generate human-readable identifiers from structured field data during protocol parsing.",
-      "description_length": 315,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_field_packet",
-      "description": "Converts field packet types and flags to human-readable strings, decodes binary representations into structured flags, and generates string representations of field packets. Operates on custom types for field types, flags, and structured packets. Used to parse and display network packet metadata during protocol analysis.",
-      "description_length": 322,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_handshake",
-      "description": "Handles conversion of handshake data structures to string representations and initializes handshakes from input channels and arbitrary data. Operates on the `handshake` type, which encapsulates protocol negotiation details. Used to generate human-readable logs of handshake exchanges and to set up initial communication states in network protocols.",
-      "description_length": 348,
-      "index": 19,
+      "library": "mysql_protocol",
+      "description": "This module handles the construction of MySQL protocol packets for executing prepared statements. It provides functions to convert execution flags and bind modes to integers, build parameter data for queries, and assemble the final execute packet with handler IDs and optional parameters. It works directly with SQL data types, bitstrings for binary protocol encoding, and lists of parameters or fields. Concrete use cases include serializing query parameters for transmission over a MySQL connection and preparing command packets for statement execution with specific cursor or binding options.",
+      "description_length": 595,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mysql_protocol.Mp_ok_packet",
-      "description": "Represents a database response packet with fields for affected rows, last insert ID, and status flags. Converts the packet structure to a string representation and parses a bitstring into this structure. Used in database communication to handle OK response messages from a server.",
-      "description_length": 280,
-      "index": 20,
+      "library": "mysql_protocol",
+      "description": "Handles parsing and string representation of MySQL OK packets. Works with `ok_packet` records containing metadata like affected rows, insert ID, server status, and messages. Used to interpret and serialize responses from MySQL server operations such as inserts or updates.",
+      "description_length": 272,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mysql_protocol.Mp_ok_prepare_packet",
-      "description": "Converts a prepared packet structure into a string representation. Accepts a tuple of bytes, integers, and an arbitrary value to construct the packet from an input channel. Used to serialize database preparation data for transmission or logging.",
-      "description_length": 245,
-      "index": 21,
+      "module_path": "Mysql_protocol.Mp_auth_switch_request",
+      "library": "mysql_protocol",
+      "description": "This module handles parsing and serialization of MySQL authentication switch request packets. It works with a custom type representing packets containing a plugin name and plugin data as a bitstring. The module converts these packets to strings and parses them from bitstrings, specifically for handling authentication method switching during MySQL client-server handshakes.",
+      "description_length": 374,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_protocol.Mp_packet",
-      "description": "Extracts and constructs packets from an input channel using bitstring representations, handling packet length and offset information. Operates on input channels, integers, and bitstring data types to parse and generate network-like packet structures. Used to process raw data streams by isolating specific packet segments and rebuilding them with defined headers.",
-      "description_length": 363,
-      "index": 22,
-      "embedding_norm": 1.0
     },
     {
       "module_path": "Mysql_protocol.Mp_protocol",
-      "description": "Converts protocol version values to their corresponding string representations. Works with the protocol_version type, which encodes specific protocol versions as variants. Used to generate human-readable logs and error messages based on protocol identifiers.",
-      "description_length": 258,
-      "index": 23,
+      "library": "mysql_protocol",
+      "description": "This module defines the MySQL protocol versions supported by the library, specifically versions 4.0 and 4.1. It includes a function to convert these protocol version values into their string representations. This is useful when negotiating or identifying the protocol version during MySQL client-server communication.",
+      "description_length": 317,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mysql_protocol.Mp_raw_data",
-      "description": "Converts row data to a string, processes binary representations of field packets, and constructs raw data packets from lists of field packets and bitstrings. Operates on bitstrings, field packets, and custom row_data structures. Used to serialize and deserialize low-level network data formats with precise byte-level control.",
-      "description_length": 326,
-      "index": 24,
+      "module_path": "Mysql_protocol.Mp_capabilities",
+      "library": "mysql_protocol",
+      "description": "This module defines bit-flag operations for MySQL protocol capabilities, including encoding client capability lists into integers and decoding server capability bitmasks from byte buffers. It works with capability lists and byte buffers to handle authentication handshake interactions. Concrete use cases include parsing server capabilities during connection setup and constructing client capability requests for protocol negotiation.",
+      "description_length": 434,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_packet",
+      "library": "mysql_protocol",
+      "description": "Handles parsing and construction of MySQL protocol packets. Works with `in_channel` and `Bitstring.bitstring` to read and build binary packet data. Extracts individual packets and splits multi-packet responses, used for interacting with raw MySQL network streams during client-server communication.",
+      "description_length": 298,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mysql_protocol.Mp_result_packet",
-      "description": "Converts a result packet to a string and constructs result packets from input channels, field packets, and callback functions. Operates on custom data types including lists of field packets and structured data. Used to process and format query results in network communication protocols.",
-      "description_length": 287,
-      "index": 25,
+      "module_path": "Mysql_protocol.Mp_fetch",
+      "library": "mysql_protocol",
+      "description": "Builds a binary MySQL protocol packet for initiating a result set fetch operation. It takes a prepared statement handler and an optional row count limit, returning a bitstring suitable for transmission over a MySQL connection. This function is used when streaming large result sets from a prepared statement.",
+      "description_length": 308,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_data_process",
+      "library": "mysql_protocol",
+      "description": "Processes MySQL protocol data types and structures into SQL values and binary representations. Converts raw row data into typed SQL values using field metadata, and serializes SQL values into bitstrings for network transmission. Handles integer encoding, row data parsing, and nested result set processing for MySQL client-server communication.",
+      "description_length": 344,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_data_simple",
+      "library": "mysql_protocol",
+      "description": "This module handles parsing and conversion of MySQL protocol data values into structured formats. It provides functions to split date, time, and datetime strings into components and convert data values into SQL values using field packet metadata. These operations are used when processing MySQL result sets to transform raw string data into typed representations.",
+      "description_length": 363,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_handshake",
+      "library": "mysql_protocol",
+      "description": "This module handles the parsing and serialization of MySQL handshake packets. It defines a `handshake` record containing fields like server version, thread ID, scramble buffers, and capabilities, and provides functions to convert handshake data to a string or initialize it from an input channel. It is used to establish and authenticate connections to MySQL servers by processing the initial handshake response.",
+      "description_length": 412,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_field_packet",
+      "library": "mysql_protocol",
+      "description": "This module defines data types representing MySQL field packet metadata, including field types, flags, and packet structure. It provides functions to decode field types and flags from binary data, and to convert these to human-readable strings. Use this module when parsing MySQL protocol packets to inspect or manipulate field metadata during database communication.",
+      "description_length": 367,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_change_user",
+      "library": "mysql_protocol",
+      "description": "Builds a binary representation of the MySQL `CHANGE_USER` command using provided connection parameters. It operates on a handshake, user credentials, database name, charset, and authentication plugin. This function is used to serialize user change requests during client authentication or database switching.",
+      "description_length": 308,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_eof_packet",
+      "library": "mysql_protocol",
+      "description": "This module handles parsing and representing EOF packets in the MySQL protocol, including reading from bitstrings or input channels. It defines an `eof_packet` type with fields for counts and status flags, and provides functions to convert packets to strings, check server status flags, and parse raw data. Concrete use cases include processing MySQL server responses during query execution to detect transaction states or warnings.",
+      "description_length": 432,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_data",
+      "library": "mysql_protocol",
+      "description": "This module provides type-safe construction and conversion of MySQL protocol data values, enabling bidirectional mapping between OCaml types (like `int`, `string`, `Bitstring.t`, and optional values) and MySQL wire representations (including integers, decimals, timestamps, `VARCHAR`, `BLOB`, `BIT`, and `GEOMETRY`). It supports operations for serializing OCaml data into MySQL protocol packets, parsing server responses into typed OCaml values, and handling SQL `NULL` as `None`, with structural equality checks for comparing data values. Key use cases include building query parameters, decoding result sets, and ensuring type fidelity during client-server communication.",
+      "description_length": 673,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_charset",
+      "library": "mysql_protocol",
+      "description": "This module defines enumerations for MySQL character sets and collations, providing direct mappings between charset/collation names and their string representations or numeric identifiers. It includes functions to convert charset names, collation names, and combined charset pairs to strings, as well as to translate between numeric codes and charset-collation pairs. Concrete use cases include encoding negotiation in MySQL connections and serializing/deserializing character set information during protocol parsing or configuration.",
+      "description_length": 534,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_data_binary",
+      "library": "mysql_protocol",
+      "description": "This module handles binary decoding of MySQL protocol data for date, time, and timestamp types. It provides functions to convert binary field data into structured values based on the field type, specifically supporting datetime, timestamp, and date fields. These functions are used when parsing MySQL responses that include temporal data types in binary format.",
+      "description_length": 361,
+      "index": 16,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_client",
+      "library": "mysql_protocol",
+      "description": "This module provides operations for connecting to MySQL servers, authenticating users, executing SQL statements, and processing server responses through structured types like connections, executable statements, and result sets. It serves applications requiring pure OCaml MySQL client interactions, such as lightweight database clients or systems avoiding C library dependencies, while adhering to data size limitations on 32-bit platforms.",
+      "description_length": 440,
+      "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mysql_protocol.Mp_result_set_packet",
-      "description": "Handles conversion of database result sets to strings, including row data and metadata. Operates on tuples of column definitions and data lists, as well as custom data types representing database packets and field metadata. Used to generate human-readable output from query results and packet structures.",
-      "description_length": 304,
-      "index": 26,
+      "library": "mysql_protocol",
+      "description": "This module handles parsing and representation of MySQL result set packets, including field metadata and row data. It provides functions to convert result sets, rows, and field packets into string representations for debugging or logging. Concrete use cases include inspecting query results during development and formatting MySQL responses for display or diagnostic output.",
+      "description_length": 374,
+      "index": 18,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Mysql_protocol.Mp_binary",
+      "library": "mysql_protocol",
+      "description": "This module handles binary encoding and decoding of length-coded integers used in MySQL protocol packets. It provides functions to parse a length-coded binary value from a bitstring, returning the decoded integer and remaining data, and to construct a length-coded binary representation from an integer. Use cases include serializing and deserializing packet lengths and data sizes in MySQL network communication.",
+      "description_length": 413,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Mysql_protocol.Mp_string",
-      "description": "Handles conversion and manipulation of null-terminated and length-coded strings from bitstring data, extracting byte sequences, offsets, and string values. Operates on bitstrings and byte sequences, returning tuples with position and content information. Used to parse network protocols and binary file formats requiring specific string encoding schemes.",
-      "description_length": 354,
+      "library": "mysql_protocol",
+      "description": "This module handles string encoding and decoding for MySQL protocol messages. It provides functions to read and write null-terminated and length-coded strings from bitstrings, which are used in MySQL packet construction and parsing. Concrete use cases include serializing query arguments and parsing server responses in MySQL client implementations.",
+      "description_length": 349,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_raw_data",
+      "library": "mysql_protocol",
+      "description": "This module handles the parsing and conversion of raw MySQL protocol data, specifically translating binary and textual representations into structured row data. It operates on `row_data` variants, which represent field values as strings, nulls, or binary bitstrings, and processes packets using field metadata and command types. Concrete use cases include decoding query results from binary MySQL packets and extracting null value indicators from bitstrings.",
+      "description_length": 458,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_com",
+      "library": "mysql_protocol",
+      "description": "This module encodes and constructs MySQL client command packets for direct communication with a MySQL server. It supports operations like authentication, database initialization, query execution, statement preparation, and connection management using `Bitstring.bitstring` for binary protocol formatting. Concrete use cases include sending SQL queries, switching databases, resetting connections, and handling authentication exchanges.",
+      "description_length": 435,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_authentication",
+      "library": "mysql_protocol",
+      "description": "Performs MySQL client authentication operations including password encoding and authentication packet construction. It handles handshake responses, password scrambling with XOR, and builds the initial authentication packet sent to the server. Uses MySQL handshake data, capability flags, and authentication credentials to generate properly formatted binary packets for connecting to a MySQL server.",
+      "description_length": 398,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_ok_prepare_packet",
+      "library": "mysql_protocol",
+      "description": "This module handles parsing and representing OK packets for prepared statements in MySQL protocol. It provides a function to read a packet from a channel and construct a record containing metadata like statement handler, column and parameter counts, warnings, and field information. The data structure includes lists of field packets and names for both parameters and columns, with a utility to convert the packet to a string representation.",
+      "description_length": 441,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_bitstring",
+      "library": "mysql_protocol",
+      "description": "This module provides functions for working with bitstrings, particularly for reading and writing integer values in a binary format. It supports operations like extracting 32-bit integers from a bitstring buffer and computing their byte representations. A concrete use case is parsing or constructing binary network protocols that require precise bit-level manipulation, such as MySQL's binary protocol.",
+      "description_length": 402,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_field",
+      "library": "mysql_protocol",
+      "description": "This module handles field name extraction and manipulation from MySQL field packets. It provides functions to convert field names into strings and retrieve real field names from a list of field packets. Concrete use cases include processing query results to access column names with their corresponding table aliases and indexes.",
+      "description_length": 329,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mysql_protocol.Mp_error_packet",
+      "library": "mysql_protocol",
+      "description": "This module parses and represents MySQL error packets from binary data. It extracts the error number, SQL state, and message from a bitstring into a structured format. Use it to handle and inspect error responses directly from MySQL server communications.",
+      "description_length": 255,
       "index": 27,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mysql_protocol",
-      "description": "Provides functions for parsing and generating MySQL protocol messages using bitstring operations, including packet encoding, query execution, and result set handling. Works with binary data, strings, and structured data types representing database rows and metadata. Used to build custom MySQL clients that interact with databases at the protocol level, enabling low-level query execution and response processing.",
-      "description_length": 413,
-      "index": 28,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Mysql_protocol",
-      "description": "Provides low-level encoding and decoding capabilities for MySQL protocol messages, including authentication, handshake, error, and result packets. Handles bitstring manipulation, length-coded integers, checksums, and type conversions for database communication. Supports operations like generating authentication packets, parsing datetime fields, serializing query results, and managing connection states. Examples include constructing client authentication messages, extracting field metadata from binary data, and converting protocol versions to strings.",
-      "description_length": 556,
-      "index": 29,
-      "embedding_norm": 0.9999999403953552
+      "library": "mysql_protocol",
+      "description": "This module implements the MySQL client-server communication protocol, enabling OCaml programs to encode and decode binary packets, manage authentication, execute queries and prepared statements, and process structured responses. It centers around data types like packets (OK, EOF, error, result set), field metadata, handshake and authentication structures, and SQL value representations, with operations for binary encoding/decoding, capability negotiation, and command construction. Developers can use it to build custom MySQL clients, serialize query parameters, parse server responses with type fidelity, and handle protocol-level features like prepared statements and result streaming. Example workflows include authenticating with a server using scrambled credentials, executing a parameterized query, and streaming rows from a prepared statement with binary protocol encoding.",
+      "description_length": 884,
+      "index": 28,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 30,
-    "meaningful_modules": 30,
+    "total_modules_in_package": 29,
+    "meaningful_modules": 29,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 556,
-    "min_description_length": 179,
-    "avg_description_length": 341.9,
-    "embedding_file_size_mb": 0.10943126678466797
+    "max_description_length": 884,
+    "min_description_length": 255,
+    "avg_description_length": 414.7586206896552,
+    "embedding_file_size_mb": 0.10588932037353516
   }
 }

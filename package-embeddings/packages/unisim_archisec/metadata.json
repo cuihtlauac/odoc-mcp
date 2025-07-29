@@ -1,63 +1,61 @@
 {
   "package": "unisim_archisec",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:28:56.238176",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:06:14.507567",
   "modules": [
     {
-      "module_path": "unisim_archisec",
-      "description": "Provides disassembly metadata and DBA semantics for ARMv7 and ARMv8 instruction sets. Operates on binary instruction streams and abstracts low-level execution behavior through bitvector automata. Enables precise analysis of control flow and data dependencies in embedded and secure execution environments.",
-      "description_length": 305,
+      "module_path": "Sparcdba",
+      "library": "unisim_archisec.sparcdba",
+      "description": "Decodes a SPARC assembly instruction from the given address and integer values into a human-readable string representation. Works directly with 32-bit integers and string outputs. Useful for disassembling SPARC machine code during debugging or analysis tasks.",
+      "description_length": 259,
       "index": 0,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppc64dba",
+      "library": "unisim_archisec.ppc64dba",
+      "description": "This module provides a `decode` function that takes a 64-bit address and a 32-bit integer representing machine code, returning a string that disassembles the instruction. It operates on low-level integer types (`int64` and `int32`) to interpret PowerPC 64-bit assembly instructions. Use cases include binary analysis, disassembly of PowerPC machine code, and low-level debugging tasks.",
+      "description_length": 385,
+      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aarch64dba",
-      "description": "Decodes ARM64 machine code instructions from a given address and byte sequence, returning the corresponding assembly string. It processes 64-bit addresses and 32-bit instruction words, handling the specific encoding rules of the AArch64 architecture. This is used for disassembling binary code in low-level analysis or debugging tools.",
-      "description_length": 335,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sparcdba",
-      "description": "Decodes a 32-bit address into a string using three 32-bit parameters representing base, offset, and size. It processes integer values to construct a formatted memory address representation. This is used in low-level system diagnostics to interpret hardware register locations.",
-      "description_length": 276,
+      "library": "unisim_archisec.aarch64dba",
+      "description": "This module provides a single function `decode` that takes a 64-bit integer address and a 32-bit integer instruction, and returns a string representing the disassembled AArch64 instruction. It operates directly on raw machine code values, producing human-readable assembly mnemonics. Use this module for low-level analysis of AArch64 machine instructions, such as in disassemblers or binary inspection tools.",
+      "description_length": 408,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Arm32dba",
-      "description": "Decodes ARM32 instructions from a byte stream, supporting both thumb and big-endian modes, and tracks IT state for conditional execution. It processes 32-bit addresses and instruction words, returning the disassembled instruction as a string. The function is used for binary analysis and debugging in low-level software development.",
-      "description_length": 332,
+      "library": "unisim_archisec.arm32dba",
+      "description": "Decodes 32-bit ARM instructions into human-readable assembly strings, handling both Thumb and ARM modes. Accepts parameters such as instruction endianness, IT state, address, and raw instruction value. Useful for disassembling raw machine code during reverse engineering or debugging low-level programs.",
+      "description_length": 303,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppc64dba",
-      "description": "Decodes a 32-bit instruction at a given 64-bit address into a human-readable string. It processes binary instruction data and returns the corresponding assembly mnemonic. This is used for disassembling machine code in low-level debugging or analysis tools.",
-      "description_length": 256,
+      "module_path": "Amd64dba",
+      "library": "unisim_archisec.amd64dba",
+      "description": "Decodes AMD64 machine code into human-readable assembly mnemonics, supporting both 32-bit and 64-bit modes. It processes raw instruction bytes from a string, starting at a given address, and returns the disassembled instruction as a string. This module is used for low-level analysis, debugging, and binary inspection tasks.",
+      "description_length": 324,
       "index": 4,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Amd64dba",
-      "description": "Decodes machine code into assembly instructions, taking a 64-bit boolean flag, an address, and a byte string as input. It processes x86-64 instruction streams and returns human-readable assembly. Used for disassembling binary code in reverse engineering tasks.",
-      "description_length": 260,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 335,
-    "min_description_length": 256,
-    "avg_description_length": 294.0,
-    "embedding_file_size_mb": 0.022228240966796875
+    "max_description_length": 408,
+    "min_description_length": 259,
+    "avg_description_length": 335.8,
+    "embedding_file_size_mb": 0.018611907958984375
   }
 }

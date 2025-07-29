@@ -1,147 +1,141 @@
 {
   "package": "aws-s3-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 18,
-  "creation_timestamp": "2025-06-18T16:34:55.910308",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:08:24.814810",
   "modules": [
     {
       "module_path": "Aws_s3_lwt.S3.Multipart_upload.Stream",
-      "description": "Handles multipart uploads by accepting a part number, data via a pipe reader, and chunk size, returning a result indicating success or failure. Operates on strings and I/O pipes, supporting asynchronous data streaming. Used to implement resumable file uploads in networked applications.",
-      "description_length": 286,
+      "library": "aws-s3-lwt",
+      "description": "This module handles streaming uploads for S3 multipart uploads using Lwt, allowing efficient transfer of large data streams. It works with `Multipart_upload.t` and `Pipe.reader` to upload data in chunks, with configurable chunk size and part number. Concrete use cases include uploading large files from a streaming source, such as reading from a network socket or a file pipe, without loading the entire content into memory.",
+      "description_length": 425,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3_lwt.Io.Deferred.Or_error",
-      "description": "Provides monadic operations for handling computations that may fail with exceptions, including lifting values into the effectful context, failing with an exception, and chaining operations. Works with a wrapped result type that encapsulates either a value or an exception. Used to manage error propagation in asynchronous or effectful workflows without explicit exception handling.",
+      "library": "aws-s3-lwt",
+      "description": "This module combines deferred computation with error handling using result types. It provides monadic operations like `bind` (`>>=`), `return`, and `fail` to sequence asynchronous computations that may fail with exceptions. It is used to implement error-resilient asynchronous workflows, such as handling S3 API calls where operations must be chained and errors explicitly managed.",
       "description_length": 381,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3_lwt.Credentials.Iam",
-      "description": "Provides functions to retrieve an IAM role and AWS credentials, returning results as deferred values with error handling. Operates with strings and AWS-specific credential structures. Used to dynamically fetch authentication details for secure API interactions.",
-      "description_length": 261,
+      "library": "aws-s3-lwt",
+      "description": "This module retrieves IAM role names and temporary credentials for AWS S3 operations. It works with strings for role identifiers and `Aws_s3__Credentials.t` for credential data. Concrete use cases include fetching an IAM role name and obtaining time-limited access keys for secure S3 access.",
+      "description_length": 291,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3_lwt.Credentials.Local",
-      "description": "Provides functions to retrieve AWS S3 credentials from a local configuration, using a specified profile. Operates on strings and the Aws_s3__Credentials.t type. Used to authenticate S3 requests in environments where local profile settings are preferred over environment variables.",
-      "description_length": 280,
+      "module_path": "Aws_s3_lwt.Io.Pipe",
+      "library": "aws-s3-lwt",
+      "description": "This module implements a pipe-based communication channel with separate reader and writer endpoints, enabling asynchronous data transfer between them. It supports operations to create, read from, write to, flush, and close pipes, as well as transferring data between reader and writer ends. Concrete use cases include streaming data between S3 operations and handling deferred I/O in asynchronous workflows.",
+      "description_length": 407,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3_lwt.Credentials.Helper",
-      "description": "Provides functions to retrieve AWS S3 credentials from a specified profile, returning a deferred result with error handling. Works with string profiles and AWS credential structures. Used to authenticate S3 operations in asynchronous workflows.",
-      "description_length": 244,
+      "module_path": "Aws_s3_lwt.Credentials.Local",
+      "library": "aws-s3-lwt",
+      "description": "Reads AWS credentials from local configuration files, specifically supporting retrieval via profile names. It operates on string profiles and returns deferred AWS credential objects. Useful for loading access keys and secrets from standard AWS configuration files like `~/.aws/credentials` in Lwt-based applications.",
+      "description_length": 316,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3_lwt.S3.Ls",
-      "description": "Provides operations to process and traverse directory contents, including listing entries and handling continuation tokens. Works with a type representing a result containing a list of content and a continuation value. Used to implement paginated directory listings in file system interfaces.",
-      "description_length": 292,
+      "library": "aws-s3-lwt",
+      "description": "This module lists objects in an S3 bucket, returning a paginated result of content entries and a continuation token. It operates on S3 buckets using Lwt for asynchronous I/O, handling high-speed transfers efficiently. Use it to retrieve object listings incrementally, especially when working with large datasets that exceed single-response limits.",
+      "description_length": 347,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3_lwt.S3.Delete_multi",
-      "description": "Provides functions to remove multiple objects from a storage system, handling success and error outcomes. Operates on custom types representing objects, errors, and combined results. Used to efficiently delete batches of items while tracking which deletions succeeded or failed.",
-      "description_length": 278,
+      "module_path": "Aws_s3_lwt.S3.Multipart_upload",
+      "library": "aws-s3-lwt",
+      "description": "This module coordinates multipart uploads to S3, enabling reliable and efficient transfers by splitting uploads into parts. It supports initializing uploads, uploading or copying individual parts, and completing or aborting the process, working with types like `t` and operations such as `initiate`, `upload_part`, and `complete`. The child module extends this functionality by enabling streaming uploads using Lwt and `Pipe.reader`, allowing large data streams\u2014such as those from a socket or file\u2014to be uploaded in configurable chunks without full in-memory loading. Together, they support use cases like resuming interrupted uploads, copying parts from existing S3 objects, and streaming large files directly into a multipart upload.",
+      "description_length": 735,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3_lwt.S3.Stream",
-      "description": "Provides functions for uploading and downloading data to and from a storage system, using pipes for efficient data streaming. Operates with strings, pipes, and structured headers like content type and metadata. Uploads large files in chunks with specified size and length, and retrieves data with optional byte-range support.",
-      "description_length": 325,
+      "module_path": "Aws_s3_lwt.Credentials.Helper",
+      "library": "aws-s3-lwt",
+      "description": "Handles credential retrieval for AWS S3 operations using Lwt, supporting asynchronous execution. Works with `Aws_s3__Credentials.t` to load and return credentials, typically from environment variables or profile files. Useful for authenticating S3 requests in Lwt-based applications without blocking execution.",
+      "description_length": 310,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3_lwt.S3.Multipart_upload",
-      "description": "Manages resumable file uploads by processing individual parts through I/O pipes, validating chunk sizes, and tracking progress. It works with strings and asynchronous data streams, enabling reliable transfer of large files over networks. Operations include receiving data in segments, verifying integrity, and reporting upload status. Examples include uploading large video files in parts and resuming interrupted transfers.",
-      "description_length": 424,
+      "module_path": "Aws_s3_lwt.S3.Delete_multi",
+      "library": "aws-s3-lwt",
+      "description": "Performs multi-object deletion in S3 buckets with support for versioned objects. It takes a list of object keys and optional version IDs, and returns a result containing deleted objects and any errors encountered. This module is used to efficiently remove multiple files, including specific versions, from an S3 bucket in a single request.",
+      "description_length": 339,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3_lwt.Io.Deferred",
-      "description": "Encapsulates computations that may fail, offering monadic operations to sequence and transform effectful actions. It works with a result type that holds either a value or an exception, enabling safe error propagation. Operations include lifting values, failing with exceptions, and chaining computations. For example, it allows combining multiple asynchronous steps where each can fail, without explicit try-catch blocks.",
-      "description_length": 421,
+      "library": "aws-s3-lwt",
+      "description": "This module orchestrates asynchronous computations using deferred values, enabling non-blocking operations and their sequencing through constructs like `>>=`, `>>|`, `catch`, and `async`. It integrates error handling via its child module, which extends deferred computations with result types, allowing robust chaining of operations that may fail, such as handling S3 API requests. Main data types include `Deferred.t` and `Result.t` wrappers, supporting operations like `bind`, `map`, `return`, and `fail`. Examples include composing delayed computations, scheduling async tasks, and building resilient pipelines for external API interactions.",
+      "description_length": 644,
       "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3_lwt.Io.Pipe",
-      "description": "Provides functions to create and manage bidirectional data streams, including writing, reading, closing, and transferring data between endpoints. Operates on reader and writer types that encapsulate asynchronous data flow. Used to coordinate data processing between asynchronous tasks, such as streaming logs from a source to a sink.",
-      "description_length": 333,
-      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3_lwt.Io.Ivar",
-      "description": "Provides operations to create, fill, and wait for a value in a thread-safe container. Works with a parameterized type 'a t that holds a single value. Used to synchronize asynchronous tasks by blocking until a value is set.",
-      "description_length": 222,
+      "module_path": "Aws_s3_lwt.S3.Stream",
+      "library": "aws-s3-lwt",
+      "description": "This module provides streaming operations for uploading and downloading data to and from S3 using Lwt for asynchronous I/O. It works with S3 buckets and keys, handling large data transfers efficiently by using pipes and configurable chunk sizes. Concrete use cases include uploading large files from a source like a network stream or a file reader, and downloading files directly into a writer such as a file or buffer.",
+      "description_length": 419,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Aws_s3_lwt.Io",
+      "library": "aws-s3-lwt",
+      "description": "This module enables asynchronous I/O workflows using pipe-based communication and deferred computation. It provides core data types such as pipes with separate reader/writer endpoints and `Deferred.t` for managing non-blocking operations, along with operations to chain, map, and handle errors in asynchronous sequences. Users can stream data between S3 and local processes, pipeline deferred computations with error resilience, or coordinate async tasks using combinators like `>>=` and `>>|`. Example workflows include uploading large files in chunks, composing delayed API calls, and transferring data between asynchronous producers and consumers.",
+      "description_length": 650,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3_lwt.Io.Net",
-      "description": "Establishes a network connection using specified IP version, host, port, and scheme, returning reader and writer pipes for data exchange. Operates on integers, strings, and protocol schemes, supporting both HTTP and HTTPS. Used to interface with remote servers for real-time data streaming and command execution.",
-      "description_length": 312,
+      "module_path": "Aws_s3_lwt.S3",
+      "library": "aws-s3-lwt",
+      "description": "This module provides Lwt-based asynchronous operations for interacting with Amazon S3, enabling efficient uploads, downloads, listings, deletions, and metadata management. It works with strings for object content, custom types for metadata (like etag and storage_class), and structured responses for handling S3 operations, supporting high-speed transfers by leveraging configurable buffer sizes and streaming. Child modules extend this functionality with paginated object listing, multipart upload coordination, multi-object deletion, and streaming upload/download capabilities. Use cases include streaming large files from or to S3, managing object versions during deletion, and handling multipart uploads with resumable transfers or chunked streaming via `Pipe.reader`.",
+      "description_length": 772,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Aws_s3_lwt.Credentials",
-      "description": "handles asynchronous retrieval of AWS credentials from IAM roles, local configurations, or specified profiles, supporting both immediate and deferred results. operates on strings and AWS credential types such as Aws_s3__Credentials.t, enabling secure API and S3 authentication. it allows fetching credentials via environment variables, local profiles, or explicit role assumptions. examples include dynamically obtaining S3 access keys for file uploads or retrieving temporary credentials for federated users.",
-      "description_length": 509,
+      "library": "aws-s3-lwt",
+      "description": "This module provides Lwt-based credential management for AWS S3, combining asynchronous loading from IAM metadata services and local configuration files. It supports operations to fetch IAM role names and temporary credentials, load access keys from AWS profile files, and resolve credentials from environment variables or profiles, all returning deferred `Aws_s3__Credentials.t` values. Main data types include strings for role and profile identifiers, and `Aws_s3__Credentials.t` for holding resolved access data. Example uses include fetching a role name from IAM, loading a named AWS profile from disk, or retrieving credentials asynchronously for S3 requests in web services or CLI tools.",
+      "description_length": 693,
       "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Aws_s3_lwt.Io",
-      "description": "Encapsulates computations that may fail with monadic operations, using a result type to handle values or exceptions, enabling safe error handling and chaining of asynchronous steps. Manages bidirectional data streams with reader and writer types, supporting asynchronous data transfer and coordination between tasks. It allows combining error-prone operations and streaming data without explicit error checking or blocking. For example, it can safely process a series of network requests and stream the results to a file.",
-      "description_length": 521,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3_lwt.S3",
-      "description": "Processes directory listings with pagination, removes batches of objects with detailed outcome tracking, uploads and downloads data using pipes with support for headers and byte ranges, and manages resumable file transfers by handling chunks and tracking progress. It works with types such as lists of entries, continuation tokens, object identifiers, error records, and streaming data. Users can implement paginated file browsing, delete multiple items with success/failure reports, stream large files efficiently, and resume interrupted uploads. Examples include listing directory contents in pages, deleting groups of files with error logging, uploading large videos in chunks, and downloading data with partial range support.",
-      "description_length": 729,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "aws-s3-lwt",
-      "description": "Handles S3 object copying between locations, including source and destination bucket and key specifications. Operates on strings for bucket names and object keys, and byte sequences for data transmission. Enables migration of files between S3 buckets and backup of objects to different regions.",
-      "description_length": 294,
-      "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Aws_s3_lwt",
-      "description": "handles asynchronous credential retrieval, error-managed computations, and S3 object operations, combining secure authentication, safe error handling, and efficient data transfer. it works with credentials, results, streams, and object metadata to enable dynamic key acquisition, safe pipeline execution, and controlled file management. users can fetch temporary credentials, chain error-prone operations, and manage large data transfers with resuming and pagination. examples include uploading videos in chunks, processing network responses with error recovery, and listing S3 directories in pages.",
-      "description_length": 599,
-      "index": 17,
+      "library": "aws-s3-lwt",
+      "description": "This module enables asynchronous interaction with Amazon S3 using Lwt, supporting efficient data transfers and credential management. It provides core types like `Deferred.t` for non-blocking computation, `Pipe.t` for streaming data, and `Aws_s3__Credentials.t` for handling AWS credentials, along with operations to upload, download, list, and delete S3 objects asynchronously. Users can stream large files using chunked uploads, coordinate multipart transfers, or load credentials from IAM or local profiles. Example workflows include streaming a multi-GB file to S3 without loading it all in memory, chaining deferred API calls with error handling, or fetching temporary credentials for role-based access in a web service.",
+      "description_length": 725,
+      "index": 14,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
-    "meaningful_modules": 18,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 729,
-    "min_description_length": 222,
-    "avg_description_length": 372.8333333333333,
-    "embedding_file_size_mb": 0.06581974029541016
+    "max_description_length": 772,
+    "min_description_length": 291,
+    "avg_description_length": 496.93333333333334,
+    "embedding_file_size_mb": 0.054892539978027344
   }
 }

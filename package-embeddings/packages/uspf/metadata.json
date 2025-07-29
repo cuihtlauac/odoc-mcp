@@ -1,70 +1,85 @@
 {
   "package": "uspf",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:42.414338",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:16.080263",
   "modules": [
     {
-      "module_path": "Uspf.Sigs.Make",
-      "description": "Provides functions to construct, transform, and deconstruct values of type 'a t, including mapping over contained values and combining them with custom logic. Operates on monadic-like structures, enabling sequential computation and error handling. Used to build complex data pipelines where each step depends on the result of the previous one.",
-      "description_length": 343,
+      "module_path": "Uspf_unix",
+      "library": "uspf.unix",
+      "description": "This module implements SPF record validation using DNS queries over the Unix domain, providing functions to verify SPF policies from a given context and extract SPF results from email headers. It operates on DNS client instances, SPF contexts, and email input streams, returning structured SPF validation outcomes. Concrete use cases include validating sender domains during email reception and parsing SPF results from received email headers for policy enforcement.",
+      "description_length": 466,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Uspf.Sigs",
-      "description": "Provides operations to retrieve DNS resource records from a backend, using a domain name and record type. Works with types `t`, `backend`, and `error`, along with `Domain_name.t` and `Dns.Rr_map.rr`. Used to fetch specific DNS data like A, AAAA, or MX records during resolution processes.",
-      "description_length": 288,
+      "module_path": "Uspf.Record",
+      "library": "uspf",
+      "description": "This module defines a data type `t` representing SPF records and provides functions to construct, parse, and serialize them. It works with lists of mechanisms and modifiers, handling their conversion to and from string representations suitable for DNS zone files. Use cases include generating valid SPF records from mechanism lists and parsing SPF strings from DNS TXT records for validation or manipulation.",
+      "description_length": 408,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Uspf.Macro",
-      "description": "Converts macro structures to strings and pretty-prints them, expanding embedded domain names with context-aware validation. Operates on lists of macros paired with optional strings, handling domain name resolution and error reporting. Used to process and validate configuration strings containing macro substitutions during build-time analysis.",
-      "description_length": 344,
+      "module_path": "Uspf.Result",
+      "library": "uspf",
+      "description": "This module defines a polymorphic result type for representing SPF evaluation outcomes, including pass, fail, and various error conditions. It provides a single formatting function `pp` to output these results in a human-readable form. Use this module to handle and display SPF check results directly, such as in logging or reporting tools.",
+      "description_length": 340,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Uspf.Term",
-      "description": "Handles DNS record parsing and manipulation with specific operations for string conversion, pretty printing, and equality checks. Works with a complex variant type representing various DNS record types, including directives, explanations, and unknown records. Used to parse and compare DNS configuration entries from text input.",
-      "description_length": 328,
+      "library": "uspf",
+      "description": "This module represents and manipulates SPF record terms, including directives like `A`, `MX`, `IP4`, `IP6`, and control mechanisms like `Redirect` and `Explanation`. It provides parsing from strings, string conversion, pretty-printing, and equality checking for these structured terms. Concrete use cases include validating and generating SPF records for DNS configuration and email authentication workflows.",
+      "description_length": 408,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "uspf",
-      "description": "Checks DNS records to validate email sources by verifying SPF, DKIM, and DMARC configurations. Processes email headers and IP addresses to determine sender legitimacy. Used to prevent email spoofing and ensure messages originate from authorized servers.",
-      "description_length": 253,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Uspf_unix",
-      "description": "Provides SPF verification using Unix-based DNS resolution and extracts the Received-SPF header from an email input stream. Operates on `Uspf.ctx` for verification and `in_channel` for reading email content. Used to validate email senders and parse SPF records in networked email processing workflows.",
-      "description_length": 300,
+      "module_path": "Uspf.Encoder",
+      "library": "uspf",
+      "description": "This module formats and outputs SPF result data structures into human-readable strings using a pretty-printing interface. It operates on `Uspf.Result.t` values, incorporating contextual information like domain names and receiver details. Functions like `comment` and `field` generate annotated output lines suitable for logging or diagnostic reporting.",
+      "description_length": 352,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Uspf.Macro",
+      "library": "uspf",
+      "description": "This module processes and expands strings containing macros used in DNS domain name resolution. It defines a macro type that represents literal strings, encoded characters, and parameterized macros with formatting rules. The `expand_string` function interprets these macros based on a given context, supporting dynamic domain name construction during resolution or query processing.",
+      "description_length": 382,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Uspf",
-      "description": "Provides functions to validate email senders using DNS-based SPF records by combining DNS lookup, macro expansion, and record parsing. Operates on types like `t`, `backend`, `Domain_name.t`, and custom DNS record variants, enabling retrieval of A, AAAA, or MX records, expansion of configuration macros, and parsing of SPF directives. Examples include checking if an IP address is authorized to send from a domain, generating SPF header fields, and serializing custom SPF records for DNS deployment. The module supports both analysis of incoming emails and creation of SPF records for domain owners.",
-      "description_length": 599,
+      "module_path": "Uspf.Extract",
+      "library": "uspf",
+      "description": "This module parses SPF result fields from strings or raw data, producing structured records that include result status, receiver, sender, IP address, and SPF context. It supports incremental parsing through an `extract` type and handles malformed input with explicit error states. Typical use cases include validating SPF headers from DNS records or email authentication logs.",
+      "description_length": 376,
       "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Uspf",
+      "library": "uspf",
+      "description": "This module evaluates SPF policies by validating sender IPs against DNS records and network ranges, using qualifiers to determine match outcomes. It operates on SPF records, mechanisms, and result types defined across its submodules, supporting email authentication workflows with context-aware validation and error handling. The module parses and constructs SPF data, expands DNS macros, and serializes results into human-readable strings for logging or email headers. Use it to implement SPF verification systems that process DNS TXT records, evaluate sender legitimacy, and generate compliance reports with detailed diagnostic output.",
+      "description_length": 637,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 599,
-    "min_description_length": 253,
-    "avg_description_length": 350.7142857142857,
-    "embedding_file_size_mb": 0.025865554809570312
+    "max_description_length": 637,
+    "min_description_length": 340,
+    "avg_description_length": 421.125,
+    "embedding_file_size_mb": 0.029503822326660156
   }
 }

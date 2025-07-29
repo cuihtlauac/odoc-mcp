@@ -1,112 +1,133 @@
 {
   "package": "ocamlformat-rpc-lib",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:32:50.223051",
+  "total_modules": 14,
+  "creation_timestamp": "2025-07-15T23:08:41.054958",
   "modules": [
     {
-      "module_path": "Ocamlformat_rpc_lib.Make.V1.Client",
-      "description": "Provides functions to extract a process ID, create a client instance with input/output channels, configure the client with key-value pairs, and format messages. Operates on a custom type `t` that encapsulates client state and I/O channels. Used to manage communication with a server process, including configuration and message formatting.",
-      "description_length": 339,
+      "module_path": "Ocamlformat_rpc_lib.Protocol.Make.Init",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines the initialization protocol for establishing communication between an OCamlformat RPC client and server. It includes functions to read and write protocol messages over an IO channel, supporting commands like halting, reporting unknown actions, and negotiating protocol versions. It is used during the initial handshake phase to ensure both ends agree on the protocol version before proceeding with further RPC interactions.",
+      "description_length": 443,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ocamlformat_rpc_lib.Make.V2.Client",
-      "description": "Provides functions to retrieve a process ID, construct a client instance with input/output channels, and format requests with temporary server configuration changes. Operates on a client state type `t` and I/O channels. Used to manage server interactions, including request formatting and graceful shutdowns.",
-      "description_length": 308,
+      "library": "ocamlformat-rpc-lib",
+      "description": "Implements RPC client operations for interacting with an OCamlformat server over bidirectional channels. Provides functions to format OCaml code with temporary configuration overrides and to gracefully terminate the server connection. Works with IO implementations that handle channel input/output, and carries the server process ID for reference.",
+      "description_length": 347,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Protocol.Make.Init",
-      "description": "Reads a protocol version from an input channel and writes it to an output channel. Operates on the `t` type, which represents protocol version data. Used to initialize communication protocols in networked applications.",
-      "description_length": 218,
+      "module_path": "Ocamlformat_rpc_lib.Protocol.Make.V1",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module implements the RPC protocol for communicating between an OCamlformat client and server using a version 1 message format. It defines serialization and deserialization of messages like configuration requests, source formatting commands, and error responses over an IO channel. Concrete use cases include sending a formatting request with `Format of string` or receiving server configuration data as `(string * string) list`.",
+      "description_length": 434,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Protocol.Make.V1",
-      "description": "Reads input from an input channel and constructs a value of type t. Outputs a value of type t to an output channel. Handles structured data representation for processing and serialization.",
-      "description_length": 188,
+      "module_path": "Ocamlformat_rpc_lib.Make.V1.Client",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module implements client-side RPC operations for interacting with an OCamlformat server over a custom IO layer. It provides functions to configure formatting options, request source code formatting, and terminate the server session, working with client connections represented by the `t` type. Concrete use cases include integrating OCaml code formatting into editors or build tools by sending configuration and source code over a pipe or socket connection.",
+      "description_length": 462,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ocamlformat_rpc_lib.Protocol.Make.V2",
-      "description": "Reads a sequence of 2D points from an input channel and writes them to an output channel. Works with a tagged type representing coordinate pairs. Used to serialize and deserialize geometric data in file I/O operations.",
-      "description_length": 218,
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module implements version 2 of the RPC protocol for communicating between an OCamlformat client and server. It defines serialization and deserialization of commands like `Format`, `Error`, and `Halt` over an IO channel, using concrete functions `read_input` and `output`. It is used to send formatting requests and receive responses in a structured format during remote formatting sessions.",
+      "description_length": 395,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Make.V1",
-      "description": "manages server communication through a custom state type, offering process ID extraction, client creation, configuration via key-value pairs, and message formatting. It supports operations like setting up I/O channels and structuring data for transmission. Examples include initializing a client with specific settings and preparing messages for server interaction. The module centralizes control over client-side setup and data handling.",
-      "description_length": 438,
+      "module_path": "Ocamlformat_rpc_lib.Protocol.Make.Command_S",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines the set of commands used in the OCamlformat RPC protocol, including operations for formatting OCaml code, querying configuration, and reporting errors. It works with custom data types representing RPC requests and responses, encoded over an IO interface for communication. Concrete use cases include sending format requests from a client to a server and handling server responses with formatted code or diagnostics.",
+      "description_length": 435,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Make.V2",
-      "description": "manages server interactions through a client state type `t`, enabling process ID retrieval, client construction with I/O channels, and request formatting with temporary server adjustments. It supports operations like initiating connections, sending structured requests, and handling shutdown sequences. Examples include creating a client with specified I/O channels, modifying server settings temporarily during a request, and retrieving the process ID for monitoring. The module centralizes control over client-server communication and configuration changes.",
-      "description_length": 559,
+      "module_path": "Ocamlformat_rpc_lib.Protocol.Make",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module orchestrates the RPC protocol handshake and version negotiation between client and server, managing command serialization and deserialization over a streaming IO interface. It defines core data types for versioned requests and responses, and supports transport-level framing and protocol upgrades, enabling use cases like connecting to an OCamlformat RPC server and sending version-aware formatting commands. The initialization submodule handles protocol version agreement and early command exchange, while version 1 and version 2 submodules implement concrete serialization formats for operations such as `Format`, `Error`, and `Halt`. The commands submodule defines the structured payloads used across versions, allowing clients to send source formatting requests and servers to respond with formatted code or diagnostics over an IO channel.",
+      "description_length": 855,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Protocol.Version",
-      "description": "Converts version numbers to and from string representations, supporting semantic versioning formats. Works with a custom type representing version identifiers, including major, minor, and patch components. Parses input strings for configuration validation and displays version info in logs or user interfaces.",
-      "description_length": 309,
+      "module_path": "Ocamlformat_rpc_lib.Make.V1",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module enables client-side interaction with an OCamlformat server through a custom IO layer, supporting configuration of formatting options, source code formatting requests, and session termination. The primary data type `t` represents a client connection, and operations include sending configuration, submitting source code for formatting, and closing the session. It can be used to integrate OCaml code formatting into editors or build tools by communicating over pipes or sockets. For example, a client can send formatting rules and unformatted source, then receive the formatted result.",
+      "description_length": 596,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Protocol.Make",
-      "description": "Reads a structured data representation from an input channel and returns it as a value of type `t`. Outputs the same type `t` to an output channel in a serialized format. Used to parse and emit data in a specific binary format for inter-process communication.",
-      "description_length": 259,
+      "module_path": "Ocamlformat_rpc_lib.Protocol.Version",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines version identifiers for the OCamlformat RPC protocol, supporting negotiation between client and server. It includes functions to convert version values to and from strings, enabling compatibility checks during connection setup. The module works with a sum type representing protocol versions, specifically used to manage communication compatibility in RPC sessions.",
+      "description_length": 385,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Protocol",
-      "description": "Encapsulates versioning and data serialization logic, enabling conversion between string representations and structured data. Provides a custom version type with major, minor, and patch fields, and a serializable data type `t` for reading and writing binary formats. Parses configuration strings to validate versions and transfers structured data between processes. Supports logging version details and exchanging complex data structures efficiently.",
-      "description_length": 450,
+      "module_path": "Ocamlformat_rpc_lib.Make.V2",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module enables communication with an OCamlformat server using bidirectional RPC over customizable IO channels. It supports formatting OCaml code with transient configuration settings and shutting down the server connection cleanly. The interface includes operations to send format requests, apply temporary overrides, and terminate the server, while tracking the server process ID for management. Example uses include reformatting code on the fly with adjusted margin settings or stopping a running server instance.",
+      "description_length": 520,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib.Make",
-      "description": "Provides monadic operations for sequencing I/O actions, including binding and lifting values into the I/O context. Works with input and output channels, and Csexp-encoded data structures. Enables structured reading from and writing to HTTP streams in a sequential, composable manner.",
-      "description_length": 283,
+      "module_path": "Ocamlformat_rpc_lib.IO",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines the low-level IO primitives for reading from and writing to Cohttp streams in a blocking manner. It provides functions for reading a single S-expression from an input channel and writing a list of S-expressions to an output channel, using a monadic interface to sequence IO operations. It is used to implement the communication layer between an OCamlformat RPC client and server over HTTP.",
+      "description_length": 409,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ocamlformat-rpc-lib",
-      "description": "Formats OCaml source code according to specified rules, adjusting indentation, spacing, and layout. It operates on abstract syntax trees and source files, supporting customizable formatting profiles. Used to enforce consistent code style across projects or align with team conventions.",
-      "description_length": 285,
+      "module_path": "Ocamlformat_rpc_lib.Protocol",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines the core data structures and serialization logic for RPC communication, including version negotiation and command framing. It centers around the `format_args` type and version sum type, enabling clients to send formatting requests with optional paths and configuration overrides while ensuring compatibility across protocol versions. The initialization submodule manages handshake and version agreement, while version-specific modules handle serialization formats for commands like `Format`, `Error`, and `Halt` over a streaming IO interface. Together with the commands submodule, it supports concrete workflows such as connecting to an OCamlformat server, sending version-aware RPCs, and handling framed responses with formatted code or diagnostics.",
+      "description_length": 770,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ocamlformat_rpc_lib",
-      "description": "Provides monadic operations for sequencing I/O actions, including binding and returning values. Works with input and output channels and S-expression data structures. Enables structured reading from and writing to Cohttp streams in a sequential, composable manner.",
-      "description_length": 264,
+      "module_path": "Ocamlformat_rpc_lib.Make",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module coordinates version negotiation and client management for interacting with an OCamlformat RPC server, enabling selection of a compatible API version, sending formatting requests, and managing server connections. It supports multiple client versions through the `client` type and works with input/output channels via the `IO` module, allowing gradual adoption of new RPC features while maintaining backward compatibility. The client module manages connections with operations to send configuration, format source code, and terminate sessions, while the RPC module extends this with bidirectional communication, transient configuration overrides, and server process management. Example workflows include formatting code with dynamic margin settings over a pipe or gracefully halting a running server instance from an editor or build tool.",
+      "description_length": 848,
       "index": 12,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ocamlformat_rpc_lib",
+      "library": "ocamlformat-rpc-lib",
+      "description": "This module defines the command structure and communication protocol for interacting with an OCaml formatting service, including requests for code formatting and configuration. It works with custom data types representing formatting arguments and structured RPC messages, and is functorized over an IO module for blocking read/write operations. The core module handles version negotiation, command framing, and serialization, centered around types like `format_args` and version sum types, while submodules manage low-level IO over Cohttp streams, client connection state, and RPC session lifecycle. Example workflows include sending version-aware formatting requests over HTTP, negotiating protocol compatibility, and streaming formatted code or diagnostics between a client and server.",
+      "description_length": 787,
+      "index": 13,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 14,
-    "meaningful_modules": 13,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9285714285714286
+    "meaningful_modules": 14,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 559,
-    "min_description_length": 188,
-    "avg_description_length": 316.7692307692308,
-    "embedding_file_size_mb": 0.04769611358642578
+    "max_description_length": 855,
+    "min_description_length": 347,
+    "avg_description_length": 549.0,
+    "embedding_file_size_mb": 0.051285743713378906
   }
 }

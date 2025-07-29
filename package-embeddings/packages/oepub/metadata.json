@@ -1,119 +1,135 @@
 {
   "package": "oepub",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:34:31.547096",
+  "creation_timestamp": "2025-07-15T23:08:43.474866",
   "modules": [
     {
-      "module_path": "Oepub.Book.Chapter",
-      "description": "Provides functions to create a chapter from a title and content, compare chapters by title and custom content, and extract title or content. Works with a polymorphic type representing a chapter, where content can be of any type. Used to structure and compare sections of a document or book where each part has a unique identifier and associated data.",
-      "description_length": 350,
+      "module_path": "Oepub.ChapterContents.Text",
+      "library": "oepub",
+      "description": "This module implements a text-only chapter content handler for building books from EPUB archives. It provides functions to construct and finalize chapter content from files or XML tags, using only the text content of chapters. It works directly with `Stdlib.Buffer.t` for efficient string accumulation and returns structured book data with titles, content, and navigation information.",
+      "description_length": 384,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Oepub.Book.Make",
-      "description": "Provides functions to construct and finalize chapter data during EPUB parsing, handling file content and HTML tags. Operates on types including Buffer.t, EpubArchive.t, Opf.t, Toc.t, and chapter lists. Used to process EPUB files by reading manifest entries and parsing HTML tags to build structured chapter data.",
-      "description_length": 312,
+      "module_path": "Oepub.ChapterContents.ImagedText",
+      "library": "oepub",
+      "description": "This module implements a chapter content type for building EPUB books where each chapter consists of a list of either text strings or image data (as strings). It provides functions to construct and finalize chapter content from files or tags, handling media extraction and text parsing within the EPUB structure. Use this module when generating a book that interleaves images and text, such as illustrated stories or technical documentation with embedded diagrams.",
+      "description_length": 464,
       "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Oepub.Book.Make",
+      "library": "oepub",
+      "description": "This module builds a structured book representation by combining an epub archive with a specified chapter content implementation. It produces a book value containing metadata like title and author, along with an optional introduction and a list of chapters, each represented using the provided ChapterContent type. It is used to generate a navigable book structure from parsed epub data, suitable for rendering or further processing.",
+      "description_length": 433,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Oepub.ChapterContents.Text",
-      "description": "Provides functions to construct and finalize text content for book chapters, including reading from files and parsing tags. Operates on strings, buffers, and custom book structures like EpubArchive, Opf, Toc, and chapters. Used to generate chapter data for EPUB output by processing file content and tag-based sections.",
-      "description_length": 319,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Oepub.ChapterContents.ImagedText",
-      "description": "Provides operations to construct and finalize a book structure where each chapter contains either an image or text, using a list of tagged entries. Works with types including buffers, EPUB metadata, and chapter lists, and processes files or tags to generate structured output. Used to embed images or text into specific chapters during EPUB book generation.",
-      "description_length": 357,
+      "module_path": "Oepub.Book.ChapterContent",
+      "library": "oepub",
+      "description": "This module defines how to parse and transform content from an EPUB archive into structured book chapters. It provides functions to handle file and HTML tag events during parsing, allowing customization of chapter content based on media type, file data, and HTML structure. It works with types like `t`, `Stdlib.Buffer.t`, and chapter lists, and is used to build custom chapter content extraction logic for EPUB files.",
+      "description_length": 418,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Oepub.Book",
-      "description": "Provides functions to parse and construct chapters of an EPUB book, including initializing empty chapters, finalizing parsed content, and handling file and tag-based content extraction. Operates on types such as `Buffer.t`, `EpubArchive.t`, `Opf.t`, `Toc.t`, and `t Chapter.t list`. Used to process HTML tags and files from an EPUB archive, managing chapter structure and relative file paths during parsing.",
-      "description_length": 407,
+      "module_path": "Oepub.Book.Chapter",
+      "library": "oepub",
+      "description": "This module defines a chapter as a pair of a title and content, providing functions to create chapters, access their title and content, and compare chapters based on title and custom content comparison. It works with any content type `'a`, allowing flexible use with different data structures. Concrete use cases include organizing parsed EPUB chapters with titles and HTML content, or sorting chapters when generating a book index.",
+      "description_length": 432,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Oepub.ChapterContents",
-      "description": "Constructs and finalizes book chapter content, handling text from files and tags, and integrating images or text into structured EPUB chapters. Operates on strings, buffers, and book-specific types like EpubArchive, Opf, Toc, and chapters. Processes tagged entries to build chapter lists and embed content, enabling precise control over EPUB output. Examples include parsing markdown files, inserting images into specific sections, and generating chapter metadata.",
-      "description_length": 464,
+      "module_path": "Oepub.Metadata",
+      "library": "oepub",
+      "description": "This module processes metadata entries from the `content.opf` file of an EPUB archive, representing each metadata field as a key-value pair with optional attributes. It provides direct access to common metadata fields such as author, title, and language through dedicated functions that return their corresponding string values. It is used to extract structured information like book authorship, title, and language directly from parsed EPUB metadata.",
+      "description_length": 451,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Oepub.EpubArchive",
-      "description": "Provides functions to parse and interact with EPUB archives, including extracting file lists, reading specific entries, and parsing OPF and TOC files. Operates on a custom archive type and underlying ZIP handler. Used to access and process the internal structure of EPUB files for content retrieval and metadata extraction.",
-      "description_length": 323,
+      "library": "oepub",
+      "description": "This module handles opening and parsing EPUB archives, providing direct access to their internal files and metadata. It supports operations like listing files, reading specific entries, and parsing key EPUB files such as `content.opf` and `toc.ncx`. It is used to extract structured data from EPUBs, such as chapter lists and navigation information, by directly interacting with the archive's contents.",
+      "description_length": 402,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Oepub.Error",
-      "description": "Handles error tracking and reporting with location information in XML and EPUB structures. Represents errors with detailed positions and error types, supporting parsing and validation tasks. Used to identify and log issues in XML elements and EPUB file organization.",
-      "description_length": 266,
+      "module_path": "Oepub.Nav",
+      "library": "oepub",
+      "description": "This module defines a navigation map structure as a list of points, each representing a chapter or section with metadata like title, source file, and play order. It provides a function to sort navigation points by their play order, ensuring correct sequential access to chapters. It is used to manage and organize the table of contents in an EPUB file, specifically for processing and navigating through chapters based on the `toc.ncx` file.",
+      "description_length": 441,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Oepub.Metadata",
-      "description": "Extracts specific metadata fields such as author, title, and language from a list of key-value pairs. Operates on a list of tuples where each tuple contains a string key and an associated entry structure. Used to retrieve structured information from OPF files for content processing.",
-      "description_length": 283,
+      "module_path": "Oepub.Opf",
+      "library": "oepub",
+      "description": "This module handles the parsing and construction of the `content.opf` file in an EPUB archive, which defines the book's metadata, manifest, and spine. It provides functions to create an OPF structure with title, author, metadata, manifest, and spine, as well as accessors to retrieve these components. Use this module to build or inspect the structural and descriptive data of an EPUB book from its `content.opf` file.",
+      "description_length": 418,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Oepub.Manifest",
-      "description": "This module provides operations for managing ordered key-value maps, focusing on efficient manipulation of structured data through adding, updating, removing, and querying entries, along with specialized functions for merging and key-condition-based filtering. It works with maps where keys are strings and values are arbitrary references, enabling ordered traversal, sequence-based construction, and transformation of entries. Use cases include processing content manifests or hierarchical data structures requiring precise key management and ordered access.",
-      "description_length": 559,
+      "library": "oepub",
+      "description": "This structure provides map-like operations for managing manifest entries in EPUB content.opf files, where entries are keyed by identifiers and map to values like reference records containing `href` and `media_type`. It supports associative operations\u2014insertion, removal, merging, querying\u2014and functional transformations such as iteration, mapping, filtering, and ordered traversal, while preserving key order and equality semantics. It is particularly useful for manipulating manifest entries during EPUB creation or modification, enabling precise control over resource relationships, chapter organization, and metadata handling in book generation workflows.",
+      "description_length": 659,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Oepub.Nav",
-      "description": "Compares navigation points based on their play order to enable sorted traversal of content. Operates on a list of point records, each containing a play_order integer. Used to arrange chapters or sections in a specific sequence for playback or rendering.",
-      "description_length": 253,
+      "module_path": "Oepub.Spine",
+      "library": "oepub",
+      "description": "Handles the organization of chapters in an EPUB book by managing the sequence of item IDs from the content.opf file. It works with string lists representing spine entries and maps them to corresponding chapter data. Used to determine the reading order of chapters when generating a book from an EPUB archive.",
+      "description_length": 308,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Oepub.Opf",
-      "description": "Provides functions to create and access components of an EPUB content.opf file, including title, author, metadata, manifest, and spine. Works with types such as Metadata.entries, Manifest.ref Manifest.t, and Spine.t to structure EPUB metadata and navigation. Used to construct a valid content.opf representation from extracted EPUB archive data.",
-      "description_length": 345,
+      "module_path": "Oepub.Error",
+      "library": "oepub",
+      "description": "This module defines error types and location markers for handling invalid or malformed EPUB structures during parsing. It includes specific errors for missing files, unexpected XML content, and required metadata or navigation elements. These errors are used during archive parsing and chapter extraction to signal issues in the EPUB's manifest, metadata, or table of contents.",
+      "description_length": 376,
       "index": 11,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Oepub.Spine",
-      "description": "Handles operations on hierarchical content structures represented as string lists, including path traversal, node extraction, and segment manipulation. Processes data structures that encode navigable content hierarchies, such as chapter or section sequences. Used to resolve relative references within digital publications by navigating through structured path segments.",
-      "description_length": 370,
+      "module_path": "Oepub.Toc",
+      "library": "oepub",
+      "description": "This module handles the creation and manipulation of EPUB table of contents (TOC) structures, specifically parsing and generating the `toc.ncx` file. It works with a custom type `t` that encapsulates a title and a navigation map (`Oepub.Nav.map`). Use this module to construct a TOC from a title and navigation map or to extract the title and navigation structure from an existing TOC.",
+      "description_length": 385,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Oepub.Toc",
-      "description": "Creates a table of contents structure from a title and navigation map, extracting and organizing hierarchical content metadata. Operates on strings and navigation maps to represent structured document outlines. Used to generate or process EPUB navigation data by isolating title and map information.",
-      "description_length": 299,
+      "module_path": "Oepub.Book",
+      "library": "oepub",
+      "description": "This module organizes epub archive content into a structured list of chapters, producing a navigable book representation with metadata like title and author, an optional introduction, and a customizable list of chapters. It integrates with `EpubArchive.parse` to build books and works with chapter content implementations to extract and structure text, manage metadata, and assemble complete books. Chapters are represented as title-content pairs, supporting flexible content types and custom parsing logic based on media type, file data, and HTML structure. Example use cases include extracting chapter text from EPUB files, transforming HTML content during parsing, and generating a sorted book index.",
+      "description_length": 703,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "oepub",
-      "description": "Provides functions to extract and navigate chapters from an EPUB archive, including parsing metadata and content files. Operates on structured data representing book chapters, navigation paths, and metadata fields. Used to generate formatted output from EPUB files or to analyze content organization within e-books.",
-      "description_length": 315,
+      "module_path": "Oepub.ChapterContents",
+      "library": "oepub",
+      "description": "This module provides two implementations for handling chapter content in EPUB-based books. The first handles text-only content using `Buffer.t` for efficient accumulation, producing structured book data with titles and navigation. The second supports mixed text and image content, allowing chapters to include both strings and image data, ideal for illustrated or technical books. Both implementations offer functions to construct and finalize chapter content from files or XML tags.",
+      "description_length": 483,
       "index": 14,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Oepub",
-      "description": "Processes EPUB archives by parsing and constructing chapters, extracting metadata, and managing content structure. Operates on types like `EpubArchive.t`, `Opf.t`, `Toc.t`, and `Buffer.t`, enabling tasks such as generating chapter lists, embedding images, and extracting author or title information. Supports parsing HTML and XML content, handling relative paths, and organizing navigation points by play order. Examples include building a book from markdown files, generating a structured table of contents, and extracting metadata for content processing.",
-      "description_length": 556,
+      "library": "oepub",
+      "description": "This library processes EPUB archives by parsing their internal structure\u2014metadata, chapters, and navigation\u2014into usable components. It extracts metadata like title and author from `content.opf`, reads and organizes chapters via the spine and manifest, and builds structured books with customizable content handling. Key operations include parsing archives, mapping manifest entries, sorting navigation points, and generating books with text or mixed media chapters. For example, you can extract a list of chapters with titles and content from an EPUB file, build a new EPUB with modified metadata, or generate a table of contents from a navigation map.",
+      "description_length": 652,
       "index": 15,
       "embedding_norm": 1.0
     }
@@ -125,9 +141,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 559,
-    "min_description_length": 253,
-    "avg_description_length": 361.125,
-    "embedding_file_size_mb": 0.05854511260986328
+    "max_description_length": 703,
+    "min_description_length": 308,
+    "avg_description_length": 463.0625,
+    "embedding_file_size_mb": 0.05857276916503906
   }
 }

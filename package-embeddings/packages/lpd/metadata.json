@@ -1,42 +1,53 @@
 {
   "package": "lpd",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:28:03.579370",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:05:27.487670",
   "modules": [
     {
-      "module_path": "Lpd.Make",
-      "description": "Provides functions to manage job queues with specific actions, validate client connections based on socket addresses, log events with timestamps, and specify a temporary directory for job storage. Works with queue names, socket addresses, and string-based logging. Used to control access to a print server, track client activity, and manage temporary job files.",
-      "description_length": 361,
+      "module_path": "Lpd.CONFIG",
+      "library": "lpd",
+      "description": "Implements configuration settings for managing print queues, host authorization, logging, and temporary storage. Uses data types like string, Unix.sockaddr, and queue_actions to define queue behaviors, network permissions, and log handling. Enables setting up allowed print queues, filtering client connections, customizing log output, and specifying temporary directories for job spooling.",
+      "description_length": 390,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "lpd",
-      "description": "Handles socket communication with buffered I/O, supporting platforms where standard input channels are unavailable. Processes LPD events and executes custom-defined actions for print jobs. Implements a spooler for printing on Windows via GSPRINT, adhering to RFC 1179 specifications.",
-      "description_length": 283,
+      "module_path": "Lpd.Make",
+      "library": "lpd",
+      "description": "Implements a Line Printer Daemon (LPD) server compliant with RFC 1179, providing functions to create a listening socket, accept and handle connections with customizable threading, and process LPD protocol requests. Works with Unix sockets, in_channels, and out_channels to manage client communication, using configuration from module C to control queue names and host authorization. Designed for building LPD servers that handle print job submissions and status queries from remote clients.",
+      "description_length": 490,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Lpd",
-      "description": "Provides functions to manage print queues, validate client connections, log activity with timestamps, and specify a temporary directory for job storage. Operates with queue configurations, socket addresses, and string-based logging. Used to control access to print services, track session activity, and manage job file persistence.",
-      "description_length": 331,
+      "library": "lpd",
+      "description": "This module implements an LPD protocol server for handling print jobs, managing job reception, queue operations, and remote control commands according to RFC 1179. It provides structured types for print jobs, banners, file types, and metadata, along with socket address handling for client identification. The server can receive print jobs from network clients, queue them for processing, generate status reports, and handle job removal by user or job number. Submodule C configures print queues, host authorization, logging, and spooling, while the main server module handles connections, protocol processing, and threading, using Unix sockets and I/O channels for client communication.",
+      "description_length": 687,
       "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Socket",
+      "library": "lpd.socket",
+      "description": "This library provides buffered input/output channels for socket communication, enabling efficient data transfer with operations like reading, writing, and formatted I/O using Unix file descriptors. It manages socket lifecycles through closure handling and readiness monitoring via `select`, operating on specialized channel types for input and output streams. Designed for cross-platform network applications, it supports use cases requiring precise control over socket buffering and asynchronous I/O operations.",
+      "description_length": 512,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 4,
-    "meaningful_modules": 3,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.75
+    "total_modules_in_package": 6,
+    "meaningful_modules": 4,
+    "filtered_empty_modules": 2,
+    "retention_rate": 0.6666666666666666
   },
   "statistics": {
-    "max_description_length": 361,
-    "min_description_length": 283,
-    "avg_description_length": 325.0,
-    "embedding_file_size_mb": 0.011310577392578125
+    "max_description_length": 687,
+    "min_description_length": 390,
+    "avg_description_length": 519.75,
+    "embedding_file_size_mb": 0.014956474304199219
   }
 }

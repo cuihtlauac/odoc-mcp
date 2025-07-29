@@ -1,119 +1,141 @@
 {
   "package": "fileutils",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:34:14.497755",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:09:44.139518",
   "modules": [
     {
-      "module_path": "FilePath.DefaultPath.Abstract",
-      "description": "This module offers functions for constructing, transforming, and analyzing filenames, including path normalization, extension manipulation, and property checks, working with `filename`, `extension`, and string types. It enables tasks like converting between path representations, validating file structures, and modifying components such as extensions or directory segments. Use cases include processing user input for file operations, ensuring consistent path formats, and extracting metadata from file names.",
-      "description_length": 510,
+      "module_path": "FileUtilStr",
+      "library": "fileutils.str",
+      "description": "This module extends file path matching and testing with regular expressions using the `Str` library. It provides functions to compile match expressions, test files against patterns, and traverse directories applying custom accumulation logic. Concrete use cases include filtering files by regex patterns during directory traversal or validating file paths against specific naming conventions.",
+      "description_length": 392,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "FilePath.UnixPath.Abstract",
-      "description": "This module offers functions for manipulating file paths and extensions, including normalization, transformation, and validation. It works with `filename` and `extension` types, enabling operations like extracting or replacing extensions and converting between path representations. Use cases include processing file metadata, ensuring consistent path formats, and handling hierarchical directory structures.",
-      "description_length": 408,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "FilePath.Win32Path.Abstract",
-      "description": "This module offers utilities for manipulating filenames and file paths, including constructing, transforming, and comparing them, as well as extracting components like base names, directories, and extensions. It works with types such as filenames, extensions, and path lists, enabling tasks like path normalization, validation, and extension management. Use cases include processing file hierarchies, ensuring consistent path formats, and dynamically modifying file names or extensions in applications requiring robust file system interactions.",
-      "description_length": 544,
+      "library": "fileutils",
+      "description": "This module optimizes operations like comparison, normalization, and directory navigation on Win32 file paths by working with abstract representations of filenames and extensions, which avoid repeated parsing overhead. It handles path composition, extension manipulation, and directory traversal while treating paths as static strings without resolving symbolic links. Ideal for batch processing scenarios like file indexing or static analysis where paths are manipulated extensively before any filesystem interaction.",
+      "description_length": 518,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "FilePath.UnixPath.Abstract",
+      "library": "fileutils",
+      "description": "This module provides operations for converting between string and abstract path representations, normalizing paths, handling file extensions, and resolving directory references like `.` and `..`. It works with abstract `filename` and `extension` types to optimize performance by avoiding repeated parsing and ensuring semantic correctness. It is particularly useful for static path analysis, batch processing of virtual paths, or scenarios requiring robust validation without interacting with a live filesystem.",
+      "description_length": 511,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "FilePath.CygwinPath.Abstract",
-      "description": "This module offers utilities for manipulating and validating filenames, including path construction, extension handling, and string conversion, with operations focused on normalization, traversal, and property checks. It works with `filename`, `extension`, and string types, enabling tasks like secure file path generation and robust input validation. Use cases include sanitizing user-provided paths, restructuring directory hierarchies, and ensuring consistent file naming conventions in applications.",
-      "description_length": 503,
+      "library": "fileutils",
+      "description": "This module provides operations for converting between string and abstract path representations, normalizing paths, composing and decomposing path components, and checking properties like absoluteness or validity. It works with abstract `filename` and `extension` types optimized for efficient comparison and manipulation, particularly in Cygwin environments. It is suited for scenarios requiring heavy path processing (e.g., build systems, file indexing) where decoding paths once and working with symbolic-link-free abstractions improves performance.",
+      "description_length": 552,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "FilePath.DefaultPath",
-      "description": "Provides functions for manipulating filenames, including path normalization, extension handling, and property checks, using `filename`, `extension`, and string types. It supports converting between path formats, validating file structures, and modifying components like extensions or directories. Operations include extracting metadata from filenames and ensuring consistent path representations. Examples include stripping extensions, checking for valid file formats, and combining directory and base name components.",
-      "description_length": 518,
+      "module_path": "FilePath.DefaultPath.Abstract",
+      "library": "fileutils",
+      "description": "This module provides type-safe manipulation of abstract file paths and extensions, supporting operations like concatenation, normalization (absolute/relative), extension modification, and efficient comparison. It works with abstract representations of filenames and path components, decoupled from the physical filesystem, to optimize performance for repeated processing tasks. It is particularly suited for scenarios requiring heavy path manipulation, such as build systems or static analysis tools, where avoiding symbolic link resolution simplifies path semantics.",
+      "description_length": 567,
       "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "FilePath.UnixPath",
-      "description": "Manages file paths and extensions with operations to normalize, transform, and validate them. It handles `filename` and `extension` types, allowing tasks such as extracting or modifying file extensions and converting between path formats. Users can process file metadata, enforce consistent path structures, and navigate directory hierarchies. Examples include renaming files by changing extensions or standardizing absolute and relative path representations.",
-      "description_length": 459,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "FilePath.Win32Path",
-      "description": "Handles filename and path manipulation with operations for construction, transformation, and component extraction. Supports types like filenames, extensions, and path lists, enabling path normalization, validation, and dynamic name modification. Tasks include processing file hierarchies, ensuring consistent formats, and altering extensions in file system interactions. Examples include extracting a file's base name, normalizing a mixed-case path, or appending a new extension to a filename.",
-      "description_length": 493,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "FileUtil.Mode",
+      "library": "fileutils",
+      "description": "This module parses and applies symbolic file permission modes similar to `chmod(1)`. It supports constructing permission changes using types like `who`, `perm`, and `action`, then applying them to file permission values. Use it to modify file permissions programmatically in a way that mirrors shell commands like `u+x` or `go-w`.",
+      "description_length": 330,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "FilePath.PATH_STRING_SPECIFICATION",
+      "library": "fileutils",
+      "description": "This module provides utilities for path manipulation using string and abstract representations, enabling operations like path composition, normalization, extension handling, and hierarchical navigation. It works with string-encoded filenames and extensions, alongside an abstract type for",
+      "description_length": 288,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "FilePath.CygwinPath",
-      "description": "Provides utilities for constructing, normalizing, and validating filenames, with support for path manipulation, extension management, and string conversion. It handles `filename`, `extension`, and string types to enable secure path generation, input validation, and directory restructuring. Operations include checking path properties, extracting extensions, and converting between path representations. Examples include sanitizing user input, ensuring consistent naming, and reorganizing file hierarchies.",
-      "description_length": 506,
+      "library": "fileutils",
+      "description": "This module offers path manipulation tools designed for Cygwin's filesystem, enabling operations such as composition, normalization, extension handling, and directory traversal checks. It introduces abstract `filename` and `extension` types for efficient path processing without direct filesystem interaction, ideal for build systems or file utilities. Child modules enhance this functionality with utilities for string conversion, path decomposition, and property checks like absoluteness. Together, they support high-performance path management in environments where symbolic links are resolved externally.",
+      "description_length": 608,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "FileUtil.Mode",
-      "description": "Converts permission clauses to strings and applies user mask and directory status to file permissions. Operates on complex permission structures including clauses, actions, and user groups. Used to generate human-readable permission representations and adjust file modes based on system settings.",
-      "description_length": 296,
+      "module_path": "FilePath.PATH_SPECIFICATION",
+      "library": "fileutils",
+      "description": "This module enables structured manipulation of file paths and extensions through abstract `filename` and `extension` types, emphasizing operations like concatenation, normalization, extension modification, and path resolution. It supports conversions between string, list, and abstract representations while optimizing for performance in scenarios involving repeated comparisons or batch processing. Typical use cases include normalizing paths in symlink-free contexts, efficiently handling filename hierarchies, or preparing paths for filesystem operations after resolving symbolic links via external utilities.",
+      "description_length": 612,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "FilePath.Abstract",
-      "description": "This module offers functions for converting between filenames and strings, managing file extensions through extraction, addition, and replacement, and performing path manipulations like concatenation, normalization, and parent/child checks. It operates on `filename` and `extension` types, enabling tasks such as path transformation and comparison. Use cases include simplifying file system operations, ensuring consistent path formatting, and handling dynamic extension modifications in applications.",
-      "description_length": 501,
+      "module_path": "FilePath.DefaultPath",
+      "library": "fileutils",
+      "description": "This module provides an abstract, type-safe interface for manipulating file paths and extensions, enabling operations like joining, normalizing, relativizing, and reparenting paths without interacting with the physical filesystem. It supports efficient path processing tasks such as extension modification, hierarchy checks, and path comparison, making it ideal for build systems or static analysis tools that require precise virtual path handling. Submodules enhance this functionality with structured operations on path components, allowing fine-grained control over path construction and transformation. For example, users can join paths dynamically, convert absolute paths to relative ones based on a given root, or modify file extensions while preserving path structure.",
+      "description_length": 775,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "fileutils",
-      "description": "Provides functions for copying files and directories, including recursive directory traversal and file metadata preservation. Operates on file paths, file descriptors, and directory structures. Used to replicate the behavior of the POSIX `cp` command for file duplication and backup workflows.",
-      "description_length": 293,
+      "module_path": "FilePath.UnixPath",
+      "library": "fileutils",
+      "description": "This module enables efficient manipulation and analysis of Unix-style file paths through an abstract `filename` type, supporting operations like composition, normalization, and relationship checks without filesystem interaction. It includes path resolution, extension handling, and directory traversal analysis, optimized for performance-critical applications such as build systems and static analyzers. The module's core functionality works with string conversions, normalization, and symbolic link resolution, while its submodules enhance static path validation and batch processing of virtual paths. Specific use cases include rewriting file extensions, verifying subdirectory relationships, and resolving relative path components programmatically.",
+      "description_length": 751,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "FileUtilStr",
-      "description": "Provides functions to compile and test regular expressions against file paths, and to traverse directories applying a test function. Operates on strings, file paths, and custom test predicates. Used to filter files based on regex patterns and perform recursive directory searches with link-following options.",
-      "description_length": 308,
+      "module_path": "FilePath.Win32Path",
+      "library": "fileutils",
+      "description": "This module provides Win32-specific path manipulation through abstract representations that enable efficient decomposition, normalization, and hierarchical analysis without repeated string parsing. It supports operations like path composition, extension modification, and subdirectory detection, treating paths as static strings to avoid resolution overhead. Users can canonicalize input paths, analyze directory relationships, or batch-process file hierarchies while preserving Windows semantics. The abstract types streamline workflows such as static file indexing or large-scale path transformations.",
+      "description_length": 603,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "FilePath",
-      "description": "Provides functions for converting filenames to and from strings, managing extensions through extraction, addition, and replacement, and performing path operations like concatenation and normalization. Operates on `filename` and `extension` types, enabling tasks such as path transformation and comparison. Examples include adding a `.txt` extension to a filename, normalizing a path string, or checking if one path is a parent of another. Supports dynamic file handling and consistent path management across different operating systems.",
-      "description_length": 536,
+      "module_path": "FilePath.PATH_STRING_SPECIFICATION-Abstract",
+      "library": "fileutils",
+      "description": "This module enables efficient path construction, comparison, normalization, and directory navigation using abstract filename and extension representations, which optimize performance by avoiding repeated string parsing. It is designed for processing paths without filesystem constraints, such as handling symbolic links after initial resolution with `FileUtil.readlink` or managing hierarchical directory structures in memory, while providing operations to manipulate extensions and convert between string and list-based path formats.",
+      "description_length": 534,
       "index": 12,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "FileUtil",
-      "description": "Manages file and directory permissions by converting permission clauses into readable strings and applying user masks and directory-specific settings. It handles complex permission structures, including clauses, actions, and group assignments, to generate accurate mode representations. Operations include parsing, modifying, and formatting permissions for use in file system interactions. For example, it can transform a permission mask like \"u+rx\" into a string \"r-x\" or adjust a file's mode based on its type.",
-      "description_length": 512,
+      "library": "fileutils",
+      "description": "This module provides POSIX-compliant file and directory manipulation capabilities, including querying metadata, managing permissions, and performing recursive directory operations. It supports data types for file paths, permission bits, and metadata similar to `stat`, enabling precise control over file systems. Child modules extend functionality with symbolic permission handling, allowing programmatic changes like `u+x` or `go-w` through structured types such as `who`, `perm`, and `action`. Examples include automating deployment tasks, scripting system operations, and managing cross-platform file permissions with fine-grained control.",
+      "description_length": 642,
       "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "FilePath",
+      "library": "fileutils",
+      "description": "This module enables efficient manipulation and analysis of file paths using abstract representations that optimize performance for repeated operations like comparison and normalization. It provides core functionality for path composition, extension handling, relativization, and hierarchy checks, supporting both string-based and typed interfaces across Unix and Windows platforms. Child modules specialize in platform-specific behaviors, structured path decomposition, and enhanced static analysis, enabling tasks like batch path processing, symlink-aware normalization, and precise directory relationship validation. Example workflows include dynamically rewriting file extensions, verifying subdirectory containment, or converting absolute paths to relative forms based on a given root.",
+      "description_length": 789,
+      "index": 14,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 544,
-    "min_description_length": 293,
-    "avg_description_length": 456.2142857142857,
-    "embedding_file_size_mb": 0.051303863525390625
+    "max_description_length": 789,
+    "min_description_length": 288,
+    "avg_description_length": 564.8,
+    "embedding_file_size_mb": 0.05492210388183594
   }
 }

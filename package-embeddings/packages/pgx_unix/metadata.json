@@ -1,63 +1,61 @@
 {
   "package": "pgx_unix",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:30:10.876048",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:33.792765",
   "modules": [
     {
       "module_path": "Pgx_unix.Simple_thread.Sequencer",
-      "description": "Manages a queue of operations that execute in sequence, applying a function to each element and returning a monadic result. It works with a custom monad type and a queue structure that holds values of any type. Used to process a series of dependent tasks where each step's output influences the next.",
-      "description_length": 300,
+      "library": "pgx_unix",
+      "description": "This module implements a thread-safe sequencer that ensures operations are executed in the order they are enqueued, maintaining state between invocations. It works with arbitrary state types `'a` and functions that produce monadic results within the `Pgx_unix.Simple_thread.Sequencer.monad`. Concrete use cases include coordinating asynchronous database operations or serializing access to shared resources in a concurrent environment.",
+      "description_length": 435,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Pgx_unix.Io",
-      "description": "Provides monadic operations for sequencing and error handling in I/O workflows, including binding, catching exceptions, and ensuring cleanup. Works with a generic 'a t type and SSL configuration data. Used to manage asynchronous file reads, network requests, and resource-safe operations.",
-      "description_length": 288,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Pgx_unix.Prepared",
-      "description": "Provides functions to prepare, execute, and manage PostgreSQL SQL statements, including parameter binding, result processing, and resource cleanup. Works with statement handles (`s`), parameter lists, and result descriptions. Used to execute parameterized queries, handle large result sets with folding or iteration, and manage portals for advanced query control.",
-      "description_length": 363,
-      "index": 2,
+      "library": "pgx_unix",
+      "description": "This module manages prepared SQL statements, allowing for efficient execution of parameterized queries. It supports operations to prepare, execute, and close statements, with functions for mapping, folding, and iterating over query results. Use cases include executing parameterized queries for data retrieval, batch operations, and managing database-side resources like portals.",
+      "description_length": 379,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Pgx_unix.Simple_thread",
-      "description": "manages a sequence of operations using a custom monad and queue, processing elements one at a time with function application. It supports operations like enqueueing tasks, executing them in order, and handling results through monadic binding. Values of any type can be processed, with each step's output affecting the next. For example, it can chain database queries or file transformations where each step depends on the previous result.",
-      "description_length": 438,
-      "index": 3,
+      "library": "pgx_unix",
+      "description": "This module provides asynchronous network communication, byte stream manipulation, and thread-aware concurrency control using a monadic model over sockets, buffered I/O channels, and database handles. Its sequencer enforces ordered execution of stateful operations, allowing safe, serialized access to shared resources like database connections in concurrent settings. You can use it to coordinate asynchronous database queries, process binary network data, or manage thread-safe state transitions. The sequencer supports arbitrary state types and composable, monadic operations, making it suitable for complex, coordinated I/O workflows.",
+      "description_length": 638,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "pgx_unix",
-      "description": "Provides functions for executing SQL queries, managing prepared statements, and handling database connections with support for asynchronous and synchronous execution models. Works with data types such as query results, parameterized statements, and connection configurations. Used to safely interact with PostgreSQL databases in applications requiring reliable and type-safe database operations.",
-      "description_length": 395,
-      "index": 4,
-      "embedding_norm": 1.0
+      "module_path": "Pgx_unix.Io",
+      "library": "pgx_unix",
+      "description": "This module provides low-level I/O operations for handling asynchronous database connections, including support for SSL configurations. It works with custom monadic types representing I/O actions and exceptions, enabling precise control over connection lifecycles and error handling. Concrete use cases include establishing secure connections, managing transactional I/O with rollback guarantees, and handling network errors during database communication.",
+      "description_length": 455,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Pgx_unix",
-      "description": "combines monadic I/O sequencing with PostgreSQL interaction and task queuing, enabling structured handling of asynchronous operations, database queries, and ordered processing. It introduces a generic 'a t type for I/O contexts, statement handles for SQL operations, and a task queue for sequential execution. Users can perform safe file reads with error recovery, execute parameterized SQL queries, and chain dependent operations like database lookups followed by data transformations. Examples include safely reading from a file, executing a query with bound parameters, and processing a stream of data through a series of dependent steps.",
-      "description_length": 641,
-      "index": 5,
+      "library": "pgx_unix",
+      "description": "This module enables PostgreSQL client operations for connecting to a database, executing queries, and managing transactions using connection handles, SQL queries, and parameterized values. It supports direct execution of parameterized queries with `execute`, bulk operations via `execute_many`, and safe transaction handling using `with_transaction`. Submodules enhance this functionality by enabling efficient prepared statement management, asynchronous network communication with thread-aware concurrency via a monadic sequencer, and low-level I/O control for secure connections and precise error handling. Examples include coordinating asynchronous queries, executing parameterized batches, and managing SSL-enabled connections with rollback support.",
+      "description_length": 753,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 641,
-    "min_description_length": 288,
-    "avg_description_length": 404.1666666666667,
-    "embedding_file_size_mb": 0.022226333618164062
+    "max_description_length": 753,
+    "min_description_length": 379,
+    "avg_description_length": 532.0,
+    "embedding_file_size_mb": 0.01860809326171875
   }
 }

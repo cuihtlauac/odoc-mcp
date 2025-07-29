@@ -1,105 +1,109 @@
 {
   "package": "osc",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:51.739365",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:06:46.387229",
   "modules": [
     {
       "module_path": "Osc.Transport.Make.Client",
-      "description": "Handles client-side communication for a transport protocol, offering create, destroy, and send_string operations. Works with the abstract type t and sockaddr to manage network interactions. Used to transmit OSC data to a server by establishing and managing a client connection.",
-      "description_length": 277,
+      "library": "osc",
+      "description": "This module provides functions to create, destroy, and use OSC clients for sending packets to a server. It works with OSC client handles (`t`), socket addresses (`T.sockaddr`), and OSC packets (`Osc.Types.packet`). Concrete use cases include sending OSC messages or bundles to a remote server over UDP or TCP by using a client instance and a resolved server address.",
+      "description_length": 366,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Osc.Transport.Make.Server",
-      "description": "Handles server creation, destruction, and message reception for network communication. Operates on socket addresses and string data, using a server handle type. Used to set up listening servers, process incoming messages, and clean up resources after use.",
-      "description_length": 255,
+      "library": "osc",
+      "description": "This module implements OSC server functionality, providing operations to create and destroy servers, receive packets, and handle client addresses. It works with OSC packets, socket addresses, and error types for malformed or unsupported data. Concrete use cases include setting up networked audio control servers that process incoming OSC messages from clients.",
+      "description_length": 361,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Osc.Transport.Make.Io",
-      "description": "Handles asynchronous I/O operations through a monadic interface, allowing chaining of actions that produce values or fail. Works with a generic 'a t type representing computations that may involve side effects. Enables composition of file reads, network requests, and user input handling in a structured, sequential manner.",
-      "description_length": 323,
+      "module_path": "Osc.Transport.TRANSPORT-Io",
+      "library": "osc",
+      "description": "This module implements IO operations for sending and receiving OSC packets over network transports. It provides functions for writing packets to and reading packets from sockets, working directly with OSC packet and bundle data structures. Concrete use cases include UDP-based OSC communication for real-time audio control and networked interactive systems.",
+      "description_length": 357,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Osc.Transport.Make",
-      "description": "provides a framework for building networked applications with asynchronous I/O and communication protocols. It includes operations for managing client and server sockets, handling message transmission, and composing side-effecting computations. The 'a t type enables structured sequencing of I/O actions, while the t type and sockaddr support low-level network interactions. Examples include reading files, sending OSC messages over a network, and setting up a server to receive and process incoming data.",
-      "description_length": 505,
+      "module_path": "Osc.Transport.TRANSPORT-Client",
+      "library": "osc",
+      "description": "This module defines client operations for sending OSC data over a transport. It provides functions to create, destroy, and use clients to send raw string data to a specified network address. It works with OSC client handles and standard network addresses, enabling direct communication with OSC servers.",
+      "description_length": 303,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Osc.Transport.Io",
-      "description": "Handles asynchronous and sequential computation with monadic operations, supporting chaining of I/O actions and transformations. Works with a generic 'a t type representing computations that yield values. Enables structured handling of file reads, network requests, and user input in a composable manner.",
-      "description_length": 304,
+      "module_path": "Osc.Transport.TRANSPORT",
+      "library": "osc",
+      "description": "This module defines the interface for implementing OSC transport mechanisms, including client and server modules for handling network communication. It works with OSC packets and bundles, providing functions for sending and receiving data over a network using a specified socket address type. Concrete use cases include building OSC servers that listen for incoming packets and clients that send messages to remote endpoints.",
+      "description_length": 425,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Osc.Transport.Client",
-      "description": "Handles client-side communication for a transport protocol, offering create and destroy operations for client instances. Works with the `t` type and `sockaddr` to manage network interactions. Sends string data to an OSC server using a configured client.",
-      "description_length": 253,
+      "module_path": "Osc.Transport.TRANSPORT-Server",
+      "library": "osc",
+      "description": "This module implements server creation, destruction, and message reception for a specific transport protocol. It works with `sockaddr` addresses and string-based OSC data, allowing servers to accept packets up to a specified buffer size. It is used to build networked OSC servers that listen on a specific address and receive messages from clients.",
+      "description_length": 348,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Osc.Transport.Server",
-      "description": "Handles server creation, destruction, and message reception for network communication. Operates on socket addresses and buffers, using a server handle type to manage connections. Used to set up listening servers, process incoming data, and clean up resources after use.",
-      "description_length": 269,
+      "module_path": "Osc.Transport.Make",
+      "library": "osc",
+      "description": "This module creates OSC client and server implementations using a provided transport layer. It defines key data types including OSC packets, socket addresses, and error types for handling malformed data. Operations include sending and receiving OSC messages or bundles over UDP or TCP, managing client and server instances, and resolving network addresses. Example uses include sending control signals to a remote audio server or setting up a networked interface to process incoming OSC commands.",
+      "description_length": 496,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Osc.Types",
-      "description": "Represents OSC packet structures with time, message, and bundle definitions, including timestamps and argument parsing. Works with custom record types for time, timetag, and message arguments. Used to parse and construct OSC data for real-time communication protocols.",
-      "description_length": 268,
+      "module_path": "Osc.Transport",
+      "library": "osc",
+      "description": "This module provides the core functionality for transmitting and receiving OSC packets over arbitrary transport protocols, abstracting the underlying I/O layer to support both UDP and TCP. It defines data types for OSC packets and bundles, along with operations to send and receive them using socket addresses, while enabling client and server implementations through submodules. The client module handles message transmission to remote endpoints, the server module supports listening for and processing incoming packets, and the IO module manages low-level socket interactions. Example uses include real-time audio control via UDP or building networked OSC servers that process incoming commands with custom logic.",
+      "description_length": 715,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Osc.Codec",
-      "description": "Converts OSC packets to and from byte strings using specific serialization and deserialization routines. Operates on OSC packet structures that include addresses, arguments, and type tags. Used to encode messages for network transmission and decode incoming data streams into structured OSC content.",
-      "description_length": 299,
+      "library": "osc",
+      "description": "This module serializes and deserializes OSC packets to and from strings. It operates on `Osc.Types.packet` and string data types, handling both valid and malformed input during deserialization. Use it to convert OSC data for network transmission or storage, and to parse incoming OSC data into structured packets.",
+      "description_length": 313,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Osc.Transport",
-      "description": "provides a framework for building OSC libraries by combining asynchronous computation, client-server communication, and network resource management. It defines a `t` type for managing transport operations, along with `sockaddr` for addressing, and supports monadic composition for I/O workflows. It enables sending OSC messages via client instances and receiving them through server setups, allowing for structured handling of file, network, and user input operations. Examples include configuring a client to send data to a server or setting up a listener to process incoming OSC messages.",
-      "description_length": 590,
+      "module_path": "Osc.Types",
+      "library": "osc",
+      "description": "This module defines core data types for representing OSC messages and bundles, including timestamps, time tags, and message arguments. It supports structured values like 32-bit integers, strings, blobs, and nested packets, enabling precise OSC packet construction and parsing. Concrete use cases include building and interpreting OSC messages for networked music or multimedia applications.",
+      "description_length": 390,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "osc",
-      "description": "Handles encoding and decoding of OSC messages and bundles using binary and structured representations. Operates on custom types for addresses, arguments, and timestamps, enabling precise control over network audio data. Used to implement real-time audio communication between applications and hardware devices.",
-      "description_length": 310,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Osc",
-      "description": "handles OSC packet parsing, serialization, and network communication through structured data types and I/O operations. it defines packet, message, and bundle structures with time stamps and argument handling, and provides encoding/decoding between byte strings and these structures. it includes a transport layer with `t` and `sockaddr` types to manage asynchronous client-server interactions, enabling tasks like sending messages over a network or receiving and processing OSC data in real time.",
-      "description_length": 496,
-      "index": 11,
+      "library": "osc",
+      "description": "This module handles OSC packet construction, serialization, and transport over UDP or TCP. It defines core types like `packet`, `message`, and `time_tag`, supporting operations to send, receive, and process OSC data with structured arguments such as integers, strings, and blobs. You can build OSC clients that transmit messages to remote endpoints or servers that parse and respond to incoming packets, enabling real-time control of audio or multimedia systems over the network.",
+      "description_length": 479,
+      "index": 10,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 590,
-    "min_description_length": 253,
-    "avg_description_length": 345.75,
-    "embedding_file_size_mb": 0.04401588439941406
+    "max_description_length": 715,
+    "min_description_length": 303,
+    "avg_description_length": 413.90909090909093,
+    "embedding_file_size_mb": 0.04037666320800781
   }
 }

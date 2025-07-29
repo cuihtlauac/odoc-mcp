@@ -1,91 +1,85 @@
 {
   "package": "textutils_kernel",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:33:05.930707",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:07:37.074917",
   "modules": [
     {
-      "module_path": "Text_block.With_static_lengths.List",
-      "description": "Provides operations for building, traversing, and transforming lists, including functions like map, filter, and fold. Works with the polymorphic list type, supporting heterogeneous elements through the 'a and 'shape parameters. Used for processing sequences of data in pattern matching, aggregating results, and generating new lists from existing ones.",
-      "description_length": 352,
+      "module_path": "Text_graph",
+      "library": "textutils_kernel.text_graph",
+      "description": "This module generates text-based bar graphs for visualizing numerical data directly in the terminal. It takes a list of labeled data points with string labels and float values, rendering them as a bar graph. The `render` function supports an optional `narrow` flag to adjust the graph's width for compact display.",
+      "description_length": 313,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Utf8_text.Stable.V1",
-      "description": "Provides serialization and deserialization functions for a type using Bin_prot, including size calculation, writing, reading, and shape definition. Supports conversion to and from S-expressions and string representations. Designed for efficient binary encoding and decoding of structured data.",
-      "description_length": 293,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Text_block.Boxed",
-      "description": "Constructs and combines table-like structures using vertical and horizontal concatenation, inserting box separators. Operates on `t` type, which represents boxed cells or layouts, and `outer_t` as an alias for `t`. Builds complex layouts such as nested tables with customizable padding and alignment.",
-      "description_length": 300,
+      "module_path": "Utf8_text.Stable.V1",
+      "library": "textutils_kernel.utf8_text",
+      "description": "This module directly represents UTF-8 encoded text values with concrete operations for serialization and comparison. It supports conversion to and from standard OCaml strings and provides bin_prot and Sexp serialization functions. Use this module when handling UTF-8 text in contexts requiring binary encoding, such as network transmission or persistent storage.",
+      "description_length": 362,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Utf8_text.Stable",
+      "library": "textutils_kernel.utf8_text",
+      "description": "This module handles UTF-8 text with precise serialization and comparison operations, ensuring correct binary encoding for transmission or storage. It provides a concrete data type for text values, supporting conversion to and from OCaml strings, along with bin_prot and Sexp serialization. You can use it to safely encode text for network protocols, file formats, or any system requiring strict UTF-8 handling. For example, it enables converting a string to a serialized binary format, comparing text values directly, or deserializing data from a stored or transmitted representation.",
+      "description_length": 584,
       "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Utf8_text",
+      "library": "textutils_kernel.utf8_text",
+      "description": "This library enforces valid UTF-8 text handling through structured traversal and transformation of Unicode characters, offering type-safe operations like comparison, folding, and membership checks. It includes a concrete text type that supports conversion to and from OCaml strings, along with serialization via bin_prot and Sexp for reliable storage or transmission. You can use it to encode text for network protocols, perform precise comparisons, or safely convert between string encodings. Submodules enhance this core functionality with additional utilities for parsing, manipulation, and structured data handling.",
+      "description_length": 619,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Text_block.Up_or_down",
-      "description": "Provides operations to represent and serialize a state that can be either \"up\" or \"down\" as a sexp format. Works with a polymorphic variant type that encodes two distinct states. Used to encode system status in a structured, human-readable format for logging or configuration.",
-      "description_length": 276,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Text_block.With_static_lengths",
-      "description": "Offers type-safe operations for aligning lists with fixed lengths, ensuring length invariants are enforced at compile time. Supports polymorphic lists with flexible element types, enabling transformations like mapping, filtering, and folding. Allows pattern matching on aligned lists, such as extracting elements from a list of known size. For example, safely deconstructing a two-element list after vertical alignment.",
-      "description_length": 419,
+      "library": "textutils_kernel.text_block",
+      "description": "Represents directional movement with values `Up` and `Down`. Serializes direction values to S-expressions via `sexp_of_t`. Useful for logging or transmitting directional state in parsing or traversal operations.",
+      "description_length": 211,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Utf8_text.Stable",
-      "description": "Encodes and decodes structured data using binary, S-expressions, and strings, with support for size estimation and format definition. Key types include the data structure being serialized and associated metadata. Operations allow converting values to binary streams, reconstructing them, and inspecting their shape, enabling efficient data persistence and communication. For example, a record type can be written to a file and later read back, or converted to a human-readable S-expression for debugging.",
-      "description_length": 504,
+      "module_path": "Text_block.Boxed",
+      "library": "textutils_kernel.text_block",
+      "description": "This module provides combinators for constructing and combining boxed text blocks with padding, vertical and horizontal separators, and alignment controls. It operates on the `t` type, representing structured text cells with borders, and supports operations like `cell` for creating padded cells, `vcat` for vertically stacking blocks with horizontal dividers, and `hcat` for horizontally joining blocks with vertical dividers. It is useful for generating formatted text tables or UI-like layouts in terminal environments.",
+      "description_length": 522,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "textutils_kernel",
-      "description": "Provides string manipulation functions such as splitting on delimiters, trimming whitespace, and case conversion. Operates on OCaml's string and list types, with support for regular expressions. Used to process log lines, parse configuration files, and normalize user input.",
-      "description_length": 274,
+      "module_path": "Text_block.With_static_lengths",
+      "library": "textutils_kernel.text_block",
+      "description": "This module enforces type-safe alignment operations on lists of text blocks with statically known lengths, ensuring that transformations like `halign` and `valign preserve the number of elements. It operates on length-indexed lists, guaranteeing at the type level that aligned structures maintain their original size. For example, aligning a pair of text blocks horizontally results in a new pair, with alignment applied individually to each row. This enables precise formatting of fixed-size text grids where each row or column must maintain a consistent element count after transformation.",
+      "description_length": 591,
       "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Text_block",
-      "description": "Encapsulates text layout and alignment operations, supporting vertical and horizontal padding and alignment of lists and boxed structures. Manages state transitions between \"up\" and \"down\" using a sexp-serializable polymorphic variant, and enables type-safe manipulation of fixed-length lists with pattern matching and transformations. Combines table-like elements with customizable spacing and separators, allowing nested layouts and precise control over dimensions. Examples include aligning a list of two elements for safe deconstruction or serializing system status for logging.",
-      "description_length": 582,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Text_graph",
-      "description": "Generates terminal-based text graphs from labeled numerical data, using a list of string-value pairs. It constructs horizontal bars where each character represents a proportional unit of the value. Used to visually compare numeric values in log files or performance metrics directly in the console.",
-      "description_length": 298,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Utf8_text",
-      "description": "Provides serialization and deserialization capabilities for structured data using binary, S-expressions, and string formats, along with size estimation and format definition. Key types include the data structure being serialized and metadata, while operations include converting values to binary streams, reconstructing them, and inspecting their shape. A record can be written to a file and later reconstructed, or transformed into an S-expression for debugging. Supports efficient data persistence and inter-process communication.",
-      "description_length": 532,
-      "index": 9,
-      "embedding_norm": 1.0
+      "module_path": "Text_block",
+      "library": "textutils_kernel.text_block",
+      "description": "This module enables precise composition of terminal-friendly text layouts through alignment, concatenation, and structured formatting of 2D text blocks. It supports grid-aligned content with mixed-width characters, ANSI-styled segments, and nested structures like tables or S-expressions, while offering utilities for visual hierarchy (banners, indentation) and boundary framing (boxed rendering). The directional module handles movement state with `Up` and `Down` values, serializing to S-expressions for logging or traversal. The boxed module builds structured text cells with borders, padding, and combinators like `vcat` and `hcat` for assembling tables and UI-like layouts. The alignment module ensures type-safe alignment of fixed-size text grids, preserving element counts through transformations like `halign` and `valign`, enabling reliable formatting of row and column structures.",
+      "description_length": 890,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 9,
+    "meaningful_modules": 8,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.8888888888888888
   },
   "statistics": {
-    "max_description_length": 582,
-    "min_description_length": 274,
-    "avg_description_length": 383.0,
-    "embedding_file_size_mb": 0.03677177429199219
+    "max_description_length": 890,
+    "min_description_length": 211,
+    "avg_description_length": 511.5,
+    "embedding_file_size_mb": 0.02948474884033203
   }
 }

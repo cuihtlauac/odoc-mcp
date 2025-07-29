@@ -1,91 +1,61 @@
 {
   "package": "scfg",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:56.912399",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:37.905287",
   "modules": [
     {
-      "module_path": "Scfg.Menhir_parser.MenhirInterpreter",
-      "description": "The module provides low-level operations for parser state inspection, stack manipulation, and control flow, working with checkpoints, environments, and token suppliers. It facilitates tasks such as debugging parsers, implementing custom error handling, and managing reduction and input tracking during parsing.",
-      "description_length": 310,
+      "module_path": "Scfg.Parse",
+      "library": "scfg",
+      "description": "This module parses configuration data from various input sources, including strings, files, channels, and lexing buffers. It produces a structured representation of the configuration, handling syntax errors and reporting them as messages. Use it to load and validate configuration files in formats like INI or custom DSLs.",
+      "description_length": 322,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Scfg.Menhir_parser.Incremental",
-      "description": "Handles parsing configuration setup with position tracking, using a checkpoint mechanism for incremental parsing. Operates on lexing positions and configuration types to manage state transitions. Used to initialize or update parsing contexts during error recovery or partial input processing.",
-      "description_length": 292,
+      "module_path": "Scfg.Pp",
+      "library": "scfg",
+      "description": "This module includes functions for pretty-printing configuration elements such as parameters, lists of parameters, directives, and entire configs using OCaml's Format module. It operates on strings, string lists, and the config and directive types defined in Scfg.Types. Concrete use cases include generating human-readable output of configuration structures during logging, debugging, or exporting configurations to a textual format.",
+      "description_length": 434,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Scfg.Lexer",
-      "description": "The module includes operations for lexing, such as state transition table lookups, tokenization of input using buffers, and conversion of double-quoted strings to normalized forms, alongside error reporting mechanisms. It works with integers, strings, and lexer buffers to manage lexical analysis tasks. Specific use cases involve processing structured input formats, handling quoted literals, and robust error detection during tokenization.",
-      "description_length": 441,
+      "module_path": "Scfg.Types",
+      "library": "scfg",
+      "description": "This module defines core data structures for representing hierarchical configuration data. It includes a `directive` type with name, parameters, and nested directives, and a `config` type as a list of top-level directives. Used to model structured configuration files like Nginx or Apache configs, enabling parsing, traversal, and transformation of configuration trees.",
+      "description_length": 369,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Scfg.Menhir_parser",
-      "description": "manages parser state through checkpointing and environment manipulation, enabling fine-grained control over parsing flow, error handling, and input tracking. It supports operations on lexing positions, configuration states, and token suppliers to facilitate incremental parsing and context updates. Users can inspect stack contents, adjust reduction behavior, and track input progress during parsing. Examples include debugging parser execution, implementing custom error recovery, and processing partial input streams.",
-      "description_length": 519,
+      "module_path": "Scfg.Query",
+      "library": "scfg",
+      "description": "This module provides functions to search and extract directives and parameters from a configuration structure. It operates on `Scfg.Types.directive` lists and individual directives, allowing retrieval by name, position, or type. Concrete use cases include parsing configuration files to access specific settings, validating parameter counts, and converting parameter values to typed values like integers, floats, or booleans.",
+      "description_length": 425,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Scfg.Parse",
-      "description": "Parses configuration data from lexing buffers, strings, channels, and files, returning a typed configuration or an error message. Works with lexing buffers, strings, and file paths, using a custom error type for failure cases. Processes input sources such as user-provided text, file contents, or stream data into structured configuration objects.",
-      "description_length": 347,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Scfg.Pp",
-      "description": "Prints configuration elements using a formatter, handling parameters, lists, and nested directives. Operates on strings, lists of strings, and config data structures from the Types module. Formats a directive or entire config for human-readable output.",
-      "description_length": 252,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Scfg.Query",
-      "description": "Extracts specific directives and parameters from a list of configuration directives. Operates on directive records and returns results or errors for parameter values like strings, booleans, integers, and floats. Used to validate and retrieve configuration settings during parsing or runtime checks.",
-      "description_length": 298,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Scfg.Types",
-      "description": "Provides operations to construct and manipulate configuration directives, including filtering and transforming lists of directives. Works with the `directive` record type and `config` list type to represent structured configuration data. Used to process and validate configuration files by extracting specific directive types or applying transformations.",
-      "description_length": 354,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "scfg",
-      "description": "Provides functions to parse, generate, and manipulate configurations in the scfg format, including reading from and writing to files, and querying nested key-value pairs. Operates on structured data represented as trees of strings, lists, and maps. Used to manage application settings in a hierarchical, human-readable format for deployment and runtime adjustments.",
-      "description_length": 365,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Scfg",
-      "description": "Processes and manipulates configuration data through lexical analysis, parsing, and formatting. Handles lexing, tokenization, and error reporting, along with parsing state management, configuration extraction, and directive manipulation. Supports reading from buffers, files, or strings, and outputs formatted configurations or extracted parameters. Enables tasks like validating configuration settings, debugging parsers, and generating human-readable output.",
-      "description_length": 460,
-      "index": 9,
-      "embedding_norm": 1.0
+      "library": "scfg",
+      "description": "This module processes hierarchical configuration data from various sources, producing structured representations that can be queried, transformed, and rendered. It centers around the `directive` and `config` types, which model nested configuration elements and top-level directive lists, supporting operations like parsing, searching, and pretty-printing. Functions allow extracting values by name or position, converting parameters to typed values, and generating human-readable output. Example uses include loading and validating DSL-based configuration files, programmatically modifying server configs, and exporting structured settings for logging or debugging.",
+      "description_length": 665,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 519,
-    "min_description_length": 252,
-    "avg_description_length": 363.8,
-    "embedding_file_size_mb": 0.03675651550292969
+    "max_description_length": 665,
+    "min_description_length": 322,
+    "avg_description_length": 443.0,
+    "embedding_file_size_mb": 0.018617630004882812
   }
 }

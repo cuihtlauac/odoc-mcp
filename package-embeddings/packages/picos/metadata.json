@@ -1,112 +1,117 @@
 {
   "package": "picos",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:47.707645",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:09:23.079011",
   "modules": [
     {
-      "module_path": "Picos.Fiber.FLS",
-      "description": "Creates and manages fiber-specific storage keys to associate values like priority or unique identifiers with individual fibers. Retrieves, sets, and removes values tied to these keys within a specific fiber's context. Ensures efficient memory usage by reserving space for future writes, useful in schedulers or context-aware systems.",
-      "description_length": 333,
+      "module_path": "Picos_thread.TLS",
+      "library": "picos.thread",
+      "description": "This module provides operations to manage thread-local storage using system-level threads. It allows creating a key, setting and retrieving values specific to each thread, and works with any data type through polymorphic values. Concrete use cases include maintaining per-thread state such as logging contexts or transaction handles without interference between threads.",
+      "description_length": 370,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos.Fiber.Maybe",
-      "description": "Provides operations to convert between fibers and optional fibers, check and enforce fiber presence, and compare optional fibers. Works with the `t` type, representing an unboxed optional fiber. Used to safely handle fiber contexts in asynchronous workflows, such as conditionally wrapping the current fiber or ensuring a fiber is valid before execution.",
-      "description_length": 354,
+      "module_path": "Picos_thread",
+      "library": "picos.thread",
+      "description": "This module offers a minimal thread management API, including a function to determine if code is running on the main thread and primitives for basic concurrency coordination. It integrates a TLS submodule that enables creation and manipulation of thread-local storage keys, allowing per-thread state such as logging contexts or transaction handles to be safely maintained. Direct operations support thread identity checks and coordination, while the TLS submodule handles data isolation across threads using polymorphic storage. Example uses include restricting UI updates to the main thread and managing per-thread resources like database connections or debug flags.",
+      "description_length": 667,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Picos.Computation.Tx",
-      "description": "Checks if two computations are identical, creates transaction objects, and allows adding or canceling completions to a transaction. Operates on computation objects and transaction handles, ensuring atomic execution of completed operations. Used to manage coordinated state changes in concurrent systems where transactions may be interrupted.",
-      "description_length": 341,
+      "library": "picos",
+      "description": "This module enables atomic transactions for completing multiple computations, ensuring that all completions within a transaction either succeed together or fail together. It provides operations to create transactions, attempt to return or cancel individual computations within a transaction context, and commit the transaction. Concrete use cases include coordinating the completion of interdependent cancelable computations, such as signaling the result of a distributed operation or synchronizing the cancellation of a set of related tasks.",
+      "description_length": 542,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos_domain.DLS",
-      "description": "Provides functions to create, retrieve, and update domain-specific storage values. Operates with keys of type 'a key and values of arbitrary type 'a. Used to manage per-domain state in a multi-domain environment, such as storing configuration or context data unique to each domain.",
-      "description_length": 281,
+      "module_path": "Picos.Fiber.FLS",
+      "library": "picos",
+      "description": "This module provides operations to manage fiber-local storage, including creating keys, getting and setting values, and removing entries. It works with fibers and typed storage keys to associate data like priorities or unique IDs with individual fibers. Concrete use cases include tracking fiber metadata in schedulers, such as priority levels for scheduling decisions or logging context specific to each fiber.",
+      "description_length": 411,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Picos_thread.TLS",
-      "description": "Provides functions to create, retrieve, and set thread-local values using keys. Operates on values of any type wrapped in a key structure. Used to store per-thread state such as configuration settings or context information in multi-threaded applications.",
-      "description_length": 255,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos.Trigger",
-      "description": "Creates and manages triggers to coordinate asynchronous events, allowing threads to wait for signals and resume execution. Operates on `t` type, enabling await, signal, and state checks. Used to synchronize fiber execution, handle cancellations, and manage resource cleanup in concurrent programs.",
-      "description_length": 297,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Picos.Computation",
-      "description": "manages coordinated state changes in concurrent systems by allowing transactions to encapsulate multiple computations, ensuring atomic completion or cancellation. It operates on computation objects and transaction handles, supporting operations like checking identity, adding completions, and canceling transactions. This enables reliable coordination of asynchronous tasks, such as ensuring a set of computations either all complete or none do. Examples include managing distributed locks or ensuring consistent state updates across multiple asynchronous operations.",
-      "description_length": 567,
-      "index": 6,
+      "module_path": "Picos.Fiber.Maybe",
+      "library": "picos",
+      "description": "This module provides operations to handle an unboxed optional fiber type, allowing values to represent either a valid fiber or an absent fiber. It supports creation from an existing fiber, retrieval of the current fiber conditionally, comparison operations, and dynamic checks for cancellation safety. Concrete use cases include optimizing performance-sensitive paths where fiber identity is needed only for error checking, such as in synchronization primitives or scheduler internals.",
+      "description_length": 485,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Picos.Fiber",
-      "description": "Manages fiber-specific storage and optional fiber operations, enabling context-aware computations and safe handling of fiber presence. Supports key-based value storage and retrieval, along with optional fiber comparisons and conversions. Allows schedulers to efficiently manage fiber attributes and ensure valid execution contexts. Can set a fiber's priority, check for cancellation permissions, or conditionally wrap a fiber in an asynchronous workflow.",
-      "description_length": 454,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "library": "picos",
+      "description": "Fibers represent independent threads of execution that schedulers create in response to spawn effects, supporting cancellation control, suspension, and fiber-local storage. The module provides primitives to manage fiber state, including operations to check cancellation permissions, access fiber-local data through typed keys, and safely handle fiber identity in concurrent contexts. With fiber-local storage, developers can associate metadata like priorities or logging contexts directly with executing fibers, while unboxed optional fiber types enable efficient handling of fiber presence and identity checks in performance-critical code. Schedulers can use these capabilities to make dynamic scheduling decisions, track execution context, and coordinate effects without relying on global state.",
+      "description_length": 797,
+      "index": 5,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Picos.Handler",
-      "description": "Handles effect-based operations by binding a context during execution, allowing access to effect handlers within a fiber. Operates on a context type `'c t` and a fiber type `Fiber.t`, enabling structured execution of effectful code. Used to manage resource lifecycles and effect delegation in concurrent programs.",
-      "description_length": 313,
+      "library": "picos",
+      "description": "This module provides a handler interface for managing effect-based operations in a scheduler, enabling context-specific execution of fibers. It works with handler contexts and fibers, allowing the dynamic setting of execution contexts during the runtime of effect-driven tasks. A concrete use case is coordinating low-level concurrency primitives with a scheduler, such as setting up and tearing down execution environments for fibers in an effects-based system.",
+      "description_length": 462,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Picos.Trigger",
+      "library": "picos",
+      "description": "This module provides operations to create and manage triggers for suspending and resuming execution threads in coordination with a scheduler. It works with the abstract type `t` representing a trigger, supporting state transitions between initial and signaled, and enabling await and signal operations without requiring callbacks for cancellation. Concrete use cases include implementing custom concurrency primitives like one-time synchronization barriers or deferred task resumption in event-driven systems.",
+      "description_length": 509,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Picos.Computation",
+      "library": "picos",
+      "description": "This module manages cancelable asynchronous computations, allowing creation, completion, cancellation with optional timeouts, and observation of state changes through triggers. It supports atomic transactions across multiple computations, ensuring coordinated completion or cancellation, and provides direct operations to inspect status, attach callbacks, and propagate results or exceptions. Concrete uses include implementing event-driven systems with precise cancellation semantics, coordinating distributed operations, and building interdependent concurrent abstractions. For example, one can create a computation to represent an async I/O operation, attach a trigger to handle its result, and cancel it cleanly if a timeout elapses.",
+      "description_length": 737,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "picos",
-      "description": "Provides functions for managing lightweight threads, asynchronous I/O, and synchronization primitives such as channels and locks. Works with thread handles, event loops, and message-passing structures to enable concurrent execution. Used to implement scalable network servers and real-time data processing pipelines.",
-      "description_length": 316,
+      "module_path": "Picos",
+      "library": "picos",
+      "description": "This module defines a low-level interface between effects-based schedulers and concurrent abstractions, enabling fine-grained control over execution context, suspension, and cancellation. It centers around fibers as units of execution, triggers for synchronization, handlers for effect management, and async computations for cancelable tasks. Developers can associate data with fibers, coordinate state changes via triggers, dynamically manage execution contexts, and compose cancelable operations with atomic transactions. Example uses include building custom concurrency primitives, implementing effect-aware schedulers, and managing interdependent async operations with precise lifecycle control.",
+      "description_length": 699,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos_domain",
-      "description": "manages per-domain state using key-value pairs, where keys are typed and values can be of any type. It supports creating, reading, and modifying domain-specific data, enabling configuration and context management across domains. Operations include setting a value with a key, retrieving it, and updating it dynamically. For example, it can store a domain's logging level or session data and access it efficiently during execution.",
-      "description_length": 430,
+      "module_path": "Picos_domain.DLS",
+      "library": "picos.domain",
+      "description": "This module implements domain-local storage for associating values with domains, providing operations to create storage keys, retrieve values, and set values specific to the current domain. It works with any data type through polymorphic keys, where each key is initialized with a function that generates default values on demand. Concrete use cases include maintaining domain-specific state such as logging contexts, request-scoped data, or per-domain configuration settings.",
+      "description_length": 476,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Picos_thread",
-      "description": "Manages thread-local storage through key-based access, enabling per-thread data management. Supports creating, retrieving, and updating values tied to specific keys, with support for arbitrary data types. Allows for storing and accessing context-specific information across threads without global state. Example uses include maintaining thread-specific configurations or logging contexts.",
-      "description_length": 388,
-      "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Picos",
-      "description": "Provides a low-level interface for coordinating asynchronous and concurrent operations through triggers, transactions, fiber storage, and effect contexts. It supports waiting on signals, managing atomic state changes, storing fiber-specific data, and binding execution contexts for effect handling. Operations include awaiting events, committing or rolling back transactions, storing and retrieving fiber values, and managing effect handlers. This enables precise control over fiber execution, resource management, and coordination in effect-driven concurrency models.",
-      "description_length": 568,
-      "index": 12,
+      "module_path": "Picos_domain",
+      "library": "picos.domain",
+      "description": "This module provides a cross-version compatible interface for managing domain lifecycles and properties in OCaml, allowing programs to handle domain creation, shutdown coordination, and runtime concurrency adaptation. It includes key operations such as registering exit actions, checking if the current domain is the main one, and determining the recommended number of domains, while abstracting differences between OCaml 4 and 5. The domain-local storage submodule enables associating typed values with domains using polymorphic keys, supporting use cases like tracking per-domain logging contexts or configuration. Together, these capabilities allow developers to write robust, domain-aware applications that maintain state and manage execution flow consistently across OCaml versions.",
+      "description_length": 787,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 13,
-    "meaningful_modules": 13,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 568,
-    "min_description_length": 255,
-    "avg_description_length": 376.6923076923077,
-    "embedding_file_size_mb": 0.04769325256347656
+    "max_description_length": 797,
+    "min_description_length": 370,
+    "avg_description_length": 578.5,
+    "embedding_file_size_mb": 0.043997764587402344
   }
 }

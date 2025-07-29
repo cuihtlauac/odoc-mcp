@@ -1,63 +1,71 @@
 {
   "package": "async_udp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:30:51.053638",
+  "creation_timestamp": "2025-07-15T23:06:20.153367",
   "modules": [
     {
       "module_path": "Async_udp.Ready_iter.Optional_syntax.Optional_syntax",
-      "description": "Checks if a value is absent and retrieves the underlying value when presence is guaranteed. Works with optional types wrapped in a custom container. Used to validate and extract values from potentially missing data in parsing or configuration workflows.",
-      "description_length": 253,
+      "library": "async_udp",
+      "description": "This module provides direct access to optional values within a `Ready_iter.t` context, specifically for handling UDP packet reception results. It includes operations to check if a value is absent (`is_none`) and to extract a present value unsafely (`unsafe_value`). These functions are used to process non-blocking UDP reads where packets may or may not be available, enabling efficient polling and packet handling without unnecessary allocation or copying.",
+      "description_length": 457,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Async_udp.Ready_iter.Ok",
-      "description": "Provides functions to create, transform, and inspect values wrapped in a result type, including mapping, binding, and error handling. Works with a type that represents either a successful value or an error message. Used to propagate and handle errors in parsing, configuration loading, and API response processing.",
-      "description_length": 314,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Async_udp.Ready_iter.Optional_syntax",
-      "description": "Provides operations to check for the absence of values and safely extract underlying values from a custom optional container. Main data types include the wrapped optional type and associated validation functions. Allows developers to handle missing data in parsing or configuration by ensuring presence before access. For example, it can validate a configuration field and retrieve its value only if it exists.",
-      "description_length": 410,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "library": "async_udp",
+      "description": "This module enables efficient handling of optional values within a non-blocking UDP packet reception context, specifically over `Ready_iter.t`. It provides key operations like `is_none` to check for absent values and `unsafe_value` to extract present ones, avoiding unnecessary allocations during polling. These functions allow direct and safe manipulation of UDP read results, supporting low-overhead network communication. For example, it can be used to poll for incoming UDP packets and process them only when available, without blocking or copying data unnecessarily.",
+      "description_length": 571,
+      "index": 1,
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Async_udp.Config",
-      "description": "Provides functions to manage a receive loop's behavior, including setting a maximum number of iterations per interval, triggering early termination, and initializing a write buffer for data transmission. Works with a custom type representing loop configuration, incorporating capacity, write buffers, and asynchronous stop signals. Used to control network and file-based protocol handlers, ensuring efficient resource management and responsive termination.",
-      "description_length": 456,
+      "module_path": "Async_udp.Ready_iter.Private",
+      "library": "async_udp",
+      "description": "This module provides low-level configuration and conversion functions used in UDP packet handling loops. It works with integers and predefined constants to manage preallocated buffers for error numbers and message sizes. It is used internally to optimize performance in UDP applications by minimizing allocation overhead during packet processing.",
+      "description_length": 346,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Async_udp.Ready_iter.Ok",
+      "library": "async_udp",
+      "description": "This module implements a polling mechanism for handling UDP packet reception with synchronous callbacks, allowing users to process incoming packets as they arrive without intermediate buffering. It works directly with file descriptors and Bigstring.t buffers, leveraging Iobuf conventions for efficient memory management. Concrete use cases include high-throughput UDP servers that require low-latency packet processing and precise control over buffer lifecycle.",
+      "description_length": 462,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Async_udp.Loop_result",
-      "description": "Provides functions to convert file descriptor readiness results into a structured type, including handling errors and interruptions. Works with file descriptor states, error variants, and callback-based results. Used to bridge low-level I/O readiness checks with higher-level asynchronous processing.",
-      "description_length": 300,
+      "module_path": "Async_udp.Config",
+      "library": "async_udp",
+      "description": "This module configures UDP receive loops with explicit control over buffering, stopping, and processing limits. It defines parameters like buffer capacity, initial write buffer, stop signal, and max ready iterations to manage performance and resource usage. It is used to tune network applications handling high packet rates, where bounded processing and zero-copy semantics are required.",
+      "description_length": 388,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Async_udp.Ready_iter",
-      "description": "Wraps values in a result or optional type, enabling safe error and absence handling through dedicated operations. Supports mapping, binding, and validation to process parsed data, configuration, or API responses with guaranteed safety. Functions include checking for existence, extracting values, and propagating errors without explicit conditionals. Can validate a configuration field and retrieve its value only if present, or handle API responses by transforming or collapsing errors.",
-      "description_length": 487,
+      "module_path": "Async_udp.Loop_result",
+      "library": "async_udp",
+      "description": "This module defines a result type for signaling loop outcomes like `Closed` or `Stopped`, primarily used to control termination in UDP receive loops. It includes functions for converting results to S-expressions, comparing them, and mapping lower-level Fd results into loop-compatible outcomes. Concrete use cases include managing loop exit conditions in packet-processing servers and translating file descriptor events into structured control flow decisions.",
+      "description_length": 459,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "async_udp",
-      "description": "Provides functions for creating, sending, and receiving UDP packets with low-level control over socket options and buffer management. Operates on byte sequences, socket addresses, and custom buffer structures to optimize network throughput. Used for real-time data transmission in high-frequency trading systems and multiplayer game networking.",
-      "description_length": 344,
+      "module_path": "Async_udp.Ready_iter",
+      "library": "async_udp",
+      "description": "This module represents the result of a UDP receive loop iteration, encapsulating either packet data or a Unix error, with functions to construct, inspect, and convert these results. It supports safe and unsafe access to received data, enabling efficient handling of non-blocking UDP socket reads in event-driven servers. The optional submodule provides operations like `is_none` and `unsafe_value` to manage absence and presence of packet data without extra allocations, ideal for polling loops. The config submodule handles low-level settings and conversions for buffers and error numbers, while the polling submodule enables synchronous UDP packet processing with direct file descriptor and Bigstring.t buffer integration, suitable for high-throughput, low-latency network applications.",
+      "description_length": 788,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Async_udp",
-      "description": "Manages UDP network interactions with custom loop configurations, I/O readiness conversions, and safe error handling. Provides a structured way to control receive loops, translate file descriptor states into usable results, and safely process optional or error-prone data. Users can set loop limits, handle I/O events with structured callbacks, and validate configurations without explicit conditionals. Examples include managing packet reception with controlled iteration, translating poll results into actionable states, and safely extracting configuration values.",
-      "description_length": 566,
+      "library": "async_udp",
+      "description": "This module implements high-performance UDP socket operations with non-blocking I/O and synchronous callbacks for zero-copy data handling. It uses Iobuf-based buffering and works with any file descriptor supporting non-blocking mode, making it suitable for building UDP servers, multicast handlers, and high-throughput network pipelines. The receive loop configuration allows fine-grained control over buffer size, processing limits, and termination conditions, while the result-handling modules provide structured outcomes and error reporting for loop iterations. Specific use cases include event-driven packet processing with direct Bigstring.t access, polling loops with minimal memory overhead, and translating low-level socket events into controlled application flow.",
+      "description_length": 772,
       "index": 7,
       "embedding_norm": 1.0
     }
@@ -69,9 +77,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 566,
-    "min_description_length": 253,
-    "avg_description_length": 391.25,
-    "embedding_file_size_mb": 0.02946758270263672
+    "max_description_length": 788,
+    "min_description_length": 346,
+    "avg_description_length": 530.375,
+    "embedding_file_size_mb": 0.029458999633789062
   }
 }

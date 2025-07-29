@@ -1,77 +1,77 @@
 {
   "package": "cstruct",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:30:57.973598",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:05:47.632996",
   "modules": [
     {
-      "module_path": "Cstruct.BE",
-      "description": "Extracts and inserts 16-, 32-, and 64-bit big-endian unsigned integers from or into a cstruct at a specified offset. Operates on raw byte buffers represented by the t type, allowing direct manipulation of binary data. Used for parsing or constructing network protocols and file formats that require precise byte ordering.",
-      "description_length": 321,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Cstruct.LE",
-      "description": "Extracts and inserts 16-, 32-, and 64-bit little-endian unsigned integers from or into a cstruct at a specified offset. Operates on raw byte buffers and integer types of varying widths. Used for parsing or generating binary data formats that require precise byte ordering, such as network protocols or file headers.",
-      "description_length": 315,
-      "index": 1,
+      "library": "cstruct",
+      "description": "This module provides functions to read and write little-endian unsigned integers of 16, 32, and 64 bits from and to a `Cstruct.t` buffer at a specified offset. It operates directly on memory buffers representing structured binary data. These functions are used when parsing or constructing binary protocols that require little-endian encoding, such as network packet formats or disk file layouts.",
+      "description_length": 396,
+      "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cstruct.HE",
-      "description": "Extracts and inserts host-endian 16-, 32-, and 64-bit unsigned integers from/to a cstruct at a specified offset. Operates on raw byte buffers represented by the t type. Used to parse and construct network protocol headers that require native byte order.",
-      "description_length": 253,
+      "library": "cstruct",
+      "description": "This module provides direct access to reading and writing 16, 32, and 64-bit unsigned integers in a cstruct buffer at a given offset, using host-endian byte order. It operates on Cstruct.t values, which represent external memory buffers, and allows precise manipulation of binary data structures. These functions are used when parsing or constructing binary protocols or file formats that require specific integer layouts in memory.",
+      "description_length": 432,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cstruct.BE",
+      "library": "cstruct",
+      "description": "This module provides functions to read and write big-endian unsigned integers of 16, 32, and 64 bits from and to a Cstruct buffer at a specified offset. It operates directly on `Cstruct.t` values, which represent external memory buffers. These functions are used when handling binary data formats that require big-endian encoding, such as network protocols or file formats.",
+      "description_length": 373,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cstruct_cap.BE",
-      "description": "Reads and writes 16-bit, 32-bit, and 64-bit unsigned integers from and to a byte buffer, handling byte order conversion between big-endian and machine-native formats. Operates on read-write capable buffers, ensuring correct interpretation of data regardless of the underlying system's endianness. Used for parsing and constructing network protocol headers or raw data structures where byte order must match network standards.",
-      "description_length": 425,
+      "module_path": "Cstruct_cap.LE",
+      "library": "cstruct",
+      "description": "This module provides direct access to 16, 32, and 64-bit unsigned integer values stored in a capability-secured memory buffer, using little-endian byte ordering. It supports reading and writing these values at specified offsets with functions like `get_uint32` and `set_uint64`, ensuring correct byte reordering when necessary. These operations are used when working with binary data formats such as network protocols or file structures that require precise control over memory layout.",
+      "description_length": 485,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cstruct_cap.LE",
-      "description": "Reads and writes 16-, 32-, and 64-bit unsigned integers from and to a byte buffer, handling byte order conversion for little-endian formats. Operates on read-write capable buffers, ensuring values are correctly interpreted or stored according to the target architecture. Used for parsing network packets or binary file formats where precise byte representation is critical.",
+      "module_path": "Cstruct_cap.BE",
+      "library": "cstruct",
+      "description": "This module provides big-endian serialization and deserialization of unsigned 16, 32, and 64-bit integers to and from capability-secured memory buffers. It operates on `Cstruct_cap.t` values with read or write capabilities, ensuring safe access to raw memory. These functions are used when handling network protocols or binary file formats that require big-endian encoding.",
       "description_length": 373,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "cstruct",
-      "description": "Provides functions for reading from and writing to C-like structures using Bigarray, enabling direct memory manipulation. Works with byte sequences and structured data layouts similar to C's struct type. Used for low-level data parsing and serialization in network protocols and binary file formats.",
-      "description_length": 299,
+      "module_path": "Cstruct_cap",
+      "library": "cstruct",
+      "description": "This module enables capability-controlled access to raw memory buffers, combining zero-copy operations with compile-time enforcement of read and write permissions via phantom types. It supports endianness-aware integer manipulation through submodules that handle both little-endian and big-endian 16, 32, and 64-bit unsigned integers, using functions like `get_uint32` and `set_uint64` at specified offsets. Main data types include `'a t` for buffers parameterized by capabilities and `Bigarray.t` for the underlying storage, with operations for slicing, reading, and mutating memory while preserving safety. Examples include parsing network packets, modifying binary file headers, and converting between byte representations in system-level data processing.",
+      "description_length": 758,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Cstruct",
-      "description": "Provides functions to read and write fixed-size integers in big-endian, little-endian, and host-endian formats from or into raw byte buffers. Main data types include `t` for byte buffers and generated types for structured data like `pcap_header` and `ipv4`. Operations include extracting and inserting values at specific offsets, copying fields, and converting between integer and string representations. Examples include parsing packet timestamps, extracting Ethernet addresses, and validating protocol headers.",
-      "description_length": 512,
+      "library": "cstruct",
+      "description": "This module enables efficient manipulation of structured binary data in memory buffers, allowing direct access to fields like integers, MAC addresses, and byte sequences with bounds checking. It centers around the `Cstruct.t` type, which wraps `Bigarray` for low-level memory operations, and supports slicing, byte manipulation, and string conversion for tasks like network packet parsing (e.g., Ethernet headers) and binary file processing. Child modules provide integer access in various byte orders\u2014little-endian, host-endian, and big-endian\u2014enabling precise handling of binary protocols and file formats that require specific memory layouts. These operations are used together to construct, inspect, and transform memory-backed data structures with C-like precision.",
+      "description_length": 770,
       "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cstruct_cap",
-      "description": "provides low-level access to raw memory buffers with capability-based read/write restrictions, enabling safe and efficient manipulation of binary data. it supports operations on fixed-size integers (16, 32, 64 bits) with endianness conversion for both big-endian and little-endian formats, using phantom types to enforce capability constraints. functions like get_uint16_be and set_uint32_le allow precise control over data serialization and deserialization, making it suitable for network protocol parsing and binary file handling. buffers can be created with full read/write access or restricted to read-only or write-only modes.",
-      "description_length": 631,
-      "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 8,
+    "total_modules_in_package": 7,
+    "meaningful_modules": 7,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 631,
-    "min_description_length": 253,
-    "avg_description_length": 391.125,
-    "embedding_file_size_mb": 0.02945995330810547
+    "max_description_length": 770,
+    "min_description_length": 373,
+    "avg_description_length": 512.4285714285714,
+    "embedding_file_size_mb": 0.02587127685546875
   }
 }

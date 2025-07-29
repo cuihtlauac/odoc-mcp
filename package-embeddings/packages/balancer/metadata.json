@@ -1,217 +1,293 @@
 {
   "package": "balancer",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 28,
-  "creation_timestamp": "2025-06-18T16:36:34.213858",
+  "total_modules": 34,
+  "creation_timestamp": "2025-07-15T23:11:52.192956",
   "modules": [
     {
       "module_path": "Balancer.Distributor.P2C",
-      "description": "Provides functions to select a peer from a set of loaded nodes and execute actions on it. Operates with state derived from server sets and unit parameters. Used to dynamically route requests to available nodes in a distributed system.",
-      "description_length": 234,
+      "library": "balancer",
+      "description": "Implements a two-choice load balancing strategy over a set of loaded nodes. Uses a stateful approach to select peers based on current load, supporting asynchronous operations. Suitable for distributing requests across backend servers with dynamic load tracking.",
+      "description_length": 261,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Distributor.CHash",
-      "description": "Computes a 64-bit checksum from a Cstruct buffer using a non-cryptographic hash function. It processes raw byte data and returns a compact numeric representation suitable for quick comparisons. This is useful for generating unique identifiers or detecting data corruption in network protocols.",
-      "description_length": 293,
+      "module_path": "Balancer.Serverset.LoadedNodes",
+      "library": "balancer",
+      "description": "This module manages a synchronized collection of loaded server nodes, supporting dynamic updates through addition or removal of nodes. It works with synchronized variables holding sets of loaded nodes and provides operations to convert, update, and query the node collection based on node lists or external signals. Concrete use cases include maintaining an up-to-date set of active nodes in a load balancer in response to runtime changes or external configuration updates.",
+      "description_length": 473,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Distributor.CHashLeastLoaded",
-      "description": "Provides functions to calculate and manage load distribution across a set of targets using a least-loaded hashing strategy. Operates on integers representing node identifiers and a fixed fanout value to determine the number of candidates evaluated during lookup. Used to implement efficient, low-latency routing in distributed systems with dynamic node availability.",
-      "description_length": 366,
+      "module_path": "Balancer.Util.COUNTER",
+      "library": "balancer",
+      "description": "This module implements an atomic counter with operations to increment, decrement, retrieve, and set the counter value. It works with a generic element type `elt` and uses a reference to store the counter state. Concrete use cases include tracking shared resource usage in concurrent programs, managing connection counts in network servers, and synchronizing state across threads.",
+      "description_length": 379,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Distributor.RoundRobin",
-      "description": "Selects a peer from a round-robin queue based on a parameter, ensuring balanced distribution across nodes. Executes a function with the selected peer, maintaining state between calls. Designed for load balancing in distributed systems with fixed node sets.",
-      "description_length": 256,
+      "module_path": "Balancer.Distributor.S",
+      "library": "balancer",
+      "description": "This module implements a peer selection and request distribution mechanism for load balancing. It maintains state across distributed nodes and selects peers based on runtime parameters, supporting dynamic routing logic. It is used to build custom load balancing strategies that determine which backend node should handle a given request.",
+      "description_length": 337,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Distributor.P2C_PKG",
-      "description": "Calculates the sum of a 64-bit integer from a Cstruct buffer. Operates on Cstruct.t, extracting and processing binary data. Used to aggregate packet data in network protocols requiring 64-bit sums.",
-      "description_length": 197,
+      "module_path": "Balancer.Serverset.LoadedSet",
+      "library": "balancer",
+      "description": "This module enables functional manipulation of immutable collections of `LoadedNode.t` values through a comprehensive set API, supporting standard operations like union, intersection, filtering, and ordered traversal via sequences. It emphasizes safe, efficient transformations with sequence integration for ordered processing and bulk updates, ideal for dynamic server group management in load balancing workflows where predictable node ordering and atomic set modifications are critical.",
+      "description_length": 489,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Util.Counter",
-      "description": "Increments and decrements values of type t, with zero as the initial value. Works with a single numeric type t, supporting arithmetic progression. Used to track sequential counts in stateful computations.",
-      "description_length": 204,
+      "module_path": "Balancer.Serverset.RRQueue",
+      "library": "balancer",
+      "description": "This module implements a round-robin queue for load balancing across a set of nodes. It supports adding, removing, and updating nodes, as well as asynchronously taking the next available node from the queue. The queue maintains a mutable set of nodes and ensures even distribution of requests across active nodes.",
+      "description_length": 313,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Util.Counter32",
-      "description": "Increments and decrements 32-bit integer counters, retrieves their current values, and allows setting specific values. Operates on references to 32-bit integers, providing atomic-like behavior for concurrent updates. Used to track counts in systems requiring 32-bit precision, such as network packet counters or game score tracking.",
-      "description_length": 332,
+      "module_path": "Balancer.Distributor.P2C_PKG",
+      "library": "balancer",
+      "description": "Implements peer selection and request distribution logic using a two-choice algorithm over a loaded node set. Operates on network request parameters and server state to dynamically pick targets for load balancing. Executes distributed calls while maintaining node load metrics and handling connection failures.",
+      "description_length": 310,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Util.Counter64",
-      "description": "Increments and decrements 64-bit integer values stored in references, retrieving or updating their current value. Operates on `int64` values and `int64 ref` containers. Used to track and modify counters in systems requiring large numeric ranges, such as network packet counters or high-frequency event logging.",
-      "description_length": 310,
+      "module_path": "Balancer.Util.INT",
+      "library": "balancer",
+      "description": "This module implements atomic increment and decrement operations for a thread-safe integer type. It provides `succ` and `pred` functions to modify the value in a concurrency-safe manner, ensuring correct state transitions under parallel execution. Use this type to maintain counters or shared state across multiple threads without race conditions.",
+      "description_length": 347,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Util.SyncVar",
-      "description": "Provides atomic read and write operations on a shared value, ensuring thread safety with a reader-writer lock. Works with a mutable value wrapped in a type that supports asynchronous operations. Used to safely update or access shared state in concurrent programs, such as maintaining a global configuration or tracking shared counters.",
-      "description_length": 335,
+      "module_path": "Balancer.Serverset.NodeSet",
+      "library": "balancer",
+      "description": "This module supports functional manipulation of immutable collections of nodes, including union, intersection, filtering, and conversion to and from sequences. It operates on sets of `Balancer.Node.t` elements, enabling efficient membership tests, bulk updates, and traversal. Typical applications include managing dynamic node groups for load balancing, partitioning nodes based on attributes, and processing sets through sequence-based transformations.",
+      "description_length": 454,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Serverset.LoadedNode",
-      "description": "Encapsulates a node and a counter value, providing access to the underlying node and counter through dedicated functions. Supports creating and comparing instances based on node identity and counter value. Used to track and manage node states with unique counter increments.",
-      "description_length": 274,
+      "module_path": "Balancer.Serverset.S",
+      "library": "balancer",
+      "description": "Maintains dynamic server sets for load balancing decisions using external data sources or event streams. It supports adding and removing nodes, retrieving the current node list, and synchronizing state with a reactive event source. This module is used to manage server membership and availability in distributed systems where nodes can change dynamically.",
+      "description_length": 355,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Serverset.NodeSet",
-      "description": "The module provides set operations such as membership checks, unions, intersections, and transformations, along with querying and iteration functions. It works with generic sets and sequences of Node.t elements, enabling tasks like building sets from data streams and processing structured data. Specific use cases include graph algorithms and data filtering where precise set manipulations are required.",
-      "description_length": 404,
+      "module_path": "Balancer.Distributor.CHash",
+      "library": "balancer",
+      "description": "Implements consistent hashing for distributing requests across a dynamic set of nodes. Uses Cstruct.t as input for keys and maintains a state of available nodes to ensure balanced distribution. Useful for load balancing in distributed systems where nodes can join or leave frequently.",
+      "description_length": 284,
       "index": 10,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balancer.Serverset.LoadedSet",
-      "description": "The module provides set operations like adding, removing, and combining elements, along with querying, transforming, and iterating over sets, using a generic set type `t` and sequences of `LoadedNode.t` for construction. It supports efficient membership checks, cardinality calculations, and sequence-based modifications, making it suitable for tasks such as dynamic data aggregation or symbolic computation workflows. Specific functions like `add_seq` and `of_seq` enable seamless conversion between sequences and sets, ideal for processing incremental or streamed data.",
-      "description_length": 571,
+      "module_path": "Balancer.Distributor.RoundRobin",
+      "library": "balancer",
+      "description": "Implements a round-robin load balancing strategy using a queue to distribute requests across a set of servers. Maintains a rotating list of peers and selects the next available server on each call to `pick` or `use`. Suitable for scenarios where requests need to be evenly distributed across multiple backend nodes in a predictable order.",
+      "description_length": 338,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Serverset.LoadedNodes",
-      "description": "Loads and manages a set of nodes, supporting synchronization and updates. It operates on `Node.t` values and `LoadedSet.t` structures, enabling dynamic addition, removal, and retrieval of nodes. It is used to maintain a consistent view of active nodes in a concurrent or reactive system.",
-      "description_length": 287,
+      "module_path": "Balancer.Distributor.CHashLeastLoaded",
+      "library": "balancer",
+      "description": "Implements consistent hashing with least-loaded node selection for distributed load balancing. Uses `Cstruct.t` as input parameters and tracks server states with `LoadedNodes.t`, selecting peers based on minimal current load. Useful for routing requests to the least busy server in a distributed system while maintaining affinity.",
+      "description_length": 330,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balancer.Serverset.Nodes",
-      "description": "Converts a list of node elements into a synchronized set, allowing concurrent updates and access. Manages node sets through atomic operations like adding, removing, and retrieving nodes in a thread-safe manner. Integrates with reactive signals to propagate changes to dependent components.",
-      "description_length": 289,
+      "module_path": "Balancer.Distributor.Fanout",
+      "library": "balancer",
+      "description": "This module defines a fixed integer value `fanout` that specifies the number of downstream nodes or services to distribute requests to in a load balancing context. It is used to configure fanout-based distribution strategies where a single request is replicated to multiple endpoints. Concrete use cases include implementing broadcast or scatter-gather patterns in distributed systems.",
+      "description_length": 385,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Serverset.RRQueue",
-      "description": "Provides operations to manage a synchronized queue of nodes, including adding, removing, and updating elements, as well as extracting the current node list. Works with `NodeSet.elt` and `Util.SyncVar.t` to ensure thread-safe access and state synchronization. Used to coordinate node availability in distributed systems, allowing safe retrieval and modification of node sets across asynchronous processes.",
-      "description_length": 404,
+      "module_path": "Balancer.Util.Counter32",
+      "library": "balancer",
+      "description": "This module implements a thread-safe 32-bit integer counter with atomic increment, decrement, and access operations. It works with `int32` values wrapped in a reference type, ensuring safe mutation in concurrent contexts. Concrete use cases include tracking shared resource counts, managing connection limits, or coordinating state across threads without external locking.",
+      "description_length": 372,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Make",
-      "description": "Maintains a dynamic set of nodes, allowing updates, additions, and removals with asynchronous operations. It works with node lists and server set structures, integrating with external event sources. Used to synchronize node configurations across distributed systems in real time.",
-      "description_length": 279,
+      "module_path": "Balancer.Util.Counter",
+      "library": "balancer",
+      "description": "This module implements atomic counters with thread-safe increment, decrement, get, and set operations. It works with a generic element type `elt`, typically an integer type, and stores values in a reference (`ref`). Concrete use cases include tracking shared resource usage, managing access counts in concurrent systems, and implementing rate limiting logic.",
+      "description_length": 358,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Distributor",
-      "description": "Handles peer selection and task distribution by choosing a suitable peer based on current state and parameters, then executing a node-specific operation with that peer. Operates on custom state and parameter types, along with a peer representation. Used to route requests to active nodes in a distributed system, ensuring load balancing and fault tolerance.",
-      "description_length": 357,
+      "module_path": "Balancer.Util.Counter64",
+      "library": "balancer",
+      "description": "This module implements a thread-safe 64-bit integer counter with atomic increment, decrement, and access operations. It works with `int64` values wrapped in a reference type for mutable state. Concrete use cases include tracking shared resource usage, managing rate limits, and coordinating state across concurrent threads.",
+      "description_length": 323,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Node",
-      "description": "Encodes and decodes node information between string, Cstruct, and a structured type. Processes host and port values, along with an optional ID, to construct node representations. Supports comparison and serialization for network-related data handling.",
-      "description_length": 251,
+      "module_path": "Balancer.Serverset.Nodes",
+      "library": "balancer",
+      "description": "This module manages a synchronized set of server nodes, providing functions to add, remove, and retrieve nodes in a thread-safe manner. It works with `NodeSet.t` values wrapped in a synchronous variable type `SyncVar.t`, allowing for reactive updates and list-based node manipulation. Concrete use cases include dynamically updating server node collections in a load balancer and synchronizing node state across distributed components.",
+      "description_length": 435,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.Serverset",
-      "description": "Maintains a set of nodes for load balancing and membership tracking, supporting dynamic updates and queries. It operates on `Node.t` values and uses `Lwt` for asynchronous operations like adding or removing nodes. It enables real-time synchronization with external node sources through reactive updates.",
-      "description_length": 303,
+      "module_path": "Balancer.Distributor.Checksum",
+      "library": "balancer",
+      "description": "Implements a 64-bit checksum calculation over Cstruct.t buffers. Uses a rolling sum algorithm to efficiently compute checksums for network packet data. Useful for validating data integrity in streaming network protocols.",
+      "description_length": 220,
       "index": 18,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balancer.Chash",
-      "description": "Provides functions to locate elements in a list based on a hash value, distribute elements across a specified number of shards, and extract sublists by index range. Operates on lists and integer indices, using 64-bit integers for hash-based operations. Enables efficient data partitioning and retrieval in distributed systems.",
-      "description_length": 326,
+      "module_path": "Balancer.Util.SyncVar",
+      "library": "balancer",
+      "description": "This module implements a thread-safe mutable variable with multi-reader, single-writer semantics, automatically managing a read-write mutex internally. It supports operations to read the current value, update it under a write lock, and run synchronous effects with exclusive access. Concrete use cases include safely sharing and modifying state across concurrent Lwt threads, such as tracking shared counters, configuration settings, or coordinating state changes in a concurrent system.",
+      "description_length": 487,
       "index": 19,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balancer.Util",
-      "description": "Provides operations to manage a mutable counter value, including initialization, increment, decrement, retrieval, and setting. Works with a type `elt` wrapped in a reference type `t`. Used to track and update numeric or custom counter values in real-time scenarios.",
-      "description_length": 265,
+      "module_path": "Balancer.Serverset.LoadedNode",
+      "library": "balancer",
+      "description": "This module represents a server node paired with a load counter, providing direct access to the node and its current load. It includes functions to construct and compare loaded nodes, as well as extract the node or load value. Concrete use cases include tracking and comparing server load in a distributed system.",
+      "description_length": 313,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.P2C",
-      "description": "Manages a set of nodes and their associated state, enabling dynamic updates and queries. It supports adding or removing nodes, retrieving node lists, and selecting peers based on specific parameters. Operations are asynchronous, allowing integration with event-driven systems.",
-      "description_length": 276,
+      "module_path": "Balancer.S",
+      "library": "balancer",
+      "description": "This module implements a load balancing system that selects and uses backend peers based on a dynamic set of nodes. It provides operations to pick a peer from the current state, execute actions on selected peers, and manage the set of available nodes through additions, removals, and updates from an external source. Use cases include distributing client requests across a changing set of backend servers and maintaining connection state in a networked application.",
+      "description_length": 465,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.CHash",
-      "description": "Calculates a 64-bit sum of the bytes in a Cstruct.t buffer. Processes raw byte data for checksumming or hashing purposes. Used to generate a compact numeric representation of binary data for validation or indexing.",
-      "description_length": 214,
+      "module_path": "Balancer.P2C",
+      "library": "balancer",
+      "description": "This module implements a power-of-two choices (P2C) load balancing strategy over a set of nodes. It supports dynamic node management with addition, removal, and real-time selection of least-loaded peers for request distribution. Operations include updating node states, selecting peers based on load, and applying functions to nodes within an Lwt async context.",
+      "description_length": 361,
       "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer.CHashLeastLoaded",
-      "description": "Provides functions to calculate and manage load distribution across a set of targets using a least-loaded hashing strategy. Operates on integers representing node identifiers and a list of load metrics to determine optimal assignment. Used to route requests to the least busy server in a distributed system.",
-      "description_length": 307,
+      "module_path": "Balancer.RoundRobin",
+      "library": "balancer",
+      "description": "Implements a round-robin load balancing strategy over a set of nodes. It supports dynamic node management with operations to add, remove, and list nodes, maintaining a queue to distribute requests evenly. The module integrates with Lwt for asynchronous operations and React for signal-based updates.",
+      "description_length": 299,
       "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balancer.RoundRobin",
-      "description": "Manages a rotating selection of nodes for load balancing, supporting dynamic updates and stateful picking of peers. It operates on sets of nodes and maintains an internal state to track round-robin positions. Used to distribute requests to a pool of nodes while allowing additions, removals, and efficient selection based on configured parameters.",
-      "description_length": 347,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Balancer.P2C_PKG",
-      "description": "Calculates the sum of a 64-bit integer from a Cstruct buffer. Operates on Cstruct.t to extract and process binary data. Used to validate packet checksums in network protocol implementations.",
-      "description_length": 190,
-      "index": 25,
-      "embedding_norm": 1.0
+      "library": "balancer",
+      "description": "This module implements a peer selection and load balancing strategy for managing a dynamic set of nodes. It supports operations to add or remove nodes, select peers based on an internal state and parameter, and apply functions to selected peers. Concrete use cases include distributing load across backend servers in a networked application and managing failover between node sets.",
+      "description_length": 381,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "balancer",
-      "description": "Provides functions for selecting targets based on specific load balancing strategies, including power-of-two-choices, round robin, and consistent hashing with optional load-awareness. Operates on node lists and maintains internal state to reflect current cluster configurations. Enables dynamic updates and node management in distributed systems requiring efficient request routing.",
-      "description_length": 382,
+      "module_path": "Balancer.CHashLeastLoaded",
+      "library": "balancer",
+      "description": "Implements consistent hashing with least-loaded node selection for distributed request routing. Maintains a dynamic set of nodes and tracks load metrics to route requests to the least loaded node among replicas. Use for load balancing HTTP requests or database queries across a sharded cluster.",
+      "description_length": 294,
+      "index": 25,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Balancer.Chash",
+      "library": "balancer",
+      "description": "Implements consistent hashing for distributing keys across nodes, supporting lookup of a key's target node, retrieval of shards for a range of keys, and slicing a list of nodes into a subset. Works with lists of arbitrary values representing nodes or shards, and uses 64-bit integers to represent keys. Useful for building distributed systems like load balancers or distributed caches where nodes can be added or removed without significant reshuffling of keys.",
+      "description_length": 461,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balancer",
-      "description": "Provides functions to select, route, and manage a set of peers based on a state and parameters. Operates on custom types like `param`, `state`, `peer`, and `elt`, along with a `t` type representing the balancer instance. Used to dynamically adjust load distribution by adding/removing nodes, updating server sets, and selecting peers for requests.",
-      "description_length": 347,
+      "module_path": "Balancer.Distributor",
+      "library": "balancer",
+      "description": "This module provides core load balancing strategies and utilities for distributing requests across distributed systems. It supports multiple algorithms including power-of-two-choices, consistent hashing, and round-robin, enabling dynamic routing of HTTP, RPC, and database traffic based on client connections, endpoint states, and keys. The module includes submodules for tracking load, computing checksums, and implementing custom routing logic, such as selecting least-loaded nodes or replicating requests via a configurable fanout parameter. Specific capabilities include maintaining node state, handling connection failures, and ensuring balanced distribution as nodes join or leave the system.",
+      "description_length": 698,
       "index": 27,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Balancer.Util",
+      "library": "balancer",
+      "description": "This module provides thread-safe abstractions for managing shared state and coordinating concurrent operations, including atomic counters and synchronization variables. It supports atomic increment, decrement, read, and reset operations across multiple counter types, including generic, integer, int32, and int64 variants, while ensuring safe mutation across threads. The module also includes a synchronization variable type that enforces multi-reader, single-writer access patterns with internal locking, ideal for sharing mutable state like configuration settings or connection counts. Specific uses include tracking resource limits in network servers, coordinating asynchronous task cleanup, and implementing rate limiting logic without external synchronization.",
+      "description_length": 765,
+      "index": 28,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Balancer.CHash",
+      "library": "balancer",
+      "description": "Implements consistent hashing for node-based load balancing, providing operations to dynamically add or remove nodes and select peers based on a distribution strategy. Works with node sets and element types defined in `Serverset.Nodes`, supporting asynchronous updates and real-time node tracking. Used to distribute requests across a changing set of backend servers while minimizing reassignment during membership changes.",
+      "description_length": 423,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Balancer.Serverset",
+      "library": "balancer",
+      "description": "This module coordinates dynamic server sets for load balancing by combining node tracking, set operations, and selection strategies. It maintains nodes with weights and load counts, supporting additions, removals, and selections via round-robin or least-connections methods. Submodules handle synchronized node sets with reactive updates, functional set transformations, and load-aware node tracking, enabling use cases like real-time load distribution and dynamic group management. Examples include updating active nodes from external signals, filtering server groups based on attributes, and maintaining a thread-safe, evolving set for request routing.",
+      "description_length": 654,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Balancer.Make",
+      "library": "balancer",
+      "description": "This module implements a dynamic load balancer that manages a set of servers, allowing for runtime updates, additions, and removals of nodes. It provides functions to select and use a backend server based on a given parameter, integrating with an external source of node sets via Lwt asynchronous events. It is used to route requests to a changing set of nodes while maintaining consistency and availability.",
+      "description_length": 408,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Balancer.Node",
+      "library": "balancer",
+      "description": "This module defines a node structure with identifiers, hostnames, and ports. It provides functions to serialize and deserialize nodes to and from strings and Cstruct.t values, along with creating and comparing nodes. It is used for managing network node information in a consistent and convertible format.",
+      "description_length": 305,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Balancer",
+      "library": "balancer",
+      "description": "This module orchestrates load balancing across dynamic server sets using strategies like consistent hashing, power-of-two-choices, and round-robin. It manages node selection, state updates, and request routing, with support for asynchronous operations via Lwt and reactive updates via React. Core data types include nodes with identifiers and load metrics, and operations span peer selection, node management, and function application. Examples include distributing RPC calls across backends, routing HTTP requests in service meshes, and maintaining consistent hashing rings for sharded clusters.",
+      "description_length": 596,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 28,
-    "meaningful_modules": 28,
+    "total_modules_in_package": 34,
+    "meaningful_modules": 34,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 571,
-    "min_description_length": 190,
-    "avg_description_length": 307.14285714285717,
-    "embedding_file_size_mb": 0.1021718978881836
+    "max_description_length": 765,
+    "min_description_length": 220,
+    "avg_description_length": 402.1470588235294,
+    "embedding_file_size_mb": 0.12398433685302734
   }
 }

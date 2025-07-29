@@ -1,105 +1,141 @@
 {
   "package": "checked_oint",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:34:10.696688",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:09:00.370989",
   "modules": [
     {
-      "module_path": "Checked_oint.U8",
-      "description": "The module provides arithmetic and bitwise operations on values of type `t` representing 8-bit unsigned integers, including addition, multiplication, shifts, and conversions from integers and strings, with overflow/underflow managed through exceptions or optional returns. It supports use cases requiring precise control over fixed-size numeric operations, such as systems programming or data validation, where ensuring numerical bounds is critical.",
-      "description_length": 449,
+      "module_path": "Checked_oint.I8",
+      "library": "checked_oint",
+      "description": "This module implements arithmetic and bitwise operations, comparisons, and bounds-safe conversions for 8-bit signed integers, using a dedicated type to represent values. Operations like addition, multiplication, and shifts handle overflow or underflow by returning optional values or raising exceptions, while conversions support interoperability with integers, strings, and constants like min/max. It is particularly useful in system-level programming, numerical algorithms requiring explicit error handling, and parsing applications where precise bitwidth and safety guarantees are essential.",
+      "description_length": 594,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Checked_oint.U16",
-      "description": "This module offers low-level arithmetic, bitwise, and comparison operations on 16-bit unsigned integers, including addition, multiplication, shifts, and conversions between integers, strings, and the custom `t` type. It supports safe and unsafe variants for handling overflow/underflow, with parsing capabilities for string representations in multiple bases. Use cases include systems programming, network protocol parsing, and embedded systems requiring precise 16-bit numeric manipulation.",
-      "description_length": 491,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Checked_oint.S",
+      "library": "checked_oint",
+      "description": "This module enables safe integer arithmetic with explicit error handling for overflow and underflow, offering both optional-returning operations (e.g., addition, shifts) and exception-raising variants (e.g., multiplication, division). It operates on an abstract integer type `t` representing fixed-bit signed or unsigned integers of configurable bitwidths (8 to 128), supporting conversions to/from generic integers and string representations. Typical use cases include systems requiring precise numeric control, such as cryptographic algorithms, embedded systems, or financial computations where runtime errors from arithmetic edge cases must be explicitly managed.",
+      "description_length": 666,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Checked_oint.U32",
-      "description": "The module offers arithmetic and bitwise operations on 32-bit unsigned integers, including addition, multiplication, shifts, and conversions from int/string, with both safe (option-returning) and unsafe (exception-raising) variants. It enables precise control over overflow/underflow handling, making it suitable for low-level numeric manipulations in systems requiring deterministic behavior, such as protocol implementations or embedded systems. Specific use cases include safe integer conversions, bitwise logic for data encoding, and arithmetic operations where overflow detection is critical.",
-      "description_length": 597,
+      "library": "checked_oint",
+      "description": "This module provides 32-bit unsigned integer arithmetic with overflow/underflow detection through `option`-returning operations like addition, multiplication, and bitwise manipulations, alongside unsafe `_exn` variants that raise exceptions on errors. It supports conversions to/from integers and strings, min/max constants, and comparison utilities, operating on a wrapped 32-bit unsigned integer type. It is suited for safety-critical numerical computations, low-level systems programming, or scenarios requiring explicit error handling of arithmetic edge cases.",
+      "description_length": 564,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Checked_oint.U64",
-      "description": "This module offers arithmetic, bitwise, and comparison operations on 64-bit unsigned integers, including addition, multiplication, shifts, and conversions between integers, strings, and the custom `t` type. It emphasizes explicit error handling through option types and exceptions for overflow/underflow scenarios. Use cases include low-level systems programming, binary data manipulation, and applications requiring precise control over 64-bit unsigned numeric operations.",
-      "description_length": 473,
+      "module_path": "Checked_oint.I128",
+      "library": "checked_oint",
+      "description": "This module implements 128-bit signed integer arithmetic with overflow-checked operations, supporting addition, subtraction, multiplication, division, bitwise logic, and comparisons. It operates on a dedicated 128-bit integer type (`t`), providing safe conversions to/from strings and generic numeric types, along with splitting into 64-bit unsigned components. Designed for applications requiring precise 128-bit calculations, such as cryptographic protocols, financial modeling, or systems needing overflow-aware arithmetic with guaranteed safety guarantees through `option` returns or explicit exceptions.",
+      "description_length": 608,
       "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Checked_oint.U8",
+      "library": "checked_oint",
+      "description": "This module provides arithmetic and bitwise operations for 8-bit unsigned integers, including overflow-checked addition, subtraction, multiplication, division, and bit manipulation (OR, AND, XOR, shifts), with safety guarantees through `option` returns or exceptions. It operates on the `U8.t` type and supports conversions to/from strings and generic types, while enforcing bounds via explicit error handling. It is particularly useful in systems programming, embedded systems, or low-level data structure implementations where strict overflow control and bit-level precision are critical.",
+      "description_length": 590,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Checked_oint.U128",
-      "description": "This module offers arithmetic operations (addition, subtraction, multiplication, division, remainder), bitwise manipulations (negation, conjunction, disjunction, shifts), and comparisons for 128-bit unsigned integers, along with overflow/underflow handling. It supports conversions between these integers, strings, and 64-bit components, enabling precise control over large numeric values. Use cases include cryptographic algorithms, financial calculations, and systems programming where explicit overflow management and bitwise flexibility are critical.",
-      "description_length": 554,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Checked_oint.I8",
-      "description": "This module provides arithmetic and bitwise operations on 8-bit integers, including addition, multiplication, shifts, and logical operations, alongside conversion utilities for integer and string representations. It handles overflow and underflow through option types or exceptions, making it suitable for low-level systems programming or embedded environments where precise control over 8-bit data is required. Use cases include scenarios demanding strict bit manipulation or safe numerical range enforcement.",
-      "description_length": 510,
+      "module_path": "Checked_oint.U16",
+      "library": "checked_oint",
+      "description": "This implementation provides 16-bit unsigned integer arithmetic with overflow/underflow detection through exceptions, supporting operations like addition, bitwise manipulation, and shifting alongside conversions to/from strings and generic types. It centers on a constrained `t` type for safe numeric manipulation, offering both checked functions returning optional values and unsafe variants that raise `Out_of_range` exceptions. The design targets scenarios requiring strict numeric bounds enforcement, such as systems programming or financial calculations, where invalid states must be explicitly handled rather than silently propagated.",
+      "description_length": 640,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Checked_oint.I16",
-      "description": "This module offers arithmetic, bitwise, and comparison operations on 16-bit integers, including addition, subtraction, multiplication, division, shifts, and min/max calculations, with explicit handling of overflow/underflow through exceptions or checked conversions. It works with signed and unsigned 16-bit integer types, providing utilities for conversions between int, string, and generic representations, as well as metadata and constant values. Use cases include low-level systems programming, embedded systems, or protocols requiring precise 16-bit integer manipulation and safe arithmetic validation.",
-      "description_length": 607,
-      "index": 6,
-      "embedding_norm": 1.0000001192092896
-    },
-    {
-      "module_path": "Checked_oint.I32",
-      "description": "This module offers arithmetic operations (addition, subtraction, multiplication, division, remainder), bitwise operations (negation, conjunction, disjunction, shifts), and comparisons (min, max) on 32-bit integers, with explicit overflow/underflow handling via exceptions or option types. It works with a fixed-size 32-bit integer type, supporting conversions from native integers and strings, as well as constants like minimum and maximum values. Use cases include low-level systems programming, embedded systems, or applications requiring precise control over integer behavior and error handling.",
-      "description_length": 598,
-      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Checked_oint.I64",
-      "description": "The module provides arithmetic, bitwise, and comparison operations on a custom 64-bit integer type `t`, including addition, multiplication, shifts, and min/max functions, with safety mechanisms for overflow/underflow. It supports conversions from integers and strings, enabling precise manipulation of i64 values in scenarios like financial calculations or systems programming where exactness is critical. Both safe (option-returning) and unsafe (exception-raising) variants are available to handle errors based on application requirements.",
-      "description_length": 540,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Checked_oint.I128",
-      "description": "This module offers arithmetic and bitwise operations\u2014such as addition, multiplication, shifts, and comparisons\u2014on 128-bit integers (type `t`), along with overflow/underflow handling via options or exceptions. It supports conversions from `int` and `string`, and includes utilities for splitting values into 64-bit components or formatting outputs. Use cases include cryptographic computations, large numerical processing, and systems requiring precise control over integer overflows.",
-      "description_length": 483,
-      "index": 9,
+      "library": "checked_oint",
+      "description": "This module implements checked arithmetic and bitwise operations for 64-bit signed integers, including addition, multiplication, division, shifts, and comparisons, with overflow and underflow handling via `option` returns or `Out_of_range` exceptions. It works with the 64-bit integer type `t` and supports conversions to/from other numeric types while enforcing strict error checking. It is particularly useful in safety-critical applications like system-level programming, cryptographic algorithms, or financial computations where unchecked integer behavior could lead to vulnerabilities or incorrect results.",
+      "description_length": 611,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "checked_oint",
-      "description": "Performs arithmetic operations with overflow checking for 8, 16, 32, 64, and 128-bit signed and unsigned integers. Supports addition, subtraction, multiplication, and division with explicit handling of overflow conditions. Used in safety-critical applications where unexpected integer overflows could lead to undefined behavior.",
-      "description_length": 328,
+      "module_path": "Checked_oint.I16",
+      "library": "checked_oint",
+      "description": "This module provides checked arithmetic and bitwise operations for 16-bit signed integers, including addition, subtraction, multiplication, division, remainder, and shift operations, with variants that return `option` types to safely handle overflow/underflow. It works with a 16-bit signed integer type (`t`) and supports conversions from integers and strings, along with constants like `min_int`, `max_int`, and bitwidth. These features are particularly useful in systems programming, embedded systems, or numerical code requiring strict overflow safety guarantees.",
+      "description_length": 567,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Checked_oint.Singleton",
+      "library": "checked_oint",
+      "description": "This module provides arithmetic and bitwise operations with overflow/underflow detection for a single typed integer value, supporting operations like addition, multiplication, division, shifts, and comparisons. It works with a singleton type `t` that encapsulates integers of arbitrary bit width (signed or unsigned) and includes utilities for safe conversions, string representation, and boundary checks. It is particularly useful in scenarios requiring strict type safety and error handling for numeric operations, such as cryptographic implementations or low-level system programming where undefined behavior must be avoided.",
+      "description_length": 628,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Checked_oint.I32",
+      "library": "checked_oint",
+      "description": "This module implements 32-bit signed integer arithmetic with overflow-aware operations, including addition, multiplication, bitwise shifts, and comparisons, returning `option` types to handle errors safely. It works with 32-bit integer values (`t` type) and supports conversions to/from integers, strings, and a generic type, along with constants like min/max values. It is suitable for systems programming or safety-critical applications where precise 32-bit integer behavior and overflow detection are required.",
+      "description_length": 513,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Checked_oint.Pair",
+      "library": "checked_oint",
+      "description": "This module offers arithmetic and bitwise operations on pairs of checked integers, ensuring overflow and underflow safety through optional returns or explicit exceptions. It operates on homogeneous integer pairs, preserving their type constraints while enabling conversions to strings, generic integers, and numerical ranges. Typical use cases include safe numerical computations involving paired values, such as coordinate manipulation, range calculations, or dual-register operations where type consistency and overflow checks are critical.",
+      "description_length": 542,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Checked_oint",
-      "description": "This module provides checked arithmetic, bitwise, and comparison operations on custom integer types with defined bit-widths, signedness, and ranges, including overflow/underflow handling via option types or exceptions. It supports conversions from `int` and `string` with error management, as well as specialized operations like signed/unsigned right shifts and generic type conversions. Use cases include safety-critical systems, financial calculations, and low-level programming where precise control over integer behavior is essential.",
-      "description_length": 538,
+      "module_path": "Checked_oint.Int_ty",
+      "library": "checked_oint",
+      "description": "This module defines a polymorphic variant type `t` representing specific integer type tags, including signed and unsigned variants of 8, 16, 32, 64, and 128 bits. It provides constants for each integer type (e.g., `u8`, `i64`), operations to compare and display these type tags, and a function `of_generic` to determine the concrete type of a generic integer. Use cases include selecting and manipulating specific integer representations in a type-safe manner during arithmetic operations or serialization tasks.",
+      "description_length": 512,
       "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Checked_oint.U128",
+      "library": "checked_oint",
+      "description": "This module implements arithmetic (addition, multiplication, division), bitwise operations, and comparisons for 128-bit unsigned integers, with functions to safely handle overflow/underflow via `option` returns or exceptions. It provides conversions to strings, splitting into 64-bit halves, and interactions with generic numeric types, enabling precise computation in scenarios like cryptographic algorithms or system-level programming where large integer ranges and bit manipulation are critical.",
+      "description_length": 498,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Checked_oint.U64",
+      "library": "checked_oint",
+      "description": "This module provides checked arithmetic and bitwise operations for 64-bit unsigned integers, including addition, subtraction, multiplication, division, remainder, shifts, and logical operations, with explicit overflow/underflow handling via `option` types or exceptions. It works with the `U64.t` type, offering constants like min/max values and conversion utilities for integers and strings. It is particularly useful in safety-critical contexts such as cryptographic calculations, system-level resource management, or financial computations where precise error handling for numeric boundaries is essential.",
+      "description_length": 608,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Checked_oint",
+      "library": "checked_oint",
+      "description": "This library provides checked integer arithmetic for signed and unsigned integers across multiple bit widths, using dedicated types to enforce overflow safety through optional returns or exceptions. It includes modules for specific bit sizes like 8-bit signed, 32-bit unsigned, and 128-bit signed integers, each offering arithmetic, bitwise operations, comparisons, and conversions to and from strings and generic integers. Operations such as addition, multiplication, and shifts detect overflow or underflow explicitly, supporting both safe and unsafe variants, while utility modules handle type tagging, value pairing, and bitwidth-specific constants. Use cases span cryptographic algorithms, embedded systems, and financial computations where strict numeric control and error handling are critical.",
+      "description_length": 801,
+      "index": 14,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 607,
-    "min_description_length": 328,
-    "avg_description_length": 514.0,
-    "embedding_file_size_mb": 0.04397010803222656
+    "max_description_length": 801,
+    "min_description_length": 498,
+    "avg_description_length": 596.1333333333333,
+    "embedding_file_size_mb": 0.05492687225341797
   }
 }

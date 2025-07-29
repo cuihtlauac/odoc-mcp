@@ -1,105 +1,101 @@
 {
   "package": "bap-main",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:33:15.812191",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:04.615828",
   "modules": [
     {
-      "module_path": "Bap_main_event.Log.Create",
-      "description": "Provides functions to log messages at different severity levels, including debug, info, warning, and error, and to report task progress with detailed stage and total tracking. Works with format strings, formatters, and optional task parameters to structure and control output. Used in BAP plugins to monitor long-running analyses, such as reporting progress during term enumeration or point checking.",
-      "description_length": 400,
+      "module_path": "Bap_main.Extension.Error",
+      "library": "bap-main",
+      "description": "This module defines a polymorphic variant type `t` representing an extensible set of possible errors that can occur during BAP extension execution, including configuration issues, invalid inputs, exit requests, unknown plugins, and unexpected bugs. It provides functions `pp` for pretty-printing errors and `register_printer` to extend error formatting capabilities. Concrete use cases include handling plugin loading failures, reporting misconfigurations, and debugging unexpected extension behavior.",
+      "description_length": 501,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bap_main.Extension.Command",
-      "description": "Declares command-line commands with custom grammars, supporting positional arguments, optional named parameters, switches, flags, and dictionary-style options. Operates on types like `param`, `t`, and specific value types such as `int`, `string`, and custom types through `Type` module. Used to define BAP plugins with structured command-line interfaces, such as parsing input files, setting output paths, or enabling debug modes.",
-      "description_length": 430,
+      "library": "bap-main",
+      "description": "This module defines an interface for specifying command-line commands and their parameters within BAP. It provides operations to declare commands with various argument types, including positional arguments, switches, flags, and dictionaries, along with combinators to build complex command grammars. It is used to extend BAP's command-line interface with custom commands and structured input parsing.",
+      "description_length": 400,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bap_main.Extension.Configuration",
-      "description": "The module provides functions to declare and retrieve plugin-specific configuration parameters, including single-value, multi-value, and flag types, along with utilities for managing context, plugins, and environment paths. It operates on structured data like configuration contexts, metadata, and command-line/environment values, enabling scenarios where configurations are set via files or environment variables without a command-line interface. Use cases include handling plugin-specific options with prefixed names and maintaining isolated configuration states.",
-      "description_length": 565,
+      "library": "bap-main",
+      "description": "This module enables declaring and managing plugin-specific configuration parameters with support for typed values, lists, and flags, including metadata and context-sensitive refinements. It operates on the `Bap_main.ctxt` structure to store and resolve configurations, allowing introspection of plugins, commands, and build-time settings like paths or versions. Typical use cases include defining CLI/environment-configurable options for plugins, validating parameter dependencies, and generating human-readable configuration snapshots via the `pp` function.",
+      "description_length": 558,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bap_main.Extension.Syntax",
-      "description": "Provides an infix operator to retrieve values from a configuration context based on parameter definitions. Works with a context object and parameter descriptors that encode type and access logic. Enables direct access to configuration values like `ctxt-->arch` where `arch` is a predefined parameter.",
-      "description_length": 300,
+      "module_path": "Bap_main_event.Log.Create",
+      "library": "bap-main",
+      "description": "This module creates logging reporters for a plugin, enabling debug, info, warning, and error message generation with formatted output. It works with string-based format specifiers and `Format.formatter` values to produce structured log output. Concrete use cases include emitting diagnostic messages during plugin execution and reporting progress on long-running tasks with optional task labels and completion stages.",
+      "description_length": 417,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bap_main.Extension.Type",
-      "description": "This module provides operations for parsing, validating, and comparing structured data, including primitive types (e.g., bool, int, string), custom data types, and composite structures like enumerations, file paths, lists, and tuples. It enables safe equality checks via MD5-based digests, particularly useful for handling non-structural data such as filenames or directories where direct comparison is impractical. Use cases include configuring command-line tools and ensuring consistent representation of parameters through combinators that refine, rename, or customize default values.",
-      "description_length": 587,
+      "module_path": "Bap_main.Extension.Syntax",
+      "library": "bap-main",
+      "description": "This module provides an infix operator `(-->)` for accessing configuration parameter values directly from a context object. It works with `Bap_main.ctxt` and typed configuration parameters (`'a Bap_main.Extension.Configuration.param`). Use this module to conveniently retrieve configuration values in extension code, such as getting the target architecture from the context using `ctxt --> arch`.",
+      "description_length": 396,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bap_main.Extension.Error",
-      "description": "Outputs a human-readable representation of error values and allows registration of custom string representations for specific error instances. Works with the abstract type `t` representing error states. Used to format error messages for logging and to extend error visualization in debugging tools.",
-      "description_length": 298,
+      "module_path": "Bap_main.Extension.Type",
+      "library": "bap-main",
+      "description": "This module provides operations to define parameter data types with parsing, validation, and serialization capabilities, including built-in primitives like integers and strings, as well as structured types such as lists, arrays, and tuples with customizable separators. It handles non-structural data (e.g., file paths) and enumerations, using MD5 digests to approximate equality when direct comparison is infeasible. These features are used to process command-line arguments, configure BAP extensions, and define custom parameter types with domain-specific validation and textual representations.",
+      "description_length": 597,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bap_main_event.Log",
-      "description": "Logs messages with severity levels\u2014debug, info, warning, error\u2014and tracks task progress using stage and total parameters. Supports formatted output through string interpolation and custom formatters. Enables detailed monitoring of extended operations, such as tracking term enumeration or point checking in BAP plugins. Provides structured, controlled logging for diagnostic and analytical workflows.",
-      "description_length": 400,
+      "module_path": "Bap_main.Extension",
+      "library": "bap-main",
+      "description": "This module orchestrates the development of BAP extensions by integrating core declaration mechanics with structured command-line interfaces, configuration handling, and error management. It centers around `declare` for registering extension logic and `documentation` for describing plugins, working with contexts and results to support custom commands, plugin configuration, and error propagation. The module\u2019s child components refine this functionality: one defines extensible errors and their formatting, another builds command grammars with typed arguments, a third manages typed configuration parameters, a fourth offers infix syntax for context-based parameter access, and a fifth supports custom parameter data types with parsing and validation. Together, they enable tasks like adding CLI commands with structured inputs, defining plugin configuration options with validation, and handling extension errors with precise diagnostics.",
+      "description_length": 940,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bap_main.Extension",
-      "description": "defines a system for extending BAP with structured command-line interfaces, configuration management, and data validation. It includes types like `param`, `t`, configuration contexts, and error states, along with operations for parsing arguments, retrieving values via infix syntax, validating data, and formatting errors. Users can create plugins with custom commands, manage settings through files or environment variables, and ensure consistent data handling with combinators and digest-based comparisons. Examples include parsing input files, accessing plugin-specific options like `ctxt-->arch`, and displaying detailed error messages for debugging.",
-      "description_length": 654,
+      "module_path": "Bap_main_event.Log",
+      "library": "bap-main",
+      "description": "This module manages structured logging and progress reporting across the event system, defining core types like log levels, messages, and progress updates with fields such as task, stage, and total. It supports emitting diagnostic output, tracking execution flow, and reporting progress from plugins through operations like debug, info, warning, and error. The child module extends this by creating formatted log reporters that integrate with `Format.formatter`, enabling rich, structured output during plugin execution. Together, they allow precise control over logging verbosity, message formatting, and progress tracking in both short and long-running operations.",
+      "description_length": 666,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "bap-main",
-      "description": "Provides functions for parsing and manipulating binary analysis platform (BAP) annotations, including extracting instruction operands and addressing modes. Operates on BAP's internal representation of machine code, such as expressions and memory references. Used to analyze low-level code behavior in reverse engineering tasks.",
-      "description_length": 327,
+      "module_path": "Bap_main",
+      "library": "bap-main",
+      "description": "This module initializes and configures the BAP framework, managing plugins, command-line arguments, and extension registration. It operates on contexts that encapsulate environment state and supports dynamic plugin loading and custom analysis passes. The child modules refine extension development by enabling structured CLI commands, typed configuration, error handling, and custom parameter parsing. Examples include embedding BAP in external tools, creating analysis plugins with validated options, and defining new disassemblers with typed command-line arguments.",
+      "description_length": 567,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bap_main_event",
-      "description": "Tracks events with severity levels and task progress, supporting formatted logging for detailed diagnostics. Provides structured data for monitoring extended operations like term enumeration and point checking. Includes operations for logging messages, setting stages, and customizing output formats. Enables precise control over diagnostic workflows in BAP plugins.",
-      "description_length": 366,
+      "library": "bap-main",
+      "description": "This module coordinates event-driven communication between BAP components, enabling logging, progress tracking, and inter-component notifications. It supports sending events, registering custom printers, and formatting output, with core operations like `send`, `register_printer`, and `format`. The child module enhances structured logging by defining levels, messages, and progress updates, offering functions such as `debug`, `info`, and `report` with rich formatting via `Format.formatter`. Together, they facilitate detailed diagnostics, customizable output, and real-time progress tracking across plugins and system layers.",
+      "description_length": 628,
       "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bap_main",
-      "description": "Provides a system for extending BAP with command-line interfaces, configuration management, and data validation through types such as `param`, `t`, configuration contexts, and error states. It supports parsing arguments, retrieving values with infix syntax, validating data, and formatting errors, enabling users to build plugins with custom commands and manage settings via files or environment variables. Operations include combinators for data manipulation and digest-based comparisons to ensure consistency. Examples include parsing input files, accessing plugin-specific options like `ctxt-->arch`, and generating detailed error messages for debugging.",
-      "description_length": 657,
-      "index": 10,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bap_main_config",
-      "description": "This module provides functions for retrieving system and configuration metadata, including paths, identifiers, and version information, primarily working with string-based data and predefined constants. It defines system-specific directory layouts and file conventions, supporting tasks like build configuration and documentation management. Use cases include automating build processes, locating installation directories, and managing project-specific naming schemes.",
-      "description_length": 468,
-      "index": 11,
-      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 13,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.9230769230769231
+    "retention_rate": 0.9090909090909091
   },
   "statistics": {
-    "max_description_length": 657,
-    "min_description_length": 298,
-    "avg_description_length": 454.3333333333333,
-    "embedding_file_size_mb": 0.043990135192871094
+    "max_description_length": 940,
+    "min_description_length": 396,
+    "avg_description_length": 567.0,
+    "embedding_file_size_mb": 0.03675556182861328
   }
 }

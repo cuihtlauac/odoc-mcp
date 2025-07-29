@@ -1,105 +1,109 @@
 {
   "package": "multicore-bench",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:46.271352",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:06:41.892711",
   "modules": [
     {
       "module_path": "Multicore_bench.Util.Bits",
-      "description": "Provides operations to create, extend, and iterate over a sequence of bits. Works with a custom type `t` representing a bitset. Used to efficiently store and process binary data, such as encoding flags or binary streams.",
-      "description_length": 220,
+      "library": "multicore-bench",
+      "description": "This module implements a minimal bitset with operations to create, append bits, and iterate over stored bits. It works with a single data type `t` representing a sequence of boolean values. Useful for tracking binary states in benchmarks, such as marking task completion or event occurrence.",
+      "description_length": 291,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Multicore_bench.Trend",
-      "description": "Handles operations to compute and analyze trends from time-series data, including slope calculation, direction detection, and rate of change. Works with lists of numeric values paired with timestamps or indices. Used to identify upward or downward movements in financial data or sensor readings.",
-      "description_length": 295,
+      "module_path": "Multicore_bench.Cmd",
+      "library": "multicore-bench",
+      "description": "This module defines command line parsing and benchmark execution logic for multicore performance testing. It supports filtering, output formatting (JSON, brief, diff), and runtime configuration through command line arguments. Concrete use cases include running specific benchmark suites, comparing results against stored baselines, and generating machine-readable outputs for CI integration.",
+      "description_length": 391,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Multicore_bench.Metric",
-      "description": "Constructs a metric with specified name, configuration, units, trend, and description, using a float value. Works with strings, floats, and custom types for trend and configuration. Used to track and report performance data during benchmarking runs.",
-      "description_length": 249,
+      "module_path": "Multicore_bench.Suite",
+      "library": "multicore-bench",
+      "description": "This module defines a type `t` representing a benchmark suite, which takes a budget factor and returns a list of metrics. It supports creating and composing benchmarking workflows that measure performance under varying resource constraints. Concrete use cases include structuring multi-core performance tests and evaluating execution time or memory usage across different configurations.",
+      "description_length": 387,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Multicore_bench.Unit_of_rate",
-      "description": "Converts rate units to floating-point divisors and generates human-readable mnemonics. Operates on an abstract type representing various rate units. Used to normalize rate values for calculations and display consistent labels in financial or scientific applications.",
-      "description_length": 266,
+      "module_path": "Multicore_bench.Countdown",
+      "library": "multicore-bench",
+      "description": "This module provides a scalable, low-level countdown counter optimized for multicore environments. It supports operations to create a counter, set its value, retrieve its current value, and allocate a batch decrement from a specific domain. The counter is designed for use in parallel benchmarks where domains coordinate access to a shared count, such as simulating concurrent task distribution or resource allocation.",
+      "description_length": 418,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Multicore_bench.Unit_of_time",
-      "description": "Converts time units to floating-point multipliers and human-readable mnemonics. Operates on a variant type representing specific time units like seconds, minutes, hours. Used to standardize time representations in scheduling and duration calculations.",
-      "description_length": 251,
+      "module_path": "Multicore_bench.Trend",
+      "library": "multicore-bench",
+      "description": "This module defines a polymorphic variant type `t` with two possible values: `Lower_is_better` and `Higher_is_better`. It is used to indicate the desired direction of performance trends in benchmarking scenarios. This type helps in interpreting benchmark results by specifying whether a lower or higher measured value represents an improvement.",
+      "description_length": 344,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Multicore_bench.Times",
-      "description": "Records timing data for parallel operations across multiple domains, supporting warmups, controlled synchronization, and domain-local await configurations. Operates on a custom `t` type representing benchmark results, and processes functions that initialize and execute work on each domain. Generates throughput metrics with configurable units, suitable for analyzing performance under controlled parallel workloads.",
-      "description_length": 416,
+      "module_path": "Multicore_bench.Util",
+      "library": "multicore-bench",
+      "description": "This module provides utilities for building and managing benchmarks, centered around atomic counters with batched allocation, generation of balanced push/pop sequences for concurrency testing, and creation of Cartesian product lists. It operates on atomic integers, bitsets, and polymorphic lists, enabling coordination of parallel threads, simulation of workload patterns, and generation of combinatorial test cases. The bundled bitset module supports compact binary state tracking, such as recording task completion in benchmark runs. Together, these components facilitate efficient, synchronized benchmark execution and input generation across varied test scenarios.",
+      "description_length": 669,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Multicore_bench.Suite",
-      "description": "Handles benchmarking by executing a series of tests with a specified time budget, returning a list of measured metrics. Operates on a time budget and metric data structures to evaluate performance. Used to analyze system behavior under constrained execution times in performance testing scenarios.",
-      "description_length": 297,
+      "module_path": "Multicore_bench.Times",
+      "library": "multicore-bench",
+      "description": "Records timings of parallel computations across multiple domains, capturing execution durations for workloads initialized per domain. It computes throughput metrics by aggregating recorded times, supporting performance analysis of multicore operations. Useful for benchmarking concurrent tasks like parallel algorithms or distributed workload simulations.",
+      "description_length": 355,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Multicore_bench.Cmd",
-      "description": "Provides functions to parse command line arguments and execute benchmark suites with customizable filtering, timing, and output settings. Operates on lists of benchmark suites, regular expressions for filtering, and an output mode enum. Used to run specific benchmarks with controlled execution order, timing limits, and detailed logging.",
-      "description_length": 338,
+      "module_path": "Multicore_bench.Unit_of_rate",
+      "library": "multicore-bench",
+      "description": "This module defines types and functions for handling units of rate, specifically scaling factors like per-second, kilo-per-second, mega-per-second, and giga-per-second. It provides `to_divisor` to convert a unit into its corresponding float divisor and `to_mnemonic` to get a human-readable string. It is used when formatting or normalizing benchmark throughput measurements for output or comparison.",
+      "description_length": 400,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Multicore_bench.Countdown",
-      "description": "Provides operations to manage a shared counter that tracks remaining resources across domains. Works with a mutable state type `t` and supports setting values, querying the current count, and allocating portions of the count in a non-atomic manner. Used to coordinate resource distribution in parallel systems, such as limiting concurrent access to a fixed number of slots.",
-      "description_length": 373,
-      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Multicore_bench.Util",
-      "description": "Manages bit-level operations through a custom `t` type, enabling efficient storage and manipulation of binary data. Supports creating, extending, and iterating over bit sequences, allowing for precise control over individual bits. Operations include setting, clearing, and checking bit values, as well as combining multiple bitsets. This enables tasks like encoding flag combinations or processing binary streams with high performance.",
-      "description_length": 435,
+      "module_path": "Multicore_bench.Unit_of_time",
+      "library": "multicore-bench",
+      "description": "This module defines a type `t` representing units of time (seconds, milliseconds, microseconds, nanoseconds) and provides two functions: `to_multiplier` converts a unit to its corresponding float multiplier, and `to_mnemonic` returns a human-readable string for the unit. It is used to standardize time unit handling when reporting or converting benchmark measurements. For example, it allows expressing benchmark durations in different time units consistently across multicore performance tests.",
+      "description_length": 496,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Multicore_bench.Metric",
+      "library": "multicore-bench",
+      "description": "This module defines a type `t` for representing benchmark metrics and provides the `make` function to construct metrics with specified properties such as name, configuration, units, trend direction, and description. It works with float values wrapped in a polymorphic variant `(`Float of float)`, allowing for flexible metric definitions. Concrete use cases include creating and organizing performance metrics like latency, throughput, or memory usage for multicore benchmarks.",
+      "description_length": 477,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "multicore-bench",
-      "description": "Provides functions for spawning, synchronizing, and joining domains, timing execution, and collecting performance data in multicore OCaml programs. Operates on domain handles, timestamps, and numeric counters to measure parallel workloads. Used to accurately benchmark parallel algorithms by bypassing single-domain runtime optimizations and ensuring consistent execution environments.",
-      "description_length": 385,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Multicore_bench",
-      "description": "provides tools for benchmarking and analyzing performance across parallel systems, integrating time-series analysis, metric tracking, unit conversion, and resource management. It handles numeric trends, custom metrics, rate and time unit normalization, and parallel timing data, with support for shared counters and bit-level operations. Users can compute throughput, track resource usage, and parse command-line arguments to execute controlled benchmark suites. Examples include analyzing financial data trends, normalizing performance metrics, and coordinating parallel task execution with resource limits.",
-      "description_length": 608,
-      "index": 11,
+      "library": "multicore-bench",
+      "description": "The framework orchestrates multicore benchmarking through structured test execution, metric definition, and parallel coordination. It centers on benchmark suites that generate metrics with defined improvement directions, measured in time or rate units, and supports command line filtering, output formatting, and baseline comparison. Key components include atomic counters for parallel synchronization, scalable countdown primitives for domain coordination, and throughput tracking across domains. Users can define performance metrics with explicit units, compose complex workloads using atomic utilities, and generate machine-readable reports for CI integration.",
+      "description_length": 663,
+      "index": 10,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 608,
-    "min_description_length": 220,
-    "avg_description_length": 344.4166666666667,
-    "embedding_file_size_mb": 0.04403114318847656
+    "max_description_length": 669,
+    "min_description_length": 291,
+    "avg_description_length": 444.6363636363636,
+    "embedding_file_size_mb": 0.04037666320800781
   }
 }

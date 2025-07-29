@@ -1,84 +1,85 @@
 {
   "package": "cohttp-eio",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:30:57.213742",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:24.014353",
   "modules": [
     {
-      "module_path": "Cohttp_eio.Body.String_source",
-      "description": "Provides functions to read from a string as a byte stream, including a direct read operation that fills a Cstruct buffer and retrieves the original string. Works with Cstruct.t and string types, enabling low-level byte manipulation. Used to interface string data with network or file I/O operations that require a flow interface.",
-      "description_length": 329,
+      "module_path": "Cohttp_eio.Server.IO",
+      "library": "cohttp-eio",
+      "description": "This module implements low-level IO operations for handling HTTP server connections using Eio's buffered read and write channels. It provides functions for reading lines and raw data from input channels, writing and flushing output channels, and managing buffer operations with explicit control over connection state via monadic sequencing. Concrete use cases include parsing HTTP headers from client requests and streaming response bodies over network sockets.",
+      "description_length": 461,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cohttp_eio.Private.IO",
-      "description": "Provides monadic operations for sequencing I/O actions, including binding results and lifting values into I/O contexts. Works with input and output channels, allowing line-by-line reading, buffered reading, and writing of strings. Used to handle asynchronous I/O streams, ensuring data is properly read, written, and flushed in a structured manner.",
-      "description_length": 348,
+      "library": "cohttp-eio",
+      "description": "This module implements low-level IO operations for handling input and output channels using Eio's buffered read and write types. It supports reading lines and binary data from input channels, writing and flushing data to output channels, and managing connections via a switch and socket address pair. Concrete use cases include implementing HTTP message parsing and transmission over network streams using Eio's async IO primitives.",
+      "description_length": 432,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cohttp_eio.Server.IO",
-      "description": "Provides monadic operations for sequencing I/O actions, including binding results between computations and lifting values into the I/O context. Works with input and output channels, allowing line-by-line reading, buffered reading, and writing of strings with guaranteed completion. Enables handling of input buffers, reading lines with end-of-file detection, and ensuring output is fully flushed.",
-      "description_length": 396,
+      "module_path": "Cohttp_eio.Body.String_source",
+      "library": "cohttp-eio",
+      "description": "This module implements a string-based data source for HTTP message bodies, supporting incremental reading operations. It provides functions to create a source from a string, read chunks into buffers, and access the original string content. Use it to stream static string data as part of an HTTP body in a non-blocking I/O context.",
+      "description_length": 330,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cohttp_eio.Body",
-      "description": "Handles byte-level input from strings, supporting direct reading into Cstruct buffers while preserving the original string. Offers operations on Cstruct.t and string types for precise control over data flow. Enables integration of string-based data with I/O systems requiring stream-like behavior. For example, it can read a JSON string into a buffer for parsing or prepare data for network transmission.",
-      "description_length": 404,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cohttp_eio.Client",
-      "description": "Provides context-aware HTTP request execution, including methods like GET, POST, PUT, and DELETE, with support for headers, body content, and chunked encoding. Operates on URI-based endpoints, HTTP methods, and I/O streams using Eio's asynchronous framework. Enables low-level connection management and response handling for networked applications.",
-      "description_length": 348,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cohttp_eio.Server",
-      "description": "manages I/O operations through a monadic interface, enabling sequential execution of actions with proper error handling and resource management. It supports reading from and writing to input/output channels, including line-by-line processing, buffered reads, and guaranteed output flushing. Key data types include I/O channels and monadic computations, with operations like bind, return, and channel manipulation. Examples include reading a file line by line, processing each line with transformations, and writing results to another file.",
-      "description_length": 539,
-      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cohttp_eio.Private",
-      "description": "Manages I/O operations through a monadic interface, enabling sequential execution of actions with proper handling of input and output channels. Supports line-by-line and buffered reading, string writing, and asynchronous stream processing. Key data types include I/O channels and monadic values, with operations like bind, return, and flush. Examples include reading from a file line by line, writing formatted output, and managing data flow in networked applications.",
-      "description_length": 468,
+      "library": "cohttp-eio",
+      "description": "This module provides low-level IO operations for working with input and output channels using Eio's buffered types. It supports reading lines and binary data, writing and flushing output, and managing network connections via switches and socket pairs. Key data types include input and output channels, with operations like read_line, read_binary, write, and flush. Example uses include parsing and sending HTTP messages over network streams using Eio's async IO.",
+      "description_length": 462,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cohttp_eio.Server",
+      "library": "cohttp-eio",
+      "description": "This module builds asynchronous HTTP servers using Eio, managing connections through request-response callbacks and supporting dynamic content delivery, streaming, and integration with Eio-based services. It offers a core API for starting servers and handling requests, while its child module provides low-level IO primitives for reading headers, writing responses, and managing buffered socket communication with explicit state control. You can define routes that return simple responses or stream large payloads using custom IO operations. Combining high-level routing with fine-grained IO control enables building efficient, custom HTTP services with Eio.",
+      "description_length": 658,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cohttp_eio.Body",
+      "library": "cohttp-eio",
+      "description": "This module manages HTTP message bodies using Eio's resource-based I/O model, with a `t` type representing body sources and extended read operations that support direct string consumption. It enables constructing and processing HTTP request/response bodies from strings, using the `String_source` module to handle in-memory data transfer efficiently. `String_source` allows creating a body source from a string, reading it incrementally into buffers, and accessing the original string content for streaming static data. Together, they support non-blocking I/O workflows for handling HTTP bodies entirely in memory.",
+      "description_length": 614,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cohttp_eio.Client",
+      "library": "cohttp-eio",
+      "description": "This module implements HTTP client operations for issuing requests and handling responses over network connections. It supports standard HTTP methods like GET, POST, PUT, DELETE, and PATCH, with options to set headers, request bodies, and transfer encoding. It works with URIs, HTTP headers, and response structures, and is used to interact with web services or APIs over Eio's network primitives.",
+      "description_length": 397,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "cohttp-eio",
-      "description": "Provides HTTP request and response handling, parsing, and TLS-enabled server creation. Works with request and response records, headers, and body streams. Used to build secure, high-performance HTTP servers with Lwt-based concurrency.",
-      "description_length": 234,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Cohttp_eio",
-      "description": "Combines byte-level data handling, HTTP request execution, and monadic I/O operations to support efficient data processing and network communication. It works with Cstruct.t, strings, HTTP methods, URIs, and I/O channels, enabling tasks like parsing JSON from a string, sending HTTP requests with custom headers, and reading/writing files with precise control. Operations include buffer reading, request execution, and monadic sequencing for error-free data flow. Examples include transmitting serialized data over a network, processing log files line by line, and managing asynchronous HTTP responses.",
-      "description_length": 602,
-      "index": 8,
+      "library": "cohttp-eio",
+      "description": "This module implements HTTP client and server functionality using Eio for asynchronous I/O, enabling non-blocking request handling and network communication. It provides core types like HTTP requests and responses, along with operations for managing connections, streaming message bodies, and issuing client requests with custom headers and methods. The server module supports defining routes and streaming responses using low-level IO primitives that read headers and write payloads directly over Eio-managed sockets. The client module allows sending HTTP methods to remote endpoints, while the body module handles in-memory data transfer using string-based sources for efficient streaming and parsing.",
+      "description_length": 703,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 602,
-    "min_description_length": 234,
-    "avg_description_length": 407.55555555555554,
-    "embedding_file_size_mb": 0.033135414123535156
+    "max_description_length": 703,
+    "min_description_length": 330,
+    "avg_description_length": 507.125,
+    "embedding_file_size_mb": 0.029470443725585938
   }
 }

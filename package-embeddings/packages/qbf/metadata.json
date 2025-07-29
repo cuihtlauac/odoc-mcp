@@ -1,84 +1,85 @@
 {
   "package": "qbf",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:51.076724",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:51.782548",
   "modules": [
     {
       "module_path": "Quantor.Raw",
-      "description": "Allocates a new QBF solver and manages its state through quantifier scopes and clause additions. It tracks the solver's status and provides access to literal assignments in the current model. Used to construct and evaluate quantified boolean formulas step-by-step.",
-      "description_length": 264,
+      "library": "qbf.quantor",
+      "description": "This module provides operations to allocate and interact with a QBF solver, including creating a solver instance, checking its current status, opening quantifier scopes, adding literals, and retrieving literal assignments. It works with a solver state type `t` and uses literals and quantifiers defined in the `Qbf` module. Concrete use cases include building and solving quantified Boolean formulas incrementally by managing scopes and literals directly.",
+      "description_length": 455,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Qbf.Lit",
-      "description": "Provides operations to create and manipulate signed integers, including negation, absolute value, sign extraction, and sign swapping. Works with a private type representing strictly positive integers with an associated sign. Used to generate unique literals, compare, hash, and serialize signed integer values.",
-      "description_length": 310,
+      "module_path": "Quantor",
+      "library": "qbf.quantor",
+      "description": "This module integrates a QBF solver with utilities to construct and solve quantified Boolean formulas incrementally. It centers around the solver state type `t`, supporting operations like creating solver instances, opening quantifier scopes, adding literals, and retrieving assignments, while working with literals and quantifiers from the `Qbf` module. Concrete use cases include formal verification tasks such as validating logical specifications and solving dependency QBF problems by directly managing formula structure and solver interaction.",
+      "description_length": 548,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Qbf.CNF",
-      "description": "Provides operations to compare, hash, and print logical formulas in conjunctive normal form, where each formula is a list of clauses, and each clause is a list of literals. Supports custom printing of literals within the formula representation. Enables precise equality checks and efficient hashing for clause-based structures.",
-      "description_length": 327,
+      "library": "qbf",
+      "description": "This module represents Boolean formulas in conjunctive normal form (CNF), using lists of clauses where each clause is a list of literals. It provides operations for equality checking, comparison, hashing, and customizable printing of CNF formulas. Concrete use cases include manipulating and analyzing CNF formulas during SAT solving or logical transformations.",
+      "description_length": 361,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qbf.QCNF",
-      "description": "Provides operations to construct and manipulate quantified conjunctive normal forms, including universal and existential quantification over literals, and conversion from propositional CNF. Works with literal lists and a private type representing quantified formulas. Used to encode and compare logical constraints in automated reasoning tasks.",
-      "description_length": 344,
+      "module_path": "Qbf.Formula",
+      "library": "qbf",
+      "description": "This module provides operations for constructing and transforming propositional logic expressions with connectives like implication, equivalence, and XOR, alongside structural utilities for equality checks, hashing, and simplification. It works with a formula type that represents logical atoms and compound expressions, supporting conversions to compact CNF forms via Tseitin encoding with tracked auxiliary literals. Typical applications include formal verification tasks and QBF solver implementations where efficient formula manipulation and normal form transformations are critical.",
+      "description_length": 587,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qbf.Formula",
-      "description": "This module handles logical operations such as conjunction, disjunction, and negation on formulas represented as lists or sequences, along with transformations like CNF conversion and simplification, while enforcing constraints on boolean lists (e.g., exactly one true, all true, or all false). It supports applications in automated reasoning and constraint validation, particularly for prenex-form formulas and boolean expression analysis.",
-      "description_length": 440,
+      "module_path": "Qbf.Lit",
+      "library": "qbf",
+      "description": "This module represents QBF literals as integers, supporting operations like negation, sign manipulation, and equality checks. It provides functions to convert literals to and from integers, generate fresh literals, and handle comparisons and hashing. Concrete use cases include building and manipulating quantified Boolean formulas, where literals are uniquely identified and transformed during formula construction or solver operations.",
+      "description_length": 437,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Qbf.QFormula",
-      "description": "Provides operations to construct and manipulate quantified logical formulas, including universal and existential quantification, and conversion to CNF. Works with literals and quantified formula structures, supporting simplification and comparison. Used to generate and process logical expressions in automated reasoning tasks.",
-      "description_length": 327,
+      "library": "qbf",
+      "description": "This module represents quantified Boolean formulas with explicit quantifiers and propositional subformulas. It supports construction via universal and existential quantification, simplification, and conversion to CNF with scoped symbol generation. Operations include equality checks, comparison, hashing, and customizable printing with literal formatting.",
+      "description_length": 355,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "qbf",
-      "description": "Handles boolean literals, quantified variables, and logical connectives for constructing and manipulating Quantified Boolean Formulas (QBFs). Supports parsing, simplification, and conversion between internal representations and DIMACS formats. Integrates with external solvers like Quantor and Picosat for automated solving of QBF instances.",
-      "description_length": 341,
+      "module_path": "Qbf.QCNF",
+      "library": "qbf",
+      "description": "Represents quantified Boolean formulas in conjunctive normal form with universal and existential quantifiers over propositional variables. Supports construction via quantification and proposition injection, structural comparison, hashing, and customizable pretty-printing. Useful for formal verification tasks and solving quantified satisfiability problems.",
+      "description_length": 357,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Quantor",
-      "description": "Manages the lifecycle of a QBF solver, handling quantifier scopes, clause additions, and solver state. Tracks solver status and provides access to literal assignments in the current model. Supports incremental construction and evaluation of quantified boolean formulas. Allows users to add clauses, navigate quantifier layers, and retrieve variable assignments.",
-      "description_length": 361,
-      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Qbf",
-      "description": "combines signed integer handling, CNF formula manipulation, and quantified logic operations into a unified system for automated reasoning. It manages signed integers with sign-aware operations, CNF formulas with clause-based comparisons and printing, and quantified formulas with logical transformations and CNF conversion. Users can generate unique literals, compare logical structures, and perform simplifications on boolean constraints. It enables tasks like formula normalization, constraint validation, and quantifier elimination in logical reasoning workflows.",
-      "description_length": 566,
-      "index": 8,
+      "library": "qbf",
+      "description": "This module provides data structures and operations for working with quantified Boolean formulas, including literals, clauses, and quantified CNF formulas, along with bindings to Quantor for solving. It supports constructing and manipulating formulas with explicit quantifiers, converting to CNF using Tseitin encoding, and customizing output with scoped symbol generation and tracked literals. You can build complex logical expressions using connectives like implication and XOR, simplify and compare formulas, and solve quantified satisfiability problems with customizable solver interfaces. Applications include formal verification, automated reasoning, and SAT/QBF solver development.",
+      "description_length": 688,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 566,
-    "min_description_length": 264,
-    "avg_description_length": 364.44444444444446,
-    "embedding_file_size_mb": 0.033118247985839844
+    "max_description_length": 688,
+    "min_description_length": 355,
+    "avg_description_length": 473.5,
+    "embedding_file_size_mb": 0.029481887817382812
   }
 }

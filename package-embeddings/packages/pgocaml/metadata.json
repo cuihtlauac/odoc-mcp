@@ -1,91 +1,109 @@
 {
   "package": "pgocaml",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:32:53.312608",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:08:00.800579",
   "modules": [
     {
-      "module_path": "PGOCaml_generic.Make",
-      "description": "Provides monadic operations for sequencing I/O actions, including binding, failure handling, and exception catching. Works with in_channel and out_channel types to perform character and binary input/output, buffer flushing, and connection management. Enables structured handling of network or file I/O workflows with explicit error recovery.",
-      "description_length": 341,
+      "module_path": "PGOCaml_generic.THREAD",
+      "library": "pgocaml",
+      "description": "This module implements asynchronous I/O operations for handling PostgreSQL communication over sockets, including connection setup, data transmission, and exception handling. It works with low-level channel types and integrates with the `PGOCaml_generic` module to manage database interactions in a type-safe manner. Concrete use cases include sending SQL queries, receiving binary responses, and managing network errors during database transactions.",
+      "description_length": 449,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "PGOCaml_aux.String",
-      "description": "This module offers string manipulation and binary decoding operations, including concatenation, slicing, and character-level transformations, alongside decoding 8-bit, 16-bit, 32-bit, and 64-bit integers (with support for endianness) and UTF-8/UTF-16 characters from string data. It works with strings, bytes, and integer types like int32 and int64, enabling tasks such as parsing binary protocols, handling network data (big-endian), and processing encoded text. Specific use cases include validating binary formats, converting between numeric representations, and extracting structured data from raw string buffers.",
-      "description_length": 617,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "PGOCaml_aux.Option",
-      "description": "Returns the underlying value of a non-None option or a provided default. Transforms values within Some by applying a function, producing a new option. Extracts the value from a Some, raising an exception if None. Used to safely handle optional values from APIs or computations that may fail.",
-      "description_length": 291,
+      "module_path": "PGOCaml_generic.PGOCAML_GENERIC",
+      "library": "pgocaml",
+      "description": "This module provides database connection management, transaction control (via `BEGIN`, `COMMIT`, `ROLLBACK`), prepared statement execution, and metadata description tools for parameter/result types. It operates on PostgreSQL-specific types (e.g., `oid`, `timestamptz`, `jsonb`, `hstore`, arrays) and their OCaml representations, with utilities for serialization, parsing, and monadic composition. Use cases include type-safe query execution with parameterized statements, transactional integrity in data-modifying operations, and bidirectional conversion of complex data types (UUIDs, intervals, arrays) for storage or analysis.",
+      "description_length": 628,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "PGOCaml_generic.Make",
+      "library": "pgocaml",
+      "description": "This module provides type-safe database connectivity, transaction control, and data serialization for PostgreSQL interactions. It operates on database handles, connection descriptors, and PostgreSQL types like `timestamptz`, `jsonb`, and `uuid`, supporting operations such as parameterized query execution, prepared statement management, and bidirectional conversion of arrays and custom types. Specific use cases include building transactional applications, handling complex data formats like geospatial or time-series data, and ensuring safe mapping between OCaml and PostgreSQL type systems.",
+      "description_length": 594,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PGOCaml_aux.List",
-      "description": "The module provides a comprehensive set of list operations including mapping, folding, filtering, searching, reversing, concatenating, and sorting, along with efficient variants for common tasks. It works with lists of arbitrary elements, key-value pairs, and sequences, enabling use cases like data transformation pipelines, structured data processing, and merging multiple data sources efficiently. Specific functions support indexed operations, early-exit behaviors, and conversion between list and sequence representations.",
-      "description_length": 527,
+      "module_path": "PGOCaml_aux.Option",
+      "library": "pgocaml",
+      "description": "This module provides operations for handling optional values. It includes functions to retrieve a value from an option, apply a function to the value inside an option, or return a default if absent. These functions are useful when processing data where fields may be missing, such as parsing JSON or database records.",
+      "description_length": 317,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PGOCaml.Simple_thread",
-      "description": "Provides monadic operations for sequencing asynchronous actions, including binding, failure handling, and exception catching. Works with in_channel and out_channel types to perform I/O operations like reading characters, writing binary integers, and flushing buffers. Enables structured handling of network connections and stream-based communication.",
-      "description_length": 350,
+      "module_path": "PGOCaml_aux.String",
+      "library": "pgocaml",
+      "description": "This module offers string manipulation capabilities spanning character-level transformations, binary data extraction, and encoding validation. It operates on standard `string` values and `PGOCaml_aux.String.t` types, providing functions for substring operations, case conversion, UTF-8/16 decoding, and parsing integers of varying bit-widths/endianess from string buffers. These tools are particularly useful for low-level text processing, network protocol implementations, and binary file format parsing where precise string manipulation and encoding validation are required.",
+      "description_length": 576,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "pgocaml",
-      "description": "Handles SQL query execution, parameter binding, and result parsing using PostgreSQL's libpq library. Processes query results as tuples of typed values, including integers, strings, and dates. Enables direct interaction with PostgreSQL databases for data retrieval and manipulation tasks.",
-      "description_length": 287,
+      "module_path": "PGOCaml.Simple_thread",
+      "library": "pgocaml",
+      "description": "This module implements a monadic interface for handling asynchronous operations with PostgreSQL, providing functions for connecting to a database, sending and receiving binary data over sockets, and managing I/O errors. It works with custom `in_channel` and `out_channel` types to handle non-blocking input and output, including operations like `output_char`, `input_binary_int`, and `open_connection`. Concrete use cases include implementing PostgreSQL wire protocol communication, such as sending queries and reading result streams in a thread-safe manner.",
+      "description_length": 558,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PGOCaml_config",
-      "description": "Provides configuration values for database connections, including default port, user, password, Unix domain socket directory, and comment source location flag. Works with primitive types such as integers and strings, and a boolean flag. Used to initialize connection parameters in applications interacting with PostgreSQL via PGOCaml.",
-      "description_length": 334,
+      "module_path": "PGOCaml_aux.List",
+      "library": "pgocaml",
+      "description": "This module provides functions for element access, list construction, and transformation through mapping, folding, filtering, and sorting, alongside utilities for associative lists, indexed operations, and sequence conversion. It operates on polymorphic lists (`'a list`) and pairs (`('a * 'b) list`), emphasizing functional patterns like tail recursion, predicate-driven selection, and ordered processing. Use cases include building data pipelines with transformations and filters, managing key-value associations, sorting with custom comparisons, and handling indexed or conditional list manipulations for tasks like partitioning or slicing.",
+      "description_length": 643,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "PGOCaml_generic",
-      "description": "Provides monadic operations for sequencing asynchronous I/O actions, including binding, failure handling, and exception catching. Works with in_channel and out_channel types to perform character and binary input/output, buffer flushing, and connection management. Used to implement reliable network communication protocols with error recovery and stream manipulation.",
-      "description_length": 367,
+      "library": "pgocaml",
+      "description": "This module enables type-safe interaction with PostgreSQL databases, supporting parameterized queries, result parsing, and direct mapping between OCaml values and PostgreSQL types such as `jsonb`, `timestamptz`, and `uuid`. It provides core operations for executing queries, handling connections, and managing transactions, while integrating with submodules for asynchronous I/O, connection lifecycle management, and advanced type serialization. Use it to safely run SQL statements with typed parameters, retrieve structured data from result sets, or handle complex types like arrays and custom user-defined types in a type-preserving way. Submodules extend this functionality with async support, transaction control via `BEGIN`/`COMMIT`, and utilities for working with PostgreSQL's extended type system.",
+      "description_length": 804,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "PGOCaml_aux",
-      "description": "Offers string and binary processing, option handling, and list manipulation capabilities. Processes strings and bytes to decode integers and Unicode characters, manages optional values with safe extraction and transformation, and performs complex list operations including mapping, filtering, and sorting. Enables tasks such as parsing binary data, safely unwrapping optional results, and building data transformation pipelines. Examples include decoding network packets, handling API responses with optional fields, and merging multiple list sources into structured outputs.",
-      "description_length": 575,
+      "library": "pgocaml",
+      "description": "This module combines utilities for handling optional values, string manipulation, and list processing into a cohesive toolkit for data transformation and parsing. It supports operations on options, strings, and lists, enabling tasks like extracting values with defaults, transforming and validating text at a low level, and building or modifying collections through mapping, filtering, and sorting. For example, you can safely retrieve values from optional fields, decode binary data from strings, or construct and manipulate lists with custom logic. These capabilities are especially useful in contexts like parsing structured data, implementing network protocols, or handling complex data workflows.",
+      "description_length": 701,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "PGOCaml",
-      "description": "Handles asynchronous I/O operations using monadic constructs, supporting in_channel and out_channel for reading and writing data. Provides structured error handling and exception management during network or stream-based interactions. Supports binary integer serialization, character reading, and buffer flushing. Enables reliable database communication by managing data conversion between OCaml types and PostgreSQL field representations.",
-      "description_length": 439,
+      "library": "pgocaml",
+      "description": "This module manages database connections and query execution while handling type conversions between PostgreSQL and OCaml, supporting complex types like UUIDs, arrays, and `jsonb`. It enables transaction control with isolation levels and provides monadic sequencing for safe composition of database operations. The child module extends this with asynchronous I/O, allowing non-blocking communication with PostgreSQL using custom channel types for reading and writing binary data directly over sockets. Together, they support building concurrent, type-safe applications that perform efficient, thread-aware database interactions, such as executing prepared statements, streaming query results, and handling custom PostgreSQL types in a binary wire protocol.",
+      "description_length": 756,
       "index": 9,
-      "embedding_norm": 1.0000001192092896
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "PGOCaml_config",
+      "library": "pgocaml",
+      "description": "This module defines default configuration values for connecting to a PostgreSQL database, including port, user, password, socket directory, and a flag for including source location comments. It provides simple access to these predefined constants without requiring external dependencies or runtime computation. These values are typically used during database connection setup or configuration fallback scenarios.",
+      "description_length": 412,
+      "index": 10,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 617,
-    "min_description_length": 287,
-    "avg_description_length": 412.8,
-    "embedding_file_size_mb": 0.036744117736816406
+    "max_description_length": 804,
+    "min_description_length": 317,
+    "avg_description_length": 585.2727272727273,
+    "embedding_file_size_mb": 0.04036235809326172
   }
 }

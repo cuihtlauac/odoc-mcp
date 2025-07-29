@@ -1,266 +1,317 @@
 {
   "package": "rpclib",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 35,
-  "creation_timestamp": "2025-06-18T16:39:45.848014",
+  "total_modules": 37,
+  "creation_timestamp": "2025-07-15T23:13:55.595438",
   "modules": [
     {
-      "module_path": "Idl.Make.T",
-      "description": "Provides operations to lift, bind, and return values within a monadic context, along with functions to extract and inject monadic values. Works with custom box types and resultb structures to encapsulate computation states. Enables integration of synchronous and asynchronous execution engines in RPC-based client and server workflows.",
-      "description_length": 335,
+      "module_path": "Idl.Error.ERROR",
+      "library": "rpclib.core",
+      "description": "This module defines error handling functionality for RPC calls, including operations to convert exceptions into structured error values. It works with the `t` type, which represents errors in the RPC system, and provides a way to map exceptions to these errors using `internal_error_of`. Concrete use cases include handling and propagating errors during RPC execution, such as converting uncaught exceptions into standardized error responses.",
+      "description_length": 442,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Idl.Make.ErrM",
-      "description": "Provides operations to construct and chain computations that may fail, using a result type with separate success and error channels. Works with the `resultb` type, which encapsulates either a value of type `'a` or an error of type `'b`. Used to manage error propagation and control flow in RPC implementations, such as handling asynchronous calls with explicit error handling.",
-      "description_length": 376,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Idl.Make.GenClient",
-      "description": "Generates client-side RPC implementations by defining function signatures and return types, using parametric types and result handling. It constructs function types with infix operators and handles notifications and strict error propagation. Works with RPC descriptions to produce functions that map to remote procedure calls, returning results or errors.",
-      "description_length": 355,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Idl.Make.GenServer",
-      "description": "Provides functions to define and structure RPC methods, including parameter handling, return type specification, and notification support. Works with custom types like `fn`, `res`, and `comp` to model function signatures and error handling. Used to build server-side logic that processes incoming RPC calls with precise type annotations and error semantics.",
-      "description_length": 357,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Idl.Error.Make",
-      "description": "Provides functions to construct and convert error representations for RPC communication. Works with the `t` type, which encapsulates error details, and handles exceptions by mapping them to error structures. Used to generate standardized error responses in distributed system interactions.",
-      "description_length": 289,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Idl.Exn.GenClient",
-      "description": "Provides a mechanism to define and execute remote procedure calls using a specific function signature. Operates with custom RPC types and message structures to facilitate inter-process communication. Used to implement client-side logic for invoking server-side procedures over a networked interface.",
-      "description_length": 299,
-      "index": 5,
+      "library": "rpclib.core",
+      "description": "This module generates client implementations from RPC declarations by defining functions that construct typed RPC calls. It works with function types built using `@->` and `returning`, which specify parameters and return types, including errors. Use it to declare RPC methods like `int -> string -> (bool, err) result` that send requests over the network and return decoded results.",
+      "description_length": 382,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Idl.Exn.GenServer",
-      "description": "Provides functions to define and structure server-side operations that raise exceptions, using custom function types and parameter handling. Works with parameter types, error types, and function signatures to construct RPCs and notifications. Enables declaration of methods with specific return behaviors, such as error handling or unit returns, for exception-based server implementations.",
-      "description_length": 389,
-      "index": 6,
+      "library": "rpclib.core",
+      "description": "This module constructs server implementations for RPC interfaces where functions raise exceptions instead of returning result types. It works with interface descriptions, function type builders, and error-handling constructs to define RPC methods with explicit error signatures. Use it to implement JSON-RPC servers that signal errors via exceptions and support notification-style calls.",
+      "description_length": 387,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Codegen.Method",
-      "description": "Provides functions to extract input parameters, output parameter, and error definitions from a function structure. Works with custom types representing function signatures and boxed parameter definitions. Used to analyze RPC method configurations and validate parameter mappings.",
-      "description_length": 279,
-      "index": 7,
+      "module_path": "Idl.Error.Make",
+      "library": "rpclib.core",
+      "description": "This module defines a concrete error type and associated operations based on the parameter module `T`. It provides a value `error` that represents an error in the context of RPC calls, allowing for structured error handling. It is used to declare and document specific error conditions that can arise during remote procedure calls.",
+      "description_length": 331,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Idl.Make.ErrM",
+      "library": "rpclib.core",
+      "description": "This module implements a result monad for handling errors in RPC function implementations. It provides operations to return successful or failed results, bind computations that may fail, and handle error propagation with typed error values. It works with result types that encapsulate either a success value or an error, enabling structured composition of RPC functions that can fail with specific error types.",
+      "description_length": 410,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Codegen.Interface",
-      "description": "Adds a parameter to the beginning of an interface's argument list, retrieves all defined types, and collects all error definitions. Works with interface descriptions and parameter structures from the Idl module. Used to modify API signatures and extract type information for serialization or documentation.",
-      "description_length": 306,
+      "module_path": "Idl.Make.RPCTRANSFORMER",
+      "library": "rpclib.core",
+      "description": "This module transforms RPC functions by applying mappings to their inputs and outputs. It works with RPC call handlers of type `rpcfn` and supports composing transformations using `bind`, `lift`, and `return`. Concrete use cases include modifying request parameters before dispatch or post-processing responses for specific API endpoints.",
+      "description_length": 338,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Idl.Make.T",
+      "library": "rpclib.core",
+      "description": "This module defines a monad transformer interface for handling RPC calls, providing operations like `bind`, `return`, and `lift` to compose and sequence RPC actions. It works with boxed types (`T.box`) and monadic values (`M.t`), enabling the generation of client and server code with different synchronous or asynchronous execution engines. Concrete use cases include building RPC clients and servers with customizable backends, such as implementing network communication layers or mocking responses for testing.",
+      "description_length": 513,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Idl.Make.GenServer",
+      "library": "rpclib.core",
+      "description": "This module generates a server that dispatches RPC calls to their implementations, handling marshalling and unmarshalling. It works with `Rpc.call` and user-defined implementations of RPC methods. Use it to build an RPC server by declaring methods with their types and connecting them to actual implementations.",
+      "description_length": 311,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Idl.Exn.GenClient",
+      "library": "rpclib.core",
+      "description": "This module implements client-side RPC declarations that raise exceptions on error. It works with function types built using `@->` and `noargs`, return types specified with `returning`, and interface descriptions provided via `implement`. Use it to define RPC methods like `val get_user : string -> user` with concrete error handling and type-safe signatures.",
+      "description_length": 359,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Codegen.Interfaces",
-      "description": "Represents a collection of network interfaces with associated metadata. It supports creating entries with names, titles, descriptions, and interface definitions, and allows adding new interfaces to existing entries. Used to model system configurations or network setups where multiple interfaces need structured representation.",
-      "description_length": 327,
+      "module_path": "Idl.Make",
+      "library": "rpclib.core",
+      "description": "This module generates RPC servers and clients from interface declarations, combining function definitions with error handling, monadic transformations, and dispatch logic to produce executable RPC services. It works with RPC function types built using `@->` and `returning`, result types for error propagation, and monad transformers for composing RPC actions, supporting both synchronous and asynchronous execution. You can declare RPC methods like `int -> string -> (bool, err) result`, apply input/output transformations, and build servers that route calls to typed implementations. Submodules handle client generation, error monads, function mapping, monad transformer interfaces, and server dispatch, enabling full control over RPC call handling from definition to execution.",
+      "description_length": 780,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Codegen.Gen",
-      "description": "Provides functions to construct and manipulate function signatures and error-handled returns, working with parameter types, result types, and function wrappers. Supports declaring named functions and notifications with specific argument lists and return types. Used to build structured, typed interfaces for system components or APIs.",
-      "description_length": 334,
+      "module_path": "Idl.Param",
+      "library": "rpclib.core",
+      "description": "The Param module defines and manipulates parameter specifications for RPC calls, including their types, names, and descriptions. It works with boxed parameter values and type definitions from the Rpc.Types module. Concrete use cases include constructing typed parameters for RPCs with optional metadata like versioning and documentation.",
+      "description_length": 337,
       "index": 10,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlinergen.Gen",
-      "description": "Provides functions to define and manage command-line interfaces and RPC handlers, including parameter parsing, command declaration, and response composition. Works with types like `Idl.Interface.description`, `Rpc.call`, `Rpc.response`, and custom function types for handling arguments and errors. Used to build CLI tools with structured input validation and error handling, and to link commands to RPC-based backend logic.",
-      "description_length": 423,
+      "module_path": "Codegen.Interfaces",
+      "library": "rpclib.core",
+      "description": "This module defines a data structure for representing API interfaces with associated types, errors, and documentation. It provides operations to construct and extend interface definitions, including creating a base structure, adding individual interfaces, and combining them into a collection. Concrete use cases include generating API documentation, validating interface consistency, and serializing definitions for code generation or configuration files.",
+      "description_length": 456,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpc.Version",
-      "description": "Compares two version numbers represented as tuples of three integers, returning -1, 0, or 1 based on lexicographical order. It supports semantic versioning schemes where each component denotes major, minor, and patch versions. Used to determine if a stored version is older, equal, or newer than another.",
-      "description_length": 304,
+      "module_path": "Codegen.Gen",
+      "library": "rpclib.core",
+      "description": "This module defines functions for building and composing interface descriptions, handling return values, errors, and function signatures. It works with types like `implementation`, `outerfn`, and result types from `Idl.Param` and `Idl.Error`. It is used to declare functions and notifications with specific arguments and return types in an interface definition.",
+      "description_length": 361,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpc.Types",
-      "description": "This module enables type-safe encoding and decoding of structured data by defining constructors for primitive OCaml types and abstracting values with metadata through polymorphic variants and custom types. It supports operations on structured data, including field manipulation and tag-based differentiation, leveraging abstract types to encapsulate values with extended semantics. Use cases include safe serialization of complex data formats and enforcing type constraints in domain-specific abstractions.",
-      "description_length": 506,
+      "module_path": "Idl.DefaultError",
+      "library": "rpclib.core",
+      "description": "This module defines error types and associated RPC tags for handling internal errors in an interface description language. It provides a concrete error variant `InternalError` carrying a string message, along with an RPC error definition and tag for serialization and communication. It is used to represent and propagate internal system errors during RPC execution.",
+      "description_length": 365,
       "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpc.ResultUnmarshallers",
-      "description": "Converts values from an RPC representation to OCaml types such as int64, int32, int, bool, float, string, char, and unit, returning results with error handling. Processes structured data to extract and validate specific primitives and custom types. Used to parse and validate incoming RPC data during deserialization.",
-      "description_length": 317,
+      "module_path": "Codegen.Method",
+      "library": "rpclib.core",
+      "description": "This module provides functions to extract input parameters, output types, and error definitions from a given outer function. It operates on boxed parameter lists, boxed outputs, and boxed type definitions, primarily used in the context of code generation for RPC interfaces. Concrete use cases include analyzing method signatures to generate corresponding serialization/deserialization code or interface definitions.",
+      "description_length": 416,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Idl.Param",
-      "description": "Creates parameter definitions for RPCs using type definitions from the Types module, incorporating names, descriptions, and versions. Works with type definitions and boxed values to represent structured parameters. Used to construct typed parameters for RPC endpoints, ensuring metadata like names and descriptions are properly associated.",
-      "description_length": 339,
+      "module_path": "Idl.Interface",
+      "library": "rpclib.core",
+      "description": "This module defines the structure and metadata for RPC interfaces, including their name, namespace, documentation, and version. It works with lists of RPC declarations and associates them with versioned interface descriptions. Concrete use cases include organizing and documenting groups of related RPC methods for services like network communication or system management APIs.",
+      "description_length": 377,
       "index": 15,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Idl.Error",
-      "description": "Provides functions to create and convert error representations, including constructing a default error value and converting exceptions into optional error types. Works with the `t` type, which represents error states, and the `exn` type for exceptions. Used to handle and propagate internal errors in RPC communication.",
-      "description_length": 319,
+      "module_path": "Rpc.Types",
+      "library": "rpclib.core",
+      "description": "This module defines a set of type representations and constructors for building and serializing structured data types used in RPC communication. It supports primitive types like integers, floats, strings, and booleans, as well as complex types such as arrays, lists, dictionaries, tuples, structs, variants, and options. These types are used to define the schema of data exchanged between client and server, enabling type-safe remote procedure calls.",
+      "description_length": 450,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Idl.Interface",
-      "description": "Provides functions to define and manipulate RPC interfaces, including adding methods, setting parameters, and validating structure. Works with types such as method signatures, parameter lists, and error constraints. Used to generate protocol definitions for distributed systems and API contracts.",
-      "description_length": 296,
+      "module_path": "Idl.IdM",
+      "library": "rpclib.core",
+      "description": "This module implements a monadic structure for building and composing RPC call declarations, handling sequencing and error propagation. It works with values wrapped in a monadic type `t`, supporting operations like returning values, binding functions, failing with exceptions, and lifting pure functions. Concrete use cases include defining RPC endpoints with chained validation steps and error handling, such as parsing input, performing lookups, and returning structured responses.",
+      "description_length": 483,
       "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Idl.Make",
-      "description": "Provides operations to lift functions into a monadic context, bind values across monadic computations, and extract or inject values from/to a monadic structure. Works with boxed values, result boxes, and RPC function handlers. Used to sequence asynchronous RPC calls, handle error-prone computations, and manage stateful operations within a monadic framework.",
-      "description_length": 359,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Idl.ExnM",
-      "description": "Handles error-prone computations by wrapping values in a monadic structure. Provides binding for sequential operations, lifting of pure functions into the monad, and explicit failure with exceptions. Executes wrapped computations and returns the result, propagating exceptions when encountered.",
-      "description_length": 294,
+      "library": "rpclib.core",
+      "description": "This module implements a monadic structure for handling computations that may fail with exceptions, providing operations like `return`, `bind`, and `fail` to sequence exception-aware functions. It works with values wrapped in a type constructor `t`, representing computations that either produce a result or raise an exception. Concrete use cases include building composable RPC handlers where error propagation and short-circuiting on failure are required, such as validating input parameters or chaining dependent API calls.",
+      "description_length": 526,
+      "index": 18,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Rpc.ResultUnmarshallers",
+      "library": "rpclib.core",
+      "description": "This module provides functions to convert `Rpc.t` values into specific OCaml primitive types, returning a result that indicates success or failure with an error message. It handles conversions for integers, floating-point numbers, strings, booleans, characters, and other basic types, ensuring safe and explicit unmarshalling from RPC representations. Use cases include decoding RPC responses into native OCaml values for further processing or validation.",
+      "description_length": 455,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Idl.IdM",
-      "description": "Provides monadic operations for sequencing computations with failure handling, including binding, lifting functions, and error propagation. Works with a parameterized type 'a t that encapsulates values or exceptions. Used to manage effectful computations in a structured way, such as parsing input or handling I/O operations with explicit error states.",
-      "description_length": 352,
-      "index": 20,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Idl.DefaultError",
-      "description": "Provides functions to define and handle internal error states, including tagging error messages, defining error variants, and constructing error values. Works with the `t` type and related RPC and error structures. Used to standardize error representation in distributed systems and API responses.",
-      "description_length": 297,
-      "index": 21,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Idl.Exn",
-      "description": "defines a system for building and handling remote procedure calls with explicit error semantics, combining client and server-side capabilities. It includes custom RPC types, error-handling mechanisms, and function signatures for structured inter-process communication. Operations include invoking server methods, defining exception-raising handlers, and managing parameterized requests. Examples include executing a remote query that returns a result or an error, and defining a server method that raises specific exceptions based on input validation.",
-      "description_length": 551,
-      "index": 22,
+      "library": "rpclib.core",
+      "description": "This module provides server implementations for handling RPC calls that propagate errors using exceptions, structured around `server_implementation` and `rpcfn` types. It allows combining and building RPC interfaces where methods can either return values or raise documented errors, supporting both synchronous and notification-style calls. The child modules extend this functionality by enabling server-side implementations that use exception-based error handling and client-side declarations with type-safe RPC signatures. For example, you can define an RPC method like `val get_user : string -> user` that raises specific errors, and build a JSON-RPC server that handles those errors consistently.",
+      "description_length": 700,
+      "index": 20,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Codegen.Interface",
+      "library": "rpclib.core",
+      "description": "This module represents and manipulates interface descriptions for code generation, including methods, parameters, and metadata like name, namespace, and version. It provides operations to inspect and modify interfaces, such as adding parameters, extracting types, and collecting errors. Concrete use cases include generating server stubs, client bindings, and documentation from IDL definitions.",
+      "description_length": 395,
+      "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "rpclib",
-      "description": "Provides functions to serialize and deserialize OCaml values to and from XML or JSON strings, using type definitions generated for specific data structures. Works with custom OCaml types, including records, variants, and nested structures, enabling bidirectional conversion. Used to implement client-server communication where data must be transmitted as text, such as in networked applications or configuration exchanges.",
-      "description_length": 422,
+      "module_path": "Idl.RPC",
+      "library": "rpclib.core",
+      "description": "This module defines the core operations for building and declaring RPC functions with specific type signatures and return values. It works with function types (`fn`), interface descriptions, and parameterized result types to enforce correct method declarations. Concrete use cases include defining remote procedure calls with typed arguments and return values, handling notifications, and specifying error types for RPC interfaces.",
+      "description_length": 431,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Rpc.Version",
+      "library": "rpclib.core",
+      "description": "Represents and compares software versions using a tuple of three integers, typically major, minor, and patch numbers. Provides a `compare` function to determine version ordering, which is useful for ensuring compatibility between different software components. This structure is commonly used in distributed systems to manage protocol version mismatches during communication.",
+      "description_length": 375,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Internals",
-      "description": "Encodes a string by replacing each character with a corresponding string via a provided function, returning a new string with only successfully encoded characters. Works with characters and strings, applying a custom encoding rule per character. Used to transform special characters into safe representations for URL components or data serialization.",
-      "description_length": 350,
+      "module_path": "Idl.Error",
+      "library": "rpclib.core",
+      "description": "This module provides error handling constructs for RPC declarations, centered around an algebraic data type `t` that represents error conditions. It supports operations like error creation, mapping, and exception conversion through functions such as `internal_error_of`, enabling structured handling of failures in type-safe RPCs. The module allows defining and propagating specific error conditions, such as converting uncaught exceptions into standardized error responses. Submodules extend this functionality by parameterizing error types and providing concrete error values for use in RPC interfaces.",
+      "description_length": 604,
       "index": 24,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Codegen",
-      "description": "Extracts and manipulates function parameters, errors, and interface definitions, enabling analysis, modification, and structuring of API configurations. It handles custom types, function signatures, and network interface metadata, supporting operations like parameter insertion, type retrieval, and interface composition. Functions include validating parameter mappings, building typed returns, and managing interface collections. Examples include modifying RPC method arguments, generating documentation from type definitions, and assembling complex system configurations.",
-      "description_length": 573,
+      "module_path": "Idl.MONAD",
+      "library": "rpclib.core",
+      "description": "This module defines monadic operations for sequencing computations that may fail, using `return` to wrap values, `bind` to chain functions, and `fail` to inject exceptions. It works with a generic type `'a t` representing a monadic result. Concrete use cases include composing RPC handlers where each step depends on the previous and errors must propagate cleanly.",
+      "description_length": 364,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlinergen",
-      "description": "defines command-line interfaces and RPC handlers, enabling structured input parsing, command registration, and response generation using types such as `Idl.Interface.description`, `Rpc.call`, and `Rpc.response`. It supports custom argument and error handling functions, allowing for robust CLI tool development and integration with backend RPC systems. Users can declare commands with specific parameters, validate inputs, and generate appropriate responses. For example, it can parse a command like `--port 8080` into a typed value and route it to an associated RPC function.",
-      "description_length": 576,
+      "module_path": "Rpc_genfake",
+      "library": "rpclib.core",
+      "description": "This module generates test values and handles errors for RPC types. It provides functions to create lists of random values of a given type, filter them by size, and produce specific values from strings. Use it to test RPC encodings with generated data or parse strings into typed values.",
+      "description_length": 287,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Markdowngen",
-      "description": "The module provides functions for generating structured documentation elements like headers, tables, and links, along with converting internal data structures into markdown formats. It operates on types such as Codegen.Interface.t and Codegen.Interfaces.t, as well as RPC-related data, enabling the creation of human-readable documentation. Specific use cases include detailing code interfaces, methods, errors, and nested types through transformations that leverage helper functions for formatting and expansion.",
-      "description_length": 513,
+      "module_path": "Idl",
+      "library": "rpclib.core",
+      "description": "This module organizes the definition and manipulation of RPC interfaces, combining type declarations, parameter handling, error propagation, and monadic composition into a cohesive system for building network services. It centers around RPC function types built with `@->` and `returning`, parameter structures from the Param module, and error variants like `InternalError`, while supporting monadic sequencing through dedicated error-handling and computation modules. You can declare typed RPC methods like `int -> string -> (bool, err) result`, generate clients and servers with proper error routing, and compose complex RPC logic using monads that handle failure and side effects. Submodules refine this structure by managing interface metadata, parameter boxing, function mapping, and exception-aware server implementations.",
+      "description_length": 828,
       "index": 27,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpc",
-      "description": "Compares version tuples lexicographically, returning -1, 0, or 1 to determine relative freshness. Provides type-safe encoding and decoding of structured data using polymorphic variants and custom types, enabling field manipulation and tag-based operations. Converts RPC values to OCaml types like int64, bool, and string, with error handling for validation. Supports semantic version checks, safe data serialization, and reliable deserialization of complex RPC payloads.",
-      "description_length": 470,
+      "module_path": "Rpcmarshal",
+      "library": "rpclib.core",
+      "description": "This module converts values to and from an intermediate representation used for remote procedure calls. It supports parsing and constructing values based on type definitions, with functions to map over lists, format basic types as strings, and handle errors during conversion. Typical use cases include serializing OCaml values into a transportable format and reconstructing them from received data.",
+      "description_length": 399,
       "index": 28,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pythongen",
-      "description": "The module provides functions for generating Python code fragments related to type checking, function skeletons, documentation, and command-line interfaces, operating on types, function definitions, and interface structures to produce code elements. It specializes in transforming interface data into Python bindings and code elements, targeting use cases like CLI generation and type-safe code creation.",
-      "description_length": 404,
+      "module_path": "Rpc",
+      "library": "rpclib.core",
+      "description": "The module centers on the `Rpc.t` variant type, which represents data in a format suitable for remote procedure calls, supporting primitives like integers, strings, and enums, as well as complex structures like dictionaries and structs. It provides direct operations for serialization, struct merging, and result unmarshalling, enabling implementation of RPC-based APIs and analysis of serialized payloads. Submodules define type schemas for structured data, enforce type-safe conversions from `Rpc.t` to native OCaml types, and include utilities for version comparison using standard major.minor.patch numbering. Together, these features support building, decoding, and versioning RPC systems in distributed environments.",
+      "description_length": 722,
       "index": 29,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpcmarshal",
-      "description": "Performs recursive mapping on lists, converts OCaml values to and from RPC representations, and generates OCaml code strings from type definitions. Operates on lists, RPC types, and custom error types. Used to serialize complex data structures for network communication and to dynamically generate type-specific conversion code.",
-      "description_length": 328,
+      "module_path": "Codegen",
+      "library": "rpclib.core",
+      "description": "This module structures function definitions with typed parameters and results using GADTs, enabling precise tracking of argument counts and types for code generation in RPC systems. It supports both parameterized and parameterless methods, with return types that may include error cases, and allows type-erased representations for use in heterogeneous collections. Submodules organize interface definitions, enabling construction, extension, and serialization of APIs with associated types and documentation, while other components build and compose function signatures with explicit handling of return values and errors. Additional helpers extract and analyze method components for serialization code, and interface manipulation functions support generating client and server code from IDL descriptions.",
+      "description_length": 804,
       "index": 30,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Xmlrpc",
-      "description": "Encodes and decodes XML-RPC data, handling base64 values with a customizable decoder. Processes XML input to construct RPC calls and responses, and converts them to formatted strings. Supports parsing errors and generating human-readable representations of XML-RPC faults.",
-      "description_length": 272,
+      "module_path": "Cmdlinergen.Gen",
+      "library": "rpclib.cmdliner",
+      "description": "This module generates command-line interfaces from IDL descriptions, mapping remote procedure calls to Cmdliner terms and commands. It handles functions with parameters and return types defined via `Idl.Param.t`, producing executable command-line interfaces with structured error handling. Concrete use cases include building CLI tools that directly reflect RPC APIs, such as network service clients or system administration utilities.",
+      "description_length": 435,
       "index": 31,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Jsonrpc",
-      "description": "Provides functions to generate unique IDs, serialize and parse JSON-RPC data structures, and extract fields from key-value lists. Works with types like Rpc.t, Rpc.call, Rpc.response, and version to handle JSON-RPC messages. Converts raw strings to structured data, extracts call information from input, and constructs error objects with specific identifiers and messages.",
-      "description_length": 371,
+      "module_path": "Cmdlinergen",
+      "library": "rpclib.cmdliner",
+      "description": "This module translates IDL-defined remote procedures into command-line interfaces using Cmdliner, converting function parameters and return types into CLI arguments and commands. It supports structured error handling and generates executable tools that mirror RPC APIs. For example, it can produce a CLI client for a network service or a system administration utility with commands corresponding to API methods. Key data types include `Idl.Param.t` for parameter definitions and Cmdliner terms for command construction.",
+      "description_length": 519,
       "index": 32,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpc_genfake",
-      "description": "Generates test data for RPC types by creating lists of values, filtering them, and producing specific instances. It operates on type representations and lists, using integer parameters to control output size. Used to create synthetic inputs for testing RPC serialization and deserialization logic.",
-      "description_length": 297,
+      "module_path": "Markdowngen",
+      "library": "rpclib.markdown",
+      "description": "This module transforms RPC type definitions and interface descriptions into structured Markdown documentation. It processes elements like structs, variants, methods, and errors from `Codegen.Interface.t` and related types, generating formatted output with headings, tables, code blocks, and links. It is particularly useful for automating API documentation generation, ensuring consistency with evolving codebases and supporting complex type hierarchies.",
+      "description_length": 454,
       "index": 33,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Idl",
-      "description": "Provides functions to construct and declare remote procedure calls, including defining argument types with `@->`, handling no-argument functions via `noargs`, and specifying return types with `returning`. Works with parameter types, function signatures, and composite result types to build structured RPC interfaces. Used to register methods and notifications in a system that supports JSON-RPC or similar protocols.",
-      "description_length": 416,
+      "module_path": "Internals",
+      "library": "rpclib.internals",
+      "description": "Performs character-level string encoding using a custom translation function. Accepts a function that maps individual characters to optional encoded strings, applying it across the entire input string. Useful for implementing custom text encodings or escaping mechanisms where specific characters need transformation.",
+      "description_length": 317,
       "index": 34,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xmlrpc",
+      "library": "rpclib.xml",
+      "description": "This module encodes and decodes XML-RPC messages, converting between string representations and Rpc.t, Rpc.call, and Rpc.response types. It supports parsing from and generating strings, input channels, and custom input sources, with options for handling base64 data and callbacks during parsing. Use cases include sending and receiving XML-RPC requests and responses over a network or processing stored XML-RPC data.",
+      "description_length": 416,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Jsonrpc",
+      "library": "rpclib.json",
+      "description": "This module handles JSON-RPC protocol serialization and deserialization, providing functions to convert between JSON-RPC messages and OCaml values. It supports both version 1 and version 2 of the JSON-RPC specification, allowing construction and parsing of calls, responses, and error objects. Concrete use cases include building JSON-RPC requests with `string_of_call`, parsing responses from strings or input channels, and extracting structured data from JSON-RPC payloads using functions like `version_id_and_call_of_string`.",
+      "description_length": 528,
+      "index": 36,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 37,
-    "meaningful_modules": 35,
+    "total_modules_in_package": 39,
+    "meaningful_modules": 37,
     "filtered_empty_modules": 2,
-    "retention_rate": 0.9459459459459459
+    "retention_rate": 0.9487179487179487
   },
   "statistics": {
-    "max_description_length": 576,
-    "min_description_length": 272,
-    "avg_description_length": 371.2857142857143,
-    "embedding_file_size_mb": 0.12755584716796875
+    "max_description_length": 828,
+    "min_description_length": 287,
+    "avg_description_length": 461.0,
+    "embedding_file_size_mb": 0.13486194610595703
   }
 }

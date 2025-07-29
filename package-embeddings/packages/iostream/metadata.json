@@ -1,77 +1,117 @@
 {
   "package": "iostream",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:23.737583",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:10:15.117805",
   "modules": [
     {
-      "module_path": "Iostream_unix.In",
-      "description": "Creates an input stream from a Unix file descriptor, allowing reading with optional error handling on close. Operates on Unix.file_descr and Iostream.In.t_seekable types. Useful for integrating low-level I/O handles into higher-level stream-based processing.",
-      "description_length": 258,
+      "module_path": "Iostream_unix.Out",
+      "library": "iostream.unix",
+      "description": "Writes data directly to a Unix file descriptor, supporting seek operations. Works with seekable output streams and raw bytes. Useful for writing to files or sockets at a low level, such as sending binary data over a network connection or logging to a file.",
+      "description_length": 256,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Iostream_unix.Out",
-      "description": "Provides functions for writing data to Unix file descriptors and managing seekable output streams. Works with Unix.file_descr and Iostream.Out.t_seekable types. Enables low-level I/O operations such as writing binary data directly to file descriptors without intermediate buffering.",
-      "description_length": 282,
+      "module_path": "Iostream_unix.In",
+      "library": "iostream.unix",
+      "description": "Creates an input stream from a Unix file descriptor opened for reading, supporting seekable operations. Works with `Unix.file_descr` and `Iostream.In.t_seekable` types. Useful for reading from files or sockets using low-level file descriptors in a structured stream interface.",
+      "description_length": 276,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Iostream.Slice",
-      "description": "Provides functions to create, manipulate, and inspect byte slices, including consuming bytes and finding character indices. Works with a custom slice type that wraps a byte buffer and tracks offset and length. Used to process network data streams by efficiently extracting and advancing through portions of a byte buffer.",
-      "description_length": 321,
+      "module_path": "Iostream_unix",
+      "library": "iostream.unix",
+      "description": "This module provides low-level stream-based I/O operations for reading from and writing to Unix file descriptors, supporting seek operations on both input and output streams. It works with `Unix.file_descr` and structured stream types like `Iostream.In.t_seekable` and `Iostream.Out.t_seekable`, enabling precise control over file or socket positioning. You can use it to read binary data from a file at a specific offset, send raw bytes over a network socket, or implement custom protocols requiring exact stream positioning.",
+      "description_length": 526,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Iostream_types.Slice",
-      "description": "type t = { offset : int; len : int } Provides functions to create, manipulate, and query slices based on byte offset and length. Works with raw byte sequences and ensures bounds checking during slice operations. Used to extract subranges from binary data structures or network packets.",
-      "description_length": 285,
+      "library": "iostream.types",
+      "description": "This module implements a byte slice structure with mutable offset and length, allowing efficient manipulation of sub-ranges within a bytes buffer. It provides operations to create, resize, and access slices, as well as advance the offset for sequential processing. Concrete use cases include parsing binary data streams and managing network packet payloads.",
+      "description_length": 357,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "iostream",
-      "description": "Provides functions for reading, writing, and composing byte streams, including transformations and combinators for stream manipulation. Works with byte buffers, input and output channels, and effect-based I/O backends. Enables building efficient, modular I/O pipelines for network protocols, file processing, and data serialization.",
-      "description_length": 332,
+      "module_path": "Iostream_types",
+      "library": "iostream.types",
+      "description": "This module centers around efficient manipulation of byte slices within a mutable buffer, primarily through the byte slice structure. It supports creating, resizing, and accessing sub-ranges, along with advancing the offset for sequential data processing such as parsing binary streams or handling network packets. The design enables direct and efficient operations on specific buffer regions without copying. For example, it can track current position in a buffer while parsing a binary protocol or manage variable-length network packet payloads.",
+      "description_length": 547,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Iostream_unix",
-      "description": "Reads from and writes to Unix file descriptors using stream interfaces, supporting both input and output operations with seekable behavior. Handles low-level I/O by converting file descriptors into stream types, enabling direct data manipulation. Allows reading binary data from file descriptors and writing to them with control over error handling and positioning. Supports integration of Unix I/O into stream-based workflows, such as processing network or file data incrementally.",
-      "description_length": 482,
+      "module_path": "Iostream.Seekable",
+      "library": "iostream",
+      "description": "This module provides operations to move the read/write position within a stream and to retrieve the current position. It works with seekable stream objects, such as file streams, where the I/O head can be repositioned. Concrete use cases include random access file reading, resuming data transfer from a specific offset, and parsing structured file formats that require jumping between positions.",
+      "description_length": 396,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Iostream",
-      "description": "Provides a framework for handling I/O streams through customizable and composable components. It includes a slice type for managing byte buffers with offset and length, enabling efficient processing of network data by extracting and advancing through specific portions. Functions allow byte consumption, index searching, and buffer inspection. This supports low-level data manipulation and stream composition in network and file I/O scenarios.",
-      "description_length": 443,
+      "module_path": "Iostream.In_buf",
+      "library": "iostream",
+      "description": "This module provides operations for efficiently managing buffered input streams through low-level manipulation of byte buffers, including reading, skipping, and copying data from sources like files, strings, or channels. It works with input buffers (`t`) and character sequences (`char Seq.t`), enabling seamless conversion between in-memory buffers and lazily evaluated character streams. Specific use cases include parsing structured data formats (e.g., binary protocols, text files) where incremental consumption of input or transformation between buffered and sequential representations is required.",
+      "description_length": 603,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Iostream_types",
-      "description": "Provides a structured way to represent and manage byte-level slices using a record type with offset and length fields. It supports creating and validating slices, ensuring safe access to raw binary data by enforcing bounds checks. This enables precise extraction and manipulation of subranges from binary streams or network packets. For example, it can isolate a specific field from a protocol header or segment a large buffer into smaller, manageable parts.",
-      "description_length": 458,
+      "module_path": "Iostream.Out",
+      "library": "iostream",
+      "description": "This module implements output streams that support writing bytes, strings, and integers to channels, buffers, or files. It provides operations like `output`, `close`, and `tee` to manage data flow and replication across multiple targets. Concrete use cases include logging to files, buffering output in memory, and broadcasting data to multiple destinations.",
+      "description_length": 358,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Iostream.Slice",
+      "library": "iostream",
+      "description": "This module provides operations to manage byte slices, including creating, inspecting, and modifying slices in place. It works with the `t` type, which represents a byte slice with an offset and length. Use cases include efficiently processing subsets of byte buffers during I/O operations or parsing binary data.",
+      "description_length": 313,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Iostream.In",
+      "library": "iostream",
+      "description": "This module implements input streams with operations for reading from various sources such as files, strings, and byte buffers. It supports direct reading via `input`, full content retrieval with `input_all`, and stream transformation using functions like `map_char` and `concat`. Concrete use cases include reading file contents into a buffer, transforming input byte streams on-the-fly, and concatenating multiple input sources sequentially.",
+      "description_length": 443,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Iostream.Out_buf",
+      "library": "iostream",
+      "description": "This module implements buffered output streams with support for writing characters, strings, integers, and byte slices. It provides operations to create output streams from channels, buffers, or files, and includes utilities like `tee` to duplicate output across multiple streams or `map_char` to transform data on the fly. Concrete use cases include writing formatted logs, serializing data to disk, or streaming network responses with efficient buffering.",
+      "description_length": 457,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Iostream",
+      "library": "iostream",
+      "description": "This module provides a comprehensive framework for handling input and output streams with support for both buffered and unbuffered operations. It includes data types for byte slices, input/output buffers, and seekable streams, enabling precise control over data flow, position management, and in-place modifications. You can read from or write to files, strings, and channels, apply transformations on-the-fly, and manage complex data parsing tasks. Examples include resuming file transfers from a specific offset, parsing binary protocols with structured jumps, and broadcasting output to multiple destinations.",
+      "description_length": 612,
+      "index": 11,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
-    "meaningful_modules": 8,
-    "filtered_empty_modules": 10,
-    "retention_rate": 0.4444444444444444
+    "total_modules_in_package": 54,
+    "meaningful_modules": 12,
+    "filtered_empty_modules": 42,
+    "retention_rate": 0.2222222222222222
   },
   "statistics": {
-    "max_description_length": 482,
-    "min_description_length": 258,
-    "avg_description_length": 357.625,
-    "embedding_file_size_mb": 0.02946949005126953
+    "max_description_length": 612,
+    "min_description_length": 256,
+    "avg_description_length": 428.6666666666667,
+    "embedding_file_size_mb": 0.044010162353515625
   }
 }

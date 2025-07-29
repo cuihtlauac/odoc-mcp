@@ -1,98 +1,117 @@
 {
   "package": "p4pp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:52.349690",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:26.572741",
   "modules": [
     {
-      "module_path": "P4pp.Eval.Make",
-      "description": "Checks if a file exists at a given path and reads its contents. Operates on file paths and string data. Used to verify presence of configuration files and load their content during setup processes.",
-      "description_length": 197,
+      "module_path": "P4pp.Eval.FileSystem",
+      "library": "p4pp",
+      "description": "This module handles file existence checks, content loading, and preprocessing of P4 programs with environment tracking. It operates on file paths and environment structures, producing processed code and updated environments. It is used to read and prepare P4 source files for evaluation or compilation tasks.",
+      "description_length": 308,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "P4pp.Eval.FileSystem",
-      "description": "Checks if a file exists at a given path and returns a boolean. Reads the contents of a file from a path and returns its string content. Processes a file's content using an environment, modifying both the content and the environment based on predefined rules. Works with file paths, strings, and environment records. Used to verify file presence before processing, retrieve configuration data, and apply environment-specific transformations during build steps.",
-      "description_length": 459,
+      "module_path": "P4pp.Eval.S",
+      "library": "p4pp",
+      "description": "This module provides operations to check the existence of a file, load its contents, and preprocess a string within a given environment, producing an updated environment. It works with strings and environments, where an environment is a structure that holds contextual information during preprocessing. Concrete use cases include reading and processing configuration files or templated text, where dynamic values are resolved based on the environment state.",
+      "description_length": 457,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "P4pp.Eval.Web",
-      "description": "Checks if a web resource is available by its URL, retrieves its content, and processes it with environment variables to produce updated content and state. Operates on strings and an environment record representing configuration or session data. Used to validate API endpoints, fetch and transform web pages, and manage dynamic content generation.",
-      "description_length": 346,
+      "library": "p4pp",
+      "description": "This module handles file existence checks, content loading, and preprocessing of P4 source files. It works with strings representing file paths and P4 source content, along with an environment type used during preprocessing. Concrete use cases include verifying if a P4 source file exists, reading its content, and expanding preprocessor directives while maintaining preprocessing state.",
+      "description_length": 387,
       "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "P4pp.Ast",
-      "description": "Provides operations for manipulating abstract syntax tree nodes, including binary operations, unary operations, and conditional tests. Works with custom types representing expressions, logical conditions, and program terms. Used to construct and analyze parsed code structures during compiler front-end processing.",
-      "description_length": 314,
-      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "P4pp.Bake",
-      "description": "Provides string constants for P4 core and V1 model definitions. Works with raw string data representing P4 language syntax. Used to embed standardized P4 code snippets in compiler or runtime configurations.",
-      "description_length": 206,
+      "module_path": "P4pp.Eval.Make",
+      "library": "p4pp",
+      "description": "This module evaluates and preprocesses P4 programs using a provided environment. It checks for file existence, loads file contents, and processes P4 source strings into intermediate representations while updating evaluation state. It directly supports tasks like macro expansion, include resolution, and conditional compilation in P4 code pipelines.",
+      "description_length": 349,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "P4pp.Eval.F",
+      "library": "p4pp",
+      "description": "This module provides operations to check the existence of a file and load its contents. It works with string values representing file paths and returns string data from the file system. Concrete use cases include verifying configuration files before processing and reading source code for evaluation.",
+      "description_length": 300,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "P4pp.Eval",
-      "description": "Checks if a named value exists in the current environment, loads its content, and preprocesses a string with environment variables, returning updated content and environment state. Works with strings, environments represented as associative lists, and handles variable substitution and conditional logic. Used to dynamically load and process configuration snippets or script fragments during runtime.",
-      "description_length": 400,
+      "library": "p4pp",
+      "description": "This module evaluates P4 programs by managing environments and execution contexts, supporting variable binding, expression evaluation, and pluggable backends for external interactions. It works with environments, file paths, and P4 source strings to enable tasks like macro expansion, include resolution, and conditional compilation, while tracking preprocessing state. Child modules handle file existence checks, content loading, and preprocessing, integrating with the environment to resolve dynamic values and prepare source code. Together, they support interpreting P4 during testing, simulating execution with file or web inputs, and resolving scoped variable references.",
+      "description_length": 676,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "P4pp.Lexer",
-      "description": "Provides functions to parse input streams into tokens, track line numbers, and manage lexing state. Operates on `Lexing.lexbuf` and `Parser.token` types, supporting recursive and non-recursive lexing strategies. Used to process source code for syntax analysis, handle multi-line input, and extract string literals during compilation.",
-      "description_length": 333,
-      "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "P4pp.Parser",
-      "description": "Parses a stream of tokens into an abstract syntax tree, processing a sequence of terms based on a provided lexer. It operates on a custom token type and a lexing buffer, constructing a list of AST terms. This is used to convert source code into a structured representation for further analysis or execution.",
-      "description_length": 307,
-      "index": 7,
+      "module_path": "P4pp.Ast",
+      "library": "p4pp",
+      "description": "This module defines algebraic data types representing abstract syntax trees for a preprocessor language, including binary and unary operators, test expressions, and terms like conditionals, includes, and definitions. It supports parsing and manipulating preprocessor directives with concrete syntax elements such as `#if`, `#ifdef`, `#define`, and `#include`, along with evaluation contexts for integer and identifier-based tests. Direct use cases include implementing preprocessor logic, macro expansion, and conditional compilation based on defined symbols or arithmetic conditions.",
+      "description_length": 584,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "P4pp.Prelexer",
-      "description": "Handles lexical processing for OCaml source code, providing functions to emit tokens, manage line tracking, and parse comments. Operates on lexing buffers, strings, and line counters to support custom lexing workflows. Used to preprocess input before standard lexing, enabling inline comment handling and token emission with precise line tracking.",
-      "description_length": 347,
-      "index": 8,
+      "library": "p4pp",
+      "description": "This module handles low-level lexing operations for preprocessing P4 code, managing input buffers, line tracking, and emitting processed tokens. It works with lexing buffers, string buffers, and reference-counted line numbers to support custom lexing rules. Concrete use cases include tokenizing P4 source files, handling multi-line and single-line comments, and managing line directives during lexing.",
+      "description_length": 402,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "p4pp",
-      "description": "Processes P4 language source code by expanding macros, handling include directives, and resolving conditional compilation blocks. Operates on abstract syntax trees and raw string input, supporting P4 version 1.0.1 and later. Used to prepare P4 programs for compilation by eliminating preprocessor directives and generating normalized source code.",
-      "description_length": 346,
+      "module_path": "P4pp.Parser",
+      "library": "p4pp",
+      "description": "Parses a stream of tokens into an abstract syntax tree representing a preprocessor language, handling conditional directives, arithmetic expressions, and macro definitions. It processes tokens like `IFDEF`, `DEFINE`, and `INCLUDE` to build structured terms for configuration or compilation tasks. This module is used to interpret preprocessor logic in source files, enabling conditional compilation and macro expansion.",
+      "description_length": 419,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "P4pp.Bake",
+      "library": "p4pp",
+      "description": "Contains string constants representing core and v1model P4 program templates. Provides direct access to predefined P4 code snippets for generating or manipulating P4 programs. Useful for code generation tools or P4 program analysis pipelines.",
+      "description_length": 242,
       "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "P4pp.Lexer",
+      "library": "p4pp",
+      "description": "This module implements a lexer for parsing P4 preprocessor directives, handling line tracking and string extraction. It provides functions to advance the lexer state, retrieve the current line number, and parse tokens in different modes such as line-based or test-based lexing. Concrete use cases include processing `#line` directives and extracting string literals during preprocessing of P4 source files.",
+      "description_length": 406,
+      "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "P4pp",
-      "description": "Manages P4 language processing by constructing and analyzing abstract syntax trees, handling string embeddings, and enabling dynamic configuration expansion. Supports tokenization, lexing, and parsing of source code, with operations on AST nodes, lexing buffers, and environment variables. Processes P4 programs by converting raw input into structured representations, substituting environment values, and managing comment and token metadata. Enables compiler front-end tasks such as syntax validation, code transformation, and configuration injection.",
-      "description_length": 552,
-      "index": 10,
+      "library": "p4pp",
+      "description": "This module processes P4 source code through lexing, parsing, and evaluation stages, enabling macro expansion, conditional compilation, and include resolution. It defines abstract syntax trees for preprocessor directives, supports lexing with line tracking and custom tokenization, and evaluates expressions within scoped environments using pluggable backends. Key data types include environments, lexing buffers, syntax trees for conditionals and definitions, and evaluation contexts. Examples include resolving `#ifdef` blocks, expanding `#define` macros, loading included files, and emitting preprocessed P4 code with line directives preserved.",
+      "description_length": 647,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 552,
-    "min_description_length": 197,
-    "avg_description_length": 346.09090909090907,
-    "embedding_file_size_mb": 0.040401458740234375
+    "max_description_length": 676,
+    "min_description_length": 242,
+    "avg_description_length": 431.4166666666667,
+    "embedding_file_size_mb": 0.044020652770996094
   }
 }

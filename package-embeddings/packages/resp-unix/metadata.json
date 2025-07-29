@@ -1,168 +1,181 @@
 {
   "package": "resp-unix",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:35:46.462159",
+  "total_modules": 20,
+  "creation_timestamp": "2025-07-15T23:09:54.844752",
   "modules": [
     {
       "module_path": "Resp_unix.Server.Make.Value.Reader",
-      "description": "Reads binary data, lines, and individual characters from an input channel, and parses lexemes and protocol responses. Operates on input channels and returns values wrapped in Lwt promises. Used to process network protocol messages and extract structured data from raw byte streams.",
-      "description_length": 281,
+      "library": "resp-unix",
+      "description": "This module provides functions for reading and decoding Redis serialization protocol (RESP) data from an input channel. It handles low-level operations such as reading raw bytes, parsing lines, and converting lexemes into structured RESP values. Concrete use cases include implementing Redis clients or proxies that need to parse incoming RESP messages.",
+      "description_length": 353,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Server.Make.Value.Writer",
-      "description": "Writes a string to a file descriptor, appends a separator, writes a parsed lexeme, and encodes a response type. Operates on file descriptors and response data structures. Used to output structured network protocol data and control flow signals.",
-      "description_length": 244,
+      "module_path": "Resp_unix.Server.Default.Value.Reader",
+      "library": "resp-unix",
+      "description": "This module provides functions for reading and decoding RESP (Redis Serialization Protocol) data from an input channel. It supports operations like reading raw strings, lines, characters, and lexemes, as well as decoding parsed lexemes into RESP values. It works directly with input channels (`ic`) and types like `Resp.lexeme`, `Resp.t`, and `string`, primarily used in implementing Redis-compatible network servers.",
+      "description_length": 417,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Server.Default.Value.Reader",
-      "description": "Reads binary or text data from an input channel, including lines, individual characters, and parsed lexemes. Processes structured data by decoding lexemes into specific response types. Used for handling network or file input in asynchronous I/O operations.",
-      "description_length": 256,
+      "module_path": "Resp_unix.Server.Make.Value.Writer",
+      "library": "resp-unix",
+      "description": "This module provides functions to write Redis serialization protocol (RESP) values over a network connection. It handles low-level output operations like writing raw strings, separators, and encoded RESP lexemes. It is used to serialize Redis commands and responses for transmission over a Unix domain socket or TCP connection.",
+      "description_length": 327,
       "index": 2,
-      "embedding_norm": 1.0000001192092896
-    },
-    {
-      "module_path": "Resp_unix.Server.Default.Value.Writer",
-      "description": "Writes a string or lexeme to a channel with asynchronous I/O, and encodes a response structure to the same. Operates on output channels and response data types. Used to stream structured data over network connections or file outputs.",
-      "description_length": 233,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Resp_unix.Server.Make.Client",
-      "description": "Initializes a client instance from provided data, using a custom type `t` to represent the client state. Operates on structured data to configure and manage client-specific interactions. Used to set up client contexts for network communication and session management.",
-      "description_length": 267,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Server.Make.Value",
-      "description": "Reads and writes network protocol data through input channels and file descriptors, handling binary, textual, and structured data. Processes raw byte streams into lexemes and responses, and encodes outputs with separators and response types. Supports asynchronous operations via Lwt, enabling efficient data extraction and transmission. Can parse incoming messages, generate protocol-compliant outputs, and manage flow control in networked applications.",
-      "description_length": 453,
-      "index": 5,
+      "module_path": "Resp_unix.Server.Default.Value.Writer",
+      "library": "resp-unix",
+      "description": "This module provides functions to write Redis serialization protocol (RESP) data to an output channel. It handles low-level operations like writing raw strings, separators, lexemes, and full RESP values. It is used to construct and send Redis-compatible responses over a network connection.",
+      "description_length": 290,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Resp_unix.Server.Default.Client",
-      "description": "Initializes a client instance with provided data, returning a unit type. Operates on arbitrary data inputs to configure a client state. Used to set up a client before initiating network requests or session management.",
+      "library": "resp-unix",
+      "description": "Handles client connection initialization for a Redis-compatible server. Accepts server configuration data to set up client handlers. Used to start processing client requests in a networked Redis server implementation.",
       "description_length": 217,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp_unix.Server.Default.Value",
+      "library": "resp-unix",
+      "description": "This module facilitates RESP protocol communication over Unix sockets, using dedicated reader and writer submodules to handle Redis-compatible network services. It provides `read` and `write` functions for exchanging `Resp.t` values, parsing incoming data from input channels and serializing responses for output. The reader supports decoding raw strings, lines, and lexemes into RESP values, while the writer constructs and sends RESP-formatted data over network connections. Example usage includes implementing Redis-like servers that process client commands and return structured responses asynchronously with Lwt.",
+      "description_length": 617,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp_unix.Server.Make.Value",
+      "library": "resp-unix",
+      "description": "This module enables asynchronous reading and writing of Redis serialization protocol (RESP) values over Unix file descriptors, using Lwt for concurrency. It provides `read` and `write` functions that decode and encode RESP values from and to structured types like integers, strings, arrays, and bulk data, directly handling I/O on input and output channels. The reading submodule parses raw bytes into RESP values by processing lines and lexemes, while the writing submodule serializes RESP structures into protocol-compliant byte sequences. Example uses include implementing Redis clients that send commands and receive responses over Unix sockets or building custom Redis-compatible servers that process incoming requests asynchronously.",
+      "description_length": 739,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Server.Default.Value",
-      "description": "Reads and writes structured data through asynchronous I/O, handling both input and output channels. Processes text and binary data by parsing lexemes into response types and encoding responses for output. Supports line-by-line, character-by-character, and structured data handling for network and file operations. Can decode incoming messages, stream encoded responses, and manage data flow in real-time communication systems.",
-      "description_length": 426,
+      "module_path": "Resp_unix.Server.Make.Client",
+      "library": "resp-unix",
+      "description": "This module initializes a client instance from raw data, producing a structured client representation. It works with client data types defined in the `Data.Client` module. A concrete use case is setting up a client connection handler in a networked application using parsed input data.",
+      "description_length": 285,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Resp_unix.Server.Default.Auth",
-      "description": "Checks if a given string array matches the credentials stored in a token, returning a boolean result. It operates on a token type represented as a string and an array of strings for comparison. Used to validate user authentication tokens against provided credentials during login processes.",
-      "description_length": 290,
+      "library": "resp-unix",
+      "description": "This module implements basic authentication logic for a server using string-based credentials. It provides a `check` function that validates a credential string against an array of expected values, returning a boolean result. It is used to verify client authentication requests in network services.",
+      "description_length": 298,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Resp_unix.Backend.Client",
-      "description": "Initializes a client instance from provided data. Operates on a custom type `t` representing client information. Used to set up client configurations for network communication.",
-      "description_length": 176,
+      "library": "resp-unix",
+      "description": "This module implements a client for handling RESP (Redis Serialization Protocol) communication over Unix domain sockets. It provides an `init` function to initialize a client connection using a provided data structure. Concrete use cases include building Redis clients or interacting with Unix socket-based services that use the RESP protocol for message serialization.",
+      "description_length": 369,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp_unix.Server.Make",
-      "description": "Checks if a set of targets is up to date based on a given build configuration. Operates on a custom type representing build state and an array of target strings. Used to validate build prerequisites before executing commands.",
-      "description_length": 225,
+      "module_path": "Resp_unix.Client.Writer",
+      "library": "resp-unix",
+      "description": "This module handles writing data to a Redis connection using Lwt for asynchronous operations. It provides functions to write raw strings, separators, lexemes, and fully encoded Redis values. It works directly with output channels and Redis-specific data representations, making it suitable for implementing Redis clients or network protocols with precise message formatting.",
+      "description_length": 374,
       "index": 10,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp_unix.Server.Default",
-      "description": "Initializes client configurations, manages asynchronous data flow with structured input/output, and validates authentication tokens. Operates on unit, token, and string array types, enabling client setup, real-time data processing, and credential verification. Can configure a client for network operations, parse incoming messages, and check if provided credentials match stored tokens. Supports session initialization, message decoding, and authentication validation in communication systems.",
-      "description_length": 494,
+      "module_path": "Resp_unix.Client.Reader",
+      "library": "resp-unix",
+      "description": "This module handles low-level input operations for network clients, providing functions to read raw strings, lines, and characters from an input channel. It includes specialized decoding for RESP (Redis Serialization Protocol) lexemes and full RESP values, making it suitable for implementing Redis clients or similar network protocols. Functions like `read_lexeme` and `decode` enable parsing structured data directly from a network stream.",
+      "description_length": 441,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Client.Reader",
-      "description": "Reads binary or text data from an input channel, including lines, individual characters, and lexemes, and decodes lexemes into structured responses. Operates on input channels (`ic`) and returns values wrapped in Lwt promises. Used for parsing network protocols or file formats that require precise byte-level or token-based reading.",
-      "description_length": 333,
+      "module_path": "Resp_unix.Server.Make",
+      "library": "resp-unix",
+      "description": "This module orchestrates the construction of Redis-compatible servers by integrating client session management, command parsing, and RESP serialization with asynchronous I/O handling. It defines core data types such as client connections, command handlers, and server configurations, while its submodules implement low-level RESP encoding and decoding over Unix file descriptors and client initialization from raw data. Operations include setting up authenticated client sessions, processing Redis-like commands, and streaming data responses using Lwt for concurrency. Example workflows include building custom network services that accept Redis clients, parse and execute commands, and return structured responses over Unix sockets.",
+      "description_length": 733,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp_unix.Client.Writer",
-      "description": "Writes a string or lexeme to a channel, with options to separate outputs or encode structured response data. Operates on a channel type and handles asynchronous I/O operations. Used to construct protocol-compatible output streams in networked applications.",
-      "description_length": 256,
+      "module_path": "Resp_unix.Server.Default",
+      "library": "resp-unix",
+      "description": "This module implements a Redis-compatible network server with asynchronous I/O using Lwt, allowing definition of custom commands, authentication, and handling of request/response cycles using RESP encoding. It provides core operations for managing client connections, processing pipelined commands, and integrating authentication checks against predefined credentials. The connection submodule initializes and starts client handlers based on server configuration, while the RESP submodule handles protocol-level reading and writing over Unix sockets, supporting full bidirectional communication with clients. Authentication is enforced through a credential-checking function that validates client input against expected values, enabling secure access control in Redis-like services.",
+      "description_length": 782,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Reader",
-      "description": "Reads binary or text data from an input channel, including lines, individual characters, and parsed lexemes. Processes structured data by decoding lexemes into specific response types. Used to handle protocol-specific input in network or file-based applications.",
-      "description_length": 262,
+      "module_path": "Resp_unix.Server",
+      "library": "resp-unix",
+      "description": "This module enables building Redis-compatible network servers with asynchronous I/O and custom command handling. It centers around client connections, command processors, and server configurations, using RESP for communication and Lwt for concurrency. Key operations include setting up authenticated sessions, parsing and executing Redis-like commands, and streaming responses over Unix sockets. Example uses include implementing secure, custom Redis extensions or network services that interact with Redis clients using a defined command set and authentication model.",
+      "description_length": 568,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Writer",
-      "description": "Writes a string, separator, or parsed response element to an output channel using asynchronous I/O. Operates on output channels and response data structures specific to the protocol. Used to stream structured data responses over network connections or files.",
-      "description_length": 258,
+      "module_path": "Resp_unix.Reader",
+      "library": "resp-unix",
+      "description": "This module provides functions for reading and decoding data from an input channel, including reading raw strings, lines, characters, and structured lexemes. It works with input channels and processes RESP (Redis Serialization Protocol) data structures like strings, integers, and arrays. Concrete use cases include parsing Redis commands or responses from a network socket.",
+      "description_length": 374,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Resp_unix.Backend",
-      "description": "Initializes and configures client instances using a custom type `t` that encapsulates network-related data. Provides functions to construct and manipulate client settings for communication protocols. Allows setting up connection parameters, authentication details, and session management. Example tasks include creating a client with specific IP and port, updating credentials, or preparing a session for data exchange.",
-      "description_length": 419,
+      "library": "resp-unix",
+      "description": "This module implements a Redis-like network backend using Lwt for asynchronous I/O, allowing users to run a server that processes client connections with a custom handler. It works with input and output channels to manage communication, parsing requests and generating responses through the Client module. The Client module provides `init` to establish RESP protocol connections over Unix sockets, enabling interaction with Redis-compatible services. Example usage includes building custom Redis servers or clients that send and receive RESP-serialized commands over Unix domain sockets.",
+      "description_length": 587,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_unix.Server",
-      "description": "Checks if a set of targets is up to date using a custom build state type and target strings, ensuring prerequisites are met before execution. Manages client configurations, processes asynchronous data, and validates tokens using unit, token, and string array types, enabling secure communication setup and real-time message handling. It can verify credentials, initialize sessions, and decode incoming data. Together, these functions support efficient build validation and reliable client-server interactions.",
-      "description_length": 509,
+      "module_path": "Resp_unix.Writer",
+      "library": "resp-unix",
+      "description": "This module handles writing Redis serialization protocol (RESP) data to an output channel. It provides functions to write raw strings, separators, lexemes, and fully encoded RESP values. It is used to serialize and send Redis commands or responses over a network connection.",
+      "description_length": 274,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Resp_unix.Client",
-      "description": "Reads and writes binary or text data through input and output channels, supporting line-by-line, character-by-character, and token-based operations. Processes lexemes into structured responses and encodes output for protocol compliance. Handles asynchronous I/O using Lwt, enabling non-blocking data transmission. Can parse incoming network messages or generate formatted output for client-server communication.",
-      "description_length": 411,
+      "library": "resp-unix",
+      "description": "This module provides Redis client functionality over Unix domain sockets, handling RESP encoding and decoding, connection setup, command execution, and structured response parsing. It includes submodules for asynchronous writing and low-level input parsing, enabling precise control over Redis protocol messages. Main operations include `connect`, `read`, `write`, and `run`, with support for sending commands and parsing responses like integers, bulk strings, and arrays. Example uses include sending `SET key value` commands and reading structured replies such as `Bulk \"value\"` or `Integer 1`.",
+      "description_length": 596,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "resp-unix",
-      "description": "Encodes and decodes values according to the Redis Serialization Protocol, handling integers, strings, arrays, and bulk strings. It supports streaming operations for efficient data processing in networked applications. Used to implement Redis clients and servers by serializing commands and parsing responses.",
-      "description_length": 308,
-      "index": 19,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Resp_unix",
-      "description": "Reads and writes structured data through input and output channels, parsing lexemes into protocol-specific responses and encoding output for transmission. Supports asynchronous I/O with Lwt, enabling non-blocking data handling and real-time communication. Manages client configurations, validates targets, and processes tokens to ensure secure and efficient data exchange. Examples include decoding network messages, streaming formatted responses, and initializing secure client sessions.",
-      "description_length": 488,
-      "index": 20,
+      "library": "resp-unix",
+      "description": "This module provides a Redis-compatible networking stack for building servers and clients that communicate using the RESP protocol over Unix sockets. It centers around client connections, command processing, and serialization, with core data types including RESP values (strings, integers, arrays) and I/O channels for asynchronous communication. Key operations include parsing Redis commands from input channels, executing custom logic against those commands, and streaming RESP-encoded responses back to clients. Example uses include implementing Redis extensions that handle custom commands like `MYCOMMAND key` or building clients that authenticate, send pipelined requests, and parse structured replies such as `Bulk \"result\"` or `Array [Integer 1; Bulk \"ok\"]`.",
+      "description_length": 766,
+      "index": 19,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 22,
-    "meaningful_modules": 21,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9545454545454546
+    "total_modules_in_package": 20,
+    "meaningful_modules": 20,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 509,
-    "min_description_length": 176,
-    "avg_description_length": 324.0952380952381,
-    "embedding_file_size_mb": 0.07677173614501953
+    "max_description_length": 782,
+    "min_description_length": 217,
+    "avg_description_length": 470.35,
+    "embedding_file_size_mb": 0.07307910919189453
   }
 }

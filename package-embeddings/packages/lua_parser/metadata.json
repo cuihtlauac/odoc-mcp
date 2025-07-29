@@ -1,98 +1,101 @@
 {
   "package": "lua_parser",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:31:29.554486",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:05:58.117956",
   "modules": [
     {
-      "module_path": "Lua_parser.Ast",
-      "description": "Converts between S-expression representations and an abstract syntax tree type, enabling serialization and deserialization. Provides pretty-printing and string representation for debugging or logging. Extracts a list of child nodes from a composite AST node for traversal or analysis.",
-      "description_length": 284,
+      "module_path": "Lua_parser.Parser",
+      "library": "lua_parser.lib",
+      "description": "Parses Lua source code into an abstract syntax tree using a lexer function that generates tokens from a lexing buffer. It processes input through a token stream to build structured AST nodes representing Lua programs. This module is used to translate raw Lua code into a manipulable tree structure for analysis or transformation tools.",
+      "description_length": 335,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Lua_parser.Lexer",
-      "description": "Processes input streams to recognize and return tokens such as identifiers, literals, and operators. Operates on `Lexing.lexbuf` structures, extracting tokens from source code or text input. Handles specific constructs like long strings, comments, and end-of-line markers during lexical analysis.",
-      "description_length": 296,
+      "module_path": "Lua_parser.Tokens",
+      "library": "lua_parser.lib",
+      "description": "This module defines a comprehensive set of lexical tokens representing Lua's syntax, including operators, keywords, literals, and punctuation. It provides functions for converting tokens to and from S-expressions, pretty-printing tokens, and generating string representations. These capabilities are used to support parsing, serialization, and debugging of Lua source code.",
+      "description_length": 373,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Lua_parser.Lexer_utils",
-      "description": "Provides functions to track and manipulate the state of a lexical analyzer's buffer and position, including retrieving tokens, handling newlines, and managing long comments and strings. Operates on `Lexing.lexbuf` and internal character buffers to support custom lexing workflows. Used to debug tokenization, build multi-line constructs, and manage complex input patterns during parsing.",
-      "description_length": 387,
+      "module_path": "Lua_parser.Pp_tokens",
+      "library": "lua_parser.lib",
+      "description": "Prints individual Lua tokens in S-expression or string format for debugging and inspection. Works directly with the token type from the Lua_parser.Tokens module. Useful when developing or testing parsers to visualize token structure and content.",
+      "description_length": 245,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lua_parser.Parse",
-      "description": "Parses input sources into an abstract syntax tree (AST) structure. Accepts either a character input channel or a string as input. Used to convert raw text input into structured program representations for further processing.",
-      "description_length": 224,
+      "library": "lua_parser.lib",
+      "description": "Parses Lua source code into an abstract syntax tree (AST) from either a string or an input channel like stdin. It directly processes raw Lua code, transforming it into structured AST nodes defined in the `Lua_parser.Ast` module. This is useful for analyzing or interpreting Lua scripts programmatically, such as in compilers, linters, or code transformation tools.",
+      "description_length": 364,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lua_parser.Parser",
-      "description": "Parses a stream of tokens into an abstract syntax tree using a provided lexer. It processes input through a lexing buffer and maps tokens to their corresponding AST nodes. This is used to convert source code into a structured representation for further analysis or execution.",
-      "description_length": 275,
+      "module_path": "Lua_parser.Lexer_utils",
+      "library": "lua_parser.lib",
+      "description": "This module handles lexical analysis tasks for parsing Lua code, providing functions to manage token extraction, buffer manipulation, and state transitions during lexing. It operates on lex buffers and string data, supporting concrete operations like newline tracking, comment and string parsing, and buffer accumulation. Use cases include error position reporting, multi-line comment handling, and constructing string literals during lexical scanning.",
+      "description_length": 452,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lua_parser.Pp_ast",
-      "description": "Prints an abstract syntax tree using S-expressions or JSON formatting. Accepts an AST structure and outputs it in a human-readable form. Used for debugging or inspecting parsed program structures during development.",
-      "description_length": 215,
+      "module_path": "Lua_parser.Lexer",
+      "library": "lua_parser.lib",
+      "description": "This module performs lexical analysis of Lua source code, converting raw character streams into structured tokens recognized by the Lua parser. It processes input through functions like `tok` and recursive helpers to identify language elements such as strings, comments, and end-of-line markers. Specific use cases include tokenizing multiline strings with `longstring`, handling nested comments with `longcomment`, and parsing line terminators with `eolstr`.",
+      "description_length": 459,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lua_parser.Pp_lua",
-      "description": "Provides pretty printing of Lua abstract syntax trees to standard output and string representation. Operates on the `Ast.ast` type, generating formatted Lua code. Used to generate human-readable Lua source from parsed syntax trees for debugging or code inspection.",
-      "description_length": 264,
+      "module_path": "Lua_parser.Pp_ast",
+      "library": "lua_parser.lib",
+      "description": "Prints abstract syntax trees in S-expression or JSON format. Operates on Lua_parser.Ast.ast values. Useful for debugging parsers or inspecting AST structure during development.",
+      "description_length": 176,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lua_parser.Pp_tokens",
-      "description": "Prints token representations in S-expressions and as human-readable strings. Operates on `Tokens.token` values, which encapsulate lexical elements from a parser. Used to debug token streams during parsing or to generate verbose output for analysis.",
-      "description_length": 248,
+      "module_path": "Lua_parser.Ast",
+      "library": "lua_parser.lib",
+      "description": "This module defines a comprehensive algebraic data type representing the abstract syntax tree (AST) of Lua programs, including nodes for control structures, expressions, statements, and declarations. It provides functions for converting AST nodes to and from S-expressions, pretty-printing AST structures, and extracting lists of AST nodes from composite values. Concrete use cases include building and manipulating Lua code representations during parsing, analysis, or transformation tasks.",
+      "description_length": 491,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lua_parser.Tokens",
-      "description": "Converts between a custom token type and S-expressions, with pretty-printing and string representation capabilities. Operates on a polymorphic variant type representing lexical tokens. Used to serialize and deserialize tokens during parsing and debugging workflows.",
-      "description_length": 265,
+      "module_path": "Lua_parser.Pp_lua",
+      "library": "lua_parser.lib",
+      "description": "This module provides functions to pretty-print Lua abstract syntax trees (ASTs) either directly to standard output or into a string. It operates on the `Lua_parser.Ast.ast` data type, which represents parsed Lua programs. Use cases include debugging Lua code transformations or generating readable Lua source output from an AST.",
+      "description_length": 328,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "lua_parser",
-      "description": "Parses and pretty prints Lua 5.2 code, converting between abstract syntax trees and human-readable strings. Operates on Lua syntax trees and source code strings, preserving semantic structure. Used to format existing Lua scripts or generate valid Lua output from parsed structures.",
-      "description_length": 281,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Lua_parser",
-      "description": "Transforms Lua source code into structured abstract syntax trees through lexical analysis, token processing, and parsing, while supporting serialization, deserialization, and pretty-printing of both tokens and ASTs. It handles `Lexing.lexbuf` structures, `Ast.ast` types, and custom token variants, enabling operations like token extraction, AST traversal, and formatted output. Users can convert between S-expressions and ASTs, debug token streams, and generate human-readable Lua code from parsed structures. Examples include parsing a string into an AST, printing tokens as S-expressions, and traversing child nodes for analysis.",
-      "description_length": 632,
-      "index": 10,
+      "library": "lua_parser.lib",
+      "description": "This module parses Lua source code into an abstract syntax tree using a lexer that processes input through a token stream, building structured AST nodes that represent Lua programs. It defines core data types for lexical tokens and AST nodes, with operations to convert between S-expressions, pretty-print structures, and extract node lists from composite values. You can parse Lua scripts from strings or input channels, inspect tokens and ASTs in readable formats, and handle lexical tasks like string and comment parsing. Specific functions support tokenizing multiline strings, nested comments, and line terminators, while also enabling debugging and transformation of Lua code through AST visualization and serialization.",
+      "description_length": 726,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 632,
-    "min_description_length": 215,
-    "avg_description_length": 306.45454545454544,
-    "embedding_file_size_mb": 0.040421485900878906
+    "max_description_length": 726,
+    "min_description_length": 176,
+    "avg_description_length": 394.9,
+    "embedding_file_size_mb": 0.03674602508544922
   }
 }

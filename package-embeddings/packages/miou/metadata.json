@@ -1,231 +1,245 @@
 {
   "package": "miou",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 30,
-  "creation_timestamp": "2025-06-18T16:38:56.578696",
+  "total_modules": 28,
+  "creation_timestamp": "2025-07-15T23:12:43.327267",
   "modules": [
     {
-      "module_path": "Miou.Domain.Uid",
-      "description": "Generates and compares unique identifiers, with support for converting integers to identifiers and pretty-printing them. It operates on the abstract type `t` representing unique IDs. Used to ensure distinctness in event tracking and session management.",
-      "description_length": 252,
+      "module_path": "Miou_backoff",
+      "library": "miou.backoff",
+      "description": "This module implements a randomized exponential backoff mechanism with configurable upper and lower bounds on wait times. It provides functions to create, reset, and execute backoff steps, returning updated state with each operation. The module is used to manage retry strategies in scenarios like network congestion control or lock contention, where delaying successive attempts is necessary to avoid resource saturation.",
+      "description_length": 422,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Miou.Promise.Uid",
-      "description": "Prints unique identifiers in a human-readable format. Operates on the `t` type, which represents opaque unique identifiers. Used to format UIDs for logging and debugging purposes.",
-      "description_length": 179,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Miou_state.Operation",
-      "description": "Handles asynchronous control flow with operations like interrupting, continuing, and yielding execution. Works with effectful computations wrapped in the `'a t` type. Used to manage program state during event-driven or cooperative multitasking scenarios.",
-      "description_length": 254,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_unix.Ownership",
-      "description": "Provides operations to manage file descriptors as owned resources, including creating TCP sockets for IPv4 and IPv6, binding and listening on addresses, accepting connections, and performing read/write operations with precise control over offsets and lengths. Works with file descriptors and Unix socket addresses to handle low-level network communication. Used to establish and manage network connections, transfer data reliably, and ensure proper resource ownership and cleanup.",
-      "description_length": 480,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Miou_sync.Trigger",
-      "description": "Provides operations to manage a trigger's state, including creating a new trigger, checking if it is in the initial or signaled state, waiting for a signal, and signaling it. Works with a mutable state type `t` that tracks whether a signal has been received and manages asynchronous waiting. Used to coordinate asynchronous events, such as waiting for a task to complete or handling cancellation in concurrent code.",
-      "description_length": 415,
-      "index": 4,
+      "library": "miou.sync",
+      "description": "This module implements a synchronization primitive for managing state transitions and callbacks in concurrent programs. It provides operations to create, await, and signal a trigger, along with attaching handler actions that execute upon signaling. The trigger supports checking its current state and allows waiting for a state change, making it useful for coordinating between asynchronous tasks or threads.",
+      "description_length": 408,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Miou_sync.Computation",
-      "description": "Provides operations to manage asynchronous computations, including attempting to complete with a value or exception, checking status, capturing results, and attaching triggers for notifications. Works with a stateful computation type that tracks completion, cancellation, and results. Used to coordinate task execution, handle errors, and synchronize asynchronous events in concurrent systems.",
-      "description_length": 393,
-      "index": 5,
+      "library": "miou.sync",
+      "description": "This module manages asynchronous computations that can be completed with values, exceptions, or cancellation signals. It supports operations to create, complete, cancel, and observe the state of computations, along with attaching triggers to signal completion events. Concrete use cases include coordinating task completion in concurrent systems, handling cancellable operations, and building custom async workflows with precise control over result propagation and error handling.",
+      "description_length": 480,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Miou_sync",
+      "library": "miou.sync",
+      "description": "This module coordinates state transitions and asynchronous computations using triggers and cancellable tasks. It provides data types for triggers that manage signaling and callbacks, and for computations that support completion, cancellation, and observation. Operations allow creating and awaiting triggers, attaching handlers, and controlling the lifecycle of computations. For example, you can use it to wait for a background task to complete, cancel an ongoing operation, or trigger a set of dependent actions once a condition is met.",
+      "description_length": 538,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Miou.Domain.Uid",
+      "library": "miou",
+      "description": "This module defines a unique identifier type `t` for domain entities, providing conversion from integers, equality checking, and pretty-printing. It ensures type-safe handling of numeric IDs by encapsulating them in a dedicated abstract type. Concrete use cases include representing and comparing user IDs, session IDs, or resource identifiers in a type-safe manner.",
+      "description_length": 366,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Miou_logs.Make",
-      "description": "Provides a function to generate a source string from a given input, supporting string manipulation and transformation. Works with basic string data types and concatenation operations. Used to construct file paths and configuration strings in build processes.",
-      "description_length": 258,
-      "index": 6,
+      "module_path": "Miou.Promise.Uid",
+      "library": "miou",
+      "description": "This module defines a unique identifier type `t` for tracking promises and provides a function `pp` to format and print these identifiers. It is used to distinguish between different promise instances in debugging and logging scenarios.",
+      "description_length": 236,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Miou.Sequence",
-      "description": "Provides operations to manage a sequence data structure, including adding and removing elements, inspecting nodes, and iterating over elements. Works with a generic sequence type `'a t`, node type `'a node`, and a direction type to specify traversal. Used to dynamically build and manipulate ordered collections with fine-grained control over elements and their positions.",
-      "description_length": 372,
+      "library": "miou",
+      "description": "This module implements a bidirectional sequence data structure with operations to add or remove elements from either end, inspect elements without removal, and traverse nodes directly. It supports sequences of arbitrary type `'a` and provides functions to convert sequences to lists, check for elements, and apply side-effecting functions across elements or nodes. Concrete use cases include managing ordered data with efficient ends access, such as processing streams or maintaining history with forward/backward navigation.",
+      "description_length": 525,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Miou.Lazy",
+      "library": "miou",
+      "description": "This module implements lazy evaluation through suspensions, allowing deferred computation of values. It provides operations to create suspensions from values or functions and to force their evaluation, caching results for subsequent accesses. Concrete use cases include efficient handling of expensive computations that may not be needed, or managing stateful computations with controlled side effects.",
+      "description_length": 402,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou.Domain",
-      "description": "Manages unique identifiers through generation, comparison, conversion from integers, and pretty-printing. It defines the abstract type `t` for representing IDs and provides operations to manipulate and compare them. This enables reliable tracking of distinct events or sessions by ensuring ID uniqueness. For example, it can generate a new ID, convert an integer to an ID, and format it for human-readable output.",
-      "description_length": 413,
+      "module_path": "Miou_pqueue.Make",
+      "library": "miou",
+      "description": "Implements a priority queue using a minimal binary heap stored in a dynamic array. It supports operations to insert elements, retrieve and remove the minimum element, and iterate over elements. Designed for use with ordered elements where efficient min extraction and insertion are required, such as scheduling tasks or managing event queues.",
+      "description_length": 342,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou.Promise",
-      "description": "Formats unique identifiers for human readability, operating on the `t` type to generate consistent string representations. Provides functions to convert, compare, and serialize identifiers in a structured manner. Examples include logging UIDs in application traces or displaying them in user interfaces. Supports operations that ensure uniqueness and traceability across system components.",
-      "description_length": 389,
+      "module_path": "Miou_state.Operation",
+      "library": "miou",
+      "description": "This module implements low-level control flow operations for managing effectful computations. It provides primitives like `interrupt`, `continue`, `return`, `fail`, `perform`, and `yield` to manipulate execution state and handle effects directly. These operations work with effect types and custom state wrappers, primarily used for implementing asynchronous schedulers or custom runtime behaviors.",
+      "description_length": 398,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou.Ownership",
-      "description": "Creates and manages resources with associated finalisers, ensuring they are released when a task completes. Operates on a resource type `t` that tracks ownership and finalisation state. Used to safely handle cleanup in asynchronous tasks, triggering finalisers on abnormal termination or un-disowned resources.",
-      "description_length": 310,
+      "module_path": "Miou.Promise",
+      "library": "miou",
+      "description": "This module implements asynchronous promises for managing deferred computations, allowing tasks like network requests or file operations to run non-blockingly. It supports creating, resolving, and chaining promises, with a Uid submodule that introduces a unique identifier type `t` and a `pp` function for printing them, aiding in debugging and logging. You can use it to sequence asynchronous operations, track their progress via unique IDs, and handle results once available. For example, you might chain a series of HTTP requests, each identified by a unique Uid, and process their responses as they resolve.",
+      "description_length": 611,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Miou.Hook",
-      "description": "Adds a function to be executed on every tick of the current domain, useful for tracking state changes or logging during asynchronous workflows. Operates on a domain-specific hook type `t` that is tied to the creation context. Removes a previously added hook, ensuring cleanup in event-driven or coroutine-based execution.",
-      "description_length": 321,
+      "library": "miou",
+      "description": "This module manages per-domain hooks that execute at every effect suspension. It provides `add` to register a callback triggered on each tick and `remove` to unregister a specific hook, ensuring precise control over lifecycle events. Use it to track or react to asynchronous activity in a domain, such as logging progress or managing resources tied to suspension points.",
+      "description_length": 370,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou.Mutex",
-      "description": "Provides atomic locking and unlocking of shared resources to coordinate concurrent tasks. Operates on a mutable mutex type representing a synchronization primitive. Ensures safe execution of critical sections by acquiring a lock before running a function and releasing it afterward, preventing race conditions.",
-      "description_length": 310,
+      "module_path": "Miou.Ownership",
+      "library": "miou",
+      "description": "Manages resource ownership and lifecycle in a task-concurrent environment. It tracks which task owns a resource, ensures proper release via finalizers, and prevents leaks or misuse through ownership checks and transfers. Useful for handling file descriptors, network sockets, or any scarce resource needing cleanup when tasks complete or fail.",
+      "description_length": 343,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Miou.Condition",
-      "description": "Provides functions to manage synchronization between threads using condition variables. Operates with a mutex and a logical condition, allowing threads to wait, signal, or broadcast changes. Used to coordinate thread execution when a specific state or data condition is met.",
-      "description_length": 274,
+      "library": "miou",
+      "description": "This module implements condition variables for thread synchronization, used in conjunction with mutexes to manage shared state. It supports creating condition variables, waiting for changes while releasing a mutex, and notifying one or all waiting threads. Typical use cases include implementing blocking queues or coordinating access to shared resources where threads must wait for specific state changes.",
+      "description_length": 406,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Miou.Lazy",
-      "description": "Provides functions to create and evaluate suspended computations, where `from_val` wraps a value into a suspension and `from_fun` wraps a delayed computation. `force` evaluates the suspension, memoizing the result to avoid recomputation. Works with the `t` type, which represents a delayed or already-computed value, useful for deferring expensive operations until needed.",
-      "description_length": 372,
+      "module_path": "Miou_logs.Make",
+      "library": "miou",
+      "description": "This module implements a logging system with functions for emitting messages at different severity levels\u2014debug, error, warning, and general messages. It operates on formatted message values using the `Miou_logs.msgf` type, which supports type-safe message construction. Concrete use cases include logging application events, errors, and diagnostics to standard output or other configured backends.",
+      "description_length": 398,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_gen.Make",
-      "description": "Provides operations to create, compare, and convert a private integer type, including generating a new value, resetting to a default, and pretty-printing. Works with an opaque integer type that encapsulates raw integer values. Used to manage unique identifiers or counters with controlled mutation and representation.",
-      "description_length": 317,
+      "module_path": "Miou.Domain",
+      "library": "miou",
+      "description": "This module manages domain identifiers and provides operations to retrieve the current domain's unique identifier, count available domains, and list all existing domain identifiers. It works with domain UIDs, represented as the abstract type `t` in the `Uid` submodule, which supports equality checks, conversion from integers, and pretty-printing. The combined interface enables type-safe handling of numeric IDs, such as tracking domain membership in a distributed system or coordinating domain-specific resources. Specific operations include comparing domain UIDs, converting integer values into domain identifiers, and retrieving the total number of domains in the system.",
+      "description_length": 676,
       "index": 15,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Miou_pqueue.Make",
-      "description": "Provides operations to create a dummy value of type t and to compare two values of type t, returning an integer result. Works with the abstract type t, which represents some structured data. Used to establish default values and enable sorting or ordering logic in contexts requiring ordered comparisons.",
-      "description_length": 303,
-      "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "miou",
-      "description": "Provides asynchronous task scheduling, resource management, and coordination through lightweight threads and channels. Operates with custom thread pools, event loops, and message-passing constructs. Used to implement real-time data processing pipelines and distributed task orchestration in networked applications.",
-      "description_length": 314,
+      "module_path": "Miou_gen.Make",
+      "library": "miou",
+      "description": "This module generates and manages unique integer identifiers with type safety. It provides operations to create fresh identifiers, compare and print them, and convert between the abstract type and raw integers. Use it to track distinct entities like process IDs, socket handles, or unique object references in systems programming.",
+      "description_length": 330,
+      "index": 16,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Miou.Mutex",
+      "library": "miou",
+      "description": "This module implements mutual exclusion locks (mutexes) for synchronizing concurrent tasks. It provides operations to create, lock, unlock, and conditionally lock mutexes, along with a function to run a given function under a lock, ensuring release even if an exception occurs. It is used to protect access to shared resources in concurrent programs, such as coordinating access to a shared data structure or ensuring atomic updates to a file.",
+      "description_length": 443,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_sequence",
-      "description": "Provides operations to manage a mutable sequence of elements, including adding and removing elements from specified directions, inspecting nodes, and iterating over elements or nodes. Works with a custom `t` type representing the sequence and a `node` type for individual elements within it. Used to dynamically build and traverse sequences, such as implementing a queue or a doubly linked list with directional access.",
-      "description_length": 419,
+      "module_path": "Miou_queue",
+      "library": "miou",
+      "description": "This module implements a thread-safe, mutable queue with operations for adding and removing elements, inspecting the front element, checking emptiness, and transforming or transferring elements. It supports FIFO semantics and provides functions to iterate over elements, convert to a list, and transfer contents to a new queue. Concrete use cases include managing tasks in concurrent systems, buffering data streams, and implementing breadth-first search in graph algorithms.",
+      "description_length": 475,
       "index": 18,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Miou_state",
-      "description": "Manages asynchronous execution through effectful computations encapsulated in the `'a t` type, enabling control flow operations such as interruption, continuation, and yielding. It supports cooperative multitasking by allowing suspended and resumed computations, making it suitable for event-driven programming. Operations include pausing execution, resuming after an event, and handling asynchronous side effects. For example, it can be used to implement non-blocking I/O or task scheduling with precise control over execution flow.",
-      "description_length": 533,
+      "module_path": "Miou_fmt",
+      "library": "miou",
+      "description": "This module provides functions for building and composing format strings with precise type control, enabling safe and structured formatting operations. It supports operations like concatenating formatted values with optional separators, applying formatters to arguments, and converting between format types. Concrete use cases include generating error messages with contextual data, constructing complex log outputs, and formatting user-facing strings from structured inputs.",
+      "description_length": 475,
       "index": 19,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Miou_unix",
-      "description": "Manages file descriptors for network communication, supporting TCP socket creation, binding, listening, and connection acceptance. Provides low-level read/write operations with control over data offsets and lengths, using Unix socket addresses. Enables reliable data transfer over IPv4 and IPv6, ensuring proper resource management and cleanup. Examples include establishing a server socket, reading from a connected client, and writing response data with precise byte control.",
-      "description_length": 477,
+      "module_path": "Miou_pqueue",
+      "library": "miou",
+      "description": "This module provides a priority queue based on a minimal binary heap stored in a dynamic array, enabling efficient insertion and extraction of the minimum element. It supports key operations such as inserting elements, retrieving and removing the smallest item, and iterating over the queue. The queue is ideal for scenarios like scheduling tasks or managing event loops where maintaining elements in order with fast access to the minimum is critical. For example, it can manage a queue of events sorted by timestamp or prioritize tasks based on urgency.",
+      "description_length": 554,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_backoff",
-      "description": "Provides functions to manage a randomized exponential backoff strategy, including creating instances with custom logarithmic bounds, executing a single backoff step with a random delay, resetting to initial bounds, and retrieving the current logarithmic wait value. Operates on a stateful type `t` that tracks the current backoff parameters. Used to control retry intervals in network requests or task scheduling with increasing delays.",
-      "description_length": 436,
+      "module_path": "Miou_sequence",
+      "library": "miou",
+      "description": "This module implements a mutable doubly-linked list with operations to add or remove elements from either end, inspect nodes, and iterate over elements or nodes directly. It supports efficient per-element manipulation through node references, enabling use cases like implementing stacks, queues, or sliding windows where elements are frequently added, removed, or accessed in sequence. Functions like `take`, `add`, and `remove` allow precise control over the structure, while `to_list` provides a snapshot of the current sequence as a list.",
+      "description_length": 541,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_vector",
-      "description": "This module provides stack-like operations (push, pop, top) and array manipulations (indexing, slicing, appending) on dynamically resized arrays, which automatically expand and contract to manage memory efficiently. It works with a vector type storing elements in a mutable array, using user-defined dummy values to optimize garbage collection by clearing unused slots. Use cases include high-performance stack implementations and applications requiring dynamic arrays with controlled memory layout, such as data processing pipelines or memory-sensitive algorithms.",
-      "description_length": 565,
+      "module_path": "Miou_state",
+      "library": "miou",
+      "description": "This module coordinates effectful computations and their execution states, integrating low-level control flow operations for managing suspension, resumption, and error handling. It supports stateful values that encapsulate effectful logic, enabling precise control over continuations and backtraces through operations like `suspended_with`, `fail`, and `perform`. The integrated control flow primitives\u2014such as `interrupt`, `continue`, `return`, and `yield`\u2014allow direct manipulation of execution state, making it suitable for implementing custom effect handlers and asynchronous schedulers. Together, the module and its submodules enable fine-grained management of effectful programs with support for safe failure, resumption, and custom runtime behaviors.",
+      "description_length": 757,
       "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_sync",
-      "description": "Manages asynchronous task coordination through mutable state tracking and event signaling. Supports creating and monitoring triggers that can be waited on or signaled, and handles asynchronous computations that can be completed, canceled, or queried for results. Operations include waiting for signals, triggering events, and capturing computation outcomes. Examples include synchronizing task completion, handling cancellations, and managing error propagation in concurrent workflows.",
-      "description_length": 485,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Miou_logs",
-      "description": "Generates source strings from input using string manipulation and concatenation, enabling dynamic construction of file paths and configuration strings. Operates on basic string data types with transformation functions tailored for build processes. Examples include combining directory names with file names or embedding variables into configuration templates. Supports flexible string handling to adapt to varying input structures.",
-      "description_length": 431,
-      "index": 24,
+      "library": "miou",
+      "description": "This module provides a structured logging system with a custom `level` type and functions to emit messages at specific severity levels, including debug, error, warning, and info. It supports type-safe message formatting through `Miou_logs.msgf` and integrates with backends for outputting logs to standard streams or custom destinations. You can use it to instrument application code, report runtime errors, or track execution flow with precise control over log verbosity. Submodules extend its capabilities by implementing concrete logging backends and message handling logic.",
+      "description_length": 577,
+      "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Miou_queue",
-      "description": "Provides operations to manage a first-in-first-out data structure, including adding elements to the end, removing from the front, inspecting the front, checking emptiness, iterating over elements, and converting to a list. Works with a polymorphic queue type that stores elements in order. Used to process tasks in sequence, buffer data streams, or manage event queues where order preservation is critical.",
-      "description_length": 406,
+      "module_path": "Miou_gen",
+      "library": "miou",
+      "description": "This module provides type-safe unique integer identifiers for tracking distinct entities like process IDs or object references. It supports creating fresh identifiers, comparing and printing them, and converting between abstract and raw integer forms. Operations include generating new IDs, checking equality, and serializing identifiers for debugging or logging. Example uses include managing socket handles or ensuring unique object tags in concurrent systems.",
+      "description_length": 462,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Miou_vector",
+      "library": "miou",
+      "description": "This implementation provides dynamic arrays with stack-oriented operations (push, pop, top) and indexed access, supporting amortized constant-time appends, in-place updates, and controlled capacity adjustments via doubling/shrinking. Built on contiguous memory blocks with user-defined dummy values to manage unused slots, they optimize memory efficiency and locality for sequences with frequent modifications. Commonly used as high-performance stacks or resizable buffers where predictable memory usage and fast element access outweigh list-like overhead.",
+      "description_length": 556,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Miou",
-      "description": "Manages concurrent and parallel tasks using effects and domains, with promises for task coordination and suspension points for system event integration. Key types include `t` for promises, `uid` for unique identifiers, and `resource t` for managed resources, with operations like `await`, `call`, `suspend`, and `force`. Examples include building an HTTP server with event-driven task handling, managing background tasks with orphans, and deferring computations with suspended values.",
-      "description_length": 484,
+      "library": "miou",
+      "description": "This module orchestrates concurrent task management through effect handling, cooperative multitasking, and asynchronous I/O coordination, using promises, mutexes, and condition variables to enable cancellation, resource cleanup, and structured concurrency. It supports bidirectional sequences for efficient ordered data manipulation, lazy evaluation for deferred computation, and per-domain hooks to track suspension events. You can manage asynchronous operations with unique identifiers via Uid, synchronize threads with mutexes and condition variables, and ensure safe resource ownership across tasks. Concrete applications include sequencing HTTP requests with tracked UIDs, implementing blocking queues, and managing domain-specific resources in a distributed system.",
+      "description_length": 771,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Miou_fmt",
-      "description": "Provides functions to format and manipulate output using OCaml's Format module, including error-raising functions like `failwith` and `invalid_arg`, string formatting with `pf` and `str`, and combining formatted outputs with `concat`. Works with the `Format.formatter` type and a monadic `t` type that encapsulates formatting actions. Used to generate structured error messages, log formatted data, and compose complex output streams dynamically.",
-      "description_length": 446,
+      "module_path": "Miou_unix.Ownership",
+      "library": "miou.unix",
+      "description": "This module manages file descriptors with ownership semantics for network operations, providing functions to create, bind, listen, accept, connect, read, write, and close sockets. It works with `file_descr` types that wrap Unix file descriptors, supporting TCPv4 and TCPv6 protocols. Concrete use cases include implementing custom network servers and clients with precise control over socket lifecycle and I/O operations.",
+      "description_length": 421,
       "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Miou_gen",
-      "description": "Encapsulates an opaque integer type with methods to generate, compare, and convert values, supporting reset to a default and custom formatting. Operations include creating unique identifiers, enforcing controlled mutations, and ensuring consistent representation. Examples include managing sequential IDs, tracking state changes, and generating human-readable outputs. The type abstracts raw integers while preserving essential arithmetic and comparison capabilities.",
-      "description_length": 467,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Miou_pqueue",
-      "description": "implements a priority queue with custom comparison and initialization capabilities, using an abstract type t for structured data. it supports creating default values, comparing elements, and maintaining heap properties through dynamic array operations. users can insert, extract minimum elements, and manage ordered collections efficiently. examples include sorting tasks by priority or managing event queues with custom ordering logic.",
-      "description_length": 436,
-      "index": 29,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 37,
-    "meaningful_modules": 30,
-    "filtered_empty_modules": 7,
-    "retention_rate": 0.8108108108108109
+    "total_modules_in_package": 29,
+    "meaningful_modules": 28,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9655172413793104
   },
   "statistics": {
-    "max_description_length": 565,
-    "min_description_length": 179,
-    "avg_description_length": 383.7,
-    "embedding_file_size_mb": 0.1094512939453125
+    "max_description_length": 771,
+    "min_description_length": 236,
+    "avg_description_length": 474.39285714285717,
+    "embedding_file_size_mb": 0.10214900970458984
   }
 }

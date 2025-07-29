@@ -1,91 +1,93 @@
 {
   "package": "monolith",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:32:43.891728",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:40.700132",
   "modules": [
     {
-      "module_path": "Monolith.Support.Tuple",
-      "description": "Nest3 transforms a three-element tuple into a nested pair structure, while unnest3 reverses this process by expanding nested pairs into a triple. The module operates on tuples of three elements and nested pair structures. It is useful for restructuring data during pattern matching or when preparing inputs for functions expecting specific tuple formats.",
-      "description_length": 354,
+      "module_path": "Monolith.Support.Iteration",
+      "library": "monolith",
+      "description": "This module converts various iteration, fold, and indexed iteration functions into element-extraction functions that return lists of values or key-value pairs from collections. It supports operations like transforming `iter`, `foldr`, and `foldl` into functions that collect all elements, and converting `iteri`, `foldri`, and `foldli` into functions that collect indexed elements as pairs. Use this when implementing or testing collection types to extract and compare their contents systematically.",
+      "description_length": 499,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Monolith.Support.Fun",
-      "description": "Accepts functions with two or three arguments and rearranges their parameter order, supporting operations on arbitrary types. Processes functions that take multiple arguments and returns a transformed version with reordered parameters. Useful for adapting function signatures in higher-order programming scenarios.",
-      "description_length": 314,
+      "module_path": "Monolith.Support.Seq",
+      "library": "monolith",
+      "description": "This module provides operations for transforming and consuming sequences with controlled effects, including converting lists to affine sequences, extracting optional heads from sequences, and enforcing single-use constraints on functions and sequences. It works primarily with `Stdlib.Seq.t` and supports values wrapped in `option`. Concrete use cases include managing effectful sequence generators in testing scenarios and ensuring one-time use of resources during specification-based validation.",
+      "description_length": 497,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Monolith.Support.Tuple",
+      "library": "monolith",
+      "description": "This module provides functions to convert between flat triples and nested pairs. It works with tuple types, specifically transforming between `'a * 'b * 'c` and `'a * ('b * 'c)` structures. These operations are useful when aligning data representations for compatibility with functions expecting a specific tuple format.",
+      "description_length": 320,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Monolith.Support.Exn",
-      "description": "Handles exceptions raised during function execution, returning a result type that distinguishes between successful outcomes and caught errors. Operates on functions that take a single argument and produce a value, wrapping their execution in a safe context. Used to manage unexpected failures in critical paths, such as parsing user input or processing external data.",
-      "description_length": 367,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Monolith.Support.Seq",
-      "description": "Transforms functions into one-shot variants that raise an exception on repeated invocation and converts sequences into affine sequences that enforce single evaluation. Works with lazy sequences and lists, providing mechanisms to safely extract the first element or convert lists into single-use sequences. Used to enforce single evaluation of potentially expensive computations or to prevent redundant processing in control flow.",
-      "description_length": 429,
+      "library": "monolith",
+      "description": "This module provides a single function `handle` that wraps a given function to catch all exceptions, returning a result type that encapsulates either the successful output or the exception. It operates on functions of type `'a -> 'b` and is specifically used to safely execute and capture errors during the testing of candidate implementations against reference implementations. A concrete use case is in test harnesses where unexpected exceptions from untrusted or experimental code must be handled gracefully without aborting the entire test suite.",
+      "description_length": 550,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Monolith.Support.Iteration",
-      "description": "Converts various iteration and folding functions into producers of element lists, handling both simple values and key-value pairs. Operates on custom iteration types like `iter`, `foldr`, `foldl`, `iteri`, `foldri`, and `foldli`. Extracts elements from collections such as maps or lists, returning structured lists for further processing.",
-      "description_length": 338,
+      "module_path": "Monolith.Support.Fun",
+      "library": "monolith",
+      "description": "This module implements function argument manipulation and identity operations. It provides `id` for returning values unchanged, `rot2` for swapping the first two arguments of a function, and `rot3` for moving the third argument to the first position. These functions are useful when reshaping function signatures to match expected interfaces, such as adapting functions for higher-order composition or callback systems.",
+      "description_length": 419,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Monolith.Gen",
-      "description": "Generates values including integers, booleans, characters, and collections using interval-based, list-based, and stateful methods. Supports creating options, results, lists, arrays, and strings with specified lengths or elements. Fails on invalid inputs or empty structures, such as empty lists or out-of-range intervals.",
-      "description_length": 321,
+      "module_path": "Monolith.Support",
+      "library": "monolith",
+      "description": "This module provides utilities for data transformation, function adaptation, and effect control across collections, sequences, and tuples. It supports element extraction from collection folds, safe sequence handling with optional values, tuple restructuring, exception-safe function execution, and argument reordering for function composition. Use it to align data formats, manage effectful iterations, and adapt functions for testing or integration with external interfaces. For example, extract indexed pairs from a custom collection, safely run untrusted code in tests, or reshape a function's arguments for callback compatibility.",
+      "description_length": 634,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Monolith.Print",
-      "description": "Prints OCaml values as formatted documents using specialized printers for integers, booleans, characters, strings, options, results, pairs, lists, and arrays. It constructs complex documents by wrapping content in parentheses, applying expressions, adding comments, or embedding in assertion syntax. Handles nested structures and formatting rules for line breaks and indentation.",
-      "description_length": 379,
+      "module_path": "Monolith.Gen",
+      "library": "monolith",
+      "description": "This module generates values of common types like integers, booleans, characters, and strings, using precise interval controls and combinatorial constructions. It supports structured data generation for lists, arrays, options, and results, enabling the creation of complex test inputs. Concrete use cases include generating test cases for automated property-based testing and constructing input data for benchmarking or fuzzing.",
+      "description_length": 428,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Monolith.Support",
-      "description": "Transforms tuples into nested pairs and vice versa, reorders function parameters, wraps functions to handle exceptions, enforces single-use evaluation of sequences, and extracts elements from iterative operations into structured lists. Key data types include tuples, nested pairs, lazy sequences, and custom iteration types, with operations like `nest3`, `unnest3`, `reorder`, `safe_call`, `once`, and `collect`. Functions can be adapted for different argument orders, made exception-safe, or converted into single-use forms to control evaluation. Examples include restructuring data for pattern matching, safely parsing input, and extracting elements from maps into lists for downstream processing.",
-      "description_length": 699,
+      "module_path": "Monolith.Print",
+      "library": "monolith",
+      "description": "This module provides printers for OCaml literals like integers, booleans, characters, and strings, along with combinators to format structured values such as options, results, pairs, lists, and arrays. It includes document constructors for OCaml expressions like function applications, assertions, and comments, enabling precise code generation and formatting. These facilities are used to display test cases and expected outputs in Monolith's testing workflow.",
+      "description_length": 461,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "monolith",
-      "description": "Provides functions to generate and execute sequences of operations on custom data types, comparing results between a reference and a candidate implementation. Works with user-defined types and operations, requiring minimal setup per type. Used to detect implementation errors through randomized or fuzzed operation sequences, particularly effective for data structures like sets, maps, or parsers.",
-      "description_length": 397,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Monolith",
-      "description": "Generates and manipulates OCaml values with precise control over structure and type, including integers, lists, options, and nested pairs, while enforcing validity constraints. Provides tools for formatting and displaying complex data structures with customizable layout and syntax. Enables transformation of function signatures, safe execution, and structured extraction of results from iterative processes. Examples include generating test inputs, formatting debug output, and restructuring data for pattern matching or safe parsing.",
-      "description_length": 535,
-      "index": 9,
-      "embedding_norm": 1.0
+      "library": "monolith",
+      "description": "This module orchestrates the comparison of reference and candidate implementations by constructing effect-aware specifications that handle OCaml primitives, collections, and functions with effects. It enables testing of nondeterministic behavior, abstract data types, and exception handling through equality overrides, input/output mappings, and type transformations, supporting both random and guided execution. Submodules provide data generation for integers, strings, and structured types; utilities for transforming and adapting functions and collections; and printers for formatting values and OCaml expressions used in test output. Example workflows include generating and validating test cases for a function that processes lists of optional values, reshaping function arguments for compatibility, or safely executing untrusted code during testing.",
+      "description_length": 855,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 699,
-    "min_description_length": 314,
-    "avg_description_length": 413.3,
-    "embedding_file_size_mb": 0.036757469177246094
+    "max_description_length": 855,
+    "min_description_length": 320,
+    "avg_description_length": 518.1111111111111,
+    "embedding_file_size_mb": 0.0331268310546875
   }
 }

@@ -1,98 +1,117 @@
 {
   "package": "current_docker",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:20.062702",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:49.229864",
   "modules": [
     {
-      "module_path": "Current_docker.Make.Image",
-      "description": "Generates a unique string identifier for image data to ensure equality checks, serializes and deserializes image objects for database storage, and converts between hash strings and image representations. Operates on the opaque `t` type representing image data. Used to store and retrieve images in a persistent system, and to compare images based on their content.",
-      "description_length": 364,
+      "module_path": "Current_docker.Default.Image",
+      "library": "current_docker",
+      "description": "This module represents Docker images using a hash-based unique identifier. It provides operations to convert images to and from string representations, compare them via their digest, and format them for display. Use this module to manage image identities in a database or serialization context, ensuring consistency across storage and retrieval.",
+      "description_length": 345,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Current_docker.Raw.Image",
-      "description": "Generates a unique string identifier for image data to ensure equality checks, serializes and deserializes images for database storage, and converts between hash strings and image representations. Operates on a custom type `t` that encapsulates image content. Used to store and retrieve images in a persistent system, and to compare images based on their digest.",
-      "description_length": 362,
+      "library": "current_docker",
+      "description": "This module represents Docker images using a hash-based identifier and provides operations to convert images to and from string representations. It includes functions to obtain an image\u2019s unique digest, serialize and deserialize images for storage, and format them for display. Use this when building custom Docker integration components that require explicit context handling and direct manipulation of image identifiers.",
+      "description_length": 422,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker.Raw.Cmd",
-      "description": "Builds and manages Docker command structures using `Lwt_process.command`. Executes Docker commands with context support and facilitates container lifecycle management, including creation, execution, and cleanup. Enables running jobs inside containers, with optional termination on job cancellation.",
-      "description_length": 298,
+      "module_path": "Current_docker.S.HOST",
+      "library": "current_docker",
+      "description": "This module manages Docker host configurations, providing functions to set and retrieve host-specific metadata such as hostnames, IP addresses, and container mappings. It operates on string identifiers and network-related data structures to support dynamic container orchestration tasks. Concrete use cases include resolving container endpoints for inter-service communication and configuring host-level settings during deployment.",
+      "description_length": 431,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_docker.Default.Image",
-      "description": "Generates a unique string identifier for image data to serve as a database key, and converts between image objects and their serialized string representations. Handles reconstruction of image objects from stored strings and provides a hash-based lookup mechanism. Formats image objects for human-readable output.",
-      "description_length": 312,
+      "module_path": "Current_docker.S.DOCKER",
+      "library": "current_docker",
+      "description": "This module provides functions to interact with Docker including building, pulling, running, and managing images and containers. It supports operations like `build`, `run`, `tag`, `push`, and `compose` for deploying services and Compose-based applications. Data types include `Image.t` for Docker images and `repo_id` for identifying repositories, with use cases such as building images from source, running containers with specified arguments, and maintaining up-to-date Docker services.",
+      "description_length": 488,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker.S.Image",
-      "description": "Generates a unique string identifier for image data structures, enabling efficient storage and retrieval. Converts image representations to and from serialized string formats for persistent storage. Provides methods to construct and inspect image objects using hash values, with a pretty-printing function for debugging.",
-      "description_length": 320,
+      "module_path": "Current_docker.Make.Image",
+      "library": "current_docker",
+      "description": "This module represents Docker images built on a host, providing operations to serialize and deserialize image instances via `marshal` and `unmarshal`, and to uniquely identify them using `digest`. It works with a concrete type `t` representing a Docker image, supporting direct conversion to and from strings with `hash` and `of_hash`, as well as structured output formatting via `pp`. Use cases include storing and retrieving image references in a database and comparing images for equality based on their digest.",
+      "description_length": 514,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker.S",
-      "description": "Provides functions to handle Docker context configuration, including retrieving and manipulating context names. Works with string options to represent optional context values. Used to configure Docker commands dynamically based on environment settings.",
-      "description_length": 252,
+      "module_path": "Current_docker.Raw.Cmd",
+      "library": "current_docker",
+      "description": "This module builds and executes Docker CLI commands with explicit context handling. It provides functions to construct Docker commands with optional context, run containers, and manage their lifecycle with automatic cleanup. It works directly with `Current.Job.t` and `Current.Primitive.t` types, enabling custom containerized operations like running transient services or executing isolated build steps.",
+      "description_length": 404,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker.Default",
-      "description": "Manages Docker image data through identifier generation, serialization, and reconstruction. Supports hash-based lookups and human-readable formatting of image objects. Converts between structured image data and string representations for storage or display. Enables efficient retrieval and manipulation of image metadata using unique keys.",
-      "description_length": 339,
+      "module_path": "Current_docker.S.DOCKER-Image",
+      "library": "current_docker",
+      "description": "This module represents Docker images with operations to compute unique identifiers, serialize and deserialize image data, and format images for display. It works with a concrete type `t` representing Docker images, using strings for digests, hashes, and serialized forms. Use cases include storing Docker image metadata in a database, restoring images from stored data, and generating stable identifiers for image comparison.",
+      "description_length": 425,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_docker.Make",
-      "description": "Provides functions to handle Docker context configuration, including retrieving and setting the context value for Docker commands. Works with string options to represent optional context parameters. Used to customize Docker builds based on environment-specific configurations.",
-      "description_length": 276,
+      "module_path": "Current_docker.Raw",
+      "library": "current_docker",
+      "description": "This module provides low-level Docker operations for building, running, and managing images and containers with explicit context handling. It exposes direct functions for Docker CLI command execution, image manipulation using hash-based identifiers, and container lifecycle management, all working with raw strings, paths, and `Current.Primitive.t` outputs. You can implement custom Docker workflows such as building images with specific arguments, running isolated commands in containers, or serializing images for storage and transfer. The module supports advanced use cases through its submodules for image identity handling and command construction with job-level control.",
+      "description_length": 676,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker.Raw",
-      "description": "Encapsulates image data with a custom type `t`, enabling unique identifier generation, serialization, and hash-based comparisons for persistent storage and equality checks. Provides low-level Docker command execution and container management, allowing job execution within containers and context-aware lifecycle control. Combines image handling with process orchestration to support custom component development. Examples include storing images in a database, comparing image digests, and running jobs in isolated Docker environments.",
-      "description_length": 534,
+      "module_path": "Current_docker.Make",
+      "library": "current_docker",
+      "description": "This module orchestrates interaction with Docker engines, enabling operations like building, running, and tagging images, as well as deploying and managing services and Compose applications. It centers around the Docker engine lifecycle and integrates with child modules that model images and containers, providing typed representations and serialization for robust management. The `t` type identifies Docker images, supporting digest-based comparison, marshaling, and string conversion, useful for tracking images across systems or verifying consistency in deployments. Specific operations include building images from source, launching containers with custom arguments, and orchestrating service updates in a swarm or via Compose.",
+      "description_length": 732,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "current_docker",
-      "description": "Handles asynchronous workflows with operations like fetching, building, testing, and deploying. Works with Git repositories, commits, and build artifacts. Used to automate continuous integration pipelines and update build statuses in real time.",
-      "description_length": 244,
+      "module_path": "Current_docker.S",
+      "library": "current_docker",
+      "description": "This module provides an interface for defining and managing Docker images and containers, combining high-level orchestration with low-level execution details. It supports specifying build contexts from directories or Git repositories and configuring container execution on hosts, using data types like `Image.t` and `repo_id` to represent and manipulate Docker entities. The host configuration submodule enables dynamic resolution of container endpoints and host metadata management, while the image submodule handles identity, serialization, and display formatting. Example use cases include building images from version-controlled sources, running containers with specific network settings, and persisting or restoring image metadata for deployment consistency.",
+      "description_length": 763,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_docker",
-      "description": "handles Docker context configuration and image management through string options, custom types, and low-level command execution. it supports dynamic environment-based configuration, image identifier generation, serialization, and hash-based comparisons for efficient data handling. operations include setting context values, storing images, comparing digests, and running jobs in isolated containers. examples include customizing builds with environment variables and managing image metadata for persistent storage.",
-      "description_length": 515,
+      "module_path": "Current_docker.Default",
+      "library": "current_docker",
+      "description": "This module interacts with the default Docker engine to manage images, containers, and services, supporting operations like building, running, and deploying. It represents images through hash-based identifiers, enabling precise comparison, serialization, and consistent identity management. You can build images from source, run containers with custom configurations, and manage Compose-based deployments with live updates. The module also supports working with SwarmKit for orchestrating services and maintaining distributed applications.",
+      "description_length": 539,
       "index": 10,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_docker",
+      "library": "current_docker",
+      "description": "This module coordinates the creation and management of Docker container manifests, enabling the assembly and publication of multi-architecture images under a single tag. It handles image references and repository identifiers, supporting authentication when pushing to registries, and works in tandem with submodules that provide low-level command execution, engine orchestration, and structured image/container modeling. You can build cross-platform images, run containers with custom configurations, and manage deployments via Compose or Swarm, using types like `Image.t` and `repo_id` for precise identity tracking and serialization. Submodules extend functionality with context handling, host configuration, and hash-based image comparison for robust, consistent workflows.",
+      "description_length": 776,
+      "index": 11,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 534,
-    "min_description_length": 244,
-    "avg_description_length": 346.90909090909093,
-    "embedding_file_size_mb": 0.04040813446044922
+    "max_description_length": 776,
+    "min_description_length": 345,
+    "avg_description_length": 542.9166666666666,
+    "embedding_file_size_mb": 0.04401588439941406
   }
 }

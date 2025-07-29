@@ -1,231 +1,269 @@
 {
   "package": "ldap",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 30,
-  "creation_timestamp": "2025-06-18T16:37:35.526704",
+  "total_modules": 31,
+  "creation_timestamp": "2025-07-15T23:12:23.410463",
   "modules": [
     {
-      "module_path": "Ldap_schemaparser.Oid",
-      "description": "Converts between string representations and opaque identifier values, enabling safe comparisons and string serialization. Operates on the abstract type `t` used to represent unique identifiers. Used to ensure consistent handling of identifiers in data exchange and comparison scenarios.",
-      "description_length": 286,
+      "module_path": "Ldap_toplevel",
+      "library": "ldap.toplevel",
+      "description": "This module provides direct implementations of common LDAP command-line operations such as search, modify, and add, mirroring the behavior of tools like `ldapsearch` and `ldapmodify`. It works with LDAP entries and modification operations, taking connection parameters and performing actions on a remote LDAP server. Concrete use cases include querying directory data, updating attributes, and adding new entries directly from OCaml code.",
+      "description_length": 438,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ldap_schemaparser.Lcstring",
-      "description": "Converts between OCaml strings and a custom string type, enabling efficient comparison and storage. Provides direct manipulation of string data with optimized internal representation. Used to handle large text inputs in parsing and data processing workflows.",
-      "description_length": 258,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ldap_ooclient.OrdOid",
-      "description": "Compares two ordered OIDs using lexicographical order. Operates on OIDs represented as strings, ensuring consistent ordering for set operations. Used to maintain sorted collections of OIDs in LDAP schema processing.",
-      "description_length": 215,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ldap_ooclient.Setstr",
-      "description": "The module offers standard set operations such as membership checks, additions, removals, unions, intersections, and transformations, along with traversal and filtration functions like `iter`, `fold`, and `filter`, tailored for sets of `OrdOid.t` elements. It supports retrieving minimum, maximum, or arbitrary elements and splitting sets based on specific criteria, making it suitable for tasks like managing unique identifiers or processing ordered data structures.",
-      "description_length": 467,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "ldap",
-      "description": "Provides functions for parsing and constructing LDAP search filters, handling Distinguished Names (DNs), and encoding/decoding LDAP messages. Operates on strings, lists, and custom types representing LDAP attributes and entries. Used to filter user records in directory services and validate DN formats during authentication workflows.",
-      "description_length": 335,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ldif_changerec_parser",
-      "description": "Parses LDAP change record entries from LDIF format, extracting operation types and attributes. Processes lexing buffers and token streams to construct changerec objects with specific modification details. Used to import and apply incremental LDAP updates from structured text files.",
-      "description_length": 282,
-      "index": 5,
+      "library": "ldap.ldif",
+      "description": "Parses LDIF change records into structured tokens, handling operations like add, modify, delete, and modrdn. It processes input lexically, identifying distinguished names, attribute types, and associated values. Useful for interpreting LDIF files to apply changes to LDAP directories.",
+      "description_length": 284,
+      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_url",
-      "description": "Parses LDAP URLs from strings, extracting components like host, port, and search parameters. Works with string inputs and returns structured data representing the parsed URL. Used to configure LDAP connections or process user-provided URL inputs in authentication systems.",
-      "description_length": 272,
+      "module_path": "Ldif_changerec_oo",
+      "library": "ldap.ldif",
+      "description": "This module provides iteration and folding operations over LDIF change records through an object-oriented interface. It works with objects that expose a `read_changerec` method, typically representing parsed LDIF change entries. Use it to process or transform sequences of LDIF changes, such as applying a function to each entry or accumulating values across all entries.",
+      "description_length": 371,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldif_parser",
+      "library": "ldap.ldif",
+      "description": "This module provides stream-based parsing for LDIF content, handling low-level operations like comment extraction, attribute-value parsing, and whitespace management using a buffered character stream (`stream_rec`). It structures parsed data into LDAP search result entries by extracting distinguished names and attribute-value records, supporting use cases such as incremental LDIF processing for LDAP",
+      "description_length": 402,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldif_changerec_lexer",
+      "library": "ldap.ldif",
+      "description": "This module implements a lexer for parsing LDIF change records, providing functions to convert raw input into structured tokens. It operates on `Lexing.lexbuf` input buffers and produces tokens consumed by the `Ldif_changerec_parser`. Concrete use cases include parsing LDAP change records in LDIF format for directory synchronization or modification operations.",
+      "description_length": 362,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldif_oo",
+      "library": "ldap.ldif",
+      "description": "This module provides iteration and folding over LDIF entries using object-oriented interfaces, along with functions to serialize and deserialize LDIF data to and from files. It operates on objects that expose `read_entry`, `dn`, `attributes`, and `get_value` methods, and uses `Ldap_ooclient.ldapentry` for file-based operations. Concrete use cases include processing LDAP entries from LDIF files, transforming entries during migration, and generating LDIF output for backup or synchronization tasks.",
+      "description_length": 500,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldap_ooclient.Setstr",
+      "library": "ldap",
+      "description": "This module implements a set data structure for managing collections of LDAP object identifiers (OIDs) with operations like union, intersection, and difference, alongside utilities for querying size, min/max elements, and decomposition. It operates on sets of `Ldap_ooclient.OrdOid.t` values, leveraging a standard library set functor for efficient membership checks and iteration. It is particularly useful for handling OID-based schema components, attribute tracking, or access control policies in LDAP directory services.",
+      "description_length": 524,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_schemalexer",
-      "description": "Provides regular expressions for parsing LDAP schema elements, string manipulation functions for cleaning and extracting parts of schema definitions, and lexical analysis functions for tokenizing attribute and object class declarations. Works with strings, regular expressions, and a token type representing parsed schema components. Used to process and analyze LDAP schema files by breaking down complex definitions into structured tokens.",
-      "description_length": 440,
+      "module_path": "Ldap_schemaparser.Lcstring",
+      "library": "ldap",
+      "description": "This module implements case-insensitive string handling for LDAP schema elements. It provides conversion to and from standard strings, and comparison operations that ignore case. Useful for representing attribute type and object class names in LDAP schemas.",
+      "description_length": 257,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_filterparser",
-      "description": "Parses LDAP filter expressions from a lexing buffer, consuming all input until EOF. Processes tokens generated by a provided lexer to construct filter objects representing LDAP search criteria. Used to validate and interpret complex filter strings in directory query operations.",
-      "description_length": 278,
+      "module_path": "Ldap_ooclient.OrdOid",
+      "library": "ldap",
+      "description": "This module defines an ordered OID type that supports comparison operations for use in ordered collections like sets. It provides a `compare` function to establish a total ordering between OIDs, enabling their use as keys in ordered data structures. Concrete use cases include managing sets of LDAP schema object identifiers where ordering is required.",
+      "description_length": 352,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lber",
-      "description": "The module provides low-level BER encoding and decoding operations for ASN.1 data types such as boolean, integer, and octet strings, working with byte streams and binary data through a readbyte abstraction. It supports use cases like protocol parsing and serialization, handling structures through header management and content reading, with utilities for file descriptors and SSL sockets.",
-      "description_length": 389,
+      "module_path": "Ldap_schemaparser.Oid",
+      "library": "ldap",
+      "description": "This module implements operations for parsing and formatting LDAP object identifiers (OIDs) as defined in RFC 2252. It provides functions to convert OIDs between string representations and a structured type, ensuring correct syntax and comparison. Useful for handling schema elements like attribute types and object classes retrieved from LDAP directory servers.",
+      "description_length": 362,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_txooclient",
-      "description": "Provides methods to initiate, manage, and finalize LDAP transactions using advisory locks. Operates with transaction IDs and LDAP entry objects, allowing atomic commits or rollbacks of grouped modifications. Used to ensure consistency when updating multiple entries, with rollback capabilities that reverse in-memory changes and release locks.",
-      "description_length": 343,
+      "module_path": "Ldap_filterparser",
+      "library": "ldap",
+      "description": "Parses LDAP filter expressions into abstract syntax trees using a lexer, handling logical operators, attribute comparisons, and extended matches. It processes tokens like parentheses, AND/OR/NOT, and attribute conditions such as equality, presence, and substring checks. This module is used to construct LDAP filter values from string representations in protocols or configuration files.",
+      "description_length": 387,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_urllexer",
-      "description": "Parses LDAP URL strings into structured representations using lexical analysis. It processes input through a lexer that recognizes URL components and constructs an `Ldap_types.ldap_url` value. The module includes internal tables for lexing and supports recursive parsing of URL segments.",
-      "description_length": 287,
+      "module_path": "Ldap_txooclient",
+      "library": "ldap",
+      "description": "This module provides operations for initiating and managing LDAP transactions, including binding, searching, and modifying directory entries. It works with LDAP connection handles and transaction contexts to ensure atomic operations on directory data. Concrete use cases include user authentication, directory synchronization, and batch updates to LDAP records.",
+      "description_length": 361,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ldap_error",
-      "description": "Converts LDAP error codes to descriptive strings, generates human-readable error messages from LDAP failure exceptions, and prints these messages to standard error. Works with custom error variants, exception types, and string inputs. Used to log detailed error information during LDAP operations, such as authentication failures or server connectivity issues.",
-      "description_length": 360,
+      "library": "ldap",
+      "description": "This module converts LDAP error codes to descriptive strings and provides functions to handle and print human-readable error messages for LDAP exceptions. It works directly with polymorphic variant error codes and exception values. Concrete use cases include debugging LDAP operations, logging detailed error information, and presenting meaningful error messages to users during LDAP interactions.",
+      "description_length": 397,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_urlparser",
-      "description": "Parses LDAP URLs into structured representations, extracting components like host, port, base DN, and options. Processes input through a lexer and parser to construct an `Ldap_types.ldap_url` value. Handles specific URL formats used in directory service configurations.",
-      "description_length": 269,
+      "module_path": "Lber",
+      "library": "ldap",
+      "description": "This module provides low-level parsing and serialization capabilities for BER-encoded ASN.1 primitives, focusing on operations like header decoding, tag and length handling, and content encoding/decoding. It manipulates byte streams, strings, and external input sources (e.g., file descriptors, SSL sockets) to process booleans, integers, octet strings, and structured null values. Specific utilities address list composition/decomposition of encoded elements and class/tag management, catering to protocols requiring precise BER alignment for data interchange.",
+      "description_length": 561,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_dn",
-      "description": "Converts LDAP DNs between string and structured representations, handling escape sequences and canonicalization. Processes attribute values with specific escaping rules for safe inclusion in DNs. Useful for parsing and normalizing DNs in directory service interactions.",
-      "description_length": 269,
+      "module_path": "Ldap_filterlexer",
+      "library": "ldap",
+      "description": "This module provides functions for parsing LDAP filter strings into tokens using a lexical analyzer. It handles operations like converting string patterns into substring components, and uses regular expressions and lexing tables to process input buffers. Concrete use cases include parsing LDAP search filters for directory queries and processing filter syntax into structured components for evaluation.",
+      "description_length": 403,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ulist",
-      "description": "Creates and manipulates hash tables with string keys, offering operations to add, remove, and check elements. Processes lists of strings and iterates over table entries for custom processing. Converts hash tables to lists for downstream data handling.",
-      "description_length": 251,
+      "module_path": "Ldap_urllexer",
+      "library": "ldap",
+      "description": "This module parses LDAP URLs into their components using a lexer that identifies tokens like scheme, host, port, DN, scope, and filter. It processes input through lexing functions to construct an `ldap_url` value from a string buffer. Concrete use cases include extracting connection and search parameters from LDAP URLs for client configuration or query processing.",
+      "description_length": 366,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_dnparser",
-      "description": "Parses LDAP Distinguished Name strings into structured representations using a lexer and parser. It processes input through a token generator and consumes lexing buffers to construct `Ldap_types.dn` values. The module handles LDAP-specific syntax, including commas, escaped characters, and attribute types.",
-      "description_length": 306,
+      "module_path": "Ldap_funclient",
+      "library": "ldap",
+      "description": "This module implements a functional LDAP client for interacting with LDAP directories using operations like bind, search, add, delete, and modify. It handles LDAP connections, authentication, and message exchange, supporting both synchronous and asynchronous search workflows with support for features like pagination and referrals. Concrete use cases include querying directory entries, managing user records, and performing schema updates in LDAP-backed systems.",
+      "description_length": 464,
       "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ldap_toplevel",
-      "description": "Provides functions to perform LDAP searches, modifications, and additions using a structured interface. Operates with LDAP URLs, DNs, credentials, and entries represented as lists of attribute-value pairs. Enables direct interaction with LDAP servers for tasks like querying user data, updating entries, and adding new objects.",
-      "description_length": 327,
-      "index": 17,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldif_changerec_lexer",
-      "description": "Processes LDIF change record data by tokenizing input streams using custom lexical rules. Operates on lexing buffers and returns parsed tokens representing attributes and values. Used to parse and analyze LDAP change records in structured data formats.",
+      "module_path": "Ldap_dnparser",
+      "library": "ldap",
+      "description": "Parses LDAP distinguished names (DNs) into structured data using a token stream. It handles components like attribute types, OIDs, and various string encodings. Useful for processing LDAP DN strings into a typed representation for directory operations.",
       "description_length": 252,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldap_dn",
+      "library": "ldap",
+      "description": "This module provides functions to convert LDAP DNs between string and structured representations, escape attribute values, and normalize DNs for comparison. It operates on strings and structured DNs, ensuring proper escaping and canonicalization. Use cases include parsing LDAP DNs from input strings, generating correctly escaped DN strings, and comparing DNs for equality.",
+      "description_length": 374,
       "index": 18,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_dnlexer",
-      "description": "Parses LDAP Distinguished Name strings into tokens using a custom lexer. It processes input through a lexing buffer and returns structured token representations of DN components. The module integrates with a parser to handle complex DN formatting and escaping rules.",
-      "description_length": 266,
+      "module_path": "Ldap_filter",
+      "library": "ldap",
+      "description": "This module parses and generates LDAP search filters from strings, converts internal filter representations to string format per RFC 2254, and escapes attribute values for safe inclusion in filters. It operates on LDAP filter structures defined in `Ldap_types` and string values. Use this module when constructing or modifying LDAP queries programmatically, such as building dynamic search conditions or sanitizing user input for LDAP queries.",
+      "description_length": 443,
       "index": 19,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_types",
-      "description": "This module defines structured data types for LDAP protocol elements, including operations like bind requests, search queries, modify actions, and extended operations, along with associated components such as filters, attributes, and controls. It works with specific LDAP data structures like Distinguished Names (DNs), attribute lists, and message payloads, adhering to ASN.1 specifications from RFC 2251. These types are essential for implementing LDAP clients or servers, parsing protocol messages, and managing complex operations like search parameters or control extensions.",
-      "description_length": 579,
+      "module_path": "Ldap_urlparser",
+      "library": "ldap",
+      "description": "Parses LDAP URLs into structured components using a lexer, breaking down input into tokens like scheme, host, port, DN, and filter. It processes strings into an `ldap_url` type, enabling precise extraction and manipulation of URL parts for LDAP queries. Useful for validating and constructing LDAP URLs from raw strings.",
+      "description_length": 320,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_funclient",
-      "description": "Initializes and manages LDAP connections, binds to servers, performs asynchronous and synchronous searches, and handles entry modifications. Operates on connection objects, message IDs, and LDAP entry structures. Used for directory authentication, querying user data, and updating directory entries in distributed systems.",
-      "description_length": 322,
+      "module_path": "Ldap_mutex",
+      "library": "ldap",
+      "description": "This module ensures safe, exclusive execution of critical code sections using a mutex. It provides the `apply_with_mutex` function, which locks a mutex before running a given function and unlocks it afterward, even if an exception occurs. It is useful in multi-threaded applications where consistent access to shared resources, such as network connections or file handles, must be controlled to prevent race conditions.",
+      "description_length": 419,
       "index": 21,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ldap_schemaparser",
-      "description": "parses and manipulates LDAP schema definitions by converting between string representations and internal identifier types, and between standard OCaml strings and optimized string types. It supports safe comparisons, efficient storage, and consistent data handling through abstract types `t` and custom string structures. This enables accurate parsing of schema elements and efficient processing of large text inputs. Examples include converting attribute names to unique identifiers and optimizing string comparisons during schema validation.",
-      "description_length": 542,
+      "library": "ldap",
+      "description": "This module parses LDAP schema definitions per RFC 2252, converting raw schema lines into structured types like `objectclass` and `attribute`, and organizes them in hash tables indexed by name and OID. It supports formatting schemas and selectively printing hash tables for inspection, enabling operations like extracting attribute definitions or traversing object class hierarchies. The case-insensitive string module aids in handling LDAP names consistently, while the OID module provides parsing and comparison for structured identifiers used throughout the schema. Together, they allow processing and querying LDAP schemas retrieved from directory servers with precision and flexibility.",
+      "description_length": 691,
       "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_filter",
-      "description": "Converts LDAP filter strings to and from internal representations, enabling precise manipulation and transmission of search criteria. Handles escaped values in attribute assertions to ensure compliance with RFC 2254 formatting. Useful for constructing filters programmatically or modifying existing ones before sending LDAP queries.",
-      "description_length": 332,
+      "module_path": "Ldap_schemalexer",
+      "library": "ldap",
+      "description": "This module provides functions for parsing and processing LDAP schema definitions, including lexing operations for attribute types and object classes. It handles string manipulation tasks such as stripping quotes, extracting substrings, and splitting lists based on regular expressions. The module is used to tokenize LDAP schema elements like names, descriptions, and object identifiers during schema parsing.",
+      "description_length": 410,
       "index": 23,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_filterlexer",
-      "description": "Provides regular expressions and lexing functions for parsing LDAP filter strings, including support for substring matching patterns. Works with OCaml's regex engine and LDAP-specific data structures like substring components. Used to tokenize and process LDAP search filters during query parsing.",
-      "description_length": 297,
+      "module_path": "Ldap_dnlexer",
+      "library": "ldap",
+      "description": "This module provides functions for lexing LDAP distinguished names using a lexical analyzer. It processes input through `lexbuf` to generate tokens recognized by an LDAP DN parser, specifically handling string-based DNs. It is used to parse LDAP DNs into structured tokens for further processing by a parser module.",
+      "description_length": 315,
       "index": 24,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldif_parser",
-      "description": "This module processes LDAP data by parsing LDIF format streams, extracting distinguished names (DNs) and structured attribute-value records through lexical scanning and attribute-specific parsing. It operates on a custom stream-based type, handling complex LDAP structures like comments, separators, and nested attributes. Use cases include importing/exporting directory information or validating LDAP configurations in applications requiring precise data extraction from sequential input.",
-      "description_length": 489,
+      "module_path": "Ldap_funserver",
+      "library": "ldap",
+      "description": "This module enables constructing an LDAP server by defining handlers for LDAP operations like bind, search, modify, and extended operations, using a functional approach. It works with connection identifiers and LDAP messages, allowing custom logic for each operation through optional callback functions in the backendInfo structure. Concrete use cases include implementing custom LDAP backends, such as integrating with a database or in-memory directory service, and building test or mock LDAP servers with specific behaviors.",
+      "description_length": 526,
       "index": 25,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_mutex",
-      "description": "Provides functions to acquire and release a mutex lock, ensuring exclusive access to a shared resource. Works with LDAP entries to enforce advisory locking during concurrent modifications. Used to prevent race conditions when updating user attributes in a directory service.",
-      "description_length": 274,
+      "module_path": "Ulist",
+      "library": "ldap",
+      "description": "This module implements a hash table-based structure for storing and manipulating string-keyed associations, with operations to create, add, remove, and iterate over entries. It supports efficient membership checks, bulk insertion from lists, and conversion of values to a list. Concrete use cases include tracking unique string identifiers with associated values, such as managing a set of named configurations or caching string-based mappings.",
+      "description_length": 444,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_protocol",
-      "description": "Encodes and decodes LDAP result codes between integers and custom types, handling unknown error codes explicitly. Transforms LDAP messages into wire-compatible strings and reconstructs message structures from raw byte streams. Used to serialize and deserialize LDAP communication elements during network interactions.",
-      "description_length": 317,
+      "module_path": "Ldap_types",
+      "library": "ldap",
+      "description": "Defines data types for LDAP protocol operations including authentication, search queries with filters, and modifying directory entries. These structures encompass requests, responses, controls, and filters aligned with RFC 2251, enabling client-server implementations and support for extensions like paged results and custom operations.",
+      "description_length": 336,
       "index": 27,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldap_ooclient",
-      "description": "Manages local modifications to LDAP entries, tracking changes such as attribute additions, deletions, and replacements. It operates on LDAP entry data structures, including DNs and attribute lists. Used to batch changes before committing them to a directory server, ensuring consistency during updates.",
-      "description_length": 302,
+      "module_path": "Ldap_protocol",
+      "library": "ldap",
+      "description": "This module encodes and decodes LDAP result codes and messages according to the LDAP wire protocol. It operates on `ldap_resultcode` and `ldap_message` types, converting them to and from integers and wire-ready strings. Use this module to serialize LDAP responses for network transmission or parse incoming LDAP messages from a byte stream.",
+      "description_length": 340,
       "index": 28,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldap_funserver",
-      "description": "Provides functions to initialize, run, and shut down an LDAP server, handling connection management and logging. Operates with types such as connection_id, backendInfo, log_level, and server_info to manage server configuration and state. Used to construct and deploy a functional LDAP server that processes client requests and logs events according to specified levels.",
-      "description_length": 369,
+      "module_path": "Ldap_url",
+      "library": "ldap",
+      "description": "This module parses a subset of the LDAP URL syntax into structured data, supporting operations to internalize URLs from strings. It works with LDAP URLs, extracting components like host, port, DN, and attributes. Use it to convert string representations of LDAP URLs into typed values for programmatic manipulation and querying.",
+      "description_length": 328,
       "index": 29,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldap_ooclient",
+      "library": "ldap",
+      "description": "This module offers an object-oriented interface for working with LDAP directories, enabling manipulation of entries, schemas, and search results using normalized, case-insensitive strings. It includes operations for transforming LDAP data, validating schemas, and managing OID-based components with structured error handling. The first child module provides efficient set operations for LDAP OIDs, supporting union, intersection, and membership checks, ideal for schema component management and access control. The second child module defines a comparable OID type, enabling ordered collections and facilitating the use of OIDs as keys in structures requiring total ordering.",
+      "description_length": 675,
+      "index": 30,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 33,
-    "meaningful_modules": 30,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.9090909090909091
+    "total_modules_in_package": 44,
+    "meaningful_modules": 31,
+    "filtered_empty_modules": 13,
+    "retention_rate": 0.7045454545454546
   },
   "statistics": {
-    "max_description_length": 579,
-    "min_description_length": 215,
-    "avg_description_length": 332.5,
-    "embedding_file_size_mb": 0.1094217300415039
+    "max_description_length": 691,
+    "min_description_length": 252,
+    "avg_description_length": 408.51612903225805,
+    "embedding_file_size_mb": 0.11301994323730469
   }
 }

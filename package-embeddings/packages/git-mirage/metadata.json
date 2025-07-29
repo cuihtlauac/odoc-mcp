@@ -1,70 +1,93 @@
 {
   "package": "git-mirage",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:29:32.348414",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:15.050155",
   "modules": [
     {
-      "module_path": "Git_mirage_tcp.Make",
-      "description": "Provides functions to resolve domain names and establish TCP connections using the Happy Eyeballs algorithm. Operates on domain names, IP addresses, and TCP flow structures. Used to efficiently connect to servers by attempting multiple IP addresses in parallel, improving reliability and reducing latency.",
-      "description_length": 305,
+      "module_path": "Git_mirage_ssh.Make",
+      "library": "git-mirage.ssh",
+      "description": "Implements SSH-based Git operations over TCP with support for connection setup and optional key authentication. Works with `Mimic.ctx` contexts to establish secure connections and manage authentication parameters like private keys and passwords. Useful for cloning or pushing Git repositories over SSH in MirageOS applications.",
+      "description_length": 327,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Git_mirage_ssh.Make",
-      "description": "Provides functions to resolve domain names and establish TCP connections using a happy eyeballs strategy, prioritizing IPv4 and IPv6 addresses. Operates with IP addresses, port numbers, and TCP flow objects. Used to connect to servers by resolving hostnames and attempting multiple addresses in parallel for faster establishment.",
-      "description_length": 329,
+      "module_path": "Git_mirage_ssh.S",
+      "library": "git-mirage.ssh",
+      "description": "This module implements SSH-based Git operations over MirageOS, handling secure connections and authentication. It provides functions to establish an SSH context, optionally using keys or passwords, and integrates with Mirage's networking stack. Use cases include cloning or pushing to Git repositories over SSH in unikernel environments.",
+      "description_length": 337,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Git_mirage_http.Make",
-      "description": "Provides functions to resolve domain names and establish TCP connections using the Happy Eyeballs algorithm. Operates on domain names, IP addresses, and TCP flow structures. Used to efficiently connect to servers by attempting multiple IP addresses in parallel, improving reliability and reducing latency.",
-      "description_length": 305,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "git-mirage",
-      "description": "Provides functions to read and write Git objects including blobs, trees, commits, and tags, along with pack files and indexes. Supports operations like making pack files position independent and generating index files from pack data. Enables expanding a commit's filesystem and manipulating Git objects through a unified API.",
-      "description_length": 325,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Git_mirage_tcp",
-      "description": "Establishes a TCP connection using a provided Mimic context and returns a new context wrapped in a Lwt promise. Operates on Mimic.ctx to manage network communication. Used to initialize secure, asynchronous TCP sessions in a MirageOS environment.",
-      "description_length": 246,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Git_mirage_ssh",
-      "description": "Establishes SSH connections and manages authentication options for Git operations over SSH. Operates on `Mimic.ctx` to configure and secure communication contexts. Used to set up secure, authenticated Git repositories in environments requiring programmatic SSH access.",
-      "description_length": 268,
-      "index": 5,
+      "library": "git-mirage.ssh",
+      "description": "This module enables SSH-based Git operations in MirageOS environments, supporting authentication via password or private key and offering configuration for remote repository access through endpoints that specify host, port, user, credentials, and path. It provides direct APIs for initiating SSH connections over TCP, managing authentication parameters with `Mimic.ctx` contexts, and performing concrete actions like cloning or pushing repositories securely. Submodules handle connection setup, integration with Mirage's networking stack, and key-based authentication workflows. Example usage includes securely cloning a remote Git repository over SSH within a unikernel using a private key or username-password pair.",
+      "description_length": 717,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_mirage_http.S",
+      "library": "git-mirage.http",
+      "description": "This module implements HTTP-based Git operations over Mirage-compatible networks, handling TLS configuration and request headers. It works with `Mimic.ctx` contexts to establish connections and customize authentication for remote repositories. Concrete use cases include cloning or fetching from HTTPS Git servers with optional custom headers and TLS settings.",
+      "description_length": 360,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_mirage_http.Make",
+      "library": "git-mirage.http",
+      "description": "Implements HTTP-based Git operations over TCP with support for TLS and custom headers. It manages secure connections and authentication for interacting with remote Git repositories via HTTP(S). Useful for cloning or fetching from repositories that require headers or basic authentication.",
+      "description_length": 288,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Git_mirage_http",
-      "description": "Provides functions to establish HTTP connections, configure TLS and headers, and manage HTTP context within a Mirage-compatible environment. Operates on `Mimic.ctx` type to handle HTTP requests and responses. Used to set up secure, authenticated HTTP clients for networked applications.",
-      "description_length": 286,
+      "library": "git-mirage.http",
+      "description": "This module configures HTTP and TLS settings for secure Git operations over Mirage-compatible networks and TCP, integrating authentication and custom headers into its connection setup. It provides data types for TLS client configurations and HTTP headers, enabling HTTPS-based fetch and push operations with credentials or custom metadata. The child modules implement transport layers that use these configurations to securely clone or fetch from remote repositories over HTTP(S), handling TLS negotiation and header injection as part of standard Git workflows. Specific use cases include authenticating to private Git servers using basic auth headers or custom TLS trust stores within MirageOS applications.",
+      "description_length": 708,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_mirage_tcp.Make",
+      "library": "git-mirage.tcp",
+      "description": "Implements a MirageOS-compatible TCP-based Git transport with support for asynchronous connection handling and context management. It combines TCP networking with Happy Eyeballs address selection to establish reliable connections in multi-homed environments. This module is used to connect to remote Git repositories over TCP, handling address resolution and connection setup with resilience to network configuration issues.",
+      "description_length": 424,
       "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_mirage_tcp.S",
+      "library": "git-mirage.tcp",
+      "description": "This module implements TCP/IP connectivity for MirageOS-based Git operations, using the `Mimic` context to manage network and protocol state. It provides a `connect` function that establishes a TCP connection asynchronously, returning a configured context for subsequent network interactions. The module is used to enable Git clients to communicate over TCP in MirageOS unikernels, particularly for remote repository access.",
+      "description_length": 424,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_mirage_tcp",
+      "library": "git-mirage.tcp",
+      "description": "This module implements a MirageOS Git client over TCP/IP, enabling direct connections to remote repositories and efficient handling of Git data such as commits, trees, and packfiles. It integrates TCP networking with Git protocol operations, supporting asynchronous connection setup and context management via the `Mimic` framework for resilient communication in multi-homed environments. The module allows cloning repositories, streaming objects, and managing network state, combining low-level TCP flow handles with high-level Git transport logic for use in unikernel-based clients.",
+      "description_length": 584,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 329,
-    "min_description_length": 246,
-    "avg_description_length": 294.85714285714283,
-    "embedding_file_size_mb": 0.022260665893554688
+    "max_description_length": 717,
+    "min_description_length": 288,
+    "avg_description_length": 463.22222222222223,
+    "embedding_file_size_mb": 0.03312969207763672
   }
 }

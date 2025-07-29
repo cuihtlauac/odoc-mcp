@@ -1,56 +1,69 @@
 {
   "package": "moonpool-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:29:57.957276",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:06:00.261474",
   "modules": [
     {
       "module_path": "Moonpool_lwt.IO",
-      "description": "Reads from and writes to non-blocking file descriptors using asynchronous suspension with Lwt, ensuring operations complete only when the FD is ready. Suspends fibers using await_readable and await_writable to avoid busy-waiting, and provides a sleep function to delay execution. Handles full data transfers by looping over partial writes, suitable for network or event-driven I/O tasks.",
-      "description_length": 387,
+      "library": "moonpool-lwt",
+      "description": "This module implements non-blocking IO operations on file descriptors using the Lwt event loop, including reading, writing, and sleeping. It works directly with Unix.file_descr and bytes for IO transfers, and uses Lwt threads for asynchronous suspension and resumption. Concrete use cases include implementing network clients/servers that require precise control over IO readiness and timing, such as handling partial reads/writes or implementing custom protocols over sockets.",
+      "description_length": 477,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Moonpool_lwt.TCP_server",
-      "description": "Establishes a TCP server using either Lwt or IO for handling client connections, accepting a socket address and a handler function that processes incoming data. Operates on Unix socket addresses and input/output channels, supporting both asynchronous and synchronous client handling. Used to create scalable network services with controlled resource management through a runner.",
-      "description_length": 378,
+      "module_path": "Moonpool_lwt.IO_in",
+      "library": "moonpool-lwt",
+      "description": "This module implements input channels for reading byte sequences in an Lwt event loop. It supports operations like reading into buffers, concatenating input sources, and copying data to output channels. Use cases include handling network streams, file input, or any byte-oriented data source within Lwt-driven applications.",
+      "description_length": 323,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Moonpool_lwt.TCP_client",
-      "description": "Establishes a TCP connection to a specified address and provides interfaces for non-blocking I/O using `IO` and `Lwt_io` for asynchronous communication. Operates on `Unix.sockaddr` to define the target endpoint and returns file descriptors or channel pairs for data exchange. Used to build responsive network clients that handle data transmission without blocking the main execution thread.",
-      "description_length": 390,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "moonpool-lwt",
-      "description": "Manages thread pools within a fixed set of domains, enabling efficient reuse of domain resources. Provides functions to create, schedule, and manage threads within these pools, along with synchronization primitives like barriers and locks. Used to execute concurrent tasks with controlled resource allocation, such as processing batches of I/O operations or parallel computations.",
-      "description_length": 380,
+      "module_path": "Moonpool_lwt.TCP_client",
+      "library": "moonpool-lwt",
+      "description": "This module provides functions to establish TCP connections and perform non-blocking I/O operations using Lwt. It works with Unix socket addresses and file descriptors, along with Lwt I/O channels for asynchronous communication. Concrete use cases include connecting to a remote server and sending or receiving data asynchronously without blocking the Lwt event loop.",
+      "description_length": 367,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Moonpool_lwt.IO_out",
+      "library": "moonpool-lwt",
+      "description": "This module implements output channels for asynchronous I/O operations using Lwt, supporting writing characters, strings, integers, and lines to various backends such as Unix file descriptors, buffers, or custom output functions. It provides concrete functionality for duplicating output across multiple channels, closing and flushing resources, and writing from sequences. Use cases include logging to multiple destinations, streaming data to network sockets, and capturing output in memory buffers.",
+      "description_length": 500,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Moonpool_lwt",
-      "description": "provides asynchronous I/O and network communication capabilities through Lwt-based event loops, enabling non-blocking read/write operations on file descriptors and TCP connections. It includes functions for waiting on readable/writable FDs, sleeping, and handling full data transfers, along with TCP server and client setup using Unix socket addresses. Operations are performed via fiber suspension, avoiding busy-waiting and ensuring efficient resource use. Examples include building scalable network services, handling client data asynchronously, and managing I/O without blocking the main thread.",
-      "description_length": 599,
+      "module_path": "Moonpool_lwt.TCP_server",
+      "library": "moonpool-lwt",
+      "description": "This module implements TCP servers that accept connections and handle clients using Moonpool fibers. It provides functions to start a server with a custom handler that processes incoming connections concurrently, using either Lwt I/O channels or direct IO operations. The server can be explicitly shut down, and it supports configuration options like backlog size and socket closure behavior.",
+      "description_length": 392,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Moonpool_lwt",
+      "library": "moonpool-lwt",
+      "description": "This module integrates Moonpool's parallelism with Lwt's event loop, enabling seamless cooperation between the two runtimes by converting futures and providing safe await mechanisms. It allows Lwt-based I/O operations to be embedded within Moonpool tasks, facilitating use cases like handling HTTP requests in a parallel service while performing non-blocking socket I/O with Lwt. The module supports direct manipulation of file descriptors, input/output channels, and TCP connections through submodules, each specializing in specific I/O aspects such as reading from sockets, writing to multiple outputs, or managing concurrent TCP servers with custom handlers. Key data types include Lwt threads, file descriptors, and I/O channels, with operations for sleeping, reading, writing, connecting, and serving over TCP.",
+      "description_length": 815,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 5,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.5555555555555556
+    "total_modules_in_package": 8,
+    "meaningful_modules": 6,
+    "filtered_empty_modules": 2,
+    "retention_rate": 0.75
   },
   "statistics": {
-    "max_description_length": 599,
-    "min_description_length": 378,
-    "avg_description_length": 426.8,
-    "embedding_file_size_mb": 0.018610000610351562
+    "max_description_length": 815,
+    "min_description_length": 323,
+    "avg_description_length": 479.0,
+    "embedding_file_size_mb": 0.022223472595214844
   }
 }

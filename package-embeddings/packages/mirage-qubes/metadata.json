@@ -1,168 +1,213 @@
 {
   "package": "mirage-qubes",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:35:30.273952",
+  "total_modules": 24,
+  "creation_timestamp": "2025-07-15T23:11:39.070614",
   "modules": [
     {
-      "module_path": "Qubes.Formats.Qrexec.Framing",
-      "description": "Provides functions to determine the size of a message header and extract the body size from a header string. Works with string data representing message headers and integer values for size calculations. Used to parse incoming data streams where messages are prefixed with a fixed-size header indicating the body length.",
-      "description_length": 319,
+      "module_path": "Qubes.Formats.GUI.Framing",
+      "library": "mirage-qubes",
+      "description": "This module handles the framing of GUI protocol messages by parsing headers and determining the body size of each message. It operates on raw string data representing network packets, using a predefined header size to extract and interpret message lengths. Concrete use cases include decoding incoming GUI protocol streams into individual messages for processing in client or server implementations.",
+      "description_length": 399,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.Formats.GUI.Framing",
-      "description": "Provides functions to determine the size of a message header and extract the body size from a header string. Works with string data to parse message structures. Used to validate and process incoming network messages by inspecting their header information.",
-      "description_length": 255,
+      "module_path": "Qubes.Formats.QubesDB.Framing",
+      "library": "mirage-qubes",
+      "description": "This module handles frame parsing and construction for the Qubes wire protocol. It provides operations to extract the body size from a frame header and defines the fixed header size. Concrete use cases include processing GUI protocol messages where frame boundaries must be determined before full message assembly.",
+      "description_length": 314,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.Formats.QubesDB.Framing",
-      "description": "Provides functions to determine the size of a message header and extract the body size from a header string. Works with string data representing message headers and integer values for size calculations. Used to parse incoming data streams by identifying message boundaries before processing the content.",
-      "description_length": 303,
+      "module_path": "Qubes.Formats.Qrexec.Framing",
+      "library": "mirage-qubes",
+      "description": "This module implements low-level frame parsing and construction for the Qubes wire protocol. It provides operations to extract the body size from a fixed-size header and determine the total frame size. Concrete use cases include processing incoming GUI protocol messages and assembling outgoing frames for secure inter-domain communication.",
+      "description_length": 340,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qubes.DB.KeyMap",
-      "description": "This module offers operations for constructing, modifying, and querying key-value maps, including adding, updating, removing, and merging entries, as well as iterating and filtering bindings. It works with maps featuring specific key types and generic values, supporting ordered traversal and sequence-based manipulation. Use cases include dynamic data aggregation, structured data processing, and scenarios requiring conditional key-value transformations.",
-      "description_length": 456,
+      "module_path": "Qubes.Formats.Qrexec",
+      "library": "mirage-qubes",
+      "description": "This module provides precise parsing and construction of binary messages in the Qubes wire protocol, combining core record types and low-level accessors with frame-handling operations from its submodules. It supports decoding structured data like headers, execution parameters, and exit statuses from byte strings and 32-bit integers, while its child module handles frame size extraction and assembly for protocols such as GUI message exchange. Specific operations include parsing peer information, converting message types, and extracting parameters from fixed-size binary formats for inter-domain communication. Together, they enable efficient, version-aware protocol processing in low-level system contexts.",
+      "description_length": 710,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.RExec.Flow",
-      "description": "Writes to standard output and error with formatted or raw strings, and reads from standard input, returning either a string or end-of-file signal. Operates on a custom type `t` representing a flow context. Used for asynchronous console interaction in networked or I/O-bound applications.",
-      "description_length": 287,
+      "module_path": "Qubes.Msg_chan.Make",
+      "library": "mirage-qubes",
+      "description": "This module implements a message channel protocol over VChan streams, providing functions to send and receive packets with or without headers, read raw data chunks, and establish client-server connections. It works with VChan connections using Xen ports and domain IDs, handling message framing and synchronization. Concrete use cases include inter-domain communication in QubesOS for VM management and secure message exchange between trusted and untrusted domains.",
+      "description_length": 465,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.RExec.Client_flow",
-      "description": "Writes a formatted string to a process's standard input and returns a result indicating success or end-of-file. Reads output from a process's standard output, standard error, or exit code. Designed for interacting with external processes through their input and output streams.",
-      "description_length": 277,
+      "module_path": "Qubes.S.DB-KeyMap",
+      "library": "mirage-qubes",
+      "description": "This module provides operations for managing ordered key-value mappings with string keys and arbitrary typed values, supporting efficient insertion, deletion, and transformation alongside ordered traversal. It includes specialized functionality for list-valued maps, bulk updates from sequences, and merging operations that leverage key ordering for tasks like hierarchical data aggregation or configuration management. Use cases include maintaining sorted collections, combining datasets with prioritized keys, and processing key-value streams with ordered semantics.",
+      "description_length": 568,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.Msg_chan.Make",
-      "description": "Provides functions to determine the size of a message header and calculate the body size based on the header content. Works with string data to extract and compute size values. Used to parse message structures in network protocols or file formats.",
-      "description_length": 247,
+      "module_path": "Qubes.S.MSG_CHAN",
+      "library": "mirage-qubes",
+      "description": "This module handles message transmission over a channel with operations to send and receive packets, either with headers, fixed sizes, or raw chunks. It works with strings and string lists for message payloads, and uses Lwt for asynchronous communication. Concrete use cases include implementing network protocols where precise message framing and asynchronous I/O are required.",
+      "description_length": 378,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qubes.Formats.Qrexec",
-      "description": "Handles message parsing by calculating header sizes and extracting body lengths from header strings. Operates on strings and integers to process incoming data streams. Supports tasks like validating message structure and preparing data for further processing. Example uses include reading network packets and ensuring correct data segmentation.",
-      "description_length": 344,
+      "module_path": "Qubes.DB.KeyMap",
+      "library": "mirage-qubes",
+      "description": "This module implements an ordered key-value map structure with string-based keys and polymorphic values, supporting efficient insertion, deletion, and range-based queries over strictly ordered keys. It provides ordered traversal (ascending/descending), sequence conversion, and functional transformations like mapping, filtering, and merging, leveraging key ordering for operations such as splitting and comparison. Typical use cases include hierarchical data representation, database indexing, and scenarios requiring ordered key ranges or incremental data aggregation.",
+      "description_length": 570,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Qubes.Formats.GUI",
-      "description": "Handles message parsing by determining header size and extracting body size from string data. Processes network messages by validating and inspecting header information. Supports operations on string-based message structures to extract and validate components. Can be used to parse incoming data streams and ensure proper message formatting.",
-      "description_length": 341,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Qubes.Formats.QubesDB",
-      "description": "Handles message boundary detection by calculating header sizes and extracting body sizes from string representations. Operates on strings and integers to parse and structure incoming data streams. Supports tasks like validating message formats and preparing data for further processing. Examples include determining how much data to read next or verifying header integrity before content extraction.",
-      "description_length": 399,
-      "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Qubes.Formats.Rpc_filecopy",
-      "description": "Provides functions to retrieve fixed sizes of file and result headers, including an extended result header. Works with structured data types representing file and result headers. Used to validate buffer sizes and ensure proper parsing during file transfer operations.",
-      "description_length": 267,
+      "library": "mirage-qubes",
+      "description": "This module handles serialization and deserialization of file metadata and transfer result headers for the Qubes wire protocol. It works with `file_header`, `result_header`, and `result_header_ext` structures, encoding and decoding them to and from byte buffers. Concrete use cases include preparing file metadata for transmission during inter-VM file copy operations and parsing the server's response headers to determine transfer success or failure.",
+      "description_length": 451,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes.Formats.GUI",
+      "library": "mirage-qubes",
+      "description": "This module implements the core GUI protocol handling by parsing and constructing binary messages for inter-VM communication, focusing on window management, input events, and clipboard operations. It defines structured data types that map directly to the binary message layouts, enabling efficient serialization and interpretation of events such as window configuration changes, key presses, and mouse actions. The framing submodule processes raw packet data by extracting headers and determining message boundaries, allowing the full protocol stream to be split into individual messages for further processing. Applications include decoding window creation parameters, handling clipboard transfers between VMs, and synchronizing display state with Dom0.",
+      "description_length": 754,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes.RExec.Client_flow",
+      "library": "mirage-qubes",
+      "description": "Handles communication over a qrexec agent protocol connection by providing functions to write to stdin, read from stdout and stderr, and receive exit codes. Works with the `t` type representing a client-side flow. Used to interact with remote processes executed via QubesOS's qrexec infrastructure, such as running commands in a disposable VM and capturing their output or exit status.",
+      "description_length": 385,
       "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qubes.S.KeyMap",
-      "description": "The module provides operations for constructing, modifying, and querying key-value maps, including adding, removing, and merging entries, with support for ordered key traversal and predicate-based filtering. It works with maps featuring specific key types, such as strings, and generic values, enabling use cases like configuration management and data processing pipelines that require ordered data handling.",
-      "description_length": 408,
+      "module_path": "Qubes.RExec.Flow",
+      "library": "mirage-qubes",
+      "description": "This module handles bidirectional communication over a qrexec agent protocol stream, providing functions to write to stdout or stderr, read input, and format output. It operates on a flow type representing a communication channel, with support for string-based I/O and line-oriented input. Concrete use cases include sending command output back to a qrexec client, logging errors to stderr, and reading user input during remote command execution.",
+      "description_length": 446,
       "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Qubes.DB",
-      "description": "Provides key-value map operations with support for adding, updating, removing, and merging entries, along with iteration and filtering. It handles maps with specific key types and generic values, enabling ordered traversal and sequence-based transformations. Users can perform dynamic data aggregation, structured processing, and conditional key-value modifications. Examples include building configuration structures, merging user data, and filtering sensitive information from datasets.",
-      "description_length": 488,
-      "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qubes.Formats",
-      "description": "Provides functions to determine the size of a header and extract the body size from a header string. Works with string data to parse structured content. Used to validate and process data formats where header information dictates the structure of subsequent data.",
-      "description_length": 262,
-      "index": 13,
+      "module_path": "Qubes.Formats.QubesDB",
+      "library": "mirage-qubes",
+      "description": "This module encodes and decodes QubesDB protocol messages for communication with the Qubes GUI daemon, handling message headers with command types, paths, and data lengths, and providing conversions between message types and integers or strings. Its main data types include message headers and command/response packets, with operations to construct, parse, and manipulate them. The child module handles frame parsing and construction, exposing the fixed header size and extracting body sizes to determine frame boundaries before full message assembly. Together, they enable reading and writing GUI protocol data, listing or watching paths, and handling errors and responses in a structured way.",
+      "description_length": 694,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.GUI",
-      "description": "Provides functions to connect to and communicate with a Qubes GUI agent via Vchan, including event handling, window creation, and message sending. Operates on types such as `t` (connection handle), `window`, `window_id`, and `event` to manage graphical elements and interactions. Used to create and manage windows, receive and process events, and send messages to the GUI agent for display and user interaction.",
-      "description_length": 411,
+      "module_path": "Qubes.S.FLOW",
+      "library": "mirage-qubes",
+      "description": "This module handles input and output operations for a streaming interface, supporting both standard and error output through synchronous writes and formatted output functions. It provides mechanisms to read from standard input, either as raw data or line-by-line, with explicit EOF handling. Concrete use cases include interactive command-line tools, logging to stdout/stderr with formatting, and processing user input in event-driven applications.",
+      "description_length": 448,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Qubes.S.DB",
+      "library": "mirage-qubes",
+      "description": "This module manages a key-value store with asynchronous operations for reading, writing, and monitoring changes. It supports string keys and values, organizing data through the KeyMap module to track bindings and detect updates. It is used to observe configuration changes in QubesDB, such as waiting for specific keys to be updated or tracking commits that modify key hierarchies.",
+      "description_length": 381,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.Misc",
-      "description": "Checks for low memory by evaluating free space against a specified threshold, triggering garbage collection when necessary, and returns a status indicating memory health. Operates on integer thresholds and returns a result type indicating system state. Used to prevent out-of-memory errors during resource-intensive operations.",
-      "description_length": 327,
+      "module_path": "Qubes.Formats.FRAMING",
+      "library": "mirage-qubes",
+      "description": "This module handles the framing of messages according to the Qubes wire protocol. It provides operations to extract the body size from a message header and defines the fixed header size. It works with raw string data representing protocol messages. Concrete use cases include parsing incoming GUI protocol data and constructing properly framed messages for transmission.",
+      "description_length": 370,
       "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Qubes.Msg_chan",
-      "description": "Encapsulates message parsing and size calculation for stream-based communication. Processes string data to extract header information and compute body lengths, enabling structured message handling. Supports operations like header inspection, size validation, and data segmentation. Can be used to decode network packets or parse binary file formats with defined message layouts.",
-      "description_length": 378,
-      "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Qubes.RExec",
-      "description": "Manages asynchronous input and output operations for process interaction, supporting formatted and raw data transmission and reception. Provides a custom type `t` for tracking flow context, enabling controlled reading from and writing to standard input, output, and error streams. Allows sending commands to processes and capturing their output or exit status, facilitating reliable communication in networked or I/O-intensive scenarios. Examples include executing shell commands, piping data between processes, and handling real-time input/output streams.",
-      "description_length": 556,
+      "module_path": "Qubes.S",
+      "library": "mirage-qubes",
+      "description": "This module orchestrates data flow through message channels, structured storage, and streaming interfaces, coordinating core operations with its submodules for comprehensive data handling. It centers around channels for message passing, streams for continuous data processing, and key-value abstractions for structured storage, with types like strings, maps, and asynchronous values underpinning its operations. You can send framed network messages with headers, transform ordered key-value mappings for configuration management, or stream and format input/output for command-line applications. The integration of async I/O, ordered maps, and key monitoring enables workflows like real-time configuration updates over networked services or processing event streams with persistent state.",
+      "description_length": 787,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes.DB",
+      "library": "mirage-qubes",
+      "description": "The module provides a client for interacting with a QubesDB key-value store, enabling read, write, and watch operations on string keys and values. It integrates with the `KeyMap` module to represent and manipulate structured, ordered collections of bindings, supporting efficient traversal, transformation, and range queries. This combination allows use cases such as synchronizing hierarchical VM state in QubesOS, tracking ordered configuration changes, and reacting to incremental updates. Direct APIs handle database communication, while `KeyMap` enables rich manipulation of mapped data.",
+      "description_length": 592,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes.S",
-      "description": "Handles network communication by receiving and sending packets and raw data over a stream. Operates on a custom type `t` representing a connection state. Receives fixed-size data, raw chunks, or structured packets, and sends multiple packets atomically.",
-      "description_length": 253,
+      "module_path": "Qubes.Misc",
+      "library": "mirage-qubes",
+      "description": "Performs memory checks and initiates garbage collection when free memory drops below a specified threshold, returning a status indicating whether memory is sufficient or critical. It also provides a function to wait for shutdown signals from dom0, enabling controlled termination of the application. This module is useful for managing resource constraints and handling system-level shutdown events in long-running processes.",
+      "description_length": 424,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-qubes",
-      "description": "Handles remote execution of commands in Qubes, manages GUI protocol interactions for AppVMs, and enables reading/writing to a VM's QubesDB database. Operates on strings, byte sequences, and structured data stored in the QubesDB. Used to launch graphical applications remotely, execute administrative commands, and persist VM-specific configuration data.",
-      "description_length": 353,
+      "module_path": "Qubes.Msg_chan",
+      "library": "mirage-qubes",
+      "description": "This module implements a message-based communication protocol over VChan streams, enabling structured data exchange between domains with support for message framing, synchronization, and EOF handling. It provides core operations to send and receive messages with or without headers, read raw data chunks, and establish client-server connections using Xen ports and domain IDs. The `Make` functor allows creating typed message channels for serializing and transmitting data in distributed systems. Example uses include secure inter-VM communication in QubesOS and reliable message passing between trusted and untrusted domains.",
+      "description_length": 626,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Qubes",
-      "description": "manages data structures, communication, and system resources through a set of specialized operations. It includes map manipulation with key-value updates, header parsing for structured data, GUI agent interaction, memory monitoring, message handling, asynchronous I/O, and network packet transmission. Key types include maps, strings, connection handles, events, and custom I/O contexts, with operations like merging, parsing, sending, and validating. Users can build dynamic configurations, process network packets, manage GUI windows, and handle real-time data flows efficiently.",
-      "description_length": 581,
+      "module_path": "Qubes.Formats",
+      "library": "mirage-qubes",
+      "description": "This module handles the low-level serialization and parsing of binary data according to the Qubes wire protocol, offering direct operations for reading and writing integers in both little-endian and big-endian formats, including 32-bit signed and 8-bit unsigned integers. Its submodules build on this foundation to handle structured data such as file headers, GUI messages, and QubesDB protocol packets, enabling precise construction and decoding of binary messages for inter-VM communication. Specific capabilities include parsing execution parameters, window events, and file transfer metadata, as well as framing messages with correct header and body boundaries for protocols like GUI and QubesDB. Together, the module and its children support version-aware, efficient processing of system-level protocol data across Qubes OS components.",
+      "description_length": 840,
       "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes.RExec",
+      "library": "mirage-qubes",
+      "description": "This module implements the QubesOS qrexec agent protocol for secure inter-domain communication, enabling asynchronous client-server interactions over XenStore and vchan channels using Lwt. It provides core functions to connect to a qrexec agent, listen for service requests, initiate remote calls, and manage disconnections, while its child modules handle data flow during remote process execution. The first child module manages client-side I/O, allowing writes to stdin and reads from stdout/stderr, along with exit code handling, using the `t` type to track active flows; this supports use cases like running commands in disposable VMs and capturing their output. The second child module facilitates bidirectional communication on server-side streams with line-based input and formatted output, enabling tasks like logging errors to stderr or responding to interactive remote commands.",
+      "description_length": 888,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes.GUI",
+      "library": "mirage-qubes",
+      "description": "This module handles GUI event communication and window management for a Qubes domain. It defines event types like keypress, motion, and window destruction, and provides functions to create windows, set their properties, and send or receive events over a Vchan connection. Concrete use cases include building interactive GUI applications within a Qubes VM and handling user input or window state changes in real time.",
+      "description_length": 416,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Qubes",
+      "library": "mirage-qubes",
+      "description": "This module coordinates data flow across message channels, key-value storage, and streaming interfaces for structured communication and state management. It supports operations like sending framed messages over VChan, reading and writing binary data according to the Qubes wire protocol, and handling real-time updates to hierarchical state in QubesOS. Key data types include channels for message passing, key maps for ordered configuration data, and streams for continuous input/output processing. You can implement secure inter-VM communication, manage GUI events in a domain, or synchronize state changes with async I/O and garbage collection for resource control.",
+      "description_length": 667,
+      "index": 23,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 21,
+    "total_modules_in_package": 24,
+    "meaningful_modules": 24,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 581,
-    "min_description_length": 247,
-    "avg_description_length": 357.7142857142857,
-    "embedding_file_size_mb": 0.07670879364013672
+    "max_description_length": 888,
+    "min_description_length": 314,
+    "avg_description_length": 538.0416666666666,
+    "embedding_file_size_mb": 0.08762264251708984
   }
 }

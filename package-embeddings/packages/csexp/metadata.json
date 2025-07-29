@@ -1,126 +1,197 @@
 {
   "package": "csexp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 15,
-  "creation_timestamp": "2025-06-18T16:34:13.701482",
+  "total_modules": 22,
+  "creation_timestamp": "2025-07-15T23:10:09.880714",
   "modules": [
     {
-      "module_path": "Csexp.Make.Parser.Lexer",
-      "description": "Processes character streams to identify and classify tokens as either atoms or other elements. Operates on character inputs and maintains internal state to track parsing progress. Used to tokenize input sequences, such as parsing command-line arguments or structured text formats.",
-      "description_length": 280,
+      "module_path": "Csexp.Make.Parser.Stack",
+      "library": "csexp",
+      "description": "This module implements a stack-based parser for canonical S-expressions, providing operations to manipulate the stack state during parsing. It supports adding atoms, parentheses, and tokens, and extracting fully parsed S-expressions as a list. It is used to build efficient, low-overhead parsers that handle input incrementally while maintaining correct S-expression structure.",
+      "description_length": 377,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Make.Parser.Stack",
-      "description": "Extracts a list of S-expressions from a stack, adds atoms or lexer tokens, and manages parentheses by opening or closing them, ensuring valid S-expression structure. Works with a custom stack type representing nested S-expressions and open parentheses. Used to build and validate S-expressions during parsing, such as converting a stack into a list of atoms or closing an open parenthesis to form a complete list.",
-      "description_length": 413,
+      "module_path": "Csexp.Make.Parser.Lexer",
+      "library": "csexp",
+      "description": "This module implements a lexical analyzer for parsing canonical S-expressions, handling input character by character to produce tokens such as parentheses, atoms, or end-of-input. It works with a custom token type that includes atomic values represented as integers and structural markers like parentheses. Concrete use cases include incremental parsing of S-expression streams from arbitrary input sources, such as network protocols or file formats, where low allocation and high performance are critical.",
+      "description_length": 506,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Make.Make_parser.Monad",
-      "description": "Provides a framework for sequencing computations that carry context, offering `return` to wrap values into the context and `bind` to chain operations that produce context-aware results. Works with parameterized types where each value is embedded in a computational context. Enables structured handling of side effects, error propagation, and asynchronous operations within a unified interface.",
-      "description_length": 393,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Csexp.Make.Parser",
-      "description": "Processes character streams into tokens and constructs valid S-expressions from a stack-based representation. It handles atom recognition, token classification, and nested structure validation, supporting efficient parsing with minimal runtime overhead. Operations include tokenizing input, building S-expressions, and managing parentheses to ensure syntactic correctness. Examples include parsing command-line arguments into structured data or converting a stream of tokens into a list of nested expressions.",
-      "description_length": 509,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Csexp.Make.Make_parser",
-      "description": "Sequences context-aware computations using `return` to embed values and `bind` to chain operations that maintain context, supporting structured side effect management and error handling. Operates on parameterized types that encapsulate values within computational contexts, enabling compositional and predictable workflows. Allows for chaining asynchronous or error-prone operations in a unified manner, such as parsing input while tracking position or handling optional values. Examples include building parsers that accumulate state or process input with failure recovery.",
-      "description_length": 574,
-      "index": 4,
+      "library": "csexp",
+      "description": "This module implements a minimal parser for canonical S-expressions, providing `parse` and `parse_many` functions to read S-expressions from an input source. It works with the `Sexp.t` type and is parameterized over the input type via the `Input` module. It is intended for straightforward parsing tasks where full-featured libraries are unnecessary.",
+      "description_length": 350,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Csexp.Parser.Lexer",
-      "description": "Processes character streams to identify and classify tokens as either atoms or other elements. Operates on character inputs and maintains internal state to track parsing progress. Used to tokenize input sequences in parsing workflows, such as interpreting command-line arguments or processing structured text formats.",
-      "description_length": 317,
-      "index": 5,
+      "library": "csexp",
+      "description": "This module implements a lexical analyzer for canonical S-expressions, processing input character by character to identify structural elements like parentheses and atomic values. It works with a custom token type that represents recognized elements such as `Lparen`, `Rparen`, and `Atom`, along with a stateful lexer type for maintaining parsing context. It is used to build efficient, low-level parsers that can quickly tokenize canonical S-expression input without unnecessary memory allocations or runtime overhead.",
+      "description_length": 518,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Csexp.Make.Parser",
+      "library": "csexp",
+      "description": "This module provides a high-performance parser for canonical S-expressions, combining a stack-based core with a character-by-character lexer to enable efficient, incremental parsing. It supports direct manipulation of parsing state through stack operations and token extraction, using a custom type to represent atoms and structural elements. The parser minimizes runtime overhead by avoiding unnecessary allocations and mutations, making it suitable for parsing network data, configuration files, and storage formats with precise error handling. Together with its submodules, it offers a complete pipeline from raw input to structured S-expressions, optimized for speed and memory efficiency.",
+      "description_length": 693,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Csexp.Make.Input",
+      "library": "csexp",
+      "description": "This module handles reading S-expressions from a custom input source by providing functions to read strings and individual characters, returning results in a monadic context. It works with a user-defined type `t` representing the input state and uses a result type to handle parsing errors. Concrete use cases include implementing custom parsers for canonical S-expressions from non-standard input streams, such as network sockets or memory-mapped files.",
+      "description_length": 454,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Csexp.Parser.Stack",
-      "description": "Extracts a list of S-expressions from a stack, adds atoms or tokens, and manages parentheses to build nested S-expression structures. Operates on a custom stack type representing parsed or partially parsed S-expressions. Used to construct and validate S-expression trees during parsing, such as converting a sequence of tokens into a structured list.",
-      "description_length": 350,
+      "library": "csexp",
+      "description": "This module implements a parsing stack for building S-expressions incrementally, supporting operations to add atoms, parentheses, and tokens, and to extract a list of completed S-expressions. It works directly with a custom S-expression type and a stack structure that tracks the current parsing state. Concrete use cases include assembling S-expressions from a stream of tokens during parsing, handling nested structures, and ensuring correct parenthesization.",
+      "description_length": 461,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Csexp.Make.Monad",
-      "description": "Provides a way to sequence computations that carry context, using `return` to wrap values into the monadic structure and `bind` to chain operations that produce new monadic values. Works with parameterized types `'a t` that encapsulate values along with associated computational context. Enables structured handling of side effects, error propagation, or asynchronous operations in a compositional manner.",
-      "description_length": 405,
+      "module_path": "Csexp.Make.Input-Monad",
+      "library": "csexp",
+      "description": "This module defines a monadic interface for input operations over S-expressions in canonical form. It provides `return` and `bind` functions to sequence parsing steps, enabling composition of readers that extract structured data from low-level input sources. It works directly with S-expression values and monadic actions, targeting use cases like deserializing configuration data or network protocols.",
+      "description_length": 402,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Csexp.Make_parser.Monad",
-      "description": "Provides operations to sequence computations that carry context, including lifting values into the context and chaining functions that produce context-aware results. Works with a parameterized type representing computations wrapped in a context. Used to handle optional values, manage side effects, or track state in a compositional way.",
-      "description_length": 337,
+      "module_path": "Csexp.Input-Monad",
+      "library": "csexp",
+      "description": "This module implements a monadic interface for parsing S-expressions from input sources. It provides `return` and `bind` operations to sequence parsing steps, handling sequential decoding of canonical S-expressions from byte streams or similar inputs. It works directly with S-expression values and byte-based input, enabling structured parsing of network protocols or storage formats that use canonical S-expressions.",
+      "description_length": 418,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications, generating dependency graphs, and executing build steps. Operates on custom types representing targets, dependencies, and build rules. Used to automate software compilation processes by defining precise build sequences and handling incremental builds.",
-      "description_length": 360,
+      "module_path": "Csexp.S-Parser-Stack",
+      "library": "csexp",
+      "description": "This module implements a parsing stack for constructing S-expressions from tokens, supporting operations to add atoms, parentheses, and tokens to the stack. It works with a custom S-expression type and maintains parser state through a stack structure that tracks open parentheses and partial expressions. Concrete use cases include incrementally building S-expressions during parsing, handling nested structures, and ensuring proper parenthetical grouping during deserialization.",
+      "description_length": 479,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Parser",
-      "description": "Processes character streams to identify and classify tokens, then constructs and validates S-expression trees by managing a custom stack of parsed elements. It handles atom recognition, token sequencing, and nested structure building, enabling efficient parsing of structured text. Operations include tokenization, stack manipulation, and S-expression extraction. Examples include parsing command-line arguments into a structured format or converting a stream of characters into a validated list of nested S-expressions.",
-      "description_length": 520,
+      "module_path": "Csexp.S-module-type-Input-Monad",
+      "library": "csexp",
+      "description": "This module defines a monadic interface for parsing S-expressions from input sources. It includes basic operations for composing parsers using `return` and `bind`, enabling sequential and conditional parsing logic. It works directly with S-expression data structures and is suited for reading canonical S-expressions from streams or files.",
+      "description_length": 339,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Make_parser",
-      "description": "Encapsulates context-aware computations using a parameterized type, enabling sequential execution with context preservation. Supports lifting values into context and composing functions that return context-sensitive results. Handles optional values, state tracking, and side effects through monadic operations. Example: chaining parsing steps that may fail or depend on prior results.",
-      "description_length": 384,
+      "module_path": "Csexp.Input",
+      "library": "csexp",
+      "description": "This module implements low-level, stateful reading operations for canonical S-expressions, providing functions to read characters and substrings from an input buffer. It works with a stateful input type `t` and is designed for direct parsing of simple S-expression streams without external library dependencies. Concrete use cases include incremental parsing of S-expressions from custom input sources like files or network streams.",
+      "description_length": 432,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp.Monad",
-      "description": "Provides operations to sequence computations with context, including lifting values into a context and chaining functions that produce contextual results. Works with a parameterized type 'a t representing computations with side effects or additional context. Used to handle optional values, manage state, or propagate errors in a composable way.",
-      "description_length": 345,
+      "module_path": "Csexp.S-Parser",
+      "library": "csexp",
+      "description": "This module implements a low-overhead parser for canonical S-expressions, working directly with character streams to produce structured S-expression values. It includes a lexer for tokenizing input and a stack-based system for building nested S-expressions incrementally. Concrete use cases include parsing configuration files, network protocols, or storage formats that use canonical S-expressions for compact and deterministic serialization.",
+      "description_length": 443,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "csexp",
-      "description": "Parses and prints S-expressions in a binary format adhering to a canonical encoding scheme. It handles nested lists and atomic values such as integers, strings, and symbols. Used to serialize and deserialize structured data in a compact, deterministic binary form.",
-      "description_length": 264,
+      "module_path": "Csexp.Parser",
+      "library": "csexp",
+      "description": "This module provides a low-overhead parser for canonical S-expressions, combining a lexical analyzer and a parsing stack to efficiently process input streams into structured values with minimal runtime overhead. It operates by first tokenizing character input into structural elements like parentheses and atoms, then using a stack-based approach to build nested S-expressions incrementally. The core API supports direct parsing of binary-encoded S-expressions from files or network streams, while the child modules enable fine-grained control over tokenization and stack manipulation. Examples include parsing large S-expression data with zero allocations, or streaming nested expressions from a network buffer.",
+      "description_length": 712,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Csexp",
-      "description": "Encapsulates computations with context, enabling chaining of operations that may carry side effects, state, or errors through a parameterized type 'a t. Supports lifting values into this context and applying functions that return similar contextual results. Can manage optional values, track state, or handle error propagation in a compositional manner. For example, it allows safely combining a series of operations that might fail, ensuring errors are passed along without explicit checks at each step.",
-      "description_length": 504,
+      "module_path": "Csexp.Sexp",
+      "library": "csexp",
+      "description": "This module implements parsing and serialization of S-expressions in canonical form, supporting basic operations to convert between string representations and an in-memory tree structure composed of atoms and lists. It works directly with the polymorphic variant type `t` representing S-expressions as either `Atom of string` or `List of t list`. Concrete use cases include reading configuration files, exchanging structured data between systems using a minimal and unambiguous format, and building lightweight domain-specific languages.",
+      "description_length": 537,
       "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Csexp.Make_parser",
+      "library": "csexp",
+      "description": "This module implements parsers for reading S-expressions in canonical form, producing values of type `Csexp.t`. It provides `parse` for single expressions and `parse_many` for sequences, both consuming input from a given source. Useful when processing configuration files or structured data streams that adhere to the canonical S-expression format.",
+      "description_length": 348,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Csexp.S-Make_parser",
+      "library": "csexp",
+      "description": "This module implements a minimal parser for canonical S-expressions, providing `parse` and `parse_many` functions to read S-expressions from an input source. It works with the `Input.t` type, which must be provided by the user, and returns parsed S-expressions using a result type that includes error messages. It is intended for straightforward parsing tasks where full-featured S-expression libraries are unnecessary.",
+      "description_length": 419,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Csexp.S-module-type-Input",
+      "library": "csexp",
+      "description": "This module handles reading S-expressions from a source by providing low-level functions to read characters and strings with basic error handling. It works with a parameterized type representing input sources and uses a result monad for sequencing read operations. Concrete use cases include parsing S-expressions from files or network streams in a minimal and portable way.",
+      "description_length": 374,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Csexp.S",
+      "library": "csexp",
+      "description": "This module implements parsing and serialization for canonical S-expressions, working directly with a parameterized `sexp` type. It provides functions to convert between strings, channels, and buffers and S-expressions, including handling multiple expressions and precise error reporting. Use cases include reading and writing S-expressions from files or network streams, and parsing input in applications like configuration readers or data interchange formats.",
+      "description_length": 461,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Csexp.Make",
+      "library": "csexp",
+      "description": "This module parses and serializes S-expressions in canonical form, supporting direct manipulation of input/output channels, buffers, and memory streams. It provides core operations for reading single or multiple S-expressions, measuring serialized lengths, and writing to output targets, centered around the `Sexp.t` type. The minimal parser handles simple input sources with `parse` and `parse_many`, while the high-performance parser offers incremental, stack-based parsing with low-level token control and state management. Custom input handling and monadic composition of parsing steps enable integration with non-standard input streams and structured deserialization of network or configuration data.",
+      "description_length": 705,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Csexp.S-Parser-Lexer",
+      "library": "csexp",
+      "description": "This module implements a lexical analyzer for parsing canonical S-expressions. It processes character streams to produce tokens such as parentheses, atoms, and end-of-input markers, maintaining state through the `t` type. It is designed for simplicity and can be adapted for different input sources without relying on external libraries.",
+      "description_length": 337,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Csexp",
+      "library": "csexp",
+      "description": "This module parses and serializes canonical S-expressions, handling I/O over strings, buffers, and channels with support for single or multiple expressions and detailed error reporting. It centers around the `t` type representing S-expressions as atoms or lists, and provides both minimal and high-performance parsing interfaces, including stack-based and monadic combinators for structured input processing. Child modules offer low-level tokenization, parsing stacks, and monadic composition to enable custom input handling, incremental parsing, and structured deserialization. Examples include reading configuration files, exchanging structured data over networks, and implementing interpreters with canonical S-expressions.",
+      "description_length": 726,
+      "index": 21,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 15,
-    "meaningful_modules": 15,
+    "total_modules_in_package": 22,
+    "meaningful_modules": 22,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 574,
-    "min_description_length": 264,
-    "avg_description_length": 397.0,
-    "embedding_file_size_mb": 0.054884910583496094
+    "max_description_length": 726,
+    "min_description_length": 337,
+    "avg_description_length": 476.8636363636364,
+    "embedding_file_size_mb": 0.08032894134521484
   }
 }

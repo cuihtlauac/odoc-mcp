@@ -1,154 +1,221 @@
 {
   "package": "ego",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 19,
-  "creation_timestamp": "2025-06-18T16:35:16.547897",
+  "total_modules": 25,
+  "creation_timestamp": "2025-07-15T23:11:05.688519",
   "modules": [
     {
-      "module_path": "Ego.Generic.Make.Rule",
-      "description": "Creates rewrite rules for transforming expressions in a language L, supporting syntactic, conditional, and dynamic transformations. Operates on query patterns of L.op and egraph structures containing identifiers, annotations, and rewrite data. Used to define specific expression rewrites in automated reasoning systems, such as simplifying algebraic expressions or optimizing code structures.",
-      "description_length": 392,
+      "module_path": "Ego.Generic.Scheduler.Simple",
+      "library": "ego",
+      "description": "This module implements a basic scheduler that applies all rules uniformly without any optimization. It manages rule execution state with `data` and `t` types, tracking iterations to determine stopping conditions. It is suitable for small, finite EClass systems where exhaustive rule application is feasible.",
+      "description_length": 307,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ego.Generic.Make.BuildRunner",
-      "description": "Provides functions to manage rule scheduling and iteration control in an EGraph context. Operates on scheduler instances, rule data, and iteration states to determine when to stop, generate rule metadata, and filter rule applications. Used to dynamically adjust rule execution based on current EGraph state and scheduling logic.",
-      "description_length": 328,
+      "library": "ego",
+      "description": "This module enables custom scheduling strategies for controlling equality saturation runs. It provides the `run_until_saturation` function, which applies rewrites to an EGraph according to a supplied scheduler, with configurable limits and termination conditions. It works directly with EGraphs, rule sets, and user-defined scheduling logic to support domain-specific control over saturation progress.",
+      "description_length": 401,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ego.Generic.Scheduler.Backoff",
-      "description": "Tracks rule usage and enforces bans based on a match limit and ban duration. Operates on rule metadata and iteration data to determine when to stop processing or guard rule applications. Used to prevent overuse of rules in an egraph by temporarily banning them after exceeding a configured threshold.",
-      "description_length": 300,
+      "module_path": "Ego.Generic.Make.Rule",
+      "library": "ego",
+      "description": "This module defines rewrite rules for transforming expressions in an EGraph, supporting syntactic, conditional, and dynamic rewrites. It operates on patterns and expressions of a user-defined language, using EClass identifiers and analyses. Concrete use cases include optimizing arithmetic expressions, enforcing domain-specific invariants, and generating context-dependent rewrites based on analysis data.",
+      "description_length": 406,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic.Scheduler.Simple",
-      "description": "Provides functions to initialize and manage a scheduler that applies all rules on each iteration, working with `t` and `data` types. It includes a guard function to control rule application based on state and an indicator to determine when to stop processing. Used in rewrite systems where rule application order is not critical but performance may degrade with large or unbounded rule sets.",
-      "description_length": 391,
+      "module_path": "Ego.Generic.Scheduler.Backoff",
+      "library": "ego",
+      "description": "The module implements an exponential backoff scheduler that tracks and limits rule applications using a match threshold and ban duration. It works with egraphs and rule metadata to control saturation by temporarily disabling frequently triggered rules. Concrete use cases include managing rule explosion in equality saturation by dynamically adjusting rule application frequency.",
+      "description_length": 379,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Basic.Symbol",
-      "description": "Interns strings into unique integer identifiers for efficient comparison and storage, and converts them back to strings. It operates on private integer types representing interned strings. Used to manage symbolic names in data structures requiring fast equality checks and minimal memory usage.",
-      "description_length": 294,
+      "module_path": "Ego.Generic.StringMap",
+      "library": "ego",
+      "description": "This module provides a string-keyed map implementation optimized for efficient dictionary operations, value transformations, and ordered traversal, supporting both functional and imperative-style modifications. It works with maps storing arbitrary values under string keys, offering specialized functions for analysis tasks like aggregating statistics, tracking dynamic properties, or managing metadata in egraph-based equality saturation workflows. The structure is particularly useful for scenarios requiring ordered key processing, sequence conversions, or selective value updates during EClass analysis iterations.",
+      "description_length": 618,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Basic.Query",
-      "description": "Encodes syntactic patterns for matching and transforming S-expressions, treating atoms prefixed with \"?\" as variables. Operates on S-expressions and provides conversion to and from their serialized form. Used to define rewrite rules that match specific expression structures, such as identifying multiplication operations with variable operands.",
-      "description_length": 345,
+      "module_path": "Ego.Generic.GRAPH_API",
+      "library": "ego",
+      "description": "This module defines an interface for interacting with an EGraph during equality saturation, enabling operations such as querying class equivalence, iterating over children of an EClass, adding nodes, merging classes, and managing per-class analysis data. It works with EGraphs parameterized over a language and analysis, using identifiers (Ego.Id.t), nodes, and analysis-specific data types. Concrete use cases include implementing custom EClass analyses that require inspecting and modifying EGraph structure or associating computed values with equivalence classes during rewriting.",
+      "description_length": 583,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ego.Basic.Rule",
-      "description": "Encodes syntactic rewrite rules using a matching pattern and a replacement pattern, ensuring variable consistency between the two. Works with `Query.t` structures to define transformation rules for S-expressions. Used to generate valid rewrite rules for program transformation tasks.",
-      "description_length": 283,
+      "module_path": "Ego.Generic.MakeExtractor",
+      "library": "ego",
+      "description": "This module constructs an extraction procedure for an EGraph, allowing concrete terms to be extracted from equivalence classes based on a cost system. It operates over a user-defined language and cost model, enabling selection of minimal-cost terms during extraction. Use this to implement optimization routines that choose the most efficient or simplest representation from equivalent expressions in the EGraph.",
+      "description_length": 412,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
       "module_path": "Ego.Basic.EGraph",
-      "description": "Provides operations to add S-expressions to an egraph, merge equivalence classes, and extract terms based on cost functions. Works with S-expressions, identifiers, and symbolic terms. Used to manage and manipulate equality graphs for program analysis and transformation.",
-      "description_length": 270,
+      "library": "ego",
+      "description": "This module implements an equality saturation engine that operates on S-expressions, providing operations to add terms, merge equivalence classes, apply rewrite rules, and extract optimized terms. It supports concrete tasks like term rewriting, equivalence checking, and graph-based optimizations. Use cases include program optimization, symbolic computation, and equality reasoning over structured expressions.",
+      "description_length": 411,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ego.Generic.StringMap",
-      "description": "The module provides functions for creating, modifying, and querying string-keyed maps with arbitrary values, including insertion, deletion, merging, and traversal, alongside safe operations for handling missing keys. It supports ordered processing, predicate-based filtering, and sequence-based construction, making it suitable for applications like configuration management or data aggregation where structured, string-based key access is essential.",
-      "description_length": 450,
+      "module_path": "Ego.Basic.Rule",
+      "library": "ego",
+      "description": "This module encodes syntactic rewrite rules over S-expressions, providing operations to construct and display rules for equality saturation. It defines a rule as a pair of source and target patterns, supporting transformation of expressions during equality saturation. Use it to define rewrites like replacing `(+ a b)` with `(- b a)` for commutativity in symbolic reasoning tasks.",
+      "description_length": 381,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ego.Generic.Query",
-      "description": "Encodes query patterns for matching and transforming expressions, using symbolic operators. Works with symbolic types wrapped in a polymorphic container 'sym t. Converts queries to and from S-expressions, and provides pretty printing and string representation for debugging or serialization.",
-      "description_length": 291,
+      "library": "ego",
+      "description": "This module provides functions to convert queries to and from s-expressions, along with pretty-printing and string conversion utilities. It works with generic queries over user-defined expression types, allowing structured manipulation and serialization of patterns used in equality saturation. Concrete use cases include parsing and displaying rewrite rules or analysis patterns in a human-readable format.",
+      "description_length": 407,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic.Scheduler",
-      "description": "manages rule application by tracking usage and enforcing temporary bans, using metadata and iteration data to control processing. It defines types for scheduler state and data, with operations to initialize, guard, and terminate rule applications. This enables controlled rule execution in equality saturation, preventing overuse and managing performance. For example, it can limit a rule to 100 applications before banning it for 5 iterations, ensuring balanced egraph exploration.",
-      "description_length": 482,
+      "module_path": "Ego.Generic.Make",
+      "library": "ego",
+      "description": "This module builds an EGraph for equality saturation over a user-defined language and analysis, supporting operations like adding terms, merging equivalence classes, and applying rewrite rules. It integrates custom analyses through data types representing language terms, analysis states, and EClass identifiers, enabling tasks like optimizing symbolic expressions and verifying program equivalences. The first child module allows custom scheduling strategies via `run_until_saturation`, giving control over rewrite application with configurable limits and termination conditions. The second child module defines rewrite rules\u2014syntactic, conditional, and dynamic\u2014that transform expressions based on patterns, EClass identifiers, and analysis data, supporting tasks like arithmetic optimization and domain-specific invariant enforcement.",
+      "description_length": 836,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic.MakePrinter",
-      "description": "Provides functions to pretty-print, convert to string, and compare data structures of type data. Works with abstract data types t and data, enabling inspection and equality checks. Used to generate human-readable representations and validate data consistency in parsing or serialization workflows.",
-      "description_length": 297,
+      "module_path": "Ego.Generic.Scheduler",
+      "library": "ego",
+      "description": "The scheduler module offers strategies for controlling rule application in an equality saturation engine, balancing completeness and efficiency. It centers around two core data types, `t` for scheduler state and `data` for rule execution tracking, with operations to step through iterations, check stopping conditions, and manage rule activation. The basic scheduler exhaustively applies all rules, ideal for small problems, while the exponential backoff variant throttles frequently firing rules to prevent explosion, useful in large-scale saturation scenarios. For example, the backoff scheduler can dynamically disable a rule that matches too often, resuming it after a cooldown period to regain progress.",
+      "description_length": 708,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic.MakeExtractor",
-      "description": "Compares cost values using a custom comparison function and calculates costs for nodes based on a provided function that maps identifiers to costs. It operates on a type `t` representing cost values and processes node structures with identifiers. This is used to evaluate and compare the computational costs of different node configurations in a build system.",
-      "description_length": 359,
+      "module_path": "Ego.Generic.MakePrinter",
+      "library": "ego",
+      "description": "This module generates a Graphviz representation of an EGraph, specifically converting the structure and analysis data into a visual format for debugging. It operates on EGraphs parameterized by a language shape and analysis type. Use this to inspect the internal structure of an EGraph during equality saturation runs.",
+      "description_length": 318,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic.Make",
-      "description": "Provides operations to manipulate and query an EGraph, including freezing for read-only access, checking congruence between equivalence classes, iterating over children, setting and retrieving analysis data, and merging classes. Works with EGraphs represented as a type parameterized by a payload, containing equivalence classes and associated analysis data. Used to manage term equivalence in symbolic execution or program analysis, such as merging expressions or inspecting class relationships during rewriting.",
-      "description_length": 513,
+      "module_path": "Ego.Generic.ANALYSIS",
+      "library": "ego",
+      "description": "This module defines the interface for custom EClass analyses in an egraph library, specifying how to represent and manipulate abstract analysis data. It includes operations for pretty-printing, converting to strings, comparing, and initializing analysis values. It is used to implement domain-specific analyses like constant propagation or type inference during equality saturation.",
+      "description_length": 382,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Id",
-      "description": "Manages equivalence classes through union and find operations, supporting efficient merging and querying of disjoint sets. It operates on opaque integer-based identifiers, ensuring internal consistency and performance. Used to track and merge nodes in e-graphs during symbolic execution and rewriting processes.",
-      "description_length": 311,
+      "module_path": "Ego.Generic.COST",
+      "library": "ego",
+      "description": "This module type defines a cost system for ranking expressions in an egraph, where `t` represents the cost metric and `node` corresponds to the nodes in the language being analyzed. It includes operations to compare costs and to compute the cost of a node, potentially using the costs of its children via a provided function. Concrete use cases include guiding rewrites by selecting the least costly equivalent expression or pruning expensive terms during equality saturation.",
+      "description_length": 476,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Basic",
-      "description": "Encapsulates a system for efficiently managing and transforming S-expressions through interned string identifiers, pattern matching, and rewrite rules. It supports adding expressions to an egraph, merging equivalent terms, and extracting optimal representations based on cost. Operations include defining variable-aware patterns, generating valid rewrite rules, and manipulating symbolic terms. Examples include optimizing arithmetic expressions by matching multiplication patterns and replacing them with more efficient forms.",
-      "description_length": 527,
+      "module_path": "Ego.Generic.RULE",
+      "library": "ego",
+      "description": "This module defines rewrite rules for transforming expressions in an EGraph, supporting syntactic, conditional, and dynamic rewrites. It operates on query patterns and integrates with EClass analyses to enable complex expression manipulations based on the structure and properties of the EGraph. Use cases include implementing domain-specific optimizations, constraint-based simplifications, and context-aware code transformations.",
+      "description_length": 431,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego.Generic",
-      "description": "Creates rewrite rules for transforming expressions in an EGraph, including syntactic, conditional, and dynamic rules based on query patterns. Operates on query patterns, egraph structures, and variable bindings. Used to define precise expression transformations in symbolic computation or compiler optimization contexts.",
-      "description_length": 320,
+      "module_path": "Ego.Generic.SCHEDULER",
+      "library": "ego",
+      "description": "This module defines a scheduling system for controlling rule application order and frequency during equality saturation. It includes operations to initialize scheduler state, determine termination conditions, generate rule metadata, and filter rule matches based on scheduling logic. It works with rule-based systems where each rule has associated runtime data, and is used to prioritize or restrict rule applications based on custom heuristics.",
+      "description_length": 445,
       "index": 16,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "ego",
-      "description": "Provides functions to initialize, modify, and visualize egraphs, including adding S-expressions and converting graphs to DOT format. Operates on egraphs, S-expressions, and graph visualization structures. Used to track and manipulate symbolic expressions during equality saturation for program analysis or transformation tasks.",
-      "description_length": 327,
+      "module_path": "Ego.Generic.LANGUAGE",
+      "library": "ego",
+      "description": "This module defines the structure and operations for representing a custom language within an EGraph, including creating and manipulating expressions with user-defined operators and shapes. It supports equality checks, pretty-printing, comparison, and traversal of expression trees using provided functions like `make`, `children`, `map_children`, and `op`. Concrete use cases include encoding domain-specific languages (DSLs) for symbolic computation, program optimization, or formal verification tasks where structured expression manipulation is required.",
+      "description_length": 557,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ego",
-      "description": "Manages equivalence classes using union-find for efficient merging and querying, enabling egraph operations like node consolidation during symbolic rewriting. Handles S-expressions with interned identifiers, supporting pattern matching, rule application, and cost-based optimization for expression transformation. Defines and applies rewrite rules, including conditional and dynamic ones, to manipulate symbolic terms and improve computational efficiency. Examples include optimizing arithmetic expressions by replacing multiplication patterns with equivalent, more efficient forms.",
-      "description_length": 582,
+      "module_path": "Ego.Generic.ANALYSIS_OPS",
+      "library": "ego",
+      "description": "The module type defines operations for custom EClass analyses in an egraph, including initializing analysis data for nodes, merging analysis states, and modifying equivalence classes based on new analysis information. It works with abstract types for analysis state, egraph nodes, and associated data. This supports tasks like constant propagation, interval analysis, or term simplification within equality saturation.",
+      "description_length": 418,
       "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ego.Basic.Query",
+      "library": "ego",
+      "description": "This module represents and manipulates patterns over s-expressions for defining syntactic rewrites in an egraph engine. It supports converting between patterns and s-expressions, and printing patterns for debugging or inspection. It is used to specify rewrite rules that the equality saturation engine applies during term rewriting.",
+      "description_length": 332,
+      "index": 19,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ego.Basic.Symbol",
+      "library": "ego",
+      "description": "This module provides string interning and symbol resolution via a compact integer representation. It works with symbols as integers, mapping them to unique strings. Use it to efficiently represent and compare strings within an EGraph during equality saturation.",
+      "description_length": 261,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ego.Basic",
+      "library": "ego",
+      "description": "This module implements a syntactic equality saturation engine for S-expressions, centered around an EGraph that manages equivalence classes of terms using rewrite rules and efficient symbol representation. Key data types include EGraphs for term storage and equivalence tracking, Rules for defining transformations between patterns, and Symbols for compact string representation. Operations allow adding terms, merging classes, applying rewrites, and extracting optimized expressions. For example, you can define a rule to commute addition, apply it to an EGraph containing `(+ a b)`, and later extract `(- b a)` as an equivalent optimized form.",
+      "description_length": 645,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ego.Generic",
+      "library": "ego",
+      "description": "This module implements an EGraph-based equality saturation engine that operates over user-defined languages and supports custom EClass analyses for program optimization and equivalence checking. It provides core data types for EGraphs, rewrite rules, cost models, and analyses, enabling users to define languages, specify analyses, and extract optimized expressions based on cost. The engine allows both read-only and read/write operations on EGraphs, with submodules handling rule scheduling, analysis state management, and term extraction, such as using cost systems to select minimal-cost expressions or scheduling strategies to control rule application. Specific workflows include optimizing symbolic expressions, verifying program equivalences, and visualizing EGraph structures for debugging.",
+      "description_length": 798,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ego.Id",
+      "library": "ego",
+      "description": "This module implements a union-find data structure with path compression and union by rank, optimized for managing equivalence classes in e-graphs. It works directly with integer identifiers to represent and manipulate disjoint sets efficiently. Concrete use cases include tracking term equivalences during equality saturation and merging classes in the e-graph engine.",
+      "description_length": 369,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ego",
+      "library": "ego",
+      "description": "The library provides an equality saturation engine for term rewriting and optimization, centered around an EGraph data structure that tracks equivalence classes of expressions. It supports both syntactic rewriting with S-expressions and customizable analyses over user-defined languages, using rewrite rules, cost models, and extraction strategies. Key operations include adding terms, applying rewrites, merging equivalence classes, and extracting optimized forms based on analysis or cost criteria. Examples include commuting operations in algebraic expressions, optimizing symbolic terms under custom cost functions, and managing equivalence relations efficiently through union-find mechanics.",
+      "description_length": 696,
+      "index": 24,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 19,
-    "meaningful_modules": 19,
+    "total_modules_in_package": 25,
+    "meaningful_modules": 25,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 582,
-    "min_description_length": 270,
-    "avg_description_length": 371.6842105263158,
-    "embedding_file_size_mb": 0.0694437026977539
+    "max_description_length": 836,
+    "min_description_length": 261,
+    "avg_description_length": 479.08,
+    "embedding_file_size_mb": 0.09130287170410156
   }
 }

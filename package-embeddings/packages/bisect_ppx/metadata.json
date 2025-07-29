@@ -1,98 +1,101 @@
 {
   "package": "bisect_ppx",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:17.084367",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:05.917369",
   "modules": [
     {
-      "module_path": "Bisect_ppx.Exclude",
-      "description": "Provides functions to create, manipulate, and query exclusion rules stored in file structures. Works with custom types representing exclusion criteria and file metadata. Used to filter out specific entries during data processing tasks.",
-      "description_length": 235,
+      "module_path": "Bisect.Runtime",
+      "library": "bisect_ppx.runtime",
+      "description": "This module tracks code coverage during program execution by maintaining and persisting counters for instrumented source locations. It works with arrays of integers representing coverage points in source files and supports writing coverage data to disk either at program exit or manually. It handles environment variables to control output file paths, logging, and signal handling for coverage data persistence.",
+      "description_length": 411,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect_ppx.Exclude_lexer",
-      "description": "Handles lexical analysis for a custom language, providing functions to process characters, manage buffers, and parse tokens from input. It works with lexing buffers, strings, and custom error types to support tokenization and comment parsing. Used to convert lexing errors to messages, track line numbers, and handle escape sequences in string literals.",
-      "description_length": 353,
+      "module_path": "Bisect",
+      "library": "bisect_ppx.runtime",
+      "description": "The module tracks code coverage by maintaining and persisting counters for instrumented source locations using arrays of integers. It supports writing coverage data to disk automatically at program exit or manually, with environment variable control over output paths, logging, and signal handling. Users can capture coverage at runtime, save it to a file, and handle interruptions gracefully to ensure data is not lost. For example, it can log coverage for specific source files, respond to signals like SIGTERM to flush data, and allow manual invocation of data persistence.",
+      "description_length": 576,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect_ppx.Exclude_parser",
-      "description": "Parses a file's content into a list of `Exclude.file` structures using a provided lexer function that processes a `Lexing.lexbuf` and returns a `token`. It handles structured data from input streams, extracting specific exclusion patterns. This is used to process configuration files that define file inclusion/exclusion rules.",
-      "description_length": 327,
+      "module_path": "Bisect_common",
+      "library": "bisect_ppx.common",
+      "description": "This module defines data structures for tracking and persisting code coverage data across different components of Bisect. It includes types for storing visit counts per source file and functions to serialize coverage data to strings, reset counters, and generate unique output filenames. It is used by the instrumenter to register source files, by runtimes to track execution, and by the reporter to process coverage files.",
+      "description_length": 423,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect_ppx.Exclusions",
-      "description": "Provides functions to manage excluded toplevel declarations and files, including adding exclusions from strings or files and checking if a value or file is excluded. Operates on strings representing names, file paths, and patterns. Used to filter out specific identifiers or entire files during processing, such as skipping instrumentation for certain modules or symbols.",
-      "description_length": 371,
+      "module_path": "Bisect_ppx.Exclude_parser",
+      "library": "bisect_ppx",
+      "description": "Parses exclusion rules from a file, handling tokens like file paths, names, and regex patterns. It processes input using a lexer to build a structured list of exclusion criteria. Useful for filtering files or identifiers during code analysis or test coverage reporting.",
+      "description_length": 269,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bisect_ppx.Instrument",
-      "description": "Provides functions to instrument OCaml code by inserting logging or tracing calls during compilation. Works with abstract syntax trees and type information from the compiler. Enables runtime analysis of function calls and execution flow in compiled programs.",
-      "description_length": 258,
+      "module_path": "Bisect_ppx.Exclude",
+      "library": "bisect_ppx",
+      "description": "This module defines types for representing file exclusions using exact names or regular expressions, along with optional exclusion lists per file path. It works with strings, regular expressions, and lists to specify which elements should be excluded. Concrete use cases include filtering out specific files or symbols during code analysis or test coverage reporting.",
+      "description_length": 367,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect_ppx.Register",
-      "description": "Provides functions to manage conditional compilation flags, including checking if a feature is enabled, excluding specific files from conditionals, and defining command-line switches. Operates with boolean references, strings, and argument specifications. Used to control code inclusion during builds based on runtime configurations.",
-      "description_length": 333,
+      "module_path": "Bisect_ppx.Exclude_lexer",
+      "library": "bisect_ppx",
+      "description": "This module implements a lexer for parsing exclusion rules in string and comment contexts, handling escape sequences and encoding errors. It processes input through Lexing buffers, producing tokens for a paired parser, while managing line counting and character accumulation. Used to interpret exclusion patterns in source code analysis workflows.",
+      "description_length": 347,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect.Runtime",
-      "description": "Registers instrumented files with coverage point arrays, manages output file generation based on environment variables, and handles signal termination for coverage dumps. Works with arrays of integers representing execution counts and serialized point definitions. Used to collect and persist code coverage data during program execution for post-processing.",
-      "description_length": 357,
+      "module_path": "Bisect_ppx.Instrument",
+      "library": "bisect_ppx",
+      "description": "This module manages runtime configuration for code instrumentation, primarily controlling output file paths, verbosity, and signal handling. It provides mutable references to customize the behavior of instrumentation during program execution. Use this module to adjust where and how instrumentation data is collected and reported.",
+      "description_length": 330,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "bisect_ppx",
-      "description": "Tracks execution of code lines and functions during tests, generating detailed coverage reports. It operates on OCaml source files and integrates with Dune for build automation. Developers use it to identify untested code sections and improve test coverage.",
-      "description_length": 257,
+      "module_path": "Bisect_ppx.Exclusions",
+      "library": "bisect_ppx",
+      "description": "This module manages lists of excluded top-level declarations and files for code instrumentation. It provides functions to add exclusions by name, from a file, or by filename pattern, and checks whether specific values or entire files are excluded. It is used to control which parts of the code are excluded from analysis or instrumentation tools.",
+      "description_length": 346,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bisect_ppx",
-      "description": "manages code instrumentation, exclusion rules, and conditional compilation through a set of interrelated functions. it processes exclusion patterns from files, instruments OCaml code with logging, and handles lexical analysis with custom error tracking and token parsing. it supports filtering of files and declarations, managing conditional flags, and converting lexing errors into structured messages. examples include skipping instrumentation for specific modules, parsing configuration files for exclusion rules, and tracking line numbers during tokenization.",
-      "description_length": 563,
+      "module_path": "Bisect_ppx.Register",
+      "library": "bisect_ppx",
+      "description": "This module manages runtime configuration for coverage analysis, controlling whether instrumentation is active and handling command-line switches. It works with boolean references, command-line arguments, and string identifiers for files and switches. Concrete use cases include enabling or disabling coverage dynamically and excluding specific files from instrumentation.",
+      "description_length": 372,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bisect",
-      "description": "Tracks code coverage by instrumenting files and collecting execution counts in integer arrays, serializing point definitions for later analysis. Manages output files through environment variables and ensures data is dumped on program termination. Supports post-processing of coverage data by storing execution statistics. Can be used to generate detailed coverage reports or integrate with testing frameworks.",
-      "description_length": 409,
+      "module_path": "Bisect_ppx",
+      "library": "bisect_ppx",
+      "description": "This module processes exclusion rules for code analysis and instrumentation, supporting file paths, names, and regex patterns. It provides data types for structured exclusion criteria, a lexer for parsing rules with escape sequences, and utilities to manage runtime configuration including output paths and signal handling. Users can define exclusions from files or strings, check if files or symbols should be excluded, and dynamically control instrumentation behavior via command-line switches. Example uses include filtering test coverage data and excluding generated code from analysis.",
+      "description_length": 590,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bisect_common",
-      "description": "Provides functions to manage coverage data, register source files with instrumentation points, and write coverage information to strings. Works with types like `coverage`, which maps filenames to arrays of visit counts, and `instrumented_file`, which tracks file-specific data. Used to accumulate and reset visit counts during program execution and generate coverage files for analysis.",
-      "description_length": 386,
-      "index": 10,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 11,
-    "meaningful_modules": 11,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9090909090909091
   },
   "statistics": {
-    "max_description_length": 563,
-    "min_description_length": 235,
-    "avg_description_length": 349.90909090909093,
-    "embedding_file_size_mb": 0.040404319763183594
+    "max_description_length": 590,
+    "min_description_length": 269,
+    "avg_description_length": 403.1,
+    "embedding_file_size_mb": 0.036751747131347656
   }
 }

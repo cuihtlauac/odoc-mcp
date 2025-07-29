@@ -1,133 +1,141 @@
 {
   "package": "sihl-email",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:33:53.387280",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:08:14.813907",
   "modules": [
     {
-      "module_path": "Sihl_email.Template.Logs",
-      "description": "Provides logging operations for different severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process logging output. Used to instrument applications with structured logging and handle errors by converting them into log messages.",
-      "description_length": 367,
+      "module_path": "Sihl_email.Template.PostgreSql",
+      "library": "sihl-email",
+      "description": "This module implements PostgreSQL-backed operations for managing email templates, supporting retrieval by ID or label, creation, and updating of templates with optional context and language parameters. It works with email templates represented as strings and structured data conforming to the email template contract, including fields like label, HTML content, and language. Concrete use cases include storing and fetching localized email templates for transactional messaging, such as user registration or password reset emails.",
+      "description_length": 529,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_email.Template.Make",
-      "description": "Provides functions to manage email templates with lifecycle registration, retrieval by identifier or label, and insertion or update operations. Works with email template records and context-based query parameters. Used to dynamically load and manage email content during application runtime, such as sending personalized notifications or confirmation emails.",
-      "description_length": 358,
+      "library": "sihl-email",
+      "description": "This module provides operations to manage email templates with support for text and HTML content, multiple languages, and context-based rendering. It works with string identifiers, labels, and the `Sihl__.Contract_email_template.t` type representing email templates. Concrete use cases include retrieving templates by ID or label for sending localized emails, creating templates with optional HTML versions, and updating existing templates in a database via the provided `Repo` module.",
+      "description_length": 485,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "Sihl_email.Template.PostgreSql",
-      "description": "Retrieves and manages email templates from a PostgreSQL database, supporting queries by ID or label with optional language filtering. Accepts and returns template data including labels, HTML content, and identifiers, formatted as `Sihl__Contract_email_template.t`. Initializes and manages database connections through a service lifecycle.",
-      "description_length": 338,
+      "module_path": "Sihl_email.Template.MariaDb",
+      "library": "sihl-email",
+      "description": "This module provides functions to retrieve, create, update, and register email templates stored in a MariaDB database. It works with email templates represented as strings with optional context, language, and HTML content. Concrete use cases include loading localized email templates by label, creating new templates with optional IDs, and updating existing templates in the database.",
+      "description_length": 384,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sihl_email.Template.MariaDb",
-      "description": "Provides functions to retrieve, create, and update email templates from a MariaDB database, supporting queries by ID, label, and language. Operates on `Sihl__Contract_email_template.t` records and uses Lwt for asynchronous database interactions. Used to manage dynamic email content in a multi-tenant application with language-specific variations.",
-      "description_length": 347,
+      "module_path": "Sihl_email.MakeSmtp",
+      "library": "sihl-email",
+      "description": "This module implements SMTP-based email sending with functions to send individual or bulk emails, test against an in-memory mailbox, and clear intercepted emails. It works with `Sihl__.Contract_email.t` for email data and uses SMTP configuration from the `Config` module. Concrete use cases include sending transactional emails via SMTP, verifying sent emails during testing, and clearing the test mailbox between test runs.",
+      "description_length": 424,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_email.Logs",
-      "description": "Provides logging operations for different severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process logging data. Used to instrument applications with structured logging and handle errors by converting them into log messages.",
-      "description_length": 365,
+      "module_path": "Sihl_email.EnvSmtpConfig",
+      "library": "sihl-email",
+      "description": "This module provides a function `fetch` that retrieves an SMTP configuration from the environment asynchronously. It works with the `Sihl_email.smtp_config` type, which contains connection details like host, port, and authentication. A concrete use case is loading email server settings from environment variables at runtime for sending emails.",
+      "description_length": 344,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_email.DevInbox",
-      "description": "Provides functions to retrieve, add, and clear a list of email contracts. Operates on a list of `Sihl.Contract.Email.t` values. Used to manage temporary email storage during testing or transactional workflows.",
-      "description_length": 209,
+      "module_path": "Sihl_email.SendGrid",
+      "library": "sihl-email",
+      "description": "This module provides functions to send individual or bulk emails using SendGrid, including tracking sent emails in an in-memory inbox. It works with email data structures defined in `Sihl__Contract_email` and supports asynchronous operations via Lwt. Concrete use cases include sending transactional emails, testing email output in development, and clearing test data between test runs.",
+      "description_length": 386,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sihl_email.MakeSmtp",
-      "description": "Provides functions to retrieve SMTP configuration asynchronously. Operates on a custom `smtp_config` record containing server, port, and authentication details. Used to initialize email delivery setups in networked applications.",
-      "description_length": 228,
+      "module_path": "Sihl_email.Smtp",
+      "library": "sihl-email",
+      "description": "This module handles email sending and inbox management using SMTP. It provides functions to send single or bulk emails asynchronously, retrieve and clear stored emails in memory, and register the email service with a lifecycle. It works directly with `Sihl__Contract_email.t` for email data and supports contextual metadata during sending. Useful for testing email flows locally without external SMTP dependencies.",
+      "description_length": 414,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_email.EnvSmtpConfig",
-      "description": "Fetches SMTP configuration from an external source, returning a lazily evaluated configuration object. Works with a custom `smtp_config` record type containing server, port, and authentication details. Used to dynamically load email settings during application startup or configuration reloads.",
-      "description_length": 294,
+      "module_path": "Sihl_email.MakeSendGrid",
+      "library": "sihl-email",
+      "description": "This module implements email sending functionality using SendGrid, providing operations to send individual or bulk emails asynchronously. It works with `Sihl__.Contract_email.t` for email data and maintains an in-memory mailbox for testing intercepted emails. Concrete use cases include sending transactional emails, verifying email delivery in tests via the inbox, and clearing intercepted emails between test scenarios.",
+      "description_length": 421,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sihl_email.Smtp",
-      "description": "Handles email sending and management with asynchronous operations, including sending individual or bulk emails, retrieving sent messages, and clearing the message queue. Operates on email records structured as `Sihl__Contract_email.t` and context pairs. Used for testing email workflows and managing email delivery in application lifecycle events.",
-      "description_length": 347,
+      "module_path": "Sihl_email.Queued",
+      "library": "sihl-email",
+      "description": "This module handles email sending operations with support for both individual and bulk email transmission, queuing emails for delivery using a provided queue service. It maintains an in-memory mailbox for development and testing, allowing inspection and clearing of intercepted emails. Concrete use cases include sending transactional emails asynchronously and verifying email delivery in test scenarios.",
+      "description_length": 404,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_email.MakeSendGrid",
-      "description": "Fetches SendGrid configuration from environment variables, returning a promise that resolves to a structured configuration record. Works with environment variables and asynchronous workflows using Lwt. Used to initialize SendGrid API clients in asynchronous applications.",
-      "description_length": 271,
+      "module_path": "Sihl_email.SendGridConfig",
+      "library": "sihl-email",
+      "description": "This module provides a function to fetch SendGrid configuration data asynchronously. It works with the `Sihl_email.sendgrid_config` type, which holds configuration details for SendGrid email services. A concrete use case is retrieving API keys and sender information needed to send emails via SendGrid in an application.",
+      "description_length": 320,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_email.EnvSendGridConfig",
-      "description": "Fetches SendGrid configuration from environment variables, returning a configured object wrapped in a Lwt promise. Works with a custom record type containing API key, domain, and sender email. Used to initialize email delivery settings in a server application.",
-      "description_length": 260,
+      "library": "sihl-email",
+      "description": "This module provides a function to fetch SendGrid configuration data asynchronously. It works with the `Sihl_email.sendgrid_config` type, which holds configuration details for SendGrid email services. A concrete use case is retrieving SendGrid API keys and settings at runtime for sending emails through the SendGrid API.",
+      "description_length": 321,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_email.SendGrid",
-      "description": "Handles email sending and inbox management using SendGrid, supporting single and bulk email delivery with context parameters. Operates on custom email records and lifecycle events for service integration. Used to dispatch transactional emails and manage email queues within a service workflow.",
-      "description_length": 293,
+      "module_path": "Sihl_email.DevInbox",
+      "library": "sihl-email",
+      "description": "This module provides an in-memory email inbox for development environments. It allows adding emails to the inbox, retrieving the current list of stored emails, and clearing all emails. Useful for testing email workflows without sending real emails.",
+      "description_length": 248,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sihl_email.Queued",
-      "description": "Provides routing for a job queue dashboard with optional back navigation and theming, and functions to queue individual or multiple jobs with delays, register job types, and manage service lifecycle. Operates with web routers, job contracts, and Lwt promises. Used to build admin interfaces for job management, schedule delayed task execution, and ensure job registration before dispatching.",
-      "description_length": 391,
-      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_email.Template",
-      "description": "combines logging, template management, and database interactions for email content, enabling structured logging, dynamic template retrieval, and asynchronous database operations. It handles `Sihl__Contract_email_template.t` records, supports formatted messages, and manages template lifecycle through PostgreSQL or MariaDB. Users can log errors, fetch templates by ID or label, and update content dynamically during application execution. Examples include sending personalized emails, tracking application events, and managing multilingual template sets.",
-      "description_length": 554,
+      "library": "sihl-email",
+      "description": "This module manages email templates with support for rendering, updating, and serializing templates containing text, HTML, and metadata. It enables dynamic, localized email generation using key-value substitutions and integrates with logging and database systems. The PostgreSQL and MariaDB submodules provide database-specific implementations for storing, retrieving, and modifying templates by ID or label, supporting optional context and language parameters. Use cases include sending transactional emails like password resets and user registrations using localized templates with optional HTML content.",
+      "description_length": 606,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_email.SmtpConfig",
+      "library": "sihl-email",
+      "description": "This module provides a function `fetch` that retrieves an SMTP configuration asynchronously. It works with the `Sihl_email.smtp_config` type, which contains connection details like host, port, and authentication. Use it to obtain SMTP settings for sending emails in a Lwt-based application.",
+      "description_length": 290,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "sihl-email",
-      "description": "Handles email sending and template rendering with support for SMTP configurations. Operates on email messages, templates, and SMTP settings. Used to dispatch transactional emails and generate dynamic content for user notifications.",
-      "description_length": 231,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Sihl_email",
-      "description": "Provides functions to retrieve SendGrid configuration, enabling email service integration. Works with SendGrid configuration data structures and asynchronous workflows. Used to initialize email delivery settings in application startup processes.",
-      "description_length": 245,
-      "index": 15,
-      "embedding_norm": 0.9999999403953552
+      "library": "sihl-email",
+      "description": "This module orchestrates email handling with structured data (`t`) representing messages that carry sender, recipient, and content metadata. It supports sending via SMTP or SendGrid, each with dedicated submodules for transport, configuration retrieval, and in-memory interception. Developers can send transactional emails, queue messages for deferred delivery, or test flows using development inboxes that capture and expose email content without external transmission. Specific operations include loading SMTP or SendGrid settings from the environment, sending single or bulk emails, and managing localized templates backed by SQL databases for dynamic message generation.",
+      "description_length": 674,
+      "index": 14,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 16,
-    "meaningful_modules": 16,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 554,
-    "min_description_length": 209,
-    "avg_description_length": 318.625,
-    "embedding_file_size_mb": 0.058501243591308594
+    "max_description_length": 674,
+    "min_description_length": 248,
+    "avg_description_length": 416.6666666666667,
+    "embedding_file_size_mb": 0.05492115020751953
   }
 }

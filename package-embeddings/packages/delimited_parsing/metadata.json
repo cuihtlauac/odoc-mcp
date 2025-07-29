@@ -1,203 +1,221 @@
 {
   "package": "delimited_parsing",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 26,
-  "creation_timestamp": "2025-06-18T16:38:02.225946",
+  "total_modules": 25,
+  "creation_timestamp": "2025-07-15T23:11:05.491182",
   "modules": [
     {
-      "module_path": "Delimited.Read.Let_syntax.Let_syntax.Open_on_rhs",
-      "description": "Provides functions to extract values from a structured data source using index or header keys, and to attach labels for metadata. Works with a custom type 'a t that represents data elements with associated information. Used to safely access and annotate fields in parsed data, such as CSV rows or JSON objects.",
-      "description_length": 310,
+      "module_path": "Delimited.Read.Open_on_rhs_intf.S",
+      "library": "delimited_parsing",
+      "description": "This module processes CSV and CSV-like delimited input with support for RFC 4180-compliant quoting. It provides functions to extract values by index or header name, apply transformations, and handle optional fields. Use it to parse structured text data into typed records or custom data structures during file or stream ingestion.",
+      "description_length": 330,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Delimited.Read.Record_builder.Make_creator_types",
-      "description": "Provides operations for constructing records through field-by-field accumulation, using custom accumulators and fold steps. Works with nested type structures like `accum`, `fold_step`, and Hlist-based field sequences. Used to implement record-building logic that tracks field progress and additional parameters during construction.",
-      "description_length": 331,
+      "library": "delimited_parsing",
+      "description": "This module defines internal types used during the construction of CSV records by accumulating fields through a fold operation. It supports the creation of structured data from parsed CSV rows by maintaining field state and handling delimiter-specific behaviors like quoted fields. Concrete use cases include building typed records from CSV input while preserving field order and structure.",
+      "description_length": 390,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Delimited.Read.Let_syntax.Let_syntax",
-      "description": "Offers a set of functions for safely extracting and labeling values from structured data, using indexes or header keys. It operates on a custom type 'a t, enabling manipulation of data elements with attached metadata. Users can retrieve specific fields from CSV rows or JSON objects while preserving contextual information. Examples include accessing a named column in a parsed dataset or annotating a value with a descriptive label.",
-      "description_length": 433,
+      "library": "delimited_parsing",
+      "description": "This module provides monadic binding and applicative syntax for composing CSV parsing operations. It supports operations like `map`, `both`, and `return` to combine and transform parsers that process CSV-like data structures. It is used to build complex field-wise or row-wise parsing logic directly from CSV input streams.",
+      "description_length": 323,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Read.Row.Expert",
-      "description": "Processes string data from an append-only buffer, mapping integer keys to string values. Operates on Core.String.Map and Delimited_kernel__.Append_only_buffer types to construct a structured data representation. Used to aggregate and transform log entries into a keyed event store.",
-      "description_length": 281,
+      "module_path": "Delimited.Write.Without_expert.By_row",
+      "library": "delimited_parsing",
+      "description": "This module writes CSV-like delimited data row by row using string lists. It provides functions to output rows directly to a channel, convert individual rows to strings, and create pipe writers for asynchronous writing to files or channels. Use it to generate properly quoted and separated CSV content with configurable separators and line endings.",
+      "description_length": 348,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Delimited.Write.Without_expert.By_row",
-      "description": "Converts row data (string lists) to CSV-formatted strings and writes them to channels or files, supporting custom separators, quoting, and line endings. Handles asynchronous writing through pipes and ensures data is flushed to the OS buffer. Used for generating CSV output in environments requiring precise control over formatting and file operations.",
-      "description_length": 351,
+      "module_path": "Delimited.Write.Expert.By_row",
+      "library": "delimited_parsing",
+      "description": "This module writes CSV-formatted data row by row to a writer or file. It provides functions to create a pipe writer from an existing `Async.Writer.t` or a filename, with configurable separator and line break characters. Use it when streaming CSV data asynchronously, especially when precise control over writer lifecycle and formatting is required.",
+      "description_length": 348,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Write.Expert.By_row",
-      "description": "Converts a list of strings into a CSV-formatted stream using a writer or filename, with options for delimiter and line endings. Operates on asynchronous writers and pipe writers, ensuring proper flushing before file operations. Suitable for writing structured data row by row to files or streams.",
-      "description_length": 296,
+      "module_path": "Delimited.Read.Row.Expert",
+      "library": "delimited_parsing",
+      "description": "Parses rows from a delimited text format buffer into structured row values using a column index mapping. It handles quoted fields and delimiter-separated values according to RFC 4180. Useful when implementing custom CSV-like file readers that require precise control over row parsing and field extraction.",
+      "description_length": 305,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Read.Applicative_infix",
-      "description": "Applies a function wrapped in a context to a value in the same context, and lifts functions into a context for transformation. It operates on monadic or applicative structures, such as option, list, or result. It enables sequencing of operations where the result of one computation influences the next, like validating and transforming user input.",
-      "description_length": 347,
+      "module_path": "Delimited.Read.Row",
+      "library": "delimited_parsing",
+      "description": "This module processes CSV rows by mapping headers to values, supporting index or name-based cell access, custom data conversions, and safe handling of missing fields. It enables iteration over header-value pairs with custom functions and conforms to RFC 4180, making it suitable for data import pipelines and validation workflows. The child module parses delimited text into structured rows, handling quoted fields and delimiters for precise CSV-like file reading. Together, they allow parsing, transforming, and validating CSV data with fine-grained control over field extraction and structured row manipulation.",
+      "description_length": 613,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Read.Open_on_rhs_intf",
-      "description": "Provides functions to extract values from a context based on index or header, applying a transformation function. Works with a custom type 'a t and Core.Info.t to manage labeled data. Used to safely access and modify data in structured HTTP request or response handling.",
-      "description_length": 270,
+      "module_path": "Delimited.Read.Record_builder",
+      "library": "delimited_parsing",
+      "description": "This module constructs applicative parsers for CSV-like records by defining how to extract and combine individual fields into structured data, handling quoted, escaped, and comma-separated values per RFC 4180. It accumulates fields through a fold operation, maintaining field state and delimiter behavior to ensure precise record assembly. The core functionality supports mapping CSV rows to typed OCaml records, with internal types tracking field order and parsing context during construction. Example use cases include parsing CSV input into validated, structured records with aligned fields and custom decoding logic.",
+      "description_length": 620,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Delimited.Read.Let_syntax",
-      "description": "Provides functions for safely extracting and labeling values from structured data, operating on a custom type 'a t to maintain metadata during manipulation. It supports indexed or key-based access to fields in CSV or JSON, allowing retrieval of specific elements while preserving context. Users can access named columns in datasets or annotate values with labels for clarity. Examples include fetching a specific JSON field or labeling a CSV row's component with a descriptive tag.",
-      "description_length": 481,
+      "library": "delimited_parsing",
+      "description": "This module enables concise, readable CSV parsing workflows using `let%map` and `let%bind` syntax, working with `Delimited.Read.t` parsers to extract and transform fields or records. It supports monadic and applicative composition through operations like `map`, `both`, and `return`, allowing structured parsing of CSV rows, such as converting specific columns to integers or mapping headers to records. Submodules provide the core parsing combinators that define how individual fields or entire rows are processed and combined. For example, you can define a parser that reads two columns as integers and sums them, or map a header row to a custom record type using applicative style.",
+      "description_length": 684,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Delimited.Read.Record_builder",
-      "description": "Constructs records by accumulating fields incrementally, supporting nested type structures such as `accum` and `fold_step` for complex data flows. It enables precise control over the building process, allowing custom logic at each step and handling heterogeneous field sequences. Operations include building, tracking progress, and integrating additional parameters during construction. Examples include creating typed records from dynamic inputs or assembling structured data from multiple sources.",
-      "description_length": 499,
+      "module_path": "Delimited.Write.Without_expert",
+      "library": "delimited_parsing",
+      "description": "This module helps convert structured data into CSV-like output with typed columns, optional fields, and header mappings, supporting custom separators and user-defined types through transformation functions. It builds configurations fluently and handles lists of records for string output or async writing through child modules. The child module writes rows as string lists to files or channels, enabling streaming CSV generation with proper quoting and line endings. Example uses include exporting user data to comma-separated files with renamed headers and optional fields using a custom delimiter like tabs.",
+      "description_length": 609,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Delimited.Read.Fields_O",
-      "description": "Provides functions to create record readers by specifying how to parse individual fields, including handling optional headers. Works with field parsers that convert strings to values like int or bool, and supports optional fields. Used to construct a Delimited.Read.t for a record type by defining parsers for each field.",
-      "description_length": 321,
+      "module_path": "Delimited.Read.Open_on_rhs_intf",
+      "library": "delimited_parsing",
+      "description": "This module defines an interface for parsing CSV-like delimited text with support for quoted fields, escaped characters, and line terminators as specified in RFC 4180. It operates on string-based input and provides functions to incrementally read and decode records, handling embedded newlines and commas within quoted fields. The child module extends this functionality by allowing value extraction by index or header name, applying transformations, and supporting optional fields. Together, they enable streaming and transforming CSV data from files or network sources into structured records with precise control over parsing behavior.",
+      "description_length": 638,
       "index": 10,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Delimited.Read.On_invalid_row",
-      "description": "Provides functions to handle invalid rows by raising an exception with context, skipping the row, or customizing behavior through a handler. Operates on a type 'a t that encapsulates row processing logic and error handling. Used to manage malformed input in data parsing workflows, allowing for controlled recovery or termination.",
-      "description_length": 330,
+      "module_path": "Delimited.Read.Applicative_infix",
+      "library": "delimited_parsing",
+      "description": "This module provides applicative-style operators for composing parsers that read CSV-like data with proper handling of quoted fields and delimiters. It works with values of type `'a Delimited.Read.t`, representing incremental parsers that produce values of type `'a` when successfully applied to input. These combinators enable concise construction of complex row or field parsers by sequencing and transforming parser outputs, such as parsing and validating multi-field CSV records with dependent or optional fields.",
+      "description_length": 517,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Delimited.Read.Header",
-      "description": "Provides functions to convert header data into S-expression format. Works with a custom type representing HTTP headers. Used to serialize header information for logging or debugging purposes.",
-      "description_length": 191,
+      "library": "delimited_parsing",
+      "description": "This module defines how to handle headers when parsing CSV and CSV-like delimited files. It supports operations like skipping headers, requiring specific header fields, replacing or adding headers, and transforming or filtering header values. Use cases include enforcing header consistency, modifying header names during parsing, or validating required columns.",
+      "description_length": 361,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Delimited.Read.Row",
-      "description": "Processes string data from an append-only buffer, mapping integer keys to string values using Core.String.Map and Delimited_kernel__.Append_only_buffer. It constructs structured representations by aggregating and transforming log entries into a keyed event store. Operations include inserting, retrieving, and updating string values based on integer keys. Example tasks include parsing log lines into a map and extracting specific fields for analysis.",
-      "description_length": 451,
+      "module_path": "Delimited.Read.On_invalid_row",
+      "library": "delimited_parsing",
+      "description": "This module defines strategies for handling invalid rows when parsing CSV or similar delimited formats. It provides actions to raise an error, skip the row, or customize recovery logic through a callback that inspects the line number, headers, and problematic data. Use it to control parsing behavior on malformed input, such as skipping bad lines in a log file or substituting default values.",
+      "description_length": 393,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Read.Streaming",
-      "description": "Provides functions to parse delimited data streams, supporting custom separators, quoting, and header handling. Processes byte and string inputs, tracks parsing state, and accumulates results using a fold function. Enables reading from files or input sources while maintaining line numbers and header information.",
-      "description_length": 313,
+      "module_path": "Delimited.Read.Fields_O",
+      "library": "delimited_parsing",
+      "description": "This module provides functions `!!` and `!?` to map string values to record fields when parsing CSV-like formats, specifically handling required and optional columns. It works with record types derived via `Fields` and uses `Record_builder` to construct parsers based on headers. Use it to define how each field of a record should be parsed from a delimited input row, leveraging type-safe field access and conversion.",
+      "description_length": 418,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Non_csv.Character_separated_without_quoting",
-      "description": "Parses unquoted text into fields separated by a specified delimiter, supporting escaped characters like \\n. Processes input as a stream, splitting it into tokens while respecting escape sequences. Accepts a delimiter and a source of input characters, returning a list of parsed fields. For example, parsing \"a\\bcd\\ne\" with backslash as the delimiter yields [\"a\", \"bcd\", \"e\"].",
-      "description_length": 375,
+      "module_path": "Delimited.Read.Streaming",
+      "library": "delimited_parsing",
+      "description": "This module parses CSV and CSV-like delimited input incrementally, handling standard quoting and escaping rules. It processes data from strings, byte buffers, or input readers, accumulating results with user-defined functions that operate on parsed rows. It supports header-aware parsing, line-number tracking, and asynchronous file reading for structured data extraction.",
+      "description_length": 372,
       "index": 15,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Delimited.Non_csv.Positional",
-      "description": "Positional parses fixed-width data by defining field positions and extracting values based on offsets. It supports defining schemas through combinators that specify field names, types, and positions. Operations include parsing byte sequences into structured records and validating field boundaries. For example, it can extract a 10-character string from position 5 and a 4-digit integer from position 15.",
-      "description_length": 404,
+      "library": "delimited_parsing",
+      "description": "This module parses and writes fixed-width formatted data using positional headers that specify field names along with start and end column indices. It supports reading from and writing to asynchronous streams, handling field extraction and alignment based on column positions. Concrete use cases include processing legacy log files or structured text exports where fields are defined by fixed column ranges rather than delimiters.",
+      "description_length": 430,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Delimited.Write.By_row",
-      "description": "Converts rows of strings to CSV-formatted strings and writes them to channels or files, supporting custom separators, quoting, and line endings. Operates on lists of strings representing CSV rows, enabling efficient streaming to files with atomic writes. Used for generating CSV data in asynchronous workflows, ensuring proper formatting and reliable output handling.",
-      "description_length": 367,
+      "library": "delimited_parsing",
+      "description": "Handles writing CSV and delimited data row by row. Provides functions to output rows to output channels, convert individual rows to strings, and manage asynchronous writing through pipes. Useful for generating properly formatted CSV files with customizable separators and line endings, especially in streaming or async contexts.",
+      "description_length": 328,
       "index": 17,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Write.Expert",
-      "description": "Generates CSV-formatted output from string lists, supporting asynchronous and pipe-based writers with customizable delimiters and line endings. Processes data row by row, ensuring proper flushing before finalizing writes. Accepts filenames or writers, enabling flexible data export. Can be used to stream structured logs or tabular data to files or network streams.",
-      "description_length": 365,
+      "module_path": "Delimited.Non_csv.Character_separated_without_quoting",
+      "library": "delimited_parsing",
+      "description": "Parses text input where fields are separated by a specified character, allowing for escaped characters but not quoted fields. It provides `of_reader` and `create_reader` to process data from an existing reader or a file, returning a pipe of parsed rows. This is useful for reading custom log files or data formats with simple field separation and escaping.",
+      "description_length": 356,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Write.Without_expert",
-      "description": "Provides utilities for converting row data into CSV format with customizable options, supporting asynchronous writing via pipes and ensuring proper buffer flushing. Key operations include converting string lists to CSV strings and writing to channels or files. Functions handle separators, quoting, and line endings, enabling precise control over output. Examples include generating CSV files with custom delimiters or streaming data to network sockets.",
-      "description_length": 453,
+      "module_path": "Delimited.Write.Expert",
+      "library": "delimited_parsing",
+      "description": "This module enables low-level, asynchronous writing of CSV and custom-delimited data with fine-grained control over encoding, escaping, and quoting. It operates directly on strings, buffers, and async pipes, supporting efficient serialization and field transformation. The child module provides a row-based CSV writer that integrates with `Async.Writer.t`, allowing configurable separators and line breaks while managing writer lifecycle and formatting. Together, they facilitate streaming large datasets to files or pipelines, handling custom delimiters, and embedding structured data exports into async workflows.",
+      "description_length": 615,
       "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Delimited.Shared",
+      "library": "delimited_parsing",
+      "description": "This module handles efficient parsing and manipulation of delimited text data using buffers and queues. It provides functions to enqueue and transform rows with optional header processing, whitespace stripping, and line dropping. Use it to stream and process large CSV or TSV files asynchronously while managing memory and structure.",
+      "description_length": 333,
+      "index": 20,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Delimited.Read",
-      "description": "Provides tools for parsing and manipulating structured data, particularly CSV and delimited formats, with support for context-aware transformations, field extraction, and error handling. It includes custom types for managing labeled data, headers, and parsing state, along with operations to build records, extract values by index or name, and handle malformed input. Functions enable parsing rows into typed records, labeling CSV columns, and converting headers to S-expressions. Examples include constructing JSON-like objects from CSV data, safely accessing HTTP request fields, and processing log entries into keyed event stores.",
-      "description_length": 633,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Delimited.Write",
-      "description": "Handles CSV and delimited format generation from string-based row data, supporting custom separators, quoting, and asynchronous writing. Processes lists of strings into formatted output, enabling efficient streaming to files, channels, or network sockets. Supports atomic writes, proper buffer management, and flexible output destinations. Can generate structured logs, export tabular data, or stream data with precise control over formatting.",
-      "description_length": 443,
+      "library": "delimited_parsing",
+      "description": "This module parses CSV and similar delimited formats, converting rows into structured OCaml data using header or position-based field extraction. It supports synchronous and asynchronous input sources, configurable separators, and RFC 4180-compliant quoting and escaping, enabling robust parsing of error-prone or large datasets. Core operations include applicative and monadic combinators for defining record parsers, handling optional or validated fields, and transforming rows with custom logic. Submodules manage headers, error recovery, and field mapping, allowing workflows like parsing a CSV stream into typed records, skipping malformed lines, or summing converted integer columns using `let%map`.",
+      "description_length": 705,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Delimited.Non_csv",
-      "description": "Processes text using custom delimiters and escape handling, and extracts fixed-width data based on positional schemas. It handles stream-based parsing with escape-aware tokenization and supports structured record extraction from byte sequences. Operations include splitting unquoted input into fields and defining field layouts with combinators. For instance, it can parse \"a\\bcd\\ne\" into [\"a\", \"bcd\", \"e\"] or extract a 10-character string from position 5.",
-      "description_length": 456,
+      "library": "delimited_parsing",
+      "description": "This module handles parsing and writing of non-CSV data formats, focusing on fixed-width and custom delimiter-based structures. It provides data types for representing field positions and parsed rows, with operations to read from and write to asynchronous streams. You can process legacy log files using column-based field definitions or parse text with escaped, non-quoted fields separated by a specific character. For example, you can extract structured data from a fixed-width report or read a pipe-delimited log with escaped values.",
+      "description_length": 536,
       "index": 22,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Delimited.Shared",
-      "description": "Provides functions for buffer manipulation, row emission, and line dropping. Operates on Core.Buffer.t, Core.Queue.t, and Delimited_kernel__.Row.t. Used to process structured data by stripping whitespace, emitting rows with header handling, and skipping lines in input streams.",
-      "description_length": 277,
+      "module_path": "Delimited.Write",
+      "library": "delimited_parsing",
+      "description": "This module constructs writers for CSV and similar delimited formats, converting structured data into string-based rows with support for headers, optional fields, and custom separators. It provides operations to map values, transform headers, and serialize lists or streams to strings and files, enabling efficient handling of large datasets through streaming and async workflows. The child modules handle row-based writing to channels, async pipes, and low-level formatting with control over escaping and quoting, supporting use cases like exporting user data with custom delimiters or streaming log entries to disk.",
+      "description_length": 617,
       "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "delimited_parsing",
-      "description": "Parses CSV and delimited data using a type-safe applicative interface, allowing custom data types to be constructed directly from input. Works with strings, input channels, and byte sequences, supporting flexible delimiter configurations. Generates structured data from raw text, suitable for importing tabular data into OCaml records or variants.",
-      "description_length": 347,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Delimited",
-      "description": "Combines parsing, generation, and processing of structured data in CSV and delimited formats, supporting both text and binary input. It defines labeled records, handles custom delimiters, and enables extraction of fields by index or name, with robust error recovery. Functions include converting CSV to JSON, generating logs with custom separators, and parsing fixed-width data from byte streams. It also manages buffer operations, row emission, and line filtering for efficient data stream handling.",
-      "description_length": 500,
-      "index": 25,
+      "library": "delimited_parsing",
+      "description": "This module processes structured text formats like CSV, TSV, and fixed-width files, supporting both parsing and serialization. It provides types for representing rows, headers, and field mappings, with operations to transform and validate data during input or output. You can parse CSV streams into typed records with error recovery, extract fields from fixed-width logs, or write large datasets to files using custom delimiters. Examples include streaming a CSV into memory with header-based mapping, parsing a pipe-delimited log with escaped values, or exporting structured data to a TSV file asynchronously.",
+      "description_length": 610,
+      "index": 24,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 36,
-    "meaningful_modules": 26,
-    "filtered_empty_modules": 10,
-    "retention_rate": 0.7222222222222222
+    "total_modules_in_package": 25,
+    "meaningful_modules": 25,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 633,
-    "min_description_length": 191,
-    "avg_description_length": 377.88461538461536,
-    "embedding_file_size_mb": 0.09491443634033203
+    "max_description_length": 705,
+    "min_description_length": 305,
+    "avg_description_length": 471.96,
+    "embedding_file_size_mb": 0.09124088287353516
   }
 }

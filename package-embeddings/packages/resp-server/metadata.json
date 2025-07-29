@@ -1,112 +1,157 @@
 {
   "package": "resp-server",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:00.933553",
+  "total_modules": 17,
+  "creation_timestamp": "2025-07-15T23:08:48.175907",
   "modules": [
     {
-      "module_path": "Resp_server.Make.Client",
-      "description": "Initializes a client instance from provided data, using a custom type `t` to represent the client state. Operates on structured data to configure and manage client-specific properties. Used to set up client configurations for network communication and session management.",
-      "description_length": 271,
+      "module_path": "Resp_server.Auth.User",
+      "library": "resp-server",
+      "description": "This module manages user authentication by validating credentials against a hash table mapping usernames to passwords. It provides a `check` function that takes a user record and an array of credentials, returning true if the credentials match. Use cases include verifying user login requests in a server handling Redis-like protocol commands.",
+      "description_length": 343,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Resp_server.Auth.String",
-      "description": "Checks if a string contains any of the provided substrings, returning a boolean result. Works with strings and arrays of strings. Used to validate input against a set of allowed patterns.",
-      "description_length": 187,
+      "library": "resp-server",
+      "description": "This module implements authentication checks using string-based credentials. It provides a `check` function that verifies a given string against an array of expected values, returning a boolean result. It is used to validate API keys or simple password-based authentication schemes where the credential is a string.",
+      "description_length": 315,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Auth.User",
-      "description": "Checks if a user's credentials match a given array of strings, using a hash table that maps string keys to string values. Operates on a user data structure represented as an associative array. Validates login attempts by comparing stored user data against provided input.",
-      "description_length": 271,
+      "module_path": "Resp_server.Make.Client",
+      "library": "resp-server",
+      "description": "This module initializes a client instance from provided data, returning a client handle for interaction. It operates on a generic data type, transforming it into a structured client representation. Concrete use cases include setting up client connections or session objects based on input configuration or request data.",
+      "description_length": 319,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Make.Reader",
-      "description": "Reads binary data, lines, and individual characters from an input channel, and parses lexemes and protocol responses. Operates on input channels and returns values wrapped in Lwt promises. Used to process network protocol messages and extract structured data from raw byte streams.",
-      "description_length": 281,
+      "module_path": "Resp_server.DATA-Client",
+      "library": "resp-server",
+      "description": "This module defines a client-side data structure and initializes it with a provided data value. It works with a generic data type `t` and is used to create a client instance for handling data in a response server context. A concrete use case is initializing a client connection with specific data, such as user credentials or session information, to be processed by the server.",
+      "description_length": 377,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Make.Writer",
-      "description": "Writes a string to a network connection, appends a separator, and serializes custom response types to a socket. Operates on network connections and lexeme data structures. Used to send protocol-specific messages and structured responses over a TCP stream.",
-      "description_length": 255,
+      "module_path": "Resp_server.AUTH",
+      "library": "resp-server",
+      "description": "This module implements authentication logic by validating credentials against a predefined set of rules or stored data. It operates on a custom abstract type `t` and checks whether a given array of strings (representing credentials or tokens) meets the authentication criteria. Concrete use cases include verifying API keys, validating user tokens, or authenticating incoming requests in a network service.",
+      "description_length": 406,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Value.Reader",
-      "description": "Reads a specified number of bytes, lines, or characters from an input channel, and parses lexemes or decoded responses from a stream. Operates on input channels and returns values wrapped in Lwt promises. Used for processing network or file data in a non-blocking manner, such as parsing protocol messages or streaming content.",
-      "description_length": 327,
+      "module_path": "Resp_server.DATA",
+      "library": "resp-server",
+      "description": "Handles parsing and constructing Redis serialization protocol (RESP) data for server-side communication. Works with raw byte streams and client connection state to manage request parsing and response building. Used to implement Redis-compatible servers by translating client input into executable commands and formatting results for transmission.",
+      "description_length": 346,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Value.Writer",
-      "description": "Writes a string, separator, or parsed response element to a channel in a non-blocking manner. Operates on output channels and response data structures specific to the protocol. Used to stream structured data and control flow signals during network communication.",
-      "description_length": 262,
+      "module_path": "Resp_server.Auth",
+      "library": "resp-server",
+      "description": "This module provides authentication mechanisms based on credential validation, supporting both user-record lookups and string-based checks. The core data types include user records and string credentials, with `check` operations tailored to each authentication method. It enables verifying login requests against stored credentials or validating API keys against expected values. Example uses include authenticating users on a Redis-like server or checking API requests for valid access tokens.",
+      "description_length": 494,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Auth",
-      "description": "Checks if a user has permission to perform a set of actions by validating their credentials against a predefined set of rules. Works with a custom type `t` representing user authentication state and an array of strings representing action names. Used to enforce access control in user-facing API endpoints.",
-      "description_length": 306,
+      "module_path": "Resp_server.SERVER-Client",
+      "library": "resp-server",
+      "description": "This module defines a client interface for connecting to a RESP server. It includes operations to initialize a client connection using provided data and interact with the server via the `Client.t` type. Concrete use cases include building Redis-compatible clients for data retrieval and command execution.",
+      "description_length": 305,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Make",
-      "description": "Reads and parses binary, line-based, and character-level input from network channels, extracting structured data through lexeme parsing and protocol handling. Writes serialized responses, including custom types, to network connections with explicit message separation. Supports asynchronous operations via Lwt, enabling efficient handling of network protocol interactions. Can process incoming messages like \"GET /path HTTP/1.1\" or send structured replies such as \"200 OK\\r\\nContent-Length: 13\\r\\n\\r\\nHello, world!\"",
-      "description_length": 515,
+      "module_path": "Resp_server.S-Value-Writer",
+      "library": "resp-server",
+      "description": "This module handles writing Redis serialization protocol (RESP) values to an output channel. It provides functions to write raw strings, separators, individual lexemes, and fully encoded RESP values. It is used for serializing Redis commands and responses over a network connection.",
+      "description_length": 282,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp_server.Client",
-      "description": "Initializes a client instance from provided data, storing configuration and state. Operates on a custom type `t` that encapsulates session information and connection details. Used to establish and manage interactions with a remote service endpoint.",
-      "description_length": 248,
+      "module_path": "Resp_server.S-Value",
+      "library": "resp-server",
+      "description": "This module handles serialization and deserialization of Redis Serialization Protocol (RESP) values for network communication. It provides `read` and `write` functions that operate on RESP values using Lwt for asynchronous I/O, working directly with input and output channels. Concrete use cases include implementing Redis clients or servers where efficient, low-level RESP message handling is required.",
+      "description_length": 403,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server.Value",
-      "description": "Reads and writes structured data from and to input and output channels using non-blocking I/O, supporting protocol-specific parsing and formatting. Processes streams by extracting lexemes, decoding responses, or emitting formatted strings and control signals. Input operations return parsed values via Lwt promises, while output operations send data in a controlled, protocol-aware manner. Examples include parsing incoming message headers, streaming JSON elements, or sending acknowledgment signals during network exchanges.",
-      "description_length": 525,
+      "module_path": "Resp_server.S-Value-Reader",
+      "library": "resp-server",
+      "description": "This module provides functions for reading and decoding RESP (Redis Serialization Protocol) data from an input channel. It supports reading raw strings, individual characters, and lexemes, as well as decoding lexemes into RESP values. Concrete use cases include parsing Redis commands or responses from a network stream.",
+      "description_length": 320,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "resp-server",
-      "description": "Encodes and decodes values according to the Redis Serialization Protocol, handling integers, strings, bulk strings, and arrays. Processes data in a streaming fashion, allowing efficient handling of large payloads. Used to implement Redis client interactions, such as parsing command responses or constructing query messages.",
-      "description_length": 324,
+      "module_path": "Resp_server.S",
+      "library": "resp-server",
+      "description": "This module implements a Redis-compatible network server handling client connections with typed input/output channels. It processes RESP-encoded commands using registered handlers that manipulate client state and send structured responses. Concrete use cases include building custom Redis-like services with authentication, command routing, and asynchronous I/O operations.",
+      "description_length": 373,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_server",
-      "description": "Manages network interactions by initializing client sessions, handling protocol-specific data exchange, and enforcing access control. Operates on custom types representing session state, user authentication, and action sets, enabling structured communication with remote services. Supports non-blocking I/O for parsing and sending messages, validating user permissions, and maintaining connection integrity. Examples include reading JSON streams, sending control signals, and restricting access to API endpoints based on user roles.",
-      "description_length": 532,
+      "module_path": "Resp_server.Make",
+      "library": "resp-server",
+      "description": "This module enables Redis-compatible client-server interactions by managing RESP encoding, connection handling, and command execution with support for authentication and routing. It works with RESP values, server instances, and client connections, using Lwt for asynchronous operations to build scalable, custom Redis-style servers. A client submodule handles client initialization, transforming generic input data into structured client representations for connection setup and session management. Example uses include implementing authenticated Redis servers with custom command logic and managing client sessions from configuration data.",
+      "description_length": 640,
       "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp_server.S-Client",
+      "library": "resp-server",
+      "description": "This module implements a client for handling RESP (REdis Serialization Protocol) messages, providing a function to initialize a client connection with provided data. It works with RESP data structures such as bulk strings, integers, and arrays, enabling parsing and serialization of Redis commands and responses. It is used to build Redis clients or proxies that communicate with Redis servers using the RESP protocol.",
+      "description_length": 418,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp_server.S-Auth",
+      "library": "resp-server",
+      "description": "This module implements authentication logic for a RESP server by validating client credentials against a predefined set of permissions. It uses an abstract type `t` to represent authenticated entities and provides the `check` function to verify access based on a token and command arguments. Concrete use cases include restricting Redis-like command execution to authorized users in networked applications.",
+      "description_length": 406,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp_server.SERVER",
+      "library": "resp-server",
+      "description": "This module implements a server for handling client connections using custom input and output channel types. It provides functions to run the server and process client interactions asynchronously. The module works with client connections through the `Client` submodule, handling data exchange via `ic` and `oc` channels. A concrete use case is building a network service that accepts client connections and processes requests over TCP or Unix sockets.",
+      "description_length": 451,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp_server",
+      "library": "resp-server",
+      "description": "This module implements a Redis-compatible network server handling RESP message parsing, command execution, and response generation over network connections. It supports authentication through multiple validation strategies, including token checks and user-record lookups, and manages client state using pluggable backends. The module enables building custom Redis-like services with asynchronous I/O, command routing, and session management, allowing operations such as validating API keys on connection, parsing Redis commands from byte streams, and writing structured responses over network channels. Submodules provide client initialization, RESP serialization, and low-level I/O handling to support both server and client implementations in networked applications.",
+      "description_length": 768,
+      "index": 16,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 15,
-    "meaningful_modules": 13,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.8666666666666667
+    "total_modules_in_package": 17,
+    "meaningful_modules": 17,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 532,
-    "min_description_length": 187,
-    "avg_description_length": 331.0769230769231,
-    "embedding_file_size_mb": 0.04766273498535156
+    "max_description_length": 768,
+    "min_description_length": 282,
+    "avg_description_length": 409.7647058823529,
+    "embedding_file_size_mb": 0.062221527099609375
   }
 }

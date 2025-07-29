@@ -1,63 +1,93 @@
 {
   "package": "multihash",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:28:17.540409",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:01.386098",
   "modules": [
     {
       "module_path": "Multihash.Make.Conv",
-      "description": "Converts between string representations and Cstruct buffers, enabling efficient binary data handling. Operates on custom string types and Cstruct.t values, ensuring seamless data transformation. Used to serialize structured data for network transmission or file storage.",
-      "description_length": 270,
+      "library": "multihash",
+      "description": "Converts between string and Cstruct.t representations of multihash values. Works directly with tagged values (`t`) containing either `string` or `Cstruct.t` data. Useful for serializing multihash identifiers to binary format or parsing them from raw byte strings.",
+      "description_length": 263,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Multihash.Make",
-      "description": "Computes cryptographic hashes of byte sequences or strings using specified multihash algorithms, and applies functions over data in a streaming fashion. Operates on `Cstruct.t` and `string` types, returning results with error handling for unsupported algorithms. Validates algorithm support before processing and enables custom processing during hashing.",
-      "description_length": 354,
+      "module_path": "Multihash.Maker",
+      "library": "multihash",
+      "description": "This module constructs and manipulates multihash values using a specified hashing strategy. It supports creating multihashes from raw digests, strings, or iterated input, validating support for hash algorithms, and parsing or pretty-printing multihash values. Use cases include generating and verifying content identifiers in decentralized systems using multihash-encoded hashes.",
+      "description_length": 379,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Multihash.S-Conv",
+      "library": "multihash",
+      "description": "Converts between string and Cstruct.t representations of multihash values. Works directly with tagged values of type `string t` and `Cstruct.t t`, where `t` represents a multihash structure. Useful for serializing multihash data to raw byte strings or deserializing byte strings back into structured multihash values.",
+      "description_length": 317,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Multihash.Uvarint",
-      "description": "Encodes and decodes unsigned integers using variable-length encoding, where smaller values occupy fewer bytes. Works with 32-bit unsigned integers and byte buffers or strings. Used to efficiently serialize protocol buffers or network protocols requiring compact integer representation.",
-      "description_length": 285,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Multihash.Conv",
-      "description": "Converts between string and Cstruct types, enabling seamless data interchange. Operates on custom string and Cstruct wrapped types for safe type handling. Used to serialize data for network transmission or decode incoming binary data into strings.",
-      "description_length": 247,
+      "library": "multihash",
+      "description": "This module encodes and decodes unsigned integers to and from variable-length byte representations. It operates on `int` values and produces or consumes `Cstruct.t` buffers and strings. It is used when compact binary encoding of integers is required, such as in binary protocols or serialization formats.",
+      "description_length": 304,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "multihash",
-      "description": "Encodes and decodes multihashes, which include a hash function identifier, digest length, and the actual hash value. Works with byte sequences and custom hash function implementations. Enables verification of data integrity by comparing computed and stored multihashes.",
-      "description_length": 269,
+      "module_path": "Multihash.Hasher",
+      "library": "multihash",
+      "description": "This module computes cryptographic hashes for data using specified multihash identifiers. It supports digesting both raw memory regions (`Cstruct.t`) and strings, with both direct and streaming interfaces via `digest` and `iter`. Use cases include generating content identifiers for IPFS or verifying data integrity in distributed systems.",
+      "description_length": 339,
       "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Multihash.Maker-Conv",
+      "library": "multihash",
+      "description": "This module converts between string and Cstruct representations of multihash values. It provides functions to encode a multihash string into a Cstruct.t structure and decode a Cstruct.t back into a string. These operations are useful when handling binary data in network protocols or storage systems that require structured byte buffers.",
+      "description_length": 337,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Multihash.S",
+      "library": "multihash",
+      "description": "This module implements multihash encoding and decoding for arbitrary data, producing self-describing hashes that include their own encoding strategy and length. It operates directly on `Cstruct.t` and `string` types, allowing both direct input and iterative hashing through user-provided functions. Use cases include generating content identifiers in distributed systems like IPFS or verifying data integrity with pluggable hash functions.",
+      "description_length": 439,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Multihash.Make",
+      "library": "multihash",
+      "description": "This module generates and manipulates multihash values from raw digests or by hashing data using configurable strategies, supporting both `Cstruct.t` and `string` inputs. It provides core operations to construct, parse, and compare multihashes, enabling tasks like creating content identifiers for IPFS CIDs or validating hash integrity. A child module handles conversion between `string` and `Cstruct.t` representations, facilitating serialization and parsing of tagged multihash values. Together, these components allow efficient handling of multihash identifiers across different data formats and use cases.",
+      "description_length": 610,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Multihash",
-      "description": "Computes cryptographic hashes of byte sequences and strings using specified multihash algorithms, and iterates over hash chunks. Operates on `Cstruct.t` and `string` types, with error handling for unsupported algorithms. Validates algorithm support before processing and supports streaming hash computation.",
-      "description_length": 307,
-      "index": 5,
+      "library": "multihash",
+      "description": "This module provides self-describing hash values that embed the hash function and digest length directly in the output, enabling hash agility and content-based addressing. It supports creating, parsing, and validating multihash values using various hash algorithms, with operations for hashing strings and byte sequences, both directly and incrementally. Child modules handle integer encoding, format conversion between string and Cstruct.t representations, and structured encoding of arbitrary data, enabling use cases such as content identifiers in IPFS or cryptographic verification in distributed systems. Specific operations include generating multihashes from raw digests, converting multihash strings to structured buffers, and streaming data through hash functions to produce self-describing digests.",
+      "description_length": 808,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 354,
-    "min_description_length": 247,
-    "avg_description_length": 288.6666666666667,
-    "embedding_file_size_mb": 0.022233009338378906
+    "max_description_length": 808,
+    "min_description_length": 263,
+    "avg_description_length": 421.77777777777777,
+    "embedding_file_size_mb": 0.033135414123535156
   }
 }

@@ -1,77 +1,93 @@
 {
   "package": "avro",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:30:52.913287",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:21.235982",
   "modules": [
     {
       "module_path": "Avro.Obj_container_file.Codec",
-      "description": "Provides functions to retrieve and register compression codecs, including null and deflate, with operations to compress and decompress strings. Works with string data and codec identifiers represented as strings. Used to dynamically select codecs for data processing tasks like network transmission or storage optimization.",
-      "description_length": 323,
+      "library": "avro",
+      "description": "This module defines and manages compression codecs used for encoding and decoding data blocks in Avro object container files. It supports operations to register custom compression and decompression functions, look up codecs by name, and provides built-in null and deflate compression methods. It works directly with string-based data for compression and decompression processes, enabling efficient storage and retrieval of structured data in Avro files.",
+      "description_length": 453,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Avro.Obj_container_file.Decode",
-      "description": "Reads rows from an input using a custom row extraction function, tracking the current block's remaining items. Processes elements sequentially, supporting iteration, folding, and conversion to list, array, or sequence. Used to parse structured data streams where each row is extracted and processed individually.",
-      "description_length": 312,
+      "module_path": "Avro.Obj_container_file.Encode",
+      "library": "avro",
+      "description": "This module encodes sequences of typed rows into Avro object container files, supporting streaming writes, block management, and optional compression. It operates on values of type `'a` using a custom write function and manages output via `Avro.Output.t`. Concrete use cases include serializing large datasets to disk or network streams in Avro format and generating Avro-encoded strings from sequences of records.",
+      "description_length": 414,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Avro.Obj_container_file.Encode",
-      "description": "Encodes sequences of rows into an output stream using a specified JSON schema and row writer. It operates on custom types wrapped in a stateful encoder structure, managing buffer pools and block flushing. It supports writing sequences directly to an output or converting them to strings, with control over block size and flush thresholds.",
-      "description_length": 338,
+      "module_path": "Avro.Output.CUSTOM",
+      "library": "avro",
+      "description": "This module provides low-level byte writing operations including writing single bytes, byte slices, and flushing buffered data. It works directly with bytes and character values to handle binary serialization tasks. Concrete use cases include encoding Avro data types into binary format and managing output streams during serialization.",
+      "description_length": 336,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Avro.Input",
-      "description": "Reads individual bytes and fills buffers with exact byte counts from an input source. Operates on bytes and char types, supporting low-level data parsing. Used for processing binary data streams and handling input boundaries precisely.",
-      "description_length": 235,
+      "module_path": "Avro.Obj_container_file.Decode",
+      "library": "avro",
+      "description": "This module decodes sequences of Avro object container file rows from a binary input stream. It provides low-level access to row data through a custom read function and tracks remaining items in the current block. Use cases include streaming large Avro container files, processing log data, and incrementally loading datasets without loading the entire file into memory.",
+      "description_length": 370,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Avro.Output",
-      "description": "Writes a single byte, a slice of a bytes buffer, and provides a small temporary buffer for intermediate data. Operates on characters and bytes, supporting direct byte-level manipulation. Used to efficiently construct and manage raw output streams in low-level data serialization tasks.",
-      "description_length": 285,
+      "module_path": "Avro.Input.CUSTOM",
+      "library": "avro",
+      "description": "This module provides low-level byte input operations for reading from a byte source, including reading single bytes and filling buffers at specified offsets. It works directly with byte sequences (`bytes`) and character data. Concrete use cases include parsing binary Avro-encoded data by reading from a buffer, such as decoding primitive types or deserializing structured data from a stream.",
+      "description_length": 392,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Avro.Input",
+      "library": "avro",
+      "description": "This module provides direct access to byte-level input handling from sources like strings, files, or custom streams, supporting operations such as reading integers, floats, length-prefixed arrays, and maps. It includes transparent decompression for zlib-compressed data and works with byte sequences for low-level parsing of binary Avro structures. Submodules offer fine-grained control over buffer manipulation and byte extraction, enabling tasks like decoding Avro primitives from a stream or deserializing complex data from a network socket. Example uses include reading a varint-encoded integer from a file or parsing a sequence of Avro records from a compressed buffer.",
+      "description_length": 674,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Avro.Obj_container_file",
-      "description": "Encodes and decodes structured data using a binary format with support for compression and custom row processing. It handles string-based codecs for compression, allows sequential row extraction with state tracking, and writes rows to output using JSON schemas. Operations include compressing, decompressing, iterating over rows, and generating output streams. Examples include processing compressed log files, parsing streaming data, and serializing custom types to binary.",
-      "description_length": 474,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "avro",
-      "description": "Provides functions to parse and serialize data according to Avro schemas, including reading JSON schema definitions and generating corresponding OCaml types. Works with OCaml variants, records, and primitive types to encode and decode binary or JSON data. Used to implement data serialization in distributed systems, such as converting structured data for network transmission or storage.",
-      "description_length": 388,
+      "library": "avro",
+      "description": "This module implements the Avro object container file format for efficient storage and retrieval of homogeneous row data. It supports streaming reads and writes with customizable serialization, compression using built-in or user-defined codecs, and memory-efficient block processing. You can write large datasets to disk incrementally, compress them with deflate or custom methods, and read them back row-by-row without loading the entire file. Examples include exporting log streams to Avro files and processing large datasets in a memory-constrained environment.",
+      "description_length": 564,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Avro",
-      "description": "Reads and writes raw bytes with precise control over input and output buffers, enabling low-level data manipulation. Encodes and decodes structured data using binary formats, supporting compression, schema-based parsing, and row-by-row processing. It can handle compressed log files, stream data, and serialize custom types to binary. Operations include byte-level reading, buffer management, and structured data serialization with schema validation.",
-      "description_length": 450,
+      "module_path": "Avro.Output",
+      "library": "avro",
+      "description": "This module handles the serialization of Avro-encoded data into various byte sinks such as buffers, files, and output channels. It provides operations for writing primitive values, strings, arrays, and maps, while supporting low-level byte manipulation for precise control over binary output. Use it to serialize Avro records to disk, stream data over a network, or collect encoded output in memory. Specific examples include encoding a record to a file and sending Avro-encoded messages over a socket.",
+      "description_length": 502,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Avro",
+      "library": "avro",
+      "description": "This module implements Avro binary encoding and decoding for data serialization, supporting structured data storage and transmission in distributed systems. It provides direct access to byte-level input handling, object container file operations, and serialization to byte sinks, enabling tasks like reading varint-encoded integers, streaming Avro files, and encoding records to files or sockets. Key data types include schemas, encoded values, and byte streams, with operations for reading/writing primitives, handling compressed data, and processing large datasets in memory-efficient blocks. Example uses include parsing Avro records from a network socket, exporting logs to compressed Avro files, and serializing structured data for transmission.",
+      "description_length": 750,
+      "index": 8,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 8,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 474,
-    "min_description_length": 235,
-    "avg_description_length": 350.625,
-    "embedding_file_size_mb": 0.02946758270263672
+    "max_description_length": 750,
+    "min_description_length": 336,
+    "avg_description_length": 495.0,
+    "embedding_file_size_mb": 0.033161163330078125
   }
 }

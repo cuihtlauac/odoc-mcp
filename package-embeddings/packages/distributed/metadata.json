@@ -1,84 +1,101 @@
 {
   "package": "distributed",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:01.303161",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:06:27.060653",
   "modules": [
     {
-      "module_path": "Distributed.Make.Remote_config",
-      "description": "type t = { host: string; port: int; timeout: float } Provides functions to parse configuration from a string, validate connection parameters, and generate a structured representation. Works with strings, integers, and floats to define network settings. Used to initialize communication settings for distributed systems and manage node connectivity.",
-      "description_length": 348,
+      "module_path": "Distributed.Make.Local_config",
+      "library": "distributed",
+      "description": "This module defines the configuration for running a node in a local, isolated environment without network communication. It includes a single data type `t` that holds the node's name. Use this configuration to set up standalone nodes for testing or local execution of distributed processes.",
+      "description_length": 290,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Distributed.Make.Local_config",
-      "description": "Provides functions to load, parse, and validate local node configuration data, including network address, port, and storage paths. Works with a record type containing fields for node identity, communication settings, and file system references. Used to initialize standalone node instances in isolated testing environments or embedded systems.",
-      "description_length": 343,
+      "module_path": "Distributed.Make.Remote_config",
+      "library": "distributed",
+      "description": "This module defines the configuration for a node participating in a distributed computation, specifying remote nodes it can communicate with, its own network address and port, and connection settings. It works with string, integer, and list types to represent network endpoints and node metadata. Concrete use cases include setting up a node's initial communication peers, defining its listening port, and configuring its identity for message routing in a distributed system.",
+      "description_length": 475,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Distributed.Node_id",
-      "description": "Provides a type `t` for representing node identifiers and a function `get_name` to extract the string name associated with a node. Works with string-based node names and opaque node identifiers. Used to retrieve human-readable names from internal node representations in distributed systems or graph structures.",
-      "description_length": 311,
+      "module_path": "Distributed.Message_type",
+      "library": "distributed",
+      "description": "This module defines an abstract type `t` for representing messages exchanged between processes in a distributed system. It includes a function `string_of_message` to convert a message into its string representation, enabling serialization for transmission. Concrete use cases include encoding and decoding process communication payloads, such as task assignments or result updates, over a network.",
+      "description_length": 397,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Distributed.Process_id",
-      "description": "Represents and manipulates process identifiers using a custom type `t`. Provides functions to generate unique identifiers, compare them, and convert them to string representations. Used to track and manage individual process instances in system monitoring and logging contexts.",
-      "description_length": 277,
+      "module_path": "Distributed.Process",
+      "library": "distributed",
+      "description": "This module enables orchestrating distributed computations through process spawning, typed message passing, and lifecycle monitoring across nodes. It operates on process identifiers, node identifiers, and network configurations to coordinate work in distributed systems. Typical use cases include fault-tolerant distributed task execution, remote node management, and failure-aware communication patterns.",
+      "description_length": 405,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Distributed.Make",
-      "description": "Produces a string from a message type, enabling direct visualization of message content. Operates on a custom type `t` that encapsulates message data. Used to generate human-readable logs or error outputs from structured message objects.",
-      "description_length": 237,
+      "library": "distributed",
+      "description": "This module creates a Process module from a Message_type, enabling both local and distributed node configurations. The local configuration manages standalone nodes with a simple name-based identifier, while the distributed configuration handles network addresses, ports, and peer connections using strings, integers, and lists. Together, they support setting up isolated test nodes or fully networked processes with customizable communication topologies. Example uses include defining a local test node by name or configuring a distributed node with its listening port and known peers.",
+      "description_length": 585,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Distributed.Remote_config",
-      "description": "type t = { host: string; port: int; timeout: float } Provides functions to parse configuration from a string, validate connection parameters, and generate a structured representation for network communication. Works with strings, integers, and floats to define remote node settings. Used to initialize network connections in distributed systems where nodes must dynamically discover and communicate with each other.",
-      "description_length": 415,
+      "module_path": "Distributed.Process-Local_config",
+      "library": "distributed",
+      "description": "This module defines the configuration for initializing a node in a distributed system where communication with other nodes is disabled. It includes a single data type `t` that holds the node's name. It is used to set up isolated, local nodes for testing or running self-contained distributed processes without network interaction.",
+      "description_length": 330,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Distributed.Local_config",
-      "description": "Provides functions to load, parse, and validate local node configuration data, including network settings and storage paths. Works with a record type containing fields for node identity, storage directories, and network constraints. Used to initialize a node's environment in isolated testing or development scenarios.",
-      "description_length": 318,
+      "module_path": "Distributed.Node_id",
+      "library": "distributed",
+      "description": "This module defines a type `t` to uniquely identify nodes in a distributed system. It provides the function `get_name` to retrieve the string name associated with a node ID. Concrete use cases include tracking node identities across network communications and managing node-specific state in distributed applications.",
+      "description_length": 317,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "distributed",
-      "description": "Provides functions for creating and managing distributed processes, sending and receiving typed messages, and monitoring process status across a network. Operates on process identifiers, message queues, and typed message structures. Enables fault-tolerant communication in distributed systems, such as coordinating task execution across multiple nodes or implementing distributed state management.",
-      "description_length": 397,
+      "module_path": "Distributed.Process-Remote_config",
+      "library": "distributed",
+      "description": "This module defines the configuration for a node participating in distributed communication, specifying remote nodes it can connect to, its own network address and port, and connection handling parameters. It works with tuples representing remote node details (IP, port, name), local port settings, and socket connection backlog values. Concrete use cases include setting up a node's initial network configuration to enable message passing in a distributed system, such as configuring a cluster node with known peers and binding to a specific port for incoming connections.",
+      "description_length": 573,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Distributed",
-      "description": "Produces a string representation of messages exchanged between processes. Operates on an abstract type encapsulating distributed communication data. Used to serialize messages for logging or debugging purposes.",
-      "description_length": 210,
+      "module_path": "Distributed.Process_id",
+      "library": "distributed",
+      "description": "This module defines a type `t` to uniquely identify processes in a distributed system. It supports operations to create, compare, and serialize process identifiers. Use cases include tracking individual processes across nodes and enabling inter-process communication in distributed applications.",
+      "description_length": 295,
       "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Distributed",
+      "library": "distributed",
+      "description": "This module orchestrates distributed computations using lightweight processes and nodes, providing a monadic interface to define workflows that span multiple machines. It enables process spawning, typed message passing, and failure-aware coordination across nodes, with core data types including process and node identifiers, message types, and local or networked node configurations. You can create isolated test nodes, configure distributed nodes with peers and ports, send and serialize messages between processes, and manage distributed state or task execution across a cluster. Key operations include spawning remote processes, monitoring their lifecycles, and handling communication through typed channels.",
+      "description_length": 712,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 11,
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9090909090909091
   },
   "statistics": {
-    "max_description_length": 415,
-    "min_description_length": 210,
-    "avg_description_length": 317.3333333333333,
-    "embedding_file_size_mb": 0.033156394958496094
+    "max_description_length": 712,
+    "min_description_length": 290,
+    "avg_description_length": 437.9,
+    "embedding_file_size_mb": 0.03677177429199219
   }
 }

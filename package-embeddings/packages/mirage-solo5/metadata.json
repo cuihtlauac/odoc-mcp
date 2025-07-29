@@ -1,63 +1,61 @@
 {
   "package": "mirage-solo5",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:29:57.537597",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:04:53.141323",
   "modules": [
     {
-      "module_path": "Solo5_os.Lifecycle",
-      "description": "Handles shutdown and reboot requests in a concurrent environment. Accepts optional flags to specify supported actions and returns a promise that resolves to the requested operation. Used to gracefully terminate or restart processes in response to external signals.",
-      "description_length": 264,
+      "module_path": "Solo5_os.Memory",
+      "library": "mirage-solo5",
+      "description": "This module provides functions to query and manage memory usage statistics, including heap and stack word counts. It works with the `stat` type, which captures metrics like live, free, and total heap words. Use cases include monitoring memory allocation in real-time or triggering memory trimming to release unused heap space.",
+      "description_length": 326,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Solo5_os.Main",
-      "description": "Handles asynchronous work coordination by waiting for a specific number of operations to complete and initiating a processing loop. Operates with Lwt promises and integer counters to manage concurrency. Used to synchronize background tasks before starting a server or processing pipeline.",
-      "description_length": 288,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Solo5_os.Memory",
-      "description": "Returns memory allocation statistics, including detailed heap information and a faster alternative. Releases unused memory from the heap to optimize resource usage. Generates metrics data for monitoring, using either detailed or quick statistics based on configuration. Works with heap data and metrics tags to provide system-level memory insights.",
-      "description_length": 348,
+      "module_path": "Solo5_os.Lifecycle",
+      "library": "mirage-solo5",
+      "description": "This module provides a single asynchronous operation, `await_shutdown_request`, which waits for a shutdown signal from the host environment. It works with optional boolean flags to indicate supported shutdown modes and returns a resolved promise with either `Poweroff` or `Reboot` when a request is received. It is used in unikernel applications to handle graceful termination or restart triggered by external management tools.",
+      "description_length": 427,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Solo5_os.Solo5",
+      "library": "mirage-solo5",
+      "description": "This module defines the `solo5_result` type, which maps directly to the C enum `solo5_result_t`. It represents the possible return values from Solo5 system call operations, such as success, retry, invalid argument, and unspecified error. This type is used to handle and propagate low-level operation outcomes in unikernel environments.",
+      "description_length": 335,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Solo5_os.Solo5",
-      "description": "Provides functions to convert and manipulate the C enum solo5_result_t into OCaml values, including error checking and status code interpretation. Works with the solo5_result type, which represents outcomes of low-level system calls. Used to handle return values from unikernel interactions, ensuring proper error handling in trusted execution environments.",
-      "description_length": 357,
+      "module_path": "Solo5_os.Main",
+      "library": "mirage-solo5",
+      "description": "This module manages asynchronous execution and event handling in a Solo5-based unikernel. It provides `wait_for_work_on_handle` to pause execution until work is available on a file descriptor, and `run` to start the Lwt event loop. It is used to implement event-driven networking or I/O in minimal OS environments.",
+      "description_length": 314,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-solo5",
-      "description": "Handles the main loop and timer management for MirageOS on Solo5 targets, with support for low-level C integration. Operates on OCaml's runtime structures and C stubs to enable system-level execution. Used to initialize and manage application execution in embedded or unikernel environments.",
-      "description_length": 291,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Solo5_os",
-      "description": "manages system termination, concurrency coordination, memory monitoring, and low-level result conversion. It offers shutdown/reboot operations, Lwt-based task synchronization, heap statistics collection, and enum value translation. Users can gracefully terminate processes, synchronize background work, track memory usage, and interpret system call results. It enables precise control over unikernel behavior through structured data and asynchronous operations.",
-      "description_length": 461,
-      "index": 5,
+      "library": "mirage-solo5",
+      "description": "This module provides low-level primitives for memory management, asynchronous event handling, and system control in a Solo5-based unikernel environment. It includes data types like `stat` for memory metrics, `solo5_result` for system call outcomes, and operations for awaiting shutdown signals, running event loops, and waiting for I/O events on file descriptors. You can monitor and trim heap memory, handle graceful reboots or power-offs, and manage asynchronous I/O with Lwt. Examples include triggering memory cleanup based on live word counts or shutting down a unikernel in response to an external signal.",
+      "description_length": 611,
+      "index": 4,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 461,
-    "min_description_length": 264,
-    "avg_description_length": 334.8333333333333,
-    "embedding_file_size_mb": 0.022188186645507812
+    "max_description_length": 611,
+    "min_description_length": 314,
+    "avg_description_length": 402.6,
+    "embedding_file_size_mb": 0.018599510192871094
   }
 }

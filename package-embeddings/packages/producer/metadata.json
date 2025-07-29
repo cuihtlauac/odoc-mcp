@@ -1,119 +1,141 @@
 {
   "package": "producer",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:32:57.422578",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:08:08.045656",
   "modules": [
     {
-      "module_path": "Producer.Make.Dependencies",
-      "description": "Handles dependency resolution and traversal for producer nodes, supporting operations like checking dependencies, merging, and filtering. Works with nested tuples representing node relationships and dependency hierarchies. Used to validate input requirements before processing and to optimize execution order in data pipelines.",
-      "description_length": 327,
+      "module_path": "Producer.Make.Graph",
+      "library": "producer",
+      "description": "Implements directed acyclic graphs of producer nodes, where each graph has a single output node that determines the result of the graph's execution. Works with typed nodes parameterized by context and output values, allowing composition of dataflow pipelines. Useful for defining complex, interconnected data processing workflows where nodes represent individual transformation or computation steps.",
+      "description_length": 399,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make.Node",
-      "description": "Creates a node in a producer graph by combining dependency resolution and output generation. Accepts a dependency specification and a function to extract dependencies from a context, then returns a node that produces output based on the context. Used to model computational steps where outputs depend on resolved dependencies within a specific context.",
-      "description_length": 352,
+      "module_path": "Producer.Make2.Graph",
+      "library": "producer",
+      "description": "This module constructs and manages directed acyclic graphs of producer nodes, where each node has two output types. It provides the `make` function to assemble a graph from nodes, designating one as the output node. Use this to build complex dataflow pipelines that produce two distinct output values per node, such as dual-channel signal processors or parallel computation stages.",
+      "description_length": 381,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make.Graph",
-      "description": "Encapsulates a graph of producer nodes, allowing construction from a root node and tracking dependencies. It works with node structures that carry context and output types, ensuring acyclic relationships. Used to model data processing pipelines where each node generates output based on its inputs.",
-      "description_length": 298,
+      "module_path": "Producer.Make.Dependencies",
+      "library": "producer",
+      "description": "This module defines and manages dependencies between producer nodes in a monadic workflow. It provides functions to declare, resolve, and track dependencies, ensuring correct execution order. It operates on producer nodes that are parameterized by a monadic type, enabling dependency-aware composition in asynchronous or effectful contexts.",
+      "description_length": 340,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make2.Dependencies",
-      "description": "Handles dependency resolution and tracking for producer nodes, supporting operations like adding, removing, and checking dependencies. Works with a four-tuple type representing different dependency states and relationships. Used to manage versioned component dependencies in a build system.",
-      "description_length": 290,
+      "module_path": "Producer.Make2.Node",
+      "library": "producer",
+      "description": "This module creates nodes in a producer graph that represent computations with two type parameters. It provides the `make` function to construct nodes from dependencies and a context function, producing results in a monadic type. Use it to define individual stages in a dataflow pipeline where each node processes context and dependencies to generate outputs.",
+      "description_length": 359,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Producer.Make2.Node",
-      "description": "Creates a node from dependencies and a context transformation, linking input dependencies to output values. Operates on context-aware structures with paired output types. Used to model data processing steps in a graph where each node transforms context and emits two output values.",
-      "description_length": 281,
+      "module_path": "Producer.Make.Node",
+      "library": "producer",
+      "description": "This module creates nodes in a producer graph, representing computations that produce outputs within a monadic context. It works with dependency structures that capture context, dependencies, and monadic results. Concrete use cases include building and composing nodes that represent data-fetching or processing steps in a pipeline.",
+      "description_length": 332,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make2.Graph",
-      "description": "Creates a graph structure from a set of producer nodes, with a designated output node. Operates on node types that carry context and multiple output values, ensuring no cyclic dependencies exist. Used to construct data processing pipelines where output is explicitly defined and dependencies are strictly enforced.",
-      "description_length": 314,
+      "module_path": "Producer.Make2.Dependencies",
+      "library": "producer",
+      "description": "This module tracks and manages dependencies between producer nodes in a directed acyclic graph. It provides functions to add, remove, and query dependencies, as well as to check for cycles and determine evaluation order. It operates on node identifiers and maintains dependency relationships using maps and sets.",
+      "description_length": 312,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make",
-      "description": "Provides operations to lift values into a monadic context and chain computations that produce monadic results. Works with a parameterized type 'a t representing monadic values. Enables sequential processing of computations that may involve side effects or asynchronous operations.",
-      "description_length": 280,
+      "module_path": "Producer.MONAD2",
+      "library": "producer",
+      "description": "This module defines a monadic structure for working with values that have two type parameters, typically representing a successful result and an error or alternative type. It provides `return` to wrap a value in the monadic type and `bind` to chain computations that produce monadic results. Concrete use cases include handling computations that may fail, where the second type parameter represents the error, allowing for sequential composition while propagating errors.",
+      "description_length": 471,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Make2",
-      "description": "Provides operations to lift values into a monadic context and chain computations that may fail, using a type that represents computations with a possible error. Works with a polymorphic type that pairs a success value with an error value. Enables structured error handling in workflows where operations depend on previous results.",
-      "description_length": 330,
+      "module_path": "Producer.Sync",
+      "library": "producer",
+      "description": "This module implements a synchronous producer monad that supports value injection and chaining operations. It works with monadic values of type `'a Producer.Sync.t`, enabling sequential composition of effectful computations. Concrete use cases include building data pipelines where each step produces a value synchronously and passes it to the next stage.",
+      "description_length": 355,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "Producer.Sync",
-      "description": "Provides operations for sequencing computations in a monadic context, including lifting values into the context and chaining functions that return values in the same context. Works with a type constructor that wraps values without additional structure. Used to manage sequential execution of operations that produce results in a consistent type.",
-      "description_length": 345,
+      "module_path": "Producer.Graph",
+      "library": "producer",
+      "description": "Constructs a directed graph of producer nodes where each node represents a computation that generates a value in a given context. The graph is built from individual nodes, with one designated output node that determines the final result of the graph. This structure enables composing complex dataflow pipelines where nodes can depend on the output of other nodes, allowing for efficient, on-demand evaluation of dependencies.",
+      "description_length": 425,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Dependencies",
-      "description": "Processes and tracks dependencies between producer nodes, including direct and transitive relationships. Operates on tuples representing component, dependency, and edge information. Used to resolve dependency chains during build processes and validate node relationships.",
-      "description_length": 271,
+      "module_path": "Producer.Node",
+      "library": "producer",
+      "description": "Creates nodes in a producer graph by specifying dependencies and a computation function. Works with context, dependency, and output types to define node behavior. Useful for building directed acyclic graphs where nodes represent data transformations based on shared context.",
+      "description_length": 274,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Node",
-      "description": "Creates nodes for a producer graph by binding a dependency resolution function to a context. Operates on context and output types, along with dependency structures. Used to construct graph nodes that produce values based on resolved dependencies.",
-      "description_length": 246,
+      "module_path": "Producer.MONAD",
+      "library": "producer",
+      "description": "This module implements a monadic structure for composing asynchronous or effectful computations in a producer graph. It provides `return` to wrap values in a monadic context and `bind` to sequence monadic actions, enabling chaining of operations with effect handling. It is used to model dataflow pipelines where each step depends on the result of the previous, such as streaming data transformations or event-driven workflows.",
+      "description_length": 427,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer.Graph",
-      "description": "Creates a graph structure from a producer node, ensuring no cyclic dependencies exist. Operates on node-based structures with context and output types, linking nodes through dependencies. Used to construct execution graphs where a single node defines the output result.",
-      "description_length": 269,
+      "module_path": "Producer.Make2",
+      "library": "producer",
+      "description": "This library builds and manages directed acyclic graphs of producer nodes, each generating two output values, enabling complex dataflow pipelines like dual-channel signal processing or parallel computations. The core data types include nodes with two type parameters, dependency maps and sets, and a graph structure that supports evaluation order determination and cycle detection. Operations allow assembling graphs from nodes, defining node computations with context functions, and manipulating dependencies between nodes. For example, you can define a node that takes two inputs and produces two transformed outputs, link it to other nodes, and evaluate the graph to produce results in a monadic context.",
+      "description_length": 707,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "producer",
-      "description": "Produces values through a monadic dependency graph, enabling structured computation with sequential dependencies. It operates on custom node types and monadic workflows, allowing for compositional value construction. Used to chain authentication steps and inject resolved values into subsequent processing stages.",
-      "description_length": 313,
+      "module_path": "Producer.Dependencies",
+      "library": "producer",
+      "description": "Handles dependency resolution and management for producer nodes in a build system. It provides functions to add, remove, and query dependencies, as well as determine evaluation order based on dependency graphs. Works with directed acyclic graphs (DAGs) representing node dependencies, using hash tables and sets to track relationships. Used when constructing and validating the execution plan for producers, ensuring correct build order and detecting cycles.",
+      "description_length": 458,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Producer",
-      "description": "Provides operations to lift values into a monadic context and chain computations that produce monadic results. Works with a parameterized type that pairs a result type with an error or state type. Used to sequence operations where each step may produce a context-aware value, such as handling I/O or state transformations.",
-      "description_length": 322,
+      "module_path": "Producer.Make",
+      "library": "producer",
+      "description": "This library builds monadic producer pipelines using directed acyclic graphs of interdependent nodes, where each node represents a computation that produces a result within a specified monadic type. It provides data types for nodes parameterized by context and output values, along with operations to declare dependencies, compose transformations, and execute workflows in correct dependency order. You can define complex dataflow pipelines with asynchronous or effectful steps, such as chaining database queries, API calls, or file operations, where each node's output feeds into subsequent nodes based on the graph structure.",
+      "description_length": 627,
       "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Producer",
+      "library": "producer",
+      "description": "This module orchestrates computational workflows as directed acyclic graphs (DAGs) where nodes represent value-producing steps with dependencies. It supports both synchronous and monadic execution models, enabling sequential and parallel composition of effectful computations, with core types including producer nodes, dependency graphs, and context-aware transformations. You can define nodes that compute values based on shared context and other nodes' outputs, chain them using monadic combinators, and execute the graph while handling errors, caching, and dependency resolution. Examples include building task schedulers that track dependencies and recompute only affected nodes, or streaming pipelines that process data asynchronously through a series of transformations.",
+      "description_length": 776,
+      "index": 14,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 352,
-    "min_description_length": 246,
-    "avg_description_length": 302.7142857142857,
-    "embedding_file_size_mb": 0.0513153076171875
+    "max_description_length": 776,
+    "min_description_length": 274,
+    "avg_description_length": 442.8666666666667,
+    "embedding_file_size_mb": 0.05494117736816406
   }
 }

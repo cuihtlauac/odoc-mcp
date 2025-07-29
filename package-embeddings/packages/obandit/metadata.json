@@ -1,119 +1,213 @@
 {
   "package": "obandit",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:32:49.581108",
+  "total_modules": 24,
+  "creation_timestamp": "2025-07-15T23:10:20.485338",
   "modules": [
     {
       "module_path": "Obandit.MakeAlphaPhiUCB",
-      "description": "Computes the inverse of the Legendre-Fenchel transform of a convex function using a given parameter alpha. Operates on integer action counts and floating-point values to model decision-making dynamics. Used to derive confidence bounds in reinforcement learning algorithms.",
-      "description_length": 272,
+      "library": "obandit",
+      "description": "This module implements the $(\\alpha, \\psi)$-UCB algorithm for stochastic multi-armed bandits, using a parameter module `P` to define action selection and reward estimation. It maintains and updates a `bandit` state, which tracks estimates and counts for each arm, and selects actions based on upper confidence bounds derived from the parameters in `P`. Use this module to minimize regret in sequential decision-making tasks with stochastic rewards, such as online advertising or clinical trial simulations.",
+      "description_length": 506,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Obandit.MakeAlphaUCB",
-      "description": "Provides functions to compute upper confidence bounds using a fixed number of actions and an alpha parameter for exploration. Operates on integers representing actions and floats for confidence calculations. Used to select optimal actions in reinforcement learning scenarios with bounded exploration.",
-      "description_length": 300,
+      "library": "obandit",
+      "description": "This module implements the \u03b1-UCB algorithm for stochastic multi-armed bandits, providing functions to initialize the bandit state and update it based on observed rewards. It operates on a bandit data structure that tracks reward estimates and selection counts for each arm. It is used in scenarios requiring sequential decision-making under uncertainty, such as online advertising or network routing, where minimizing regret over time is critical.",
+      "description_length": 447,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Obandit.MakeUCB1",
-      "description": "Provides functions to compute and manage the upper confidence bound for multi-armed bandit problems, including action selection and confidence interval calculations. Operates on integers representing action indices and floating-point values for reward estimates and confidence bounds. Used to implement exploration-exploitation strategies in reinforcement learning scenarios.",
-      "description_length": 375,
+      "module_path": "Obandit.DecayingEpsilonGreedyParam",
+      "library": "obandit",
+      "description": "This module configures a decaying epsilon-greedy bandit with parameters for action count, exploration scaling, and decay rate. It defines the `k`, `c`, and `d` values used to instantiate a bandit strategy that balances exploration and exploitation over time. Concrete use cases include dynamic ad selection and recommendation systems where action rewards change over time.",
+      "description_length": 372,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeParametrizableEpsilonGreedy",
-      "description": "Provides functions to compute action probabilities using an epsilon-greedy strategy, with a configurable number of actions and a rate that adjusts over time. Operates on integers representing action counts and floats for probability values. Used to implement exploration-exploitation trade-offs in reinforcement learning agents.",
-      "description_length": 328,
+      "module_path": "Obandit.EpsilonGreedyParam",
+      "library": "obandit",
+      "description": "This module configures an epsilon-greedy bandit strategy with a fixed number of actions and exploration rate. It specifies the `k` (number of arms) and `epsilon` (exploration probability) parameters for instantiating a bandit solver. Concrete use cases include setting up a 10-armed bandit with 10% exploration for reinforcement learning experiments.",
+      "description_length": 350,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeDecayingEpsilonGreedy",
-      "description": "Provides functions to compute decaying epsilon-greedy exploration rates using action counts and hyperparameters $ c $ and $ d $. Operates on integers representing action counts and floats for exploration thresholds. Used to balance exploration and exploitation in reinforcement learning policies with diminishing exploration over time.",
-      "description_length": 335,
+      "module_path": "Obandit.MakeEpsilonGreedy",
+      "library": "obandit",
+      "description": "Implements an epsilon-greedy multi-armed bandit algorithm with a fixed exploration rate. It maintains and updates bandit estimates using a step function that selects actions and updates the bandit state based on observed rewards. Designed for scenarios where a fixed exploration-exploitation trade-off is required, such as A/B testing or online recommendation systems.",
+      "description_length": 368,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Obandit.MakeEpsilonGreedy",
-      "description": "Provides functions to compute and apply epsilon-greedy action selection, using a fixed number of actions and an exploration rate. Operates on integers representing action indices and floats for probability calculations. Used to balance exploration and exploitation in reinforcement learning policies.",
-      "description_length": 300,
+      "module_path": "Obandit.Bandit",
+      "library": "obandit",
+      "description": "Implements multi-armed bandit algorithms like EXP, UCB, and Epsilon-greedy. It maintains a stateful `bandit` data structure representing action values and selection counts. Use it to iteratively select actions and update rewards in reinforcement learning scenarios.",
+      "description_length": 265,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeExp3",
-      "description": "Provides functions to compute action rates based on a fixed or decaying schedule, using integer indices and floating-point values. Operates on integers representing action counts and returns corresponding float-based rates. Used to model dynamic decision-making processes where action frequency changes over time.",
-      "description_length": 313,
+      "module_path": "Obandit.RangeParam",
+      "library": "obandit",
+      "description": "This module defines a continuous range of possible reward values using `upper` and `lower` float bounds. It is used to specify the expected reward range for bandit algorithms like EXP or UCB when initializing strategies. Concrete use cases include setting reward bounds for action selection and regret calculation in multi-armed bandit problems.",
+      "description_length": 345,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeDecayingExp3",
-      "description": "Provides functions to compute decay factors and probabilities for a three-layer exponential decay model. Operates on integers representing action counts and floating-point values for probability weights. Used to adjust action selection likelihoods in reinforcement learning scenarios with diminishing returns.",
-      "description_length": 309,
+      "module_path": "Obandit.AlphaPhiUCBParam",
+      "library": "obandit",
+      "description": "This module defines parameters for a UCB algorithm variant using $\\alpha$ and $\\phi$, including the number of actions $K$, the $\\alpha$ value, and the inverse link function $\\text{invLFPhi}$. It works with bandit algorithms that require exploration-exploitation strategies based on these parameters. Concrete use cases include configuring a UCB bandit instance for online learning tasks where reward estimation uses a custom link function.",
+      "description_length": 439,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeFixedExp3",
-      "description": "Provides functions to retrieve the number of actions $ K $ and the fixed learning rate $ \\eta $, used in reinforcement learning algorithms. Operates on integer and floating-point values representing policy parameters. Used to configure agent behavior in environments with a fixed action space and learning rate.",
-      "description_length": 311,
+      "module_path": "Obandit.FixedExp3Param",
+      "library": "obandit",
+      "description": "This module defines parameters for a fixed EXP3 bandit instance, including the number of actions and the learning rate. It supports creating bandit strategies with predefined exploration-exploitation settings. Useful for running multi-armed bandit experiments with constant configuration across trials.",
+      "description_length": 302,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.MakeHorizonExp3",
-      "description": "Provides functions to compute and manage action sequences for a horizon-based optimization problem, using integers to represent the number of actions and the planning horizon. Operates on precomputed action sets and time-step configurations to generate optimized execution plans. Used to configure and analyze decision processes in dynamic environments with fixed action sets and time constraints.",
-      "description_length": 397,
+      "module_path": "Obandit.MakeFixedExp3",
+      "library": "obandit",
+      "description": "This module implements the EXP3 algorithm for adversarial multi-armed bandit problems, using a decaying learning rate to minimize regret. It maintains a probability distribution over actions and updates weights based on observed losses. The `step` function selects an action and updates the bandit state, making it suitable for online learning scenarios with changing reward distributions.",
+      "description_length": 389,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Obandit.WrapRange",
-      "description": "Tracks and updates the state of a bandit algorithm, returning the next action and updated state after each reward is applied. Operates on the `bandit` type, which represents the internal state of the algorithm. Used to simulate sequential decision-making in reinforcement learning scenarios, such as selecting optimal actions in a multi-armed bandit problem.",
-      "description_length": 358,
+      "module_path": "Obandit.KBanditParam",
+      "library": "obandit",
+      "description": "This module defines the parameter for a K-armed bandit, specifically providing the number of actions `k`. It is used to instantiate a bandit strategy from the `MakeUCB1` functor. The module works with integer values to configure the number of possible actions in algorithms like UCB1.",
+      "description_length": 284,
       "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Obandit.WrapRange01",
-      "description": "Computes the next action and updates the state of a bandit algorithm given a reward, using a specific internal representation. Operates on the `bandit` type, which encapsulates the algorithm's state and parameters. Used to simulate sequential decision-making in reinforcement learning scenarios where actions are selected based on accumulated rewards.",
-      "description_length": 351,
+      "module_path": "Obandit.MakeHorizonExp3",
+      "library": "obandit",
+      "description": "This module implements the Exp3 algorithm for adversarial multi-armed bandit problems, using a horizon-based learning rate to minimize regret. It maintains a probability distribution over actions and updates weights based on observed losses. Use it when dealing with sequential decision-making under uncertainty where losses are chosen adversarially.",
+      "description_length": 350,
       "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Obandit.HorizonExp3Param",
+      "library": "obandit",
+      "description": "This module defines parameters for instantiating a bandit using the HorizonExp3 algorithm, specifying the number of actions `k` and the time horizon `n`. It is used to configure bandit instances when applying the EXP3 algorithm variant designed for fixed-horizon scenarios. Concrete use cases include setting up multi-armed bandit experiments with a predetermined number of trials and available actions.",
+      "description_length": 403,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Obandit.WrapRange01",
+      "library": "obandit",
+      "description": "The WrapRange01 functor specializes the WrapRange module to operate within the fixed range [0, 1], simplifying bandit configuration when rewards are normalized. It provides `initialBandit` to create a bandit with this standard range and `step` to update the bandit's state based on a reward value within [0, 1]. This is useful in scenarios like A/B testing or online advertising where reward signals are typically bounded between 0 and 1.",
+      "description_length": 438,
+      "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "obandit",
-      "description": "Provides functions to initialize and update bandit strategies, select actions, and compute rewards using EXP3, UCB1, and Epsilon-greedy algorithms. Works with arrays of weights, probabilities, and reward histories. Used to implement decision-making processes in scenarios like online advertising and resource allocation.",
-      "description_length": 320,
-      "index": 12,
+      "module_path": "Obandit.MakeExp3",
+      "library": "obandit",
+      "description": "This module implements the EXP3 algorithm for adversarial multi-armed bandit problems, using a parametrizable learning rate to balance exploration and exploitation. It maintains a probability distribution over actions and updates weights based on observed losses to minimize regret. Concrete use cases include online advertising systems and network routing where reward distributions are non-stationary or adversarially chosen.",
+      "description_length": 427,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Obandit.MakeDecayingExp3",
+      "library": "obandit",
+      "description": "This module implements the Exp3 algorithm with a decaying learning rate for adversarial regret minimization. It maintains a bandit policy state and updates it based on observed rewards, selecting actions probabilistically to balance exploration and exploitation. It is suitable for scenarios where reward distributions change over time and adversarial conditions must be accounted for.",
+      "description_length": 385,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Obandit.RateBanditParam",
+      "library": "obandit",
+      "description": "This module defines parameters for bandit algorithms that require a configurable rate function, such as learning rate or exploration decay. It includes an integer `k` representing the number of actions and a function `rate` that maps an integer to a float, typically used to compute rates based on time or step count. Concrete use cases include setting up dynamic exploration rates in epsilon-greedy or reward adaptation in EXP algorithms.",
+      "description_length": 439,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Obandit.AlphaUCBParam",
+      "library": "obandit",
+      "description": "This module configures a bandit strategy using the AlphaUCB algorithm by specifying the number of actions and the exploration parameter \u03b1. It works with integer and float types to define the action space and exploration rate. Use this module to instantiate a bandit solver that balances exploration and exploitation based on the AlphaUCB formula.",
+      "description_length": 346,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Obandit.WrapRange",
+      "library": "obandit",
+      "description": "The WrapRange functor adapts a bandit algorithm to handle unknown reward ranges by dynamically rescaling rewards to a bounded interval. It restarts the algorithm and adjusts the reward range when outliers are observed, using a provided RangeParam module to track bounds. This allows algorithms like EXP or UCB to operate effectively in environments where reward scales are not known in advance.",
+      "description_length": 394,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Obandit.MakeDecayingEpsilonGreedy",
+      "library": "obandit",
+      "description": "This module implements a decaying epsilon-greedy strategy for multi-armed bandits, where the exploration rate decreases over time according to a predefined schedule. It maintains bandit estimates as a `bandit` type and supports selecting actions based on the current greedy policy while decaying exploration. It is suitable for scenarios like online recommendation systems or A/B testing where exploration should diminish as more data is gathered.",
+      "description_length": 447,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Obandit.MakeUCB1",
+      "library": "obandit",
+      "description": "Implements the UCB1 algorithm for multi-armed bandit problems, providing `step` to select actions and update estimates based on observed rewards. Works with `bandit` type representing arm estimates and confidence bounds. Useful for sequential decision-making scenarios like online advertising or clinical trial allocation.",
+      "description_length": 322,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Obandit.MakeParametrizableEpsilonGreedy",
+      "library": "obandit",
+      "description": "This module implements an epsilon-greedy bandit algorithm with a configurable exploration rate. It maintains and updates bandit estimates using a provided parameter module P to determine exploration behavior. It is used to select actions and update reward estimates in multi-armed bandit problems where exploration and exploitation must be balanced.",
+      "description_length": 349,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Obandit.RangedBandit",
+      "library": "obandit",
+      "description": "This module implements a multi-armed bandit algorithm with reward scaling, specifically supporting actions that select from a range of possible choices. It maintains and updates a bandit state based on incoming reward feedback, using scaled reward values to influence future action selection. Concrete use cases include adaptive online recommendation systems and dynamic resource allocation where reward signals need to be normalized or adjusted during runtime.",
+      "description_length": 461,
+      "index": 22,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Obandit",
-      "description": "Manages a multi-armed bandit algorithm, tracking state and selecting actions based on received rewards. It processes a float reward value to determine the next action index and updates its internal state accordingly. Works with a custom `bandit` type representing the algorithm's state throughout sequential decision-making.",
-      "description_length": 324,
-      "index": 13,
-      "embedding_norm": 1.0
+      "library": "obandit",
+      "description": "This module provides tools for implementing multi-armed bandit algorithms that balance exploration and exploitation over sequential decisions. It supports key algorithms like EXP, UCB, and Epsilon-greedy, with data structures tracking action histories, reward accumulations, and confidence bounds. Child modules allow fine-grained configuration of parameters such as exploration rates, learning rates, and reward bounds, enabling use cases like online advertising, recommendation systems, and adaptive experimentation. Specific implementations include UCB variants with custom link functions, decaying and fixed epsilon-greedy strategies, and EXP3 for adversarial settings with dynamic reward scaling.",
+      "description_length": 701,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 24,
+    "meaningful_modules": 24,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 397,
-    "min_description_length": 272,
-    "avg_description_length": 328.07142857142856,
-    "embedding_file_size_mb": 0.051334381103515625
+    "max_description_length": 701,
+    "min_description_length": 265,
+    "avg_description_length": 397.0416666666667,
+    "embedding_file_size_mb": 0.08758354187011719
   }
 }

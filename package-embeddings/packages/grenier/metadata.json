@@ -1,364 +1,429 @@
 {
   "package": "grenier",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 49,
-  "creation_timestamp": "2025-06-18T16:42:03.270065",
+  "total_modules": 51,
+  "creation_timestamp": "2025-07-15T23:17:21.674487",
   "modules": [
     {
-      "module_path": "Strong.Finite.Array.Of_array",
-      "description": "Creates a hash table from a given array, using elements as keys and their indices as values. Operates on arrays of any type, producing a hash table where each element maps to its position. Useful for quickly looking up the index of elements in a static array.",
-      "description_length": 259,
+      "module_path": "State_elimination.NFA-Initials",
+      "library": "grenier.state_elimination",
+      "description": "This module defines a finite set of initial states for a non-deterministic finite automaton (NFA) and provides an array-based lookup table mapping each initial state to its corresponding transitions. It works with natural numbers as state identifiers and uses a finite array structure for efficient access. Concrete use cases include initializing state traversal in automata processing and mapping initial states to their outgoing transitions during pattern matching.",
+      "description_length": 467,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Strong.Finite.Set.Gensym",
-      "description": "Generates unique elements from a counter-based namespace, with `fresh` producing a new unique value each call and `freeze` capturing the current state of generated values. It operates on a type `n` representing unique identifiers. Used to create distinct temporary variables or labels in code generation pipelines.",
-      "description_length": 314,
+      "module_path": "State_elimination.NFA-States",
+      "library": "grenier.state_elimination",
+      "description": "Represents states in a non-deterministic finite automaton (NFA) using a natural number encoding. Provides a typed interface for manipulating state indices as they are eliminated during NFA minimization. Enables tracking and mapping of state transitions when reducing NFA structure.",
+      "description_length": 281,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Strong.Natural.Nth",
-      "description": "Returns the nth element of a list using a 0-based index. Operates on lists and integers. Retrieves specific elements from a dataset for direct access in data processing pipelines.",
-      "description_length": 179,
+      "module_path": "State_elimination.NFA-Finals",
+      "library": "grenier.state_elimination",
+      "description": "Represents a finite automaton with states and transitions, where `n` denotes the number of states and `a` represents elements of a finite set of states. Provides a `table` mapping final states to their transitions over a finite alphabet. Used to model and process non-deterministic finite automata with explicit final states.",
+      "description_length": 325,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Strong.Finite.Set",
-      "description": "creates a system for managing unique identifiers through a counter-based approach, allowing for the generation and capture of distinct values. it defines a type `n` and provides operations `fresh` to produce new unique values and `freeze` to lock the current set of generated values. this enables controlled generation of temporary variables or labels, ensuring no duplicates in code generation contexts. for example, it can be used to assign unique register names in a compiler or track temporary bindings in a transformation pipeline.",
-      "description_length": 536,
+      "module_path": "State_elimination.NFA-Transitions",
+      "library": "grenier.state_elimination",
+      "description": "Represents state transitions in a non-deterministic finite automaton using a natural-number-labeled graph structure. Provides direct access to transition labels and node identifiers for evaluating automaton paths. Useful for implementing NFA-based pattern matching and state exploration algorithms.",
+      "description_length": 298,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Strong.Finite.Elt",
-      "description": "Provides functions to convert between integers and elements of a specific set, with safe and unsafe options for conversion. Works with elements wrapped in a type that represents members of a predefined set. Used to map integer identifiers to structured elements and compare them directly.",
-      "description_length": 288,
+      "module_path": "State_elimination.NFA",
+      "library": "grenier.state_elimination",
+      "description": "This module represents a non-deterministic finite automaton (NFA) with explicitly defined states and transitions. It provides operations to access the source, target, and label of each transition, along with modules for managing initial and final states. It is used to model and manipulate automata in formal language processing and compiler design tasks.",
+      "description_length": 355,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Strong.Finite.Array",
-      "description": "Provides operations for creating and manipulating arrays of fixed size, where the size is specified by a natural number type. Works with arrays indexed by a natural number type and containing elements of a generic type. Used to generate lookup tables for mathematical sequences or precomputed values.",
-      "description_length": 300,
+      "module_path": "State_elimination.Convert",
+      "library": "grenier.state_elimination",
+      "description": "Converts NFAs into regular expressions by eliminating states. It processes transitions and final states from an NFA module and constructs equivalent regular expressions using the provided Regex module. The result maps each initial state to a list of (final state, regex) pairs representing paths through the NFA.",
+      "description_length": 312,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "State_elimination.Convert.States",
-      "description": "Provides a constant value `n` of type `Strong.Natural.t` and defines a type `n` for working with natural numbers in a constrained numeric context. Operates with bounded natural number representations to ensure validity in mathematical and state-based computations. Used to enforce numeric limits in systems requiring strict type-level constraints, such as finite state machines or resource counters.",
-      "description_length": 399,
+      "module_path": "State_elimination.Regex",
+      "library": "grenier.state_elimination",
+      "description": "This module represents regular expressions using a minimal set of operations. It supports concatenation (`^.`), alternation (`|.`), and Kleene star (`star`), with `epsilon` representing the empty string. It works directly with the abstract type `t`, allowing construction and manipulation of regex patterns for formal language processing tasks.",
+      "description_length": 344,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "State_elimination.Convert.Transitions",
-      "description": "Provides operations for working with natural numbers in a bounded context, including increment and decrement with overflow checks. Operates on values of type `n` which are constrained by a fixed upper limit defined by the `n` constant. Used to manage state transitions in finite automata where numerical values must remain within a specific range.",
-      "description_length": 347,
+      "module_path": "State_elimination",
+      "library": "grenier.state_elimination",
+      "description": "This module transforms NFAs with regex-labeled transitions into structured path representations by eliminating states and mapping initial states to final states with their corresponding regex sequences. It works with natural-number-encoded states, array-based transition tables, and a finite alphabet, enabling concrete operations like converting automata into equivalent regular expressions. The core functionality is supported by submodules that model transitions as labeled graphs, manage initial and final states, and define regex operations such as concatenation, alternation, and Kleene star. Together, these components allow tasks like NFA minimization, path extraction, and regex construction for formal language processing.",
+      "description_length": 732,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "State_elimination.Convert.Initials",
-      "description": "Computes and stores a fixed-size array of elements based on a natural number constraint. Operates on finite arrays and natural number types to enforce size limits. Used to generate precomputed state transitions in automata models.",
-      "description_length": 230,
+      "module_path": "Balmap.Set.Make",
+      "library": "grenier.balmap",
+      "description": "This module implements a balanced tree-based set structure for ordered elements, supporting operations like union, intersection, and difference alongside element addition, removal, and extremum extraction. It works with sets of ordered values (`O.t`) and sequences, enabling efficient ordered traversal, transformation via mapping or filtering, and bulk construction from sequences. Typical use cases include maintaining sorted collections, performing set algebra with logarithmic time complexity, and iterating over elements in ascending or descending order.",
+      "description_length": 559,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "State_elimination.Convert.Finals",
-      "description": "Provides access to a fixed-size array of elements indexed by a natural number `n`, where `n` represents the size of the array. Operates on finite arrays and elements from a state space defined by `States.n`. Used to model fixed-length state transitions or configurations in formal verification contexts.",
-      "description_length": 303,
+      "module_path": "Balmap.Map.Make",
+      "library": "grenier.balmap",
+      "description": "The module implements ordered, immutable key-value maps with efficient creation, modification, and traversal operations over a totally ordered key type `O.t`. It supports bulk transformations between maps and sequences, ordered iteration, and safe value extraction via optional return types, while maintaining key-based sorting through `O.compare`. These structures are suited for scenarios requiring predictable ordering guarantees, such as database indexing, configuration management, or sorted collection processing.",
+      "description_length": 519,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Balmap.Map.Make",
-      "description": "Compares two instances of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It operates directly on the t type, which represents keys in a structured format. This function is used to sort or order elements in a way that ensures consistent comparisons, such as when implementing ordered data structures.",
-      "description_length": 337,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Balmap.Set.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. Works with any data type that supports structural comparison. Used to sort lists of build targets or dependencies in a consistent order.",
-      "description_length": 242,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Strong.Order",
-      "description": "Provides operations to compare, order, and transform pairs of values with distinct types. Works with the polymorphic variant type that represents ordered pairs. Used to implement custom sorting logic in heterogeneous data structures.",
-      "description_length": 233,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Strong.Natural",
-      "description": "Provides operations for manipulating and comparing natural numbers, including increment, decrement, and equality checks. Works with the `n` type, representing non-negative integers. Used to enforce constraints in mathematical algorithms and ensure valid input ranges.",
-      "description_length": 267,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Strong.Finite",
-      "description": "manages unique identifiers, integer-to-element conversion, and fixed-size arrays, enabling precise control over variable generation, data mapping, and structured storage. it introduces type `n` for counters, a wrapped element type for safe conversions, and arrays indexed by natural numbers. operations include generating fresh values, converting integers to elements, and building lookup tables. examples include assigning unique registers, mapping IDs to structured data, and precomputing sequence values.",
-      "description_length": 507,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mbt.Make",
-      "description": "Provides operations to construct and combine measures, including creating an empty measure and concatenating measures with a value. Works with the `measure` type and the polymorphic `measurable` type. Used to build complex measurement structures by combining individual elements and existing measures.",
-      "description_length": 301,
-      "index": 15,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Valmari.Minimize",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It supports structured data where equality and ordering are defined via the compare function. Used to determine the minimum element in a collection by evaluating pairwise comparisons.",
-      "description_length": 289,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "State_elimination.Convert",
-      "description": "Provides operations for manipulating and combining elements of type `t`, including a constant representing an epsilon value, concatenation with `^.` and alternative with `|.` , and a Kleene star operation with `star`. Works with abstract syntax tree-like structures commonly used in formal language processing. Used to construct and transform patterns in parsing or regular expression-like systems.",
-      "description_length": 398,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Balmap.Map",
-      "description": "Compares instances of a structured key type using a total ordering, returning -1, 0, or 1 to indicate their relative position. It supports sorting and ordered operations by defining a consistent comparison mechanism. The primary data type is t, and the key operation is the comparison function. This enables reliable ordering in data structures like balanced trees or sorted lists.",
-      "description_length": 381,
-      "index": 18,
+      "library": "grenier.balmap",
+      "description": "This module provides ordered, immutable key-value maps over a totally ordered key type `O.t`, ensuring efficient creation, modification, and traversal while maintaining key-based sorting through `O.compare`. It supports bulk conversions with sequences, ordered iteration, and safe value access via optional returns. You can use it to implement database indexes, sorted configuration stores, or any application requiring deterministic key ordering and efficient map operations.",
+      "description_length": 476,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Balmap.Set",
-      "description": "Provides a mechanism for comparing values of type t using a total order, enabling consistent sorting and ordering of heterogeneous data. Supports structural comparison across any data type, allowing for predictable and reliable ordering operations. Can be used to sort lists of build targets, dependencies, or other structured data. Operations include comparison functions that return -1, 0, or 1, facilitating custom sorting logic.",
-      "description_length": 432,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Doubledouble.Infix",
-      "description": "Performs arithmetic and comparison operations on numeric types, including addition, subtraction, multiplication, division, exponentiation, and relational checks. Supports custom operator syntax for seamless integration with numeric computations. Used for implementing mathematical expressions and conditionals in numerical contexts.",
-      "description_length": 332,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "State_elimination.States",
-      "description": "Provides operations for working with natural numbers, including arithmetic and comparison functions. Operates on the `Strong.Natural.t` type for safe, bounded integer manipulation. Used to enforce constraints in state transitions and resource management.",
-      "description_length": 254,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "State_elimination.Transitions",
-      "description": "Provides operations for working with natural numbers in a bounded context, including increment and decrement with overflow checks. Operates on values of type `n` derived from `Strong.Natural.t`. Used to manage state transitions in finite automata where numerical bounds are critical.",
-      "description_length": 283,
-      "index": 22,
+      "library": "grenier.balmap",
+      "description": "This module provides a balanced tree-based set structure for ordered elements, supporting efficient set operations such as union, intersection, and difference, along with element insertion, deletion, and extremum extraction. It allows traversal in ascending or descending order, transformation via mapping or filtering, and construction from sequences. You can use it to maintain sorted collections, perform set algebra with logarithmic time complexity, or iterate over elements in a controlled order. For example, you can compute the union of two large sets efficiently or extract the smallest element repeatedly in logarithmic time.",
+      "description_length": 634,
+      "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "State_elimination.Initials",
-      "description": "Provides operations on finite natural numbers and arrays indexed by elements of a finite set. Works with natural numbers from a strong module and arrays mapping elements of a finite set to values. Used to generate and manipulate initial state configurations in automata models.",
-      "description_length": 277,
-      "index": 23,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "State_elimination.Finals",
-      "description": "Provides operations for working with finite natural numbers and arrays indexed by elements of a finite set. Operates on natural numbers of type `n` and elements of type `a` derived from a finite state space. Used to generate and manipulate fixed-size arrays where indices correspond to specific states in a predefined set.",
-      "description_length": 322,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "grenier",
-      "description": "Provides operations to construct and manipulate balanced binary trees, including insertion, deletion, and traversal functions that maintain balance. Works with tree nodes structured to enforce height balance through smart constructors. Used to implement efficient search and ordered data storage systems where balance is critical for performance.",
-      "description_length": 346,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Order_managed_interval",
-      "description": "Creates and manipulates ordered sequences where elements can be inserted relative to existing ones. Operates on a custom type `t` representing ordered positions, supporting comparisons and order checks. Used to efficiently manage dynamic orderings in applications requiring frequent reordering, such as priority queues or event scheduling.",
-      "description_length": 339,
-      "index": 26,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Binder_introducer",
-      "description": "Introduces let-binders at dominating nodes in a directed graph to manage shared subexpressions. Operates on graph structures with node-based dependencies and binding annotations. Rewrites graphs to expose sharing, enabling more efficient representation of cyclic or repeated substructures.",
-      "description_length": 289,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bt2",
-      "description": "Constructs and manipulates balanced binary trees with size tracking, supporting efficient node creation, size queries, and tree concatenation. Operates on trees where each node contains an 'a and 'b value, ensuring balanced structure during operations. Enables efficient access to elements by rank and merging of trees while maintaining balance.",
-      "description_length": 345,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Strong",
-      "description": "Combines operations for comparing and transforming heterogeneous pairs, manipulating natural numbers, and managing unique identifiers and indexed arrays. It supports polymorphic variant pairs, `n`-typed counters, and element conversions, enabling tasks like custom sorting, range validation, and data mapping. Users can implement ordered comparisons across types, enforce numeric constraints, and generate structured data with unique keys. Examples include sorting mixed data types, validating input ranges, and creating lookup tables for indexed elements.",
-      "description_length": 556,
-      "index": 29,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Order_managed_indir",
-      "description": "Creates and manages ordered sequences where elements can be inserted relative to existing ones. Operates on a type `t` representing elements in a dynamic order, supporting insertion before or after specific elements, comparison, and validity checks. Used to efficiently maintain and query ordered structures in applications requiring frequent reordering, such as priority queues or event scheduling.",
-      "description_length": 399,
-      "index": 30,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mbt",
-      "description": "Provides operations to create and combine measures using a monoid structure, supporting concatenation of measurable values along tree branches. Works with the `measurable` type, which wraps values that can contribute to a measure, and the `measure` type representing accumulated values. Used to track and merge metrics through hierarchical data structures like trees.",
-      "description_length": 367,
-      "index": 31,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fastdom",
-      "description": "Provides operations to determine dominators, predecessors, and reachability in a graph, along with postorder indices for nodes. Works with graph structures and node-specific information records. Computes dominance information for control flow graphs, enabling analysis of program execution paths.",
-      "description_length": 296,
-      "index": 32,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Order_managed",
-      "description": "Creates and manipulates ordered sequences where elements can be inserted relative to existing ones, supporting comparisons and validity checks. Operates on a type `t` representing ordered elements, enabling efficient insertion before or after specific elements. Used to manage dynamic orderings in applications requiring frequent reordering, such as priority queues or event scheduling.",
-      "description_length": 386,
-      "index": 33,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Valmari",
-      "description": "Provides operations to access and manipulate DFA states and transitions, including retrieving labels, sources, and targets of transitions, and iterating over initial and final states. Works with finite sets of states and transitions, along with associated labels. Used to implement DFA minimization algorithms, allowing custom refinement steps based on state equivalence.",
-      "description_length": 371,
-      "index": 34,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Order_list",
-      "description": "Creates and manages ordered sequences where elements can be inserted relative to existing ones. Operates on a type `t` representing ordered elements, supporting insertion before or after specific elements, comparison, and validity checks. Used to dynamically maintain ordered relationships in systems requiring efficient position-based updates and queries.",
-      "description_length": 356,
-      "index": 35,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "State_elimination",
-      "description": "combines bounded natural number operations with finite set indexing to manage state transitions and configurations. It works with types `Strong.Natural.t` and arrays indexed by finite state elements, enabling safe arithmetic and array manipulation. Users can enforce numerical constraints, manage finite automata transitions, and generate initial state configurations. Examples include incrementing values with overflow checks and building fixed-size arrays representing state mappings.",
-      "description_length": 486,
-      "index": 36,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Order_indir",
-      "description": "Creates and manipulates ordered sequences where elements can be inserted relative to existing ones. Operates on a type `t` representing elements in a dynamic order. Inserts new elements before or after existing ones, compares positions, checks validity, and manages memory for long-lived elements.",
-      "description_length": 297,
-      "index": 37,
+      "module_path": "Balmap",
+      "library": "grenier.balmap",
+      "description": "This module combines an ordered key-value map and a balanced set to manage sorted, immutable data structures with efficient operations. The map maintains keys in total order using a comparison function, enabling safe value access, ordered traversal, and sequence conversion, while the set supports logarithmic-time union, intersection, and ordered iteration. You can use the map to build sorted configuration stores or database indexes, and the set to perform efficient set algebra or maintain sorted collections with controlled traversal. For example, you can compute the intersection of two large sorted sets or look up values in a map by ordered keys with optional returns.",
+      "description_length": 676,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Jmphash",
-      "description": "Calculates the appropriate host index for a given key using a consistent hashing algorithm, mapping keys to a specified number of hosts. It operates on integer keys and host counts, producing an integer host identifier. This is useful for distributing data across a fixed number of servers in a way that minimizes reassignment when the number of hosts changes.",
+      "library": "grenier.jmphash",
+      "description": "This module implements a consistent hashing algorithm that maps keys to hosts in a distributed system. It provides the `host` function, which takes a key and the number of hosts, returning the host index responsible for that key. It works with 64-bit integers for keys and integers for host counts, making it suitable for sharding data across servers or load balancing requests.",
+      "description_length": 378,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dbseq",
+      "library": "grenier.dbseq",
+      "description": "This module implements an immutable sequence data structure optimized for efficient element access and updates, particularly for recently added elements. It supports operations like adding to the front, indexed access, in-place updates, and iteration via standard sequence interfaces. It is well-suited for managing variable metadata in de Bruijn-indexed representations, such as in type checkers or compilers where efficient access to recent bindings is critical.",
+      "description_length": 464,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Congre",
+      "library": "grenier.congre",
+      "description": "This module enables the construction and manipulation of a congruence closure graph, where nodes represent equivalence classes interconnected by edges modeling equalities or function applications. It supports operations to assert relationships, propagate constraints, query equivalence, and manage stateful snapshots for versioning, with utilities to validate or invalidate snapshots to handle dynamic backtracking scenarios. Such capabilities are particularly useful in formal verification, symbolic reasoning, or constraint-solving systems requiring incremental state management and equivalence tracking under functional transformations.",
+      "description_length": 639,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mbt.MEASURE",
+      "library": "grenier.baltree",
+      "description": "This module defines operations for maintaining and combining measures in a balanced tree structure. It uses a monoid with an `empty` identity and a `cat` function to merge measures from left and right subtrees with a node's payload. It supports efficient subtree aggregation, such as computing cumulative values over ranges or maintaining size/height invariants.",
+      "description_length": 362,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mbt.Make",
+      "library": "grenier.baltree",
+      "description": "This module implements a balanced tree structure with efficient concatenation and size-based node retrieval. It supports construction of trees using leaf and node operations, where nodes maintain balance and incorporate measurable values from the parameter module. The module enables operations like joining two trees in logarithmic time relative to the smaller tree's size and retrieving a node by its rank within the tree.",
+      "description_length": 424,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mbt",
+      "library": "grenier.baltree",
+      "description": "This module provides a framework for defining and aggregating measurements across tree structures, centered around a measure type and a `Make` functor that builds measurement modules for numeric types like floats. It supports tracking metrics such as averages, counts, and sums, particularly in performance monitoring and statistical analysis. The first child module enhances it with a monoid-based system for combining measures over balanced trees, enabling efficient range queries and invariant maintenance. The second child module supplies a concrete balanced tree implementation with fast concatenation and indexed access, allowing for operations like logarithmic-time tree joins and rank-based node retrieval.",
+      "description_length": 714,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Bt2",
+      "library": "grenier.baltree",
+      "description": "This module implements a balanced binary tree structure with efficient concatenation and rank-based selection. It provides leaf and node constructors to build trees, where each node holds a value and ensures balance. Use cases include maintaining ordered sequences with fast joins and accessing elements by their position in logarithmic time.",
+      "description_length": 342,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Bt1",
+      "library": "grenier.baltree",
+      "description": "This module implements a balanced binary tree structure with efficient size manipulation and concatenation. It provides a leaf constructor for empty trees and a node constructor that ensures balanced tree creation with proper size tracking. The module supports operations like `join` for combining trees with logarithmic cost relative to the smaller tree's size and `rank` for accessing the n-th element in tree order. Use cases include managing ordered collections where efficient splitting and joining are required, such as in certain types of sequence data structures or priority queues.",
+      "description_length": 590,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Doubledouble.Infix",
+      "library": "grenier.doubledouble",
+      "description": "This module defines infix operators for arithmetic and comparison operations on `Doubledouble.t` values. It supports addition, subtraction, negation, multiplication, division, exponentiation, and all standard comparison operators. These operations enable precise calculations and comparisons with doubledouble precision numbers directly in an intuitive syntax.",
       "description_length": 360,
+      "index": 21,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Doubledouble",
+      "library": "grenier.doubledouble",
+      "description": "This module provides a high-precision floating-point type for extended numeric computations, supporting arithmetic operations, transcendental functions, and rounding controls with a dedicated double-double precision type. It includes direct support for conversions to and from strings and integers, comparison predicates, and special value representations like NaNs, enabling precise numerical control for scientific simulations and financial calculations. The child module adds infix operators for arithmetic and comparison operations, allowing intuitive expression of addition, multiplication, exponentiation, and comparisons on double-double values. Together, they facilitate complex numerical workflows with fine-grained precision management.",
+      "description_length": 746,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Maxrects",
+      "library": "grenier.binpacking",
+      "description": "This module implements a rectangle packing algorithm using a maximal rectangles strategy. It supports inserting single or multiple rectangles into a bin of specified dimensions, choosing placement based on heuristics like short side fit or bottom-left alignment. It is used for efficiently arranging UI elements, textures, or other 2D items within limited space.",
+      "description_length": 362,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fastdom",
+      "library": "grenier.fastdom",
+      "description": "This module computes dominators for nodes in a graph using a fast algorithm by Cooper, Harvey, and Kennedy. It works with graph structures represented as nodes, each having predecessors and successors, and returns dominance information including immediate dominators, reachability status, and postorder indices. Concrete use cases include optimizing control flow in compilers and analyzing program structure.",
+      "description_length": 408,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Strong.Finite.Set.Gensym",
+      "library": "grenier.strong",
+      "description": "This module generates fresh unique elements of type `n` and produces finite sets of such elements. It ensures that each call to `fresh` returns a distinct value, and `freeze` captures the current set of all generated elements. Useful for scenarios like generating unique identifiers or managing a controlled set of symbols in a compiler or formal system.",
+      "description_length": 354,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite.Array.T",
+      "library": "grenier.strong",
+      "description": "This module represents a fixed-size array with a statically known length, where elements are indexed by natural numbers up to a given bound. It provides operations to create, access, and transform arrays with strong type guarantees on size and indexing. Use cases include safe manipulation of bounded collections, such as pixel buffers, fixed-length records, or compile-time dimensioned vectors.",
+      "description_length": 395,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite.Array.Of_array",
+      "library": "grenier.strong",
+      "description": "This module defines a finite array with a fixed size `n` and elements of type `a`, initialized from an existing array. It provides direct access to the array via the `table` value and ensures the size matches the provided natural number `n`. It is useful for representing and manipulating arrays with a known, fixed length, such as lookup tables or fixed-size buffers.",
+      "description_length": 368,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite.Elt",
+      "library": "grenier.strong",
+      "description": "This module provides functions to convert integers to strongly-typed finite elements and back, ensuring valid range checks at runtime. It supports safe indexing into fixed-size collections by wrapping integers as typed elements of a finite set. Use cases include array access with compile-time bounds enforcement and managing enumerated values with guaranteed membership.",
+      "description_length": 371,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite.Array",
+      "library": "grenier.strong",
+      "description": "This module enables type-safe manipulation of fixed-length arrays indexed by finite natural numbers, offering operations like indexed element access, in-place updates, and size-preserving transformations such as mapping, folding, and pairwise operations. It supports advanced functionality including array concatenation, matrix construction, and conversions to standard arrays, making it suitable for numerical computations, vectorized operations, and scenarios requiring strict static size guarantees. One sub-module represents fixed-size arrays with compile-time size guarantees, supporting safe creation, access, and transformation for use cases like pixel buffers and vectors. Another sub-module provides fixed-size arrays initialized from existing data, ensuring size invariants while allowing direct access to the underlying table for tasks like lookup tables or buffers.",
+      "description_length": 877,
+      "index": 29,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Strong.Natural.Nth",
+      "library": "grenier.strong",
+      "description": "This module represents a natural number type with a value-indexed guarantee of being non-negative. It provides operations to construct and manipulate natural numbers, including arithmetic and comparisons, ensuring correctness by construction. It is useful for contexts requiring precise numeric constraints, such as indexing into lists or defining fixed-size data structures.",
+      "description_length": 375,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite.Set",
+      "library": "grenier.strong",
+      "description": "This module provides finite sets of elements with operations for cardinality, iteration, and folding, working with element type `'n Strong.Finite.elt` and set type `'n Strong.Finite.set`. It supports processing fixed-size collections like graph nodes or state transitions, where order may be significant. A child module generates fresh unique elements and captures the full set of generated values, enabling controlled symbol management in compilers or formal systems. Together, they allow both manipulation of existing finite sets and dynamic creation of fresh elements with set tracking.",
+      "description_length": 589,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Natural.T",
+      "library": "grenier.strong",
+      "description": "This module defines a type `n` representing natural numbers with a value-level singleton `n` that serves as a witness for type-level natural numbers. It enables operations that require explicit natural number values, such as indexing or bounded integer manipulation. Concrete use cases include safe array access, loop counters, and size-constrained data structures.",
+      "description_length": 365,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Finite",
+      "library": "grenier.strong",
+      "description": "This module enables type-safe computation over fixed-size data structures by combining finite element indexing, static-sized arrays, and finite sets. It provides core data types including strongly-typed finite elements, fixed-length arrays indexed by those elements, and finite sets with tracked membership. Operations include safe indexing, array transformation with size preservation, set cardinality queries, and generation of fresh unique elements. Examples include managing pixel buffers with compile-time size guarantees, implementing state transitions over a fixed set of nodes, and building lookup tables with runtime-checked bounds.",
+      "description_length": 641,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Strong.Natural",
+      "library": "grenier.strong",
+      "description": "This module represents natural numbers as first-class types with arithmetic operations and ordering, supporting type-level numerals and proofs of commutativity and associativity. It enables compile-time arithmetic and type-safe dimensional analysis, ensuring correctness through indexed types that guarantee non-negative values. Submodules provide value-level singletons for type-level naturals, enabling safe array access and bounded integer manipulation, while the core module supports constructing and manipulating natural numbers with arithmetic and comparisons. Together, they facilitate precise numeric constraints in fixed-size data structures, indexing, and loop counters.",
+      "description_length": 680,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Strong",
+      "library": "grenier.strong",
+      "description": "This module enforces type-safe equality and ordering through direct comparison functions and structured conversions, while its submodules enable fixed-size data manipulation and type-level natural numbers. It introduces abstract types like `void` for uninhabited types, supports strict ordering via `order_from_comparison`, and ensures safe indexing and arithmetic with finite types and naturals at the type level. The finite types submodule guarantees compile-time size constraints for arrays and sets, enabling use cases like pixel buffers and state machines, while the naturals submodule provides arithmetic proofs and bounded integers for dimensional analysis and loop counters. Together, they allow precise, safe operations on fixed and ordered data structures without runtime errors.",
+      "description_length": 789,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Hll",
+      "library": "grenier.hll",
+      "description": "This module implements a probabilistic cardinality estimator using the HyperLogLog algorithm, providing functions to count unique elements with a controlled error rate. It operates on a mutable `t` type that tracks hashed 64-bit integers, supporting operations like adding elements, estimating cardinality, merging counters, and serializing state. Concrete use cases include estimating unique visitors in analytics, tracking distinct elements in large data streams, and efficiently merging distributed counters.",
+      "description_length": 511,
+      "index": 36,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Hll_consts",
+      "library": "grenier.hll",
+      "description": "This module defines arrays of precomputed constants used for cardinality estimation in probabilistic data structures. It includes thresholds for accuracy control, raw estimation data for approximate counting, and bias correction data for error reduction. These constants are used directly in implementing algorithms like HyperLogLog to improve estimation precision.",
+      "description_length": 365,
+      "index": 37,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Binder_introducer",
+      "library": "grenier.binder_introducer",
+      "description": "Performs explicit sharing of nodes in a graph by introducing a binding structure that maps values to identifiers. It takes a graph, a binding structure, and a value, then returns a transformed value with shared nodes properly bound. This is useful for optimizing memory usage and ensuring referential consistency in graph-based computations.",
+      "description_length": 341,
       "index": 38,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bt1",
-      "description": "Provides operations to construct and manipulate balanced binary trees, including creating leaves, building nodes with balanced structure, and joining trees while maintaining balance. Works with a private tree type that tracks size and ensures depth remains logarithmic relative to the number of elements. Used to efficiently access elements by rank and combine trees in logarithmic time relative to their smaller size.",
-      "description_length": 418,
+      "module_path": "Valmari.INPUT",
+      "library": "grenier.valmari",
+      "description": "This module defines the interface for accessing the structure of a deterministic finite automaton (DFA) used in the minimization algorithm. It provides functions to retrieve the source, target, and label of transitions, as well as iteration over initial, final, and refined states. These operations support the core logic of DFA minimization by exposing the necessary elements for partition refinement and traversal.",
+      "description_length": 416,
       "index": 39,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dbseq",
-      "description": "Provides operations to build, access, and modify sequences with logarithmic time complexity for indexed operations. Works with a custom tree-based structure optimized for efficient metadata management in De-Bruijn contexts. Supports adding elements to the front, updating specific indices, and converting to forward or reverse sequences for traversal.",
-      "description_length": 351,
+      "module_path": "Valmari.DFA",
+      "library": "grenier.valmari",
+      "description": "This module implements a deterministic finite automaton (DFA) with operations to access states, transitions, labels, and their relationships. It works with finite sets of states and transitions, where each transition has a source state, target state, and an associated label. Concrete use cases include representing and manipulating automata for tasks such as language recognition, parsing, and model checking.",
+      "description_length": 410,
       "index": 40,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Maxrects",
-      "description": "Positions rectangles within a bin using placement strategies like BSSF, BLSF, BAF, and BL, adjusting for rotation to optimize space. Operates on boxes with specified dimensions and tags, returning placement results within a bin structure. Supports incremental and batch insertion, with options for online or offline packing strategies.",
-      "description_length": 335,
+      "module_path": "Valmari.Minimize",
+      "library": "grenier.valmari",
+      "description": "This module implements an efficient DFA minimization algorithm based on Valmari's approach. It operates on finite sets of states and transitions, providing access to state and transition labels, source and target relationships, and initial/final state arrays. It supports mapping between input and minimized state/transition representations, enabling direct integration of minimized automata with original data structures.",
+      "description_length": 422,
       "index": 41,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Balmap",
-      "description": "defines a total ordering mechanism for structured data, enabling consistent sorting and ordered operations through comparison functions that return -1, 0, or 1. It supports heterogeneous data types and provides a reliable way to order complex structures like build targets or dependencies. The primary data type is t, with comparison as the core operation. This allows for efficient implementation of sorted lists, balanced trees, and custom sorting logic.",
-      "description_length": 456,
+      "module_path": "Valmari",
+      "library": "grenier.valmari",
+      "description": "This module implements an efficient DFA minimization algorithm based on partition refinement, operating on automata structures defined through dedicated interfaces for states, transitions, and labels. It provides direct access to initial and final states, transition relationships, and label mappings, enabling precise manipulation and traversal of the automaton during minimization. The algorithm processes finite sets of states and transitions, supporting tasks like language recognition and lexical analysis by reducing automata size while preserving behavior. Concrete examples include minimizing automata for pattern matching or integrating minimized representations with existing input structures for optimized execution.",
+      "description_length": 727,
       "index": 42,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trope",
-      "description": "The module offers insertion, deletion, and cursor-based navigation operations for manipulating structured buffers, enabling precise control over content and position relationships. It operates on a generic buffer type 'a t alongside cursor structures, facilitating tasks like text editing or data transformation where positional accuracy is essential. Use cases include dynamic content restructuring and efficient traversal of hierarchical data with maintained cursor dependencies.",
-      "description_length": 481,
+      "module_path": "Partition",
+      "library": "grenier.valmari",
+      "description": "This module manages a dynamic partitioning structure over a finite set of elements, supporting operations like splitting sets based on marked elements, discarding elements selectively, and querying set membership. It works with finite element types indexed by integers, tracking active elements and organizing them into disjoint subsets. Concrete use cases include refining equivalence classes during state-space exploration or managing dynamic groupings in constraint-solving algorithms.",
+      "description_length": 488,
       "index": 43,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Partition",
-      "description": "Creates and manages a dynamic partition of a finite set, allowing elements to be grouped, split, and filtered based on custom criteria. Operates on finite elements and integer-set indices, supporting operations like marking elements for batch processing, splitting sets, and discarding elements based on predicates. Used to efficiently manage evolving groupings in algorithms requiring incremental refinement of equivalence classes.",
-      "description_length": 432,
+      "module_path": "Trope",
+      "library": "grenier.trope",
+      "description": "This module offers operations for manipulating a polymorphic buffer with persistent cursors, enabling atomic insertions, deletions, and positional queries while maintaining cursor consistency across modifications. It works with a structured buffer that tracks elements alongside explicit positions and cursors, supporting ordered traversal and bidirectional cursor navigation. The functionality is particularly suited for text editing interfaces or structured data processing where precise positional tracking and mutation relative to dynamic markers are required.",
+      "description_length": 564,
       "index": 44,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Hll",
-      "description": "Provides operations to create, update, and query a probabilistic cardinality estimator using the HyperLogLog algorithm. Works with a custom type `t` and 64-bit integers, requiring cryptographic-quality hashing for accurate results. Supports merging counters, estimating memory usage, and retrieving cardinality estimates in multiple formats.",
-      "description_length": 341,
+      "module_path": "Order_list",
+      "library": "grenier.orderme",
+      "description": "This module implements a bidirectional ordering list where elements are inserted relative to existing ones using `after` and `before`. It supports constant-time comparison, validity checks, and cardinality tracking. Common use cases include managing dynamic sequences like document revision histories or interactive timeline events where precise insertion order matters.",
+      "description_length": 370,
       "index": 45,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Doubledouble",
-      "description": "performs arithmetic and comparison operations on numeric types, including addition, subtraction, multiplication, division, exponentiation, and relational checks, with custom operator syntax for intuitive numeric computations. It supports operations on integers, floats, and other numeric types, enabling the construction of complex mathematical expressions and conditional logic. Users can define and evaluate expressions like `2 + 3 * 4` or `x > y && z <= 10`. This module is essential for applications requiring precise numerical processing and logical evaluation.",
-      "description_length": 566,
-      "index": 46,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Hll_consts",
-      "description": "Provides threshold values for probabilistic counting, raw estimated data for cardinality approximations, and bias correction data for error adjustment. Works with float arrays and nested float arrays to store configurable parameters and correction tables. Used to fine-tune the accuracy of hyperloglog implementations in data processing pipelines.",
-      "description_length": 347,
-      "index": 47,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Order_managed_indir",
+      "library": "grenier.orderme",
+      "description": "This module implements a mutable total ordering of elements where new elements can be inserted relative to existing ones using `after` or `before`. It supports constant-time comparison, validity checks, and cardinality tracking. Typical use cases include managing dynamic sequences where elements must maintain a strict order, such as in UI layouts or versioned state transitions.",
+      "description_length": 380,
+      "index": 46,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Order_managed_interval",
+      "library": "grenier.orderme",
+      "description": "This module manages a dynamic total ordering of elements, where new elements can be inserted relative to existing ones using precise positional operations like `after`, `before`, `inside`, and `outside`. It supports efficient comparison between elements with `compare`, which returns a `rel` indicating their relative positions, and tracks the total number of elements with `cardinal`. Use cases include maintaining a sorted sequence with frequent insertions, such as in interactive editors or real-time collaborative data structures.",
+      "description_length": 534,
+      "index": 47,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Order_managed",
+      "library": "grenier.orderme",
+      "description": "This module implements a mutable total ordering of elements where new elements can be inserted relative to existing ones using `after` or `before`. It supports fast comparison, cardinality tracking, and validity checks to manage element lifetimes explicitly. Use cases include maintaining UI element z-order or scheduling tasks with relative priorities.",
+      "description_length": 353,
+      "index": 48,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Order_indir",
+      "library": "grenier.orderme",
+      "description": "This module implements a dynamic total ordering of elements where new elements can be inserted relative to existing ones using `after` and `before`. It supports comparison, checking element validity, and managing memory explicitly through `forget`. Useful for maintaining a mutable sequence where precise control over element positioning and memory is required, such as in editor buffers or versioned data structures.",
+      "description_length": 417,
+      "index": 49,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Order_interval",
-      "description": "Creates and manipulates ordered sequences using a structure that supports inserting elements before or after existing ones, checking order relationships, and managing element lifetimes. Operates on a custom type `t` representing ordered positions, with comparisons returning a `rel` type indicating order. Used to efficiently maintain dynamic orderings in applications requiring frequent insertions and order checks, such as event scheduling or dependency tracking.",
-      "description_length": 465,
-      "index": 48,
+      "library": "grenier.orderme",
+      "description": "This module implements a data structure for maintaining a dynamic total order of elements, supporting insertion relative to existing elements in O(1) time. It works with a private type `t` representing elements in the order, and provides precise positioning with `before`, `after`, `inside`, and `outside`. Use cases include managing UI element z-orders, versioned data structures, or event timelines where elements must be inserted and compared efficiently without full traversal.",
+      "description_length": 481,
+      "index": 50,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 50,
-    "meaningful_modules": 49,
+    "total_modules_in_package": 52,
+    "meaningful_modules": 51,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.98
+    "retention_rate": 0.9807692307692307
   },
   "statistics": {
-    "max_description_length": 566,
-    "min_description_length": 179,
-    "avg_description_length": 355.0,
-    "embedding_file_size_mb": 0.17851638793945312
+    "max_description_length": 877,
+    "min_description_length": 281,
+    "avg_description_length": 477.45098039215685,
+    "embedding_file_size_mb": 0.18570613861083984
   }
 }

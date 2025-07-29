@@ -1,49 +1,45 @@
 {
   "package": "trampoline",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:28:54.235231",
+  "total_modules": 3,
+  "creation_timestamp": "2025-07-15T23:05:09.276249",
   "modules": [
     {
-      "module_path": "Trampoline.Trampoline",
-      "description": "Performs deferred and recursive computation sequencing using a trampoline pattern. Operates on a monadic type 'a t, allowing values to be suspended, chained, or recursively processed. Enables safe tail-recursive execution of nested operations, such as processing large data structures or implementing state machines.",
-      "description_length": 316,
+      "module_path": "Trampoline.Not_a_trampoline",
+      "library": "trampoline",
+      "description": "This module provides direct stack-based computation handling without trampolining, working with suspended computations represented as `t` values. It supports operations like `bind`, `map`, `return`, and `suspend` to compose and manipulate delayed computations, with `execute` running the final result. Useful for scenarios where deep recursion isn't expected and direct stack execution is preferred, especially when interfacing with functors that abstract over trampoline implementations.",
+      "description_length": 488,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Trampoline.Not_a_trampoline",
-      "description": "Performs nested computations by deferring execution through suspended operations, allowing direct stack usage instead of trampolines. Operates on a monadic type 'a t, enabling sequencing of actions with return, bind, and suspend. Used to simplify recursive function calls and manage delayed evaluations in environments where stack depth is guaranteed.",
-      "description_length": 351,
+      "module_path": "Trampoline.Trampoline",
+      "library": "trampoline",
+      "description": "This module provides a mechanism to execute deeply recursive computations without consuming stack space, using `return`, `suspend`, and `bind` to build suspended computations. It supports operations like `map` and `recursive_call` to manipulate and chain computations, enabling stack-safe recursion patterns. Concrete use cases include implementing interpreters or compilers with deep recursion, particularly for bytecode or JavaScript targets where stack limits are restrictive.",
+      "description_length": 479,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "trampoline",
-      "description": "Handles recursive function execution by converting tail-recursive calls into iterative loops, using a state machine to manage continuation. Operates on functions that return a `Continue` or `Stop` variant, along with associated values. Enables safe execution of deep recursion in environments with limited stack depth, such as parsing or event-driven systems.",
-      "description_length": 359,
+      "module_path": "Trampoline",
+      "library": "trampoline",
+      "description": "This module implements a trampoline for deeply recursive functions, particularly useful in environments with limited stack depth such as bytecode interpreters and JavaScript targets. It provides data types representing suspended computations, with core operations like `bind`, `map`, `return`, and `suspend` to compose and manipulate recursive logic iteratively rather than directly. The first child module offers a stack-based variant for non-trampolined execution, ideal for shallow recursion and functor compatibility, while the second child module focuses on stack-safe, deeply recursive execution using trampolining. Examples include writing recursive parsers, interpreters, or algorithms that would otherwise risk stack overflow when run directly.",
+      "description_length": 753,
       "index": 2,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Trampoline",
-      "description": "Performs deferred and recursive computations using a trampoline pattern to avoid stack overflow. It works with a monadic type 'a t, allowing values to be suspended, chained, or transformed. Use cases include implementing deep recursion, lazy evaluation, and managing stateful computations without heap allocation.",
-      "description_length": 313,
-      "index": 3,
-      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 4,
-    "meaningful_modules": 4,
+    "total_modules_in_package": 3,
+    "meaningful_modules": 3,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 359,
-    "min_description_length": 313,
-    "avg_description_length": 334.75,
-    "embedding_file_size_mb": 0.014941215515136719
+    "max_description_length": 753,
+    "min_description_length": 479,
+    "avg_description_length": 573.3333333333334,
+    "embedding_file_size_mb": 0.011316299438476562
   }
 }

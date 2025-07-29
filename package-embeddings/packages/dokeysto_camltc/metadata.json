@@ -1,77 +1,85 @@
 {
   "package": "dokeysto_camltc",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:07.854429",
+  "creation_timestamp": "2025-07-15T23:06:28.115586",
   "modules": [
     {
-      "module_path": "Dokeysto_camltc.Db_camltc_gen.RO",
-      "description": "Converts keys and values between their native forms and string representations, enabling serialization and deserialization. Operates on arbitrary key and value types through polymorphic functions. Used to generate human-readable logs and parse input data in configuration systems.",
-      "description_length": 280,
+      "module_path": "Dokeysto_camltc.Db_camltc.RO",
+      "library": "dokeysto_camltc",
+      "description": "This module provides read-only access to a persistent hash table stored in a file, allowing operations like key existence checks, value retrieval, and iteration over key-value pairs. It works with string keys and values, backed by a disk-based storage system. Concrete use cases include querying precomputed datasets or configuration stores without modifying them.",
+      "description_length": 364,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Dokeysto_camltc.Db_camltc_gen.RW",
-      "description": "Converts keys and values between their original types and string representations, enabling serialization and deserialization. Operates on arbitrary types 'k and 'v through custom conversion functions. Used to store and retrieve complex data in text-based formats like configuration files or logs.",
-      "description_length": 296,
+      "module_path": "Dokeysto_camltc.Db_camltc_gen.RO",
+      "library": "dokeysto_camltc",
+      "description": "This module implements a read-only interface for interacting with a persistent hash table stored in a file, allowing operations such as key existence checks, value retrieval, and iteration over key-value pairs. It works with a key-value data structure where keys and values are handled through the provided `KV` module. Concrete use cases include efficiently querying large, disk-stored datasets without modifying them, such as serving precomputed mappings in a read-only context.",
+      "description_length": 480,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dokeysto_camltc.Db_camltc.RO",
-      "description": "Provides operations to open, close, and query a persistent hash table stored across two files, including checking for key existence, retrieving values, and iterating over entries. Works with string keys and string values, and a handle type `t` representing the database. Used to efficiently access and process large datasets stored on disk without loading them entirely into memory.",
-      "description_length": 382,
+      "module_path": "Dokeysto_camltc.Db_camltc.RW",
+      "library": "dokeysto_camltc",
+      "description": "This module implements a persistent read-write key-value store using a file-backed hash table. It supports operations to create, open, close, and destroy databases, as well as adding, replacing, removing, and querying key-value pairs. Use cases include storing and retrieving string-based data with durable persistence to disk.",
+      "description_length": 327,
       "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dokeysto_camltc.Db_camltc_gen.RW",
+      "library": "dokeysto_camltc",
+      "description": "This module implements a persistent hash table with read-write capabilities, storing key-value pairs in a file-based database indexed via a separate file. It supports operations like creating, opening, closing, and destroying databases, as well as adding, replacing, removing, and querying entries. Use cases include managing large datasets that exceed memory limits or require durable storage, such as caching systems or disk-backed key-value stores.",
+      "description_length": 451,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dokeysto_camltc.Db_camltc.RW",
-      "description": "Provides operations to create, open, and manage a persistent hash table stored across two files: one for data and one for an index. Supports adding, replacing, removing, and looking up key-value pairs, as well as iterating and folding over the contents. Used to maintain durable, in-memory-like storage with disk persistence for applications requiring fast access to structured data.",
-      "description_length": 383,
-      "index": 3,
-      "embedding_norm": 1.0
+      "module_path": "Dokeysto_camltc.Internal_camltc",
+      "library": "dokeysto_camltc",
+      "description": "This module implements a key-value store interface using Berkeley DB, providing operations to check existence (`mem`), retrieve values (`find`), iterate over entries (`iter`), and fold over key-value pairs (`fold`). It works with a database type composed of a filename and a Berkeley DB handle. Concrete use cases include persistent storage and retrieval of string-based records backed by BDB for efficiency and transactional integrity.",
+      "description_length": 436,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Dokeysto_camltc.Db_camltc",
-      "description": "Manages persistent, disk-based hash tables with separate data and index files, enabling efficient storage and retrieval of string-keyed data. Offers operations to open, close, add, remove, look up, and iterate over key-value pairs, with a handle type for managing database sessions. Supports folding over entries for aggregate processing and ensures data durability without loading entire datasets into memory. Examples include maintaining a lookup table for user sessions or caching frequently accessed data across application runs.",
-      "description_length": 533,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Dokeysto_camltc.Db_camltc_gen",
-      "description": "Handles type conversion for keys and values, supporting serialization and deserialization across arbitrary types using custom or polymorphic functions. Provides operations to transform data into string formats for storage or logging and back into native forms for processing. Examples include converting a timestamp to a string for a log entry or parsing a configuration file's JSON-like structure into a record type. Supports flexible data handling in systems requiring persistent or human-readable representations.",
-      "description_length": 516,
+      "library": "dokeysto_camltc",
+      "description": "This module implements a persistent key-value store using Tokyo Cabinet, enabling efficient disk-based management of string keys and values. It provides separate read-only and read-write interfaces for tasks such as querying, updating, iterating, and managing databases on disk. The read-only interface supports safe access to precomputed or shared datasets, while the read-write interface allows creation, modification, and deletion of stored records. Example uses include durable configuration storage, caching large data on disk, and maintaining key-value records across application sessions.",
+      "description_length": 595,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dokeysto_camltc",
-      "description": "Provides functions to insert, retrieve, and delete key-value pairs using an in-memory hash table. Operates on strings as keys and arbitrary OCaml values serialized as strings. Used to persist and query test data during integration testing.",
-      "description_length": 239,
+      "module_path": "Dokeysto_camltc.Db_camltc_gen",
+      "library": "dokeysto_camltc",
+      "description": "This module implements disk-based persistent hash tables using Tokyo Cabinet, supporting efficient storage and retrieval of key-value pairs through separate read-only and read-write interfaces. It provides operations for opening and closing databases, checking key existence, retrieving values, and iterating over entries, with concrete use cases in caching, database indexing, and configuration management. The read-only interface enables querying large datasets without modification, while the read-write interface supports mutation and durable storage, including creating, updating, and deleting entries. Together, they allow working with generic keys and values via a unified structure that combines direct API operations with modular access through specialized submodules.",
+      "description_length": 777,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Dokeysto_camltc",
-      "description": "provides a framework for persistent data storage, type-safe conversions, and structural organization. It includes a hash table implementation with key-value operations, a type conversion layer for arbitrary data, and an empty module for structural purposes. Users can store and retrieve string-keyed data efficiently, convert complex types to and from strings, and manage module structure without functional overhead. Examples include caching session data, serializing configuration objects, and organizing related modules into a cohesive namespace.",
-      "description_length": 549,
+      "library": "dokeysto_camltc",
+      "description": "This module provides persistent key-value storage using Berkeley DB and Tokyo Cabinet, offering unified interfaces for disk-based data management with support for transactions and efficient access. It defines database types that encapsulate file handles and configuration, along with operations like `mem`, `find`, `iter`, and `fold` for querying and processing stored records. Read-only and read-write interfaces enable safe access to shared datasets or allow mutation, supporting use cases such as durable configuration storage, disk-backed caching, and cross-session data persistence. Examples include storing application settings, indexing large datasets, and managing transactional key-value records on disk.",
+      "description_length": 713,
       "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
+    "total_modules_in_package": 8,
     "meaningful_modules": 8,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.8
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 549,
-    "min_description_length": 239,
-    "avg_description_length": 397.25,
-    "embedding_file_size_mb": 0.029458045959472656
+    "max_description_length": 777,
+    "min_description_length": 327,
+    "avg_description_length": 517.875,
+    "embedding_file_size_mb": 0.029455184936523438
   }
 }

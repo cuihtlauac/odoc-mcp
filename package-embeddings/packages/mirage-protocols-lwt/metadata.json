@@ -1,35 +1,141 @@
 {
   "package": "mirage-protocols-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 2,
-  "creation_timestamp": "2025-06-18T16:26:33.852365",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:07:57.286512",
   "modules": [
     {
-      "module_path": "mirage-protocols-lwt",
-      "description": "Provides type definitions and interface specifications for implementing network protocols in MirageOS, including Ethernet, ARP, IP, ICMP, UDP, and TCP for both IPv4 and IPv6. Works with protocol-specific data structures such as packet headers, addresses, and socket interfaces. Used to ensure consistent protocol handling across network stack implementations in unikernel environments.",
-      "description_length": 385,
+      "module_path": "Mirage_protocols_lwt.IPV6",
+      "library": "mirage-protocols-lwt",
+      "description": "This module implements an IPv6 network stack with functions for sending and receiving IP packets, handling fragmentation, TTL, and source address selection. It operates on IP addresses (`Ipaddr.V6.t`), buffers (`Cstruct.t`), and callbacks for packet demultiplexing. Concrete use cases include processing incoming IP frames via `input`, transmitting packets with `write`, and computing checksums using `pseudoheader`.",
+      "description_length": 416,
       "index": 0,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.IPV4",
+      "library": "mirage-protocols-lwt",
+      "description": "This module implements an IPv4 networking stack with functions to send and receive IP packets, handle fragmentation, and manage IP addresses. It operates on IP addresses (`ipaddr`), network buffers (`buffer`), and callbacks for packet demultiplexing. Use cases include sending TCP or UDP packets with configurable TTL and fragmentation, parsing incoming IP frames, and computing checksum pseudoheaders.",
+      "description_length": 402,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.DHCP_CLIENT",
+      "library": "mirage-protocols-lwt",
+      "description": "Implements a DHCP client for acquiring IPv4 configuration through lease transactions. It provides functions to start, stop, and manage the state of DHCP negotiations, returning a stream of IPv4 configurations as they become available. This module is used to dynamically configure network interfaces in virtualized or embedded environments where IP addresses are assigned by a DHCP server.",
+      "description_length": 388,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.ETHERNET",
+      "library": "mirage-protocols-lwt",
+      "description": "This module handles Ethernet frame transmission and reception, providing functions to write frames with specified source and destination MAC addresses, protocol types, and payload sizes, while enforcing MTU limits. It works with MAC addresses, buffers, and Ethernet interfaces, exposing the interface's MAC address and MTU. Concrete use cases include sending custom Ethernet frames for network protocols and demultiplexing incoming frames to protocol-specific handlers for ARP, IPv4, or IPv6.",
+      "description_length": 492,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.TCPV4",
+      "library": "mirage-protocols-lwt",
+      "description": "This module implements a TCP/IP stack for IPv4, providing functions to establish connections, send and receive data, and manage flow control over network sockets. It works with IPv4 addresses, TCP flows, and memory buffers to enable concrete networking tasks such as client-server communication, packet transmission, and connection handling. Use cases include building network clients that connect to remote services, implementing TCP-based protocols, and managing bi-directional data streams with optional keepalive settings.",
+      "description_length": 526,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.ICMPV4",
+      "library": "mirage-protocols-lwt",
+      "description": "This module handles ICMPv4 message transmission and reception over IPv4. It provides `write` to send raw ICMPv4 packets to a destination IP and `input` to process incoming ICMPv4 messages. It works directly with IPv4 addresses (`ipaddr`) and memory buffers (`buffer`), suitable for implementing ping or network diagnostics tools.",
+      "description_length": 329,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.UDPV6",
+      "library": "mirage-protocols-lwt",
+      "description": "Implements a UDPv6 networking stack with functions to send and receive IPv6 UDP datagrams. It manages datagram input via port-based demultiplexing with custom callbacks and supports sending with optional source port and TTL settings. This module is used to handle direct UDP communication over IPv6, such as DNS queries or real-time streaming protocols.",
+      "description_length": 353,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.ICMP",
+      "library": "mirage-protocols-lwt",
+      "description": "This module handles ICMP protocol operations, providing functions to send and receive ICMP messages over IP. It works with IP addresses and Cstruct buffers, allowing transmission with optional TTL settings and handling incoming messages via a callback. Concrete use cases include implementing ping functionality or processing ICMP error messages in networked applications.",
+      "description_length": 372,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.IP",
+      "library": "mirage-protocols-lwt",
+      "description": "This module handles IP packet input and output, including demultiplexing incoming packets to TCP or UDP callbacks, writing new packets with optional fragmentation, and computing pseudoheaders for checksums. It operates on IP addresses (`ipaddr`), buffers (`Cstruct.t`), and IP protocol types. Concrete use cases include routing incoming IP frames to the appropriate transport protocol handler, constructing and sending IP packets with custom headers and payloads, and determining source IP addresses for outgoing packets.",
+      "description_length": 521,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.TCP",
+      "library": "mirage-protocols-lwt",
+      "description": "This module implements a TCP stack with functions to establish connections, send and receive data, and manage flow endpoints. It operates on types like `flow` for active connections, `buffer` for data transmission, and `ipaddr` for addressing. Concrete use cases include initiating TCP connections to remote servers, sending and receiving network packets with optional nodelay semantics, and configuring keepalive behavior for connection reliability.",
+      "description_length": 450,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.TCPV6",
+      "library": "mirage-protocols-lwt",
+      "description": "This module implements a TCP protocol over IPv6 with functions to establish connections, send and receive data, and manage flow endpoints. It operates on IPv6 addresses, buffers, and flow structures, supporting operations like `read`, `write`, `close`, and `create_connection`. Use cases include building networked applications that require reliable IPv6-based communication, such as web servers, clients, or custom network protocols.",
+      "description_length": 434,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.UDPV4",
+      "library": "mirage-protocols-lwt",
+      "description": "Implements a UDPv4 networking stack with functions to send and receive IPv4 datagrams. It manages UDP sockets, port binding, and packet routing using IP addresses and port numbers. Use it to build lightweight network services like DNS clients, SNMP agents, or custom UDP-based protocols.",
+      "description_length": 287,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.ARP",
+      "library": "mirage-protocols-lwt",
+      "description": "This module manages ARP (Address Resolution Protocol) operations for IPv4 addresses, handling cache queries, updates, and GARP packet transmission. It works with IP addresses (`Ipaddr.V4.t`), MAC addresses (`Macaddr.t`), and network buffers (`Cstruct.t`) to resolve and track address mappings. Concrete use cases include responding to incoming ARP requests, resolving MAC addresses for outbound communication, and managing IP address changes that trigger GARP announcements.",
+      "description_length": 474,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_protocols_lwt.UDP",
+      "library": "mirage-protocols-lwt",
+      "description": "Implements a UDP stack with functions to send and receive datagrams, handling source and destination ports, IP addresses, and time-to-live values. Works with IP addresses, buffers (Cstruct.t), and callbacks for processing incoming packets. Used to establish UDP communication, route incoming packets to appropriate handlers, and manage network device disconnection.",
+      "description_length": 365,
+      "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Mirage_protocols_lwt",
-      "description": "Provides functions to handle IP packet input, output, and error formatting, with support for TCP, UDP, and custom protocols. Operates on IP addresses, buffers, and callbacks for packet demultiplexing and transmission. Used to manage IPv4 communication, including sending fragmented packets, calculating checksums, and retrieving interface IP addresses.",
-      "description_length": 352,
-      "index": 1,
+      "library": "mirage-protocols-lwt",
+      "description": "This module orchestrates network configuration and communication across IPv4 and IPv6, supporting static and dynamic IP setup, DHCP client operations, and low-level frame handling. It exposes core types like IP addresses (`Ipaddr.V4.t`, `Ipaddr.V6.t`), MAC addresses, buffers (`Cstruct.t`), and flows for TCP connections, with key operations including IP packet input/output, TCP and UDP transmission, and ARP resolution. You can initialize network interfaces, send UDP datagrams over IPv6 with `write`, handle incoming ICMP messages for diagnostics, or configure IP addresses dynamically via DHCP. Submodules enable fine-grained control over Ethernet frames, TCP flow management, and protocol-specific handling for IPv4 and IPv6 stacks.",
+      "description_length": 737,
+      "index": 14,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 2,
-    "meaningful_modules": 2,
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 385,
-    "min_description_length": 352,
-    "avg_description_length": 368.5,
-    "embedding_file_size_mb": 0.0076885223388671875
+    "max_description_length": 737,
+    "min_description_length": 287,
+    "avg_description_length": 436.4,
+    "embedding_file_size_mb": 0.054909706115722656
   }
 }

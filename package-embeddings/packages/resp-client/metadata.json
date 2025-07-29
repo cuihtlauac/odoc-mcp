@@ -1,70 +1,69 @@
 {
   "package": "resp-client",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:23.371058",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:36.983710",
   "modules": [
     {
-      "module_path": "Resp_client.Make.Reader",
-      "description": "Reads binary data, lines, and individual characters from an input channel, and parses lexemes and protocol responses. Operates on input channels and returns values wrapped in Lwt promises. Used for processing network protocol messages and extracting structured data from raw byte streams.",
-      "description_length": 288,
-      "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Resp_client.Make.Writer",
-      "description": "Writes a string to a client connection, appends a separator, writes a parsed lexeme, and encodes a response structure. Operates on a client connection type and response data. Used to construct and send structured network responses in a streaming manner.",
-      "description_length": 253,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Resp_client.Make",
-      "description": "Reads and parses binary, line-based, or character-level input from a channel, extracting structured data such as lexemes and protocol responses using Lwt for asynchronous handling. Writes structured responses by encoding and streaming data through a client connection, including separators and parsed elements. Supports network protocol interaction by transforming raw input into meaningful data and generating corresponding output. Can process incoming messages, extract tokens, and construct protocol-compliant replies for real-time communication.",
-      "description_length": 549,
+      "library": "resp-client",
+      "description": "This module implements a Redis client interface for asynchronous communication, handling connection setup and message serialization. It works with Redis serialization protocol (RESP) data types, including lexemes and structured responses, using Lwt for concurrency. Concrete operations include sending and receiving raw RESP values, executing commands with string arguments, and decoding streamed responses.",
+      "description_length": 407,
+      "index": 0,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Resp_client.CLIENT",
+      "library": "resp-client",
+      "description": "This module handles asynchronous client connections for a request-response protocol. It works with input and output channels (`ic` and `oc`) and connection parameters. A concrete use case is establishing a network connection to a server using `connect`, which returns a channel pair for sending and receiving messages.",
+      "description_length": 318,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp_client.S",
+      "library": "resp-client",
+      "description": "This module implements a client for interacting with a Redis-compatible protocol (RESP) server. It provides functions to connect to a server, send commands, and read or decode responses, working with connection state, RESP values, and lexemes. Concrete use cases include building Redis clients, implementing custom RESP-based protocols, and handling network communication with Redis-like servers.",
+      "description_length": 396,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp_client.Reader",
-      "description": "Reads binary or text data from an input channel, including lines, individual characters, and parsed lexemes. Processes structured data using a custom `Resp` type derived from lexemes. Used to parse network responses in a non-blocking I/O context.",
-      "description_length": 246,
+      "module_path": "Resp_client.S-Reader",
+      "library": "resp-client",
+      "description": "This module handles low-level input operations for reading data from a Redis protocol stream. It provides functions to read raw bytes, lines, characters, and structured Redis protocol elements like lexemes and decoded values. It is used for parsing Redis responses directly from a network or buffer source.",
+      "description_length": 306,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp_client.Writer",
-      "description": "Writes a string, separator, or parsed response element to an output channel, with asynchronous I/O support. Operates on output channels and response data structures, including lexemes and serialized responses. Used to stream structured data over network connections or file outputs.",
-      "description_length": 282,
+      "module_path": "Resp_client.S-Writer",
+      "library": "resp-client",
+      "description": "This module handles writing Redis serialization protocol (RESP) data over a network connection. It provides functions to write raw strings, separators, individual RESP lexemes, and fully encoded RESP values. Concrete use cases include implementing Redis clients or proxies that need to serialize and send Redis commands or responses.",
+      "description_length": 333,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "resp-client",
-      "description": "Encodes and decodes values according to the Redis Serialization Protocol, handling integers, strings, arrays, and bulk strings. It supports streaming operations for efficient data processing in networked applications. Used to implement Redis client interactions and custom protocol-based communication layers.",
-      "description_length": 309,
+      "module_path": "Resp_client",
+      "library": "resp-client",
+      "description": "This module provides interfaces for implementing Redis clients that send commands and process structured responses over a network. It defines core data types like RESP lexemes, bulk strings, integers, and arrays, along with operations to encode commands and decode replies in a type-safe way. The async submodule handles concurrent communication using Lwt, allowing clients to send commands and stream responses asynchronously. Submodules for connection management, input parsing, and output serialization enable concrete workflows like connecting to a Redis server, reading structured replies from a socket, and writing encoded RESP commands directly to a network stream.",
+      "description_length": 672,
       "index": 5,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Resp_client",
-      "description": "Reads and writes structured data using a custom `Resp` type, handling binary, text, and parsed lexemes across input and output channels. Supports non-blocking and asynchronous I/O for efficient network communication. Can parse incoming responses, serialize outgoing data, and manage separators and string outputs. Enables streaming of structured data, such as sending a `Resp` list or receiving a line-based protocol response.",
-      "description_length": 426,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 549,
-    "min_description_length": 246,
-    "avg_description_length": 336.14285714285717,
-    "embedding_file_size_mb": 0.025867462158203125
+    "max_description_length": 672,
+    "min_description_length": 306,
+    "avg_description_length": 405.3333333333333,
+    "embedding_file_size_mb": 0.02221202850341797
   }
 }

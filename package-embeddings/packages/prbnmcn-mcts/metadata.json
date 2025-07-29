@@ -1,70 +1,85 @@
 {
   "package": "prbnmcn-mcts",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:19.453262",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:50.771745",
   "modules": [
     {
       "module_path": "Mcts.Ucb1.Make_syntax",
-      "description": "Compares and hashes values of type t using customizable equality and hashing strategies. Supports structural, physical, or custom comparisons, including handling of special float values. Used to define key equivalence and hashing in data structures like hash tables or sets.",
-      "description_length": 274,
+      "library": "prbnmcn-mcts",
+      "description": "This module provides monadic operations for structuring Monte-Carlo tree search computations, specifically bind and map functions, along with their infix operators. It works with tree search states represented as `H.t t`, where `H.t` encapsulates the heuristic and node state. Concrete use cases include chaining exploration and expansion steps in the search process, and transforming node evaluations during traversal.",
+      "description_length": 419,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Mcts.Ucb1.Poly_syntax",
-      "description": "Provides operations for transforming and chaining computations over a monadic type, including mapping values, binding functions that return new monadic values, and sequencing operations. Works with a polymorphic type 'a t that supports equality and hashing for memoization. Used to manage side-effecting or lazy computations in a structured, composable way.",
-      "description_length": 357,
+      "library": "prbnmcn-mcts",
+      "description": "This module provides monadic map and bind operations, along with their infix counterparts, for composing computations that carry state and support memoization using polymorphic equality and hashing. It works with values of type `'a t`, which represent probabilistic or stateful computations. Concrete use cases include chaining Monte Carlo tree search expansions and evaluations where intermediate results are memoized based on their computed values.",
+      "description_length": 450,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mcts.Ucb1",
-      "description": "Provides functions to compare and hash actions within a state, using type-specific equality and hashing. Works with a parameterized state type 'a t that encapsulates available actions. Used to ensure consistent action comparison and hashing in decision-making algorithms.",
-      "description_length": 271,
+      "module_path": "Mcts.S-Poly_syntax",
+      "library": "prbnmcn-mcts",
+      "description": "This module provides monadic operations like `bind`, `map`, and their infix counterparts `>>=`, `>|=`, along with `return` for wrapping values. It works with a polymorphic type `'a t` that supports equality and hashing, enabling memoization of computations. Concrete use cases include structuring probabilistic or stateful computations with binding operators while caching intermediate results.",
+      "description_length": 394,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mcts.Make_syntax",
-      "description": "Compares and hashes values of type t, ensuring consistent behavior for equality and hashing. It supports structural, physical, and custom comparisons with appropriate hash functions. Used to define key equivalence and hashing in data structures like hash tables or sets.",
-      "description_length": 270,
+      "module_path": "Mcts.Mcts_state",
+      "library": "prbnmcn-mcts",
+      "description": "This module type defines the interface for state representations in a Monte-Carlo tree search, focusing on action handling. It requires implementations for comparing action types between states, hashing actions, and checking action equality. These operations enable efficient exploration and comparison of game or decision states in search algorithms.",
+      "description_length": 351,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mcts.Poly_syntax",
-      "description": "Provides monadic operations for transforming and combining values wrapped in a context, including mapping, binding, and returning values. Works with a polymorphic type 'a t that supports equality and hashing for memoization. Enables efficient chaining of computations in scenarios requiring stateful or memoized transformations.",
-      "description_length": 328,
+      "module_path": "Mcts.S-Make_syntax",
+      "library": "prbnmcn-mcts",
+      "description": "This module implements monadic operations for composing computations over tree search states, using the H module to represent state values. It provides `map`, `bind`, and their infix counterparts `(>|=)` and `(>>=)`, enabling chaining of state transitions and transformations in Monte-Carlo tree search workflows. These functions support building complex search strategies by sequencing actions and modifying search trees based on heuristic evaluations from the H module.",
+      "description_length": 471,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "prbnmcn-mcts",
-      "description": "Provides functions to define and evaluate non-deterministic choice sequences, compute expected rewards, and select optimal paths using Monte-Carlo tree search. Operates on tree structures representing decision paths and reward values derived from probabilistic outcomes. Used to optimize strategies in game-playing algorithms and decision-making under uncertainty.",
-      "description_length": 364,
+      "module_path": "Mcts.S",
+      "library": "prbnmcn-mcts",
+      "description": "This module builds and explores lazy search trees using monadic constructs, supporting incremental interaction and playout-based evaluation. It works with stateful computations involving choice points, using kernels like `uniform` to guide exploration. Concrete use cases include implementing decision-making algorithms where actions are selected based on estimated rewards, such as game-playing agents or optimization routines.",
+      "description_length": 428,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mcts",
-      "description": "implements a monadic interface for constructing and exploring lazy search trees through Monte-Carlo methods, with support for value comparison, hashing, and context-aware transformations. It defines equality and hashing for type t, enabling use in hash tables and sets, and provides monadic operations on 'a t for chaining stateful computations. Users can perform memoized transformations, guide tree exploration with custom comparison logic, and build complex search strategies through composition. Examples include memoizing node expansions, comparing states for equivalence, and combining search paths using monadic binds.",
-      "description_length": 625,
+      "module_path": "Mcts.Ucb1",
+      "library": "prbnmcn-mcts",
+      "description": "This module implements Monte-Carlo tree search using the UCB1 bandit strategy to guide exploration of state-based choice trees, supporting incremental decision-making through probabilistic exploration and deterministic outcome mapping. It provides core operations for building and evaluating decision sequences over arrays of alternatives, with main data types representing search states (`H.t t`) and stateful computations (`'a t`). The search process can be structured using monadic bind and map operations, enabling chaining of expansion, evaluation, and transformation steps, such as in game-playing AI that selects optimal moves via playouts and reward estimation. Memoization and polymorphic hashing in submodules enhance efficiency by reusing intermediate results during traversal and computation.",
+      "description_length": 804,
       "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mcts",
+      "library": "prbnmcn-mcts",
+      "description": "This module enables the construction and exploration of lazy decision trees with finite branching, where nodes represent nondeterministic choices tied to actions and support iterative evaluation via Monte-Carlo Tree Search (MCTS). It provides monadic operations like `bind` and `map` for composing stateful computations, along with polymorphic types that support equality and hashing for memoization of intermediate results. The module includes submodules for state representations, action handling, and search strategies such as UCB1, allowing the implementation of game-playing agents that dynamically explore decision paths to maximize cumulative reward. Specific use cases include AI for board games, where actions are selected based on heuristic evaluations and simulated outcomes, structured through monadic workflows and optimized with playout-based estimation.",
+      "description_length": 868,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 625,
-    "min_description_length": 270,
-    "avg_description_length": 355.57142857142856,
-    "embedding_file_size_mb": 0.02582550048828125
+    "max_description_length": 868,
+    "min_description_length": 351,
+    "avg_description_length": 523.125,
+    "embedding_file_size_mb": 0.029491424560546875
   }
 }

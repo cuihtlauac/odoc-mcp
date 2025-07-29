@@ -1,98 +1,111 @@
 {
   "package": "saturn_lockfree",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:53.805159",
+  "creation_timestamp": "2025-07-15T23:08:12.851507",
   "modules": [
     {
       "module_path": "Saturn_lockfree.Work_stealing_deque.M",
-      "description": "Provides operations to manage a work-stealing queue, including adding elements to the front, removing elements from the front, and stealing elements from the end. Works with a parameterized type 'a t representing the queue structure. Used to distribute tasks between domains in parallel computing scenarios, where one domain pushes tasks and others steal them.",
-      "description_length": 360,
+      "library": "saturn_lockfree",
+      "description": "This module implements a lock-free work-stealing deque optimized for single-producer, multi-consumer scenarios. It supports push and pop operations at the front by the owner domain, and steal operations from the back by other domains. It is ideal for task scheduling in multicore environments where throughput and locality are prioritized over fairness.",
+      "description_length": 353,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Saturn_lockfree.Queue",
-      "description": "Provides operations to manage a first-in, first-out data structure, including creating, checking emptiness, adding elements to the end, and removing or inspecting elements from the front. Works with the polymorphic type 'a t, allowing storage of any element type. Used to process tasks in order, manage event streams, or handle asynchronous requests in a structured manner.",
-      "description_length": 373,
+      "module_path": "Saturn_lockfree.Work_stealing_deque.S",
+      "library": "saturn_lockfree",
+      "description": "This module implements a lock-free work-stealing deque optimized for single-producer, multi-consumer scenarios. It supports push and pop operations at the front by the owner domain, and steal operations from the back by other domains, enabling efficient parallel task distribution with reduced contention. It is ideal for task scheduling in multicore environments where throughput and locality are prioritized over fairness.",
+      "description_length": 424,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Saturn_lockfree.Queue_unsafe",
-      "description": "Provides operations to manage a first-in, first-out data structure, including adding elements to the end, removing from the front, and inspecting the front without modification. Works with a polymorphic queue type that stores elements of any type. Used to process tasks in order, handle event streams, or manage buffered input where strict ordering is required.",
-      "description_length": 361,
+      "module_path": "Saturn_lockfree.Size",
+      "library": "saturn_lockfree",
+      "description": "This module implements a wait-free size counter for lock-free data structures, allowing threads to increment or decrement a shared counter without locks. It supports creation of size counters, atomic updates limited to a single application per counter, and safe retrieval of the current value, even in the presence of concurrent modifications. It is suitable for tracking the size of concurrent collections such as lock-free stacks or queues, where accurate and efficient size tracking is required across multiple threads.",
+      "description_length": 522,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Saturn_lockfree.Stack",
-      "description": "Provides atomic push and pop operations for concurrent LIFO data handling. Operates on a generic type 'a t, supporting element insertion and removal with thread-safe guarantees. Used in scenarios requiring high-throughput, concurrent task scheduling or resource management.",
-      "description_length": 273,
+      "module_path": "Saturn_lockfree.Queue_unsafe",
+      "library": "saturn_lockfree",
+      "description": "Implements a lock-free, multi-producer multi-consumer queue based on the Michael-Scott algorithm. It supports FIFO operations including push, pop (with both `exn` and `opt` variants), and peek (also with `exn` and `opt`), making it suitable for concurrent task scheduling and shared work queues in multicore environments. The queue is ideal for high-concurrency scenarios where mutual exclusion would be too costly.",
+      "description_length": 415,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Saturn_lockfree.Stack",
+      "library": "saturn_lockfree",
+      "description": "Implements a lock-free Treiber stack for concurrent LIFO operations in multicore environments. Works with generic elements of type `'a` and provides `push`, `pop`, and `pop_opt` for adding and removing elements, along with `is_empty` to check the stack state. Suitable for thread-safe task scheduling or shared resource management where last-in-first-out access is required.",
+      "description_length": 374,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Saturn_lockfree.Work_stealing_deque",
-      "description": "Adds elements to the front of a queue and removes them from either the front or back, depending on ownership. Operates on a generic queue type that stores elements of any type. Used to manage task distribution in parallel computing, where one thread pushes tasks and others steal them to balance load.",
-      "description_length": 301,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Saturn_lockfree.Single_prod_single_cons_queue",
-      "description": "Provides operations to manage a bounded queue with single-producer and single-consumer semantics, including push, pop, and peek with explicit error handling. Works with a parameterized type 'a t, supporting element insertion, removal, and inspection. Used in concurrent systems where a single thread produces and another consumes data, ensuring safe access without external synchronization.",
-      "description_length": 390,
+      "library": "saturn_lockfree",
+      "description": "This module provides a lock-free work-stealing deque designed for single-producer, multi-consumer use cases, where the owner performs push and pop operations at the front and other threads steal from the back. It enables efficient, low-contention task scheduling in multicore systems by leveraging local LIFO execution for data locality and high throughput. The main operations include push, pop, and steal, with the former two used by the owner and the latter by remote threads. Submodules refine this behavior with variations that maintain these core principles while optimizing for specific runtime conditions and domain interactions.",
+      "description_length": 637,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Saturn_lockfree.Single_prod_single_cons_queue_unsafe",
-      "description": "Provides operations to manage a single-producer, single-consumer queue with fixed maximum capacity. Works with a parameterized type 'a t and supports adding elements, removing elements, and inspecting the front of the queue. Used in scenarios requiring synchronized access between a single producer and consumer, such as inter-thread communication with strict ordering guarantees.",
-      "description_length": 380,
+      "module_path": "Saturn_lockfree.Relaxed_queue",
+      "library": "saturn_lockfree",
+      "description": "This module implements a thread-safe, bounded relaxed-FIFO queue with multi-producer, multi-consumer support. It provides `create` to initialize a queue of a given size, `push` to insert elements (blocking when full), and `pop` to remove elements (blocking when empty). Designed for high-performance concurrent work distribution where relaxed ordering guarantees are acceptable.",
+      "description_length": 378,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Saturn_lockfree.Single_consumer_queue",
-      "description": "Provides operations to manage a lock-free, multi-producer, single-consumer queue, including pushing elements to the end or front, popping from the front, and inspecting the front without removal. Works with a domain-safe queue type that supports concurrent access from multiple producers and a single consumer. Used in scheduler implementations to safely manage task execution order across domains.",
-      "description_length": 398,
+      "library": "saturn_lockfree",
+      "description": "This module implements a lock-free queue optimized for single-consumer use with multiple producers. It supports atomic push operations from multiple domains, consumer-only pop and peek operations, and queue closure to block further inserts. Concrete use cases include task scheduling in concurrent systems, such as managing work items in a multicore runtime or coordinating asynchronous operations in a domain-safe manner.",
+      "description_length": 422,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Saturn_lockfree.Relaxed_queue",
-      "description": "Provides operations to add items to and remove items from a thread-safe, bounded queue that allows multiple producers and consumers. Works with a private queue type that stores elements in a fixed-size structure. Used to efficiently distribute tasks across threads in high-throughput systems where blocking is acceptable during resource contention.",
-      "description_length": 348,
+      "module_path": "Saturn_lockfree.Single_prod_single_cons_queue",
+      "library": "saturn_lockfree",
+      "description": "Implements a bounded single-producer single-consumer queue with lock-free operations for efficient inter-domain communication. Works with arbitrary OCaml values and provides methods for pushing, popping, and peeking elements with both exception-raising and option-returning variants. Designed for high-performance scenarios like streaming data between threads or managing work items in a producer-consumer pattern.",
+      "description_length": 414,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Saturn_lockfree.Skiplist",
-      "description": "Creates and manages a lock-free skiplist data structure for efficient key-value storage and retrieval. Provides operations to insert, remove, and look up values by key, along with methods to check existence, get the maximum node height, and determine the size of the structure. Works with key-value pairs where keys are ordered via a custom comparison function, suitable for concurrent environments requiring high-performance lookups.",
-      "description_length": 434,
+      "module_path": "Saturn_lockfree.Single_prod_single_cons_queue_unsafe",
+      "library": "saturn_lockfree",
+      "description": "Implements a single-producer, single-consumer queue with fixed capacity, supporting lock-free operations for fast and wait-free communication between two domains. Exposes push, pop, and peek operations with both exception-raising and option-returning variants, along with an approximate size function. Designed for high-performance inter-domain data transfer in multicore applications where one domain produces data and another consumes it, such as streaming pipelines or task scheduling.",
+      "description_length": 488,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Saturn_lockfree.Size",
-      "description": "Provides operations to manage a wait-free size counter for lock-free data structures, including incrementing, decrementing, and retrieving the current size. Works with custom types `t` for the counter, `once` for at-most-once updates, and `update` for increment or decrement actions. Used to track the number of elements in a concurrent linked list, ensuring accurate size computation during traversal and modification.",
-      "description_length": 419,
+      "module_path": "Saturn_lockfree.Queue",
+      "library": "saturn_lockfree",
+      "description": "Implements a lock-free FIFO queue with support for multiple producers and consumers. It provides atomic operations for adding elements to the end and removing elements from the front, including unsafe and optional variants for controlled access. Designed for concurrent task scheduling and inter-thread communication in multicore environments.",
+      "description_length": 343,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "saturn_lockfree",
-      "description": "Provides atomic operations for concurrent access, including compare-and-swap and fetch-and-add on integers. It works with shared memory structures like counters, flags, and reference cells. Used to implement thread-safe counters in high-concurrency applications.",
-      "description_length": 262,
+      "module_path": "Saturn_lockfree.Skiplist",
+      "library": "saturn_lockfree",
+      "description": "This module implements a lock-free skiplist data structure for concurrent key-value storage with ordered keys. It supports insertion, deletion, and lookup operations that can be safely executed in parallel by multiple threads. The skiplist is designed for use in multicore environments where efficient, thread-safe access to ordered data is required, such as in concurrent caches or indexed data stores.",
+      "description_length": 403,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Saturn_lockfree",
-      "description": "Offers a suite of lock-free and thread-safe data structures for concurrent programming, including FIFO queues, LIFO stacks, dequeues, bounded queues, and skiplists. Supports operations like push, pop, peek, and size tracking on polymorphic or parameterized types, enabling efficient task management, event processing, and resource coordination. Examples include managing asynchronous task flows, balancing workloads in parallel systems, and maintaining ordered key-value stores under high concurrency. Each structure is optimized for specific concurrency patterns, ensuring safe and efficient access across multiple threads or domains.",
-      "description_length": 635,
+      "library": "saturn_lockfree",
+      "description": "This collection provides a range of lock-free data structures for concurrent programming in multicore OCaml, centered around efficient, thread-safe manipulation of queues, stacks, deques, and maps. Core data types include atomic size counters, Michael-Scott queues, Treiber stacks, work-stealing deques, bounded and unbounded FIFO queues, single-producer single-consumer queues, and a lock-free skiplist for ordered key-value storage. These structures support operations like atomic push/pop, size tracking, work stealing, and concurrent insert/lookup/delete, enabling use cases such as task scheduling, streaming pipelines, and thread-safe caches with varying concurrency and ordering guarantees.",
+      "description_length": 697,
       "index": 12,
       "embedding_norm": 1.0
     }
@@ -104,9 +117,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 635,
-    "min_description_length": 262,
-    "avg_description_length": 379.53846153846155,
-    "embedding_file_size_mb": 0.04767799377441406
+    "max_description_length": 697,
+    "min_description_length": 343,
+    "avg_description_length": 451.53846153846155,
+    "embedding_file_size_mb": 0.04764366149902344
   }
 }

@@ -1,56 +1,53 @@
 {
   "package": "dscheck",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:35.415874",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:40.976248",
   "modules": [
     {
-      "module_path": "Dscheck.Atomic_op",
-      "description": "Handles atomic operation representations, providing conversion to string, determination of write status with optional unknown handling, and weak comparison between operations. Works with an opaque type representing atomic instructions. Used to analyze and compare low-level memory operations in concurrent systems.",
-      "description_length": 314,
+      "module_path": "Dscheck.Trace_tracker",
+      "library": "dscheck",
+      "description": "This module tracks and manages execution traces consisting of atomic operations, each associated with an identifier and optional dependency. It provides operations to add, clear, compare, and print traces, as well as extract dependency information and count entries. Use cases include debugging concurrent operations and analyzing operation dependencies in distributed systems.",
+      "description_length": 377,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dscheck.Trace_tracker",
-      "description": "Tracks a list of trace entries consisting of integer identifiers, atomic operations, and optional integers, enabling storage, comparison, and output. Operates on a custom type `t` representing a collection of these traces. Used to analyze dependencies and verify trace inclusion in debugging or verification workflows.",
-      "description_length": 318,
+      "module_path": "Dscheck.TracedAtomic",
+      "library": "dscheck",
+      "description": "This module implements atomic references with explicit concurrency control, supporting operations like `get`, `set`, `exchange`, `compare_and_set`, and `fetch_and_add` for thread-safe state manipulation. It works with generic values `'a` and specialized integer operations for counters, including memory-contended allocation to prevent false sharing. Concrete use cases include implementing synchronization primitives, concurrent data structures, and writing test cases for race conditions under simulated scheduling.",
+      "description_length": 517,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dscheck.TracedAtomic",
-      "description": "Provides atomic read, write, and update operations for values, including compare-and-set, fetch-and-add, and exchange. Works with mutable reference types that support atomic memory operations, particularly for integers and arbitrary values. Enables deterministic simulation of concurrent execution with tracing and verification of thread interactions.",
-      "description_length": 351,
+      "module_path": "Dscheck.Atomic_op",
+      "library": "dscheck",
+      "description": "This module defines a variant type representing atomic memory operations such as `Get`, `Set`, `CompareAndSwap`, and `FetchAndAdd`. It provides functions to convert operations to strings, determine if an operation is a write, and compare operations for weak equivalence. These operations model concurrency primitives used in shared-memory systems to implement thread-safe data structures and synchronization mechanisms.",
+      "description_length": 419,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dscheck",
-      "description": "Provides functions for generating and analyzing execution traces of concurrent programs, including state exploration and invariant checking. Operates on thread schedules, shared memory states, and event sequences. Used to verify correctness of race condition-free execution under all possible interleavings.",
-      "description_length": 307,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Dscheck",
-      "description": "Encapsulates atomic operation handling, trace tracking, and concurrent execution simulation through interrelated types and functions. It manages opaque atomic instructions, custom trace collections, and mutable references supporting atomic reads, writes, and updates. Operations include string conversion, trace comparison, and deterministic execution with verification. It enables analysis of memory behavior, dependency tracking, and validation of thread interactions in concurrent systems.",
-      "description_length": 492,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "library": "dscheck",
+      "description": "This module coordinates execution traces and atomic memory operations to model and analyze concurrency behaviors. It tracks sequences of atomic operations with dependencies, supports thread-safe state manipulation through atomic references, and defines operations like `get`, `set`, and `compare_and_swap` for synchronization. You can use it to debug concurrent systems, simulate race conditions, or build thread-safe data structures with precise control over memory operations. For example, you can trace dependencies in a distributed workflow, implement a concurrent counter with atomic increments, or verify weak equivalence between memory operations.",
+      "description_length": 654,
+      "index": 3,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 492,
-    "min_description_length": 307,
-    "avg_description_length": 356.4,
-    "embedding_file_size_mb": 0.01861572265625
+    "max_description_length": 654,
+    "min_description_length": 377,
+    "avg_description_length": 491.75,
+    "embedding_file_size_mb": 0.014937400817871094
   }
 }

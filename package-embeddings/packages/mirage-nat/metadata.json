@@ -1,105 +1,109 @@
 {
   "package": "mirage-nat",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:44.157914",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:07:22.787184",
   "modules": [
     {
-      "module_path": "Nat_rewrite.Make.TCP",
-      "description": "Manages TCP channel mappings using port-based translations, allowing lookup, insertion, and deletion of channel entries with expiry timestamps. It operates on `transport_channel` and `channel` types, which represent port pairs and IP address-port tuples respectively. Used to rewrite packet endpoints in network translation scenarios, such as NAT table updates or session tracking.",
-      "description_length": 381,
+      "module_path": "Mirage_nat.TABLE",
+      "library": "mirage-nat",
+      "description": "Maintains a table of network connections for IP address and port management. It supports adding, removing, and querying connections for TCP, UDP, and ICMP protocols, tracking source and destination addresses and ports. Useful for implementing NAT (Network Address Translation) logic in network stacks where connection state must be monitored and controlled.",
+      "description_length": 357,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Nat_rewrite.Make.UDP",
-      "description": "Manages UDP channel mappings between source and destination ports, using IP addresses and port pairs to track translations. It supports looking up active channel mappings with expiration times, inserting new mappings with specified expiration, and removing existing mappings by source. Used to rewrite packet endpoints in network translation scenarios.",
-      "description_length": 352,
+      "module_path": "Mirage_nat.TABLE-ICMP",
+      "library": "mirage-nat",
+      "description": "This module manages ICMP channel translations using a table structure, allowing for dynamic rewriting of packet endpoints based on ICMP ID. It operates on channel tuples consisting of IPv4 addresses and transport channels, supporting operations to insert, look up, and delete mappings with optional expiration timestamps. It is used to implement NAT for ICMP traffic by translating source and destination channels in network packets.",
+      "description_length": 433,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Nat_rewrite.Make.ICMP",
-      "description": "Handles ICMP channel translation by storing and retrieving mappings between source and target channels with expiration. Operates on tuples of IPv4 addresses and transport ports, allowing precise control over packet rewriting. Used to manage dynamic channel rewrites in network protocols requiring timed translations.",
-      "description_length": 316,
+      "module_path": "Mirage_nat.TABLE-UDP",
+      "library": "mirage-nat",
+      "description": "This module manages a table of UDP channel translations, allowing for dynamic rewriting of packet endpoints based on source and destination ports. It supports operations to look up active translations by channel, insert new translation entries with expiration timestamps, and delete existing entries. It is used to implement NAT (Network Address Translation) for UDP packets, mapping incoming channels to translated outgoing channels while handling port-based routing decisions.",
+      "description_length": 478,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_nat.SUBTABLE",
+      "library": "mirage-nat",
+      "description": "This module manages network address translation (NAT) mappings with precise expiration times. It supports operations to look up active translations, insert new ones with overlap checking, and delete existing entries. It works with IPv4 addresses and transport channels, tracking translation pairs for packet rewriting in network virtualization scenarios.",
+      "description_length": 354,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_nat.TABLE-TCP",
+      "library": "mirage-nat",
+      "description": "This module manages TCP channel translations using a table that maps source and destination IP addresses and ports to new endpoints. It provides operations to look up, insert, and delete channel mappings with support for expiration timestamps and overlap checking during insertion. It is used to implement network address translation (NAT) for TCP connections by rewriting packet endpoints based on predefined translation rules.",
+      "description_length": 428,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Nat_rewrite.Make",
-      "description": "Maintains network channel mappings across TCP, UDP, and ICMP protocols, enabling dynamic endpoint rewriting through port and IP-based translations. It supports operations like lookup, insertion, and deletion of channel entries, with expiration management for each type. For example, it can track TCP port translations for NAT, manage UDP source-destination mappings for session tracking, and handle ICMP channel rewrites with time-sensitive validity. The module works with transport-specific data types to facilitate accurate packet rewriting in network translation scenarios.",
-      "description_length": 576,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_nat.TCP",
-      "description": "Manages TCP channel mappings using port-based endpoints, allowing lookups, inserts, and deletions based on source and destination IP addresses and ports. It works with tuples representing IP address pairs and transport ports to track channel translations. Used to rewrite packet destinations in network translation scenarios, such as NAT or proxying.",
-      "description_length": 350,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_nat.UDP",
-      "description": "Manages UDP channel mappings using port-based translations, allowing lookup, insertion, and deletion of endpoint pairs with expiry timestamps. It operates on tuples representing IP addresses and transport ports, enabling packet rewriting based on predefined channel mappings. Used to track and update dynamic port translations in networked applications.",
-      "description_length": 353,
+      "library": "mirage-nat",
+      "description": "This module manages network address translation (NAT) state using a table structure. It provides operations to add, remove, and translate connections, as well as check port availability for TCP, UDP, and ICMP protocols. Use cases include handling NAT for virtualized networking stacks and managing port mappings for incoming and outgoing packets.",
+      "description_length": 346,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_nat.ICMP",
-      "description": "Handles ICMP channel translation and management using IP address pairs and transport ports. Provides lookup to find active translations with expiration times, insert to add new mappings with strict overlap checking, and delete to remove existing entries. Used to manage packet rewriting rules in network protocols requiring precise channel tracking.",
-      "description_length": 349,
+      "module_path": "Mirage_nat.S",
+      "library": "mirage-nat",
+      "description": "This module manages network address translation (NAT) state with operations to add, remove, and translate connections based on IP packets. It works with IPv4 addresses, port numbers, and NAT packets, tracking translation mappings in a stateful table. Use cases include translating incoming and outgoing packets in a virtualized networking stack, managing port allocations for TCP, UDP, and ICMP, and handling connection cleanup and redirection.",
+      "description_length": 444,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-nat",
-      "description": "Provides functions to add and translate network packets based on a data store, using TCP/IP protocols. Operates on packet data and maintains a store of translation entries. Used in MirageOS unikernels to dynamically manage NAT rules with an LRU-based cache for efficient lookups.",
-      "description_length": 279,
+      "module_path": "Nat_rewrite",
+      "library": "mirage-nat",
+      "description": "This module manages NAT state with a table structure, supporting operations to add, remove, and translate connections while checking port availability across TCP, UDP, and ICMP. It enables handling NAT for virtualized networking stacks and managing port mappings for packet translation. Example uses include tracking outgoing connections and assigning available ports for incoming traffic. Key data types include connection entries and port mappings, with operations to manipulate and query them.",
+      "description_length": 496,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_nat",
-      "description": "Provides functions to manage network address translation entries, including adding, removing, and checking port availability. Operates on a table type `t` and uses `Nat_packet.t` and IPv4 addresses to track and modify packet translations. Supports translating packets for NAT or redirecting them to specific endpoints, with checks for port conflicts and translation validity.",
-      "description_length": 375,
+      "library": "mirage-nat",
+      "description": "This module manages network address translation for TCP, UDP, and ICMP protocols by maintaining translation tables that track and rewrite packet endpoints based on IP addresses and port numbers. It provides core operations to insert, query, and remove translation mappings with support for expiration timestamps and overlap checking, enabling precise control over NAT behavior in virtualized networking stacks. The module includes specialized submodules for handling protocol-specific translation logic, such as TCP and UDP channel mappings that manage port-based routing, and ICMP translation that rewrites packet endpoints based on ICMP ID. These capabilities support concrete use cases like implementing NAT gateways, managing port forwarding rules, and tracking connection state across network virtualization setups.",
+      "description_length": 820,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Mirage_nat_lru",
-      "description": "Provides operations to manage network address translation mappings, including adding and removing connections, translating packets, checking port availability, and resetting the table. Works with IPv4 addresses, port ranges, and NAT packet structures. Used to implement NAT functionality by tracking active translations and ensuring port uniqueness during packet forwarding.",
-      "description_length": 374,
+      "library": "mirage-nat",
+      "description": "This module implements a connection tracking table with LRU eviction for network address translation (NAT) operations. It supports adding and removing connections, checking port availability, translating packets, and resetting the table. It works with IPv4 addresses, port numbers, and NAT packets, handling TCP, UDP, and ICMP protocols. Use cases include managing dynamic NAT mappings in a virtualized networking stack and enforcing connection state tracking with size limits.",
+      "description_length": 477,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Nat_packet",
-      "description": "Provides functions to parse and construct network packets, including extracting ICMP types, serializing packets into Cstruct lists, and handling fragmentation. Works with Ethernet frames, IPv4 packets, and custom error types. Used to process incoming packets, validate their structure, and prepare them for transmission with precise control over fragmentation.",
-      "description_length": 360,
+      "library": "mirage-nat",
+      "description": "This module handles parsing and serialization of IPv4 packets with TCP, UDP, or ICMP payloads, using `Cstruct.t` buffers for efficient memory manipulation. It provides functions to convert between raw network data and structured packet representations, including support for fragmentation via `Fragments.Cache.t`. Specific use cases include packet inspection, modification, and reassembly in network virtualization or firewall applications.",
+      "description_length": 440,
       "index": 10,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Nat_rewrite",
-      "description": "Manages dynamic network channel mappings across TCP, UDP, and ICMP, supporting port and IP-based translation. It handles lookup, insertion, deletion, and expiration of entries using protocol-specific data structures. Examples include tracking TCP port translations, maintaining UDP session mappings, and updating ICMP channel rewrites with time-based validity. Operations are tailored to ensure precise packet rewriting in network translation scenarios.",
-      "description_length": 453,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 576,
-    "min_description_length": 279,
-    "avg_description_length": 376.5,
-    "embedding_file_size_mb": 0.044020652770996094
+    "max_description_length": 820,
+    "min_description_length": 346,
+    "avg_description_length": 461.1818181818182,
+    "embedding_file_size_mb": 0.04033851623535156
   }
 }

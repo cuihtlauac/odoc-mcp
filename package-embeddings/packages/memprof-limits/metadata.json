@@ -1,63 +1,61 @@
 {
   "package": "memprof-limits",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:29:52.400099",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:28.361045",
   "modules": [
     {
       "module_path": "Memprof_limits.Token",
-      "description": "Provides atomic set operations and a check for whether a token has been set. Works with a mutable state type representing a flag. Used to signal completion or activation in concurrent workflows, such as triggering a single action after multiple asynchronous events.",
-      "description_length": 265,
+      "library": "memprof-limits",
+      "description": "This module provides a thread-safe atomic flag abstraction with operations to create, set, and check the state of the flag. It works with a single abstract data type `t` representing the token. Concrete use cases include signaling between threads, cancellation flags for long-running computations, and synchronization points in concurrent programs.",
+      "description_length": 348,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memprof_limits.Masking",
-      "description": "Provides a mechanism to safely manage resources by ensuring their release even when interrupts occur during execution. Operates on arbitrary resource types and functions that acquire, scope, and release them. Used to maintain program consistency when handling memprof callback interruptions, such as in critical sections of code that must not be disrupted.",
-      "description_length": 356,
+      "module_path": "Memprof_limits.Resource_bind",
+      "library": "memprof-limits",
+      "description": "This module enables RAII-style resource management using the `let&` binding, ensuring resources are automatically cleaned up at the end of a scope. It works with any resource type that requires explicit release, such as file handles or memory buffers. Use it to safely manage transient resources within a controlled scope, avoiding leaks even in the presence of exceptions.",
+      "description_length": 373,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memprof_limits.Resource_bind",
-      "description": "Provides RAII-style resource management through a custom binder that ensures resources are released after use. Operates with functions that acquire and release resources, using a scope-based execution model. Enables safe handling of resources like file handles or memory blocks within a localized computation.",
-      "description_length": 309,
+      "module_path": "Memprof_limits.Masking",
+      "library": "memprof-limits",
+      "description": "This module provides `with_resource` to safely manage interrupt masking during critical operations involving memory profiling, ensuring asynchronous exceptions are deferred until after resource release. It works with arbitrary types `'a`, `'b`, and `'c` through the provided acquire, scope, and release functions. Use it to protect sensitive allocations or cleanup code from premature interruption, such as when writing to shared state or finalizing resources under memory limits.",
+      "description_length": 480,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Memprof_limits.Memprof",
-      "description": "Tracks memory allocations by sampling at a specified rate, recording callstacks up to a defined length, and using custom callbacks to monitor minor and major heap blocks. Operates on allocation sources, allocation records, and tracker configurations that define how blocks are observed. Used to analyze memory usage patterns in programs with precise control over sampling accuracy and performance impact.",
-      "description_length": 404,
+      "library": "memprof-limits",
+      "description": "This module tracks memory allocations with configurable sampling rates and callstack capture, using `allocation` records to store sample counts, sizes, sources, and backtraces. It supports activation and deactivation of profiling via `start` and `stop`, with optional callstack depth control and custom tracking callbacks. Concrete use cases include identifying memory hotspots in long-running applications and diagnosing allocation patterns in performance-critical code paths.",
+      "description_length": 477,
       "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "memprof-limits",
-      "description": "Provides functions to interrupt computations based on memory usage, allocation counts, and custom cancellation tokens. Operates on threads and tracks resource consumption during execution. Used to enforce strict resource constraints in long-running or untrusted code, such as limiting memory for sandboxed evaluations or capping allocation for iterative algorithms.",
-      "description_length": 365,
-      "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Memprof_limits",
-      "description": "manages concurrent signaling, resource safety, and memory tracking through atomic flags, interrupt-safe resource management, RAII-style scoped resources, and allocation sampling. It includes mutable flags for coordination, resource acquisition/release functions with scoped execution, and allocation trackers with customizable sampling and callback mechanisms. It enables tasks such as coordinating asynchronous events, ensuring safe resource cleanup during interruptions, and analyzing memory usage with detailed tracking. Operations include setting and checking flags, wrapping resource operations in safe scopes, and configuring memory allocation monitoring.",
-      "description_length": 661,
-      "index": 5,
+      "library": "memprof-limits",
+      "description": "This module enforces global memory and allocation limits while enabling token-based cancellation of CPU-bound tasks. It provides atomic flags for cross-thread signaling, scoped resource management via `let&` bindings, and safe handling of asynchronous exceptions during critical memory operations. You can interrupt computations that exceed memory thresholds, manage file handles or memory buffers with automatic cleanup, and profile allocations with stack traces to identify performance bottlenecks. Cancellation tokens coordinate task termination, while profiling tools capture detailed allocation data under varying memory pressures.",
+      "description_length": 636,
+      "index": 4,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 661,
-    "min_description_length": 265,
-    "avg_description_length": 393.3333333333333,
-    "embedding_file_size_mb": 0.02223491668701172
+    "max_description_length": 636,
+    "min_description_length": 348,
+    "avg_description_length": 462.8,
+    "embedding_file_size_mb": 0.01860523223876953
   }
 }

@@ -1,224 +1,213 @@
 {
   "package": "llvmgraph",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 29,
-  "creation_timestamp": "2025-06-18T16:38:15.088059",
+  "total_modules": 24,
+  "creation_timestamp": "2025-07-15T23:10:43.730875",
   "modules": [
     {
       "module_path": "Llvmgraph.Oper.Neighbourhood.Vertex_Set",
-      "description": "This module offers functional set operations such as membership checks, unions, intersections, and element transformations, working with graph vertices (type `G.V.t`) to construct and manipulate vertex sets. It enables tasks like generating neighborhoods from sequences, analyzing graph structures through cardinality and partitioning, and iteratively processing elements for traversal or filtering. Specific use cases include graph traversal algorithms and set-based computations in network analysis.",
-      "description_length": 501,
+      "library": "llvmgraph",
+      "description": "This module enables set-theoretic manipulation of control-flow graph vertices, supporting operations like union, intersection, difference, and membership tests alongside element selection (min, max, arbitrary) and sequence-based transformations. It operates on sets of `Llvmgraph.G.V.t` vertices, encapsulated in `Vertex_Set.t` structures, and facilitates conversions between vertex sets and sequences for iterative processing. These capabilities are particularly useful in graph algorithms requiring precise tracking of node neighborhoods, dominance relationships, or control-flow dependencies during static analysis of LLVM functions.",
+      "description_length": 636,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Llvmgraph.Map.G.V",
-      "description": "Compares, hashes, and checks equality between values of type `t` using a custom `label` identifier. Constructs `t` values from `label` and retrieves the associated `label` from a `t`. Used to ensure consistent identity and comparison semantics in data structures requiring unique, labeled elements.",
-      "description_length": 298,
+      "module_path": "Llvmgraph.Dominator.S",
+      "library": "llvmgraph",
+      "description": "This module provides set operations like union, intersection, and subset checks, along with transformations and traversals (map, fold, iter) over dominator tree vertices from LLVM control-flow graphs. It manages sets of dominator vertices and their elements, which correspond to LLVM dominator nodes or identifiers, and supports conversions between these sets and lists or sequences for efficient bulk manipulation. These features are used in control flow analysis, code optimization tasks, and data flow analysis to reason about dominator relationships without directly computing the dominator graph closure.",
+      "description_length": 609,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Llvmgraph.Map.G.E",
-      "description": "Provides operations to compare edges, extract source and destination vertices, and retrieve labels from edge structures. Works with edge types that encapsulate vertices and labels. Used to manage directed graph edges with associated labels in network and graph algorithms.",
-      "description_length": 272,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.G.V",
-      "description": "Compares and hashes LLVM basic block objects using their underlying label identifiers. Provides equality checks and retrieval of labels from basic block instances. Creates basic block objects from labels for use in LLVM IR construction.",
-      "description_length": 236,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.G.E",
-      "description": "Provides operations to compare edges, extract source and destination vertices, and retrieve labels from edge structures. Works with edge objects constructed from vertices and labels. Used to analyze graph connections and annotate edges with specific metadata.",
-      "description_length": 259,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.G.Ordered_label",
-      "description": "Compares label values using a custom ordering scheme. Operates on the `E.label` type, which represents symbolic labels in a program analysis context. Used to establish a total order for labels during data flow analysis and constraint solving.",
-      "description_length": 242,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.G.Weight",
-      "description": "Compares two weights and returns the heavier one, adds two weights, and returns a zero weight. It operates on integer-based weights and associates a constant weight of 1 with any input value. Used to track and combine weights in graph traversal algorithms.",
-      "description_length": 256,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Llvmgraph.Oper.Choose",
-      "description": "Selects an arbitrary vertex from a graph structure and an arbitrary edge from a directed graph, returning them as a vertex identifier and edge tuple respectively. Operates on graph representations that include vertex and edge types. Useful for sampling or traversal initialization in graph algorithms.",
-      "description_length": 301,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.Oper.Neighbourhood",
-      "description": "manages graph vertex sets with operations like union, intersection, and membership, enabling efficient neighborhood construction and structural analysis. It supports transformations, cardinality checks, and partitioning of vertex collections. Tasks such as traversing graph regions or filtering elements based on criteria can be implemented directly. Examples include identifying connected components or computing reachability through set intersections.",
-      "description_length": 453,
-      "index": 8,
+      "library": "llvmgraph",
+      "description": "Chooses a vertex or edge from a control-flow graph. Uses internal selection logic to return a representative element. Useful for analysis tasks requiring a specific node or connection in the graph.",
+      "description_length": 197,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Llvmgraph.Path.Dijkstra",
-      "description": "Calculates the shortest path between two vertices in a graph, returning the sequence of edges and total weight. It operates on graph structures represented by `G.t`, with vertices `G.V.t` and edges `G.E.t`. Used to determine optimal routes in network traversal or pathfinding scenarios.",
+      "library": "llvmgraph",
+      "description": "Implements Dijkstra's algorithm to compute the shortest path between two vertices in a control-flow graph. It operates on weighted edges, returning the sequence of edges and total weight for the shortest path. Useful for analyzing the most efficient execution path or identifying bottlenecks in LLVM-generated control-flow graphs.",
+      "description_length": 330,
+      "index": 3,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Llvmgraph.G.Weight",
+      "library": "llvmgraph",
+      "description": "This module defines a weight type and operations for edges in a control-flow graph. It supports addition and comparison of integer weights, with a constant weight of 1 assigned to all edges. It is used to compute path weights and analyze control-flow metrics like cyclomatic complexity.",
       "description_length": 286,
-      "index": 9,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Llvmgraph.Dominator.S",
-      "description": "This module offers set operations like insertion, deletion, union, and intersection, working with generic elements of type 'elt and sets of type 't, while emphasizing immutability through functional patterns. It supports querying, transforming, and iterating over elements, including cardinality checks and sequence conversions, enabling data processing tasks. Specific functions like `add_seq` and `of_seq` handle vertex sequences to construct or modify sets, suitable for incremental data aggregation.",
-      "description_length": 503,
-      "index": 10,
+      "module_path": "Llvmgraph.G.V",
+      "library": "llvmgraph",
+      "description": "This module represents vertices in a control-flow graph, specifically LLVM basic blocks. It provides operations to compare, hash, and check equality of vertices, as well as create and retrieve labels associated with them. It is used to manipulate and analyze individual nodes in the graph structure of an LLVM function.",
+      "description_length": 319,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Traverse.Bfs",
+      "library": "llvmgraph",
+      "description": "Implements breadth-first traversal over control-flow graphs from the Llvmgraph module. Provides `start`, `step`, and `get` operations to initialize, advance, and retrieve nodes during traversal. Works directly with graph structures representing LLVM function control flow, enabling analysis passes that require visiting nodes in BFS order.",
+      "description_length": 339,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.G.E",
+      "library": "llvmgraph",
+      "description": "This module represents edges in a control-flow graph of an LLVM function, providing operations to create edges with source and destination vertices and associated LLVM use labels. It supports direct access to edge components like source, destination, and label, and includes a comparison function for ordering edges. Concrete use cases include analyzing or transforming control-flow dependencies in LLVM IR by inspecting edge connections and their associated LLVM instructions.",
+      "description_length": 477,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Llvmgraph.Coloring.H",
-      "description": "This module offers operations for managing hash tables, including insertion, deletion, lookup, and traversal of key-value pairs, as well as functions to manipulate graph coloring structures by replacing elements or constructing them from sequences of key-value pairs. It works with hash table types 'a t and graph coloring structures that map keys of type G.V.t to values, enabling tasks like dynamic data management and graph-related computations. Specific use cases include efficiently handling mutable associations in applications requiring fast lookups and processing graph coloring data for algorithms like scheduling or register allocation.",
-      "description_length": 646,
-      "index": 11,
-      "embedding_norm": 1.0
+      "library": "llvmgraph",
+      "description": "This module provides imperative hash table operations for associating arbitrary data with control-flow-graph vertices, supporting insertion, lookup, in-place updates, and bulk construction from key-value sequences. It enables efficient tracking of vertex properties during analyses like register allocation or data flow, where mappings must be dynamically maintained and transformed. The use of sequences for batch operations facilitates streamlined initialization and modification of state tied to graph nodes.",
+      "description_length": 511,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Llvmgraph.Traverse.Dfs",
-      "description": "Performs depth-first traversal of a graph, executing custom actions before or after visiting each node, and supports component-specific traversal. Operates on graph structures and iterator states to explore nodes and detect cycles. Enables processing of individual connected components and accumulates results during traversal.",
-      "description_length": 327,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.Traverse.Bfs",
-      "description": "Performs breadth-first traversal of a graph, applying user-defined functions to vertices during iteration. Operates on graph structures represented by `G.t` and vertex types `G.V.t`. Processes connected components and accumulates results through fold operations, enabling tasks like component analysis or reachability checks.",
-      "description_length": 325,
-      "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.Map.G",
-      "description": "Encapsulates labeled entities and edges, enabling precise comparison, hashing, and identity management through unique identifiers. Supports constructing and inspecting labeled values and edge structures that link vertices with associated labels. Allows for efficient manipulation of graph elements by extracting source and target vertices and their corresponding labels. Facilitates graph algorithm development by ensuring consistent handling of labeled nodes and edges.",
-      "description_length": 470,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.G",
-      "description": "manages LLVM function graphs by enabling label-based comparisons, edge analysis, ordered label handling, and weight operations. it supports equality checks for basic blocks, edge source/destination extraction, custom label ordering, and weight arithmetic. users can analyze graph connectivity, enforce label ordering for data flow, and track path weights during traversal. examples include constructing IR from labels, annotating edges with metadata, and combining weights in shortest path algorithms.",
-      "description_length": 501,
-      "index": 15,
+      "library": "llvmgraph",
+      "description": "This module implements depth-first search traversal for control-flow graphs, providing iterative exploration through explicit stack-based iteration. It supports operations like pre-order and post-order vertex processing, component-wise traversal, and cycle detection. These functions are used to analyze function control flow in LLVM IR, such as identifying unreachable blocks or verifying structured control flow.",
+      "description_length": 414,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Llvmgraph.Map",
-      "description": "Manages labeled graphs with unique identifiers, enabling precise comparison, hashing, and manipulation of vertices and edges. Provides operations to construct, inspect, and extract source-target pairs along with their labels. Supports graph algorithm development by ensuring consistent handling of labeled elements. Examples include building directed graphs with weighted edges and traversing labeled structures for pathfinding.",
-      "description_length": 428,
-      "index": 16,
+      "module_path": "Llvmgraph.Oper.Neighbourhood",
+      "library": "llvmgraph",
+      "description": "This module computes neighborhoods of vertices in a control-flow graph, offering functions to retrieve adjacent vertices as lists or sets. It supports set-theoretic operations through its child module, enabling union, intersection, and difference calculations on `Vertex_Set.t` structures for precise analysis of control-flow dependencies. Direct operations allow querying neighborhoods for single or multiple vertices, while set-based transformations facilitate iterative graph algorithms. Specific use cases include analyzing basic block connectivity and traversing function control flow in LLVM IR.",
+      "description_length": 601,
+      "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Llvmgraph.Oper",
-      "description": "Provides operations to select graph vertices and edges, and manage vertex sets through set-theoretic operations. Supports union, intersection, membership, and partitioning to analyze graph structure and connectivity. Enables tasks like identifying connected components or initializing traversal algorithms by selecting arbitrary elements. Can be used to sample nodes for exploration or compute reachability via set intersections.",
-      "description_length": 429,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.Component",
-      "description": "Computes strongly connected components (SCCs) of a directed graph, returning each component as a list of vertices, an array of lists, or a mapping from vertices to component indices. Operates on graph structures represented by the `G` module, where `G.V.t` denotes vertex identifiers. Used to analyze graph connectivity, detect cycles, and partition graphs into independent subcomponents for further processing.",
-      "description_length": 411,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.Path",
-      "description": "Calculates optimal routes by finding the shortest path between vertices in a graph, returning edge sequences and total weight. It works with graph structures `G.t`, vertices `G.V.t`, and edges `G.E.t`, supporting operations like path reconstruction and weight summation. For example, it can determine the fastest route between two nodes in a transportation network or the lowest-cost connection in a communication system. The module enables efficient traversal analysis and decision-making in graph-based problems.",
-      "description_length": 514,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.Traverse",
-      "description": "Traverses graphs using depth-first or breadth-first strategies, applying custom functions to vertices and tracking traversal state. Supports component-wise processing, cycle detection, and result accumulation through fold operations. Depth-first allows pre- and post-visit actions, while breadth-first applies functions during iteration. Examples include analyzing connected components, detecting cycles, and computing reachability.",
-      "description_length": 432,
-      "index": 20,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Llvmgraph.Coloring",
-      "description": "manages hash tables and graph coloring structures with operations for insertion, deletion, lookup, and traversal, supporting dynamic data manipulation and graph-related tasks. It handles hash tables of type 'a t and graph colorings that map vertices of type G.V.t to values, enabling efficient updates and constructions from sequences. Users can replace elements, build structures from lists, and perform operations critical to algorithms such as scheduling or register allocation. Examples include maintaining mutable associations in real-time systems or processing graph colorings for optimization tasks.",
-      "description_length": 606,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Llvmgraph.Topological",
-      "description": "Processes a graph's vertices in topological order, applying a given function to each. Operates on graph structures represented by G.t, traversing nodes in a sequence that respects dependencies. Used to accumulate results during a topological traversal or execute side effects in dependency order.",
-      "description_length": 296,
-      "index": 22,
+      "library": "llvmgraph",
+      "description": "This module provides tools for selecting and analyzing control-flow graph elements, centered around vertices and edges. It supports operations to choose representative nodes or connections and compute neighborhoods with set-theoretic transformations over `Vertex_Set.t`. You can retrieve adjacent vertices, perform union or intersection on vertex sets, and analyze control flow in LLVM IR functions. Specific capabilities include selecting graph elements for analysis, expanding neighborhoods, and tracking dependencies across basic blocks.",
+      "description_length": 540,
+      "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Llvmgraph.Kruskal",
-      "description": "Generates a minimum spanning tree from a graph by processing edges in ascending order of weight and using a union-find structure to avoid cycles. Operates on graph representations that include nodes and weighted edges. Useful for network design tasks requiring optimal connectivity with minimal total edge weight.",
-      "description_length": 313,
-      "index": 23,
+      "library": "llvmgraph",
+      "description": "Implements Kruskal's algorithm to compute minimum spanning trees on control-flow graphs. Works with weighted edges in undirected graph structures derived from LLVM function CFGs. Used to identify least-cost paths for code optimization and analysis tasks.",
+      "description_length": 254,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Component",
+      "library": "llvmgraph",
+      "description": "Computes strongly connected components (SCCs) of a control-flow graph, returning component counts, vertex-to-component mappings, and SCCs as arrays or lists. Operates on directed graphs represented by the `Llvmgraph.G.t` type, which models LLVM function control flow. Useful for analyzing loops or determining evaluation order in CFGs.",
+      "description_length": 335,
+      "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Llvmgraph.Prim",
-      "description": "Computes a minimum spanning tree for a graph, returning a list of edges. It supports starting the tree construction from a specified vertex. Operates on graph structures represented by G.t and edge representations in G.E.t.",
-      "description_length": 223,
-      "index": 24,
+      "module_path": "Llvmgraph.Dominator",
+      "library": "llvmgraph",
+      "description": "This module computes and converts dominance relations\u2014immediate dominators, dominance trees, and frontiers\u2014over LLVM basic blocks, enabling hierarchical analysis and path-based checks during graph traversal. It supports operations like mapping, folding, and filtering over dominator trees, along with set manipulations such as union, intersection, and subset tests on dominator vertices. You can use it to optimize control flow analysis, perform data flow reasoning, or transform dominator sets into traversable sequences for compiler optimizations. Direct APIs handle dominance tree construction, while submodules manage efficient set operations and bulk transformations over dominator nodes.",
+      "description_length": 693,
+      "index": 14,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Llvmgraph.Leaderlist",
-      "description": "Generates a list of leader nodes for each connected component in a directed graph, starting from a specified node. Operates on graph structures represented by `G.t` and vertices of type `G.V.t`. Used to analyze reachability and hierarchical structure in networked data.",
-      "description_length": 269,
-      "index": 25,
+      "library": "llvmgraph",
+      "description": "Computes leader lists for control-flow graphs by identifying sequences of nodes where each list starts with a branch or entry point and continues with non-branch nodes. Works with directed graphs where nodes represent LLVM instructions and edges represent control flow. Useful for analyzing function control flow to detect loops, basic blocks, or dominance relationships.",
+      "description_length": 371,
+      "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Llvmgraph.Dominator",
-      "description": "provides a framework for managing immutable sets of generic elements with efficient operations for building, combining, and inspecting collections. It supports adding and removing elements, merging sets, and extracting sequences, with functions like `add_seq` and `of_seq` enabling structured data manipulation. Operations such as union, intersection, and cardinality checks allow for precise control over set contents. This enables tasks like tracking unique vertices in a graph or aggregating incremental data streams.",
-      "description_length": 520,
-      "index": 26,
+      "module_path": "Llvmgraph.Path",
+      "library": "llvmgraph",
+      "description": "This module computes the shortest path in a control-flow graph using Dijkstra's algorithm on weighted edges. It determines the most efficient execution path or identifies bottlenecks, returning both the sequence of edges and the total path weight. For example, it can analyze LLVM-generated graphs to find the minimal-cost path between two program points, or highlight high-cost edges that may indicate performance issues.",
+      "description_length": 422,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "llvmgraph",
-      "description": "Provides graph traversal and manipulation functions for LLVM IR control flow graphs, including dominance calculations and loop detection. Operates on node and edge representations derived from LLVM's internal data structures. Used to analyze program flow and optimize code during compilation passes.",
+      "module_path": "Llvmgraph.Traverse",
+      "library": "llvmgraph",
+      "description": "This module provides algorithms for traversing control-flow graphs in both breadth-first and depth-first orders, enabling analysis of LLVM function control flow. It supports operations to initialize traversal, advance through nodes, and retrieve current node information, along with pre-order and post-order processing, cycle detection, and component-wise exploration. The main data types include control-flow graph nodes and traversal states, manipulated through functions like `start`, `step`, `get`, and stack-based iteration. Specific uses include identifying unreachable blocks, verifying structured control flow, and performing analysis passes that require ordered node visits.",
+      "description_length": 683,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.G",
+      "library": "llvmgraph",
+      "description": "This module provides read-only access to control-flow graphs of LLVM functions, enabling inspection of vertices and edges with support for directed traversal, neighbor queries, and edge-weight analysis. It defines core data types including vertices representing basic blocks, edges with source, destination, and LLVM use labels, and integer-based weights for path analysis. Operations allow checking vertex and edge existence, retrieving neighbors, comparing and hashing vertices, accessing edge components, and summing edge weights. Example uses include computing cyclomatic complexity, analyzing control-flow dependencies, and inspecting labeled transitions between basic blocks during static analysis or optimization passes.",
+      "description_length": 727,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Prim",
+      "library": "llvmgraph",
+      "description": "Implements core operations for analyzing control-flow graphs, including computing spanning trees from arbitrary nodes. Works directly with graph structures representing LLVM function control flow. Used to extract hierarchical traversal orders and analyze function structure in static analysis tools.",
       "description_length": 299,
-      "index": 27,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Coloring",
+      "library": "llvmgraph",
+      "description": "This module implements graph coloring algorithms for register allocation on control-flow graphs, mapping nodes to a limited set of integer colors representing registers. It includes a child module that provides imperative hash table operations for associating and manipulating vertex-specific data, enabling efficient tracking of properties during allocation. Together, they support tasks like assigning registers to variables while avoiding conflicts in generated machine code, based on liveness analysis. Specific use cases include coloring LLVM control-flow graphs and maintaining dynamic mappings for data-flow transformations.",
+      "description_length": 631,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Topological",
+      "library": "llvmgraph",
+      "description": "Implements topological sorting and related operations over control-flow graphs. Provides functions to iterate and fold vertices in topological order, ensuring predecessors are processed before their successors. Useful for analyses requiring ordered traversal, such as instruction scheduling or dataflow optimization.",
+      "description_length": 316,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Llvmgraph.Map",
+      "library": "llvmgraph",
+      "description": "Maps an LLVM control-flow graph to another graph structure by transforming vertices and edges. It supports custom functions to convert vertex labels, edge labels, and optionally remap source or destination vertices of edges. This enables direct translation of LLVM CFGs into different graph representations for analysis or visualization tools.",
+      "description_length": 343,
+      "index": 22,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Llvmgraph",
-      "description": "Provides a comprehensive set of graph operations for analyzing and manipulating LLVM function control-flow graphs. It supports labeled vertices and edges, with data types including vertices (G.V.t), edges (G.E.t), and sets of vertices, enabling tasks like SCC detection, shortest path calculation, traversal, and topological sorting. Operations include weight arithmetic, set-theoretic manipulations, and graph coloring, allowing users to compute reachability, detect cycles, optimize paths, and manage dynamic data structures. Examples include finding shortest routes in weighted graphs, identifying connected components, and generating minimum spanning trees for network design.",
-      "description_length": 680,
-      "index": 28,
-      "embedding_norm": 1.0
+      "library": "llvmgraph",
+      "description": "This module provides read-only access to control-flow graphs derived from LLVM functions, enabling analysis of vertices representing basic blocks and edges labeled with control-flow transitions. It supports graph traversal, neighborhood expansion, dominance analysis, and path-finding algorithms like Dijkstra's and Kruskal's, along with SCC and topological sorting for structured control flow analysis. You can compute minimal spanning trees, identify loop structures, determine dominator relationships, or translate CFGs into alternate graph representations for visualization or optimization tasks.",
+      "description_length": 600,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 29,
-    "meaningful_modules": 29,
+    "total_modules_in_package": 24,
+    "meaningful_modules": 24,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 680,
-    "min_description_length": 223,
-    "avg_description_length": 389.51724137931035,
-    "embedding_file_size_mb": 0.10577964782714844
+    "max_description_length": 727,
+    "min_description_length": 197,
+    "avg_description_length": 455.5416666666667,
+    "embedding_file_size_mb": 0.08763694763183594
   }
 }

@@ -1,133 +1,181 @@
 {
   "package": "cmdlang",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:35:09.843168",
+  "total_modules": 20,
+  "creation_timestamp": "2025-07-15T23:10:38.063004",
   "modules": [
     {
-      "module_path": "Cmdlang.Command.Private.To_ast",
-      "description": "Converts argument definitions into abstract syntax tree nodes for command-line interfaces. Processes parameter and command structures, mapping them to a typed AST representation. Used to generate structured command definitions for parsing and execution.",
-      "description_length": 253,
+      "module_path": "Cmdlang.Command.Let_syntax.Let_syntax.Open_on_rhs",
+      "library": "cmdlang",
+      "description": "This module enables binding variables in command-line parser definitions using `let%bind` syntax, allowing sequential composition of argument parsers. It works with `Cmdlang.Command.Arg.t` values, transforming and combining them into structured command configurations. Use it to define complex command-line interfaces where earlier arguments influence later ones, such as conditional flags or dependent parameters.",
+      "description_length": 414,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cmdlang_ast.Ast.Nonempty_list",
-      "description": "Provides functions to create, manipulate, and analyze non-empty lists, including mapping, folding, and concatenation. Works with the `'a t` type, which represents a list with at least one element. Used to safely process sequences where emptiness is not allowed, such as parsing input with mandatory elements or handling configuration data.",
-      "description_length": 339,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlang_ast.Ast.Param",
-      "description": "Provides functions to create, modify, and retrieve parameters with associated values, including binding, unbinding, and lookup operations. Works with a polymorphic type 'a t that encapsulates named parameters and their associated data. Used to manage configuration settings during parsing and execution of command-line interfaces.",
-      "description_length": 330,
+      "module_path": "Cmdlang.Command.Let_syntax.Let_syntax",
+      "library": "cmdlang",
+      "description": "This module provides syntactic support for building command-line parsers using `let`-binding syntax, enabling concise composition of arguments through applicative and monadic styles. It operates on `Cmdlang.Command.Arg.t` values, supporting sequential and parallel combination of parser components, including transformations and dependencies. With `let%bind`, users can define argument parsers that depend on prior inputs, enabling conditional logic and structured validation directly within the parser definition. Example uses include assembling commands with interdependent flags, positional arguments, and validated parameters in a declarative, readable format.",
+      "description_length": 664,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang.Command.Private.To_ast",
+      "library": "cmdlang",
+      "description": "Converts command-line parser definitions into an abstract syntax tree (AST) representation. It transforms arguments, parameters, and commands into corresponding AST nodes. This enables analysis or code generation from parser specifications.",
+      "description_length": 240,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang_ast.Ast.Arg",
-      "description": "Provides functions to parse command-line arguments, extract values by name, and handle default values. Works with a type 'a t that represents parsed argument values, supporting integers, strings, and boolean flags. Used to process user input in CLI tools, such as reading configuration options or enabling debug mode.",
-      "description_length": 317,
+      "module_path": "Cmdlang.Command.Applicative_infix",
+      "library": "cmdlang",
+      "description": "Implements applicative-style composition for command-line parsers using infix operators. Works with `'a t` values representing parsed command-line arguments. Used to chain transformations and combine multiple parsers into a single command specification.",
+      "description_length": 253,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cmdlang_ast.Ast.Command",
-      "description": "Provides operations to extract a summary string from a command structure and apply a transformation function to its underlying value. Works with a polymorphic command type that wraps a value of any type. Used to process and inspect command data in a pipeline, such as converting command arguments to strings or extracting metadata.",
-      "description_length": 331,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang.Command.Nonempty_list",
-      "description": "Provides operations to construct, traverse, and manipulate lists that cannot be empty, including functions to get the head, tail, and concatenate non-empty lists. Works with the `'a t` type, which wraps a list ensuring at least one element is present. Used to safely handle sequences in parsing or processing where empty lists are invalid, such as in command-line argument handling or structured data parsing.",
-      "description_length": 409,
+      "module_path": "Cmdlang.Command.Validated_string",
+      "library": "cmdlang",
+      "description": "This module defines a validated string type that supports safe parsing from and conversion to strings, ensuring data integrity during command-line argument processing. It works with custom types that require validation, such as email addresses or numeric ranges, by wrapping them in a result type that handles parsing failures. Concrete use cases include validating file paths, user identifiers, or configuration values at runtime when parsing command-line inputs.",
+      "description_length": 464,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cmdlang.Command.Applicative_syntax",
+      "library": "cmdlang",
+      "description": "This module provides applicative-style operators for composing command-line parsers, enabling sequential and parallel combination of parser values. It works with parser types that produce values from command-line input, supporting the construction of complex command interfaces through declarative specifications. Concrete use cases include defining multi-argument commands and chaining parser stages where intermediate results feed into subsequent parsing steps.",
+      "description_length": 463,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cmdlang.Command.Param",
-      "description": "Provides functions to define and manipulate command-line parameters with custom parsing and printing logic. Works with types like strings, integers, floats, booleans, and user-defined types through interfaces such as Stringable, Enumerated_stringable, and Validated_string. Enables creation of parameters for comma-separated lists and enumerated values with explicit value listings in usage messages.",
-      "description_length": 400,
+      "library": "cmdlang",
+      "description": "This module defines parameter types for command-line arguments, supporting basic values like strings, integers, floats, booleans, and files, as well as custom types through helpers for enumeration, string conversion, and validation. It allows specifying how values are parsed and printed, enabling precise control over argument handling in command-line interfaces. Concrete use cases include defining typed command arguments with custom documentation, parsing comma-separated lists, and validating input formats like email addresses or file paths.",
+      "description_length": 547,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang.Command.Arg",
-      "description": "Provides functions to construct and combine command-line argument parsers, including flags, named arguments, and positional arguments. Works with types like `bool t`, `int t`, and `'a list t` to represent parsed values. Parses command-line inputs to extract boolean flags, counted flags, single or multiple named parameters, and positional values.",
-      "description_length": 347,
+      "module_path": "Cmdlang.Command.Stringable",
+      "library": "cmdlang",
+      "description": "Implements conversion between strings and a specific type `t` for command-line argument parsing. Provides `of_string` and `to_string` functions to parse and serialize values without failure. Used to define custom argument types that can be directly converted to and from strings in command declarations.",
+      "description_length": 303,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlang.Command.Utils",
-      "description": "Returns a command's summary string and applies a function to the underlying value of a command, transforming its type. Works with command types encapsulating arbitrary values. Used to process command outputs and generate concise status reports.",
-      "description_length": 244,
+      "module_path": "Cmdlang.Command.Std",
+      "library": "cmdlang",
+      "description": "This module provides combinators for building and composing command-line argument parsers using a declarative style. It works with types representing command-line arguments, such as `'a Arg.t`, and supports operations like mapping and zipping arguments. Concrete use cases include defining custom command-line interfaces with typed, composable argument specifications and transforming or combining parsed values directly within the specification DSL.",
+      "description_length": 450,
       "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cmdlang.Command.Arg",
+      "library": "cmdlang",
+      "description": "This module defines combinators for constructing command-line argument parsers, supporting both named and positional arguments with precise control over their presence, multiplicity, and default values. It operates on argument specifications parameterized by their parsed result type, enabling composition through applicative operations like `map`, `both`, and `apply`. Concrete use cases include defining flags with counts, optional or multi-occurrence named parameters, positional arguments with defaults, and capturing all remaining positional inputs as a list.",
+      "description_length": 564,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cmdlang.Command.Let_syntax",
-      "description": "provides a namespace for extending syntax with custom notations and abstractions. it enables the definition of new syntactic forms through helper functions and type constructors. users can create domain-specific syntax enhancements and integrate them seamlessly into OCaml code. examples include defining custom pattern matching constructs or infix operators.",
-      "description_length": 359,
-      "index": 9,
+      "library": "cmdlang",
+      "description": "This module enables building command-line parsers using `let`-binding syntax, combining `Command.Arg.t` values through monadic and applicative operations to express sequential and parallel argument parsing. It supports direct value transformations, conditional logic, and interdependent arguments using constructs like `let%bind`, simplifying the assembly of complex command structures. Users can define parsers that map or filter values inline, chain required and optional arguments, and structure validation steps as part of the parsing flow. Example uses include defining commands with conditional flags, validated positional arguments, and dynamic parameter dependencies.",
+      "description_length": 675,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlang.Command.Private",
-      "description": "Transforms command-line argument definitions into typed abstract syntax trees, enabling structured representation of parameters and commands. Supports operations for building, traversing, and manipulating AST nodes that model CLI interfaces. Examples include defining nested commands, validating parameter types, and generating parsing logic from structured input.",
-      "description_length": 364,
-      "index": 10,
+      "module_path": "Cmdlang.Command.Enumerated_stringable",
+      "library": "cmdlang",
+      "description": "This module defines operations for types with a finite set of values, each having a canonical string representation. It provides `all` to list all possible values and `to_string` to convert a value to its string form. Useful for enumerating command-line flags or options where each flag corresponds to a fixed set of named values.",
+      "description_length": 330,
+      "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang_ast.Ast",
-      "description": "Provides functions to construct and manipulate command-line interfaces through non-empty lists, parameter maps, and parsed argument values. Supports operations like mapping over elements, binding parameters, and extracting values by name, with types including non-empty lists, parameter sets, and parsed arguments. Enables tasks such as validating required inputs, managing configuration options, and generating summaries from command structures. Transforms command data for inspection or further processing, such as converting arguments to strings or extracting metadata.",
-      "description_length": 572,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cmdlang.Command",
-      "description": "Provides a bind-like operator to transform the result of a computation wrapped in a monadic context, using a function that maps the inner value to a new value. Works with a generic type 'a t, representing computations that produce values of type 'a. Used to chain operations where each step depends on the successful outcome of the previous, such as parsing command-line arguments and processing their results.",
-      "description_length": 410,
+      "module_path": "Cmdlang.Command.Utils",
+      "library": "cmdlang",
+      "description": "This module provides functions to transform and extract information from command-line parsers. It includes `summary` to retrieve a command's description and `map` to apply a function to a command's result. These utilities support refining and inspecting command-line interfaces directly within the EDSL.",
+      "description_length": 303,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "cmdlang",
-      "description": "Provides a domain-specific language for defining command-line interfaces, translating specifications into executable commands for cmdliner, core.command, or climate. Works with command structures, options, and positional arguments. Used to build structured CLI tools with explicit parsing rules, such as custom build systems or data processing pipelines.",
-      "description_length": 354,
+      "module_path": "Cmdlang.Command.Nonempty_list",
+      "library": "cmdlang",
+      "description": "This module provides operations for working with lists that are guaranteed to be non-empty, ensuring safe head and tail access. It includes functions to create, map, fold, and manipulate non-empty lists, along with utilities for validation and conversion from standard lists. Concrete use cases include parsing command-line arguments where at least one value is required, such as handling multi-argument flags or positional parameters.",
+      "description_length": 435,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlang_ast",
-      "description": "Constructs and manipulates command-line interfaces using non-empty lists, parameter maps, and parsed arguments, enabling operations like parameter binding, value extraction, and list transformation. Supports validation of required inputs, configuration management, and metadata extraction from command structures. Functions include mapping over elements, binding parameters, and converting arguments to strings. Examples include generating summaries, checking for missing options, and inspecting parsed command data.",
-      "description_length": 516,
+      "module_path": "Cmdlang.Command.Private",
+      "library": "cmdlang",
+      "description": "This module converts command-line parser definitions into an abstract syntax tree (AST), representing arguments, parameters, and commands as structured nodes. The core data types include AST nodes for commands, options, and arguments, along with operations to build and traverse these structures. It supports analysis and code generation by providing a structured representation of parser specifications. For example, a command-line interface defined with command, option, and argument declarations can be transformed into an AST for further processing or serialization.",
+      "description_length": 570,
       "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cmdlang.Command",
+      "library": "cmdlang",
+      "description": "This module enables declarative command-line parsing through an embedded DSL, letting developers define typed command interfaces with named and positional arguments, subcommands, and custom argument types. It supports applicative composition of parsers, value validation, and help generation, with core operations like `map`, `both`, and `apply` combining argument specifications into executable commands. You can define commands that parse integers, strings, or custom types like email addresses, build hierarchical CLIs with nested subcommands, and generate usage documentation from argument metadata. Modules for non-empty lists, validated strings, and enumerations provide structured data handling, while AST conversion and `let`-binding syntax enable advanced composition and inspection of parser logic.",
+      "description_length": 808,
+      "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cmdlang",
-      "description": "Encapsulates monadic operations for chaining computations that may fail or produce values, using a bind operator that transforms inner values within a generic 'a t context. Supports sequential processing of parsed command-line arguments, allowing for safe and expressive error handling. Operations include mapping over results, combining multiple steps, and propagating failures. For example, it can parse arguments, validate them, and execute commands in a single, readable flow.",
-      "description_length": 480,
-      "index": 15,
+      "library": "cmdlang",
+      "description": "This module implements a declarative command-line parsing DSL for defining typed command interfaces with named and positional arguments, subcommands, and custom argument types. It supports applicative composition of parsers using operations like `map`, `both`, and `apply`, enabling developers to build hierarchical CLIs with validated inputs such as integers, emails, or enumerations. You can generate usage documentation from argument metadata, handle structured data with non-empty lists and validated strings, and use AST conversion for advanced parser inspection and composition. Example uses include defining multi-level subcommand tools with typed arguments and automatic help output.",
+      "description_length": 691,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang_ast.Ast.Command",
+      "library": "cmdlang.ast",
+      "description": "This module defines the structure and transformations for command representations in the embedded domain-specific language (EDSL) of the `cmdlang` library. It provides operations to extract a command's summary and apply a function to the result type of a command. These capabilities are used internally to translate command definitions into executable forms for backends like `cmdliner`, `core.command`, or `climate`.",
+      "description_length": 417,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang_ast.Ast",
+      "library": "cmdlang.ast",
+      "description": "The module synthesizes command representations in the EDSL of the `cmdlang` library, enabling structured transformations and extraction of metadata such as command summaries. It centers around the `Command.t` type, with operations to manipulate and analyze command definitions, including mapping over result types and extracting descriptive summaries. This functionality supports internal translation of command interfaces into executable forms compatible with backends like `cmdliner`, `core.command`, or `climate`. It is primarily used for extending the library or building analysis tools rather than direct interaction by end users.",
+      "description_length": 635,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cmdlang_ast",
+      "library": "cmdlang.ast",
+      "description": "This module represents commands in a domain-specific language, centered on the `Command.t` type, which supports structured manipulation, transformation, and metadata extraction. It provides operations to map over command result types and extract descriptive summaries, enabling analysis and translation into executable forms compatible with command-line interface libraries. Example uses include transforming command definitions between backend formats or generating documentation from command metadata. It is intended for library extension and tooling rather than direct end-user consumption.",
+      "description_length": 593,
+      "index": 19,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 23,
-    "meaningful_modules": 16,
-    "filtered_empty_modules": 7,
-    "retention_rate": 0.6956521739130435
+    "meaningful_modules": 20,
+    "filtered_empty_modules": 3,
+    "retention_rate": 0.8695652173913043
   },
   "statistics": {
-    "max_description_length": 572,
-    "min_description_length": 244,
-    "avg_description_length": 376.5625,
-    "embedding_file_size_mb": 0.05859184265136719
+    "max_description_length": 808,
+    "min_description_length": 240,
+    "avg_description_length": 490.95,
+    "embedding_file_size_mb": 0.07303714752197266
   }
 }

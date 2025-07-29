@@ -1,56 +1,63 @@
 {
   "package": "dns-client",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:29:25.644419",
+  "creation_timestamp": "2025-07-15T23:06:27.742926",
   "modules": [
     {
-      "module_path": "Dns_client_unix.Transport",
-      "description": "Provides functions to create and manage DNS client connections using Unix sockets, including establishing connections, sending and receiving DNS messages, and closing contexts. Operates on types like `context`, `io_addr`, and `t`, with support for random number generation and a monotonic clock. Used to implement DNS resolution with configurable timeouts and nameservers.",
-      "description_length": 372,
+      "module_path": "Dns_resolvconf",
+      "library": "dns-client.resolvconf",
+      "description": "Parses a resolv.conf file, extracting nameserver IP addresses. Works with IP address strings and returns a list of parsed nameservers or an error message. Useful for configuring DNS clients from standard resolver configuration files.",
+      "description_length": 233,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dns_client.Make",
-      "description": "Creates and manages DNS client state, including configuring nameservers, handling timeouts, and establishing connections. Operates on types like `context`, `io_addr`, `stack`, and `t`, and provides low-level I/O operations for sending and receiving DNS messages. Used to build reliable DNS resolution pipelines with custom timeouts and resource management.",
-      "description_length": 356,
+      "module_path": "Dns_client.S",
+      "library": "dns-client",
+      "description": "This module implements a DNS client with functions to create and manage DNS query sessions over a network stack. It provides operations to establish connections, send and receive DNS messages, and handle timeouts and random number generation for DNS operations. It is used to perform DNS resolution by interacting with network addresses and managing communication contexts.",
+      "description_length": 373,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_client.Pure",
-      "description": "Generates DNS queries with customizable random number generators and DNSSEC settings, and processes DNS responses to validate and extract structured data. It operates on domain names, DNS record types, and query state objects derived from initial query setup. Used to construct and validate DNS transactions in applications requiring precise control over query generation and response handling.",
-      "description_length": 394,
+      "module_path": "Dns_client.Make",
+      "library": "dns-client",
+      "description": "This module implements a DNS client with functions to query DNS resource records, resolve hostnames to IP addresses (IPv4 and IPv6), and retrieve raw DNS replies. It works with domain names, IP addresses, DNS resource record maps, and custom transport interfaces provided by the parameter module T. Concrete use cases include DNS resolution in networking applications, handling DNSSEC validation, and interacting with DNS servers over UDP or TCP with configurable timeouts and EDNS settings.",
+      "description_length": 491,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dns-client",
-      "description": "Processes DNS queries and constructs responses using immutable data structures. Handles DNS message parsing, compression, and validation, working with records like A, AAAA, CNAME, and SOA. Used to implement authoritative DNS servers that manage custom zones and perform reverse lookups for private IP ranges.",
-      "description_length": 308,
+      "module_path": "Dns_client.Pure",
+      "library": "dns-client",
+      "description": "This module constructs DNS queries and validates responses using domain names and resource record types. It provides functions to serialize queries, parse raw responses, and handle reply data with support for DNSSEC and EDNS options. Use cases include implementing custom DNS clients, verifying response authenticity, and extracting resource records from DNS replies.",
+      "description_length": 367,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Dns_client_unix",
-      "description": "Manages DNS client operations over Unix sockets, handling connection setup, message exchange, and cleanup. It works with types such as `context`, `io_addr`, and `t`, and incorporates random number generation and a monotonic clock for reliable timing. It enables DNS resolution with custom timeouts and nameservers, allowing queries to be sent and responses received efficiently. Example tasks include resolving domain names, configuring alternative DNS servers, and managing connection lifecycles.",
-      "description_length": 497,
-      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dns_resolvconf",
-      "description": "Parses a string representation of DNS configuration into a list of nameservers, each represented as an IP address. It processes lines from a resolv.conf file, extracting IPv4 and IPv6 addresses. The output is a result type that either contains the parsed nameservers or an error message.",
-      "description_length": 287,
-      "index": 5,
+      "module_path": "Dns_client",
+      "library": "dns-client",
+      "description": "This module provides DNS resolution capabilities, enabling applications to query DNS servers for domain name and resource record information over UDP or TCP. It supports core operations like hostname-to-IP resolution, raw DNS reply handling, and configurable resolver behavior using custom transports and DNS server lists. Key data types include domain names, IP addresses, DNS resource records, and configurable contexts for managing timeouts, EDNS, and DNSSEC validation. Examples include resolving \"example.com\" to an IPv4 or IPv6 address, constructing and sending custom DNS queries, and parsing and validating DNS responses with DNSSEC support.",
+      "description_length": 649,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_client",
-      "description": "Provides functions to create and manage DNS client connections, including establishing a connection to nameservers, sending and receiving DNS messages, and closing contexts. Operates with types like `context`, `io_addr`, `stack`, and `t`, and uses `io`-monadic operations for asynchronous control flow. Used to implement DNS resolution workflows with custom timeouts, random number generation, and clock-based timing.",
-      "description_length": 417,
+      "module_path": "Dns_client_unix.Transport",
+      "library": "dns-client.unix",
+      "description": "This module implements a DNS transport layer using blocking Unix socket I/O. It provides connection management, message sending and receiving, and resource cleanup via functions like `connect`, `send_recv`, and `close`, operating on DNS protocol sockets with timeout handling. It works with IP addresses, DNS protocol identifiers, and internal context/state types to facilitate DNS query execution over Unix-based systems.",
+      "description_length": 422,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dns_client_unix",
+      "library": "dns-client.unix",
+      "description": "This module provides DNS client functionality for Unix systems, enabling domain name resolution and DNS query execution over IPv4 or IPv6 using a transport layer based on blocking Unix sockets. It supports operations such as resolving domain names to IP addresses, querying resource records, and handling raw DNS responses, with cryptographic RNG for secure communication. The transport submodule manages socket connections, message exchange with timeouts, and resource cleanup, allowing concrete interactions with DNS servers via standard Unix networking. Example usage includes initiating a DNS lookup with `resolve` or sending a custom DNS query using `query`, with underlying transport handled automatically or configurable per connection.",
+      "description_length": 743,
       "index": 6,
       "embedding_norm": 1.0
     }
@@ -62,9 +69,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 497,
-    "min_description_length": 287,
-    "avg_description_length": 375.85714285714283,
-    "embedding_file_size_mb": 0.025827407836914062
+    "max_description_length": 743,
+    "min_description_length": 233,
+    "avg_description_length": 468.2857142857143,
+    "embedding_file_size_mb": 0.02586841583251953
   }
 }

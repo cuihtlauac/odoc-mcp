@@ -1,51 +1,57 @@
 {
   "package": "caqti-eio",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:29:14.505663",
+  "creation_timestamp": "2025-07-15T23:05:46.269603",
   "modules": [
     {
-      "module_path": "Caqti_eio.Stream",
-      "description": "Provides operations to process and transform streams, including folding with error handling, iterating with potential errors, and converting streams to lists in forward or reverse order. Works with stream nodes that represent elements, failures, or continuations, and supports error propagation through result types. Converts lists to streams, applies functions that return results, and accumulates values while preserving error contexts.",
-      "description_length": 438,
+      "module_path": "Caqti_eio.CONNECTION",
+      "library": "caqti-eio",
+      "description": "This module provides SQL execution, transaction control, and connection lifecycle management for PostgreSQL via the `caqti-driver-pgx` driver, operating on SQL requests, result streams, and database connections. It supports patterns like streaming data insertion (`populate`), transactional atomicity (`with_transaction`), and row-oriented result aggregation (`collect_list`), while exposing driver-specific features such as dialect information and connection validation. Designed for Eio's non-Unix runtime, it focuses on PostgreSQL-specific URIs but remains experimental due to ongoing Eio API evolution.",
+      "description_length": 606,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Caqti_eio.Pool",
-      "description": "Provides operations to manage a pool of resources, including retrieving the current size, using a resource with priority-based scheduling, and draining all resources while maintaining pool usability. Works with a parameterized type representing a pool of resources and associated errors. Used to efficiently manage database connections or thread pools where resource allocation and prioritization are critical.",
-      "description_length": 410,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Caqti_eio.Response",
-      "description": "Returns the count of rows from a database response or the number of affected rows, with error handling. Processes single or multiple rows, supporting iteration, folding, and streaming of results. Used to validate query outcomes, handle optional results, and process large datasets efficiently.",
-      "description_length": 293,
+      "module_path": "Caqti_eio.CONNECTION-Response",
+      "library": "caqti-eio",
+      "description": "This module handles result inspection and retrieval for database queries, providing operations like `returned_count`, `affected_count`, `find`, `fold`, and `to_stream`. It works with response types parameterized over decoded row data and query cardinality. Concrete use cases include extracting single rows with `find`, processing multiple rows lazily with `to_stream`, and aggregating results with `fold` or `iter_s`.",
+      "description_length": 418,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Caqti_eio.Stream",
+      "library": "caqti-eio",
+      "description": "This module processes streams of values with functions to fold, iterate, and convert to and from lists, handling errors specific to stream operations. It supports operations like `fold`, `iter_s`, `to_list`, and `map_result` on stream values that may fail with a custom error type. Concrete use cases include consuming result sets from database queries, transforming stream elements with error handling, and accumulating stream data into collections.",
+      "description_length": 450,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "caqti-eio",
-      "description": "Provides functions for connecting to and querying relational databases using a unified API, with support for parameterized SQL templates and type-safe data encoding/decoding. Operates on database connection URIs, query strings, and structured data types like tuples and records. Enables dynamic database interaction in applications requiring multi-backend support, such as migration tools or reporting systems.",
-      "description_length": 410,
+      "module_path": "Caqti_eio.Pool",
+      "library": "caqti-eio",
+      "description": "This module manages a pool of database connections for use with Eio, specifically supporting the caqti-driver-pgx driver. It provides operations to check the current number of open connections, execute a function with a pooled connection, and close all active connections in the pool. Use cases include efficiently handling PostgreSQL database access in Eio-based applications while avoiding connection leaks and excessive reconnection overhead.",
+      "description_length": 445,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Caqti_eio",
-      "description": "Provides row count or affected row information from database responses, with support for error handling, iteration, and streaming. Offers operations to process single or multiple results, including folding and optional value extraction. Examples include validating query success, counting returned rows, and efficiently handling large datasets. Main data types include result counts, error types, and streamable row structures.",
-      "description_length": 427,
+      "library": "caqti-eio",
+      "description": "This module coordinates PostgreSQL database connections for Eio applications without Unix dependencies, using direct connections or pools backed by the `caqti-driver-pgx` driver. It integrates with Eio's networking and time abstractions to manage connection lifetimes, execute queries, and handle errors through result types and switch-controlled resources. Submodules support query execution, transaction control, result streaming, and connection pooling, enabling patterns like transactional atomicity, streaming data insertion, and row aggregation. Concrete use cases include safely querying with `find`, streaming results with `to_stream`, managing connection pools, and folding over decoded rows with error handling.",
+      "description_length": 721,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Caqti_eio_unix",
-      "description": "Establishes database connections using Eio's event loop, supporting driver-specific URI parsing and configuration. Operates on `Uri.t` and returns connection objects implementing `Caqti_connection_sig.S`, with pool management for repeated use. Handles connection setup, environment variable expansion, and post-connection initialization tasks.",
-      "description_length": 343,
+      "library": "caqti-eio.unix",
+      "description": "This module establishes database connections and manages connection pools for applications using Eio, working with URIs to locate and load appropriate database drivers. It provides functions to connect to a database, run operations within a connection context, and create connection pools with optional post-connect initialization. Concrete use cases include setting up PostgreSQL or SQLite connections in Eio-based applications and managing pooled access to database resources.",
+      "description_length": 478,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
@@ -55,9 +61,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 438,
-    "min_description_length": 293,
-    "avg_description_length": 386.8333333333333,
-    "embedding_file_size_mb": 0.022210121154785156
+    "max_description_length": 721,
+    "min_description_length": 418,
+    "avg_description_length": 519.6666666666666,
+    "embedding_file_size_mb": 0.022240638732910156
   }
 }

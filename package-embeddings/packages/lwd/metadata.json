@@ -1,84 +1,85 @@
 {
   "package": "lwd",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:29.257441",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:05:58.372104",
   "modules": [
     {
       "module_path": "Lwd.Infix",
-      "description": "Provides monadic binding and applicative operations for transforming and combining values within a context. Works with functor and monad types, enabling sequential computation and function application. Enables chaining of transformations in a readable, composable manner, such as parsing nested data or handling asynchronous workflows.",
-      "description_length": 335,
+      "library": "lwd",
+      "description": "Implements applicative and monadic composition for Lwd values. Provides map and bind operations through operators `>|=`, `>>=`, and `<*>` to transform and sequence computations over values wrapped in the Lwd monad. Useful for building reactive or lazy data flows where dependencies between computations must be explicitly tracked and updated efficiently.",
+      "description_length": 354,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lwd_seq.Balanced",
-      "description": "Provides operations to construct and combine sequences with logarithmic depth, ensuring efficient transformations. Works with a private sequence type that supports concatenation and viewing elements without exposing internal structure. Used to maintain performance in pipelines where frequent updates could otherwise cause linear recomputation.",
-      "description_length": 344,
+      "library": "lwd",
+      "description": "This module implements a balanced sequence type with operations for creating empty sequences, adding elements, and concatenating sequences while maintaining logarithmic depth for transformations. It guarantees efficient updates and avoids degenerate performance in scenarios like appending elements to long sequences. Concrete use cases include managing dynamic collections in reactive programming where frequent modifications could otherwise lead to linear time complexity or stack overflow.",
+      "description_length": 492,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lwd_seq.Reducer",
-      "description": "Provides functions to construct and manipulate a reducer that maps input values to intermediate results and combines them using a reduction function. Operates on sequences of 'a values and accumulates 'b results, supporting updates, reductions, and tracking of dropped elements. Used to process streams of data, aggregate results incrementally, and handle partial computations with explicit control over dropped items.",
-      "description_length": 418,
+      "library": "lwd",
+      "description": "This module processes sequences by applying a reducer to transform and combine elements incrementally. It supports operations to create a reducer with a map and reduce function, update it with new sequence data, and retrieve the reduced result or dropped elements. Use it to maintain an aggregated value (like a sum or concatenated string) over a changing sequence, or to track changes in specific elements during updates.",
+      "description_length": 422,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "lwd",
-      "description": "Tracks dynamic values and their dependencies, enabling reactive updates when inputs change. It operates on streams and events, supporting real-time data flow in interactive applications. Used to create responsive terminal interfaces by linking user input to visual output.",
-      "description_length": 272,
+      "module_path": "Lwd_seq",
+      "library": "lwd",
+      "description": "This library combines identity-sensitive sequence manipulation with efficient structural reuse, supporting operations like concatenation, filtering, mapping, and monadic binding over both static and reactive sequences. It provides a balanced sequence type that ensures logarithmic-time updates and stable performance under frequent modifications, ideal for dynamic collections in reactive contexts. The reducer module allows incremental aggregation, such as maintaining running totals or tracking element changes, by applying map-reduce style transformations to evolving sequences. Together, these components enable fine-grained control over sequence identity, transformation, and aggregation in incremental and stateful computations.",
+      "description_length": 734,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lwd_table",
-      "description": "The module provides operations for inserting, deleting, and traversing rows in a doubly-linked list-like structure, along with modifying their values. It works with a table of bound or unbound rows, enabling efficient recomputation of map/reduce results when the sequence changes, making it suitable for dynamic, interactive applications requiring real-time updates.",
-      "description_length": 366,
+      "library": "lwd",
+      "description": "This module implements a mutable, ordered collection of rows with efficient insertion, deletion, and bidirectional traversal. It supports operations to prepend, append, and insert rows relative to existing ones, as well as get, set, and unset row values. It is suited for interactive applications where dynamic data sequences need efficient updates and observation through mapping and reduction.",
+      "description_length": 395,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lwd_utils",
-      "description": "Provides balanced reduction operations using monoids, including tree-based reductions for efficient parallel computation and sequential reductions for linear processing. Works with monoids defined as a value and an associative binary operation, and handles lists, sequences, and Lwd-typed values. Used for UI-related computations such as combining state updates, clamping values, and managing list transformations within a lazy, reactive context.",
-      "description_length": 446,
+      "module_path": "Lwd",
+      "library": "lwd",
+      "description": "This module enables the creation and manipulation of reactive documents through a combination of functional and imperative constructs, supporting value creation, transformation pipelines, monadic chaining, and stateful variables. It integrates applicative and monadic composition via operators like `>|=`, `>>=`, and `<*>`, allowing dependencies between computations to be tracked and updated efficiently. Main data types include reactive values and documents that support lazy evaluation, caching, and fine-grained invalidation control. With this module, you can build dynamic user interfaces and dataflow systems that automatically update in response to changes, using both direct operations and compositional constructs from its submodules.",
+      "description_length": 743,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lwd",
-      "description": "Combines monadic and applicative operations to transform and sequence values within a context, supporting functor and monad types for structured computation. Allows chaining of transformations to parse nested data or manage asynchronous workflows with clear, composable syntax. Key operations include binding, mapping, and lifting, enabling seamless integration of side-effecting or context-dependent functions. Examples include parsing hierarchical data structures or orchestrating asynchronous tasks in a functional style.",
-      "description_length": 524,
+      "module_path": "Lwd_infix",
+      "library": "lwd",
+      "description": "This module provides infix operators for working with Lwd values, enabling concise binding and manipulation of reactive variables and tables. It includes operators for mapping, binding, pairing Lwd values, and setting Lwd variables or table rows. These operations simplify reactive programming patterns, such as dynamically updating UI elements or managing state changes in event-driven applications.",
+      "description_length": 400,
       "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lwd_seq",
-      "description": "creates a sequence system that supports efficient transformations and updates through logarithmic-depth structures and reducer-based aggregation. It handles sequences of values with operations like map, filter, and fold, while reusing unchanged elements during updates. Reducers allow incremental aggregation of results, tracking dropped elements and supporting partial computations. Examples include building efficient data pipelines and processing streaming data with controlled state management.",
-      "description_length": 498,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lwd_infix",
-      "description": "Provides combinators for sequencing and combining lazy workflows, including binding values, pairing results, and updating variables. Operates on `Lwd.t`, `Lwd.var`, and `Lwd_table.row` types to manage asynchronous or deferred computations. Enables concise manipulation of reactive data structures in user interface or event-driven contexts.",
-      "description_length": 340,
-      "index": 8,
+      "module_path": "Lwd_utils",
+      "library": "lwd",
+      "description": "This module provides monoidal reduction operations for combining values in a balanced tree structure, optimizing for logarithmic depth in list reductions. It supports operations on lists and sequences within the Lwd monad, enabling efficient parallelizable reductions and transformations. Additional utility functions handle integer and float comparisons and clamping, useful in constrained numerical computations.",
+      "description_length": 414,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 524,
-    "min_description_length": 272,
-    "avg_description_length": 393.6666666666667,
-    "embedding_file_size_mb": 0.03311347961425781
+    "max_description_length": 743,
+    "min_description_length": 354,
+    "avg_description_length": 494.25,
+    "embedding_file_size_mb": 0.029474258422851562
   }
 }

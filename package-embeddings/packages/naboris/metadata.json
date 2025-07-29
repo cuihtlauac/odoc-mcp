@@ -1,161 +1,165 @@
 {
   "package": "naboris",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 20,
-  "creation_timestamp": "2025-06-18T16:34:28.007835",
+  "total_modules": 18,
+  "creation_timestamp": "2025-07-15T23:08:38.952826",
   "modules": [
     {
-      "module_path": "Naboris.Query.QueryMap",
-      "description": "The module offers operations for managing string-keyed maps, including adding, updating, removing, and merging entries, with support for arbitrary value types and ordered traversal mechanisms. It enables use cases like configuration management and data transformation through functions for filtering, iterating, and combining maps, as well as processing sequences of bindings or querying metadata efficiently.",
-      "description_length": 409,
+      "module_path": "Naboris.Session",
+      "library": "naboris",
+      "description": "Handles session creation, identification, and data retrieval. Works with session data of any type `'sessionData` and associates each session with a unique string ID. Useful for managing user authentication states or tracking client-specific information across requests.",
+      "description_length": 269,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Naboris.ErrorHandler",
-      "description": "Handles exception propagation by mapping errors to route responses, transforming exceptions into HTTP-compatible data structures. Operates on exceptions and route objects, producing headers and body content for web responses. Used to standardize error handling in HTTP request processing pipelines.",
-      "description_length": 298,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Naboris.Req",
-      "description": "Provides functions to extract and manipulate HTTP request data, including headers, body, and session information. Works with session-aware request records and HTTPAF request descriptors. Used to retrieve session keys, set session data, and configure caching and etag settings for responses.",
-      "description_length": 290,
-      "index": 2,
+      "library": "naboris",
+      "description": "This module provides functions to access and manipulate HTTP request data, including headers, body, and session information. It works with data types such as `Httpaf.Reqd.t`, session data, and configuration options for cookies and caching. Concrete use cases include extracting request headers, reading the request body asynchronously, managing session data, and configuring cache control and ETag settings for responses.",
+      "description_length": 421,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Naboris.Res",
-      "description": "Creates and modifies HTTP response records with specific status codes, headers, and body content. Operates on response records (`t`) and session-aware request objects, supporting JSON, HTML, plain text, and raw data responses. Sends files, redirects clients, handles errors, and streams data using chunked encoding.",
-      "description_length": 315,
-      "index": 3,
+      "library": "naboris",
+      "description": "This module creates and manipulates HTTP responses with functions to set status codes, headers, and response bodies. It supports sending JSON, HTML, text, and raw content, streaming data via chunked encoding, serving static files, and handling redirects and cookies. Concrete use cases include returning API data as JSON, serving HTML pages, streaming large responses, and redirecting clients after form submissions.",
+      "description_length": 416,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Naboris.Route",
-      "description": "Extracts HTTP path, method, and query data from route records. Processes raw query strings and converts them into mapped key-value pairs. Used to construct and analyze route information for request handling.",
-      "description_length": 207,
-      "index": 4,
+      "module_path": "Naboris.Method",
+      "library": "naboris",
+      "description": "This module defines an enumerated type representing HTTP request methods, including standard verbs like GET, POST, and DELETE, as well as a constructor for custom methods. It provides functions to convert between string representations and the enumerated type, and to map from another HTTP method type. It is used to standardize and handle HTTP method values within request routing and processing logic.",
+      "description_length": 403,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Naboris.ServerConfig",
-      "description": "The module provides functions to configure HTTP server behavior through session management, request routing, middleware integration, static file serving, and error handling, utilizing a builder pattern for incremental setup. It works with structured data types like session records and an `httpAfConfig` record to define server settings. This enables precise control over server operations, such as customizing request processing pipelines or optimizing static content delivery.",
-      "description_length": 478,
+      "library": "naboris",
+      "description": "This module enables configuring a session-aware HTTP server with capabilities for defining request/response handlers, middleware pipelines, static file serving, caching strategies, and ETag management. It operates on a polymorphic server configuration type that allows customization of session data handling and behavior through functions like `setRequestHandler` and `addMiddleware`. This facilitates use cases such as implementing custom session management, optimizing static asset delivery with cache control, and building modular web applications with layered middleware.",
+      "description_length": 575,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Naboris.Router",
+      "library": "naboris",
+      "description": "Handles route creation and URI parsing for web requests. It extracts path segments, query parameters, and method information from URIs. Useful for mapping incoming HTTP requests to specific route handlers based on URI patterns and methods.",
+      "description_length": 239,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Naboris.Session",
-      "description": "Creates a session container with a unique string identifier and stores associated data. Retrieves the session's ID or its associated data. Used to manage user-specific state across requests in web applications.",
-      "description_length": 210,
+      "module_path": "Naboris.Route",
+      "library": "naboris",
+      "description": "This module provides functions to access the path, HTTP method, raw query string, and parsed query parameters from a route value. It works with route values that encapsulate request routing data, including parsed path segments and query parameters mapped to string lists. Concrete use cases include extracting request path components, retrieving HTTP methods, and accessing query parameters during request handling.",
+      "description_length": 415,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Naboris.Method",
-      "description": "Handles conversion between string representations and internal method types, and between Httpaf method values and internal method types. Works with string values and Httpaf.Method.t instances. Used to standardize HTTP method handling in request routing and protocol interactions.",
-      "description_length": 279,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.Middleware",
-      "description": "Handles request processing by chaining session-aware handlers, routing decisions, and response generation. Operates on session data, request handlers, routes, and HTTP requests/responses. Enables structured middleware pipelines for web application logic.",
-      "description_length": 254,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.RequestHandler",
-      "description": "Handles route matching, request parsing, and response generation. Operates on route definitions, session data, and HTTP requests to produce asynchronous responses. Processes incoming HTTP requests by applying route-specific logic and returning structured, delayed responses.",
-      "description_length": 274,
-      "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Naboris.DateUtils",
-      "description": "Formats a Unix timestamp into a string representation suitable for HTTP headers, using a specific date format. Accepts a floating-point number representing seconds since the epoch and returns a formatted string. Used to generate date headers for HTTP requests and responses, ensuring compatibility with server and client expectations.",
-      "description_length": 334,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.Query",
-      "description": "provides a map-based structure for handling query parameters from HTTP requests, supporting dynamic manipulation of key-value pairs with flexible value types. It includes operations for inserting, updating, deleting, and merging entries, along with ordered iteration and transformation functions. Users can filter, combine, or process query data efficiently, such as extracting specific parameters or merging multiple query strings. Examples include parsing URL queries, modifying request parameters, and generating filtered subsets of query data.",
-      "description_length": 547,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.Cookie",
-      "description": "Extracts session IDs from cookie headers using a key or an HTTP request structure. Operates on strings and `Req.t` type to retrieve session identifiers. Useful for identifying user sessions in web applications based on incoming HTTP cookies.",
-      "description_length": 241,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.MimeTypes",
-      "description": "Provides functions to determine a MIME type from a filename, returning \"text/plain\" by default when no match is found. Operates on string inputs representing filenames or extensions. Used to classify file types in web servers or content delivery systems.",
-      "description_length": 254,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.SessionManager",
-      "description": "Creates and manages session data by generating unique session IDs, attaching them to HTTP responses via cookies, and resuming sessions by extracting IDs from request cookies. Operates on request and response objects along with session-specific data structures. Used to establish authenticated user sessions, invalidate existing sessions, and securely handle session identifiers during server interactions.",
-      "description_length": 405,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.Router",
-      "description": "Generates a route record from a URI and HTTP method, and parses a URI string into segments, a base path, and query parameters. Works with strings, method types, and query maps to structure URL components. Used to construct and analyze request routes in web applications.",
-      "description_length": 270,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Naboris.SessionConfig",
-      "description": "Provides functions to extract session identifier key, maximum age, and signing secret from a session configuration. Works with a polymorphic session data type that includes configuration parameters. Used to retrieve cookie settings for session management in web applications.",
-      "description_length": 275,
-      "index": 16,
+      "library": "naboris",
+      "description": "Converts a Unix timestamp to an HTTP header-compatible date string in the format \"Day, DD Mon YYYY HH:MM:SS GMT\". Works with floating-point timestamps representing seconds since the Unix epoch. Useful for generating `Date` or `Last-Modified` headers in HTTP responses.",
+      "description_length": 268,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Naboris.Etag",
-      "description": "Generates etag values from strings or file paths, supporting both strong and weak etags. Processes UTF-8 encoded strings and file system paths, returning Lwt-promised results for asynchronous file reading. Used to create HTTP etags for caching and conditional requests based on file content or path.",
-      "description_length": 299,
-      "index": 17,
+      "library": "naboris",
+      "description": "This module generates and manipulates HTTP ETag values. It provides functions to create strong and weak ETags from strings or file paths, returning them as strings or promises. Use cases include generating cache identifiers for HTTP responses based on content or file metadata.",
+      "description_length": 277,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "naboris",
-      "description": "Provides route handling, request parsing, and response generation using HTTP methods and middleware. Operates on strings, JSON values, and Lwt promises for asynchronous processing. Used to build lightweight APIs and static site generators with minimal boilerplate.",
-      "description_length": 264,
-      "index": 18,
+      "module_path": "Naboris.Middleware",
+      "library": "naboris",
+      "description": "This module defines functions for processing HTTP requests and responses, including request parsing, response formatting, and error handling. It works with HTTP request and response objects, along with routing and handler functions. Concrete use cases include logging incoming requests, validating request headers, and injecting response headers or status codes before sending a response.",
+      "description_length": 388,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Naboris.Cookie",
+      "library": "naboris",
+      "description": "Works with HTTP cookie headers to extract session identifiers. Provides `getSessionId` to parse a session ID from a cookie string using a specified key, and `sessionIdOfReq` to retrieve the session ID directly from a request object's cookies. Useful for handling user sessions in web applications by securely identifying sessions from incoming HTTP requests.",
+      "description_length": 358,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Naboris.SessionManager",
+      "library": "naboris",
+      "description": "Manages session creation, resumption, and termination for HTTP requests. It handles session data of any type `'sessionData`, associating it with session IDs stored in cookies. Starts a session by generating an ID and setting response headers, removes a session by expiring its cookie, and internally resumes sessions using signed session IDs. Useful for implementing user authentication and maintaining state across requests in web applications.",
+      "description_length": 445,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Naboris.Query",
+      "library": "naboris",
+      "description": "The module organizes query parameters from routed requests into structured maps, enabling efficient access and manipulation. It centers around a map type that stores key-value pairs, where keys are parameter names and values are their corresponding string representations. Core operations include adding, retrieving, and checking for the presence of parameters. For example, a route like `/user?id=123` can be parsed into a map where `\"id\"` maps to `\"123\"`, allowing easy extraction and validation of the `id` parameter.",
+      "description_length": 520,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Naboris.SessionConfig",
+      "library": "naboris",
+      "description": "This module provides functions to extract configuration values for session management, including the session ID key, maximum cookie age, and signing secret. It operates on an optional session configuration type that holds session-specific data. Concrete use cases include retrieving settings to initialize session middleware or configure cookie parameters in web applications.",
+      "description_length": 376,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Naboris.ErrorHandler",
+      "library": "naboris",
+      "description": "Defines error handlers for processing exceptions and generating appropriate HTTP responses. Works with exceptions and route definitions to produce response headers and body content asynchronously. Used to customize error responses based on the type of exception and the route where it occurred.",
+      "description_length": 294,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Naboris.MimeTypes",
+      "library": "naboris",
+      "description": "Handles mapping between file extensions and MIME types. Provides functions to determine a file's content type from its name and to extract file extensions. Useful for web servers or file processing tools needing accurate MIME type detection.",
+      "description_length": 241,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Naboris.RequestHandler",
+      "library": "naboris",
+      "description": "Handles HTTP request parsing and routing by extracting headers, query parameters, and request methods. Processes incoming requests using middleware chains and generates appropriate responses. Useful for building web servers where structured request handling and response generation are required.",
+      "description_length": 295,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Naboris",
-      "description": "Encapsulates HTTP request and response handling, session management, and route processing through a set of interrelated functions. It manages session data via unique identifiers, processes request headers, bodies, and query parameters, and constructs responses with specific status codes and content types. It supports error transformation, route matching, and middleware chaining, enabling structured web application logic. Examples include generating HTTP dates, creating etags, extracting session keys, and formatting JSON responses.",
-      "description_length": 536,
-      "index": 19,
-      "embedding_norm": 1.0
+      "library": "naboris",
+      "description": "This module implements a lightweight HTTP server with session management, routing, and middleware support, handling request parsing, response generation, and asynchronous I/O via Lwt. It provides core data types such as session IDs, HTTP methods, route values, and configuration types, with operations for managing sessions, extracting request data, building responses, and defining routes. Submodules enable structured query parameter handling, MIME type detection, ETag and cache control, cookie parsing, and error handling, supporting concrete tasks like serving JSON APIs, streaming content, and managing authenticated sessions. The API allows defining middleware pipelines, custom request handlers, and static file serving, with utilities for date formatting, session configuration, and route-based parameter extraction.",
+      "description_length": 825,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 20,
-    "meaningful_modules": 20,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 19,
+    "meaningful_modules": 18,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9473684210526315
   },
   "statistics": {
-    "max_description_length": 547,
-    "min_description_length": 207,
-    "avg_description_length": 321.95,
-    "embedding_file_size_mb": 0.07309436798095703
+    "max_description_length": 825,
+    "min_description_length": 239,
+    "avg_description_length": 390.27777777777777,
+    "embedding_file_size_mb": 0.06581974029541016
   }
 }

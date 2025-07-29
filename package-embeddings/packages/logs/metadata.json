@@ -1,84 +1,101 @@
 {
   "package": "logs",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:29:51.609936",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:55.473447",
   "modules": [
     {
-      "module_path": "Logs.Src",
-      "description": "Creates and manages log sources with unique names and documentation, allowing retrieval of source properties like name, documentation, and reporting level. Supports setting and comparing sources, and provides a way to list all active sources. Used to track and configure logging origins in applications.",
-      "description_length": 303,
+      "module_path": "Logs_fmt",
+      "library": "logs.fmt",
+      "description": "This module provides a logging reporter that formats messages with optional ANSI color codes for visual distinction. It defines specific styles for different log levels\u2014such as error, warning, and info\u2014and a customizable header formatter that applies these styles when rendering log messages. It is used to enhance log output readability in terminal environments by adding color to log level indicators and source identifiers.",
+      "description_length": 426,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Logs.Tag",
-      "description": "Defines tag structures with named, typed values for log messages, including functions to create, inspect, and manipulate tag definitions and sets. Works with custom tag definitions, tag sets, and values associated with specific tag types. Enables adding, removing, and querying tags in log entries, and provides pretty-printing for tags and their definitions.",
-      "description_length": 359,
+      "module_path": "Logs_lwt.LOG",
+      "library": "logs.lwt",
+      "description": "This module defines logging operations that return Lwt threads, ensuring log actions complete before proceeding. It works with log levels, message formatting functions, and Lwt-based result types. Use it to perform asynchronous logging with precise control over message handling and error reporting in Lwt-based applications.",
+      "description_length": 325,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "logs",
-      "description": "Provides functions to configure log sources, set reporting levels, and emit log messages. Works with log sources, levels, and custom reporters to handle message output. Used to dynamically control log verbosity and direct outputs to files, consoles, or network endpoints.",
-      "description_length": 271,
+      "module_path": "Logs_lwt",
+      "library": "logs.lwt",
+      "description": "This module enables asynchronous logging in Lwt-driven applications, offering functions like `msg`, `app`, and `err` that return threads completing only after log operations finish. It supports structured logging, error handling, and integration with custom reporters for output formatting or colorization. Use it to log messages non-blockingly at various levels, chain log operations with Lwt.bind, or ensure log completion before proceeding in cooperative concurrency scenarios.",
+      "description_length": 480,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs",
-      "description": "Provides logging functions for different severity levels, including message formatting and error handling. Works with log levels, formatted messages, and result types to manage success and error states. Enables structured logging and error recovery in applications requiring detailed runtime feedback.",
-      "description_length": 301,
+      "module_path": "Logs_threaded",
+      "library": "logs.threaded",
+      "description": "Enables thread-safe logging for OCaml Threads by installing mutual exclusion primitives through `Logs.set_reporter_mutex`. Works directly with the logging reporter and thread primitives. Use when multiple threads write to the same log output to prevent interleaved or corrupted log entries.",
+      "description_length": 290,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_browser",
-      "description": "Logs_browser provides a reporter that outputs log messages to the browser console, mapping log levels to corresponding console methods. It handles messages with no source or tag information, using a simple log format. This is used to integrate logging into web applications for real-time debugging in the browser.",
-      "description_length": 313,
+      "module_path": "Logs.LOG",
+      "library": "logs",
+      "description": "This module defines logging functions for specific sources, supporting operations to emit log messages at various severity levels (e.g., error, warning, info) and handle result values that may carry error information. It works with log levels, tagged data, and result types, enabling structured logging of values with custom formatting and error handling callbacks. Concrete use cases include logging application events with context tags, handling and logging result-returning computations, and directing formatted error messages to a logging reporter.",
+      "description_length": 552,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_cli",
-      "description": "Provides functions to parse command-line options for setting log levels, including verbose, quiet, and explicit level flags. Works with `Logs.level` and `Cmdliner.Term.t` to integrate logging configuration into command-line interfaces. Used to dynamically adjust log verbosity based on user input or environment variables.",
-      "description_length": 322,
+      "module_path": "Logs.Src",
+      "library": "logs",
+      "description": "This module manages log sources with operations to create, query, and configure their reporting levels. It works with the `Logs.src` type, representing individual logging sources, and interacts with `Logs.level` to control verbosity. Concrete use cases include creating named log sources for different components (e.g., \"mypkg.network\") and dynamically adjusting their logging levels at runtime.",
+      "description_length": 395,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_threaded",
-      "description": "Provides functions to manage thread-safe logging by integrating mutual exclusion primitives. Works with OCaml's thread system and logging infrastructure. Enables safe logging across concurrent threads without race conditions.",
-      "description_length": 225,
+      "module_path": "Logs.Tag",
+      "library": "logs",
+      "description": "This module defines and manipulates message tags for log messages. It supports creating tag definitions with associated printers, managing sets of tags, and operations to add, remove, and query tags within a set. Use cases include attaching structured metadata like request IDs or user identifiers to logs for improved diagnostics and filtering.",
+      "description_length": 345,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_fmt",
-      "description": "Formats log messages with ANSI color codes for enhanced visual differentiation of log levels. Uses Fmt.t and Fmt.style types to define and apply styling to log headers. Enables colored output in terminal environments by configuring formatters with style renderers.",
-      "description_length": 264,
+      "module_path": "Logs",
+      "library": "logs",
+      "description": "This module enables structured logging with support for severity levels, source-specific configuration, and customizable formatting. It provides functions to emit log messages enriched with tags and results, allowing structured data to be logged alongside contextual metadata. Child modules handle log sources, enabling dynamic control of verbosity per component, and manage tags for attaching structured metadata to log entries. Example uses include logging diagnostic information with custom tags, adjusting logging levels at runtime for specific components, and directing formatted logs to different outputs.",
+      "description_length": 611,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_lwt",
-      "description": "Provides logging operations for different severity levels, including message formatting and error handling in asynchronous workflows. Works with log levels, formatted messages, and Lwt-based asynchronous results. Enables structured error recovery by wrapping operations and formatting error messages with custom headers and tags.",
-      "description_length": 329,
+      "module_path": "Logs_cli",
+      "library": "logs.cli",
+      "description": "This module provides a Cmdliner term for configuring the log reporting level through command-line options, allowing users to set, override, or disable logging levels. It works with `Logs.level` and integrates directly with Cmdliner's command-line parsing to control logging behavior in applications. A concrete use case is enabling users to adjust verbosity (e.g., debug, info, error) via command-line flags when launching a service or tool.",
+      "description_length": 441,
       "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Logs_browser",
+      "library": "logs.browser",
+      "description": "The module provides a `console_reporter` function that sends log messages to the browser console using the appropriate logging level, such as error, warn, or log. It works with the standard `Logs` logging infrastructure, handling log messages generated by applications using that library. This is useful for debugging client-side applications by inspecting logs directly in the browser's developer tools.",
+      "description_length": 404,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 359,
-    "min_description_length": 225,
-    "avg_description_length": 298.55555555555554,
-    "embedding_file_size_mb": 0.03315448760986328
+    "max_description_length": 611,
+    "min_description_length": 290,
+    "avg_description_length": 426.9,
+    "embedding_file_size_mb": 0.0367431640625
   }
 }

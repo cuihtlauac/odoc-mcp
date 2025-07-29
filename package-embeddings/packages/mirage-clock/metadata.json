@@ -1,35 +1,45 @@
 {
   "package": "mirage-clock",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 2,
-  "creation_timestamp": "2025-06-18T16:26:32.275249",
+  "total_modules": 3,
+  "creation_timestamp": "2025-07-15T23:04:51.861712",
   "modules": [
     {
-      "module_path": "mirage-clock",
-      "description": "Provides functions to create and manipulate monotonic and system time sources, including reading current time, calculating durations, and converting between time representations. Works with types such as `int64` for time values and custom time source objects that track elapsed time. Used to synchronize timing in network protocols and event-driven systems where precise time tracking is essential.",
-      "description_length": 398,
+      "module_path": "Mirage_clock.MCLOCK",
+      "library": "mirage-clock",
+      "description": "Provides access to a monotonic clock source, measuring time in nanoseconds since an arbitrary starting point. It supports precise time interval measurements with `elapsed_ns` and optionally reports the clock's resolution with `period_ns`. Useful for profiling code execution times or implementing timeouts where consistent time progression is critical.",
+      "description_length": 352,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_clock",
-      "description": "Returns the current POSIX time in days and picoseconds, along with the local time zone offset in seconds and the clock's period in days and picoseconds. Operates on time values represented as tuples of integers and 64-bit integers. Used to synchronize application time with system clocks that may be adjusted by external sources like NTP.",
-      "description_length": 338,
+      "module_path": "Mirage_clock.PCLOCK",
+      "library": "mirage-clock",
+      "description": "This module implements a POSIX clock for MirageOS, providing precise time measurements since the Unix epoch, including support for retrieving the current time in days and picoseconds, the local time zone offset in seconds, and the clock's period in days and picoseconds. It works with integer and 64-bit integer types to represent time values and optionally returns time zone and period information. Concrete use cases include timestamping events, calculating time intervals, and synchronizing with external time sources like NTP.",
+      "description_length": 530,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_clock",
+      "library": "mirage-clock",
+      "description": "This module defines clock device signatures for MirageOS, including `PCLOCK` for real-time clocks and `MCLOCK` for monotonic clocks, enabling precise time retrieval and interval measurement. The `MCLOCK` submodule measures time in nanoseconds since an arbitrary start, supporting operations like `elapsed_ns` for profiling and timeouts, while the `PCLOCK` submodule provides Unix epoch-based time with picosecond precision, including timezone support for timestamping and synchronization. Together, they allow applications to track wall-clock time and measure performance-critical sections with high accuracy. Examples include timing network requests, scheduling periodic tasks, and logging events with precise timestamps.",
+      "description_length": 722,
+      "index": 2,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 2,
-    "meaningful_modules": 2,
+    "total_modules_in_package": 3,
+    "meaningful_modules": 3,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 398,
-    "min_description_length": 338,
-    "avg_description_length": 368.0,
-    "embedding_file_size_mb": 0.007689476013183594
+    "max_description_length": 722,
+    "min_description_length": 352,
+    "avg_description_length": 534.6666666666666,
+    "embedding_file_size_mb": 0.011316299438476562
   }
 }

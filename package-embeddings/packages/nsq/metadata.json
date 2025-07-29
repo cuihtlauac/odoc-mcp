@@ -1,91 +1,93 @@
 {
   "package": "nsq",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:37.493115",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:02.110170",
   "modules": [
     {
       "module_path": "Nsq.Consumer.Config",
-      "description": "Provides configuration parameters for networked services, including timeouts, retry policies, and client identifiers. Works with primitive types such as integers, floats, and custom `Seconds.t` for time-based settings. Used to initialize service clients with specific behavior for handling retries, timeouts, and message delivery.",
-      "description_length": 330,
+      "library": "nsq",
+      "description": "This module defines configuration parameters for an NSQ consumer, including timeouts, retry policies, and connection settings. It works with basic types like integers, floats, and strings, as well as custom time representations from the `Nsq.Seconds` module. Concrete use cases include setting up consumer behavior such as requeue delays, heartbeat intervals, and limiting concurrent message processing.",
+      "description_length": 403,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Nsq.Seconds",
-      "description": "Converts between floating-point numbers and a specialized time type, enabling precise time calculations. Operates on a custom type `t` representing seconds with high accuracy. Used to handle time deltas in real-time applications and logging systems.",
-      "description_length": 249,
+      "module_path": "Nsq.Consumer",
+      "library": "nsq",
+      "description": "This module manages message consumption from NSQ topics by connecting to NSQD or LookupD, allowing users to define message handlers and start consuming with `create` and `run`. It works directly with NSQ addresses, topics, channels, and raw payloads, enabling tasks like processing event notifications or background jobs. The child module configures consumer behavior using basic types and custom time values, supporting settings such as requeue delays, heartbeat intervals, and concurrency limits. Together, they provide a complete interface for building resilient and configurable NSQ consumers.",
+      "description_length": 597,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Nsq.Milliseconds",
-      "description": "Converts between 64-bit integers and a specialized time representation, and facilitates conversion from second-based time units. Operates on the `t` type and `Seconds.t` to handle precise time values. Used to standardize time measurements in applications requiring microsecond-level accuracy.",
-      "description_length": 292,
+      "module_path": "Nsq.Address",
+      "library": "nsq",
+      "description": "This module defines address representations for NSQ services, supporting both hostname-only and hostname-with-port formats. It provides constructors for creating addresses, a conversion to string, and comparison utilities. Use this module when configuring NSQ client connections or parsing network endpoints.",
+      "description_length": 308,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Nsq.Address",
-      "description": "Constructs and manipulates network addresses from host strings and ports, converting them to string representations. Operates on a custom type representing network endpoints. Used to standardize address formatting and enable comparisons in network communication protocols.",
-      "description_length": 272,
+      "module_path": "Nsq.Milliseconds",
+      "library": "nsq",
+      "description": "This module defines a type `t` representing durations in milliseconds. It provides conversions from `int64` values and from seconds via `Nsq.Seconds.t`. Use cases include handling time intervals in network communication and timeouts where precise millisecond resolution is required.",
+      "description_length": 282,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Nsq.Channel",
-      "description": "Converts a channel representation to its string form. Operates on a custom type representing communication channels. Used to generate human-readable identifiers for debugging or logging purposes.",
-      "description_length": 195,
+      "module_path": "Nsq.Seconds",
+      "library": "nsq",
+      "description": "Represents time intervals in seconds as a float-backed type. Provides conversion to and from raw float values. Used to enforce type safety in time-based operations like message timeouts and connection health checks.",
+      "description_length": 215,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Nsq.Topic",
-      "description": "Converts a topic identifier to its string representation. Works with an abstract type representing categorized subjects. Used to generate human-readable labels for filtering or displaying content categories.",
-      "description_length": 207,
+      "library": "nsq",
+      "description": "This module defines a variant type for representing NSQ topics, including ephemeral topics, and provides a function to convert these topic values to their string representation. It works with string-based topic identifiers, distinguishing between standard and ephemeral topic types. Use this module when handling topic creation or routing in NSQ-based systems where ephemeral topics need explicit tagging.",
+      "description_length": 405,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Nsq.Producer",
-      "description": "Provides functions to create a messaging producer with a specified pool size, publish single or multiple messages to a topic, and handle results asynchronously. Works with Address.t for connection details and Topic.t to organize message delivery. Used to send batches of data to specific topics in a concurrent messaging system.",
-      "description_length": 328,
+      "library": "nsq",
+      "description": "This module manages publishing messages to NSQ topics. It provides functions to create a producer connection to an NSQ address and send single or batched messages to a specified topic. The module works with byte strings and lists of byte strings, targeting use cases like event logging and message queuing.",
+      "description_length": 306,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Nsq.Consumer",
-      "description": "Handles network service configuration with customizable timeouts, retry strategies, and client IDs using primitives like integers, floats, and `Seconds.t`. Supports precise control over service client behavior through structured parameter sets. Allows setting retry intervals, defining connection limits, and specifying message delivery policies. Enables fine-grained adjustment of network interactions for reliability and performance.",
-      "description_length": 435,
+      "module_path": "Nsq.Channel",
+      "library": "nsq",
+      "description": "This module defines two variants of channels: persistent and ephemeral, represented as strings. It provides a function to convert these channel types to their string representation. Useful for constructing valid NSQ channel names when publishing or subscribing to topics.",
+      "description_length": 271,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "nsq",
-      "description": "Provides functions for publishing messages to and consuming messages from NSQ topics, including connection management and message handling. Works with string-based topics, message payloads, and connection configurations. Used to implement real-time data pipelines where producers send logs and consumers process them asynchronously.",
-      "description_length": 332,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Nsq",
-      "description": "Converts and manipulates time, network addresses, channels, and topics into standardized string representations, while enabling precise control over messaging and network configurations. Operates on types such as `t`, `Seconds.t`, Address.t, Channel.t, and Topic.t to handle time deltas, address formatting, message publishing, and service parameters. It supports tasks like converting microseconds to time values, generating human-readable identifiers, and configuring message delivery with custom timeouts and retries. Examples include logging precise timestamps, standardizing IP address comparisons, and publishing messages to categorized topics in a distributed system.",
-      "description_length": 674,
-      "index": 9,
+      "library": "nsq",
+      "description": "This module provides a comprehensive interface for interacting with NSQ, enabling both message consumption and publication through typed, safe, and configurable APIs. It supports key NSQ concepts like topics, channels, and addresses, with precise handling of time intervals in milliseconds and seconds for timeouts and requeues. Users can connect to NSQ services, define message handlers, publish single or batched messages, and manage ephemeral and persistent channels and topics. Specific tasks include processing background jobs, handling event notifications, and ensuring reliable message delivery with custom concurrency and retry settings.",
+      "description_length": 645,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 674,
-    "min_description_length": 195,
-    "avg_description_length": 331.4,
-    "embedding_file_size_mb": 0.036736488342285156
+    "max_description_length": 645,
+    "min_description_length": 215,
+    "avg_description_length": 381.3333333333333,
+    "embedding_file_size_mb": 0.033138275146484375
   }
 }

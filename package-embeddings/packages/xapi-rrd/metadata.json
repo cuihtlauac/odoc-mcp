@@ -1,105 +1,101 @@
 {
   "package": "xapi-rrd",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:33:07.536403",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:01.518304",
   "modules": [
     {
-      "module_path": "Rrd_utils.BoundedFloat",
-      "description": "Provides functions to create and convert bounded float values, ensuring they fall within specified ranges. Operates on private float type and a custom entry function type for validation. Used to enforce constraints in numerical inputs for financial calculations and user interface controls.",
-      "description_length": 290,
+      "module_path": "Rrd_unix",
+      "library": "xapi-rrd.unix",
+      "description": "This module offers a function `to_fd` that serializes an RRD to XML or JSON and writes it to a file descriptor. It works with RRD data structures and Unix file descriptors. A concrete use case is streaming RRD data over a network socket or saving it directly to a file.",
+      "description_length": 269,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rrd_utils.Xmlm_utils",
-      "description": "Provides functions to parse and manipulate XML data using the Xmlm library, including extracting element content, handling start tags, and processing sequences of XML signals. Works with XML signals, input streams, and string-based element identifiers. Used to read and transform XML blocks, extract specific elements, and iterate over XML content efficiently.",
-      "description_length": 360,
+      "module_path": "Rrd_utils.BoundedFloat",
+      "library": "xapi-rrd",
+      "description": "This module wraps float values with bounded behavior, applying clamping or conversion to NaN when bounds are exceeded. It operates on float values and uses a bounded float type to enforce limits during value conversion. Concrete use cases include ensuring performance metrics stay within valid ranges or handling out-of-bounds sensor data in monitoring systems.",
+      "description_length": 361,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rrd.StringMap",
-      "description": "The module offers operations for managing string-keyed maps, including adding, removing, and querying entries, alongside traversal, transformation, and filtering of key-value pairs. It works with polymorphic maps and sequences, enabling conversions between these structures while supporting both strict and optional processing variants. Use cases include configuration management, data aggregation, and scenarios requiring efficient string-based lookups and transformations.",
-      "description_length": 474,
+      "module_path": "Rrd.Statefile_latency",
+      "library": "xapi-rrd",
+      "description": "This module serializes and deserializes latency data for state files, specifically handling records with an identifier and an optional float latency value. It provides `rpc_of_t` and `t_of_rpc` functions to convert between the internal type and an RPC representation. This enables storing and retrieving latency metrics in a structured format during state transitions or checkpoints.",
+      "description_length": 383,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rrd.Json",
-      "description": "Converts various data types to JSON-compatible structures, including strings, numbers, records, and arrays. Handles complex nested data like databases, RRA, and RRD structures with specific type constraints. Provides methods to extract and format values from time-series data sources.",
-      "description_length": 284,
+      "library": "xapi-rrd",
+      "description": "This module serializes RRD (Round Robin Database) data structures into JSON format for external consumption. It provides functions to convert individual data sources, consolidation functions, and full databases into nested JSON objects and arrays. Use this module to export RRD configurations and time-series data for monitoring tools or APIs that require JSON input.",
+      "description_length": 367,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rrd.Statefile_latency",
-      "description": "Encodes and decodes latency data between a client and server using RPC serialization. Works with a structured record type containing timestamps and duration measurements. Used to track and transmit performance metrics in distributed systems.",
-      "description_length": 241,
+      "module_path": "Rrd_utils.Xmlm_utils",
+      "library": "xapi-rrd",
+      "description": "This module provides functions for parsing and traversing XML data using the Xmlm library. It includes operations for reading elements, extracting values, and processing structured XML input. Concrete use cases include parsing RRD (Round-Robin Database) data from XML sources and extracting performance monitoring metrics.",
+      "description_length": 322,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "xapi-rrd",
-      "description": "Provides functions to manage and rotate through a set of data sources in a round-robin fashion, supporting addition, removal, and selection of sources. Operates on a custom data structure representing a pool of sources, each with a unique identifier and state. Used to distribute queries evenly across multiple backend services or databases.",
-      "description_length": 341,
+      "module_path": "Rrd_updates",
+      "library": "xapi-rrd",
+      "description": "This module handles the creation, serialization, and export of time-series performance data in RRD (Round Robin Database) format. It operates on structured data types like `row` and `t`, which represent timestamped data points and full data sets with fixed time intervals and legends. It supports concrete use cases such as exporting performance metrics in XML, JSON, or string formats, merging multiple RRDs into a single export, and reconstructing data from serialized representations.",
+      "description_length": 487,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rrd_utils",
-      "description": "Encapsulates utilities for handling bounded numerical values and XML data processing. Implements a private float type with validation logic and supports XML parsing, element extraction, and stream processing. Enables precise control over numerical inputs and structured data manipulation. Can enforce value ranges for financial computations and extract specific XML elements for data transformation.",
-      "description_length": 399,
+      "module_path": "Rrd_timescales",
+      "library": "xapi-rrd",
+      "description": "This module defines a data structure for representing time scales used in RRD (Round Robin Database) archives, with operations to create, query, and serialize time scale configurations. It works with records containing a name, number of intervals, and interval size in steps, and supports conversion to and from JSON. It is used to configure and persist RRD archive parameters that define how time-series data is aggregated and stored.",
+      "description_length": 435,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rrd_timescales",
-      "description": "Provides operations to create and manipulate time-based data archives, including calculating total span and interval duration. Works with a structured type representing time scales, including name, number of intervals, and interval steps. Used to serialize and deserialize time configurations for data storage or transmission.",
-      "description_length": 326,
+      "module_path": "Rrd_utils",
+      "library": "xapi-rrd",
+      "description": "This module handles floating-point values, arrays, and lists for performance monitoring tasks, offering utilities like NaN detection, bounded float conversion, and XML parsing. It provides direct operations for formatting floats, filtering lists, and transforming data structures, while its submodules enforce numeric bounds and extract metrics from XML. Examples include normalizing sensor readings to valid ranges, converting performance data to XML-compatible formats, and parsing RRD files for metric analysis. The combination of numeric utilities and structured data processing supports robust collection, transformation, and serialization of monitoring data.",
+      "description_length": 664,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rrd_unix",
-      "description": "Serializes an RRD data structure to XML or JSON and writes the output to a Unix file descriptor. Works with Rrd.rrd type to handle time-series data storage. Used to stream RRD contents over network sockets or save to files.",
-      "description_length": 223,
+      "module_path": "Rrd",
+      "library": "xapi-rrd",
+      "description": "This module manages time-series data storage with support for defining data sources, consolidating values using functions like average and max, and exporting data in structured formats. It processes time-series entries as floats with int64 timestamps and allows dynamic modification of data sources and archive settings. The module includes submodules for serializing latency data to and from RPC representations, converting RRD structures into JSON for external tools, and handling state transitions with structured checkpoints. Example uses include performance monitoring, metric aggregation, and exporting data for analysis in JSON-compatible systems.",
+      "description_length": 654,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rrd_updates",
-      "description": "Provides functions to construct and serialize data structures representing time-series updates for performance monitoring. Works with types like `t`, `row`, and `Rrd.rra` to manage and encode update records. Used to generate XML or JSON representations of monitoring data, or to create multi-source update records for export.",
-      "description_length": 325,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Rrd_fring",
-      "description": "Provides ring buffer structures with value ranges enforced through type constraints. Contains fixed-size, circular data storage with operations for insertion, retrieval, and range validation. Examples include managing a rolling window of sensor readings or maintaining a bounded history of events. Ensures values remain within specified limits during all operations.",
-      "description_length": 366,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rrd",
-      "description": "manages time-series data through map operations, JSON serialization, and RPC encoding, enabling efficient storage, transformation, and transmission of structured metrics. It supports string-keyed maps for data organization, JSON conversion for interoperability, and latency tracking via serialized records. Operations include adding and querying map entries, serializing complex data types, and encoding performance metrics. Examples include storing sensor readings, exporting data for visualization, and monitoring system performance across networks.",
-      "description_length": 551,
-      "index": 11,
+      "library": "xapi-rrd",
+      "description": "This module implements a fixed-size ring buffer for floating-point values, designed to store and manage a bounded history of numeric values. It supports operations like pushing new values, retrieving specific historical elements, iterating over recent entries, and extracting arrays of the most recent values. It is useful for scenarios like tracking time-series data within a fixed window, such as in monitoring or statistical aggregation.",
+      "description_length": 440,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 15,
-    "meaningful_modules": 12,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.8
+    "total_modules_in_package": 11,
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9090909090909091
   },
   "statistics": {
-    "max_description_length": 551,
-    "min_description_length": 223,
-    "avg_description_length": 348.3333333333333,
-    "embedding_file_size_mb": 0.04400920867919922
+    "max_description_length": 664,
+    "min_description_length": 269,
+    "avg_description_length": 438.2,
+    "embedding_file_size_mb": 0.036744117736816406
   }
 }

@@ -1,91 +1,157 @@
 {
   "package": "command_rpc",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:30:58.390982",
+  "total_modules": 17,
+  "creation_timestamp": "2025-07-15T23:09:01.610766",
   "modules": [
     {
-      "module_path": "Command_rpc.Connection.Stdout_handling",
-      "description": "Handles output based on file descriptor configuration. Merges stdout with stderr when disabled, or propagates stdout independently when enabled. Works with configuration state to control output behavior in process execution contexts.",
-      "description_length": 233,
+      "module_path": "Command_rpc.Command.Stateful.T_pipe_conv",
+      "library": "command_rpc",
+      "description": "This module implements RPC handlers for processing queries in a streaming fashion, where each request may yield a sequence of responses over time. It works with `query`, `response`, and `state` types, using pipes to handle asynchronous response streams. Concrete use cases include implementing long-running RPCs that produce incremental results, such as streaming file contents or real-time event updates.",
+      "description_length": 405,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Command_rpc.Connection.Stderr_handling",
-      "description": "Handles error output by redirecting and capturing standard error streams. Operates on custom error state objects to control and inspect stderr behavior. Used to isolate and log errors during process execution or testing scenarios.",
-      "description_length": 230,
+      "module_path": "Command_rpc.Command.Stateful.T_pipe",
+      "library": "command_rpc",
+      "description": "Implements a stateful RPC command with a pipe-based interface for streaming data. Works with query, response, error, and state types defined in the parent module, handling communication over stdin/stdout while remapping stdout to stderr for logging. Useful for building long-running child processes that maintain internal state and stream results incrementally to the parent process.",
+      "description_length": 383,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Command_rpc.Connection.Expert",
-      "description": "Sends signals to a running process and waits for its termination, returning the exit status. Operates on process handles and Unix exit/signal information. Useful for managing process lifecycle and retrieving termination details after asynchronous cleanup.",
-      "description_length": 255,
+      "module_path": "Command_rpc.Command.Stateful.T_conv",
+      "library": "command_rpc",
+      "description": "This module defines the structure for implementing stateful RPC commands with versioned query and response types, using S-expressions for serialization. It provides functions to handle multiple RPC versions, retrieve supported versions, and define how queries are processed in the context of a shared state. Concrete use cases include building persistent RPC services that require maintaining state across multiple requests, such as configuration servers or long-running computational tasks.",
+      "description_length": 491,
       "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Command_rpc.Command.Invocation",
-      "description": "Provides serialization of internal representation to S-expression format. Works with a custom type `t` that encapsulates invocation details. Used to generate human-readable logs and debug information during runtime.",
-      "description_length": 215,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Command_rpc.Command.Stateful",
-      "description": "Provides functions to implement and manage multiple versions of RPCs, including a main handler that processes queries and returns responses. Works with custom types `query`, `response`, and `state`, and supports serialization via S-expressions. Used to define versioned APIs and track implemented versions for maintenance and pruning.",
-      "description_length": 334,
-      "index": 4,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Command_rpc.Command.Stateful.T",
+      "library": "command_rpc",
+      "description": "Implements stateful RPC commands for child processes, handling query parsing, response serialization, and state management. Works with `query`, `response`, and `state` types, using Async RPC for communication between parent and child processes. Used to build persistent RPC services in forked processes, where each request modifies or queries internal state.",
+      "description_length": 358,
+      "index": 3,
+      "embedding_norm": 1.0000001192092896
     },
     {
       "module_path": "Command_rpc.Command.Expert",
-      "description": "Provides functions to initialize and manage an RPC server with custom configuration options such as connection description, timeout, heartbeat, and message size. Works with types like Core.Info.t, Core.Time_float.Span.t, and Async.Rpc.Connection.Heartbeat_config.t to configure server behavior. Used to start an RPC server from command-line parameters, handling connection lifecycle and cleanup after client disconnection.",
-      "description_length": 422,
+      "library": "command_rpc",
+      "description": "This module defines a command-line parameter that constructs an RPC server setup function for a child process, allowing the parent to establish communication over stdin/stdout. It supports configuration options such as connection description, heartbeat settings, and message size limits, and returns a deferred that resolves when the client disconnects. It is used to initialize and run an RPC server in a subprocess, handling protocol negotiation and connection management for inter-process communication.",
+      "description_length": 506,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Command.T_pipe_conv",
+      "library": "command_rpc",
+      "description": "This module defines how to handle versioned RPC commands with streaming responses using pipes, converting queries from S-expressions and responses or errors to S-expressions. It supports implementing multi-version RPC handlers that return result streams, logging unknown versions, and maps stdout writes to stderr for debugging. Concrete use cases include building asynchronous RPC servers that communicate over stdin/stdout with version negotiation and structured streaming responses.",
+      "description_length": 485,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Command_rpc.Command",
-      "description": "Provides functions to define and manage multiple versions of an RPC implementation, including handling queries and responses serialized from and to S-expressions. Works with query and response types, and tracks implemented versions and RPCs. Used to register and retrieve RPCs for a specific command across different protocol versions.",
-      "description_length": 335,
+      "module_path": "Command_rpc.Command.Stateful",
+      "library": "command_rpc",
+      "description": "This module enables stateful RPC commands that maintain and transform shared state across calls, supporting operations like lifting functions over state types to create composable, state-aware RPCs. It works with `query`, `response`, and `state` types, allowing RPC methods to access and update persistent data such as server configurations or session state. The child modules extend this functionality with streaming support via pipes, versioned S-expression serialization, and child process integration using Async RPC. Examples include streaming incremental results from long-running computations, managing stateful child processes that log to stderr, and version-aware RPC services that evolve over time while preserving state integrity.",
+      "description_length": 741,
       "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Connection.Stdout_handling",
+      "library": "command_rpc",
+      "description": "This module defines how standard output is handled during RPC connections. It supports three strategies: merging stdout with stderr, propagating stdout directly, or applying a custom handler. Concrete use cases include redirecting command output to a log file, capturing output for processing, or streaming it to a client.",
+      "description_length": 322,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Command.T_pipe",
+      "library": "command_rpc",
+      "description": "Handles RPC communication over stdin/stdout for a command running in a child process, using either Async RPC or a Sexp-based protocol. It processes incoming queries, routes them to the provided implementation, and sends back responses or errors. Useful for implementing servers that interact with a parent process through a bidirectional communication channel.",
+      "description_length": 360,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Command_rpc.Connection.Expert",
+      "library": "command_rpc",
+      "description": "This module provides low-level operations for interacting with a command-rpc executable's process. It allows sending signals to the process and waiting for its termination to retrieve exit status information. These functions are useful when precise control or cleanup of the child process is required, such as handling abnormal termination or ensuring proper resource reclamation.",
+      "description_length": 380,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Command_rpc.Command.T",
+      "library": "command_rpc",
+      "description": "Implements an RPC server in a child process that communicates with a parent via stdin/stdout, using either Async RPC or a Sexp-based protocol based on command-line flags. It defines how queries are deserialized, responses are serialized, and maps RPC calls to handler implementations. Useful for building daemons or background services that expose an RPC interface for control or data exchange.",
+      "description_length": 394,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Command.Invocation",
+      "library": "command_rpc",
+      "description": "Handles the invocation of RPC commands using either S-expression or binary IO protocols. It works with the `t` type, which represents the communication protocol variant in use. This module is used to determine and serialize the current invocation method, primarily for debugging or logging purposes.",
+      "description_length": 299,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Connection.Stderr_handling",
+      "library": "command_rpc",
+      "description": "This module defines how standard error output is handled for remote commands. It supports propagating stderr to the local process, ignoring it, or applying a custom handler that consumes the stderr stream. A concrete use case is redirecting or logging stderr output when executing commands over a network connection.",
+      "description_length": 316,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Command.T_conv",
+      "library": "command_rpc",
+      "description": "This module handles conversion between S-expressions and the query/response types used in an RPC command setup. It provides direct serialization and deserialization functions, specifically `query_of_sexp` and `sexp_of_response`, for translating data to and from S-expressions. These operations are essential when using the `-sexp` flag to enable a text-based RPC interface instead of the default Async RPC protocol.",
+      "description_length": 415,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Command_rpc.Command",
+      "library": "command_rpc",
+      "description": "This module orchestrates RPC command execution in child processes, coordinating communication with parent processes over stdin/stdout using either Async RPC or S-expressions. It centers around `t`, representing RPC implementations, and supports operations like launching servers with customizable heartbeat, logging, and protocol negotiation, while redirecting stdout to stderr for debugging. Child modules extend this foundation with streaming RPCs over pipes, versioned command handling, stateful computations, and bidirectional S-expression serialization. You can implement long-running services that maintain state across calls, expose version-aware RPCs with structured streaming responses, or build daemons that communicate via text-based or binary protocols.",
+      "description_length": 765,
+      "index": 14,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Command_rpc.Connection",
-      "description": "manages process output, error handling, and signal control through integrated state management. It supports merging or separating stdout and stderr, capturing error streams, and sending signals to terminate processes. Operations include configuring output behavior, inspecting error states, and retrieving exit statuses. Examples include isolating error logs during tests, controlling output streams in scripts, and gracefully terminating background processes.",
-      "description_length": 460,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "command_rpc",
-      "description": "Provides functions to serialize and deserialize command-line arguments into structured data, and to execute commands with controlled input/output. Works with tuples representing command names and their associated arguments, and with process states and exit codes. Enables precise handling of shell commands in automated workflows and testing environments.",
-      "description_length": 355,
-      "index": 8,
+      "library": "command_rpc",
+      "description": "This module manages RPC connections to child processes by spawning them and handling communication over standard I/O, supporting execution and control of remote procedures in subprocesses. It provides core operations to establish connections, direct stderr behavior, and ensure proper process termination, while integrating submodules that define output handling strategies for stdout and stderr, and expose low-level process control such as signal delivery and exit status retrieval. With it, you can run command-line tools that support RPC over I/O streams, redirect or capture their output, and manage their lifecycle precisely, for example by logging stderr to a file or streaming stdout to a client during execution.",
+      "description_length": 721,
+      "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Command_rpc",
-      "description": "Manages RPC implementations with versioned queries and responses, enabling registration, retrieval, and serialization of command-specific operations. Handles process execution, output control, and signal management, allowing precise manipulation of streams and termination of running tasks. It supports tasks such as isolating error logs, merging output streams, and tracking RPC versions across protocol revisions. Operations include configuring output behavior, inspecting error states, and managing versioned command interfaces.",
-      "description_length": 531,
-      "index": 9,
+      "library": "command_rpc",
+      "description": "This module enables RPC execution in child processes with communication over stdin/stdout using Async RPC or S-expressions, centered around `t` for RPC implementations. It supports launching servers with customizable heartbeat, logging, and protocol negotiation, while allowing redirection of stdout to stderr for debugging. The module handles streaming RPCs, versioned commands, stateful computations, and bidirectional S-expression serialization, making it suitable for building long-running services, daemons, or command-line tools that expose structured RPC interfaces. Examples include implementing version-aware RPCs with streaming responses, managing subprocess lifecycles, or redirecting and capturing output streams during execution.",
+      "description_length": 742,
+      "index": 16,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 17,
+    "meaningful_modules": 17,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 531,
-    "min_description_length": 215,
-    "avg_description_length": 337.0,
-    "embedding_file_size_mb": 0.03674507141113281
+    "max_description_length": 765,
+    "min_description_length": 299,
+    "avg_description_length": 475.47058823529414,
+    "embedding_file_size_mb": 0.06223773956298828
   }
 }

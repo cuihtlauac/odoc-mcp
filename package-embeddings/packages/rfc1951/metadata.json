@@ -1,119 +1,125 @@
 {
   "package": "rfc1951",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:34:38.873386",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:08:11.510359",
   "modules": [
     {
       "module_path": "Rfc1951.Def.Ns",
-      "description": "This module provides low-level operations for data compression, including Huffman coding, bitstream manipulation, and block-based encoding, with a focus on algorithms like deflate. It works with arrays, bigstrings, bitstreams, and custom types such as `block_split_stats` and `hc_matchfinder` to manage compression state and statistical tracking. Specific use cases include implementing greedy/lazy compression strategies, handling hash-based match finding, and efficiently encoding data with configurable parameters.",
-      "description_length": 517,
+      "library": "rfc1951",
+      "description": "This module implements core components for DEFLATE compression, focusing on Huffman coding and LZ77 sliding window algorithms. It operates on bigstrings, integer arrays, and custom structures like `output_bitstream` for bit-level encoding, `hc_matchfinder` for duplicate detection, and `encoder` configurations for compression strategy. Key operations include Huffman tree construction, codeword generation, block header management, and match-finding optimizations, supporting use cases like dynamic block splitting, frequency analysis, and compression level tuning in Deflate streams.",
+      "description_length": 585,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.T.Heap",
-      "description": "Provides operations for managing a priority queue structure, including initializing, populating, and modifying heap elements. Works with arrays for frequencies, depths, and integer indices to track and manipulate heap properties. Used to construct and adjust heaps for algorithms requiring efficient minimum or maximum element retrieval.",
-      "description_length": 337,
+      "module_path": "Rfc1951.Inf.Ns",
+      "library": "rfc1951",
+      "description": "This module provides operations for decoding DEFLATE-compressed data streams, focusing on bit-level manipulation, Huffman table reconstruction, and incremental buffer processing. It works with bigstrings for efficient binary data handling and maintains decoder state to track progress across chunks, returning structured results for success or error conditions. Typical applications include decompressing data from ZIP archives, gzip streams, or network protocols using RFC 1951-compliant compression.",
+      "description_length": 501,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Inf.Ns",
-      "description": "This module handles error management, bit-level decoding, and stateful data processing for decompression tasks, utilizing bigstrings and decoder state structures. It supports low-level operations like table construction and inflation, tailored for applications such as data decompression or protocol parsing. Specific use cases include managing compression workflows and processing network-transmitted data streams.",
-      "description_length": 415,
+      "module_path": "Rfc1951.T.Heap",
+      "library": "rfc1951",
+      "description": "This module implements a priority queue (min-heap) for managing elements with associated frequencies and depths. It supports operations to create, populate, and manipulate the heap, including inserting elements, maintaining heap property, and extracting the smallest element based on frequency and depth comparisons. It is used in Huffman coding algorithms to build optimal prefix codes by efficiently selecting the least frequent nodes.",
+      "description_length": 437,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Lookup",
-      "description": "Provides operations to create and query a lookup structure using an integer array and a mask value. Works with integer arrays and a custom type representing a precomputed lookup table. Used to efficiently retrieve pairs of integers based on an index, such as in hash table probing or bit manipulation contexts.",
-      "description_length": 310,
+      "module_path": "Rfc1951.Lz77",
+      "library": "rfc1951",
+      "description": "This module implements sliding window compression and decompression operations using hash chains, lookahead buffers, and match detection logic, alongside buffer management and CRC calculation. It operates on bigstrings, queues, and state records that encapsulate compression parameters, hash tables, and sliding window data. These capabilities enable DEFLATE algorithm implementations for efficient data compression, particularly in streaming scenarios requiring dynamic buffer handling and integrity checks.",
+      "description_length": 508,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Heap",
-      "description": "Manages priority-based insertion and extraction of elements, supporting operations to add items with a specific integer priority, remove the highest-priority element, and retrieve both the priority and value of the next element. Works with a custom queue type that stores elements alongside their associated integer priorities. Used to implement task scheduling where operations must be processed in order of urgency.",
-      "description_length": 417,
+      "module_path": "Rfc1951.Lookup",
+      "library": "rfc1951",
+      "description": "This module implements a lookup table for decoding compressed data streams using a Huffman tree. It provides a `get` function to retrieve the decoded symbol and its bit length from a bitstring, based on a precomputed table structure. The module is used during the decompression phase of the DEFLATE algorithm to efficiently map encoded bit sequences to their corresponding values.",
+      "description_length": 380,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.WInf",
-      "description": "Provides operations to manage and manipulate a stateful integer buffer, including creating, resetting, updating, and querying values. Works with a custom type `t` and bigstrings for efficient data copying and manipulation. Used for low-level network protocol handling, where packet data is processed and modified in place.",
-      "description_length": 322,
+      "module_path": "Rfc1951.Higher",
+      "library": "rfc1951",
+      "description": "This module implements compression and decompression operations using the DEFLATE algorithm (RFC 1951), working directly with bigarrays and queues for efficient buffer management. It provides low-level functions to compress and uncompress data streams, handling input and output through user-supplied refill and flush callbacks. Concrete use cases include implementing custom compression pipelines, processing network data streams, and embedding compression logic in systems requiring fine-grained buffer control.",
+      "description_length": 513,
       "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rfc1951.Inf",
-      "description": "Handles error management, bit-level decoding, and stateful data processing for decompression, using bigstrings and decoder states to support low-level operations like table construction and inflation. It manages compression workflows and processes network-transmitted data streams efficiently. Key data types include decoder states and bigstrings, with operations for decoding, error handling, and state transitions. Examples include parsing compressed data packets and reconstructing original data from streamed input.",
-      "description_length": 519,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rfc1951.T",
-      "description": "Manages priority queues using arrays to track frequencies, depths, and indices, enabling efficient heap construction and modification. Supports operations to initialize, populate, and adjust heap elements for quick access to minimum or maximum values. Allows dynamic updates to heap structure while maintaining ordering constraints. Example tasks include building a min-heap for task scheduling or a max-heap for priority-based processing.",
-      "description_length": 439,
-      "index": 7,
+      "module_path": "Rfc1951.Def",
+      "library": "rfc1951",
+      "description": "This module implements Huffman coding and block management for DEFLATE compression, focusing on bit-level encoding and stream control. It operates on dynamic Huffman trees, encoder state, and block types to handle bitstream generation, buffer management, and header handling for flat, fixed, or dynamic block formats. Key data types include `output_bitstream` for bit-level encoding, `hc_matchfinder` for duplicate detection, and `encoder` configurations for compression strategy. Specific operations include Huffman tree construction, codeword generation, block header management, match-finding optimizations, and compression level tuning, supporting use cases like dynamic block splitting, frequency analysis, and adaptive stream compression with partial bit flushing.",
+      "description_length": 770,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Queue",
-      "description": "This module offers low-level operations for managing queue structures, including state checks (empty, full, size), element manipulation (push, pop, set, get), and data flow control (copy, literal, eob). It works with custom `t` types and `bigstring` buffers to handle command sequences, such as copy operations and end markers, enabling efficient buffer management. Use cases include high-performance data processing and protocol implementation where precise control over command execution and memory is required.",
-      "description_length": 513,
+      "module_path": "Rfc1951.WInf",
+      "library": "rfc1951",
+      "description": "This module implements a circular buffer with checksum capabilities for handling compressed data streams. It provides operations to add and remove data, compute checksums, and manage buffer boundaries using bigstrings. Concrete use cases include managing sliding windows for DEFLATE compression and calculating CRC32 or Adler-32 checksums over streamed data.",
+      "description_length": 358,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Rfc1951.Inf",
+      "library": "rfc1951",
+      "description": "This module decodes DEFLATE streams by managing bit-level operations, Huffman table construction, and state transitions during decompression. It uses bigstrings for efficient buffer handling, tracks decoder state across incremental reads, and supports error reporting and checksum validation. With its child module, it enables streaming decompression from sources like ZIP files or network protocols, allowing dynamic Huffman decoding and resettable decoder instances for processing multiple data chunks. Example uses include extracting files from compressed archives or parsing gzip-encoded HTTP responses.",
+      "description_length": 607,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Def",
-      "description": "handles data compression through algorithms like deflate, utilizing arrays, bitstreams, and custom types such as `block_split_stats` and `hc_matchfinder` to manage encoding and tracking. it supports operations like Huffman coding, bitstream manipulation, and hash-based match finding, enabling efficient compression with configurable parameters. users can implement greedy or lazy compression strategies, manage encoding state, and track statistical data during the process. examples include compressing arbitrary data streams, optimizing block splits, and customizing match-finding heuristics.",
-      "description_length": 594,
+      "module_path": "Rfc1951.Heap",
+      "library": "rfc1951",
+      "description": "This module implements a priority queue using a heap structure, where elements are enqueued with an integer priority. It supports pushing elements, removing the highest-priority element, and extracting the highest-priority element along with its priority and the resulting queue. It is used for efficiently managing elements where access is based on priority, such as in scheduling or graph algorithms.",
+      "description_length": 402,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Lz77",
-      "description": "This module handles data compression and decompression via LZ77, featuring operations like hash updates, sliding window management, and literal/distance encoding, while managing state objects, byte arrays, and queues. It performs low-level tasks such as bitwise manipulation on bigstrings, buffer management, and CRC calculations, tailored for efficient stream processing and window-based encoding/decoding. Specific use cases include optimizing data transmission and storage by leveraging match finding and window filling strategies.",
-      "description_length": 534,
+      "module_path": "Rfc1951.T",
+      "library": "rfc1951",
+      "description": "This module implements Huffman tree construction and encoding for DEFLATE compression, using a priority queue to build optimal prefix codes from frequency distributions. It provides operations to generate code lengths and bit codes, encode symbols with variable-length codes, and maintain a min-heap for efficient node selection based on frequency and depth. You can scan symbol frequencies, construct Huffman trees, and encode data using lookup tables for fast symbol translation. The priority queue submodule manages element insertion, extraction, and heap property maintenance, enabling efficient Huffman code generation.",
+      "description_length": 624,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rfc1951.Higher",
-      "description": "Processes byte streams using a custom compression algorithm, handling input and output buffers with Bigarray arrays and a queue for data management. Accepts refill and flush callbacks to manage data flow during compression and decompression. Supports converting between strings and Bigarray buffers for efficient I/O operations.",
-      "description_length": 328,
+      "module_path": "Rfc1951.Queue",
+      "library": "rfc1951",
+      "description": "This module provides circular buffer operations for integers using a Bigarray, supporting read/write position manipulation, buffer status checks, and unsafe/checked data access, alongside compression-specific command handling for RFC 1951 (DEFLATE) workflows. It works with Bigarrays for efficient buffer management and bigstrings for encoding/decoding compression commands like literals, end-of-block markers, and copy operations. Use cases",
+      "description_length": 441,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "rfc1951",
-      "description": "Decompresses gzip, bzip2, and xz compressed data using low-level decoding routines. It processes byte sequences and provides direct access to decompressed output buffers. Used for efficiently handling compressed log files, network payloads, and archive extracts.",
-      "description_length": 262,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Rfc1951",
-      "description": "Combines lookup tables, priority queues, and stateful buffers to support efficient data manipulation, task scheduling, and compression workflows. It manages integer arrays, custom queue types, and bigstrings, enabling operations like indexed retrieval, priority-based processing, and in-place buffer updates. Tasks include hash table probing, task scheduling, and low-level network data handling. It also supports compression and decompression through Huffman coding, LZ77, and custom algorithms, with operations for bitstream management and state transitions.",
-      "description_length": 560,
-      "index": 13,
+      "library": "rfc1951",
+      "description": "This module provides low-level bitstream manipulation, Huffman coding, and compression state management for implementing DEFLATE and related algorithms. It works with bigstrings, arrays, and custom types to enable efficient parsing, encoding, and decoding of compressed data, with direct support for bit-level operations, sliding windows, and checksums. Submodules handle Huffman tree construction, dynamic block encoding, circular buffering, and streaming decompression, allowing tasks like building optimal prefix codes, managing LZ77 matches, and processing gzip or ZIP streams incrementally. Specific operations include priority-based symbol encoding, match-finding in sliding windows, bitstream flushing, and incremental CRC computation over compressed data.",
+      "description_length": 763,
+      "index": 12,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 13,
+    "meaningful_modules": 13,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 594,
-    "min_description_length": 262,
-    "avg_description_length": 433.35714285714283,
-    "embedding_file_size_mb": 0.05131721496582031
+    "max_description_length": 770,
+    "min_description_length": 358,
+    "avg_description_length": 529.9230769230769,
+    "embedding_file_size_mb": 0.04770183563232422
   }
 }

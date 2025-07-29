@@ -1,287 +1,381 @@
 {
   "package": "tiny_httpd",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 38,
-  "creation_timestamp": "2025-06-18T16:41:10.444179",
+  "total_modules": 45,
+  "creation_timestamp": "2025-07-15T23:15:51.111344",
   "modules": [
     {
-      "module_path": "Tiny_httpd_unix.Dir.Embedded_fs",
-      "description": "Provides functions to create and manage a virtual file system, including adding files with specified paths and modification times. Operates on a custom type `t` representing the file system state, using strings for paths and file contents. Used to generate a VFS module for embedding files into an OCaml application.",
-      "description_length": 316,
+      "module_path": "Tiny_httpd_multipart_form_data.Private_",
+      "library": "tiny_httpd.multipart-form-data",
+      "description": "This module provides low-level parsing operations for handling multipart/form-data streams, specifically focusing on reading and identifying message chunks such as delimiters, end-of-file markers, and data segments. It operates on raw byte buffers and internal parser state, using the `chunk` type to represent parsing outcomes. A concrete use case is processing HTTP requests with file uploads in a memory-efficient, streaming manner.",
+      "description_length": 435,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Route.Private_",
-      "description": "Evaluates a sequence of string commands against a stateful computation, returning an optional result. It operates on a custom monadic type and a value of arbitrary type. Used to execute interpreted commands in a controlled, state-aware environment.",
-      "description_length": 248,
+      "module_path": "Tiny_httpd_multipart_form_data.Content_disposition",
+      "library": "tiny_httpd.multipart-form-data",
+      "description": "Parses and represents Content-Disposition headers in multipart/form-data streams. Works with the `t` type to extract `kind`, `name`, and `filename` fields from HTTP headers. Used to identify form field names and uploaded file metadata during request processing.",
+      "description_length": 261,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Tiny_httpd_core.IO.Writer",
-      "description": "Writes data to an output channel using a provided writer function. Accepts input sources like strings or other input channels, and supports writing directly to an output. Used to construct and manipulate output streams in I/O operations.",
-      "description_length": 237,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Tiny_httpd_core.IO.TCP_server",
-      "description": "Handles incoming TCP connections by accepting clients, reading data, and dispatching to handler functions. Operates on socket descriptors, byte buffers, and connection-specific state. Processes real-time data streams, such as parsing HTTP requests or managing chat protocols.",
-      "description_length": 275,
-      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Server.Middleware",
-      "description": "Provides a handler function that processes HTTP requests and responses, wrapping them with additional behavior. Works with request and response types from the IO and Request modules. Used to implement logging, authentication, or request transformation in web applications.",
-      "description_length": 272,
+      "module_path": "Tiny_httpd_multipart_form_data",
+      "library": "tiny_httpd.multipart-form-data",
+      "description": "This module parses multipart/form-data streams incrementally, processing byte input into structured parts with headers and emitting events for each segment. It uses a stateful parser to handle streaming data efficiently, avoiding full payload loading, and supports extraction of form fields and file metadata through its event-driven interface. The low-level parsing submodule works with raw buffers and a `chunk` type to identify message segments like delimiters and data slices, while the Content-Disposition submodule extracts `kind`, `name`, and `filename` from headers to distinguish between form fields and file uploads. Example usage includes processing HTTP requests with large file uploads by handling each part as it arrives, without blocking or excessive memory use.",
+      "description_length": 777,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_html.Out",
+      "library": "tiny_httpd.html",
+      "description": "This module provides low-level output handling for HTML combinator trees by managing string and buffer operations efficiently. It supports writing characters, strings, and formatted output to an internal buffer or external output stream, with control over newline formatting. Concrete use cases include rendering HTML content to a string buffer for HTTP responses or streaming output in a web server.",
+      "description_length": 400,
+      "index": 3,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Tiny_httpd_html.A",
+      "library": "tiny_httpd.html",
+      "description": "This module provides combinators to generate HTML attributes as string-based key-value pairs, enabling dynamic construction of elements with properties like form validation, accessibility, or",
+      "description_length": 191,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Server.Head_middleware",
-      "description": "Handles HTTP requests by focusing solely on the head and headers, discarding the body. Processes request data using a custom type that encapsulates headers and method. Converts to a full middleware structure for integration with web frameworks.",
-      "description_length": 244,
+      "module_path": "Tiny_httpd_html",
+      "library": "tiny_httpd.html",
+      "description": "This module offers combinators to build HTML content programmatically using `nary` and `void` element types that correspond to standard HTML tags, supporting structured composition of nested elements, conditional rendering, and dynamic attribute handling. It represents HTML as an abstract syntax tree and includes functions to emit raw text, serialize fragments, or stream output, with efficiency and simplicity in mind. The child modules enhance this functionality by providing low-level output handling for buffering and streaming HTML content, and combinators for constructing HTML attributes as string-based key-value pairs. Together, they enable use cases such as generating dynamic HTML for HTTP responses, embedding conditional or computed attributes, and streaming large HTML payloads efficiently.",
+      "description_length": 806,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Tiny_httpd_prometheus.Registry",
-      "description": "Provides functions to create a metrics registry, register callbacks to execute before emitting metrics, and write metrics to a buffer or return them as a string. Operates on a buffer and a registry state type. Used to collect and output metrics in a controlled manner, such as during application shutdown or periodic checks.",
-      "description_length": 324,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tiny_httpd_prometheus.Counter",
-      "description": "Tracks numeric values with methods to increment, increment by a specific amount, or set a new value if higher than the current. Operates on a counter type that is associated with a registry and can include tags and descriptions. Used to monitor event frequencies, track request counts, or measure performance metrics in real-time systems.",
-      "description_length": 338,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tiny_httpd_prometheus.Gauge",
-      "description": "Tracks numeric values with increment, decrement, and direct set operations. Works with a gauge type that stores integer values and integrates with a registry for metric collection. Used to monitor dynamic system metrics like current connections or memory usage.",
-      "description_length": 261,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Tiny_httpd_prometheus.Histogram",
-      "description": "Creates a histogram with specified buckets and tags, allowing for the accumulation of numerical values. Operates on float lists and numeric data to track distribution patterns. Used to collect and analyze measurement data, such as response times or error rates, for monitoring and reporting purposes.",
-      "description_length": 300,
+      "library": "tiny_httpd.prometheus",
+      "description": "Tracks distributions of values, such as request latencies or response sizes, using predefined buckets. It allows recording individual observations with `add` and exposes the aggregated counts per bucket for Prometheus scraping. Commonly used to measure and monitor HTTP request durations or payload sizes.",
+      "description_length": 305,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_prometheus.GC_metrics",
+      "library": "tiny_httpd.prometheus",
+      "description": "Tracks and exposes garbage collection metrics for Prometheus monitoring. It provides functions to create and update metrics that capture GC statistics such as minor and major collections, promoted words, and allocated bytes. These metrics are automatically registered and updated before each Prometheus scrape.",
+      "description_length": 310,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tiny_httpd_prometheus.Counter",
+      "library": "tiny_httpd.prometheus",
+      "description": "This module provides counters that can be incremented either by a specific amount or set to a specific value. It works with the `t` type representing a counter, which can be associated with tags and a description. Counters are used to track metrics like the number of requests served or errors encountered, and are exposed via HTTP for Prometheus to scrape.",
+      "description_length": 357,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_prometheus.Registry",
+      "library": "tiny_httpd.prometheus",
+      "description": "This module manages a registry of metrics, allowing creation of registries, registration of pre-emission hooks, and emitting metrics in Prometheus format to a buffer or string. It works with metrics types like counters, gauges, and histograms, and is used to collect and expose these metrics before they are scraped by Prometheus. Concrete use cases include updating metrics on demand before export and generating scrapeable metric outputs in HTTP endpoints.",
+      "description_length": 458,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_prometheus.GC_metrics",
-      "description": "Tracks garbage collection statistics by updating metrics upon request. Operates on a registry and a mutable metric state, capturing GC data at specific intervals. Used to monitor memory usage patterns during application runtime.",
-      "description_length": 228,
+      "module_path": "Tiny_httpd_prometheus.Gauge",
+      "library": "tiny_httpd.prometheus",
+      "description": "This module provides operations to manage gauge metrics, including creating, setting, incrementing, and decrementing gauges with optional tags and descriptions. It works with the `t` type representing a gauge and supports integration with a metrics registry. Concrete use cases include tracking current values like active connections or memory usage for Prometheus scraping.",
+      "description_length": 374,
       "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_prometheus",
+      "library": "tiny_httpd.prometheus",
+      "description": "This module implements Prometheus metric types\u2014counters, gauges, and histograms\u2014and provides an HTTP endpoint for exposing them in the Prometheus text format. It works with `Tiny_httpd_core` to integrate metrics collection into HTTP servers, automatically exposing them under the `/metrics` route for scraping. The module supports tracking request counts, latencies, memory usage, and garbage collection statistics, with child modules handling distribution tracking, GC metrics, counter and gauge operations, and metric registry management. Specific functions allow recording observations, updating metrics, and customizing metric emission for monitoring scenarios like HTTP request duration and active connection counts.",
+      "description_length": 721,
+      "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_unix.Dir",
-      "description": "Provides operations to manage a virtual file system, including checking if a path is a directory, listing directory contents, creating and deleting files, and reading file metadata. Works with strings representing file paths and byte-based file writing. Used to serve bundled resources in a web server by simulating file system behavior in pure OCaml.",
-      "description_length": 351,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tiny_httpd_unix.Sem",
-      "description": "Manages semaphore operations to control access to shared resources, supporting acquire and release with a specified maximum count. Works with a custom type representing the semaphore state, tracking the number of active acquisitions. Used to coordinate access in concurrent programs, such as limiting the number of database connections or API requests.",
-      "description_length": 352,
+      "module_path": "Tiny_httpd",
+      "library": "tiny_httpd",
+      "description": "This module enables configuring and running an HTTP/1.1 server using blocking I/O and thread-based concurrency, with support for registering route handlers to process standard HTTP methods, streaming data, and server-sent events. It operates on server configurations (e.g., port, address, connection limits), request/response objects, and middleware pipelines, catering to lightweight web services, APIs with file upload capabilities, and streaming applications requiring concurrent client handling via thread pools.",
+      "description_length": 516,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_unix.Unix_tcp_server_",
-      "description": "Provides functions to manage TCP server operations, including retrieving connection addresses, shutting down, and closing file descriptors gracefully. Works with Unix file descriptors and inet addresses to handle network communication. Used to integrate with HTTP server implementations by converting to a TCP server builder with controlled concurrency.",
-      "description_length": 353,
+      "module_path": "Tiny_httpd_core.IO.Input",
+      "library": "tiny_httpd.core",
+      "description": "This module offers stream processing capabilities for byte-oriented input sources, supporting operations like line-based parsing, exact byte consumption, and chunked encoding transformations. It manages data through buffered input streams, byte sequences, and buffers, facilitating efficient handling of Unix file descriptors, memory slices, and size-constrained streams. Typical applications include HTTP request parsing from sockets, streaming file uploads, and protocol implementations requiring precise control over byte stream consumption.",
+      "description_length": 544,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Atomic_",
-      "description": "Provides atomic operations for modifying and reading values in a thread-safe manner, including compare-and-set, fetch-and-add, and exchange. Works with atomic references and integer counters, enabling safe concurrent updates across threads. Used to manage shared metrics, coordinate thread termination, and implement lock-free data structures like a Treiber stack.",
-      "description_length": 364,
+      "module_path": "Tiny_httpd_core.Server.Middleware",
+      "library": "tiny_httpd.core",
+      "description": "This module provides middleware chaining for HTTP request handlers, allowing sequential transformation of handler functions. It works with handler functions that process HTTP requests and generate responses, composed through middleware functions that wrap these handlers. Concrete use cases include logging incoming requests, parsing headers, or adding response headers before passing control to the next handler in the chain.",
+      "description_length": 426,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Buf",
-      "description": "Provides methods to manage a mutable byte buffer, including adding characters, strings, and byte sequences, as well as retrieving and clearing contents. Operates on a custom type `t` that wraps an underlying byte array. Used to efficiently accumulate data from streams or parse requests without frequent memory allocation.",
-      "description_length": 322,
+      "module_path": "Tiny_httpd_core.Server.IO_BACKEND",
+      "library": "tiny_httpd.core",
+      "description": "This module defines the interface for IO and network operations used by the HTTP server, including functions to initialize server addresses, retrieve timestamps, and construct TCP servers. It works with TCP server builders and basic network primitives to handle client connections and data transmission. Concrete use cases include setting up a blocking IO-based HTTP server with custom thread management and time tracking for request handling.",
+      "description_length": 443,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_core.Common_",
-      "description": "Provides string formatting with type-safe error handling, including a function for constructing formatted error messages with status codes and a function to extract values from a result type that encodes HTTP response status and reason. Works with format strings, integers, and a custom result type that pairs a value with a status code and message. Used to generate structured error responses in web applications and safely extract successful results from HTTP calls.",
-      "description_length": 468,
+      "module_path": "Tiny_httpd_core.Server.UPGRADE_HANDLER",
+      "library": "tiny_httpd.core",
+      "description": "This module defines handlers for upgrading an HTTP connection to a different protocol, typically used for WebSocket handshakes. It provides functions to perform the initial handshake, returning appropriate HTTP response headers or an error message, and to take over the connection once the upgrade is successful. The module works with socket addresses, HTTP headers, and custom IO input/output channels, allowing direct manipulation of the connection after the handshake.",
+      "description_length": 471,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Headers",
-      "description": "Provides functions to manage a list of string key-value pairs representing HTTP headers. Includes operations to retrieve, set, remove, and check for specific headers, as well as parse headers from a buffer. Supports transforming header values during retrieval and pretty-printing the entire header set.",
-      "description_length": 302,
+      "module_path": "Tiny_httpd_core.Server.Head_middleware",
+      "library": "tiny_httpd.core",
+      "description": "This module provides a middleware type that processes only the head and headers of HTTP requests, transforming or inspecting them before further handling. It supports composing lightweight request-processing steps without accessing the request body, enabling use cases like logging, authentication, or header normalization. The `to_middleware` function allows adapting head-only middlewares into the more general middleware pipeline.",
+      "description_length": 433,
       "index": 17,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_core.IO",
-      "description": "provides low-level I/O operations for writing data and handling TCP connections. It includes functions for writing to output channels using custom writers and for accepting and processing TCP client connections. Data can be sourced from strings or other input channels, and connections can be managed with buffer handling and state tracking. Examples include streaming data over networks, parsing incoming messages, and building custom protocol handlers.",
-      "description_length": 454,
+      "module_path": "Tiny_httpd_core.Server.SERVER_SENT_GENERATOR",
+      "library": "tiny_httpd.core",
+      "description": "This module provides functions to generate and manage server-sent events (SSE) within an HTTP server context. It allows setting response headers, sending formatted events with optional identifiers and retry policies, and closing the connection. It is used to implement real-time updates such as live notifications or streaming data to clients over HTTP.",
+      "description_length": 353,
       "index": 18,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_core.Log",
-      "description": "Provides functions to log messages at different severity levels\u2014info, debug, and error\u2014using a formatted string interface. Works with format strings and formatter objects to generate structured log output. Enables or disables debug logging through a setup function, and includes a dummy flag for conditional logging in production builds.",
-      "description_length": 337,
+      "module_path": "Tiny_httpd_core.IO.Output",
+      "library": "tiny_httpd.core",
+      "description": "This module implements output streams for writing bytes to various destinations, including files, buffers, and custom sinks. It supports operations like character and byte-slice writing, line-based output, integer serialization, and transformation pipelines using functions like `tee`, `map_char`, and `chunk_encoding`. Concrete use cases include building HTTP response writers, logging to files or memory buffers, and implementing custom byte output transformations.",
+      "description_length": 467,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Meth",
-      "description": "Represents HTTP methods with operations to convert between string and internal representations, and to pretty-print method values. Works with a sum type that includes common HTTP methods like GET, POST, PUT, and DELETE. Used to validate and serialize HTTP method strings in request handling and API routing.",
-      "description_length": 307,
+      "module_path": "Tiny_httpd_core.Pool.Raw",
+      "library": "tiny_httpd.core",
+      "description": "This module provides direct `acquire` and `release` operations for managing resources in a non-blocking, lightweight pool optimized for cheaply created and discarded values like buffers. It works with generic resource types through the pool abstraction, allowing manual control over resource lifecycles. Use this when precise, low-level handling of pooled resources is required, such as recycling memory buffers or temporary objects without the overhead of synchronization or complex pooling strategies.",
+      "description_length": 503,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Parse_",
-      "description": "Parses structured data from strings using a stateful approach, tracking position with an integer reference. It handles integers, hexadecimal values, words, and exact string matches. Used to process line-based input with precise control over parsing flow.",
-      "description_length": 254,
+      "module_path": "Tiny_httpd_core.IO.TCP_server",
+      "library": "tiny_httpd.core",
+      "description": "This module implements a TCP server that listens for incoming connections and processes each client request concurrently using a provided connection handler. It works with Unix socket addresses and custom input/output abstractions to handle network communication, supporting both blocking and asynchronous IO backends. Concrete use cases include building HTTP servers where each incoming request is processed independently, tracking active connections, and gracefully stopping the server after handling ongoing requests.",
+      "description_length": 520,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Pool",
-      "description": "Manages a collection of reusable resources, allowing allocation and release without blocking. It works with arbitrary data types through a factory function and a cleanup callback. Used to efficiently handle temporary buffers, ensuring resources are recycled but not retained beyond a configured limit.",
-      "description_length": 301,
+      "module_path": "Tiny_httpd_core.Route.Private_",
+      "library": "tiny_httpd.core",
+      "description": "Implements path matching and handler extraction for route definitions based on split URL paths. Works with route values containing handlers of type `'a -> 'b option` and string list paths. Used internally to process incoming requests against defined routes and extract the appropriate handler.",
+      "description_length": 293,
       "index": 22,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_core.Request",
-      "description": "The module provides functions for manipulating HTTP request data, including header management, metadata extraction, and body handling, with operations like size limitation and content retrieval. It works with request objects, byte data, and input streams to process client inputs, enabling tasks such as secure payload validation and query parameter parsing. Specific use cases include server-side processing of web requests and handling structured data from client transmissions.",
-      "description_length": 480,
+      "module_path": "Tiny_httpd_core.IO.Writer",
+      "library": "tiny_httpd.core",
+      "description": "This module defines a writer abstraction for output operations, providing functions to create and manipulate writers that emit bytes to an output channel. It works with `Tiny_httpd_core.IO.Output.t` for writing data and supports concrete use cases like sending HTTP responses, streaming file contents, or handling network output. Key operations include writing strings, creating empty writers, and adapting input channels into writers.",
+      "description_length": 435,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core.Response",
-      "description": "Provides functions to construct and modify HTTP responses with specific status codes, headers, and body content. Works with types like `Response_code.t`, `Headers.t`, and various body representations including strings, streams, and writers. Used to generate structured HTTP replies, handle errors with custom messages, and manage response bodies in web server implementations.",
-      "description_length": 376,
+      "module_path": "Tiny_httpd_core.Buf",
+      "library": "tiny_httpd.core",
+      "description": "This module provides operations to efficiently manage and manipulate byte buffers, including creating, clearing, and appending data. It works with a custom buffer type `t` that wraps a `bytes` array for low-level manipulation. Concrete use cases include accumulating request data incrementally during HTTP parsing and minimizing memory allocations when handling byte streams.",
+      "description_length": 375,
       "index": 24,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Tiny_httpd_core.Response_code",
-      "description": "Provides functions to create and check HTTP response codes, including 200 OK and 404 Not Found. Works with integer types representing HTTP status codes and includes a description function for selected codes. Used to validate API responses and handle error conditions in networked applications.",
-      "description_length": 293,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tiny_httpd_core.Route",
-      "description": "Routes provides a type-safe mechanism for mapping URL paths to handler functions, enabling structured and composable routing. It supports stateful execution of command sequences using a custom monadic type, allowing for controlled, environment-aware operations. Users can define nested routes, handle dynamic segments, and manage request processing with precise control. For example, it can parse a URL like \"/users/123\" into a handler with extracted parameters and execute associated commands within a shared state.",
-      "description_length": 516,
-      "index": 26,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Tiny_httpd_core.Server",
-      "description": "Handles HTTP server-sent events by allowing precise control over response headers, sending structured events with optional fields like ID and retry, and closing the connection. Operates on headers, event parameters, and string data to stream real-time updates. Used to implement live notifications, status updates, or interactive web features.",
-      "description_length": 343,
-      "index": 27,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Tiny_httpd_core.Util",
-      "description": "Encodes and decodes strings using RFC 3986 percent-encoding, splits paths and queries, and parses query parameters into key-value pairs. Processes strings and socket addresses, extracting components like non-query paths or query segments. Validates IPv6 address formats and converts socket addresses to human-readable strings.",
-      "description_length": 326,
-      "index": 28,
+      "library": "tiny_httpd.core",
+      "description": "This module handles URL path and query manipulation, including encoding, decoding, and parsing operations. It works with strings, socket addresses, and query parameters, providing functions like splitting paths, extracting query components, and encoding data per RFC 3986. Use it to build or dissect URLs, handle percent-encoded values, and manage network addresses in web servers.",
+      "description_length": 381,
+      "index": 25,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_html.Out",
-      "description": "Produces a string efficiently from a tree of HTML combinators by managing character and string additions, formatting, and buffer flushing. Works with buffer objects and output streams, supporting low-level string manipulation. Used to generate HTML content dynamically during web requests.",
-      "description_length": 289,
+      "module_path": "Tiny_httpd_core.Request",
+      "library": "tiny_httpd.core",
+      "description": "This module provides functions to inspect and modify HTTP request headers, metadata, and body content, including extracting query parameters, parsing host information, and enforcing size limits on payloads. It operates on `Request.t` values containing method, path, headers, client address, and input streams for the body, supporting tasks like routing, authentication, and converting body data to strings for processing. Additional utilities include pretty-printing requests for logging and",
+      "description_length": 491,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_core.IO",
+      "library": "tiny_httpd.core",
+      "description": "This module provides a unified interface for handling input and output operations across different backends, supporting both blocking and asynchronous IO models. It introduces key data types for input streams, output streams, and network servers, enabling efficient processing of byte-oriented data from sources like files, sockets, and memory buffers. Operations include line-based parsing, chunked encoding, concurrent TCP handling, and output transformation pipelines. Examples include parsing HTTP requests from a socket stream, writing responses with custom encodings, and building a concurrent TCP server that processes and responds to client messages independently.",
+      "description_length": 672,
+      "index": 27,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tiny_httpd_core.Headers",
+      "library": "tiny_httpd.core",
+      "description": "This module manages HTTP headers as a list of key-value pairs. It provides operations to retrieve, set, remove, and check for header fields, with optional case transformations. Use it to manipulate headers during HTTP request/response processing, such as extracting content types or setting authentication tokens.",
+      "description_length": 313,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_core.Log",
+      "library": "tiny_httpd.core",
+      "description": "This module provides logging functions for the HTTP server, including `info`, `debug`, and `error` for emitting log messages at different severity levels. It works with format strings and callbacks that produce log messages using OCaml's `Format` module. Use `setup` to enable logging with a debug flag, and `fully_disable` to silence all logs, particularly useful in production environments or test runs.",
+      "description_length": 405,
       "index": 29,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_html.A",
-      "description": "This module provides functions to create, manage, and extract HTML attributes, operating on typed representations of attribute names and values, such as `t` for attribute identifiers and string-based values. It supports standard attributes like \"class\", \"src\", and \"data-*\", as well as special cases like \"novalidate\" and \"required\", enabling structured manipulation of HTML element properties. Use cases include building type-safe HTML elements, handling dynamic attribute values, and ensuring consistent attribute naming in web development workflows.",
-      "description_length": 552,
+      "module_path": "Tiny_httpd_core.Response_code",
+      "library": "tiny_httpd.core",
+      "description": "This module defines HTTP response codes as integers and provides standard values like `ok` (200) and `not_found` (404). It includes functions to check if a code indicates success (`is_success`) and to get a textual description of common codes. Use this module to generate and interpret HTTP status codes in web applications.",
+      "description_length": 324,
       "index": 30,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "tiny_httpd",
-      "description": "Handles HTTP request routing, URL decoding, and static file serving using thread-based concurrency. Processes stream-based data with support for server-sent events and optional compression. Efficiently manages memory for long-running servers through integration with jemalloc.",
-      "description_length": 276,
+      "module_path": "Tiny_httpd_core.Route",
+      "library": "tiny_httpd.core",
+      "description": "This module enables type-safe routing of handlers based on URL paths, supporting exact matches, dynamic captures, and wildcards. It handles parsing and dispatching to routes with typed parameters such as integers and URL-encoded strings, allowing definitions like `/user/123` or `/search?q=hello%20world`. The child module processes split URL paths against route definitions, extracting handlers and their arguments for request dispatching. Together, they support building structured, composable RESTful APIs with precise path matching and parameter decoding.",
+      "description_length": 559,
       "index": 31,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tiny_httpd_ws",
-      "description": "Handles WebSocket protocol upgrades and route management for HTTP requests. Processes byte streams using framing and supports custom protocol acceptance and middleware. Used to establish WebSocket connections and manage incoming messages on specific endpoints.",
-      "description_length": 260,
-      "index": 32,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tiny_httpd_prometheus",
-      "description": "provides a system for collecting and exposing metrics via HTTP in Prometheus format, supporting counters, gauges, histograms, and garbage collection data. It enables registering metrics, tracking numeric values with increments, decrements, and sets, and aggregating distribution data through histograms. Metrics can be emitted to buffers or strings, with support for tags and descriptions to enrich monitoring. Examples include tracking request counts, monitoring memory usage, and analyzing response time distributions.",
-      "description_length": 520,
-      "index": 33,
+      "module_path": "Tiny_httpd_core.Meth",
+      "library": "tiny_httpd.core",
+      "description": "This module defines an enumerated type representing standard HTTP methods such as `GET`, `POST`, and `DELETE`. It includes functions to convert method values to and from strings, as well as pretty-printing support. These operations are used when parsing and generating HTTP requests and responses.",
+      "description_length": 297,
+      "index": 32,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_unix",
-      "description": "Manages virtual file systems, semaphores, and TCP servers, enabling web server functionality through pure OCaml. Supports path checks, directory listings, file operations, semaphore coordination, and network connection control. Operations include reading metadata, acquiring locks, and handling TCP addresses. Can serve static content, limit concurrent database access, and manage graceful shutdowns of network connections.",
-      "description_length": 423,
+      "module_path": "Tiny_httpd_core.Atomic_",
+      "library": "tiny_httpd.core",
+      "description": "This module implements atomic references with operations for thread-safe mutation, including creation, reading, writing, and atomic compare-and-swap. It supports generic values of type `'a` as well as specialized integer operations like incrementing and adding. It is used for low-level concurrency control, such as coordinating thread termination, maintaining shared counters, or implementing thread-safe data structures like a Treiber stack.",
+      "description_length": 443,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tiny_httpd_core.Pool",
+      "library": "tiny_httpd.core",
+      "description": "This module manages a lightweight, non-blocking pool of reusable resources, primarily optimized for cheaply created and discarded values like buffers. It provides `acquire` and `release` operations for manual resource management, along with `with_resource` for automatic return after use, ensuring efficient handling of short-lived, high-frequency allocations. The pool supports generic resource types and optional clearing before reuse, making it suitable for scenarios such as network buffer recycling or temporary object management. Submodules offer low-level control over resource lifecycles, allowing precise, synchronization-free pooling strategies for performance-sensitive code.",
+      "description_length": 686,
       "index": 34,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd",
-      "description": "Provides a simple HTTP/1.1 server with route-based request handling, thread management, and basic file upload capabilities. Core types include requests, responses, and route definitions, with operations for adding handlers, parsing routes, and managing server lifecycle. Examples include greeting endpoints, echoing request data, and handling file uploads via PUT. The server supports custom routing and error handling for robust HTTP interactions.",
-      "description_length": 448,
+      "module_path": "Tiny_httpd_core.Server",
+      "library": "tiny_httpd.core",
+      "description": "This module builds on low-level network primitives to provide a flexible HTTP server framework with middleware-driven request handling, streaming response capabilities, and protocol upgrade support. It centers around HTTP messages, connection state, and middleware pipelines, offering operations for routing, header transformation, and asynchronous processing via thread pools. You can implement real-time event streaming with server-sent events, secure WebSocket handshakes with custom IO channels, or compose middleware stacks that process headers and requests sequentially. Submodules refine this structure with specialized tools for protocol upgrades, head-only middleware, and event generation, enabling precise control over both initial request handling and long-lived connections.",
+      "description_length": 787,
       "index": 35,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_core",
-      "description": "Manages HTTP server operations with thread-safe atomic operations, byte buffer manipulation, and type-safe string formatting. Supports header parsing, request and response construction, logging, and routing with stateful execution. Enables low-level I/O, resource management, and URL path routing, along with HTTP event streaming and query parameter parsing. Examples include building secure web endpoints, handling concurrent metrics, and streaming real-time updates.",
-      "description_length": 468,
+      "module_path": "Tiny_httpd_core.Response",
+      "library": "tiny_httpd.core",
+      "description": "This module constructs and manipulates HTTP responses sent by a server to clients. It supports setting response codes, headers, and bodies using types like `String`, `Stream`, `Writer`, and `Void`. Concrete use cases include building error responses with `fail`, generating responses from result values with `make_string` or `make_stream`, and modifying existing responses with updated headers or status codes.",
+      "description_length": 410,
       "index": 36,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tiny_httpd_html",
-      "description": "Generates HTML content dynamically by combining tree structures into efficient string outputs, using buffer management and stream handling. Provides typed attribute manipulation, supporting standard and custom attributes with safe naming and value handling. Enables creation of structured, attribute-rich HTML elements with precise control over properties. Examples include generating dynamic web pages, constructing form elements with validation attributes, and embedding data-driven content.",
-      "description_length": 493,
+      "module_path": "Tiny_httpd_core",
+      "library": "tiny_httpd.core",
+      "description": "This module provides a comprehensive toolkit for building and managing HTTP servers with fine-grained control over network I/O, request parsing, routing, and response generation. It centers around key data types like `Request.t` for HTTP requests, `Response.t` for responses, and `Buffer.t` for efficient byte manipulation, while offering operations for URL parsing, header management, concurrent resource handling via atomic references and buffer pools, and type-safe routing with parameter extraction. You can build streaming HTTP servers, handle concurrent connections with thread-safe buffers, route requests to typed handlers based on URL patterns, and construct responses with custom headers and bodies. Specific tasks include parsing and responding to HTTP requests with precise header and body handling, managing URL paths and query parameters, and implementing efficient, reusable resource strategies for high-throughput network applications.",
+      "description_length": 951,
       "index": 37,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tiny_httpd_ws",
+      "library": "tiny_httpd.ws",
+      "description": "This module provides functions to handle WebSocket connections within an HTTP server. It includes operations to upgrade a byte stream to the WebSocket framing protocol and to register route handlers for WebSocket endpoints. The module works with HTTP requests, byte streams, and WebSocket-specific routing logic. Concrete use cases include implementing real-time communication features like chat services or live data updates over WebSocket connections.",
+      "description_length": 453,
+      "index": 38,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_unix.Dir.VFS",
+      "library": "tiny_httpd.unix",
+      "description": "This module implements a virtual file system using pure OCaml functions, allowing the emulation of directory structures and file operations without relying on real filesystem paths. It supports operations such as listing directories, checking existence, reading and writing files, deletion, and retrieving metadata like size and modification time. It is particularly useful for serving embedded static content or managing in-memory file-like structures within a web server.",
+      "description_length": 473,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_unix.Dir.Embedded_fs",
+      "library": "tiny_httpd.unix",
+      "description": "This module implements an embedded virtual file system for serving static content, allowing files to be added with specified paths and timestamps. It builds a directory structure in memory, which can then be exposed as a web server endpoint. Concrete use cases include bundling HTML, CSS, and JavaScript assets into a single OCaml module for deployment in standalone web applications.",
+      "description_length": 384,
+      "index": 40,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tiny_httpd_unix.Unix_tcp_server_",
+      "library": "tiny_httpd.unix",
+      "description": "This module implements a TCP server configuration and lifecycle management system for handling concurrent network connections. It provides functions to retrieve socket addresses, manage connection limits with semaphores, and safely shut down or close file descriptors. The module works with Unix file descriptors, IP addresses, and custom buffer and slice pools, supporting use cases such as building scalable HTTP servers with controlled resource usage and timeout handling.",
+      "description_length": 475,
+      "index": 41,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_unix.Sem",
+      "library": "tiny_httpd.unix",
+      "description": "This module implements a counting semaphore to control access to a limited number of concurrent operations. It provides functions to acquire and release permits, with support for specifying the number of permits to take or return. Use this to manage resource pools, throttle concurrent connections, or coordinate task execution in multi-threaded applications.",
+      "description_length": 359,
+      "index": 42,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_unix.Dir",
+      "library": "tiny_httpd.unix",
+      "description": "This module serves static content from real or virtual directories, supporting configurable directory listings, file downloads, deletions, and uploads. It maps file system paths or in-memory structures to HTTP routes, enabling use cases like hosting user directories or embedded web assets. The virtual file system submodule allows creating and manipulating directory trees in memory, while the embedded filesystem module enables bundling static assets directly into OCaml code for standalone deployment. Key operations include mounting directories, restricting access, and managing content through file-like abstractions without relying on disk I/O.",
+      "description_length": 650,
+      "index": 43,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tiny_httpd_unix",
+      "library": "tiny_httpd.unix",
+      "description": "This module provides a complete toolkit for building concurrent TCP-based HTTP servers with resource control and static content hosting. It includes primitives for managing socket connections, limiting concurrency with semaphores, and serving files from disk or memory through a virtual filesystem. You can configure server sockets, throttle incoming connections, serve or restrict access to static files, and embed web assets directly into the application. Example use cases include deploying lightweight HTTP servers with controlled resource usage or hosting virtual file hierarchies for dynamic content delivery.",
+      "description_length": 615,
+      "index": 44,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 58,
-    "meaningful_modules": 38,
-    "filtered_empty_modules": 20,
-    "retention_rate": 0.6551724137931034
+    "total_modules_in_package": 61,
+    "meaningful_modules": 45,
+    "filtered_empty_modules": 16,
+    "retention_rate": 0.7377049180327869
   },
   "statistics": {
-    "max_description_length": 552,
-    "min_description_length": 228,
-    "avg_description_length": 349.2368421052632,
-    "embedding_file_size_mb": 0.13846206665039062
+    "max_description_length": 951,
+    "min_description_length": 191,
+    "avg_description_length": 473.3777777777778,
+    "embedding_file_size_mb": 0.16387081146240234
   }
 }

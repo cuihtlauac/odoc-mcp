@@ -1,70 +1,79 @@
 {
   "package": "rpmfile",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:55.750583",
+  "creation_timestamp": "2025-07-15T23:06:53.889725",
   "modules": [
     {
       "module_path": "Rpmfile.Selector.All",
-      "description": "Selects header and signature tags based on integer identifiers, returning true for matching tags. Operates on integer tag values to filter specific elements. Used to identify and process header and signature sections in structured data parsing.",
-      "description_length": 244,
+      "library": "rpmfile",
+      "description": "This module provides predicate functions `select_header_tag` and `select_signature_tag` that always return `true`, ensuring all header and signature tags are included during package parsing. It operates on RPM package files by working with tag identifiers of type `int`. Use this module when you need to extract or inspect every tag from an RPM file, such as during full metadata analysis or debugging.",
+      "description_length": 402,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpmfile.Selector.Base",
-      "description": "Provides functions to filter header and signature tags based on integer identifiers, working with package metadata fields like version, release, arch, and summary. Processes data structures containing tag-specific information for package analysis. Used to extract relevant metadata during package inspection or validation workflows.",
-      "description_length": 332,
+      "module_path": "Rpmfile.Header.Entry",
+      "library": "rpmfile",
+      "description": "This module provides functions to parse and manipulate individual header entries in RPM package files, focusing on operations like extracting tag values, determining data types, and handling offsets and counts. It works directly with RPM header structures, including tag identifiers, data kinds, and positional metadata. Concrete use cases include reading package metadata such as dependencies, file lists, and signing information from RPM archives.",
+      "description_length": 449,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpmfile.Header.Entry",
-      "description": "Provides functions to parse, validate, and serialize structured data entries, including parsing from strings, validating against schema constraints, and converting to JSON format. Works with custom record types that include fields for identifiers, timestamps, and arbitrary values. Used to process configuration entries in a system that requires strict data formatting and transformation.",
-      "description_length": 388,
+      "module_path": "Rpmfile.Selector.S",
+      "library": "rpmfile",
+      "description": "This module defines predicates to filter header and signature tags when parsing RPM files. It provides `select_header_tag` and `select_signature_tag` functions that determine which tags to include during parsing. Useful for selectively extracting metadata or signatures without processing the entire file.",
+      "description_length": 305,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rpmfile.Lead",
-      "description": "Provides functions to parse and validate lead data, including extracting project type from structured input. Works with a record type containing fields for lead information and project type. Used to filter leads based on project type during pipeline processing.",
-      "description_length": 261,
+      "module_path": "Rpmfile.Selector.Base",
+      "library": "rpmfile",
+      "description": "This module defines predicates to filter base metadata tags when parsing RPM files, specifically selecting header and signature tags related to package identity and basic attributes like name, version, architecture, and size. It operates on integer tag identifiers to determine inclusion during the parsing process. Use this module when extracting core package information from RPM files without loading the full dataset.",
+      "description_length": 421,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpmfile.Header",
-      "description": "Processes structured data entries by parsing from strings, validating against schema constraints, and serializing to JSON. Supports custom record types with fields for identifiers, timestamps, and arbitrary values. Enables data transformation workflows, such as converting a configuration entry to JSON or validating a timestamp against a defined schema. Allows for precise control over data formatting and integrity checks during system operations.",
-      "description_length": 449,
+      "module_path": "Rpmfile.D",
+      "library": "rpmfile",
+      "description": "This module provides functions to decode `Rpmfile.Header.Entry.value` into specific OCaml types like `int`, `string`, `bytes`, and lists. It includes direct decoders for scalar types and combinators for structured data, such as `array` and function composition with `<<`. These functions are used to extract and convert raw RPM package metadata fields into usable values during package parsing.",
+      "description_length": 394,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpmfile.Selector",
-      "description": "Selects HTML header elements based on a numeric level, returning true for tags matching the specified hierarchy. Identifies signature tags using an integer identifier, filtering elements by their type code. Used to parse and categorize document structure during HTML processing.",
-      "description_length": 278,
+      "module_path": "Rpmfile.Header",
+      "library": "rpmfile",
+      "description": "This module reads and parses RPM package headers, providing access to indexed sections and their values, including tag-value pairs and metadata. It supports operations to extract specific entries like package name, version, and dependencies, while enabling low-level manipulation of header structures such as data types, offsets, and counts. Submodules focus on handling individual header entries, allowing concrete actions like reading file lists, dependency information, and signing metadata from RPM archives. Together, they enable both high-level inspection and detailed traversal of RPM header content.",
+      "description_length": 607,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Rpmfile.D",
-      "description": "Converts values from `Header.Entry.value` to specific types such as strings, integers, bytes, and lists. Provides combinators for sequencing decoding operations and handling arbitrary types. Used to parse structured data from header entries into application-specific representations.",
-      "description_length": 283,
+      "module_path": "Rpmfile.Selector",
+      "library": "rpmfile",
+      "description": "This module implements predicates for selecting RPM package tags during parsing, enabling efficient filtering of tag data to extract specific metadata like package name, version, and dependencies without loading full tag sets. It provides core operations through `select_header_tag` and `select_signature_tag` functions that operate on integer tag identifiers, determining which tags to include during parsing. Submodules offer predefined criteria for common use cases, such as selecting all tags for full metadata analysis, filtering for specific categories like signatures, or extracting base identity attributes including name and version. Use this module to streamline RPM parsing by focusing only on relevant tag subsets, reducing memory usage and improving performance.",
+      "description_length": 775,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "rpmfile",
-      "description": "Provides functions to extract specific metadata fields from RPM packages, including package name, version, and installation date. Works with binary RPM file data and structured metadata records parsed from the file header. Used to inspect package details during package management tasks or system auditing.",
-      "description_length": 306,
+      "module_path": "Rpmfile.Lead",
+      "library": "rpmfile",
+      "description": "This module handles parsing and constructing RPM package lead headers, which contain metadata about the package such as version, architecture, and signature type. It operates on the `t` record type defined in the parent module, using direct field access to serialize and deserialize binary RPM headers. Concrete use cases include extracting package name and version from an RPM file and validating signature types during package inspection.",
+      "description_length": 440,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rpmfile",
-      "description": "manages structured data processing through a set of specialized functions, including parsing and validating lead information, transforming records into JSON, extracting HTML elements by hierarchy, and decoding header values into typed representations. It works with record types containing identifiers, timestamps, project types, and arbitrary values, enabling precise data manipulation and validation. Users can filter leads by project type, convert configuration entries to JSON, extract specific HTML tags, or decode header fields into application-specific types. These operations support data pipeline processing, document analysis, and configuration management.",
-      "description_length": 666,
+      "library": "rpmfile",
+      "description": "This module enables structured parsing and retrieval of RPM package metadata, exposing fields like name, version, dependencies, and checksums through typed accessors operating on binary data. It works with low-level RPM components such as lead, header, and signature sections, supporting operations like validating package integrity via magic bytes, querying metadata for inventory systems, or resolving dependencies in package managers. The header submodule decodes tag-value pairs into specific OCaml types, allowing extraction of structured data such as file lists and dependency rules, while the select submodule filters tags to reduce memory usage during parsing. Helpers for lead headers provide direct access to key package attributes like architecture and signature type, enabling efficient serialization and validation workflows.",
+      "description_length": 838,
       "index": 8,
       "embedding_norm": 1.0
     }
@@ -76,9 +85,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 666,
-    "min_description_length": 244,
-    "avg_description_length": 356.3333333333333,
-    "embedding_file_size_mb": 0.033145904541015625
+    "max_description_length": 838,
+    "min_description_length": 305,
+    "avg_description_length": 514.5555555555555,
+    "embedding_file_size_mb": 0.033150672912597656
   }
 }

@@ -19,9 +19,18 @@ import torch.nn.functional as F
 from torch import Tensor
 from transformers import AutoTokenizer, AutoModel
 
+from popularity_scorer import PopularityScorer
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Workaround for transformers 4.52.4 bug with ALL_PARALLEL_STYLES
+import transformers.modeling_utils
+if transformers.modeling_utils.ALL_PARALLEL_STYLES is None:
+    # Define expected parallel styles from transformers library
+    transformers.modeling_utils.ALL_PARALLEL_STYLES = ["colwise", "rowwise"]
+    logger.warning("Patched ALL_PARALLEL_STYLES bug in transformers library")
 
 
 class QueryEmbedder:
@@ -170,6 +179,9 @@ class PackageEmbeddingLoader:
                         'description_length': module_info['description_length'],
                         'index_in_package': module_info['index']
                     }
+                    # Add library information if available
+                    if 'library' in module_info:
+                        module_metadata['library'] = module_info['library']
                     all_metadata.append(module_metadata)
                     
             except Exception as e:
@@ -187,7 +199,8 @@ class PackageEmbeddingLoader:
 class SemanticSearch:
     """Main semantic search engine that combines query embedding and similarity search."""
     
-    def __init__(self, embeddings_dir: Path, model_name: str = 'Qwen/Qwen3-Embedding-0.6B'):
+    def __init__(self, embeddings_dir: Path, model_name: str = 'Qwen/Qwen3-Embedding-0.6B', 
+                 use_popularity: bool = True, package_descriptions_dir: Path = None):
         """Initialize the semantic search engine."""
         self.query_embedder = QueryEmbedder(model_name)
         self.embedding_loader = PackageEmbeddingLoader(embeddings_dir)
@@ -195,15 +208,78 @@ class SemanticSearch:
         # Load all embeddings into memory
         self.embeddings, self.metadata = self.embedding_loader.load_all_embeddings()
         
+        # Initialize popularity scorer if enabled
+        self.use_popularity = use_popularity
+        self.popularity_scorer = PopularityScorer() if use_popularity else None
+        
+        # Load package descriptions for boosting
+        self.package_descriptions = {}
+        if package_descriptions_dir is None:
+            package_descriptions_dir = Path("package-descriptions")
+        self.load_package_descriptions(package_descriptions_dir)
+        
         logger.info(f"Search engine ready with {len(self.embeddings)} modules")
         
-    def search(self, query: str, top_k: int = 5) -> List[Dict]:
+    def load_package_descriptions(self, descriptions_dir: Path) -> None:
+        """Load package descriptions for boosting module rankings."""
+        if not descriptions_dir.exists():
+            logger.warning(f"Package descriptions directory not found: {descriptions_dir}")
+            return
+            
+        loaded_count = 0
+        for json_file in descriptions_dir.glob("*.json"):
+            try:
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                if 'package' in data and 'description' in data:
+                    self.package_descriptions[data['package']] = data['description']
+                    loaded_count += 1
+                    
+            except Exception as e:
+                logger.warning(f"Failed to load package description {json_file}: {e}")
+                
+        logger.info(f"Loaded {loaded_count} package descriptions")
+    
+    def calculate_package_boost(self, query: str, package_names: List[str]) -> Dict[str, float]:
+        """Calculate package description similarity boost for modules."""
+        if not self.package_descriptions:
+            return {}
+            
+        # Get query embedding once
+        query_embedding = self.query_embedder.embed_query(query)
+        
+        # Only calculate for unique packages that have descriptions
+        unique_packages = set(package_names)
+        packages_with_descriptions = [p for p in unique_packages if p in self.package_descriptions]
+        
+        logger.info(f"Calculating package boosts for {len(packages_with_descriptions)} packages")
+        
+        package_boosts = {}
+        for package in unique_packages:
+            if package in self.package_descriptions:
+                # Get package description embedding
+                package_desc = self.package_descriptions[package]
+                package_embedding = self.query_embedder.embed_query(package_desc)
+                
+                # Calculate similarity
+                similarity = float(np.dot(query_embedding, package_embedding))
+                package_boosts[package] = similarity
+            else:
+                package_boosts[package] = 0.0
+                
+        return package_boosts
+        
+    def search(self, query: str, top_k: int = 5, popularity_weight: float = 0.3, 
+              package_boost_weight: float = 0.2) -> List[Dict]:
         """
         Search for modules most similar to the given query.
         
         Args:
             query: User's search query
             top_k: Number of top results to return
+            popularity_weight: Weight for popularity in combined score (0.0-1.0)
+            package_boost_weight: Weight for package description boost (0.0-1.0)
             
         Returns:
             List of dictionaries containing module information and similarity scores
@@ -217,21 +293,90 @@ class SemanticSearch:
         # Calculate similarities
         similarities = self._calculate_similarities(query_embedding)
         
-        # Get top-k results
-        top_indices = np.argsort(similarities)[-top_k:][::-1]  # Descending order
+        # Apply package boosting if enabled
+        if self.package_descriptions and package_boost_weight > 0:
+            # Get package names for all modules
+            package_names = [self.metadata[i]['package'] for i in range(len(self.metadata))]
+            
+            # Calculate package boosts
+            package_boosts = self.calculate_package_boost(query, package_names)
+            
+            # Apply package boost to similarities
+            for i, package in enumerate(package_names):
+                boost = package_boosts.get(package, 0.0)
+                similarities[i] = similarities[i] * (1 - package_boost_weight) + boost * package_boost_weight
         
-        # Format results
+        # Get initial top results (retrieve more for reranking)
+        initial_top_k = min(top_k * 3, len(similarities))  # Get 3x results for reranking
+        top_indices = np.argsort(similarities)[-initial_top_k:][::-1]  # Descending order
+        
+        # Format initial results
         results = []
-        for i, idx in enumerate(top_indices):
+        for idx in top_indices:
             result = {
-                'rank': i + 1,
                 'similarity_score': float(similarities[idx]),
                 'package': self.metadata[idx]['package'],
                 'module_path': self.metadata[idx]['module_path'],
                 'description': self.metadata[idx]['description'],
                 'description_length': self.metadata[idx]['description_length']
             }
+            # Include library information if available
+            if 'library' in self.metadata[idx]:
+                result['library'] = self.metadata[idx]['library']
             results.append(result)
+        
+        # Apply popularity-based reranking if enabled
+        if self.use_popularity and self.popularity_scorer:
+            # Convert to tuple format expected by rerank_results
+            result_tuples = [(r['package'], r['module_path'], r['description'], r['similarity_score']) 
+                           for r in results]
+            
+            # Rerank with popularity
+            reranked_tuples = self.popularity_scorer.rerank_results(result_tuples, popularity_weight)
+            
+            # Convert back to dict format and keep only top_k
+            final_results = []
+            for i, (package, module_path, description, score) in enumerate(reranked_tuples[:top_k]):
+                # Get original similarity score for debugging
+                original_score = None
+                for orig_result in results:
+                    if (orig_result['package'] == package and 
+                        orig_result['module_path'] == module_path):
+                        original_score = orig_result['similarity_score']
+                        break
+                
+                # Get popularity score for this module
+                popularity_score = self.popularity_scorer.get_popularity_score(module_path)
+                
+                # Debug: show what we're looking up
+                if popularity_score > 0:
+                    logger.info(f"Found popularity for {module_path}: {popularity_score:.4f}")
+                else:
+                    logger.debug(f"No popularity data for {module_path}")
+                
+                result = {
+                    'rank': i + 1,
+                    'similarity_score': score,
+                    'original_similarity': original_score,
+                    'popularity_score': popularity_score,
+                    'package': package,
+                    'module_path': module_path,
+                    'description': description,
+                }
+                # Find original metadata to add extra fields
+                for meta in self.metadata:
+                    if meta['package'] == package and meta['module_path'] == module_path:
+                        result['description_length'] = meta['description_length']
+                        if 'library' in meta:
+                            result['library'] = meta['library']
+                        break
+                final_results.append(result)
+            results = final_results
+        else:
+            # No popularity scoring, just add ranks to final results
+            results = results[:top_k]
+            for i, result in enumerate(results):
+                result['rank'] = i + 1
             
         search_time = time.time() - start_time
         logger.info(f"Search completed in {search_time:.3f}s")
@@ -255,8 +400,14 @@ def format_results(results: List[Dict], format_type: str = 'text') -> str:
         output.append(f"Top {len(results)} most relevant OCaml modules:\n")
         
         for result in results:
-            output.append(f"#{result['rank']} - {result['package']}.{result['module_path']}")
+            output.append(f"#{result['rank']} - {result['package']}: {result['module_path']}")
             output.append(f"  Similarity: {result['similarity_score']:.4f}")
+            
+            # Add popularity debugging info if available
+            if 'popularity_score' in result:
+                output.append(f"  Original Similarity: {result.get('original_similarity', 'N/A'):.4f}")
+                output.append(f"  Popularity Score: {result['popularity_score']:.4f}")
+                
             output.append(f"  Description: {result['description']}")
             output.append("")
             
@@ -317,6 +468,33 @@ Examples:
         help='Enable verbose logging'
     )
     
+    parser.add_argument(
+        '--no-popularity',
+        action='store_true',
+        help='Disable popularity-based ranking'
+    )
+    
+    parser.add_argument(
+        '--popularity-weight',
+        type=float,
+        default=0.3,
+        help='Weight for popularity in ranking (0.0-1.0, default: 0.3)'
+    )
+    
+    parser.add_argument(
+        '--package-boost-weight',
+        type=float,
+        default=0.2,
+        help='Weight for package description boost (0.0-1.0, default: 0.2)'
+    )
+    
+    parser.add_argument(
+        '--package-descriptions-dir',
+        type=Path,
+        default=Path('package-descriptions'),
+        help='Directory containing package descriptions (default: package-descriptions)'
+    )
+    
     args = parser.parse_args()
     
     if args.verbose:
@@ -324,10 +502,14 @@ Examples:
     
     try:
         # Initialize search engine
-        search_engine = SemanticSearch(args.embeddings_dir, args.model)
+        search_engine = SemanticSearch(args.embeddings_dir, args.model, 
+                                     use_popularity=not args.no_popularity,
+                                     package_descriptions_dir=args.package_descriptions_dir)
         
         # Perform search
-        results = search_engine.search(args.query, args.top_k)
+        results = search_engine.search(args.query, args.top_k, 
+                                     popularity_weight=args.popularity_weight,
+                                     package_boost_weight=args.package_boost_weight)
         
         # Format and display results
         formatted_output = format_results(results, args.format)

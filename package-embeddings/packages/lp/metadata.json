@@ -1,98 +1,93 @@
 {
   "package": "lp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:33:29.780736",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:38.360719",
   "modules": [
     {
-      "module_path": "Lp.Problem.Pclass",
-      "description": "Converts problem class representations to human-readable strings. Operates on internal problem class type used in optimization workflows. Used to generate logs and error messages during solver execution.",
-      "description_length": 203,
+      "module_path": "Lp.Problem.Vars",
+      "library": "lp",
+      "description": "This module manages variable collections in an optimization problem, supporting operations to classify variables into continuous, general, and binary types. It works with lists of variables (`Lp.Var.t list`) and provides a `classify` function to organize them based on type. Concrete use cases include preparing variable groups for solver input or applying type-specific transformations during model setup.",
+      "description_length": 406,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Lp.Problem.Vars",
-      "description": "Classifies a list of variables into distinct categories based on their properties. It processes values of type `Var.t` and returns a structured record containing grouped results. This is used to organize variables for further analysis or transformation in constraint-solving workflows.",
-      "description_length": 285,
+      "module_path": "Lp.Problem.Pclass",
+      "library": "lp",
+      "description": "This module defines a variant type representing different classes of optimization problems, including linear programming (LP), quadratic programming (QP), and mixed-integer variants. It provides a function to convert these problem class values to their string representations. Use this module when categorizing or identifying the type of optimization problem being modeled or solved.",
+      "description_length": 383,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lp.Var",
-      "description": "Provides functions to create and manipulate variables with bounds, names, and types, including validation, comparison, and conversion. Works with custom types representing variables and their attributes, such as lower and upper bounds. Used to generate arrays of variables for optimization problems or constraint systems.",
-      "description_length": 321,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Lp.Term",
-      "description": "This module provides operations for constructing and manipulating polynomial terms, including arithmetic functions like scaling by powers of two, negation, and bounds application, alongside conversions between string representations and internal term types. It works with a custom `t` type representing polynomial components, enabling numerical transformations and foundational support for higher-level polynomial computations. Specific use cases include handling variable ranges, precise coefficient adjustments, and facilitating type-safe interactions within polynomial expressions.",
-      "description_length": 584,
-      "index": 3,
+      "library": "lp",
+      "description": "This module provides operations to construct and manipulate polynomial terms composed of constant, linear, and quadratic components, supporting arithmetic (multiplication, division, negation), comparison, and property analysis (degree, zero checks, variable overlap detection). It works with terms involving variables and coefficients, enabling transformations like bounding variables, converting to binary/integer types, and scaling quadratic coefficients. These capabilities are used in linear programming contexts to adjust term structures, enforce variable constraints, or prepare terms for optimization workflows.",
+      "description_length": 618,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lp.Poly",
-      "description": "This module offers functions for constructing and manipulating polynomials and monomials, including arithmetic operations, sorting, simplification, and decomposition, alongside specialized handling of binary and integer variables. It operates on structured data like multi-dimensional monomial arrays, polynomial coefficients, and variable bounds, enabling tasks such as constraint enforcement, term iteration, and linear transformation. Use cases include symbolic mathematics, optimization problems, and polynomial analysis requiring coefficient extraction or degree determination.",
-      "description_length": 582,
+      "module_path": "Lp.Problem",
+      "library": "lp",
+      "description": "This module represents and analyzes optimization models by combining objectives, constraints, and variables into structured problems. It supports creating and validating problems, checking variable uniqueness, and classifying problem structure, working alongside its child modules to handle variable typing and problem categorization. The first child module organizes variables into continuous, general, and binary types, enabling type-specific processing, while the second classifies problems into LP, QP, and mixed-integer variants. You can build a linear programming model for resource allocation, classify its variables for solver input, and determine its problem type for downstream processing.",
+      "description_length": 699,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lp.Objective",
+      "library": "lp",
+      "description": "This module defines operations to construct and manipulate optimization objectives, supporting maximization or minimization of polynomial expressions. It provides functions to retrieve variables, convert objectives to polynomials or string representations, and modify variable bounds or types (integer, binary). Concrete use cases include setting up linear programming objectives, inspecting their structure, and adjusting variable constraints for solver compatibility.",
+      "description_length": 469,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lp.Cnstr",
-      "description": "Provides operations to construct and analyze constraints involving polynomials and variables, including building equality and inequality constraints with optional names, extracting variables, and modifying variable bounds or types. Works with polynomial expressions and floating-point values to represent constraint sides, and supports retrieving constraint names and structure. Used to define and manipulate constraints in optimization problems, such as setting bounds, converting variables to integers or binaries, and generating LP file representations.",
-      "description_length": 556,
+      "module_path": "Lp.Var",
+      "library": "lp",
+      "description": "This module defines and manipulates linear programming variables with attributes such as continuous, general, or binary. It supports creating variables with bounds, converting variable types, and checking variable properties like name collisions or valid bounds. Use cases include constructing variables for LP problems, setting variable domains, and generating variable arrays for optimization models.",
+      "description_length": 402,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Lp.Objective",
-      "description": "Provides functions to construct objectives for maximizing or minimizing polynomials, with options to adjust precision and variable bounds. Operates on polynomial expressions and variables, supporting transformations to integer and binary variables. Includes methods to extract polynomial data, variable lists, and string representations in LP format.",
-      "description_length": 350,
+      "module_path": "Lp.PMap",
+      "library": "lp",
+      "description": "This module supports polymorphic maps with `Poly.t` keys, enabling ordered traversal, combination via customizable merge and union operations, and safe key-value access through optional returns. It provides utilities for transforming, filtering, and comparing maps, along with sequence-based construction and iteration for ordered key processing. Commonly used to manage structured optimization data where ordered key handling and map composition are critical.",
+      "description_length": 460,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lp.Problem",
-      "description": "Encapsulates the structure and behavior of an optimization problem by converting internal representations to readable formats and categorizing variables for structured processing. It handles operations on problem classes and `Var.t` values, producing human-readable outputs and organized variable groupings. This enables clearer debugging through logged information and more efficient variable management in constraint-solving tasks. Examples include generating error messages from internal states and separating variables into distinct groups for analysis.",
-      "description_length": 557,
+      "module_path": "Lp.Cnstr",
+      "library": "lp",
+      "description": "This module implements operations for constructing and manipulating linear programming constraints, including equality and inequality relations between polynomials. It provides functions to access constraint components like left-hand side polynomials, right-hand side constants, and variable lists, along with transformations such as setting bounds or converting variables to integer or binary types. Use cases include building and modifying constraints for LP models, extracting constraint data for analysis, and preparing constraints for output in LP file format.",
+      "description_length": 565,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lp.PMap",
-      "description": "The module provides operations for managing polymorphic maps with key-value pairs, including adding, updating, merging, and querying, alongside transformations, iterations, and conversions between maps and sequences. It works with ordered maps featuring keys of type 'a and values of type 'b, enabling use cases like optimizing result packing, handling list-valued entries, and custom merging logic. Specific applications include processing sequences of bindings, efficiently managing subsets via key-based traversal, and predicate-driven selection.",
-      "description_length": 549,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "lp",
-      "description": "Provides functions to construct and manipulate linear and quadratic expressions, define constraints, and set objective functions for optimization models. Works with variables, expressions, and constraints represented as algebraic structures. Enables integration with GLPK and Gurobi solvers for solving LP and MIP problems, and supports reading/writing CPLEX LP files for interoperability.",
-      "description_length": 389,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Lp",
-      "description": "combines variable management, polynomial construction, constraint definition, and objective formulation into a unified framework for optimization problems. it handles custom types for variables, polynomial terms, and constraints, enabling operations like bounds validation, arithmetic transformations, and constraint analysis. users can build and manipulate polynomials, define optimization objectives, and generate LP file representations with precise control over variables and coefficients. examples include creating bounded variables, constructing polynomial expressions with specific terms, and generating constraint systems for solvers.",
-      "description_length": 642,
-      "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "library": "lp",
+      "description": "This module enables the creation and manipulation of polynomials with mixed variable types and bounds, forming the foundation for modeling optimization problems with structured arithmetic operations and multi-dimensional arrays. It supports the construction of linear programming problems through child modules that handle polynomial terms, objectives, constraints, and variable definitions, allowing operations like dot products, simplification, and LP file parsing. You can build optimization models by defining variables with specific bounds and types, formulating objectives and constraints, and classifying problem structures such as LP or QP. Additional utilities for ordered map manipulation facilitate data handling in optimization workflows requiring key-based composition and traversal.",
+      "description_length": 796,
+      "index": 8,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.9166666666666666
+    "retention_rate": 0.9
   },
   "statistics": {
-    "max_description_length": 642,
-    "min_description_length": 203,
-    "avg_description_length": 456.1818181818182,
-    "embedding_file_size_mb": 0.04038715362548828
+    "max_description_length": 796,
+    "min_description_length": 383,
+    "avg_description_length": 533.1111111111111,
+    "embedding_file_size_mb": 0.033150672912597656
   }
 }

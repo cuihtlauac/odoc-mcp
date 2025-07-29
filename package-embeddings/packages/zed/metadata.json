@@ -1,133 +1,149 @@
 {
   "package": "zed",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:34:51.281104",
+  "creation_timestamp": "2025-07-15T23:08:56.063193",
   "modules": [
     {
-      "module_path": "Zed_rope.Zip",
-      "description": "Creates and manipulates zippers for navigating and extracting segments of a rope, supporting forward and backward movement, position queries, and pattern-based searches. Operates on a `t` type representing a position within a rope, allowing extraction of substrings and slices between positions. Enables efficient traversal and querying of text data, such as finding specific characters or extracting portions of a document.",
-      "description_length": 424,
+      "module_path": "Zed_rope.Zip_raw",
+      "library": "zed",
+      "description": "This module implements low-level zipper operations for navigating and modifying Unicode ropes at the raw character level. It supports precise positional access, character inspection, and movement with functions like `next`, `prev`, `move`, and directional searches via `find_f` and `find_b`. It is used for efficient text traversal and editing where direct control over rope cursors is required.",
+      "description_length": 395,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Zed_rope.Zip_raw",
-      "description": "Provides operations to navigate and manipulate a zipper over a rope, including moving by specific offsets, retrieving code points, and searching for characters based on predicates. Works with the `t` type, representing a position within a rope, and the `rope` type as the underlying data structure. Used to efficiently traverse and modify large text strings at specific character positions.",
-      "description_length": 390,
+      "module_path": "Zed_input.S",
+      "library": "zed",
+      "description": "This module manages key binding configurations using event sequences, allowing users to define, remove, and process bindings. It supports operations to add or remove event lists mapped to values, fold over bindings, and generate resolver structures for handling input events. It is used to implement customizable keyboard shortcuts in applications by associating event sequences with specific actions.",
+      "description_length": 401,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Zed_rope.Buffer",
-      "description": "Adds characters, Unicode code points, strings, and ropes to a mutable sequence, appending them to the end. Returns the accumulated content as a rope and allows resetting the sequence. Used to efficiently build and manage text data in a streaming or incremental fashion.",
-      "description_length": 269,
+      "library": "zed",
+      "description": "This module implements a mutable buffer for building Unicode ropes efficiently. It supports appending individual characters, strings, or other ropes to the buffer and extracting the accumulated result as a rope. Typical use cases include incremental construction of large text documents or dynamic string generation where performance matters.",
+      "description_length": 342,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zed_input.Make",
-      "description": "Compares two values of type t using a total ordering, returning -1, 0, or 1 based on their relative positions. It operates directly on the t type, which represents keys in a structured format. This function is used to sort or order elements in a way that ensures consistent and predictable comparisons.",
-      "description_length": 302,
+      "module_path": "Zed_rope.Zip",
+      "library": "zed",
+      "description": "This module implements a zipper for navigating and manipulating Unicode ropes. It supports precise positional operations like moving forward or backward by glyphs, finding characters based on predicates, and extracting sub-rope sections. Use cases include text editing, cursor positioning, and incremental parsing of large rope structures.",
+      "description_length": 339,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Zed_input.Make",
+      "library": "zed",
+      "description": "This module manages key binding configurations using a customizable event type. It supports adding, removing, and querying bindings, as well as creating and resolving packed binding sets. Concrete use cases include implementing custom keyboard shortcuts in applications like text editors or interactive tools.",
+      "description_length": 309,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Zed_string.Buf",
-      "description": "Provides operations to manage a buffer containing characters and strings, including adding individual characters, strings, or other buffers, and retrieving or resetting their contents. Works with Zed_char.t, Uchar.t, and Zed_string.t types. Used to efficiently build and manipulate text data in applications requiring character-level control and concatenation.",
-      "description_length": 360,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "zed",
-      "description": "Manages text editing state with operations for inserting, deleting, and modifying text, along with cursor positioning and selection tracking. It works with immutable text buffers and structured edit histories. Used to build interactive text interfaces like code editors or terminal-based input handlers.",
-      "description_length": 303,
+      "library": "zed",
+      "description": "This module implements a mutable buffer for efficiently constructing Zed_string.t values through incremental appending. It supports operations to add Zed_char.t, Stdlib.Uchar.t, Zed_string.t, or other buffers to the end of a buffer, along with utilities to inspect, clear, or reset the buffer's state. Concrete use cases include building complex strings from multiple components, such as formatting log messages or assembling text output from disparate sources.",
+      "description_length": 461,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zed_rope",
-      "description": "manages text data through a system of zippers and builders, enabling efficient navigation, modification, and construction of large Unicode strings. It operates on `t` for positions and `rope` for the underlying text, supporting operations like moving by offsets, extracting substrings, and appending content. Users can search for characters, traverse text in both directions, and build ropes incrementally. Examples include extracting a slice between two positions, finding the next vowel, or constructing a document from streamed input.",
-      "description_length": 537,
+      "module_path": "Zed_input",
+      "library": "zed",
+      "description": "This module implements customizable key binding systems using string-based key representations and action handlers, supporting context-sensitive command mappings. It provides data types for key events and bindings, with operations to add, remove, and resolve shortcuts, and submodules that extend functionality for managing configurations using event sequences or custom event types. You can define key sequences that trigger specific actions, fold over existing bindings to inspect or modify them, and create packed binding sets for efficient resolution during input handling. It is ideal for applications like text editors or interactive tools where user-defined keyboard shortcuts drive functionality.",
+      "description_length": 704,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zed_input",
-      "description": "Manages event-to-value mappings, allowing addition, removal, and resolution of bindings. Operates on event lists and structured data types like resolvers and packs. Used to dynamically bind and look up event sequences in interactive applications.",
-      "description_length": 246,
+      "module_path": "Zed_rope",
+      "library": "zed",
+      "description": "This module provides immutable Unicode ropes for efficient text processing with operations like concatenation, substring extraction, insertion, and replacement, centered around the `t` type. It supports case transformations, string conversion, and advanced traversal, while its submodules enable low-level zipper navigation, mutable buffer construction, and glyph-based positional manipulation. Use it to handle large texts immutably, build ropes incrementally with high performance, or navigate and edit ropes with precise cursor control. Examples include text editors, parsers, and any application requiring robust, Unicode-aware rope operations.",
+      "description_length": 648,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zed_char",
-      "description": "The module provides low-level operations for processing Unicode characters and graphemes, including extracting core characters and combining marks, converting between UTF-8 and internal representations, and checking properties like printability. It works with Unicode code points, graphemes, and specialized types such as `Printable`, `Other`, and `Null` to represent character states. Unsafe functions are designed for scenarios like raw user input handling, where incomplete or individual characters (e.g., combining marks) require direct processing before higher-level modules manage normalization.",
-      "description_length": 601,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Zed_utf8",
-      "description": "The module provides functions for validating, manipulating, and inspecting UTF-8 encoded strings, including substring extraction, insertion, removal, and reversal, alongside conversion between strings and Unicode code points. It supports bidirectional iteration, filtering, and transformation of characters, along with escaping, unescaping, and low-level code-point navigation, enabling efficient text processing and Unicode-aware string manipulations. Use cases include data validation, text normalization, and handling complex encoding scenarios in applications requiring precise control over UTF-8 content.",
-      "description_length": 609,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Zed_cursor",
-      "description": "The module handles cursor position management, including tracking line and column indices, updating locations, and responding to text modifications through reactive signals, operating on text buffers and character offsets. It supports navigation and editing workflows by enabling precise cursor movement, change tracking, and alignment with document updates, ideal for applications like real-time collaborative editing or syntax-aware text manipulation.",
-      "description_length": 453,
-      "index": 10,
+      "library": "zed",
+      "description": "This module provides operations to manage text editor cursors that dynamically track position, line, and column within a buffer, automatically adjusting their state in response to insertions or deletions. It works with cursor objects that store both absolute character offsets and contextual display metrics like column positions, including a \"wanted\" column for vertical movement consistency. Key use cases include maintaining cursor alignment during text modifications and enabling precise navigation in reactive editing environments.",
+      "description_length": 536,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zed_macro",
-      "description": "Tracks and manages a sequence of actions for macro recording, allowing addition, cancellation, and retrieval of recorded items. Operates on a mutable state wrapped in a signal for real-time updates. Used to log user interactions for replay or analysis in applications requiring action history.",
-      "description_length": 293,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Zed_utils",
-      "description": "Reverses the elements of an array and compares lists or arrays using a custom comparator function. Operates on arrays and lists of arbitrary types. Used to invert array order or determine equality of structured data with defined comparison logic.",
-      "description_length": 246,
-      "index": 12,
+      "module_path": "Zed_utf8",
+      "library": "zed",
+      "description": "This module provides robust UTF-8 string manipulation capabilities, including validation, concatenation, substring extraction, character insertion/deletion, reversal, and conversion to/from Unicode code points. It supports bidirectional traversal (left-to-right and right-to-left) with operations like mapping, filtering, folding, and concatenative transformations, while handling Unicode characters correctly. Key use cases include text processing tasks requiring precise Unicode handling\u2014such as trimming whitespace, escaping special characters, substring matching, and navigating offsets in UTF-8 sequences\u2014alongside low-level access for safe/unsafe code point inspection and offset adjustments.",
+      "description_length": 698,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Zed_lines",
-      "description": "Provides operations to manage and query line positions in text, including calculating line indices, determining line boundaries, and adjusting sets through insertions, removals, and replacements. Works with `t` representing sets of line positions and `line` as an internal type for line data. Used to compute line breaks, navigate text by offset, and adjust text layout based on width constraints.",
-      "description_length": 397,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Zed_string",
-      "description": "manages text data through buffer operations, supporting character, string, and buffer concatenation with Zed_char.t, Uchar.t, and Zed_string.t. It allows moving forward and backward within a string using indices, with operations like next and prev that may return an index one past the end of valid data. Functions include adding characters, strings, or buffers, and retrieving or resetting buffer contents. For example, it can build a string incrementally by appending characters or merge multiple buffers into a single string.",
-      "description_length": 528,
-      "index": 14,
+      "library": "zed",
+      "description": "This module manages sets of line positions within a text buffer, enabling efficient line-based navigation and editing operations. It supports operations like finding line starts and ends, converting offsets to line numbers, and inserting or removing ranges of text. It works directly with line indices and character offsets, making it suitable for text editors or parsers that require precise line tracking.",
+      "description_length": 407,
+      "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Zed_edit",
-      "description": "The module provides text editing operations including cursor navigation, clipboard interactions, and context-aware modifications, working with Zed_rope.t, Zed_lines.t, and Zed_cursor.t data structures. It supports features like undo, line handling, and editable regions, enabling applications such as structured editing actions and efficient management of large text buffers. Specific use cases involve handling boundary checks, executing precise text transformations, and maintaining cursor state during complex operations like clipboard exchanges or region-specific edits.",
-      "description_length": 574,
-      "index": 15,
+      "library": "zed",
+      "description": "This module provides text editing operations centered on buffer manipulation, cursor navigation, and selection management using a rope-based data structure (`Zed_rope.t`) and a stateful editing context (`Zed_edit.context`). It supports precise cursor movement (character/line-level, word boundaries), text transformations (case conversion, deletion), clipboard integration (kill/yank), and undo functionality, while tracking user interaction state like selection ranges or erase mode. Typical use cases include implementing interactive text editors, code input interfaces, or rich-text processing tools requiring efficient mutation and navigation of structured text buffers.",
+      "description_length": 674,
+      "index": 11,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Zed_char",
+      "library": "zed",
+      "description": "This module offers utilities for manipulating Unicode characters with combining marks, supporting operations like UTF-8 validation, property checks (printable/combining), and width calculations. It works with a composite type representing base characters and their attached diacritics, enabling precise text rendering and normalization tasks. Key use cases include handling complex text layouts, validating UTF-8 encoded streams, and performing locale-aware character comparisons.",
+      "description_length": 480,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zed_string",
+      "library": "zed",
+      "description": "This module handles UTF-8 strings with precise character-level manipulation, supporting safe and unsafe conversions, display width calculations, and bidirectional traversal using `Zed_string.t` and `Uchar.t` sequences. Its buffer submodule enables efficient incremental construction of strings through appending characters, strings, or other buffers, with utilities to inspect or reset the buffer's state. You can use it for tasks like assembling log messages, processing terminal text with accurate widths, or building complex UTF-8 strings from multiple components. The combination of direct string operations and mutable buffering supports both high-performance transformations and strict validation scenarios.",
+      "description_length": 713,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Zed_macro",
+      "library": "zed",
+      "description": "This module implements a macro recorder that tracks sequences of user actions and supports dynamic control over recording state and counters. It works with generic lists of type `'a` to store recorded actions and provides precise control over macro state, including starting, stopping, canceling, and querying recorded entries. Concrete use cases include recording and replaying user input sequences in an editor or tracking multi-step interactions in a GUI application.",
+      "description_length": 470,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zed_utils",
+      "library": "zed",
+      "description": "Reverses arrays in linear time. Compares lists and arrays lexicographically using a provided element comparison function, returning an integer indicating their ordering. Useful for implementing custom equality or sorting logic for sequences of elements.",
+      "description_length": 253,
+      "index": 15,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 17,
+    "total_modules_in_package": 16,
     "meaningful_modules": 16,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9411764705882353
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 609,
-    "min_description_length": 246,
-    "avg_description_length": 408.25,
-    "embedding_file_size_mb": 0.05854034423828125
+    "max_description_length": 713,
+    "min_description_length": 253,
+    "avg_description_length": 489.375,
+    "embedding_file_size_mb": 0.05855751037597656
   }
 }

@@ -1,91 +1,93 @@
 {
   "package": "serde",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:33:02.476898",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:32.441795",
   "modules": [
     {
-      "module_path": "Serde.Config",
-      "description": "Provides functions to create and manipulate configuration objects, including merging with default values and extracting specific fields. Works with a record type containing string keys and mixed value types. Used to load application settings from environment variables and override them with user-provided values.",
-      "description_length": 313,
+      "module_path": "Serde.Ser_base.Serializer",
+      "library": "serde",
+      "description": "This interface supports serializing primitive values, optional types, sequences, tuples, and variant forms (unit, newtype, tuple, record) into a generic output format. It enables field-level serialization with contextual metadata handling and error propagation, designed for implementing structured data encoders like JSON or binary formats that require tracking state during traversal of complex OCaml data graphs.",
+      "description_length": 415,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Serde.Ser_base",
-      "description": "This module offers serialization functions for fundamental data types (booleans, integers, strings) and complex structures (options, variants, tuples, records), along with control mechanisms like nesting and sequences. It operates on a state and output context, enabling structured data encoding. Use cases include data persistence, network communication, or configuration serialization where precise control over encoding is required.",
-      "description_length": 435,
+      "module_path": "Serde.De_base.Deserializer",
+      "library": "serde",
+      "description": "This module provides deserialization operations for converting serialized data into OCaml values, handling primitive types such as integers, booleans, strings, floats, and options, as well as structured data like sequences, records, variants, and nested compositions. It operates on a shared `state` and context (`ctx`), using visitor-based traversal to extract and convert values, with detailed error handling via result types. This functionality is commonly used in scenarios like parsing binary formats, decoding network messages, or transforming configuration files into typed data structures.",
+      "description_length": 597,
       "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Serde.Config",
+      "library": "serde",
+      "description": "This module defines a configuration type with a single field `camelcase_fields` that controls whether JSON field names should be converted to camel case. It provides a default configuration value with `camelcase_fields` set to `false`. Useful when deserializing JSON objects to control the mapping of field names to OCaml record fields.",
+      "description_length": 336,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Serde.Ser",
-      "description": "This module offers serialization functions for primitive types (integers, floats, strings) and composite structures (lists, arrays, options), as well as structured data like records and variants. It operates on a context type that manages state and output during serialization, enabling efficient encoding of nested or tagged data formats. Use cases include converting complex data hierarchies into compact binary representations or custom serialization workflows requiring precise control over output generation.",
-      "description_length": 513,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Serde.De_base",
-      "description": "This module offers deserialization functions for diverse data types, including primitives, variants, records, sequences, and optional values, operating on a custom `state` type and context. It handles structured data parsing with error management, enabling precise state consumption and format-specific processing. Use cases include protocol parsing and data reconstruction where incremental state manipulation and type-specific handling are required.",
-      "description_length": 451,
+      "library": "serde",
+      "description": "This module offers low-level serialization capabilities for structured data, supporting primitives (booleans, integers, floats, strings), container types (options, lists, arrays), and complex structures like records and variant types (unit, newtype, tuple, record). Functions utilize a shared serialization context to produce results that either yield the serialized output or an error, enabling reliable data conversion for storage, network transmission, or inter-process communication scenarios requiring precise type handling.",
+      "description_length": 529,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Serde.Visitor",
-      "description": "Provides operations to traverse and process values like integers and strings within a context, returning results or errors. Works with a stateful visitor type that tracks value, state, and tag information. Used to implement custom processing logic during parsing or transformation of structured data.",
-      "description_length": 300,
+      "module_path": "Serde.De",
+      "library": "serde",
+      "description": "This module provides deserialization functions that convert structured data into OCaml values, handling primitives (integers, floats, booleans), algebraic data types (variants, records), and collections (lists, arrays) through a context-driven interface. These operations employ visitors and structured decoding strategies to parse serialized formats like JSON or binary, supporting optional fields, enums, and nested structures while returning explicit error results for invalid data. It is suited for use cases requiring precise schema alignment, such as API response processing or configuration file parsing, where type fidelity and robust error handling are critical.",
+      "description_length": 671,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Serde.De",
-      "description": "This module offers low-level deserialization capabilities for structured data, including primitives, records, variants, lists, arrays, and optional values, operating within a stateful context and employing a visitor pattern for hierarchical parsing. It supports error-handled extraction of complex data formats from streams, enabling use cases like binary protocol decoding or configuration file parsing. Specific functions handle type-specific reads, field access, and sequence management, ensuring robustness through monadic error propagation.",
-      "description_length": 545,
+      "module_path": "Serde.De_base",
+      "library": "serde",
+      "description": "This module defines core deserialization combinators and a deserializer type for parsing structured data from a stateful context, supporting both primitive and complex data types through a visitor-based interface. It provides low-level operations to build custom deserializers for formats like JSON or MessagePack, handling integers, strings, options, records, and variants with result-typed error handling. The module works with a shared parsing state and context, enabling efficient traversal and conversion of serialized data into typed OCaml values. Examples include decoding network messages, parsing binary files, or transforming structured input into domain-specific data models.",
+      "description_length": 686,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Serde.Serializer",
-      "description": "provides a framework for serializing and deserializing data structures, offering basic primitives for encoding and decoding values. it includes types such as `encoder` and `decoder`, along with operations like `encode` and `decode` for transforming data between in-memory representations and serialized formats. users can define custom serialization logic by implementing these operations for specific types. for example, a user might serialize a list of integers into a byte stream or reconstruct a tree structure from a binary input.",
-      "description_length": 535,
-      "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Serde.Deserializer",
-      "description": "The module provides basic infrastructure for parsing and interpreting serialized data formats. It includes core types such as input streams and error representations, along with operations for reading and validating data structures. Users can construct custom parsers by combining low-level read operations and error handling mechanisms. Example tasks include extracting integers from binary streams or validating JSON-like structures.",
-      "description_length": 435,
+      "module_path": "Serde.Ser_base",
+      "library": "serde",
+      "description": "This module defines a polymorphic serializer type and a core function that transforms serializers into serializers, enabling structured serialization workflows over arbitrary types. It supports serializing primitives, optional values, sequences, and complex variants like records or tuples, while managing state and output transformations. Submodules provide field-level serialization with contextual metadata handling, ideal for implementing custom binary or text encoders for trees, records, or variant-heavy data structures. Example uses include building JSON encoders or binary serializers that track traversal state across complex OCaml data graphs.",
+      "description_length": 654,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Serde.Visitor",
+      "library": "serde",
+      "description": "This module implements visitor functions for deserializing values by defining how to handle specific data types like integers and strings during the deserialization process. It works with generic data structures that require mapping serialized data into OCaml values, using context-aware functions that return result-typed values to handle potential errors. Concrete use cases include implementing custom deserializers for structured data formats such as JSON or binary encodings where specific types must be extracted and validated from a stream or buffer.",
+      "description_length": 557,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "serde",
-      "description": "Provides functions to serialize and deserialize OCaml values into and from formats like JSON, XML, and binary, using type-safe transformations. It operates on OCaml's variant types, records, and polymorphic variants, enabling efficient data conversion. Used to persist complex data structures to disk or transmit them over networks with minimal overhead.",
-      "description_length": 354,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Serde",
-      "description": "combines configuration management, serialization, and deserialization capabilities, enabling the creation, manipulation, and conversion of structured data. it supports record-based configuration with field extraction and merging, as well as encoding and decoding of primitive and composite types using stateful contexts and visitor patterns. users can serialize lists, records, and variants into compact formats or parse binary streams into typed data structures, with error handling and custom processing hooks. examples include loading environment variables into a config record, encoding a tree structure into a byte stream, or decoding a protocol message from a network buffer.",
-      "description_length": 681,
-      "index": 9,
+      "library": "serde",
+      "description": "This module provides serialization and deserialization routines for converting OCaml values to and from structured representations, supporting result types, lists, and custom stateful converters. It includes a configuration submodule to control field name casing during JSON deserialization and offers low-level serialization functions for primitives, containers, and complex types like records and variants. Deserialization is handled through context-driven interfaces that parse structured data into OCaml values, using visitors and combinators to support formats like JSON or binary with precise error handling. Examples include encoding data for network transmission, parsing API responses, and building custom serializers for domain-specific data models.",
+      "description_length": 759,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 10,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.8333333333333334
+    "total_modules_in_package": 13,
+    "meaningful_modules": 9,
+    "filtered_empty_modules": 4,
+    "retention_rate": 0.6923076923076923
   },
   "statistics": {
-    "max_description_length": 681,
-    "min_description_length": 300,
-    "avg_description_length": 456.2,
-    "embedding_file_size_mb": 0.036765098571777344
+    "max_description_length": 759,
+    "min_description_length": 336,
+    "avg_description_length": 578.2222222222222,
+    "embedding_file_size_mb": 0.03316020965576172
   }
 }

@@ -1,49 +1,69 @@
 {
   "package": "catapult-sqlite",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:29:13.357648",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:46.273594",
   "modules": [
     {
-      "module_path": "Catapult_sqlite.Backend.Make",
-      "description": "Writes formatted output using a custom writer type, supporting incremental and buffered writing operations. Operates on strings, buffers, and output channels. Used to generate structured text outputs like logs, configuration files, or code snippets.",
-      "description_length": 249,
+      "module_path": "Catapult_sqlite.Backend.ARG",
+      "library": "catapult-sqlite",
+      "description": "This module implements a SQLite backend for writing trace data, handling operations such as setting the trace ID, database path, and managing trace file locations. It works directly with string identifiers and file paths, interfacing with the underlying SQLite writer to store trace events. Concrete use cases include directing trace output to specific SQLite files based on trace IDs or environment variables, and ensuring correct initialization and routing of trace data in a distributed or multi-process context.",
+      "description_length": 515,
       "index": 0,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Catapult_sqlite.Backend.Make",
+      "library": "catapult-sqlite",
+      "description": "This module implements a SQLite backend for recording structured trace events with support for emitting events with timestamps, durations, thread and process IDs, categories, and custom arguments. It provides operations to initialize, record, and finalize trace data, along with a periodic tick function to handle background tasks during long-running processes. It is used to log performance traces into a SQLite database, either specified directly or generated per trace ID in a configured directory.",
+      "description_length": 501,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Catapult_sqlite.Writer",
+      "library": "catapult-sqlite",
+      "description": "Handles writing trace events to a SQLite database file, supporting operations to open, cycle, and close database connections. Works with string data, including thread-safe writing of JSON-encoded events or lists of strings. Used to persist trace data incrementally or in batches, with configurable synchronization and append modes.",
+      "description_length": 331,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Catapult_sqlite.Ev_to_json",
+      "library": "catapult-sqlite",
+      "description": "Converts trace events into JSON format using a buffer for efficient string construction. Works with `P.Ser.Event.t` types, which represent structured trace data. Useful for exporting trace information to JSON for logging, analysis, or external processing.",
+      "description_length": 255,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Catapult_sqlite.Backend",
-      "description": "Writes structured data to a specified output using a configured writer instance. Operates on custom data types generated during processing pipelines. Used to persist intermediate results to disk during batch transformation workflows.",
-      "description_length": 233,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "catapult-sqlite",
-      "description": "Tracks and records event-based data for performance analysis, supporting structured logging of timestamps, durations, and metadata. It processes and serializes data into JSON format, compatible with the Perfetto tracing viewer. Users can instrument applications to capture detailed execution flow and system events.",
-      "description_length": 315,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "library": "catapult-sqlite",
+      "description": "This module provides a SQLite-based backend for persisting trace data, combining direct database management with specialized submodules for trace routing and structured event logging. It supports core operations like opening or creating databases, executing SQL statements, and managing transactions, while the first submodule handles trace ID and file path configuration to direct trace output, and the second records structured trace events with timestamps, durations, and metadata. Concrete capabilities include logging trace events to disk under unique trace IDs, querying stored data, and managing background tasks during long-running traces. Together, these components enable durable, organized storage and retrieval of trace information in distributed or performance-sensitive contexts.",
+      "description_length": 793,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Catapult_sqlite",
-      "description": "handles database interactions by writing structured data to a SQLite file, using a configured writer to persist intermediate results during processing workflows. it manages trace IDs and database paths, supporting operations like setting directories, trace IDs, and writing custom data types. examples include storing transformation outputs or logging trace-specific data in a structured format. it relies on external modules for data handling and writing logic.",
-      "description_length": 462,
-      "index": 3,
+      "library": "catapult-sqlite",
+      "description": "This module writes profiling data directly to a SQLite database using a trace ID to determine the database name and location, supporting configuration of the trace ID, output directory, and SQLite synchronization settings. It enables and disables the backend, handling use cases like logging performance traces in multi-process environments for later analysis. The module manages database connections, executes SQL statements, and manages transactions, while submodules handle trace event serialization to JSON and thread-safe writing of events to disk. It supports incremental or batch persistence of trace data with configurable sync and append modes, enabling durable storage and retrieval of structured trace events with timestamps, durations, and metadata.",
+      "description_length": 761,
+      "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 4,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.5
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 462,
-    "min_description_length": 233,
-    "avg_description_length": 314.75,
-    "embedding_file_size_mb": 0.014942169189453125
+    "max_description_length": 793,
+    "min_description_length": 255,
+    "avg_description_length": 526.0,
+    "embedding_file_size_mb": 0.02220630645751953
   }
 }

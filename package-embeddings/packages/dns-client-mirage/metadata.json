@@ -1,77 +1,61 @@
 {
   "package": "dns-client-mirage",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:05.441934",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:20.517022",
   "modules": [
     {
       "module_path": "Dns_client_mirage.Make.Transport",
-      "description": "Provides DNS client operations including creating a client with nameservers, establishing connections, sending and receiving DNS messages, and managing context lifecycle. Works with DNS protocols, network addresses, and Lwt-based asynchronous I/O structures. Used to implement DNS resolution with timeout control, random number generation for query IDs, and asynchronous network communication.",
-      "description_length": 393,
+      "library": "dns-client-mirage",
+      "description": "This module implements a DNS client transport layer with support for plaintext and TLS connections. It manages connection contexts, sends and receives DNS queries over a MirageOS network stack, and handles timeouts and address resolution. It is used to interact with DNS servers using IP addresses and port numbers, with optional TLS configuration.",
+      "description_length": 348,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_client_mirage.Make.UDP",
-      "description": "Provides functions to manage UDP connections, including listening for incoming packets, writing datagrams with optional source and TTL settings, and handling errors through a pretty-printer. Operates on IP addresses, ports, and Cstruct buffers to route and process network data. Used to establish and terminate UDP communication, demultiplex incoming traffic, and send packets with controlled network parameters.",
-      "description_length": 412,
+      "module_path": "Dns_client_mirage.S-Transport",
+      "library": "dns-client-mirage",
+      "description": "This module implements DNS client transport logic with support for plaintext and TLS connections. It manages connection state, sends and receives DNS queries over a network stack, and handles timeouts and nameserver configuration. Concrete use cases include initiating DNS lookups over TCP or UDP, establishing secure connections with TLS, and handling concurrent queries with proper resource cleanup.",
+      "description_length": 401,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_client_mirage.Make.TCP",
-      "description": "This module handles TCP connection lifecycle management, including establishing, closing, and shutting down connections, along with data transfer operations like reading and writing. It works with network flows, IP addresses, ports, and a type `t` for connection state, supporting buffered and nodelay write strategies. Use cases include building reliable networked applications, managing flow control, and handling error conditions during data transmission.",
-      "description_length": 458,
+      "module_path": "Dns_client_mirage.S",
+      "library": "dns-client-mirage",
+      "description": "This module implements DNS resolution with support for querying A, AAAA, and arbitrary resource records over a configurable transport layer. It provides functions to resolve domain names to IPv4 or IPv6 addresses, retrieve raw DNS replies, and handle EDNS options, with configurable timeouts, caching, and nameservers. Concrete use cases include initiating DNS lookups in networked applications, handling DNSSEC validation, and integrating with MirageOS-based unikernels for secure name resolution.",
+      "description_length": 498,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_client_mirage.Make.IP",
-      "description": "Provides pretty-printers for errors, IP addresses, and prefixes. Handles IP layer operations such as demultiplexing incoming packets, sending data with configurable fragmentation and TTL, and generating pseudoheaders for checksums. Works with IP addresses, prefixes, and network interfaces, supporting use cases like packet inspection, custom IP layer communication, and network configuration retrieval.",
-      "description_length": 403,
+      "module_path": "Dns_client_mirage.Make",
+      "library": "dns-client-mirage",
+      "description": "This module provides a DNS client for resolving domain names with a configurable transport layer, supporting queries like `gethostbyname`, `gethostbyname6`, and `get_resource_record` that return results via Lwt promises. It handles timeouts, EDNS options, and nameserver configurations, working with domain names, IP addresses, and DNS resource records. The transport submodule enables sending and receiving DNS queries over plaintext or TLS connections using a MirageOS network stack, supporting IP-based communication with configurable port numbers and TLS parameters. Together, they allow asynchronous DNS resolution with customizable network transport and error handling.",
+      "description_length": 675,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dns_client_mirage.Make",
-      "description": "Manages network communication through UDP and TCP protocols, enabling packet reception, transmission, and connection control. Supports IP address manipulation, error reporting, and low-level network operations like checksum generation and flow management. Functions include sending datagrams with custom TTL, establishing reliable TCP connections, and pretty-printing network-related data. Examples include building custom network protocols, inspecting incoming traffic, and configuring IP layer parameters.",
-      "description_length": 507,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Dns_client_mirage.Transport",
-      "description": "Provides DNS client operations including connecting to nameservers, sending and receiving DNS messages, and managing connections with timeouts. Works with DNS protocols, network addresses, and Lwt-based asynchronous I/O structures. Used to establish reliable DNS queries, handle network context management, and generate random values for query IDs.",
-      "description_length": 348,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "dns-client-mirage",
-      "description": "Processes DNS queries and constructs responses using strict protocol adherence. Operates on packet structures, domain names, and resource records. Enables implementation of recursive DNS resolvers and authoritative name servers for custom zone configurations.",
-      "description_length": 259,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Dns_client_mirage",
-      "description": "Handles DNS query lifecycle with asynchronous I/O, managing connections, timeouts, and message exchange over network protocols. Operates on types like DNS messages, network addresses, and Lwt promises, supporting query initiation, response parsing, and ID generation. Enables reliable domain name resolution by coordinating with nameservers and handling network context. Examples include resolving a domain, setting custom timeouts, and generating unique query identifiers.",
-      "description_length": 473,
-      "index": 7,
+      "library": "dns-client-mirage",
+      "description": "This module provides an asynchronous DNS client interface for MirageOS, enabling secure and configurable domain name resolution over UDP, TCP, or TLS. It supports core operations like resolving A and AAAA records, querying arbitrary DNS resource records, and handling DNSSEC validation, with features such as EDNS, timeouts, and caching. The transport submodule manages network communication, allowing queries to be sent over plaintext or encrypted connections with configurable nameservers, ports, and TLS settings. Use cases include secure hostname lookups in unikernels, DNS-based service discovery, and custom DNS resolution pipelines with asynchronous I/O and error resilience.",
+      "description_length": 682,
+      "index": 4,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 8,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 507,
-    "min_description_length": 259,
-    "avg_description_length": 406.625,
-    "embedding_file_size_mb": 0.029483795166015625
+    "max_description_length": 682,
+    "min_description_length": 348,
+    "avg_description_length": 520.8,
+    "embedding_file_size_mb": 0.01861095428466797
   }
 }

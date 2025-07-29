@@ -1,98 +1,117 @@
 {
   "package": "pringo",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:33:52.047281",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:09:28.245326",
   "modules": [
     {
-      "module_path": "PRNG.Chacha.State",
-      "description": "The module offers functions for initializing, manipulating, and generating random values via pseudo-random number generators (PRNGs), including creating generators from seeds (strings or integer arrays), producing boolean, float, integer, and byte outputs, and managing state transitions. It handles PRNG instances of type `t`, enabling operations like splitting to create independent generators, copying for replication, and reseeding to reset internal states. Use cases include simulations requiring controlled randomness, cryptographic applications needing reproducible sequences, and parallel systems requiring isolated random streams.",
-      "description_length": 639,
+      "module_path": "PRNG.Splitmix.State",
+      "library": "pringo",
+      "description": "This module implements a splittable pseudo-random number generator using the SplitMix algorithm, offering deterministic generation of integers, floating-point numbers, bytes, and other primitives through a functional interface where generator states are explicitly threaded. It supports operations to split states into statistically independent generators, reseed with new entropy, and manage stateful sequences, making it suitable for parallelizable stochastic computations and pure functional workflows requiring reproducible randomness.",
+      "description_length": 539,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PRNG.Chacha.Pure",
-      "description": "This module enables random value generation and state management through a stateful generator type, offering methods to extract boolean, integer, float, and character values while allowing state splitting for independent sequences. It supports scenarios requiring controlled randomness, such as simulations or cryptographic operations, by maintaining explicit state transitions. The core data structure is a mutable generator state, though no direct manipulation functions are defined beyond value extraction and state division.",
-      "description_length": 528,
+      "module_path": "PRNG.Chacha.State",
+      "library": "pringo",
+      "description": "The interface provides functional operations for managing a ChaCha-based pseudo-random number generator's state, enabling creation from seeds, generation of random values (booleans, integers, floats, bytes), and controlled state transitions. It works with an abstract state type that supports splitting for parallel use, reseeding with fresh entropy, and deterministic reinitialization via seed arrays. This design suits applications requiring reproducible randomness in functional pipelines, parallel computations over infinite data structures, or state-monad integrations where explicit state management is critical.",
+      "description_length": 618,
       "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "PRNG.LXM.State",
-      "description": "The module offers operations to initialize, split, copy, and reseed pseudo-random number generators (PRNGs), working with state objects of type `t` and seeds such as strings or integer arrays. It enables generating diverse random values\u2014booleans, floats, integers, and bytes\u2014with specific bit-widths and distributions, useful for applications requiring controlled randomization or multiple independent PRNG streams.",
-      "description_length": 415,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "PRNG.LXM.Pure",
-      "description": "This module provides operations for generating random values and managing stateful random number generators, including methods to produce booleans, integers, floats, characters, and split generators into independent instances. It works with a stateful generator type `t` that tracks internal randomness state. Use cases include simulations, probabilistic algorithms, or scenarios requiring controlled random value generation and state isolation.",
-      "description_length": 445,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "PRNG.Splitmix.State",
-      "description": "The module offers operations to initialize, manipulate, and generate random values using pseudo-random number generators (PRNGs), including splitting, copying, and reseeding PRNG states. It works with PRNG state objects of type `t` and supports generating boolean, float, integer, and byte values with specified bit-widths and distributions. Use cases include simulations requiring independent random streams, cryptographic applications needing reseeding, or scenarios demanding controlled randomness generation.",
-      "description_length": 512,
-      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "PRNG.Splitmix.Pure",
-      "description": "This module provides functions for generating and manipulating random values, including booleans, integers, floats, and characters, using a stateful generator represented by a `t` type. It enables controlled randomization in applications like simulations or probabilistic algorithms by maintaining and updating the generator's internal state. The `t` type tracks the generator's progression, allowing deterministic reseeding or replay of random sequences.",
-      "description_length": 455,
+      "library": "pringo",
+      "description": "This module offers a functional interface for deterministic random number generation using a SplitMix algorithm, where all operations thread an explicit PRNG state (`t`) through input and output. It supports generating uniformly distributed values of various types (booleans, integers, floats, characters) and bit widths (8 to 64 bits), alongside a splitting operation that forks a state into two statistically independent states. The design enables use cases like parallel computation of random data or lazy generation of infinite structures (e.g., streams) while maintaining reproducibility and avoiding shared mutable state.",
+      "description_length": 627,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "PRNG.LXM.State",
+      "library": "pringo",
+      "description": "This module implements imperative pseudo-random number generators with deterministic state transitions, offering initialization from seeds, uniform sampling for primitive types (booleans, floats, integers, characters), and entropy management. It operates on mutable generator states (`t`), supporting advanced workflows like splitting generators for parallel computation, injecting fresh entropy via reseeding, and creating statistically independent streams for applications requiring reproducible stochastic processes. Key operations include stateful value generation, shallow copying for branching scenarios, and bulk reinitialization from seed arrays to enable complex simulation setups.",
+      "description_length": 690,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "PRNG.LXM.Pure",
+      "library": "pringo",
+      "description": "This module generates random values of various types (booleans, integers, floats, characters) and splits generator states into statistically independent branches. It operates on an immutable state type `t`, where functions take and return this state to enable pure functional composition and state monad integration. The splittable nature of the generators makes it suitable for parallel computations, lazy infinite data structure generation, and scenarios requiring reproducible, forkable randomness.",
+      "description_length": 501,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "PRNG.Chacha.Pure",
+      "library": "pringo",
+      "description": "This module provides a functional interface for ChaCha-based pseudo-random number generation, where operations like seeding, value generation, and state splitting explicitly thread a PRNG state (`t`) through deterministic transformations. It supports generating random values of primitive types (booleans, integers, floats) and arbitrary bit widths, while its `split` operation enables creating independent state branches for parallel computations. The design facilitates use in state monads and lazy, infinite data structures requiring reproducible, forkable randomness streams.",
+      "description_length": 579,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PRNG.Splitmix",
-      "description": "manages pseudo-random number generation through stateful objects of type `t`, enabling splitting, copying, and reseeding to create independent or reproducible random sequences. It supports generating boolean, integer, float, and byte values with customizable distributions and bit-widths. Users can control randomness in simulations, cryptographic operations, or probabilistic algorithms by manipulating the internal state. For example, it allows generating a sequence of 32-bit integers or reseeding a generator to reproduce a previous random output.",
-      "description_length": 551,
+      "module_path": "PRNG.PURE",
+      "library": "pringo",
+      "description": "This module provides a pure functional interface for deterministic random value generation, where each operation threads an explicit generator state `t` through transformations to produce values like booleans, integers, floats, and characters. It supports splitting the generator state into independent streams, enabling parallel or branching random computations without statistical interference. The interface is particularly suited for state monads and lazy infinite data structures, such as streams or trees, where reproducibility and composability of random sequences are critical.",
+      "description_length": 585,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PRNG.Chacha",
-      "description": "Generates and manages pseudo-random number generators with support for seed initialization, state splitting, and value extraction across multiple types including integers, floats, and bytes. Core operations include creating generators from seeds, producing random values, and managing state transitions to ensure reproducibility and isolation. Examples include generating cryptographic keys, simulating probabilistic events, and maintaining independent random streams in parallel processes. The module provides a flexible interface for controlling randomness while preserving state integrity through copy and reseed operations.",
-      "description_length": 627,
+      "module_path": "PRNG.Splitmix",
+      "library": "pringo",
+      "description": "This module implements a splittable pseudo-random number generator based on the SplitMix algorithm, providing deterministic generation of integers, floats, bytes, and other primitives through a functional interface that explicitly threads generator state. It supports key operations such as splitting a generator state into independent branches, reseeding with new entropy, and producing uniformly distributed values across a range of types and bit widths. Users can generate random booleans, 32-bit integers for indexing, 64-bit floats for simulations, or split a generator to produce independent random streams for parallel computation. Example workflows include creating reproducible stochastic pipelines, generating test data, or forking random sources for concurrent tasks without shared state.",
+      "description_length": 799,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PRNG.LXM",
-      "description": "manages pseudo-random number generation through stateful objects of type `t`, supporting initialization, splitting, copying, and reseeding to create independent random streams. It generates boolean, integer, float, character, and byte values with customizable distributions and bit-widths. Operations like `split` allow creating new generators from existing ones, ensuring isolation in parallel or nested computations. Examples include generating random test data, simulating probabilistic events, or securing cryptographic key generation.",
-      "description_length": 539,
+      "module_path": "PRNG.STATE",
+      "library": "pringo",
+      "description": "This module provides functions to generate random values with uniform or bounded distributions across numeric, byte, and character types, while supporting state splitting for parallel computation and entropy control via seeding/reseeding. It operates on an abstract generator state type `t`, which can be initialized from seeds (strings, integer arrays) or system entropy, enabling reproducible streams and deterministic workflows. Key use cases include simulations requiring independent random streams, parallelizable data generation, and functional state-passing patterns for purity and composability.",
+      "description_length": 603,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "pringo",
-      "description": "Provides functions for parsing and validating command-line arguments, including handling flags, options, and positional arguments. Works with strings, lists, and custom argument structures defined by the user. Used to extract and enforce input constraints in CLI applications, such as ensuring required flags are present or parsing numeric ranges.",
-      "description_length": 347,
-      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "PRNG",
-      "description": "The module provides functions to generate random booleans, integers, floats, and characters, maintaining an internal state represented by a type `t`. It operates on this stateful object, returning generated values alongside updated states. Use cases include simulations, games, and randomized algorithms requiring reproducible or controlled randomness.",
-      "description_length": 352,
+      "module_path": "PRNG.Chacha",
+      "library": "pringo",
+      "description": "This module implements a ChaCha-based pseudo-random number generator with a functional interface, managing state transitions through explicit threading of a PRNG state (`t`). It supports deterministic seeding, random value generation for booleans, integers, floats, and arbitrary bit widths, and splitting the state to create independent branches for parallel computations. The design enables reproducible randomness in state monads, lazy evaluation, and parallel processing over infinite data structures. Example uses include generating a sequence of random integers in a pure functional pipeline or splitting the state to produce independent random streams for concurrent tasks.",
+      "description_length": 680,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "PRNG.LXM",
+      "library": "pringo",
+      "description": "This module provides imperative and functional interfaces for generating pseudo-random values with deterministic state transitions, supporting both mutable and immutable state management. It offers core data types `t` for generator states, with operations for uniform sampling of primitive types, state splitting to create independent streams, and reseeding for entropy refresh. The module enables advanced use cases like parallel stochastic simulations, reproducible random branching in functional code, and bulk initialization for complex experiment configurations. Example workflows include splitting a generator to independently sample random integers in parallel or reseeding a mutable generator to reset its entropy for deterministic replay.",
+      "description_length": 747,
       "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "PRNG",
+      "library": "pringo",
+      "description": "This module implements high-quality splittable pseudo-random number generators with both functional and imperative interfaces, supporting deterministic algorithms like Splitmix, Chacha, and LXM for parallel and lazy generation of infinite random structures. The core functionality centers on a generator state type `t`, which can be explicitly threaded through pure functions or manipulated through mutable operations, enabling uniform sampling of booleans, integers, floats, and bytes, as well as splitting into independent streams for parallel computation. Child modules refine these capabilities by providing algorithm-specific implementations, state management strategies, and distribution controls, allowing workflows such as generating reproducible stochastic pipelines, forking independent random streams for concurrent tasks, or building randomized lazy data structures like streams and trees. Examples include splitting a generator to produce independent integer sequences in parallel or using a state monad to thread PRNG state through a functional pipeline.",
+      "description_length": 1068,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 639,
-    "min_description_length": 347,
-    "avg_description_length": 491.8181818181818,
-    "embedding_file_size_mb": 0.040375709533691406
+    "max_description_length": 1068,
+    "min_description_length": 501,
+    "avg_description_length": 669.6666666666666,
+    "embedding_file_size_mb": 0.04398822784423828
   }
 }

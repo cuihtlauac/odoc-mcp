@@ -1,357 +1,477 @@
 {
   "package": "current",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 48,
-  "creation_timestamp": "2025-06-18T16:40:58.377907",
+  "total_modules": 57,
+  "creation_timestamp": "2025-07-15T23:15:29.281180",
   "modules": [
     {
-      "module_path": "Current_term.Make.Syntax",
-      "description": "Processes and combines values within a computation pipeline using monadic and applicative operations. Works with wrapped values (`'a t`) and primitive values (`'b primitive`) to construct and sequence operations. Enables defining components with named bindings, pairing dependent terms, and transforming results based on runtime values.",
-      "description_length": 336,
+      "module_path": "Current_fs",
+      "library": "current.fs",
+      "description": "Saves a value to a file at the given path, ensuring the file's contents match the value atomically. Works with `Fpath.t` and `string` values within the `Current.t` monad. Useful for persisting build artifacts or configuration files in a reliable, atomic manner.",
+      "description_length": 261,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_term.Make.Analysis",
-      "description": "Provides functions to extract metadata from structured data, format values as strings or Graphviz dot graphs, and compute statistics about pipeline stages. Works with custom data types representing pipeline elements and metadata. Used to generate visual representations of workflows and monitor pipeline progress.",
-      "description_length": 313,
+      "module_path": "Current_cache.S.GENERIC",
+      "library": "current.cache",
+      "description": "This module defines a generic cache operation interface with typed keys, values, and outcomes. It provides `run` to perform an operation using a job, key, and value, returning an outcome, along with `pp` for operation description and flags for cancellation and latching behavior. It is used to implement specific caching strategies like Docker builds or package compilation where key-value mappings evolve with custom logic.",
+      "description_length": 424,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_term.Make.Executor",
-      "description": "Executes computational tasks represented as a tree structure, producing results through a sequence of incremental updates. It processes values wrapped in a monadic context, enabling asynchronous execution and state tracking. This is used to evaluate and monitor complex workflows in real-time systems.",
-      "description_length": 301,
+      "module_path": "Current_cache.S.GENERIC-Outcome",
+      "library": "current.cache",
+      "description": "This module defines the output type for a pipeline stage, including functions to serialize and deserialize values to and from strings. It supports storing and retrieving structured results in a format suitable for database persistence. Use this module when encoding or decoding pipeline outcomes for storage in a cache or database backend.",
+      "description_length": 339,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_term.Output.Blockable",
-      "description": "Provides operations to compare values of a result type that can be active, blocked, or contain a message, and to format such values for output. Works with a polymorphic variant type encapsulating an 'a value or a status indicator. Used to check equality of blocked state representations and to generate human-readable logs of their status.",
-      "description_length": 339,
+      "module_path": "Current_cache.S.PUBLISHER-Outcome",
+      "library": "current.cache",
+      "description": "This module defines a type `t` for representing the outcome of a build operation, typically used to store and retrieve additional result metadata. It provides `marshal` and `unmarshal` functions to serialize and deserialize `t` values to and from strings, enabling persistent storage in a cache. A common use case is encoding build success or failure information alongside computed values for later retrieval.",
+      "description_length": 409,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_term.S.Syntax",
-      "description": "Processes and combines values within a computation pipeline using monadic and applicative operations. Works with wrapped values (`'a t`) and primitive results to construct and sequence operations. Enables defining components with named bindings, combining independent terms, and handling runtime-dependent computations.",
-      "description_length": 319,
+      "module_path": "Current_cache.S.GENERIC-Key",
+      "library": "current.cache",
+      "description": "This module represents an operation key used to uniquely identify build operations within a caching system. It provides a `digest` function to generate a unique string identifier for each key, ensuring consistent comparison and database storage. It is used to track and retrieve build results in memory or on disk when constructing cached values.",
+      "description_length": 346,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current.Job.Map",
-      "description": "The module offers operations for constructing, modifying, and querying key-value maps, emphasizing ordered traversal, conditional filtering, and efficient sequence-based manipulation. It works with ordered maps featuring specific key types like `job_id` and generic value types, enabling structured data handling. Use cases include processing job-related data, transforming subsets of bindings, and merging sequences while maintaining key order.",
-      "description_length": 445,
+      "module_path": "Current_cache.S.BUILDER",
+      "library": "current.cache",
+      "description": "This module defines a builder that generates values from keys, supporting in-memory and disk-backed caching of build results. It works with structured keys and values defined in the `Key` and `Value` submodules, and includes functions to start and log builds, along with configuration for cancellation behavior. It is used to implement build processes like Docker image construction or artifact compilation, where inputs map deterministically to outputs through resource-managed operations.",
+      "description_length": 490,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current.Engine.Step",
-      "description": "Compares two step instances for equality and generates the current step value. Operates on a custom type representing a step in a process. Used to track and validate transitions in a state machine.",
-      "description_length": 197,
+      "module_path": "Current_cache.S.OPERATION",
+      "library": "current.cache",
+      "description": "Handles build operations for caching systems where keys map to computed values. It provides functions to execute builds when keys are missing, using unique identifiers for operation tracking. This module is used to implement disk and memory-backed caches that support incremental computation.",
+      "description_length": 292,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Make.Key",
-      "description": "Generates a unique string representation for each value, ensuring equality based on this digest. Works with the abstract type `t` to produce consistent identifiers. Used to create stable keys for database storage or lookup.",
-      "description_length": 223,
+      "module_path": "Current_cache.S.BUILDER-Key",
+      "library": "current.cache",
+      "description": "This module defines a unique identifier for cache operations using a key type that supports digest generation. It provides a `digest` function to produce a unique string identifier for each key, enabling reliable equality checks and database key usage. It is used to ensure distinct cache entries for different keys during build operations.",
+      "description_length": 340,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Make.Value",
-      "description": "Converts a value to and from a string representation for persistent storage. Works with a single opaque type `t` that encapsulates build results. Used to serialize build outputs for database storage and reconstruct them during retrieval.",
-      "description_length": 237,
+      "module_path": "Current_cache.S.WITH_DIGEST",
+      "library": "current.cache",
+      "description": "This module computes and manages unique digests for cache entries, ensuring consistent key generation based on content. It works with the `t` type from the parent module, producing string digests suitable for database keys. Use it to generate stable identifiers for cached values, enabling reliable disk and memory caching strategies.",
+      "description_length": 334,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.S.Key",
-      "description": "Generates a unique string representation for each value, ensuring equality based on this digest. Works with the abstract type `t` to produce consistent identifiers. Used to create stable keys for storing and retrieving operations in a database.",
-      "description_length": 244,
+      "module_path": "Current_cache.S.PUBLISHER",
+      "library": "current.cache",
+      "description": "This module sets cache entries by associating keys with values, using a publisher identity and job context. It works with structured keys and values defined in its submodules, and supports asynchronous publication with logging and resource handling. Concrete use cases include storing build outputs like Docker images or compiled artifacts in a cache for later retrieval.",
+      "description_length": 371,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_cache.S.Value",
-      "description": "Produces a unique string representation for values, ensuring equality based on this digest. Works with the abstract type `t` to generate consistent identifiers. Used to generate stable keys for storing and retrieving data in a database.",
-      "description_length": 236,
+      "module_path": "Current_cache.S.BUILDER-Value",
+      "library": "current.cache",
+      "description": "This module defines the structure and conversion methods for values stored in a build cache. It provides `marshal` and `unmarshal` functions to serialize and deserialize cache entries to and from strings. These operations support persisting build results to disk and restoring them, ensuring compatibility across sessions.",
+      "description_length": 322,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.S.Outcome",
-      "description": "Encodes and decodes values of type `t` to and from strings for persistent storage. Works with arbitrary data types that can be serialized. Used to store and retrieve complex result states in a database.",
-      "description_length": 202,
+      "module_path": "Current_cache.S.PUBLISHER-Value",
+      "library": "current.cache",
+      "description": "This module defines a value type `t` and a function `digest` that generates a unique string identifier for each value. It is used to represent and uniquely identify build results in a cache system. The digest serves as a primary key for storing and comparing cached values efficiently.",
+      "description_length": 285,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current_cache.Output.Key",
-      "description": "Generates a unique string representation for each instance, ensuring equality based on this digest. Works with the abstract type t to produce consistent identifiers. Used to create stable keys for storing and retrieving operations in a persistent data store.",
-      "description_length": 258,
-      "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Output.Value",
-      "description": "Computes a unique string representation for values, ensuring equality based on this digest. Works with the abstract type `t` to generate consistent identifiers. Used to generate stable keys for storing and retrieving values in persistent storage.",
-      "description_length": 246,
+      "module_path": "Current_cache.S.GENERIC-Value",
+      "library": "current.cache",
+      "description": "This module defines a type `t` representing cache values that can be uniquely identified by a digest string. It provides the `digest` function to compute a stable, unique identifier for each value, enabling efficient key-based lookups in a cache. It is used to store build outputs or transient inputs where the digest serves as the primary key for equality and storage.",
+      "description_length": 369,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_cache.S.WITH_MARSHAL",
+      "library": "current.cache",
+      "description": "This module provides serialization and deserialization operations for cache entries, converting values to and from a storable string format. It works with a single abstract data type `t` representing cached values. Use it to persist cache contents to disk or retrieve them, ensuring compatibility across sessions by safely marshaling and unmarshaling stored data.",
+      "description_length": 363,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Output.Outcome",
-      "description": "Encodes and decodes values of type `t` to and from strings for persistent storage. Works with serialized representations of data to ensure compatibility across different formats. Used to store and retrieve complex data structures in a database.",
-      "description_length": 244,
+      "module_path": "Current_cache.S.OPERATION-Key",
+      "library": "current.cache",
+      "description": "This module defines operations for managing cache entries identified by a unique digest derived from their key. It provides a type `t` representing individual cache operations and a function `digest` to generate a unique string identifier for each key. These operations are used to track and execute builds for cache entries when keys are not present, ensuring consistent identification and handling of cacheable units.",
+      "description_length": 419,
       "index": 14,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_cache.Generic.Key",
-      "description": "Generates a unique string representation for each instance, ensuring equality based on this digest. Works with the opaque type `t` to enforce consistent identification. Used to create stable, hashable keys for database storage and lookup.",
-      "description_length": 238,
+      "module_path": "Current_cache.S.PUBLISHER-Key",
+      "library": "current.cache",
+      "description": "This module pairs a unique identifier with a key type to ensure distinct, digest-based identification of cache operations. It provides a `digest` function to generate a unique string for each key, enabling reliable equality checks and database key usage. It is used to track and manage cache builds by associating each build with a unique, identifiable key.",
+      "description_length": 357,
       "index": 15,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_cache.Generic.Value",
-      "description": "Provides a unique string digest for values used as database keys, ensuring equality based on this digest. Works with the `t` type, representing secondary input values in build systems or output assignments. Used to track non-essential inputs like test platform versions alongside primary keys such as Git commit hashes.",
-      "description_length": 319,
+      "module_path": "Current_cache.Make",
+      "library": "current.cache",
+      "description": "This module performs builds with caching, providing operations to retrieve cached values, invalidate specific keys, and reset the cache. It works with build processes represented by the `B` module, which includes keys and values associated with build results. Concrete use cases include efficiently managing and reusing build outputs in development workflows or continuous integration systems.",
+      "description_length": 393,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Generic.Outcome",
-      "description": "Converts a value to and from a string representation for database storage and retrieval. Works with a generic type `t` that represents the output of a pipeline stage. Used to persist and load processed data reliably across sessions.",
-      "description_length": 232,
+      "module_path": "Current_cache.S",
+      "library": "current.cache",
+      "description": "This module implements a caching system that stores and retrieves values using keys with digest-based versioning and binary serialization. It provides operations to build, publish, and look up cached values, supporting efficient reuse of prior computation results such as compiled artifacts or processed data. The module includes submodules for structured keys and values, serialization, digest generation, and build operations, enabling deterministic mapping of inputs to outputs with support for persistence and cancellation. For example, it can encode build outcomes, generate unique identifiers for cache entries, and execute disk or memory-backed builds with structured logging and resource handling.",
+      "description_length": 705,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_term.S",
-      "description": "Provides operations to evaluate terms and retrieve their output values, with support for incremental computation. Works with terms represented as values of type 'a term and outputs of type 'a Output.t. Used to execute and observe the results of computational expressions in a reactive context.",
-      "description_length": 293,
+      "module_path": "Current_cache.Db",
+      "library": "current.cache",
+      "description": "This module provides direct access to the cache's database, enabling queries over build records by job metadata and operation types. It works with structured entries containing job identifiers, timestamps, build outcomes, and state indicators. Use it to retrieve historical builds for a job, list available operations, or inspect the status of ongoing or completed builds via raw database queries.",
+      "description_length": 397,
       "index": 18,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_term.Output",
-      "description": "Encapsulates values with possible statuses\u2014active, blocked, or message-based\u2014and supports comparison and formatting for logging. It handles polymorphic variants that wrap arbitrary values or status indicators, enabling precise state checks and readable output generation. Operations include equality checks for blocked states and conversion of statuses into human-readable strings. This allows for consistent handling of result states in diagnostic outputs and state comparisons.",
-      "description_length": 479,
+      "module_path": "Current_cache.Output",
+      "library": "current.cache",
+      "description": "This module sets cached values for keys and resets the cache. It works with a parameter module `P` that defines the key, value, and outcome types. Use it to store build results in memory or on disk and clear the cache during testing.",
+      "description_length": 233,
       "index": 19,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_term.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications and generating output representations. Operates on the `t` type, which encapsulates build parameters and dependencies. Used to automate the creation of executable targets from source files and libraries.",
-      "description_length": 311,
+      "module_path": "Current_cache.Generic",
+      "library": "current.cache",
+      "description": "This module provides operations to run and reset a cache for processing key-value pairs. It works with a generic operation type `Op` that defines keys, values, and outcomes. Use it to implement custom caching strategies where each operation processes a key-value pair and produces an outcome, or to clear the cache during testing.",
+      "description_length": 330,
       "index": 20,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current.Level",
-      "description": "Provides comparison, string conversion, and parsing for operation risk levels, with a predefined list of levels ordered by danger. Works with an abstract type representing risk levels, supporting pretty-printing and safe string conversion. Used to enforce safety constraints during pipeline execution by checking or restricting operations based on their assigned risk.",
-      "description_length": 368,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Config",
-      "description": "Provides functions to create and modify configuration settings, including auto-release periods and confirmation levels for operations. Works with duration values, level thresholds, and optional configuration states. Used to control job execution behavior and integrate with command-line interfaces.",
-      "description_length": 298,
-      "index": 22,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Metadata",
-      "description": "Provides functions to extract, update, and combine metadata attached to term representations. Works with a record type containing string-based annotations and boolean flags. Used to track source locations and type information during code generation.",
-      "description_length": 249,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Primitive",
-      "description": "Provides operations to create and transform primitives that represent immutable or lazily evaluated values. Works with types like 'a t, which encapsulate output values and metadata within an incremental structure. Used to build stable, unchanging values or to apply transformations to existing primitives while preserving their metadata.",
-      "description_length": 337,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Syntax",
-      "description": "Provides combinators for sequencing and combining computations with effects, including monadic binding, parallel dependencies, and component definition. Operates on terms wrapped in a context, such as computations that may involve side effects or asynchronous operations. Used to construct complex workflows where values are derived from prior computations or external sources, such as building API requests or data processing pipelines.",
-      "description_length": 437,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Monitor",
-      "description": "Provides functions to create a monitoring system that reads and watches external resources, using a `read` function to fetch current values and a `watch` function to detect changes. Operates on a custom type `'a t` that encapsulates the monitoring state and a `pp` function for pretty-printing. Used to manage real-time data sources, such as file changes or network events, ensuring consistent and controlled access to updated values.",
-      "description_length": 434,
-      "index": 26,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current.Analysis",
-      "description": "Generates graphviz dot graphs from pipeline structures, extracts metadata from primitives, and computes state statistics for pipeline stages. Works with pipeline nodes and metadata objects, supporting detailed visualization and status tracking. Provides formatted output for debugging and real-time monitoring of job states.",
-      "description_length": 324,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Var",
-      "description": "Provides equality checks and pretty-printing for variables. Operates on the `t` type, representing symbolic variables. Used to compare variables in constraint systems and display them in debugging output.",
-      "description_length": 204,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.String",
-      "description": "Produces a hash representation of a string and formats it for output. Compares strings for equality and serializes/deserializes them to and from raw string representations. Used to generate unique identifiers and exchange string data between processes.",
-      "description_length": 252,
-      "index": 29,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Unit",
-      "description": "Provides operations for pretty-printing, comparing, checking equality, generating a string digest, and serializing/deserializing unit values. Works exclusively with the unit type, representing the absence of a value. Used to standardize handling of void operations in logging, equality checks, and data serialization workflows.",
-      "description_length": 327,
-      "index": 30,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current.Switch",
-      "description": "Provides functions to manage a stateful switch that controls the execution of cleanup tasks in sequence. Works with a custom type `t` representing the switch state, supporting operations to create, turn off, and check the status. Used to safely coordinate resource release in asynchronous workflows, ensuring cleanup actions are executed in a defined order.",
-      "description_length": 357,
-      "index": 31,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Pool",
-      "description": "Manages concurrent access to a fixed number of resources, allowing jobs to request and release them. It works with a type 'a t representing a pool of resources and a priority type for scheduling. Used to limit simultaneous database connections or API requests in a controlled manner.",
-      "description_length": 283,
-      "index": 32,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Job",
-      "description": "provides ordered key-value operations for job-related data, supporting `job_id`-based maps with flexible value types. It enables filtering, transformation, and merging of key-value sequences while preserving order. Users can extract subsets of job records, combine log data, or update job states efficiently. Examples include filtering active jobs, merging log entries by ID, and generating summaries from structured job data.",
-      "description_length": 426,
-      "index": 33,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Engine",
-      "description": "Manages state transitions by comparing step instances and generating current step values through a custom type. Provides equality checks and value generation to ensure valid state progression. Enables precise control over process flow by validating and tracking step changes. Can be used to enforce transition rules or debug state sequences.",
-      "description_length": 341,
-      "index": 34,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current.Process",
-      "description": "Provides functions to execute commands with customizable logging, capture their output as a string, and manage temporary directories. Works with command structures, file paths, and job contexts. Executes shell commands in a specified directory, handles stdin input, and ensures cleanup of temporary directories after use.",
-      "description_length": 321,
-      "index": 35,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Db",
-      "description": "Provides functions to execute SQL statements, query data, and handle results using SQLite3. Operates on database connections and SQL statements, with support for parameterized queries and raw SQL execution. Used to insert, retrieve, and manage data within a persistent SQLite database.",
-      "description_length": 285,
-      "index": 36,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current.Log_matcher",
-      "description": "Provides functions to analyze job logs for predefined patterns, add and remove matching rules with PCRE, and list current rules. Operates on job data and rule structures containing patterns and reports. Used to generate error reports from log text by matching against configured rules and prioritizing matches by score.",
-      "description_length": 319,
-      "index": 37,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Current_cache.S",
-      "description": "creates stable, unique identifiers for values of type `t` to support consistent key generation and data retrieval. provides encoding and decoding functions for serializing and deserializing `t` values to and from strings. allows for reliable storage and reconstruction of complex data structures in a database. for example, a value can be hashed into a string key, stored, and later decoded back into its original form.",
-      "description_length": 419,
-      "index": 38,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Current_cache.Schedule",
-      "description": "Creates a configuration that determines when cached entries expire, using a duration to specify the validity period. Works with the Duration.t type to define time intervals for cache invalidation. Used to manage rebuild triggers in systems relying on time-based cache freshness.",
-      "description_length": 278,
-      "index": 39,
+      "library": "current.cache",
+      "description": "This module defines configuration settings for controlling cache rebuild behavior. It provides a function to create a schedule configuration with an optional validity duration. Use this to specify how long cached values should remain valid before requiring re-evaluation.",
+      "description_length": 271,
+      "index": 21,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_cache.Make",
-      "description": "Encapsulates value-based identification and serialization, using an opaque type to represent build results. Provides a unique digest for equality checks and a string conversion for persistent storage and retrieval. This enables stable key generation for databases and reliable reconstruction of stored data. It ensures consistent handling of build outputs across different operations.",
-      "description_length": 384,
+      "module_path": "Current_cache",
+      "library": "current.cache",
+      "description": "This module caches build results in memory and on disk, mapping keys to values and starting new builds when keys are missing. It supports retrieving cached values, invalidating keys, and resetting the cache, with concrete use cases in managing build outputs for development and CI systems. The cache uses digest-based versioning and binary serialization for deterministic storage and retrieval of compiled artifacts or processed data, and allows querying build records by job metadata and operation types. You can configure cache validity, store build results with custom key and value types, and implement custom caching strategies with structured logging and resource handling.",
+      "description_length": 679,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Engine.Step",
+      "library": "current",
+      "description": "Handles discrete progression of time within the event loop, providing comparison and retrieval of current time steps. Works with the abstract type `t` to represent time steps, using `equal` to compare instances and `now` to get the latest step. Used to synchronize and order events in the engine's execution flow.",
+      "description_length": 313,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Job.Map",
+      "library": "current",
+      "description": "This module implements an ordered map structure for job data indexed by unique identifiers, supporting efficient key-based updates, merges, and transformations of immutable job state collections. It provides ordered traversal, bulk operations for combining job metadata, and sequence-based construction to handle large datasets with strict ordering guarantees. Typical applications include aggregating job logs, tracking incremental build states, or managing concurrent job pipelines where deterministic key ordering and history-preserving updates are critical.",
+      "description_length": 561,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Process",
+      "library": "current",
+      "description": "This module provides functions for executing sub-processes with detailed logging and error handling, including capturing command output. It works with process commands, job contexts, and temporary directories. Use it to run shell commands during a build job, capture their output, or create and manage temporary directories for file operations.",
+      "description_length": 344,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Var",
+      "library": "current",
+      "description": "This module manages dynamic values that can be updated and observed within a pipeline. It provides operations to create, retrieve, set, and update typed variables, where each variable holds a value wrapped in a term output. Concrete use cases include tracking changing inputs like configuration settings or external data sources during pipeline execution.",
+      "description_length": 355,
+      "index": 26,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current.Monitor",
+      "library": "current",
+      "description": "This module creates and manages input monitors that track external resources by periodically reading their state and watching for changes. It works with `'a Current.Monitor.t` and integrates with Lwt for asynchronous reading and watching, using a provided function to format and log updates. Use it to build dynamic inputs that react to external events, such as file system changes or network signals, ensuring up-to-date values are always available when needed.",
+      "description_length": 462,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Db",
+      "library": "current",
+      "description": "This module provides direct access to an SQLite database, allowing execution of SQL statements and queries with support for parameterized inputs. It works with SQLite database connections, SQL statements, and raw data rows represented as lists of `Sqlite3.Data.t`. Concrete use cases include storing and retrieving state data, running schema migrations, and querying or modifying internal application data stored in SQLite.",
+      "description_length": 423,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Pool",
+      "library": "current",
+      "description": "This module manages resource pools that limit concurrent access to shared resources, such as network connections or hardware devices. It supports creating fixed-size pools or custom allocation strategies, and allows jobs to request resources with high or low priority. Use cases include limiting parallel database queries, controlling access to external APIs, or managing limited hardware resources in concurrent workflows.",
+      "description_length": 423,
+      "index": 29,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current.Syntax",
+      "library": "current",
+      "description": "This module provides applicative and monadic syntax for composing pipelines in a dynamic, effectful context. It works with values wrapped in the `Current.t` type, enabling operations like mapping, binding, and pairing to define complex workflows. Concrete use cases include defining build pipelines where dependencies are resolved dynamically, such as fetching source code, running tests conditionally, or deploying services based on prior results.",
+      "description_length": 448,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Analysis",
+      "library": "current",
+      "description": "This module provides functions to inspect and visualize pipeline structures, extract metadata, and generate statistics. It operates on values of type `'a Current.t`, producing formatted strings, DOT graphs, and state counts. Concrete use cases include rendering pipeline diagrams with `pp_dot`, retrieving metadata from primitives, and tracking pipeline stage states with `quick_stat`.",
+      "description_length": 385,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Job",
+      "library": "current",
+      "description": "This module organizes job data with unique identifiers, enabling efficient key-based updates and ordered traversal over immutable state collections. It supports bulk operations for merging and transforming job metadata, ideal for aggregating logs or managing concurrent pipelines with strict ordering. The structure allows sequence-based construction, handling large datasets while preserving history and ensuring deterministic key ordering. Use cases include tracking incremental builds and combining job logs with precise control over state evolution.",
+      "description_length": 553,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Config",
+      "library": "current",
+      "description": "This module manages configuration settings for a system, providing operations to create, modify, and query confirmation levels. It works with a configuration type that includes optional confirmation levels and automatic release durations. Use this module to control job execution policies, such as requiring manual approval at specific levels, and to integrate configuration parsing with command-line interfaces.",
+      "description_length": 412,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Log_matcher",
+      "library": "current",
+      "description": "This module analyses job logs by matching them against configurable rules that define patterns, reports, and priority scores. It supports adding, removing, and listing rules, and identifies the most relevant error report based on pattern matches and score comparisons. It is used to detect and summarize known failure patterns in job execution logs.",
+      "description_length": 349,
+      "index": 34,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Switch",
+      "library": "current",
+      "description": "This module manages a switch that sequentially executes cleanup functions when turned off. It provides operations to create switches, add hooks that run in order during shutdown, and control the switch state. Use it to manage resources requiring ordered release, such as stopping services in a specific sequence.",
+      "description_length": 312,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Unit",
+      "library": "current",
+      "description": "This module defines a unit type with standard operations including comparison, equality checks, and serialization. It provides functions to convert unit values to and from strings, along with generating digests. Useful for handling singleton values in data processing pipelines and persistent storage systems.",
+      "description_length": 309,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Metadata",
+      "library": "current",
+      "description": "This module defines metadata for tracking job IDs and update statuses in a visualization context. It works with `job_id` and `active` output types to associate contextual information with running jobs. Used to generate visual diagrams with job links and update progress indicators.",
+      "description_length": 281,
+      "index": 37,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Primitive",
+      "library": "current",
+      "description": "This module defines the foundational operations for building OCurrent pipelines, representing individual computational steps or \"boxes\" in a pipeline diagram. It works with values wrapped in `Current.Primitive.t`, allowing the creation of static values via `const` and transformation of computation results via `map_result`. Concrete use cases include defining fixed pipeline nodes and modifying the output of low-level computations while preserving their structure and metadata.",
+      "description_length": 479,
+      "index": 38,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.Engine",
+      "library": "current",
+      "description": "The module manages an event loop that evaluates pipelines, tracks job states, and propagates updates, using a unit term to represent pipelines and a job map to track active work. It supports dynamic pipeline changes, asynchronous monitoring, and metrics integration, with time progression handled by a child module that provides `t` for time steps, `equal` for comparison, and `now` for retrieval. Direct operations include pipeline evaluation, job management, and time-based synchronization, enabling use cases like real-time data processing and adaptive workflow execution.",
+      "description_length": 575,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current.String",
+      "library": "current",
+      "description": "This module provides operations for string manipulation and serialization, including digest calculation, pretty-printing, equality checking, and marshaling. It works directly with strings, offering concrete functionality for generating string digests, formatting output, comparing values, and converting to and from serialized forms. Use cases include handling string-based data in persistent storage, network transmission, and structured logging.",
+      "description_length": 447,
       "index": 40,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache.Output",
-      "description": "Generates unique, stable identifiers for instances and values of type `t`, ensuring equality through consistent string digests. Provides encoding and decoding capabilities for serializing and deserializing `t` values into strings for persistent storage. These functions enable reliable key generation and data persistence, allowing for efficient storage and retrieval of complex structures. For example, a value can be hashed to create a key for a database, then encoded for storage and decoded for later use.",
-      "description_length": 509,
+      "module_path": "Current.Level",
+      "library": "current",
+      "description": "This module defines a type `t` representing levels of risk or cost for operations, with constructors ranging from `Harmless` to `Dangerous`. It provides functions to compare levels, convert to and from strings, and format them, along with a list of all values in order of increasing risk. Concrete use cases include filtering operations during testing based on risk threshold or prompting for confirmation before executing high-risk actions.",
+      "description_length": 441,
       "index": 41,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Current_cache.Generic",
-      "description": "Encapsulates mechanisms for generating and managing unique string-based identifiers for arbitrary values, ensuring consistent equality checks through digest-based comparisons. Supports opaque and generic types to represent primary and secondary inputs, enabling reliable key generation for databases and build systems. Offers serialization and deserialization functions to store and retrieve pipeline outputs as strings. Can generate stable keys for Git commits, track test environment details, and persist processed data across sessions.",
-      "description_length": 538,
+      "module_path": "Current",
+      "library": "current",
+      "description": "This module orchestrates dynamic, asynchronous computations through a rich set of combinators and data types like `'a t`, enabling structured control flow, error handling, and parallel execution. It supports typed variables, monitors, and resource pools to manage state, track external changes, and limit concurrency, while child modules extend functionality with process execution, SQLite integration, and pipeline visualization. You can define complex workflows that fetch source code, run tests conditionally, capture command output, and update based on file system changes, all while managing resource limits and visualizing pipeline structure. Additional utilities for logging analysis, configuration, and event-loop management provide a comprehensive toolkit for building and maintaining reactive, effectful pipelines.",
+      "description_length": 824,
       "index": 42,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current_cache.Db",
-      "description": "Provides functions to initialize database tables, query entries with filters like operation, status, rebuild flag, and job prefix, and retrieve build history and keys. Works with structured data including entries, job IDs, and operation types. Used to manage and inspect build records in a web UI or plugin context.",
-      "description_length": 315,
-      "index": 43,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "current",
-      "description": "Provides operations for fetching, building, testing, and deploying code based on version control events. Works with Git repositories, commit hashes, and build artifacts. Used to automate continuous integration workflows and update status reports on pull requests.",
-      "description_length": 263,
-      "index": 44,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Current_term",
-      "description": "Evaluates terms and manages their outputs, handling reactive computations with type 'a term and 'a Output.t. Tracks and compares statuses like active, blocked, or message-based, enabling state-aware logging and diagnostics. Constructs and manipulates build configurations using the t type, supporting specification parsing and target generation. Allows for real-time result observation, status tracking, and automated build setup.",
-      "description_length": 430,
-      "index": 45,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_cache",
-      "description": "manages in-memory and on-disk caching with time-based expiration, generating stable keys for arbitrary values and enabling persistent storage through serialization. it defines operations for encoding, decoding, and hashing values into unique strings, supporting efficient data retrieval and rebuild triggers. it includes functions to query and filter cached entries, tracking build history and status through structured database interactions. examples include hashing Git commit data into keys, storing test environment details, and retrieving build records by job ID or operation type.",
-      "description_length": 586,
+      "module_path": "Current_term.Make.Executor",
+      "library": "current.term",
+      "description": "This module evaluates a dynamic computation represented by a `Current_term` and produces its output as an incremental value. It works with `Current_term` structures that encapsulate effectful computations and their dependencies. A concrete use case is executing a build pipeline where each step depends on dynamic inputs, producing an incremental result that updates as inputs change.",
+      "description_length": 384,
+      "index": 43,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current_term.Make.Syntax",
+      "library": "current.term",
+      "description": "This module provides applicative and monadic operators for composing term-based computations. It works with values wrapped in a monadic type `'a t`, enabling sequential and parallel composition through operators like `let+`, `and+`, `let*`, and `and*`. These are used to build complex terms by chaining transformations and dependencies, particularly in contexts like configuration or pipeline definitions where effects and structure are explicitly sequenced.",
+      "description_length": 458,
+      "index": 44,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current_term.S.EXECUTOR",
+      "library": "current.term",
+      "description": "This module evaluates a term to produce its output value, discarding any static analysis components. It operates on terms of type `'a term` and produces results wrapped in `Current_term.Output.t` within an incremental computation context. Use this to extract the dynamic result of a term evaluation, such as computing the final value of a build configuration or configuration-dependent resource.",
+      "description_length": 395,
+      "index": 45,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.S.ANALYSIS",
+      "library": "current.term",
+      "description": "This module analyzes pipeline terms, providing metadata extraction, string formatting, and Graphviz dot graph generation. It works with `_ term` values, extracting metadata, rendering terms as strings, or visualizing them as directed graphs. Use it to inspect pipeline structure, generate human-readable representations, or visualize execution graphs with customizable node and edge rendering.",
+      "description_length": 393,
       "index": 46,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Current_fs",
-      "description": "Saves a string value to a file at a given path, ensuring atomic updates. It operates on paths represented by Fpath.t and string values wrapped in Current.t. This is used to persist configuration or state data reliably during build processes.",
-      "description_length": 241,
+      "module_path": "Current_term.S.TERM-Syntax",
+      "library": "current.term",
+      "description": "This module provides applicative and monadic operators for composing term computations, enabling syntax-driven manipulation of values within a term context. It supports operations like mapping, binding, and pairing terms, which are essential for constructing complex term transformations and dependencies. Concrete use cases include building term processors where intermediate results are combined or sequenced based on runtime values, such as assembling dynamic term structures or defining stepwise term reductions.",
+      "description_length": 516,
       "index": 47,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current_term.Output.Blockable",
+      "library": "current.term",
+      "description": "This module defines equality and pretty-printing operations for blockable output values, which can be either active, blocked, or carrying a message. It works with result types that wrap values of a generic type and a fixed set of states. Useful for rendering and comparing outputs in a terminal UI where certain elements may be blocked or active.",
+      "description_length": 346,
+      "index": 48,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.S.T",
+      "library": "current.term",
+      "description": "This module defines a type `t` representing terms in a logical or symbolic system, along with equality checking and pretty-printing operations. It is used to model and manipulate formal expressions, enabling precise comparisons and readable output. Concrete use cases include representing program expressions, logical formulas, or syntax trees in a compiler or theorem prover.",
+      "description_length": 376,
+      "index": 49,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.S.ORDERED",
+      "library": "current.term",
+      "description": "This module defines a totally ordered type `t` with a comparison function `compare` that establishes a strict ordering between values. It includes a pretty-printing function `pp` for formatting values. This module is used to define keys for ordered collections like sets or maps where elements must be compared and displayed consistently.",
+      "description_length": 338,
+      "index": 50,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current_term.S.TERM",
+      "library": "current.term",
+      "description": "This module works with abstract computation terms (`'a t`) representing deferred or dynamic values in build pipelines, enabling functional transformation, error handling, and flow control through combinators like `map`, `catch`, and `bind`. It supports structured dependency tracking, visualization, and context management via operations such as `cutoff`, `collapse`, and `with_context`, which facilitate fine-grained control over evaluation and change propagation. These features are tailored for managing incremental computations and complex workflows in systems requiring precise tracking of dynamic dependencies and stateful transformations.",
+      "description_length": 645,
+      "index": 51,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Current_term.Make.Analysis",
+      "library": "current.term",
+      "description": "This module analyzes pipeline terms, providing metadata extraction, string formatting, and graph visualization. It works with terms representing pipeline stages, including primitives and maps, and supports rendering as text or Graphviz dot format with customizable node linking and job info. Use it to inspect pipeline structure, generate visual diagnostics, or extract metadata for monitoring.",
+      "description_length": 394,
+      "index": 52,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.S",
+      "library": "current.term",
+      "description": "This module represents computational terms and their execution states, offering data structures to track statistics like running, failed, or blocked terms and supporting state transitions and dependency resolution. It includes core types like `'a term` and operations for evaluation, transformation, and visualization, enabling use cases such as managing distributed builds and modeling task workflows. Submodules provide term evaluation, graph generation, applicative composition, symbolic manipulation, ordered comparisons, and incremental computation control. Specific capabilities include extracting dynamic term results, generating pipeline visualizations, composing term transformations, and managing stateful dependencies in build systems.",
+      "description_length": 746,
+      "index": 53,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.Output",
+      "library": "current.term",
+      "description": "This module manages the execution status of operations through an active state type with `Ready`, `Running`, and `Waiting_for_confirmation` values, supporting equality checks and formatted output. It includes functions to render results and errors, making it suitable for interactive development or task execution tracking. The child module extends this by handling blockable outputs, supporting comparison and display of values that may be active, blocked, or carry messages. Together, they enable precise state tracking, terminal rendering, and result handling in workflows requiring user feedback or status updates.",
+      "description_length": 618,
+      "index": 54,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term.Make",
+      "library": "current.term",
+      "description": "This module orchestrates asynchronous and incremental computations through monadic combinators that manage sequencing, error propagation, and parallel execution over dynamic `'a t` processes. It supports operations like `let*` and `and+` for building complex pipelines, handles optional, list, and unit-typed results, and evaluates dynamic terms into incremental values that react to input changes. Submodules enable execution of `Current_term`-based pipelines, composition of effectful terms using applicative and monadic syntax, and visualization of pipeline structure via graph rendering and metadata extraction. Example uses include modeling build systems that update on input changes, composing reactive configuration workflows, and generating diagnostic visuals of running pipelines.",
+      "description_length": 789,
+      "index": 55,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Current_term",
+      "library": "current.term",
+      "description": "This module models computational terms and their execution states, providing structured ways to represent, evaluate, and visualize dynamic workflows. Core data types include `'a term` and state variants like `Ready`, `Running`, and `Waiting_for_confirmation`, with operations for transformation, dependency resolution, and result extraction. It supports advanced pipeline construction through monadic and applicative combinators, enabling reactive configurations, distributed builds, and interactive task tracking. Examples include generating visual graphs of running pipelines, composing stateful build steps, and managing incremental computations that respond to input changes.",
+      "description_length": 679,
+      "index": 56,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 49,
-    "meaningful_modules": 48,
+    "total_modules_in_package": 58,
+    "meaningful_modules": 57,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.9795918367346939
+    "retention_rate": 0.9827586206896551
   },
   "statistics": {
-    "max_description_length": 586,
-    "min_description_length": 197,
-    "avg_description_length": 323.6875,
-    "embedding_file_size_mb": 0.17476558685302734
+    "max_description_length": 824,
+    "min_description_length": 233,
+    "avg_description_length": 429.859649122807,
+    "embedding_file_size_mb": 0.2075519561767578
   }
 }

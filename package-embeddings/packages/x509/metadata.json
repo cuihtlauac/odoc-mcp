@@ -1,168 +1,181 @@
 {
   "package": "x509",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:37:06.184627",
+  "total_modules": 20,
+  "creation_timestamp": "2025-07-15T23:11:26.308468",
   "modules": [
     {
-      "module_path": "X509.Distinguished_name.Relative_distinguished_name",
-      "description": "This module provides set operations for managing collections of attributes, including adding, removing, combining, and querying elements, along with ordered traversal and transformation functions. It works with ordered sets of attribute elements, enabling efficient manipulation through sequence-based construction and iterative processing. Use cases include handling X.509 certificate attributes or LDAP entries where structured, ordered attribute management is required.",
-      "description_length": 472,
+      "module_path": "X509.Host.Set",
+      "library": "x509",
+      "description": "This module offers standard set operations\u2014union, intersection, filtering, and ordered iteration\u2014for managing `X509.Host.t` hostname values, enabling efficient membership checks and transformations. It supports conversions to and from lists and sequences, with safe, non-raising operations for hostname set manipulation. These capabilities are critical for tasks like validating server certificates against trusted hostname sets, aggregating allowed hosts from diverse sources, or enforcing access policies based on hostname constraints.",
+      "description_length": 537,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.OCSP.Request",
-      "description": "Encodes and decodes OCSP requests in DER format, and constructs signed requests with certificate identities, optional certificates, and a requestor name. Validates signed requests using a public key and specified hash algorithms. Extracts certificate IDs and requestor names from requests.",
-      "description_length": 289,
+      "module_path": "X509.Signing_request.Ext",
+      "library": "x509",
+      "description": "This module provides typed map operations for managing extensible key-value bindings in X.509 certificate signing requests (CSRs), focusing on structured handling of password protection, distinguished names, and extension metadata. It operates on a GADT-based map structure that enforces type-safe access to CSR fields, supporting transformations like merging, filtering, and folding over extension data. Typical use cases include constructing CSRs with custom extensions, validating critical extension requirements, and safely manipulating password-protected CSR attributes during certificate issuance workflows.",
+      "description_length": 613,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "X509.OCSP.Response",
-      "description": "The module handles encoding, decoding, and validation of OCSP responses, along with creating and pretty-printing structured data like certificate status entries and responder identifiers. It works with specialized types such as `status`, `cert_status`, `single_response`, and `responder_id` to manage OCSP-specific information. Use cases include verifying certificate revocation status and ensuring cryptographic validity in secure communication protocols.",
-      "description_length": 456,
+      "library": "x509",
+      "description": "This module handles the type-safe construction, serialization, and cryptographic validation of OCSP responses, including status codes, responder IDs, and single response entries. It works with OCSP response data structures and public keys to verify certificate revocation status in real-time checks and OCSP stapling scenarios during TLS handshakes, ensuring signature integrity and time-bound validity.",
+      "description_length": 403,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Host.Set",
-      "description": "This module provides standard set operations\u2014such as addition, removal, union, intersection, and querying\u2014alongside specialized functions like search (e.g., `find_last_opt`), iteration (`iter`, `fold`), and transformation (`map`, `filter`) for managing collections of hostnames. It operates on a sorted set type `t` with elements of type `elt`, supporting both imperative and functional workflows. Use cases include constructing sets from sequences, efficiently querying hostname subsets, and formatting sets for output.",
-      "description_length": 520,
+      "module_path": "X509.OCSP.Request",
+      "library": "x509",
+      "description": "This module encodes and decodes OCSP (Online Certificate Status Protocol) requests as defined in RFC 6960. It supports creating signed or unsigned requests using a list of certificate IDs, optional certificates, a requestor name, and a private key. Operations include validation of request signatures using a public key, extraction of requestor name and certificate IDs, and DER encoding/decoding for transmission or storage.",
+      "description_length": 425,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Signing_request.Ext",
-      "description": "This module offers operations for managing key-value maps, including insertion, deletion, lookup, traversal, filtering, merging, and combination, with functions like `exists`, `filter`, `merge`, and `union` to manipulate map contents. It works with ordered key-value bindings and map structures, enabling custom logic for merging and combining data. Use cases include data aggregation, configuration merging, and structured data processing where ordered key operations are critical.",
-      "description_length": 482,
+      "module_path": "X509.Distinguished_name.Relative_distinguished_name",
+      "library": "x509",
+      "description": "This module offers set-theoretic operations for managing X.500 distinguished name attributes, including union, intersection, membership checks, and ordered sequence conversions, all using persistent data structures. It works with immutable sets of attributes ordered via a comparison function, supporting functional transformations like filtering, partitioning, and safe element selection. These operations are critical for validating certificate subject names, enforcing attribute constraints, and processing X.509 certificate extensions during chain verification or CSR handling.",
+      "description_length": 581,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "X509.Host",
-      "description": "manages collections of hostnames with efficient set operations and transformations, supporting both imperative and functional programming styles. It defines a sorted set type `t` with elements of type `elt`, offering functions like `add`, `remove`, `union`, `intersection`, `map`, and `filter`. Operations such as `find_last_opt` enable precise querying, while `iter` and `fold` support traversal and aggregation. Examples include building sets from lists, filtering valid hostnames, and generating formatted output strings.",
-      "description_length": 524,
+      "library": "x509",
+      "description": "This module represents and validates hostnames for X.509 certificate verification, supporting strict and wildcard domains. It defines a type `t` that captures domain names with optional wildcards and includes functions to format and compare them, such as displaying wildcard names with a `*.` prefix. The module validates that a certificate's subject matches a given hostname, ensuring secure TLS server identification. Its set operations submodule enables efficient management of hostname collections, supporting union, intersection, filtering, and conversion to and from lists and sequences for tasks like policy enforcement and certificate validation.",
+      "description_length": 654,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Key_type",
-      "description": "Provides functions to convert between key types and strings, validate string representations, and check signature scheme compatibility. Works with custom types for key types and signature schemes, including associative lists of string-key_type pairs. Used to parse and display key types in command-line interfaces and verify supported cryptographic schemes.",
-      "description_length": 357,
+      "module_path": "X509.Public_key",
+      "library": "x509",
+      "description": "This module handles public key operations for X.509 certificates, supporting RSA, ED25519, and various EC (P256, P384, P521) key types. It provides functions to verify cryptographic signatures, encode and decode keys in ASN.1 DER and PEM formats, and compute key identifiers and fingerprints using configurable hash algorithms. Concrete use cases include validating server certificates during TLS handshakes, extracting public keys from PEM files, and verifying signed data using DER-encoded signatures.",
+      "description_length": 503,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Public_key",
-      "description": "Provides functions to pretty-print, identify, and generate fingerprints of public keys using SHA1 or SHA256. Supports encoding and decoding public keys in DER and PEM formats, and verifies signatures using specified cryptographic schemes. Works with public key data structures defined in PKCS 8 and RFC 5280.",
-      "description_length": 308,
+      "module_path": "X509.Signing_request",
+      "library": "x509",
+      "description": "This module handles the creation, decoding, and encoding of X.509 certificate signing requests (CSRs) in ASN.1 DER and PEM formats, supporting signature validation, subject and public key extraction, and CSR construction with optional extensions. Its core operations enable generating CSRs for certificate issuance, extracting domain names, and verifying signatures before signing with a CA private key. A child module provides typed map operations for structured, type-safe manipulation of CSR fields such as distinguished names, password protection, and extensions, supporting transformations like merging and filtering. Together, they enable workflows like building CSRs with custom extensions, validating critical extension requirements, and securely handling protected attributes during issuance.",
+      "description_length": 801,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Private_key",
-      "description": "Generates, decodes, and encodes private keys in PKCS 8 format, supporting RSA and elliptic curve types. Converts between raw octets, base64 strings, and DER/PEM encoded formats, and produces corresponding public keys and digital signatures. Handles seed-based key generation and signature schemes specific to key types.",
-      "description_length": 319,
+      "module_path": "X509.Validation",
+      "library": "x509",
+      "description": "This module validates X.509 certificate chains by verifying cryptographic signatures, certificate validity periods, issuer-subject relationships, and name/IP constraints against a set of trust anchors. It supports path building, chain-of-trust verification, and fingerprint-based validation for trust-on-first-use scenarios. Concrete operations include `verify_chain_of_trust` for validating a certificate chain against RFC 5280 rules, `valid_ca` for checking if a certificate is a valid trust anchor, and `trust_cert_fingerprint` for pinning against a known certificate hash. It works directly with `X509.Certificate.t`, `Domain_name.t`, `Ipaddr.t`, and `Ptime.t`, returning detailed error types like `chain_validation_error` or `signature_error` when validation fails.",
+      "description_length": 770,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "X509.Distinguished_name",
-      "description": "Manages ordered collections of attributes with set-like operations, supporting addition, removal, combination, and querying. It handles sequences of attribute elements, enabling structured manipulation and traversal for applications like X.509 certificates or LDAP entries. Operations include merging sets, filtering, and converting between representations. Examples include constructing a DN from individual attributes or extracting specific fields from a structured name.",
-      "description_length": 473,
+      "module_path": "X509.Key_type",
+      "library": "x509",
+      "description": "This module defines key types used in X.509 certificates, including RSA, ED25519, and NIST elliptic curves. It provides operations to convert key types to and from strings, pretty-print them, and check support for specific signature schemes like RSA-PSS and ECDSA. Concrete use cases include validating certificate key compatibility and parsing key types from configuration or command-line arguments.",
+      "description_length": 400,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.General_name",
-      "description": "This module provides operations for manipulating and transforming maps, including insertion, deletion, lookup, filtering, merging, and union computations, with key-order processing and predicate-based transformations. It works with map structures `t` that store key-value pairs of type `b`, enabling structured data handling through consistent functional patterns. These capabilities are particularly useful for managing X.509 extension data, such as combining or refining subject/issuer alternative names in certificate processing.",
-      "description_length": 532,
+      "module_path": "X509.PKCS12",
+      "library": "x509",
+      "description": "This module decodes and encodes PKCS12 archive files in DER format, verifies and decrypts their contents using a password, and constructs new archives containing certificates and a private key with configurable encryption and integrity settings. It operates on PKCS12 archives, certificates, private keys, and associated metadata such as MAC algorithms and encryption schemes. Concrete use cases include securely packaging TLS client certificates and private keys for deployment, or extracting and validating certificate chains and keys from existing PKCS12 files.",
+      "description_length": 564,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Extension",
-      "description": "This module provides operations for managing and manipulating X.509v3 extension maps, including filtering, merging, and combining based on key/value predicates, with support for specific extension types like key usage, authority key ID, and distribution points. It works with structured data representations of extensions, incorporating critical bit handling and custom formatting, and is designed for tasks such as certificate validation, attribute aggregation, and policy enforcement within cryptographic workflows.",
-      "description_length": 517,
+      "module_path": "X509.Distinguished_name",
+      "library": "x509",
+      "description": "This module processes X.500 distinguished names using a list-based structure of attribute-value pairs, supporting key operations such as encoding and decoding in ASN.1 DER, equality comparison, common name extraction, and customizable textual formatting. Its core functionality enables parsing and constructing names for X.509 certificates and certificate signing requests, while its child module extends attribute handling with set-theoretic operations like union, intersection, and membership checks over immutable sequences. The combined interface facilitates certificate identity validation, constraint enforcement, and extension processing during chain verification. For example, you can decode a subject name from a certificate, extract its common name, and check whether it matches a required attribute set using precise, ordered comparisons.",
+      "description_length": 849,
       "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "X509.Certificate",
-      "description": "This module handles encoding and decoding of X.509 certificates in DER and PEM formats, along with extracting cryptographic elements such as public keys, signature algorithms, and fingerprints using ASN.1 parsing. It provides structured access to certificate attributes like issuer DNs, serial numbers, validity periods, and extensions through a certificate type `t`, enabling validation against hostnames or IP addresses. These operations support use cases such as secure communication validation, certificate chain verification, and metadata inspection in cryptographic workflows.",
-      "description_length": 582,
+      "module_path": "X509.Extension",
+      "library": "x509",
+      "description": "This module provides structured access and manipulation of X.509v3 certificate extensions (e.g., key usage, extended key usage, authority key ID, name constraints) via a typed map-like interface (`t`) with operations like `add`, `find`, and `mem`. It supports transformations, filtering, and folding over extension bindings, while handling critical flags and enabling validation logic to enforce extension constraints during certificate verification. These capabilities are essential for constructing and validating certificates in security contexts requiring precise trust delegation, key usage policies, or compliance with critical extension requirements.",
+      "description_length": 657,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.Validation",
-      "description": "Provides functions to validate X.509 certificate chains, check certificate validity against trust anchors, build possible certificate paths, and verify certificates using fingerprints. Operates on certificate objects, lists of certificates, and cryptographic hash values. Used to authenticate endpoints by ensuring chains are rooted in trusted certificates or match predefined fingerprints for trust-on-first-use scenarios.",
-      "description_length": 423,
+      "module_path": "X509.OCSP",
+      "library": "x509",
+      "description": "This module implements the Online Certificate Status Protocol (OCSP) for checking the revocation status of X.509 certificates. It provides functions to create and inspect certificate identifiers, and includes submodules for constructing and parsing OCSP requests and responses. The request submodule handles encoding, decoding, and signature validation of OCSP requests using certificate IDs and optional requester information, while the response submodule manages type-safe construction, cryptographic verification, and inspection of OCSP responses with support for responder IDs and status codes. Use cases include real-time certificate revocation checks during TLS handshakes and OCSP stapling with verified response data.",
+      "description_length": 725,
       "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "X509.Signing_request",
-      "description": "manages key-value mappings with ordered operations, supporting insertion, deletion, lookup, and custom merging through functions like `exists`, `filter`, `merge`, and `union`. It enables structured data manipulation, allowing for configuration aggregation and dynamic data processing. Operations can combine multiple maps, filter entries based on predicates, and traverse key-value pairs efficiently. For example, it can merge multiple certificate attributes or filter relevant fields during request validation.",
-      "description_length": 511,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "X509.CRL",
-      "description": "Provides functions to encode and decode X.509 CRLs in DER format, extract issuer information, timestamps, revoked certificates, and extensions. Works with types like Distinguished_name.t, Ptime.t, and custom extension structures to manage certificate revocation data. Enables validation of CRL signatures, checking if a certificate is revoked, and generating new revocation lists with specified parameters.",
-      "description_length": 406,
-      "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "X509.Authenticator",
-      "description": "Provides functions to verify certificate chains using a chain of trust, key fingerprints, or certificate fingerprints, with support for time-based validation and hash algorithm constraints. Works with certificate lists, cryptographic hashes, and base64-encoded fingerprints. Used to enforce strict authentication policies in TLS handshakes, ensuring peer certificates match predefined trust anchors or cryptographic fingerprints.",
-      "description_length": 429,
-      "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "X509.PKCS12",
-      "description": "Decodes and encodes PKCS12 archives from and to DER format, and verifies encrypted contents using a password. It handles certificate chains, private keys, and CRLs within the archive structure. It constructs PKCS12 files with customizable encryption algorithms and MAC functions.",
-      "description_length": 279,
-      "index": 17,
+      "library": "x509",
+      "description": "This module provides functions to authenticate X.509 certificate chains using a chain of trust, key fingerprints, or certificate fingerprints. It works with lists of X.509 certificates, trust anchors, and cryptographic hashes to validate certificate authenticity at runtime. Concrete use cases include verifying TLS server certificates against trusted CAs, enforcing certificate pinning via fingerprints, and ensuring certificate chains meet hash algorithm requirements.",
+      "description_length": 470,
+      "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "X509.OCSP",
-      "description": "Encodes and decodes OCSP requests and responses in DER format, supporting signed request validation and certificate status verification. It uses types like `status`, `cert_status`, `single_response`, and `responder_id` to represent and manipulate OCSP data. Operations include extracting certificate IDs from requests, validating response signatures, and checking certificate revocation status. Examples include verifying a certificate's validity against an OCSP server and constructing signed requests with custom certificate chains.",
-      "description_length": 534,
+      "module_path": "X509.General_name",
+      "library": "x509",
+      "description": "This module manages map-like collections of X.509 general names, enabling structured manipulation of DNS, IP, URI, and directory name entries used in certificate extensions like subjectAltName. It provides operations to query, transform, and combine these name sets using functional patterns, supporting tasks such as certificate validation (e.g., verifying domain matches) and extension construction during certificate generation. The data structure maintains typed associations between name categories and their values, ensuring precise handling of common PKI use cases like server identity checks or SAN population.",
+      "description_length": 618,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "X509.Certificate",
+      "library": "x509",
+      "description": "This module provides functions to decode, encode, and inspect X.509v3 certificates, including extracting components like issuer distinguished names, validity periods, extensions, and public keys. It supports DER and PEM formats, handles certificate validation through signature checks, hostname/IP address verification, and critical extension handling, while working with associated structures like PKCS 8 private keys, certificate signing requests, and PKCS 12 bundles. Typical use cases include TLS server authentication, certificate chain verification against trusted CAs, CSR generation, and managing certificate lifetimes and key material.",
+      "description_length": 644,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "X509.Private_key",
+      "library": "x509",
+      "description": "This module handles the generation, decoding, and encoding of private keys in PKCS 8 format, supporting RSA, ED25519, and various ECDSA key types. It provides cryptographic signing operations and allows private keys to be loaded from or saved to PEM or DER encoded strings. Concrete use cases include generating secure private keys for TLS server identities and signing certificate signing requests during X.509 certificate issuance.",
+      "description_length": 433,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "X509.CRL",
+      "library": "x509",
+      "description": "This module handles the creation, validation, and inspection of X.509 certificate revocation lists (CRLs). It provides functions to encode and decode CRLs in ASN.1 DER format, extract issuer and revocation information, verify signatures and timestamps, and construct or update CRLs with revoked certificates. It works with types such as `t` for CRLs, `revoked_cert` for individual revoked certificates, and integrates with public and private key types for signing and validation. Use cases include checking whether a certificate is revoked, maintaining a list of revoked certificates, and generating signed CRLs for distribution.",
+      "description_length": 629,
       "index": 18,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "x509",
-      "description": "Handles parsing and validation of X.509 certificates, including signature verification and extension parsing. Works with ASN.1 DER and PEM encoded data structures, as well as PKCS standards like PKCS 1 and PKCS 7. Used for securely validating server certificates during TLS handshakes and verifying signed messages in cryptographic protocols.",
-      "description_length": 342,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "X509",
-      "description": "Handles X.509 certificate and key management, including encoding, decoding, validation, and cryptographic operations. It supports DER and PEM formats for certificates, private keys, and CRLs, with functions to extract public keys, verify signatures, and check certificate chains against trust anchors or fingerprints. Key types, extensions, and attributes are manipulated through structured data types, enabling tasks like hostname validation, certificate revocation checks, and secure communication authentication. Operations include building certificate paths, merging extension maps, and managing PKCS12 archives with password-protected content.",
-      "description_length": 648,
-      "index": 20,
-      "embedding_norm": 1.0
+      "library": "x509",
+      "description": "This module handles X.509 certificates, keys, and related structures for secure authentication and validation. It supports key types like RSA, EC, and ED25519, and provides operations for encoding and decoding certificates, CSRs, CRLs, and PKCS12 archives in DER and PEM formats. The module enables certificate chain validation, hostname and name constraint checking, OCSP revocation status checks, and fingerprint-based trust pinning. You can generate and sign certificate requests, validate server identities during TLS handshakes, and construct or inspect certificate extensions, distinguished names, and revocation lists with detailed error reporting.",
+      "description_length": 655,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 21,
+    "total_modules_in_package": 20,
+    "meaningful_modules": 20,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 648,
-    "min_description_length": 279,
-    "avg_description_length": 447.76190476190476,
-    "embedding_file_size_mb": 0.07680606842041016
+    "max_description_length": 849,
+    "min_description_length": 400,
+    "avg_description_length": 596.55,
+    "embedding_file_size_mb": 0.0731191635131836
   }
 }

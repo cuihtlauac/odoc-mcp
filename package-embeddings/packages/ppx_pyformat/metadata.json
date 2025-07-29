@@ -1,84 +1,101 @@
 {
   "package": "ppx_pyformat",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:33:47.774873",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:29.157534",
   "modules": [
     {
-      "module_path": "Ppx_pyformat.Lexer",
-      "description": "This module handles lexical analysis and parsing of structured text, focusing on tokenizing input streams into parser tokens while processing format specifications and replacement fields. It operates on `Lexing.lexbuf` and specialized data types like `raw_format_spec` and `raw_replacement_field`, employing recursive methods to manage context-sensitive elements such as sign indicators, precision, and formatting types. Use cases include parsing complex string formatting patterns and extracting structured data from templated inputs.",
-      "description_length": 535,
+      "module_path": "Ppx_pyformat_runtime",
+      "library": "ppx_pyformat.runtime",
+      "description": "This module implements string formatting operations for integers and floating-point numbers with support for alignment, padding, numeric base conversion, sign handling, and grouping. It works with integers, floats, and strings, offering functions like binary, octal, decimal, and hexadecimal conversion with customizable formatting options. Concrete use cases include generating aligned output for reports, formatting numbers with commas or underscores, and converting values to scientific notation or percentage strings.",
+      "description_length": 521,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_pyformat.Lexer_utils",
-      "description": "Provides functions to parse string representations into specific data types such as alignment, sign, width, and formatting options, with support for optional values and structured outputs. Works with strings to extract and convert them into typed configurations used in formatting and data processing. Used to interpret format specifiers in string formatting operations and configuration parsing.",
-      "description_length": 396,
+      "module_path": "Ppx_pyformat.Utils",
+      "library": "ppx_pyformat",
+      "description": "This module provides functions for generating argument names and parsing string templates into structured elements. It operates on strings and integer indices, producing formatted argument identifiers and breaking down format strings into typed components. Concrete use cases include processing Python-style format strings and generating corresponding OCaml expressions.",
+      "description_length": 370,
       "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_pyformat.Parser",
-      "description": "Parses input streams into a structured representation of elements using a provided lexer. It processes a lexing buffer and a token generator to construct a list of typed elements. This is used to convert raw source code into an abstract syntax tree for further analysis.",
-      "description_length": 270,
-      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ppx_pyformat.Type_utils",
-      "description": "Resets or sets the argument mode to manual or auto, with strict state enforcement. It converts raw replacement fields into validated replacement fields. Used to control argument generation logic and ensure data integrity during field replacements.",
-      "description_length": 247,
+      "library": "ppx_pyformat",
+      "description": "This module manages argument modes and replacement field validation for string formatting. It works with `Types.arg` and `Types.replacement_field` to control argument handling and sanitize format fields. Used during format string parsing to enforce correct argument ordering and field structure.",
+      "description_length": 295,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_pyformat.Parser",
+      "library": "ppx_pyformat",
+      "description": "Parses Python-style format strings into a stream of tokens, handling literal text and replacement fields. It processes input using a lexer function to identify string segments and format specifiers. Useful for implementing custom string formatting or template engines with precise control over interpolated values.",
+      "description_length": 314,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ppx_pyformat.Types",
-      "description": "This module provides functions for constructing and manipulating format specifications and replacement fields, enabling precise control over string formatting through parameters like alignment, padding, sign, and type conversion. It works with structured data types such as `arg`, `index`, `align`, `sign`, `fill`, and `format_spec`, along with internal representations for formatting elements. Use cases include generating customizable output for logs, reports, or user interfaces where specific formatting rules are required.",
-      "description_length": 527,
+      "library": "ppx_pyformat",
+      "description": "This module supports parsing and constructing Python-style format specifiers through structured representations of formatting components like alignment, fill characters, and numeric/string type directives. It models format strings as lists of `element` values, which can be literal text or `replacement_field` instances containing argument metadata for dynamic interpolation. The types enable use cases such as programmatic generation of format strings, validation of formatting directives, or transformation of template structures with precise control over presentation rules.",
+      "description_length": 577,
       "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_pyformat.Utils",
-      "description": "Returns the name of a command-line argument based on its position, and parses a string into a structured elements type representing configuration data. Works with integers and strings to extract argument names and transform input text into a typed representation. Used to retrieve CLI parameter names and process configuration files into a usable format.",
-      "description_length": 354,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "ppx_pyformat",
-      "description": "Transforms OCaml code by replacing format strings with evaluated expressions, supporting nested variables and custom formatting options. Operates on abstract syntax trees and string literals within OCaml source files. Enables dynamic generation of error messages, logging, and user-facing output with Python-like format syntax.",
-      "description_length": 327,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_pyformat_runtime",
-      "description": "Provides functions to format integers and floats in various bases (binary, octal, decimal, hexadecimal) and representations (scientific, fixed point, general, percentage), with options for padding, signs, and formatting styles. Works with integers, floats, and custom types for padding, sign, and grouping configurations. Used to generate precisely formatted numeric strings for output in specific locales or protocols.",
-      "description_length": 419,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_pyformat",
-      "description": "handles lexical analysis, parsing, and formatting of structured text, converting input into typed elements and configurations. it processes `Lexing.lexbuf` and strings to extract format specifications, replacement fields, and argument data, using types like `raw_format_spec`, `arg`, `align`, and `format_spec`. it enables tasks such as parsing log formatting patterns, validating replacement fields, and extracting CLI argument names from configuration strings. it supports generating customizable output by manipulating alignment, padding, and type conversion parameters.",
-      "description_length": 573,
+      "module_path": "Ppx_pyformat.Element_gen",
+      "library": "ppx_pyformat",
+      "description": "This module generates OCaml expressions for formatting strings based on Python-style format specifiers. It constructs expressions from identifiers, applies formatting options like padding, sign, precision, and grouping, and handles replacement fields and format elements. Concrete use cases include building formatted string output directly in OCaml AST during compile-time processing of format strings.",
+      "description_length": 403,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_pyformat.Rewriter",
+      "library": "ppx_pyformat",
+      "description": "This module processes and transforms format strings and expressions in OCaml code. It provides functions to extract, validate, and restructure format arguments, generate formatted expressions, and define rewriting rules for extensions. It works directly with OCaml AST types like expressions, value bindings, and extensions, enabling precise manipulation of format-related syntax during compilation.",
+      "description_length": 399,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_pyformat.Lexer",
+      "library": "ppx_pyformat",
+      "description": "The module implements lexing operations for Python-style format strings, breaking down input into structured components like replacement fields, format specifiers, and indices. It processes lex buffers using recursive parsing functions that capture elements such as argument names, conversion flags, and formatting parameters (e.g., width, precision, alignment) into intermediate types. This enables use cases like static analysis or transformation of formatted string literals in Python-inspired syntax.",
+      "description_length": 504,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_pyformat.Lexer_utils",
+      "library": "ppx_pyformat",
+      "description": "This module provides functions for parsing string representations into specific formatting components used in Python-style format specifiers. It processes strings into typed values such as alignment, sign, width, precision, and format types, returning structured options or enums. These utilities are used to interpret format specifiers during the transformation of OCaml code that mimics Python's string formatting behavior.",
+      "description_length": 425,
       "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_pyformat",
+      "library": "ppx_pyformat",
+      "description": "This module processes Python-style format strings by parsing them into structured components like literal text and replacement fields, handling argument indexing, formatting directives, and interpolation metadata. It defines core types such as `element`, `replacement_field`, and `arg`, and supports operations including lexing format strings, validating format specifiers, and generating OCaml expressions that replicate the intended formatting behavior. Users can analyze, transform, or construct format strings programmatically, enabling use cases such as compile-time string formatting, template validation, and custom formatting rule enforcement within OCaml code.",
+      "description_length": 669,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 17,
-    "meaningful_modules": 9,
-    "filtered_empty_modules": 8,
-    "retention_rate": 0.5294117647058824
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 573,
-    "min_description_length": 247,
-    "avg_description_length": 405.3333333333333,
-    "embedding_file_size_mb": 0.03313636779785156
+    "max_description_length": 669,
+    "min_description_length": 295,
+    "avg_description_length": 447.7,
+    "embedding_file_size_mb": 0.0367889404296875
   }
 }

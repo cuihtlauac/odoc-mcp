@@ -1,70 +1,69 @@
 {
   "package": "sid",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:29.292573",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:06:10.283550",
   "modules": [
     {
       "module_path": "Sid.WellKnown.Prefix",
-      "description": "Constructs specific Security Identifier (SID) values with predefined root authorities by appending provided sub-authority values. Each function generates a SID in the format S-1-x-sub_auths, where x corresponds to a defined authority type. Used to generate system-specific SIDs for security contexts in Windows-based environments.",
-      "description_length": 330,
+      "library": "sid",
+      "description": "This module provides functions to construct SIDs with specific well-known identifier authorities, such as `S-1-0`, `S-1-1`, `S-1-5`, and others, by appending given sub-authorities. It works directly with `Sid.sub_auths` and returns fully formed `Sid.t` values. These constructors are used to represent standard security identifiers like the null SID, world SID, NT authority SIDs, and mandatory labels in access control and security contexts.",
+      "description_length": 442,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sid.StringFmt",
-      "description": "Converts between a SID data structure and its string representation using MS-DTYP 2.4.2.1 format. Decodes a string buffer into a SID and encodes a SID into the corresponding string format. Used for parsing and generating SIDs in network protocol interactions.",
-      "description_length": 259,
+      "module_path": "Sid.PacketRep",
+      "library": "sid",
+      "description": "This module handles conversion of security identifiers (SIDs) to and from their binary packet representation as defined in MS-DTYP 2.4.2.2. It supports decoding and encoding SIDs from byte buffers or input/output channels, allowing specification of endianness for subauthority fields. Use cases include parsing binary SID data from network streams or files, and serializing SIDs for transmission or storage in a specific binary format.",
+      "description_length": 435,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Sid.MSStringFmt",
-      "description": "Converts between a custom SID type and its string representation, handling malformed inputs gracefully during decoding. Operates on the SID type and raw strings, ensuring robust parsing and serialization. Used to safely parse user-provided identifiers and generate standardized string outputs for storage or transmission.",
-      "description_length": 321,
+      "module_path": "Sid.StringFmt",
+      "library": "sid",
+      "description": "This module handles conversions between string representations and the internal `Sid.t` data type for security identifiers. It provides `decode` to parse a string into a `Sid.t` and `encode` to convert a `Sid.t` back into its string form, following the MS-DTYP 2.4.2.1 specification. It is used when reading or generating SID strings, such as during authentication processing or access control list manipulation.",
+      "description_length": 412,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sid.PacketRep",
-      "description": "Converts between a SID data structure and its byte-level packet representation, supporting both big and little endianness. Handles decoding from and encoding to byte buffers and I/O channels. Used to serialize and deserialize SIDs in network or file protocols requiring specific endianness.",
-      "description_length": 290,
+      "module_path": "Sid.WellKnown",
+      "library": "sid",
+      "description": "This module provides operations to construct and retrieve fixed Windows Security Identifiers (SIDs) representing well-known system groups, authentication types, and security contexts, structured according to the MS-DTYP specification. It directly supports working with `Sid.t` values, including domain-specific SIDs like `S-1-5-21-...-constant_suffix` and fixed authorities such as `S-1-5-32` (built-in groups) and `S-1-18` (security roles), enabling tasks like access control configuration and role assignment. Child modules offer specialized constructors for SIDs under well-known identifier authorities such as `S-1-0`, `S-1-1`, and `S-1-5`, allowing precise creation of standard SIDs by appending sub-authorities to form complete `Sid.t` values. Examples include generating the null SID (`S-1-0-0`), the local system SID (`S-1-5-18`), or built-in administrator group SIDs (`S-1-5-32-544`).",
+      "description_length": 893,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sid.WellKnown",
-      "description": "creates SIDs with fixed root authorities by combining a base identifier with user-provided sub-authorities, producing structured security identifiers like S-1-5-18. main data types include SID values constructed through functions that map authority types to their respective formats. operations allow generating system-specific SIDs such as the Local System account or Network Service. examples include creating S-1-5-18 for the Local System context or S-1-5-32-544 for the Administrators group.",
-      "description_length": 495,
+      "module_path": "Sid.MSStringFmt",
+      "library": "sid",
+      "description": "This module converts SIDs to and from their string representations, strictly following the Microsoft Windows format specifications. It supports parsing strings into `Sid.t` values and formatting `Sid.t` values back into strings, with permissive validation during decoding. Concrete use cases include handling Windows security identifiers in text form, such as when reading configuration files or logging security contexts.",
+      "description_length": 422,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "sid",
-      "description": "Provides functions for parsing and validating SIP (Session Initiation Protocol) message headers, including extraction of call IDs, sequence numbers, and contact information. Operates on strings and custom record types representing SIP headers and message components. Used to process incoming SIP requests in a VoIP application, ensuring correct routing and session management.",
-      "description_length": 376,
+      "module_path": "Sid",
+      "library": "sid",
+      "description": "This module handles the creation, comparison, and conversion of Security Identifiers (SIDs), including parsing and formatting from string and binary representations. It supports 64-bit identifier authorities, 32-bit subauthority arrays, and byte sequence handling with configurable endianness, enabling tasks like validating Windows SIDs or serializing them for network protocols. The binary submodule decodes and encodes SIDs from byte buffers or channels, while the string submodule converts between SID strings and internal values per MS-DTYP 2.4.2.1. Well-known SIDs, such as the null SID (`S-1-0-0`), local system (`S-1-5-18`), and built-in administrators (`S-1-5-32-544`), can be directly constructed and manipulated using specialized submodules.",
+      "description_length": 752,
       "index": 5,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sid",
-      "description": "provides functions to parse, generate, and serialize security identifiers (SIDs) in multiple formats. It supports string conversion with robust error handling, binary encoding with endianness control, and creation of predefined SIDs using base authorities and sub-authorities. Operations include decoding string inputs into SID structures, encoding SIDs into byte streams for transmission, and constructing system-specific SIDs like S-1-5-18. Examples include parsing user-provided SIDs, serializing SIDs for network protocols, and generating standard identifiers for system accounts.",
-      "description_length": 584,
-      "index": 6,
-      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 584,
-    "min_description_length": 259,
-    "avg_description_length": 379.2857142857143,
-    "embedding_file_size_mb": 0.02586841583251953
+    "max_description_length": 893,
+    "min_description_length": 412,
+    "avg_description_length": 559.3333333333334,
+    "embedding_file_size_mb": 0.02223682403564453
   }
 }

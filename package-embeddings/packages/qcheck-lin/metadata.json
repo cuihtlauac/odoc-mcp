@@ -1,133 +1,149 @@
 {
   "package": "qcheck-lin",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:33:50.970697",
+  "creation_timestamp": "2025-07-15T23:10:28.071389",
   "modules": [
     {
-      "module_path": "Lin.Internal.Make",
-      "description": "Generates and shrinks commands for property-based testing using QCheck, and converts commands and results to strings. It operates on custom types `cmd`, `res`, and an opaque `t` representing the system under test. Used to execute and validate command sequences in automated testing scenarios.",
-      "description_length": 292,
+      "module_path": "Lin_thread.Make",
+      "library": "qcheck-lin.thread",
+      "description": "This module provides `lin_test` and `neg_lin_test` functions to build concurrent tests that check for sequential consistency in generated programs. It works with test specifications defined via the `Spec` module, which describes the system under test and its possible operations. Concrete use cases include testing concurrent data structures or algorithms where thread interleavings must respect linearizability, such as verifying correct behavior of a lock-free queue or a concurrent counter under various execution schedules.",
+      "description_length": 527,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_effect.Make_internal.EffSpec",
-      "description": "Provides functions to construct, transform, and execute command sequences represented as values of type `cmd`. Includes operations for sequencing, branching, and error handling within command execution. Used to model and manage complex workflows in system automation and scripting scenarios.",
-      "description_length": 291,
+      "module_path": "Lin_thread.Make_internal",
+      "library": "qcheck-lin.thread",
+      "description": "This module generates arbitrary command sequences for concurrent testing and defines properties to validate linearizability in thread interactions. It works with lists of commands defined by a specification module, using them to construct test cases that simulate concurrent execution. Concrete use cases include testing thread-safe data structures like queues or counters under concurrent access to detect linearizability violations.",
+      "description_length": 434,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lin_domain.Make_internal",
-      "description": "Provides functions to serialize commands and results, generate and shrink commands for property-based testing, and manage the state of a system under test. Operates on custom types `t`, `cmd`, and `res` representing the system state, commands, and results. Used to execute and validate command sequences in automated testing scenarios.",
-      "description_length": 335,
+      "module_path": "Lin_thread",
+      "library": "qcheck-lin.thread",
+      "description": "This module enables concurrent testing of linearizability properties by generating and executing interleaved command sequences across threads. It supports specifications that define operations and expected behaviors, allowing tests to validate sequential consistency in systems like lock-free queues or concurrent counters. Using `lin_test` and `neg_lin_test`, it checks whether thread interactions adhere to a given specification under various execution schedules. It leverages Gc.Memprof to increase context switching at allocation sites, improving the likelihood of exposing concurrency issues in compatible OCaml versions.",
+      "description_length": 626,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_domain.Make",
-      "description": "Initializes and manages a system under test, providing setup and teardown capabilities. Operates on a custom type `t` representing the system state. Used to prepare and reset the environment before and after executing test scenarios.",
-      "description_length": 233,
+      "module_path": "Lin_effect.Make_internal.EffSpec",
+      "library": "qcheck-lin.effect",
+      "description": "This module defines operations for handling effectful computations represented by the `cmd` type, including execution, sequencing, and transformation of effect commands. It works with abstract data structures that model effectful actions and their handlers. Concrete use cases include defining and composing effect-based test cases that interact with Stdlib.Effect handlers.",
+      "description_length": 374,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin.Internal",
-      "description": "Generates and shrinks commands for property-based testing, converts commands and results to strings, and checks result equality. Operates on custom types `t`, `cmd`, and `res` representing the system state, commands, and test outcomes. Used to execute commands against a test system and validate results during automated testing.",
-      "description_length": 329,
+      "module_path": "Lin_effect.Make_internal",
+      "library": "qcheck-lin.effect",
+      "description": "This module builds an internal framework for testing effectful computations using Stdlib.Effect and QCheck, generating command sequences to validate linearizability and correctness in concurrent scenarios. It introduces core data types like `cmd` for representing effectful actions, along with operations to execute, sequence, and transform these commands, enabling the construction of both positive and negative test cases. Submodules extend this functionality by providing abstractions for handling effect-based operations and their interactions with external systems. Example use cases include verifying the consistency of effect handlers under concurrent execution and testing recovery paths after failures.",
+      "description_length": 711,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lin.Fun",
-      "description": "Provides functions for composing, applying, and currying unary and binary operations, along with lifting functions into monadic contexts. Works with polymorphic function types, including unary, binary, and variadic forms. Enables concise transformation of input values in event-driven and asynchronous workflows.",
-      "description_length": 312,
+      "module_path": "Lin_effect.Make",
+      "library": "qcheck-lin.effect",
+      "description": "This module provides `lin_test` and `neg_lin_test`, which generate effect-based tests for sequential consistency using the Stdlib.Effect module. It works with effect handlers and algebraic effects to validate program behavior under different execution traces. Use it to test concurrency-related properties by checking whether effect interactions adhere to expected sequential specifications.",
+      "description_length": 391,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lin.MakeCmd",
-      "description": "Initializes and manages a system under test, providing setup and teardown capabilities. Operates on a custom type `t` representing the system state. Used to prepare and reset the environment before and after executing test scenarios.",
-      "description_length": 233,
+      "module_path": "Lin_effect",
+      "library": "qcheck-lin.effect",
+      "description": "This module implements cooperative multitasking primitives using effect handlers, enabling the creation of custom concurrency abstractions such as event loops and lightweight thread schedulers. It provides core operations like `fork` for spawning concurrent tasks and `yield` for relinquishing control, while its child modules focus on testing effectful computations for linearizability and correctness. The first child module introduces data types like `cmd` to model effectful actions, supporting the generation and transformation of command sequences for validating behavior under concurrency, including error scenarios and recovery paths. The second child module offers utilities such as `lin_test` and `neg_lin_test` to check sequential consistency and verify that effect interactions conform to expected execution traces under varying concurrency conditions.",
+      "description_length": 864,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_thread.Make_internal",
-      "description": "Provides functions to serialize commands and results, check equality of results, and manage the state of a system under test. It includes a command generator and shrinker for property-based testing, along with initialization and cleanup routines. Used to execute and validate command sequences in a controlled testing environment.",
-      "description_length": 330,
+      "module_path": "Lin_domain.Make",
+      "library": "qcheck-lin.domain",
+      "description": "This module provides functions to construct parallel tests for checking sequential consistency, finding counterexamples, and stress-testing for exceptions. It operates on specifications defined by the `Spec` module, generating and executing concurrent program traces. Concrete use cases include validating concurrency models, identifying race conditions, and ensuring robustness under high-frequency parallel execution.",
+      "description_length": 419,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_thread.Make",
-      "description": "Initializes and cleans up a system under test, with a list of function signatures that include integer identifiers and elements from a linear algebra library. Operates on a custom type `t` representing the system state. Used to set up and tear down test environments for numerical simulations.",
-      "description_length": 293,
+      "module_path": "Lin_domain.Make_internal",
+      "library": "qcheck-lin.domain",
+      "description": "This module generates arbitrary command triples for testing parallel execution scenarios and provides properties and tests to validate linearizability and stress behavior. It works with command lists defined by a specification module to check correctness under concurrent execution. Concrete use cases include testing distributed systems or concurrent data structures for consistency and robustness under load.",
+      "description_length": 410,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lin_effect.Make_internal",
-      "description": "Provides functions to serialize commands and results, check equality of results, and manage the state of a system under test. It includes a command generator and shrinker for property-based testing, along with initialization and cleanup routines. Used to execute and validate command sequences in a controlled testing environment.",
-      "description_length": 330,
+      "module_path": "Lin_domain",
+      "library": "qcheck-lin.domain",
+      "description": "This module supports the generation and validation of concurrent program traces to test for linearizability, sequential consistency, and robustness under parallel execution. It operates on command sequences and specifications, enabling the discovery of race conditions, counterexamples, and exception-handling issues in concurrent or distributed systems. Key operations include constructing parallel tests, generating command triples, and validating correctness properties under stress conditions. For example, it can validate a concurrent data structure's behavior under high-frequency parallel access or identify consistency violations in a distributed system.",
+      "description_length": 662,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_effect.Make",
-      "description": "Initializes and manages a system under test, providing setup and teardown capabilities. Operates on a custom type `t` representing the system state. Used to prepare and reset the environment before and after executing test scenarios.",
-      "description_length": 233,
+      "module_path": "Lin.Internal.Make",
+      "library": "qcheck-lin.lin",
+      "description": "This module generates arbitrary command sequences for testing linearizable systems and validates their consistency under concurrent execution. It operates on command and response lists defined by a specification module, supporting concrete operations like interpreting sequential executions and checking linearization points. Use it to construct and validate complex concurrency scenarios with specific test cases involving command interleavings and expected outcomes.",
+      "description_length": 468,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "qcheck-lin",
-      "description": "Provides functions for generating and checking linear properties in test cases, including arbitrary value creation and property-based testing. Operates on custom data types and recursive structures to validate invariants. Used to verify correctness of list transformations and tree traversals under random inputs.",
-      "description_length": 313,
+      "module_path": "Lin.Internal.CmdSpec",
+      "library": "qcheck-lin.lin",
+      "description": "This module defines the interface for specifying commands and their execution in a testable module. It includes operations to generate, shrink, and display commands, as well as to initialize, run, and clean up the system under test. It works with abstract types `t`, `cmd`, and `res`, representing the system state, commands, and results, respectively. Concrete use cases include defining command-based tests for modules with side effects, such as file or network operations.",
+      "description_length": 475,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_domain",
-      "description": "Handles system state management and test execution, with serialization, command generation, and environment setup. Operates on types `t` for state, `cmd` for commands, and `res` for results, enabling automated test sequence validation. Supports property-based testing through command shrinking and state restoration. Can execute and verify command sequences, reset environments, and track system behavior.",
-      "description_length": 405,
+      "module_path": "Lin.Spec",
+      "library": "qcheck-lin.lin",
+      "description": "This module defines the structure for specifying the interface of a module under test, including initialization, cleanup, and a list of function signatures with integer keys and typed elements. It works with a polymorphic type `t` representing the system under test and a list of integer-labeled elements describing the API. Concrete use cases include defining testable module interfaces for automated testing and analysis.",
+      "description_length": 423,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lin",
-      "description": "Initializes and manages a system state, providing cleanup and access to function signatures. Operates on a custom type `t` representing the system's internal state. Used to verify behavior of API endpoints by simulating interactions with predefined function signatures.",
-      "description_length": 269,
+      "module_path": "Lin.MakeCmd",
+      "library": "qcheck-lin.lin",
+      "description": "Maps a combinator-based module signature into a raw Lin description for testing. It defines types and functions for commands, results, and system state, enabling generation, execution, and shrinking of commands. Used internally to bridge specification combinators with concrete testable interfaces.",
+      "description_length": 298,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_thread",
-      "description": "manages system state and test execution through command serialization, equality checks, and property-based testing tools. It operates on a custom type `t` and provides functions for initializing, cleaning up, and validating system behavior. Users can generate and shrink command sequences, track state transitions, and verify numerical results. Examples include testing linear algebra operations and ensuring consistent system behavior across test runs.",
-      "description_length": 453,
+      "module_path": "Lin.Internal",
+      "library": "qcheck-lin.lin",
+      "description": "This module provides a domain-specific language of type combinators to encode module interfaces as testable values, primarily working with module types and command specifications. It enables defining command-based tests for module interfaces, generating testable representations of type expectations, and structuring test scenarios using abstract types for system state, commands, and results. The first child module builds and validates arbitrary command sequences for concurrent systems, supporting operations like interpreting sequential executions and verifying linearization points. The second child module defines the core interface for command generation, shrinking, and execution, allowing tests for modules with side effects such as file or network operations.",
+      "description_length": 769,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lin_effect",
-      "description": "Manages system state and test execution through initialization, cleanup, and command handling. Supports serialization, equality checks, and property-based testing with a command generator and shrinker. Operates on a custom state type, enabling controlled test scenario execution and validation. Allows for systematic testing by generating and verifying command sequences against expected outcomes.",
-      "description_length": 397,
+      "module_path": "Lin",
+      "library": "qcheck-lin.lin",
+      "description": "This module provides a domain-specific language for constructing testable interface definitions using type combinators that integrate with QCheck generators. It supports basic and container types, function signatures, and exception-aware return types, enabling precise configuration of test data generation and result comparison for property-based testing and test case visualization. The child modules structure interface definitions, manage system state and command execution, and map combinator-based signatures into testable command sequences, supporting advanced testing scenarios such as concurrent systems and side-effect verification. Specific examples include defining module interfaces with integer-keyed function signatures, generating size-bounded collections for test input, and encoding linearization points for concurrent operations.",
+      "description_length": 848,
       "index": 15,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 16,
+    "total_modules_in_package": 17,
     "meaningful_modules": 16,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9411764705882353
   },
   "statistics": {
-    "max_description_length": 453,
-    "min_description_length": 233,
-    "avg_description_length": 315.5,
-    "embedding_file_size_mb": 0.047847747802734375
+    "max_description_length": 864,
+    "min_description_length": 298,
+    "avg_description_length": 543.6875,
+    "embedding_file_size_mb": 0.058587074279785156
   }
 }

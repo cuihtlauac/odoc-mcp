@@ -1,56 +1,63 @@
 {
   "package": "tube",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:39.268222",
+  "creation_timestamp": "2025-07-15T23:06:14.256365",
   "modules": [
     {
-      "module_path": "Tube.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications, generating dependency graphs, and executing build steps. Operates on the `t` type, which represents a structured build plan with targets, dependencies, and execution rules. Used to automate software compilation workflows by defining and running incremental build processes.",
-      "description_length": 382,
+      "module_path": "Tube.Pipe",
+      "library": "tube",
+      "description": "This module implements a communication channel for asynchronous data transfer between concurrent processes. It supports creating a paired reader and writer, writing values to the channel with optional backpressure handling, and reading values asynchronously. It is used for coordinating data flow in concurrent applications, such as streaming pipelines or event-driven systems.",
+      "description_length": 377,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Tube.BoolPipe",
-      "description": "Provides functions to create and manage a bidirectional communication channel for boolean values, with dedicated read and write operations. Works with opaque reader and writer types and boolean data. Enables asynchronous data flow between components, such as signaling states between event loops or coordinating boolean flags in concurrent processes.",
-      "description_length": 350,
+      "library": "tube",
+      "description": "This module implements a synchronous communication channel for boolean values, enabling one-way data flow between concurrent processes. It provides functions to create a channel, write boolean values to the channel with or without backpressure, and read boolean values from the channel. Concrete use cases include coordinating state changes between threads or managing binary signals in event-driven systems.",
+      "description_length": 408,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tube.StringPipe",
-      "description": "Provides functions to create and manage a string-based communication channel, allowing asynchronous writing and reading between a writer and reader. Operates with strings and opaque reader/writer types to facilitate data flow in event-driven systems. Used to buffer and transmit text data in real-time applications like network protocols or interactive interfaces.",
-      "description_length": 364,
+      "module_path": "Tube.IntPipe",
+      "library": "tube",
+      "description": "This module implements a unidirectional communication channel for integer values, allowing asynchronous writing and reading through separate reader and writer endpoints. It supports operations to send integers with optional flow control and receive them, making it suitable for producer-consumer scenarios or inter-process communication. Concrete use cases include coordinating data flow between concurrent tasks or managing resource-limited streams of integer-based signals.",
+      "description_length": 475,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tube.IntPipe",
-      "description": "Provides functions to create and manage a pipe for passing integers between threads, with dedicated read and write operations. Works with integer values and opaque reader/writer types to facilitate synchronous and asynchronous communication. Used to coordinate data flow in concurrent systems where integer messages need to be reliably sent and received.",
-      "description_length": 354,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Tube.CharPipe",
-      "description": "Provides functions to create and manage a character-based communication channel, allowing asynchronous writing and reading of individual characters. Operates with `reader` and `writer` handles and `char` values, enabling controlled data flow between components. Used to implement bidirectional data exchange in event-driven systems, such as handling input/output streams with backpressure.",
-      "description_length": 389,
-      "index": 4,
+      "library": "tube",
+      "description": "This module implements a character-based communication channel with separate reader and writer endpoints. It supports asynchronous character transmission through `write` and `read` operations, along with flow control via `write_with_pushback`. The module is suitable for implementing streaming text protocols or inter-process communication where byte-level precision is required.",
+      "description_length": 379,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "tube",
-      "description": "Provides functions for safely reading from and writing to channels with type-safe operations, including pushback for writing. Works with channel objects and values that can be serialized or deserialized. Used to prevent common errors in local data manipulation, such as incorrect data formatting or incomplete writes.",
-      "description_length": 317,
-      "index": 5,
+      "module_path": "Tube.StringPipe",
+      "library": "tube",
+      "description": "This module implements a unidirectional communication channel for string data, allowing asynchronous writing and reading through separate reader and writer endpoints. It supports operations to write strings to the channel and read them from the other end, with one function offering backpressure handling during writes. It is useful for streaming text data between concurrent components, such as piping output from a network socket to a processing function.",
+      "description_length": 457,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
+      "module_path": "Tube.Make",
+      "library": "tube",
+      "description": "Implements a communication channel for exchanging values of type `Material.t` between concurrent processes. Provides operations to create a channel pair, send values with optional backpressure handling, and receive values asynchronously. Useful for producer-consumer scenarios where data needs to be passed between threads or async workflows without shared memory.",
+      "description_length": 364,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
       "module_path": "Tube",
-      "description": "Provides operations for creating and managing a bounded buffer with asynchronous read and write capabilities. Works with custom types `t` for data elements, `reader`, and `writer` for channel endpoints. Enables concurrent communication between threads, such as passing messages between a producer and consumer in a networked application.",
-      "description_length": 337,
+      "library": "tube",
+      "description": "This module enables composing transformation pipelines for typed values using unary functions, with built-in support for mapping, filtering, and chaining operations over boolean, string, integer, and character types. Its child modules extend this foundation with communication channels for asynchronous data transfer, supporting typed streams of boolean, integer, character, string, and custom `Material.t` values with flow control and backpressure handling. You can build validation pipelines that transform input data step-by-step, then stream the results through concurrent components using typed channels for coordinated processing. Operations include `map` and `filter` for inline transformations, `write` and `read` for asynchronous communication, and `chain` to link processing stages with channel-based outputs.",
+      "description_length": 819,
       "index": 6,
       "embedding_norm": 1.0
     }
@@ -62,9 +69,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 389,
-    "min_description_length": 317,
-    "avg_description_length": 356.14285714285717,
-    "embedding_file_size_mb": 0.025856971740722656
+    "max_description_length": 819,
+    "min_description_length": 364,
+    "avg_description_length": 468.42857142857144,
+    "embedding_file_size_mb": 0.02585601806640625
   }
 }

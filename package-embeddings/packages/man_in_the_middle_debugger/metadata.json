@@ -1,56 +1,69 @@
 {
   "package": "man_in_the_middle_debugger",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:07.018671",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:27.956850",
   "modules": [
     {
       "module_path": "Man_in_the_middle_debugger.Make.Peer",
-      "description": "Provides functions to create, compare, and serialize peer identifiers, and to check if a peer is connected. Works with the `t` type, which includes an IP address, port, and unique identifier. Used to manage network connections and track active peers in a distributed system.",
-      "description_length": 274,
+      "library": "man_in_the_middle_debugger",
+      "description": "This module manages peer connections in a debugging setup, handling communication through asynchronous readers and writers. It provides functions to send and receive messages, track peer state, and manage connection lifecycles. Use it to implement coordinated message passing between debugging components over async I/O channels.",
+      "description_length": 329,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Man_in_the_middle_debugger.Peer",
-      "description": "type t = { id: string; address: string; port: int } Provides functions to create, compare, and serialize peer information. Operates on structured data including unique identifiers, network addresses, and port numbers. Used to manage active connections in a distributed system, such as tracking nodes in a P2P network.",
-      "description_length": 317,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Man_in_the_middle_debugger.Make",
-      "description": "Parses raw input into structured message data using a custom parser combinator. Converts message instances into human-readable string representations. Operates on a custom `message` type representing protocol-specific data.",
-      "description_length": 223,
-      "index": 2,
-      "embedding_norm": 1.0
+      "library": "man_in_the_middle_debugger",
+      "description": "This module wraps peer connections to enable real-time message interception and logging over `Async.Reader.t` and `Writer.t` streams, using a callback to process each message. It coordinates communication between debugging components by managing connection lifecycles, sending and receiving messages, and tracking peer state through asynchronous I/O. You can use it to observe and manipulate network traffic during protocol debugging without altering core communication logic. The child module extends this by providing structured handling of peer interactions, including message passing coordination and connection state management.",
+      "description_length": 633,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "man_in_the_middle_debugger",
-      "description": "Provides functions to intercept, inspect, and modify network traffic during debugging sessions. Operates on byte sequences, protocol-specific data structures, and connection state records. Enables real-time analysis of HTTP request/response flows and injection of custom payloads for testing edge cases.",
-      "description_length": 303,
+      "module_path": "Man_in_the_middle_debugger.S-Peer",
+      "library": "man_in_the_middle_debugger",
+      "description": "This module defines a peer connection with named endpoints, using Async readers and writers for communication. It facilitates bidirectional data exchange between two parties in a networked application. Concrete use cases include managing client-server interactions or inter-process communication where each peer must be uniquely identified and support asynchronous I/O.",
+      "description_length": 369,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Man_in_the_middle_debugger.S",
+      "library": "man_in_the_middle_debugger",
+      "description": "This module connects two peers and intercepts messages exchanged between them, allowing inspection or logging of sent and received data. It wraps existing Async reader-writer pairs, invoking a user-provided function on each message as it passes through. Use cases include debugging network protocols, auditing message traffic, or implementing transparent proxies.",
+      "description_length": 363,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Man_in_the_middle_debugger",
-      "description": "Encapsulates peer information with unique identifiers, network addresses, and port numbers, enabling management of active connections in distributed systems. Supports creation, comparison, and serialization of peer data structures. Allows tracking of nodes in a P2P network by storing and manipulating their attributes. Example operations include generating a peer record, comparing two peers for equality, and converting peer data to a string representation.",
-      "description_length": 459,
+      "module_path": "Man_in_the_middle_debugger.Peer",
+      "library": "man_in_the_middle_debugger",
+      "description": "Handles communication with a named peer in a man-in-the-middle debugging setup. Provides functions to read from and write to the peer using Async.Reader and Async.Writer. Used to intercept and manipulate data exchanged between two parties during debugging sessions.",
+      "description_length": 265,
       "index": 4,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Man_in_the_middle_debugger",
+      "library": "man_in_the_middle_debugger",
+      "description": "This module enables real-time interception and manipulation of data flowing between two peers using Async-based I/O streams. It coordinates communication through named peer connections, allowing bidirectional message inspection, logging, and modification via user-defined callbacks. Core data types include reader-writer pairs for each peer, with operations to relay, alter, or analyze messages as they pass through the debugger. You can use it to debug network protocols, implement transparent proxies, or audit inter-process communication by wrapping existing connections without modifying the original endpoints.",
+      "description_length": 615,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 459,
-    "min_description_length": 223,
-    "avg_description_length": 315.2,
-    "embedding_file_size_mb": 0.018602371215820312
+    "max_description_length": 633,
+    "min_description_length": 265,
+    "avg_description_length": 429.0,
+    "embedding_file_size_mb": 0.022225379943847656
   }
 }

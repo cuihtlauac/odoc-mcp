@@ -1,140 +1,149 @@
 {
   "package": "febusy",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 17,
-  "creation_timestamp": "2025-06-18T16:35:15.945238",
+  "total_modules": 16,
+  "creation_timestamp": "2025-07-15T23:09:03.919953",
   "modules": [
     {
       "module_path": "Febusy.Edsl.File.List",
-      "description": "Creates a directed acyclic graph (DAG) representing build artifacts from a list of file paths, enabling dependency tracking and execution ordering. Accepts a list of strings and a function to generate artifact specifications, producing a structured build plan. Used to define custom build steps that depend on specific files and their transformations.",
-      "description_length": 351,
+      "library": "febusy",
+      "description": "This module constructs DAG nodes representing lists of file artifacts, using `make` to define dynamic file lists with a function producing their contents and `return` to directly specify static file lists. It works with string lists as file paths and integrates them into the DAG as artifacts with file representatives. Use it to declare output file groups for build rules or input dependencies that are resolved dynamically during DAG construction.",
+      "description_length": 449,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Febusy.Build.Artifact",
-      "description": "Converts a typed value to a string representation, deserializes a string into a value, serializes a value to a string, generates a hash from a value, and attempts to extract a concrete value from a wrapped type. Works with polymorphic types parameterized by kind and how_made, and custom type definitions. Used to encode and decode structured data, generate unique identifiers from values, and extract runtime representations for inspection or processing.",
-      "description_length": 455,
+      "module_path": "Febusy.Edsl.Make_unix",
+      "library": "febusy",
+      "description": "Implements execution of dependency graphs in a Unix-like environment with functions to run build workflows and manage state files. Works with DAGs of artifacts parameterized over specification and representative types, such as file paths or checksums. Used to perform sequential builds where each node represents a build step with dependencies, like compiling files or running shell commands.",
+      "description_length": 392,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Build.Action",
-      "description": "Executes actions represented as a polymorphic variant type, returning their result or a string representation. It handles custom action definitions with specific behaviors tied to their type. Used to serialize and execute domain-specific commands in a stateful application.",
-      "description_length": 273,
+      "module_path": "Febusy.Edsl.System",
+      "library": "febusy",
+      "description": "This module provides functions for interacting with the operating system, including running shell commands, reading and writing files, and retrieving environment information like the home directory. It works directly with strings and lists of strings for input/output, and uses standard OCaml types like unit and lists for control and data flow. Concrete use cases include scripting build steps that require file manipulation, executing external tools as part of a build process, and handling configuration files during artifact construction.",
+      "description_length": 542,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Build.DAG",
-      "description": "Provides operations to construct and manipulate directed acyclic graphs, including adding edges, checking for cycles, and topological sorting. Works with graph structures represented as nodes and edges, where each node has a unique identifier. Used to model dependencies in build systems and data processing pipelines.",
-      "description_length": 318,
+      "module_path": "Febusy.Build.Artifact",
+      "library": "febusy",
+      "description": "This module handles serialization, deserialization, hashing, and string representation of artifact values. It works with typed artifacts that have a phantom type `'a` and a value type `'b`, allowing conversion between values and their string representations. Concrete use cases include persisting build artifacts, generating unique identifiers from values, and safely reconstructing typed data from strings.",
+      "description_length": 407,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Febusy.Build.Database",
-      "description": "Creates and manages a persistent storage system for structured data, supporting insert, retrieve, and delete operations on records with a defined schema. Works with a custom type representing a database instance, containing tables and indexed entries. Used to store user profiles, track session data, and manage application state across runs.",
-      "description_length": 342,
+      "library": "febusy",
+      "description": "Stores and manages build artifacts and their hashes for tracking changes. It provides mutable lists to cache file paths with their content hashes and maintain a history of computed hashes. This enables efficient rebuild detection by comparing current and past hash values for specific files.",
+      "description_length": 291,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Febusy.Build.State",
-      "description": "Manages state for artifact tracking, supporting incrementing, pushing build statuses, and maintaining hash records. It operates on a custom state type containing logs, caches, and artifact metadata. Used to persist and retrieve build information, check dependency changes, and manage artifact lookups with precise hash tracking.",
-      "description_length": 328,
+      "library": "febusy",
+      "description": "This module manages the state of a build process, tracking artifacts, dependencies, and build history. It supports operations to push build statuses onto a stack, save and load state to disk, and check whether dependencies have changed based on hashes. It works with build artifacts, a database of build results, and a log of build events, providing functions to inspect, update, and query build metadata during incremental builds.",
+      "description_length": 431,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Febusy.Edsl.File",
-      "description": "represents build artifacts as a directed acyclic graph, organizing file dependencies and execution order. It processes lists of file paths and transforms them into structured build plans using a provided function. Operations include dependency resolution, topological sorting, and artifact specification generation. For example, it can track how source files generate compiled outputs and ensure correct build sequencing.",
-      "description_length": 421,
+      "module_path": "Febusy.Common.Error",
+      "library": "febusy",
+      "description": "This module defines a custom error type that represents errors as strings or wrapped exceptions with context. It provides functions to construct and format these errors, catch exceptions into result types, and convert errors to strings. It is used to handle and propagate errors in a structured way, particularly when integrating with result-based APIs that require detailed error information.",
+      "description_length": 393,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Febusy.Edsl.String_value",
-      "description": "Creates a custom artifact from a string, associating it with a specific specification type. Operates on strings and build artifacts, embedding string values into a structured build context. Used to define build steps that depend on specific string-based configurations.",
-      "description_length": 269,
+      "library": "febusy",
+      "description": "The module defines an artifact type for representing string values in the DAG, where each string artifact is identified by a unique ID. It provides the `create` function to construct such artifacts from a string value, associating them with a specification that includes the ID. This enables tracking and rebuilding of string-based build outputs, such as generated configuration snippets or version strings embedded in code.",
+      "description_length": 424,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Edsl.System",
-      "description": "Provides functions to execute shell commands, capture their output as lists of strings, and manage file I/O by reading and writing lines. Operates with strings, lists of strings, and file paths. Executes system commands with error handling, feeds input to processes, and reads/writes files line by line.",
-      "description_length": 303,
+      "module_path": "Febusy.Build.DAG",
+      "library": "febusy",
+      "description": "This module represents a directed acyclic graph (DAG) for building artifacts, where nodes are values of type `('a, 'b) Febusy.Build.Artifact.t` and edges represent dependencies or transformations. It supports operations like `Bind` for sequential composition, `Join` and `Join_list` for combining multiple artifact computations, and `Ensures` for enforcing actions during construction. Concrete use cases include defining build pipelines where artifacts are produced through dependent stages, such as compiling source files into executables with intermediate steps like parsing, optimization, and linking.",
+      "description_length": 605,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Febusy.Edsl.Make_unix",
-      "description": "Executes a build dependency graph in a single thread, using Unix-like process execution. It operates on build artifacts and directed acyclic graphs (DAGs) representing build steps. Used to run incremental builds with state persistence through a specified file.",
-      "description_length": 260,
+      "module_path": "Febusy.Build.Action",
+      "library": "febusy",
+      "description": "This module defines a GADT for representing actions that produce values, specifically supporting OCaml function execution. It provides operations to run these actions and convert them to string representations. Concrete use cases include modeling build steps with deferred execution and serializing actions for logging or debugging.",
+      "description_length": 332,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Febusy.Common.Error",
-      "description": "Provides functions to construct error messages from format strings, convert errors to strings, and handle exceptions within a result type. Works with custom error types and result types that encapsulate success or failure. Used to safely wrap code that may raise exceptions and translate them into structured error results.",
-      "description_length": 323,
+      "module_path": "Febusy.Edsl.File",
+      "library": "febusy",
+      "description": "This module represents individual files and collections of files as artifacts in a DAG, enabling operations to declare, generate, and return them based on file paths and build logic. It provides direct functions to create single files and file lists, either statically with `return` or dynamically with `make`, where the latter constructs file groups using a function to determine their contents. The module integrates file paths as representatives and supports use cases such as defining input files, producing output files through custom build steps, and grouping related files for build rules. Its combined API allows precise control over both individual file artifacts and dynamically computed file lists within the same dependency graph.",
+      "description_length": 742,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Build",
-      "description": "Encodes and decodes structured data, generates hashes, and extracts runtime values through polymorphic type manipulation. Executes domain-specific actions with custom behaviors and manages state for artifact tracking with precise hash-based lookups. Constructs and analyzes directed acyclic graphs to model dependencies and ensure valid execution order. Maintains persistent storage for structured records, enabling reliable data retrieval and state management across application runs.",
-      "description_length": 485,
+      "module_path": "Febusy.Common",
+      "library": "febusy",
+      "description": "This module combines formatted output operations with robust error handling to support flexible logging, string manipulation, and error propagation. It provides core types like formatters and error values, along with operations for directing output to channels, buffers, or strings, and for capturing and formatting errors with context. You can use it to log structured messages to stderr, build formatted strings dynamically, or wrap exceptions into result-aware error types for safer error recovery. Submodule functionality integrates seamlessly, allowing errors to be constructed, caught, and rendered using the same formatting infrastructure.",
+      "description_length": 646,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Common",
-      "description": "Provides functions for constructing and handling errors within a result type, supporting custom error types and exception translation. Includes operations to format error messages, convert errors to strings, and manage exceptions safely. Can be used to wrap potentially failing code and return structured error results instead of raising exceptions. Enables consistent error representation and debugging across applications.",
-      "description_length": 424,
+      "module_path": "Febusy.Meta",
+      "library": "febusy",
+      "description": "Contains metadata generated by the build system, including the version string. Works with string data types to store and expose build-time information. Used to retrieve version details programmatically during runtime or diagnostics.",
+      "description_length": 232,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Febusy.Edsl",
-      "description": "combines graph-based build planning, artifact customization, shell command execution, and sequential build execution into a unified workflow. It handles file dependencies, custom string-based artifacts, command-line interactions, and DAG-driven builds. Users can define how source files generate outputs, embed configuration strings into builds, run shell commands, and execute incremental builds. Examples include compiling code with dependency tracking, injecting build-time configurations, and automating deployment scripts.",
-      "description_length": 527,
+      "library": "febusy",
+      "description": "This module provides a monadic DSL to construct dependency graphs of build artifacts using OCaml functions as build actions. The core type `'artifact DAG.t` represents nodes in the graph, where `'artifact` pairs a specification with a representative value like a file path or string, and dependencies are expressed using monadic binds (`>>=`), joins (`join`), and combinators like `=<>=`. Artifacts are defined and linked to build actions using `ensures` or `<--`, enabling dynamic dependency resolution and caching for workflows such as compiling files or generating configuration data. The DSL integrates with submodules for Unix execution, OS interaction, string artifacts, and file artifacts, allowing concrete operations like running shell commands, managing file-based dependencies, and tracking string-based values in the build graph.",
+      "description_length": 841,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Febusy.Meta",
-      "description": "Provides access to build-time metadata through a single string value representing the project's version. Works with immutable string data to convey essential build information. Used to dynamically inject and retrieve version numbers during runtime for logging or display purposes.",
-      "description_length": 280,
+      "module_path": "Febusy.Build",
+      "library": "febusy",
+      "description": "This module orchestrates artifact construction and dependency resolution in build systems, defining actions, DAGs for dependencies, and build state tracking. It supports multi-stage builds, artifact management with success/failure statuses, and ordered pipeline execution. Key data types include DAG nodes representing artifacts, build state stacks, and hash-stamped file caches. You can define build pipelines with `Bind`, `Join`, and `Ensures`, track file changes with hash comparisons, serialize artifacts safely, and run deferred actions with OCaml function support.",
+      "description_length": 570,
       "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "febusy",
-      "description": "Provides functions to define and execute effectful computations with dependencies, tracking their outputs in a structured way. Works with monadic workflows and persistent state files to manage build artifacts across runs. Enables reliable incremental builds by ensuring only necessary steps are re-executed.",
-      "description_length": 307,
-      "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
       "module_path": "Febusy",
-      "description": "Encodes and decodes structured data, generates hashes, and manipulates polymorphic types to extract runtime values, while managing state through hash-based lookups and analyzing directed acyclic graphs for dependency resolution. Supports error handling with custom result types, formatted messages, and safe exception management to ensure robust failure reporting. Combines build planning, artifact customization, and shell command execution into a workflow that handles file dependencies, configuration injection, and incremental builds. Retrieves and injects build-time version metadata as a single string for runtime use.",
-      "description_length": 624,
-      "index": 16,
+      "library": "febusy",
+      "description": "This module coordinates the construction and management of build artifacts through a dependency-aware DSL, integrating error handling, logging, and build metadata. Core data types include `'artifact DAG.t` for representing dependency graphs, build state trackers, and version information for runtime diagnostics. Operations allow defining build steps with `>>=`, `join`, and `ensures`, logging structured messages, and capturing errors with context. You can model complex build workflows, track file changes via hashes, log diagnostic output to stderr, and programmatically access version details for runtime validation.",
+      "description_length": 620,
+      "index": 15,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 23,
-    "meaningful_modules": 17,
-    "filtered_empty_modules": 6,
-    "retention_rate": 0.7391304347826086
+    "total_modules_in_package": 16,
+    "meaningful_modules": 16,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 624,
-    "min_description_length": 260,
-    "avg_description_length": 370.0,
-    "embedding_file_size_mb": 0.06221485137939453
+    "max_description_length": 841,
+    "min_description_length": 232,
+    "avg_description_length": 494.8125,
+    "embedding_file_size_mb": 0.05854511260986328
   }
 }

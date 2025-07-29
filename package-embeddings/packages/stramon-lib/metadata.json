@@ -1,84 +1,85 @@
 {
   "package": "stramon-lib",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:32:02.287350",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:12.969608",
   "modules": [
     {
-      "module_path": "Stramon_lib.Abs_path",
-      "description": "Provides operations to compare, equalize, and convert between absolute path representations. Works with a custom type `t` and string lists representing path components. Converts user input strings into normalized absolute paths, handling relative paths based on a provided current working directory.",
-      "description_length": 299,
+      "module_path": "Stramon_lib.Path_trie_set",
+      "library": "stramon-lib",
+      "description": "Implements a set structure for storing and querying absolute file paths using a trie-based representation. Supports efficient membership checks, insertion, deletion, and set operations like union and intersection. Designed for tracking and comparing sets of file paths observed during process monitoring.",
+      "description_length": 304,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Stramon_lib.Path_trie",
-      "description": "Provides operations to manage a trie structure indexed by absolute file paths, including adding, removing, and looking up values associated with paths. Works with the `Abs_path.t` type and stores values of arbitrary type `'a` within the trie. Supports merging and combining tries based on path keys, and converting between trie and sequence representations.",
-      "description_length": 357,
+      "module_path": "Stramon_lib.Stats",
+      "library": "stramon-lib",
+      "description": "Tracks system call frequencies during process monitoring. Provides access to syscall counts as sorted lists or sequences of string-integer pairs. Useful for analyzing process behavior by identifying frequently used syscalls.",
+      "description_length": 224,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Stramon_lib.Path_trie_set",
-      "description": "Provides operations to manage a set of absolute file paths, including adding, removing, and checking membership. Works with the `Abs_path.t` type and supports set operations like union, intersection, and equality checks. Converts between the set and a sequence of paths for processing or serialization.",
-      "description_length": 302,
+      "module_path": "Stramon_lib.Abs_path",
+      "library": "stramon-lib",
+      "description": "This module represents normalized absolute paths and provides operations to construct, compare, and manipulate them using string lists or string representations. It supports parsing paths from strings relative to a given working directory, splitting paths into components, and normalizing segments by ignoring empty or dot-only parts. Concrete use cases include resolving file paths during process monitoring, ensuring consistent path formatting, and comparing paths for equality or ordering in tracking system calls.",
+      "description_length": 517,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Stramon_lib.Syscall",
-      "description": "Handles system call data structures and event processing for low-level network and file operations. Works with specific types like `open_`, `read`, `socket`, `stat`, and `sockaddr_in` to represent and manage system call parameters and results. Used to capture and analyze system calls related to file permissions, network connections, and file metadata in tracing or monitoring tools.",
-      "description_length": 384,
+      "library": "stramon-lib",
+      "description": "This module defines data structures and handlers for system call events captured during process monitoring, including detailed representations of syscalls like `open`, `read`, `socket`, and `connect`. It works with typed records that model specific syscall parameters and outcomes, such as file operations, socket interactions, and permission changes. Concrete use cases include analyzing file access patterns, tracking network connections, and auditing system call behavior for security or debugging purposes.",
+      "description_length": 510,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Stramon_lib.Stats",
-      "description": "Tracks system call counts and provides access to aggregated data. Operates on a custom state type representing monitoring data. Returns lists or sequences of (syscall name, count) pairs for analysis or logging.",
-      "description_length": 210,
+      "module_path": "Stramon_lib.Utils",
+      "library": "stramon-lib",
+      "description": "This module includes functions for converting strings to hexadecimal or octal integer representations, transforming hex-encoded strings into readable formats, and extracting file kinds from absolute paths. It operates on basic types like strings, integers, and Unix file kinds, with specific handling for C-style string encodings and file metadata. These utilities are used for parsing low-level system data, such as interpreting file types during process monitoring or decoding numeric representations in system call traces.",
+      "description_length": 525,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Stramon_lib.Monitor_result",
-      "description": "Extracts the final context, statistics, and any exception from a monitoring session's result. Works with a polymorphic result type that wraps session data. Used to inspect outcomes of performance tracking or system health checks after execution.",
-      "description_length": 245,
+      "module_path": "Stramon_lib.Path_trie",
+      "library": "stramon-lib",
+      "description": "This module implements a trie structure for efficiently storing and querying values associated with absolute paths. It supports operations like insertion, deletion, lookup, and merging of path-associated data, with specialized handling for hierarchical path relationships. It is used to track file system paths and their associated metadata during process monitoring, enabling fast lookups and hierarchical aggregations.",
+      "description_length": 420,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Stramon_lib.Utils",
-      "description": "Converts file paths to Unix file kinds, decodes hexadecimal strings into readable formats, and parses numeric strings into 64-bit integers. Processes C-style comments in source code by removing them. Accepts absolute file paths and raw string inputs for transformation.",
-      "description_length": 269,
+      "module_path": "Stramon_lib.Monitor_result",
+      "library": "stramon-lib",
+      "description": "This module captures the outcome of a process monitoring session, providing access to the final context, execution statistics, and any exception that occurred. It works with a generic result type `t` that holds session-specific data, along with `Stats.t` for performance metrics. Concrete use cases include retrieving session context after tracing a process, inspecting system call counts via `stats`, and handling errors using the `exn` field.",
+      "description_length": 444,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "stramon-lib",
-      "description": "Tracks system call activity and process behavior using low-level tracing mechanisms. Processes and analyzes data from system calls, file descriptors, and process states. Enables real-time monitoring of application behavior for debugging and security analysis.",
-      "description_length": 259,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Stramon_lib",
-      "description": "manages path normalization, trie and set operations, system call tracking, and result extraction for process monitoring. it works with types like `Abs_path.t`, system call records, and monitoring state, enabling path comparisons, trie merging, set operations, and syscall counting. it can track file access patterns, analyze system call frequencies, and extract structured results from monitoring sessions. it also handles path-to-kind conversion, string parsing, and comment removal for preprocessing.",
-      "description_length": 502,
-      "index": 8,
+      "library": "stramon-lib",
+      "description": "This module implements a process monitoring system using syscall tracing to track and analyze program behavior. It provides data structures like path tries and absolute paths to represent file system paths efficiently, along with syscall handlers and result tracking for monitoring process activity. Concrete use cases include detecting unauthorized file access, analyzing system call patterns, and generating behavioral profiles for security or debugging purposes. The module includes submodules for path set operations, syscall frequency tracking, normalized path manipulation, syscall event modeling, string and file utilities, hierarchical path storage via tries, and session result handling, enabling tasks such as resolving file paths, auditing system calls, and aggregating execution statistics.",
+      "description_length": 802,
+      "index": 7,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 502,
-    "min_description_length": 210,
-    "avg_description_length": 314.1111111111111,
-    "embedding_file_size_mb": 0.03314495086669922
+    "max_description_length": 802,
+    "min_description_length": 224,
+    "avg_description_length": 468.25,
+    "embedding_file_size_mb": 0.029458045959472656
   }
 }

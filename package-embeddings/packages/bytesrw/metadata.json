@@ -1,126 +1,125 @@
 {
   "package": "bytesrw",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 15,
-  "creation_timestamp": "2025-06-18T16:34:17.527716",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:08:26.698519",
   "modules": [
     {
-      "module_path": "Bytesrw.Bytes.Slice",
-      "description": "The module provides functions for creating, manipulating, and inspecting byte slices within `Bytes.t` values, including handling the end-of-data marker `eod`. It supports operations on bytes, bigbytes, and strings, enabling safe range extraction, type conversion, and formatting while avoiding errors through `eod` returns. Use cases include processing data streams, efficiently managing byte ranges in network protocols, or parsing structured binary formats.",
-      "description_length": 459,
+      "module_path": "Bytesrw_unix",
+      "library": "bytesrw.unix",
+      "description": "This module provides functions to create byte readers and writers from Unix file descriptors, enabling efficient streaming of data to and from files or sockets. It works directly with `Unix.file_descr` values, using configurable buffer sizes to control I/O operations. Concrete use cases include reading from or writing to log files, network sockets, or inter-process communication channels with precise control over buffer sizes and file positions.",
+      "description_length": 449,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bytesrw.Bytes.Stream",
-      "description": "Provides functions to create and handle errors in byte stream processing, including converting errors to human-readable messages and results. Works with custom error types, format strings, and position tracking. Used to validate stream formats and enforce size limits during reading or writing.",
-      "description_length": 294,
+      "module_path": "Bytesrw.Bytes.Slice",
+      "library": "bytesrw",
+      "description": "This module enables slicing, copying, and splitting of non-empty byte ranges within a `Bytes.t` buffer, with support for safe sub-slicing and handling of an end-of-data sentinel (`eod`). It operates on byte slices (`Slice.t`) backed by `Bytes.t`, and facilitates conversions to/from strings, bigarrays, and other byte-like types while managing invalid ranges gracefully. Typical applications include parsing binary data streams, constructing memory-efficient byte range abstractions, and implementing protocols requiring precise byte-level manipulation.",
+      "description_length": 553,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bytesrw.Bytes.Reader",
-      "description": "The module offers slice-by-slice byte stream processing with operations like reading, pushing back, skipping, and filtering, enabling precise control over sequential data traversal. It manipulates byte slices, stream readers, and input channels, supporting tasks such as protocol parsing, data validation, and stream composition. Specific use cases include handling variable-length records, reprocessing segments of input, and converting byte sequences into structured outputs.",
-      "description_length": 477,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
+      "module_path": "Bytesrw.Bytes.Stream",
+      "library": "bytesrw",
+      "description": "This module implements byte stream processing with support for reading, writing, and error handling. It works with byte slices, streams, and readers/writers, enabling efficient parsing and serialization of binary data. Concrete use cases include network protocol decoding, file format parsing, and low-level data transformation tasks.",
+      "description_length": 334,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
       "module_path": "Bytesrw.Bytes.Writer",
-      "description": "Writes byte slices to a stream, handling end-of-data markers and managing slice lengths. Operates on `Slice.t` and `Stream.pos`, supporting direct byte writes and integration with buffers, channels, and readers. Used to construct writers that log, limit, or redirect byte streams during data processing.",
-      "description_length": 303,
+      "library": "bytesrw",
+      "description": "This module provides stream writing capabilities with precise control over byte slices. It supports writing raw slices, bytes, strings, and reader content with configurable slice sizes and error handling. Concrete use cases include streaming data to output channels, limiting write sizes, and tracing or filtering byte output.",
+      "description_length": 326,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bytesrw.Bytes",
-      "description": "manages byte stream operations with slice-based processing, error handling, and writing capabilities. it works with byte slices, streams, and error types, offering read, write, skip, and error conversion functions. it enables precise control over data traversal, validation, and formatting in network protocols or binary parsing. examples include parsing variable-length records, logging byte sequences, and handling stream boundaries safely.",
-      "description_length": 442,
+      "module_path": "Bytesrw_utf.Encoding",
+      "library": "bytesrw",
+      "description": "This module defines types and functions for working with UTF-based encodings, specifically UTF-8, UTF-16BE, and UTF-16LE. It provides `to_iana_charset` to convert encoding values to their IANA character set names and `pp` to format those names using the standard formatter. These tools are useful when handling encoding labels in protocols or file formats that require precise charset identification.",
+      "description_length": 400,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bytesrw_zlib.Deflate",
-      "description": "Filters byte reader and writer streams to compress or decompress data using the deflate algorithm. Operates on byte streams through reader and writer filters, handling compression levels and leftover data control. Decompression reads process incoming data into a decompressed stream, while compression writes encode outgoing data into a compressed stream.",
-      "description_length": 355,
+      "module_path": "Bytesrw.Bytes",
+      "library": "bytesrw",
+      "description": "This module extends low-level byte manipulation with comprehensive tools for slicing, copying, and in-place modification of `Bytes.t` buffers, while its child modules enable structured handling of byte ranges, streams, and writers. Core data types include `Slice.t` for safe, non-empty byte range abstractions and stream types for reading and writing binary data with error handling. Operations allow splitting, sub-slicing, conversion to and from strings and bigarrays, and precise control over byte output, including support for end-of-data sentinels and configurable buffer sizes. Use cases span binary protocol parsing, memory-efficient data transformation, and streaming I/O with strict size constraints.",
+      "description_length": 709,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bytesrw_zlib.Zlib",
-      "description": "Filters byte reader and writer streams to compress or decompress data using zlib. It handles raw byte sequences, applying compression levels or managing decompression with options for leftover data. Used to process compressed data streams in applications like file I/O or network protocols.",
-      "description_length": 290,
+      "module_path": "Bytesrw",
+      "library": "bytesrw",
+      "description": "This module extends byte manipulation with structured tools for slicing, streaming, and in-place buffer modification. It introduces `Slice.t` for safe byte ranges and stream types for controlled reading and writing, including error handling and buffer management. You can split byte sequences, convert between strings and bigarrays, and manage binary data streams with precise size constraints. Use it for parsing binary protocols, transforming data efficiently, or handling streaming I/O with strict memory limits.",
+      "description_length": 515,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bytesrw_zlib.Gzip",
-      "description": "Filters byte reader and writer streams to compress or decompress data as single gzip members or concatenated sequences. Operates on byte streams using reader and writer filters, handling gzip headers and footers automatically. Decompression can process multiple members or a single one, while compression bundles writes into a single gzip member.",
-      "description_length": 346,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bytesrw_utf.Encoding",
-      "description": "Encodes and decodes character sets, converting between internal representations and IANA standard names. It handles types that include standard encodings and UTF-16, providing formatted output for debugging or logging. This supports applications needing precise character set identification and display, such as network protocols or data serialization.",
-      "description_length": 352,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "bytesrw",
-      "description": "Provides functions for reading from and writing to byte streams with fine-grained control over buffer management and resource allocation. Operates on byte arrays and input/output channels, supporting asynchronous data processing. Enables efficient handling of large binary data in network protocols and file serialization.",
-      "description_length": 322,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bytesrw_unix",
-      "description": "Provides functions to create byte stream readers and writers from Unix file descriptors, using configurable slice sizes for I/O operations. Operates on Unix file descriptors and byte streams, supporting retry logic for interruption errors during read and write operations. Used to efficiently handle low-level I/O with fine-grained control over buffer sizes and file positions.",
-      "description_length": 377,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bytesrw",
-      "description": "extends the Stdlib.Bytes module with stream-based byte processing, enabling efficient handling of byte slices, streams, and error states. it provides operations for reading, writing, skipping, and converting errors, along with tools for managing data boundaries and formatting. users can parse variable-length records, log byte sequences, or safely handle network protocol data. key types include byte slices, streams, and error representations, with functions for precise data manipulation.",
-      "description_length": 491,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Bytesrw_hex",
-      "description": "Converts hexadecimal strings to binary strings and validates their length, with options for case-insensitive input and lowercase output. Processes raw byte sequences, ensuring correct formatting and error handling for length constraints. Formats byte sequences as lowercase hexadecimal strings for display or logging.",
-      "description_length": 317,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bytesrw_zlib",
-      "description": "Provides compression and decompression capabilities for deflate, zlib, and gzip formats using byte stream filters. Supports operations on readers and writers with configurable slice lengths and position tracking. Can handle raw deflate data, zlib-wrapped streams, and gzip files, including multi-member decompression. Examples include compressing data for network transmission, decompressing zlib-encoded files, and reading/writing gzip-compressed logs.",
-      "description_length": 453,
-      "index": 13,
+      "library": "bytesrw",
+      "description": "This module converts between hexadecimal strings and binary data, enforcing correct length constraints. It provides functions to parse hexadecimal into a binary string, format binary data as hexadecimal, and validate the byte length of binary strings. Use it when working with hex-encoded data like cryptographic hashes or binary protocols where exact byte lengths are critical.",
+      "description_length": 378,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bytesrw_utf",
-      "description": "Handles UTF encoding and decoding with support for character set identification, conversion, and debugging output. Provides types for representing encodings and operations to guess, convert, and format them. Enables precise control over UTF-8 decoding with position tracking and writing, useful for processing streams in network or file operations. Examples include identifying the encoding of a byte stream or generating human-readable logs of encoding details.",
-      "description_length": 462,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
+      "library": "bytesrw",
+      "description": "This module detects UTF encodings from byte streams by analyzing initial bytes, focusing on BOM markers and ASCII compatibility, and integrates with byte stream readers for early encoding determination. It supports UTF-8 and can be extended to other UTF variants, enabling accurate preprocessing of encoded data. The child module handles UTF-8, UTF-16BE, and UTF-16LE encodings, offering conversion to IANA charset names and formatted output for use in protocols or file parsers. Together, they allow detection of a stream's encoding and precise handling of known UTF variants with proper labeling and formatting.",
+      "description_length": 613,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bytesrw_zlib.Zlib",
+      "library": "bytesrw.zlib",
+      "description": "This module implements zlib stream compression and decompression for byte readers and writers. It provides filters to compress data during reads or writes using configurable compression levels, and to decompress data during reads or writes while handling end-of-data markers. Concrete use cases include processing compressed network streams, reading and writing zlib-encoded files, and embedding compressed data within larger binary formats.",
+      "description_length": 441,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bytesrw_zlib.Gzip",
+      "library": "bytesrw.zlib",
+      "description": "This module handles gzip stream compression and decompression using the zlib C library, supporting both reading and writing operations. It works with byte streams through `Bytesrw.Bytes.Reader` and `Writer` filters, allowing incremental processing of gzip members. Concrete use cases include streaming compression of data to a file or network socket, and decompressing multi-member gzip files member-by-member without loading the entire stream into memory.",
+      "description_length": 456,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bytesrw_zlib.Deflate",
+      "library": "bytesrw.zlib",
+      "description": "This module implements streaming compression and decompression for deflate format data. It operates on byte streams using reader and writer filters, handling raw deflate payloads without container formats. Use cases include processing network protocols or file formats that embed raw compressed data segments.",
+      "description_length": 309,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bytesrw_zlib",
+      "library": "bytesrw.zlib",
+      "description": "This module enables compression and decompression of byte streams using the zlib C library, supporting deflate, zlib, and gzip formats with configurable slice lengths and stream positions. It provides filters for readers and writers that allow incremental processing of compressed data, with control over compression levels to balance speed and efficiency. The zlib submodule handles zlib-encoded streams for applications like network data transfer and embedded compression, while the gzip submodule supports streaming compression and decompression of gzip members, ideal for large file or network processing. The deflate submodule works with raw compressed payloads, suitable for protocols or formats requiring standalone deflate streams without container headers.",
+      "description_length": 765,
+      "index": 12,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 15,
-    "meaningful_modules": 15,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 14,
+    "meaningful_modules": 13,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9285714285714286
   },
   "statistics": {
-    "max_description_length": 491,
-    "min_description_length": 290,
-    "avg_description_length": 382.6666666666667,
-    "embedding_file_size_mb": 0.05494880676269531
+    "max_description_length": 765,
+    "min_description_length": 309,
+    "avg_description_length": 480.61538461538464,
+    "embedding_file_size_mb": 0.04767894744873047
   }
 }

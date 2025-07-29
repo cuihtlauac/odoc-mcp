@@ -1,35 +1,301 @@
 {
   "package": "git-kv",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 2,
-  "creation_timestamp": "2025-06-18T16:26:18.863618",
+  "total_modules": 35,
+  "creation_timestamp": "2025-07-15T23:14:04.979347",
   "modules": [
     {
-      "module_path": "git-kv",
-      "description": "Provides functions to serialize and deserialize a Git repository, and to clone a remote repository into a local structure. Works with data types representing repository metadata, object trees, and commit histories. Used to initialize repositories from existing data or fetch content from a remote source.",
-      "description_length": 304,
+      "module_path": "Git_kv",
+      "library": "git-kv",
+      "description": "This module implements a Git-backed key-value store with atomic read/write operations, hierarchical key hierarchies, and partial content manipulation, supporting versioned data through commit tracking and branch metadata. It manages structured values with associated permissions, remote repository synchronization, and low-level object serialization, enabling use cases such as collaborative state management, version-controlled configuration storage, and distributed audit trails.",
+      "description_length": 481,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Git_kv",
-      "description": "This module enables key-value store operations within a Git repository, supporting actions like adding, removing, and modifying entries, along with Git-specific tasks such as committing changes and synchronizing with a remote. It operates on a `t` type representing a local Git repository, leveraging commits and serialized states to track modifications. Use cases include managing asynchronous updates with `change_and_push` for atomic commits or syncing later, while handling desynchronization by preserving unpushed changes in serialized form.",
-      "description_length": 546,
+      "module_path": "Git_store.Commit.Map",
+      "library": "git-kv.mem",
+      "description": "This module offers specialized map operations for Git commit identifiers, supporting functional updates, traversal, and aggregation over key-value pairs where keys are uniquely identified by `Git_store.Commit.t`. It provides transformations, filtering, and structural queries alongside conversions to sequences and lists, all leveraging a built-in ordering for key comparison. Typical use cases include tracking metadata across commits, merging commit histories, or processing ordered commit timelines.",
+      "description_length": 502,
       "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tree.Syntax",
+      "library": "git-kv.mem",
+      "description": "This module defines parsers and serializers for Git tree entries, handling permissions, hashes, and file modes. It works with strings, character predicates, and Git_store.Tree.entry values to process and format Git tree data. Concrete use cases include parsing and validating Git tree objects, converting between string representations and internal types, and filtering whitespace characters during parsing.",
+      "description_length": 407,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tag.Set",
+      "library": "git-kv.mem",
+      "description": "This module provides functional set operations for Git tags, including union, intersection, difference, and transformations via map and fold, maintaining immutable set structures. It handles sets of `Git_store.Tag.t` values with support for conversions to lists and sequences, enabling efficient iteration and integration with pipeline processing. Typical applications involve managing unique tag collections, performing set algebra, and transforming tag data through functional workflows.",
+      "description_length": 489,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Commit.Syntax",
+      "library": "git-kv.mem",
+      "description": "This module defines bidirectional parsers and serializers for Git commit objects, handling conversions between string representations and structured types like `Git_store.Commit.t`. It processes commit metadata including author, committer, tree and parent SHAs, extra headers, and commit messages using precise string parsing combinators. Functions like `commit`, `user`, and `hex` enable encoding and decoding Git commit data according to the Git object format specification.",
+      "description_length": 476,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Tag.Syntax",
+      "library": "git-kv.mem",
+      "description": "This module provides functions for parsing and formatting Git tag objects, handling conversions between string representations and structured types like SHA1 hashes, user data, and tag kinds. It includes utilities for validating characters, constructing tagged values with optional fields, and defining bidirectional transformations for serialization. Concrete use cases involve decoding and encoding Git tag metadata, such as extracting tag names, commit hashes, tagging users, and associated messages.",
+      "description_length": 503,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Blob.Set",
+      "library": "git-kv.mem",
+      "description": "This module provides set operations\u2014union, intersection, difference, filtering, and mapping\u2014for Git blobs, ensuring uniqueness and efficient membership checks. It supports conversions to sequences and lists, enabling iterative processing and streaming of blob collections. These features are useful for managing repository states, merging blob collections, and handling version control workflows efficiently.",
+      "description_length": 408,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.User.Map",
+      "library": "git-kv.mem",
+      "description": "This module implements an associative map structure with keys of type `Git_store.User.t` and arbitrary value types, supporting operations like insertion, lookup, deletion, and merging of bindings. It offers traversal (iteration, folding), transformation (mapping with and without keys), filtering (partitioning, conditional removal), and conversion to/from sequences for bulk processing. The persistent map structure is suited for functional workflows requiring efficient updates and queries over user-specific data, such as tracking user states or aggregating repository metadata.",
+      "description_length": 581,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tree.Set",
+      "library": "git-kv.mem",
+      "description": "This module provides functions to manipulate immutable, ordered sets of Git trees using comparison-based ordering, supporting operations like union, intersection, difference, and transformations. It includes utilities for membership checks, ordered traversal, and conversions to lists and sequences, enabling efficient management of hierarchical data structures in version control workflows such as tracking directory hierarchies or computing differences between tree states.",
+      "description_length": 475,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Blob.Map",
+      "library": "git-kv.mem",
+      "description": "This module provides associative map operations for keys representing Git blobs, supporting insertion, deletion, lookup, and set-like merges. It works with ordered key-value pairs where keys are Git blob identifiers and values are arbitrary, enabling ordered traversal, predicate-based filtering, and structural transformations. Use cases include tracking versioned file metadata, aggregating blob dependencies, or maintaining indexed collections of repository objects with efficient key-based access.",
+      "description_length": 501,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Reference.Map",
+      "library": "git-kv.mem",
+      "description": "This module implements ordered maps with keys derived from a version control reference ordering, supporting operations to insert, merge, filter, and transform key-value pairs where values are polymorphic. It provides bidirectional conversion between maps and sequences, enabling ordered traversal and bulk updates, while offering specialized queries for finding extremal bindings or conditional selections. Such functionality is useful for managing hierarchical version control metadata like branch pointers, tag hierarchies, or commit ancestry graphs where ordered key relationships and efficient map transformations are critical.",
+      "description_length": 631,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.User.Set",
+      "library": "git-kv.mem",
+      "description": "This module provides functions for creating and manipulating sets of user data, supporting operations like union, intersection, and difference, as well as transformations, membership tests, and ordered traversal. It works with sets, lists, and sequences of `Git_store.User.t` values, enabling use cases such as managing access control lists or analyzing user activity in a Git repository. The module also supports conversions between sets and sequences, along with iterative processing and partitioning of user collections.",
+      "description_length": 523,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tree.Map",
+      "library": "git-kv.mem",
+      "description": "This module provides associative map operations for key-value pairs where keys are version-controlled tree structures, supporting insertion, deletion, merging, and ordered traversal. It includes functions for transforming, filtering, and converting maps to sequences, enabling use cases like hierarchical data management and change tracking in tree-based systems. Ordered key comparisons facilitate efficient querying and binding operations for structured data representation.",
+      "description_length": 476,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Reference.Ordered",
+      "library": "git-kv.mem",
+      "description": "This module defines a total ordering over Git reference names using standard string comparison. It ensures consistent sorting and comparison of Git references, such as branches and tags, based on their string identifiers. Useful in contexts requiring ordered traversal or comparison of repository references.",
+      "description_length": 308,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Blob.Log",
+      "library": "git-kv.mem",
+      "description": "This module provides functions for logging messages at various severity levels, including `app`, `err`, `warn`, `info`, and `debug`, all of which format and emit log records using the `Logs` infrastructure. It includes utilities like `on_error` and `on_error_msg` to handle and log error results, allowing custom formatting and error propagation. These functions are used to log structured data, handle result values, and emit diagnostic messages with specific log levels and tags.",
+      "description_length": 481,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Tag.Map",
+      "library": "git-kv.mem",
+      "description": "This module provides associative map operations for key-value pairs where keys are Git_store.Tag.t values, supporting insertion, deletion, bulk updates, merging, and optional value handling. It includes functions for searching, transforming, filtering, and property checks, along with conversions to and from lists and sequences. These capabilities are suited for managing metadata or annotations linked to Git tags, enabling efficient data aggregation, iteration, and version-specific tracking in repository workflows.",
+      "description_length": 519,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Commit.Set",
+      "library": "git-kv.mem",
+      "description": "This module provides standard set operations\u2014such as union, intersection, and difference\u2014alongside transformation and iteration functions for working with immutable collections of Git commits. It supports conversions to and from sequences and lists, enabling efficient processing of commit histories. Typical use cases include analyzing version control data, merging commit sets, and batch operations on repository changesets.",
+      "description_length": 426,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Reference.Set",
+      "library": "git-kv.mem",
+      "description": "This module implements standard set operations like union, intersection, and difference, alongside iteration, filtering, and structural comparison functions for collections of Git references. It operates on sets of `Git_store.Reference.Ordered.t` elements, supporting conversions to and from sequences for ordered traversal and bulk updates. Typical applications include managing groups of Git references, performing membership checks, and transforming sets through functional pipelines.",
+      "description_length": 487,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Reference.Packed",
+      "library": "git-kv.mem",
+      "description": "This module manages a list of packed Git references, supporting operations to load, query, and modify reference entries. It works with reference names and SHA1 hashes, organizing them as either direct references or peeled tags. Use it to efficiently handle packed-refs files in Git repositories, such as resolving reference names to commit hashes or removing outdated references.",
+      "description_length": 379,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Log",
+      "library": "git-kv.mem",
+      "description": "This module provides functions for logging messages at various severity levels, including debug, info, warning, error, and application-specific logs. It supports logging formatted messages and handling result values, particularly for error cases. Concrete use cases include tracking execution flow, reporting errors with custom formatting, and handling failed computations by logging diagnostic information and returning fallback values.",
+      "description_length": 437,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Endpoint",
+      "library": "git-kv.mem",
+      "description": "This module handles parsing, manipulating, and converting Git endpoint information, supporting operations like extracting headers from URIs, adding HTTP headers to endpoints, and converting endpoints into context objects. It works with URIs, string-based Git paths, hostnames, ports, and custom transmission schemes such as SSH, HTTP, and HTTPS. Concrete use cases include configuring Git connections with specific headers, validating and transforming Git URLs, and setting up secure or authenticated remote Git operations.",
+      "description_length": 523,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Blob",
+      "library": "git-kv.mem",
+      "description": "This module represents Git blob objects as immutable byte strings, with operations to create, compare, hash, and serialize blobs for efficient binary data management. It supports set and map abstractions through submodules that enable union, intersection, filtering, and key-based lookups, ideal for handling repository states and versioned metadata. Logging utilities are integrated to emit diagnostic messages at various severity levels, aiding in error handling and structured data logging during blob operations. Specific uses include tracking file contents across Git versions, merging blob collections, and logging repository events with contextual tags.",
+      "description_length": 660,
+      "index": 21,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Object",
+      "library": "git-kv.mem",
+      "description": "This module defines a type `t` representing Git objects, including blobs, commits, trees, and tags, with operations to serialize, deserialize, and inspect them. It provides functions to compute the SHA1 digest, convert to a binary string, and parse from a binary string with a specified kind. Use cases include reading and writing raw Git object data, verifying object integrity via hashing, and inspecting object size for storage operations.",
+      "description_length": 442,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tree",
+      "library": "git-kv.mem",
+      "description": "This module organizes hierarchical tree structures representing Git objects, managing entries with permissions, SHA1 hashes, and names. It supports construction, modification, and digest computation over lists of entries, using set and map submodules for efficient aggregation, traversal, and comparison. The parsing submodule handles conversion between string representations and internal tree entries, while the set and map submodules enable structured manipulation of collections and key-value relationships. Examples include modeling Git directory hierarchies, computing integrity hashes, and filtering or merging tree data during version control operations.",
+      "description_length": 662,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Traverse",
+      "library": "git-kv.mem",
+      "description": "Performs depth-first traversal of Git objects in a repository, accumulating results with a custom function or applying side effects. Works with Git object stores, paths, and SHA1 hashes. Useful for inspecting or processing commit trees, enumerating object contents, or building custom Git analysis tools.",
+      "description_length": 304,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Commit",
+      "library": "git-kv.mem",
+      "description": "This module represents Git commits with structured data, including tree, parents, author, committer, metadata, and message. It supports commit construction, field access, digest computation, and comparison by date or content, enabling tasks like building commit histories or verifying integrity. Child modules enhance this functionality with maps for keyed commit operations, parsers for serializing commit data, and sets for managing collections of commits. These tools together allow processing commit timelines, merging histories, and encoding or decoding Git objects according to specification.",
+      "description_length": 598,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Ref",
+      "library": "git-kv.mem",
+      "description": "This module manages Git references, enabling operations like listing, reading, writing, and resolving references by name. It works with Git_store instances and handles key data types such as SHA1 hashes and Git_reference.contents, allowing users to manipulate branch or tag references\u2014such as resolving a branch name to a commit hash or updating a reference to point to a new commit. Submodules extend this functionality with specialized operations for handling symbolic references, packed references, and reference transactions. Together, they provide a comprehensive interface for working with Git's reference system directly and efficiently.",
+      "description_length": 644,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_store.Tag",
+      "library": "git-kv.mem",
+      "description": "This module organizes Git tag data into structured types and operations, enabling creation, parsing, and manipulation of tag metadata such as target hashes, names, and messages. It supports direct access to tag fields, set operations over collections of tags, and key-based mappings for associating data with tags. You can construct annotated tags, compute their SHA1 digests, compare tag sets, or map tags to additional metadata for version control tasks. Serialization utilities allow bidirectional conversion between raw and structured tag representations, facilitating integration with storage and processing pipelines.",
+      "description_length": 623,
+      "index": 27,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.Reference",
+      "library": "git-kv.mem",
+      "description": "This module manages Git references through path manipulation, content handling, and resolution of SHA1 hashes or symbolic targets, working with strings, hashtables, and packed structures to support cycle detection and integrity checks. It includes an ordered map submodule for hierarchical metadata management, a comparator for consistent reference ordering, a set module for collection operations, and a packed reference handler for efficient storage and querying. You can validate reference hierarchies, resolve indirect references, perform set algebra on reference collections, and manage packed-refs files with direct and peeled tag entries. Specific operations include merging ordered reference maps, filtering reference sets, and transforming packed reference lists while maintaining consistency and order.",
+      "description_length": 812,
+      "index": 28,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Git_store.User",
+      "library": "git-kv.mem",
+      "description": "This module represents Git users with structured data including name, email, timestamp, and timezone offset, supporting bidirectional serialization, date parsing with optional timezone handling, and string sanitization. It enables efficient equality checks, time-based comparisons, and associative data management through a `Set` module for unique user records and a `Map` module for key-value associations. The `Set` module supports union, intersection, and difference operations, while the `Map` module allows insertion, lookup, and transformation of user-associated data, facilitating use cases like tracking contributor activity or managing permissions. Together, they provide a functional interface for processing user collections, with conversions to and from sequences for bulk operations and iterative workflows.",
+      "description_length": 820,
+      "index": 29,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Git_store",
+      "library": "git-kv.mem",
+      "description": "This module manages Git storage operations with a focus on structured data handling, logging, and repository traversal. It provides core types for Git objects like blobs, commits, trees, and tags, along with utilities for parsing, hashing, and serializing these objects, supporting tasks such as inspecting commit trees or tracking file contents across versions. Submodules handle logging with severity levels, Git endpoint configuration with support for multiple transmission schemes, and reference management with symbolic and packed reference handling. Additional components model hierarchical tree structures, traverse Git object stores, and represent users with time-based comparisons and associative data management, enabling use cases like building commit histories, validating URLs, and logging diagnostic information with contextual tags.",
+      "description_length": 847,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_search.Log",
+      "library": "git-kv.search",
+      "description": "This module provides logging operations for tracking application events at various severity levels, including debug, info, warn, err, and custom log levels. It works with log messages formatted using `Logs.msgf`, result types for error handling, and tag sets for contextual filtering. Concrete use cases include logging structured events, handling and formatting errors with custom printers, and conditionally executing logging callbacks based on result outcomes.",
+      "description_length": 463,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Git_search",
+      "library": "git-kv.search",
+      "description": "This module implements path resolution and object traversal in a Git repository by analyzing commit, tag, tree, and root node relationships, while its child module provides logging operations for tracking application events at various severity levels. The core functionality includes resolving Git paths to tree entries, extracting SHA1s from tags, and verifying file existence in commit trees, with support for structured logging, error formatting, and conditional log execution. Key data types include Git objects like commits and trees, along with log messages, severity levels, and result types for error handling. Examples include checking if a file path exists in a given commit, extracting a tagged object's hash, or logging structured events with contextual tags and custom error printers.",
+      "description_length": 797,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bbuffer",
+      "library": "git-kv.bbuffer",
+      "description": "This module implements a mutable buffer for efficiently managing and manipulating byte strings. It supports operations like adding substrings, resizing the buffer, extracting subarrays, and copying data within the buffer. Concrete use cases include building dynamic byte sequences for network protocols or file parsing where precise control over buffer size and content is required.",
+      "description_length": 382,
+      "index": 33,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Git_sync",
+      "library": "git-kv.sync",
+      "description": "This module implements Git repository synchronization operations, providing `fetch` and `push` functions for remote repository interaction with support for advanced Git protocol capabilities. It works with Git stores, endpoints, references, and error types, handling low-level details like version negotiation, capability exchange, and reference updates. Concrete use cases include cloning repositories, pulling updates from remotes, and pushing local changes to remote branches or tags.",
+      "description_length": 487,
+      "index": 34,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 2,
-    "meaningful_modules": 2,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 36,
+    "meaningful_modules": 35,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9722222222222222
   },
   "statistics": {
-    "max_description_length": 546,
+    "max_description_length": 847,
     "min_description_length": 304,
-    "avg_description_length": 425.0,
-    "embedding_file_size_mb": 0.0077037811279296875
+    "avg_description_length": 530.1142857142858,
+    "embedding_file_size_mb": 0.12757492065429688
   }
 }

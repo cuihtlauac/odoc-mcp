@@ -1,119 +1,133 @@
 {
   "package": "metaquot",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:33:33.466385",
+  "creation_timestamp": "2025-07-15T23:09:13.428713",
   "modules": [
     {
-      "module_path": "Metaquot.Make.Quoter",
-      "description": "Maps over quoted expressions, preserving their structure and syntax. Works with abstract syntax trees representing OCaml code. Used to transform literal values within quotes during code generation or analysis.",
-      "description_length": 209,
+      "module_path": "Metaquot.Exp.Quoter",
+      "library": "metaquot",
+      "description": "Converts OCaml values and abstract syntax tree (AST) nodes\u2014such as expressions, patterns, types, and attributes\u2014into quoted expressions, supporting customizable substitutions and preserving structural context like attribute propagation and list-tracking information. It operates on Ppxlib AST types (e.g., `core_type`, `pattern`, `attribute`) and OCaml built-in types to enable meta-programming tasks like syntax tree embedding, code generation, and attribute-aware transformations.",
+      "description_length": 482,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Metaquot.Pat.Quoter",
-      "description": "Maps over quoted expressions, preserving their structure and syntax. Works with abstract syntax trees representing OCaml code. Used to transform embedded language constructs within quotations.",
-      "description_length": 192,
+      "module_path": "Metaquot.Make.Quoter",
+      "library": "metaquot",
+      "description": "This module provides functions to convert and manipulate OCaml abstract syntax tree (AST) nodes\u2014such as expressions, patterns, types, modules, and attributes\u2014into a structured `Target.t` representation, enabling contextual transformations via substitution maps and list tracking. It operates on Ppxlib AST types and supports meta-programming tasks like code generation, quotation, and syntactic manipulation, particularly in PPX rewriters where AST fragments require dynamic assembly or modification. The consistent pattern of accepting optional substitutions and context flags allows seamless integration with hierarchical AST traversals and contextual code transformations.",
+      "description_length": 675,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot.Exp.Quoter",
-      "description": "Maps over quoted expressions, preserving syntax structure. Operates on abstract syntax trees representing OCaml code. Used to transform literal values within quotes during code generation.",
-      "description_length": 188,
+      "module_path": "Metaquot.Pat.Quoter",
+      "library": "metaquot",
+      "description": "This module enables structural quotation of OCaml abstract syntax tree (AST) nodes by converting patterns, expressions, types, modules, and their descriptors into `QuotePat.t` values with support for substitution maps and list context tracking. It operates on AST components like identifiers, booleans, lists, and attributes, while providing specialized lifting functions for complex structures such as class types, value bindings, and signature items. Its primary use case involves meta-programming tasks like syntax extension and code transformation, where pattern-based manipulation of OCaml AST fragments is required.",
+      "description_length": 621,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot.Eq",
-      "description": "Provides equality checks between values of different types, supporting custom equality logic through a polymorphic variant. Works with tuples of two distinct types, enabling precise comparisons in heterogeneous contexts. Used to implement type-safe equality in domain-specific validations and data synchronization processes.",
-      "description_length": 324,
+      "module_path": "Metaquot.Make",
+      "library": "metaquot",
+      "description": "This module converts OCaml AST elements into a structured `Target.t` representation, enabling code generation and transformation workflows. It supports a wide range of AST nodes\u2014expressions, patterns, types, modules, and attributes\u2014with utilities for substitution mapping, context tracking, and structural manipulation. Child modules extend these capabilities with specialized functions for contextual transformations, dynamic assembly, and syntactic manipulation, particularly in PPX rewriters. Examples include transforming AST fragments during compilation, generating code from templates, and modifying module structures with tracked substitutions.",
+      "description_length": 651,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot.QuoteExp",
-      "description": "The module provides functions for constructing and manipulating OCaml expressions, including literals, tuples, arrays, records, variants, and lazy expressions, alongside utilities for converting between expressions and payloads and traversing their structure. It operates on OCaml's internal AST types and `Ppxlib.expression`, supporting operations like polymorphic variant handling, expression substitutions, and metadata management. Use cases include code generation, ppx rewriter implementations, and compiler tooling requiring low-level expression manipulation.",
-      "description_length": 565,
+      "module_path": "Metaquot.Pat",
+      "library": "metaquot",
+      "description": "This module converts OCaml AST nodes\u2014such as literals, identifiers, lists, options, type declarations, and module expressions\u2014into pattern quotation values (`QuotePat.t`), enabling precise pattern matching on code structures during meta-programming. It supports contextual transformations through substitution maps and list-tracking references, working with AST types like `core_type`, `module_expr`, and `structure_item` from `Ppxlib` and `Ppxlib.Asttypes`. Child modules extend this capability with specialized lifting functions for complex structures such as class types, value bindings, and signature items. Examples include deconstructing function expressions, rewriting module structures, and analyzing type definitions within PPX rewriters.",
+      "description_length": 747,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Metaquot.QuotePat",
-      "description": "This module provides functions for constructing, transforming, and analyzing OCaml pattern expressions and AST nodes, handling primitives like integers and booleans, complex structures such as tuples and records, and metaprogramming constructs. It enables low-level manipulation of pattern syntax trees and converts values into quoted forms for code generation, supporting operations on types like `Location.t` and `t option`. Specific use cases include abstract syntax tree manipulation, literal value embedding, and handling variant or record patterns in macro expansions.",
-      "description_length": 574,
+      "module_path": "Metaquot.DefaultMap",
+      "library": "metaquot",
+      "description": "The module extends functionality for handling default values in maps, specifically working with map-like structures where keys may not always be present. It provides operations to safely retrieve values with fallback defaults, transform map entries, and compose transformations using standard combinators. This is particularly useful in scenarios like configuration parsing or data processing pipelines where missing keys require default handling without raising exceptions.",
+      "description_length": 474,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Metaquot.DefaultMap",
-      "description": "Maps a function over the values of a dictionary, preserving keys. Works with associative arrays represented as lists of key-value pairs. Applies a transformation to each value in a configuration or data structure without altering the original key bindings.",
-      "description_length": 256,
+      "module_path": "Metaquot.QuotePat",
+      "library": "metaquot",
+      "description": "The module provides functions to construct, deconstruct, and transform OCaml pattern abstract syntax trees (ASTs), supporting operations like creating literal patterns (integers, strings), structured patterns (records, arrays, variants), and handling extensions. It operates on `Ppxlib.pattern` nodes and related types, enabling use cases in ppx rewriters where patterns need to be embedded, analyzed, or modified programmatically. Key capabilities include traversal (`iter`, `map`) and transformation via mappers, with support for optional attributes and complex data structures like tuples and lists.",
+      "description_length": 602,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Metaquot.StringMap",
-      "description": "This module provides operations for managing string-based key-value mappings, including insertion, deletion, lookup, iteration, and transformation of bindings. It supports advanced manipulations like folding over entries, set-like operations on keys, and conversions to/from sequences, while handling arbitrary value types. Use cases include configuration management, data indexing, and scenarios requiring efficient string-keyed data organization with flexible querying and transformation capabilities.",
-      "description_length": 503,
+      "library": "metaquot",
+      "description": "This module provides a persistent associative map structure specialized for string keys and generic values, offering operations to add, remove, merge, and query entries, along with transformations like mapping, filtering, and folding. It supports bidirectional conversion between maps and lazy sequences, enabling efficient traversal and incremental construction, while including utilities for comparison, membership checks, and custom combination logic. Such functionality is useful in scenarios requiring immutable, string-indexed data management, such as symbol table manipulation or configuration state tracking in syntactic transformations.",
+      "description_length": 645,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot.Make",
-      "description": "This module offers functions for constructing, transforming, and inspecting OCaml expressions, primarily working with types like `t`, `Ppxlib.payload`, `Ppxlib.constant`, and `Location.t`, enabling tasks such as converting primitive values to expressions or traversing AST nodes. It supports manipulation of OCaml's internal AST representations, including `Ppxlib.expression` and `Metapp.Longident.t`, facilitating operations like building expressions with attributes or modifying syntax tree structures. Use cases include metaprogramming tasks, code analysis, and transformation workflows where direct interaction with OCaml's abstract syntax is required.",
-      "description_length": 656,
+      "module_path": "Metaquot.QuoteValueS",
+      "library": "metaquot",
+      "description": "This module provides utilities for constructing and transforming OCaml abstract syntax trees (ASTs) with a focus on embedding literals, structured data, and identifiers into AST fragments. It operates on AST nodes representing expressions and patterns, supporting operations like `map`, `iter`, and mapper-based transformations to facilitate ppx-style code generation and syntax manipulation. Key use cases include building quoted ASTs for constants, tuples, records, and variants, as well as programmatically modifying ASTs using custom mappers.",
+      "description_length": 546,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Metaquot.Exp",
-      "description": "Transforms OCaml code by applying functions to quoted expressions while maintaining their syntactic structure. Operates on abstract syntax trees to modify embedded literals during code generation. Supports operations like replacing identifiers, altering constants, or injecting new expressions. For example, it can substitute a variable name across all quotes or replace a numeric literal with a computed value.",
-      "description_length": 411,
+      "module_path": "Metaquot.QuoteExp",
+      "library": "metaquot",
+      "description": "This module provides utilities for constructing and transforming OCaml abstract syntax trees (ASTs) with a focus on expression manipulation, supporting operations like literal embedding, structured expression creation (tuples, records, variants), and attribute handling. It works directly with `Ppxlib.expression` and `Metaquot.QuoteExp.t` types, enabling type-safe AST traversal, substitution, and syntactic transformations. Its functionality is particularly useful in ppx rewriters and meta-programming contexts where expressions need to be dynamically generated or modified, such as implementing custom syntax extensions or code generation pipelines.",
+      "description_length": 653,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot.Pat",
-      "description": "Handles transformations on quoted OCaml code structures using abstract syntax trees, allowing safe manipulation of embedded language constructs. It supports operations like mapping, substitution, and traversal while maintaining syntactic integrity. Key data types include quoted expressions and AST nodes, with functions for rewriting and inspecting syntax. For example, it can replace specific patterns within quotations or annotate code without altering its structure.",
-      "description_length": 470,
+      "module_path": "Metaquot.MapperS",
+      "library": "metaquot",
+      "description": "This module defines a set of transformation functions that operate on OCaml abstract syntax trees (ASTs), specifically expressions and patterns. It includes functions to map over and modify AST nodes, such as adjusting lifter expressions and pattern matchers. These transformations are used to generate code dynamically during meta-programming tasks, such as rewriting or analyzing OCaml source code.",
+      "description_length": 400,
       "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "metaquot",
-      "description": "Provides functions for generating and manipulating OCaml abstract syntax trees (ASTs) using a quoting syntax similar to `ppx_metaquot`. Works with Parsetree nodes and leverages metaprogramming techniques to create code fragments at compile time. Enables inline OCaml code generation in ppx rewriters, useful for creating custom syntax extensions and macro-like transformations.",
-      "description_length": 377,
+      "module_path": "Metaquot.Exp",
+      "library": "metaquot",
+      "description": "This module transforms OCaml AST nodes and values into quoted expressions, handling primitives, identifiers, and complex constructs like modules and classes with support for attributes and variable substitution. It operates on Ppxlib types such as `core_type`, `pattern`, and `module_expr`, enabling meta-programming through structural preservation and contextual list tracking. Key operations include `subst` for variable replacement and `Quoter` for embedding AST fragments, allowing tasks like code generation and attribute-aware syntax transformations. Examples include lifting a `module_expr` into a quoted form or substituting identifiers within a transformed class structure.",
+      "description_length": 682,
       "index": 11,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Metaquot_ppx",
-      "description": "Provides a traversal mechanism for OCaml AST nodes using a mapper function. Operates on Ppxlib.Ast_traverse.structure, core_type, and expression types. Enables transformation of parsed code during ppx rewrites by applying custom node-wise modifications.",
-      "description_length": 253,
+      "module_path": "Metaquot",
+      "library": "metaquot",
+      "description": "This module enables construction and transformation of OCaml abstract syntax trees (ASTs), focusing on expressions and patterns through direct utilities and submodules. It provides mappers, combinators, and quotation mechanisms for manipulating AST fragments programmatically, with support for substitution, context tracking, and structural transformations. Submodules handle specific tasks such as lifting AST nodes into quoted expressions and patterns, transforming module structures, and managing maps with default values. Examples include writing ppx rewriters to modify function expressions, generating code from templates, and embedding AST fragments with attribute preservation.",
+      "description_length": 685,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Metaquot",
-      "description": "Provides a mechanism to traverse and transform OCaml AST nodes using a custom mapping function. Operates on abstract syntax tree elements generated by the compiler. Used to implement custom code rewriting or analysis during preprocessing.",
-      "description_length": 238,
+      "module_path": "Metaquot_ppx",
+      "library": "metaquot_ppx",
+      "description": "The module defines a `mapper` value that transforms OCaml abstract syntax trees by expanding meta-quotation constructs. It operates directly on OCaml AST structures, enabling the use of embedded syntax extensions like `[%expr ...]` and similar forms. This is specifically used during OCaml code parsing and macro expansion in PPX rewriters.",
+      "description_length": 340,
       "index": 13,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
+    "total_modules_in_package": 15,
     "meaningful_modules": 14,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9333333333333333
   },
   "statistics": {
-    "max_description_length": 656,
-    "min_description_length": 188,
-    "avg_description_length": 372.57142857142856,
-    "embedding_file_size_mb": 0.05130958557128906
+    "max_description_length": 747,
+    "min_description_length": 340,
+    "avg_description_length": 585.9285714285714,
+    "embedding_file_size_mb": 0.05129051208496094
   }
 }

@@ -1,196 +1,229 @@
 {
   "package": "ppx_meta_conv",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 25,
-  "creation_timestamp": "2025-06-18T16:37:41.074216",
+  "total_modules": 26,
+  "creation_timestamp": "2025-07-15T23:11:45.410801",
   "modules": [
     {
-      "module_path": "Meta_conv.Coder.Make.Constr",
-      "description": "Provides operations to construct complex data structures from lists and tuples, including variants, records, and objects with specific labels. Works with target lists and key-value pairs to build structured representations. Used to generate abstract syntax tree nodes or serialized data formats with explicit type information.",
-      "description_length": 326,
+      "module_path": "Meta_conv.Coder.Make.Deconstr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides low-level operations for deconstructing abstract data types during decoding, including functions for handling tuples, variants, records, and objects. It works directly with a `target` type representing encoded values, typically used in serialization or parsing contexts. Concrete use cases include extracting fields from a serialized record or matching on a variant tag and its associated values during deserialization.",
+      "description_length": 440,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Coder.Make.Deconstr",
-      "description": "Extracts components from OCaml abstract data types. Handles tuples, variants, records, and objects by decomposing them into their constituent parts. Accepts a target value and returns structured data like labeled fields or tagged alternatives.",
-      "description_length": 243,
+      "module_path": "Meta_conv.Coder.Make.Constr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module implements encoders and decoders for variant constructors, supporting both concrete and polymorphic variants. It works with strings and lists of target values to build or deconstruct variant tags and payloads. Use it to serialize and deserialize OCaml variant types to and from custom formats like JSON or binary.",
+      "description_length": 325,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Coder.Make.DeconstrDecoder",
-      "description": "Decodes structured data formats by constructing tuples, variants, records, and objects from lists of target values. It handles both safe and exception-throwing decoding for different data types, including polymorphic variants. Used to parse serialized data into OCaml values with precise type mappings.",
-      "description_length": 302,
+      "module_path": "Meta_conv.Coder.Make.Helper",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides helper functions for implementing encoders and decoders for primitive and container types, such as converting floats to integers, handling lists, arrays, options, references, and lazy values. It supports structured data transformations for custom target types by extracting and reconstructing values with error handling. Specific use cases include decoding JSON or S-expressions into OCaml values like lists, hashtables, and result types, and encoding OCaml values back into structured formats.",
+      "description_length": 515,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Coder.Make.Helper",
-      "description": "Converts floats to integers with error handling, constructs lists, arrays, options, and references from target values, and manages lazy evaluation and result types. Works with target values, decoders, encoders, and result types. Used for parsing structured data, handling optional values, and deferring computations.",
-      "description_length": 316,
+      "module_path": "Meta_conv.Coder.Make.DeconstrDecoder",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides functions to decode structured data into common OCaml data forms such as tuples, records, and variants, using a target-specific decoding strategy. It supports both safe decoders returning result types and exception-raising variants for simplified error handling. Use this module when implementing custom decoders for data formats like JSON or binary protocols, where structured values need to be extracted from a serialized representation.",
+      "description_length": 460,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_meta_conv_plugin.Ppx_driver.Make",
-      "description": "Provides functions to create and manipulate AST mappers for code transformation. Operates on OCaml abstract syntax trees and string identifiers. Used to generate custom rewriting rules for compiler plugins and code analysis tools.",
-      "description_length": 230,
+      "module_path": "Meta_conv.Error.LocalException",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides `exn` and `catch` functions to handle decoding errors by raising and catching a local exception, instead of using a `Result` monad chain. It works with any type `A.t` that represents an error type, allowing direct propagation of errors during decoding operations. A typical use case involves wrapping a decoder function to immediately raise an exception on error, simplifying error handling in parsing or serialization logic.",
+      "description_length": 446,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Error.LocalException",
-      "description": "Provides functions to create, raise, and handle exceptions with custom data, including a constructor for exception values and a mechanism to associate additional information with errors. Works with the `t` type, which encapsulates exception details and context. Used to manage localized error states in parsing and input validation workflows.",
-      "description_length": 342,
+      "module_path": "Meta_conv.Types.S-DeconstrDecoder",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides functions to decode structured data into various OCaml types, including tuples, variants, records, and objects. It supports both safe decoders returning results and exception-raising variants for simplified error handling. Use cases include parsing JSON or binary data into typed OCaml values during serialization/deserialization workflows.",
+      "description_length": 361,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Coder.Make",
-      "description": "Combines construction and decomposition of OCaml data structures, enabling the creation of complex types from basic elements and the extraction of their internal components. Supports building and analyzing tuples, records, variants, and objects using labeled fields and key-value mappings. Can generate AST nodes with explicit types or parse existing values into their constituent parts. Examples include constructing a record with specific labels or deconstructing a variant into its tag and payload.",
-      "description_length": 501,
+      "module_path": "Meta_conv.Types.Min-Deconstr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides low-level operations for decoding abstract data types from a target representation. It includes functions for extracting tuples, variants, polymorphic variants, records, and objects, each returning structured data like lists of fields or constructor arguments. These functions are used to deconstruct values during deserialization, particularly when implementing custom decoding logic for complex data formats.",
+      "description_length": 431,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Types.Encoder",
-      "description": "Encodes values from a source type to a target type using a transformation function. It operates on arbitrary type pairs, enabling custom serialization or conversion logic. Used to convert domain models into JSON representations or database records.",
-      "description_length": 248,
+      "module_path": "Meta_conv.Coder.Make",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module enables the creation of custom encoders and decoders for converting OCaml values to and from structured formats, with built-in support for error handling, result types, and traceable decoding failures. It centers around a target type that represents encoded values, offering core operations like `format`, `exn`, and `result` to manage decoding outcomes and error reporting. Submodules handle low-level data deconstruction, variant encoding, and transformations for primitives and containers, allowing precise manipulation of tuples, records, options, and variant types. For example, you can decode a JSON-like structure into an OCaml record, encode a polymorphic variant into a binary tag format, or transform a list of encoded values into a native OCaml list with error-resilient decoding.",
+      "description_length": 803,
       "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Meta_conv.Types.Min",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module defines a minimal interface for serializable types, including a target type and a formatting function. It includes submodules for constructing and deconstructing values of the target type. Used in implementing custom marshaling and unmarshaling logic for data structures.",
+      "description_length": 283,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Types.Decoder",
-      "description": "Decodes values from a target type to a host type, handling errors through a traceable result. It operates on typed pairs where the target is transformed into a host, with explicit error tracking. Use cases include parsing structured data formats or converting between domain-specific representations.",
-      "description_length": 300,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Meta_conv.Result.Open",
-      "description": "Provides monadic binding and mapping operations for error-containing values, allowing sequential computation and transformation while preserving error states. Works with a parameterized type that represents either a success value or an error. Enables safe chaining of operations where each step may fail, such as parsing input and processing results in a pipeline.",
-      "description_length": 364,
+      "module_path": "Meta_conv.Types.S-Constr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module constructs complex data types using tuple, variant, record, and object structures. It operates on lists of target values to build composite types with named fields or cases. Concrete use cases include defining algebraic data types and structured values for serialization or AST representation.",
+      "description_length": 305,
       "index": 9,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Types.Constr",
-      "description": "Creates structured representations from tuples, variants, records, and objects by combining labels and values. Operates on lists of targets and strings to build hierarchical data constructs. Used to generate abstract syntax tree nodes for compiler or parser components.",
-      "description_length": 269,
+      "module_path": "Meta_conv.Types.S-Deconstr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides low-level operations for deconstructing abstract data types, including tuples, variants, records, and objects. It works directly with a `target` type that represents encoded values, extracting structured components like fields, constructors, and payloads. Use this module to decode serialized data formats or implement custom marshaling logic for complex data structures.",
+      "description_length": 392,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Types.Deconstr",
-      "description": "Extracts components from abstract data types. Handles tuples, variants, records, and objects by decomposing them into their constituent parts. Accepts a target value and returns structured data such as lists of sub-values or labeled fields.",
-      "description_length": 240,
+      "module_path": "Meta_conv.Types.S",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides functions for encoding and decoding values of a target type, including formatting, error handling, and conversion between result types. It works with a target type that must be printable, along with decoders, exceptions, and result types parameterized by this target. Concrete use cases include serializing structured data to a textual format, parsing input into typed values with detailed error reporting, and transforming decoder results into exception-based or result-based workflows.",
+      "description_length": 508,
       "index": 11,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Types.DeconstrDecoder",
-      "description": "Decodes structured data formats by constructing tuples, variants, records, and objects from input streams using specified target types. Operates on lists of targets and string-based identifiers to map input to structured representations. Used to parse JSON or similar formats into OCaml data types with explicit type checking and error handling.",
-      "description_length": 345,
+      "module_path": "Meta_conv.Types.Min-Constr",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module constructs complex data types using tuple, variant, record, and object structures. It accepts lists of target values and string identifiers to build polymorphic variants, records, and objects with labeled fields. Concrete use cases include defining custom data representations for serialization, parsing, or abstract syntax trees.",
+      "description_length": 342,
       "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Meta_conv.Types.Helper",
-      "description": "Converts floats to integers with error handling, and constructs lists, arrays, options, references, and lazy values from target data. Handles hash tables, result types, and structured data by mapping between target representations and OCaml types. Supports lazy decoding and encoding with error propagation through monadic results.",
-      "description_length": 331,
+      "module_path": "Meta_conv.Types.S-Helper",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides functions for converting between custom data types and their encoded representations, primarily handling primitive types, collections, and lazy values. It includes operations for decoding lists, arrays, options, references, and hashtables from a target type, along with utilities for encoding results and handling lazy decoding with error management. Use cases include serializing and deserializing structured data such as JSON or binary formats where precise type conversion and error handling are required.",
+      "description_length": 529,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_meta_conv_plugin.Ppx_driver",
-      "description": "Transforms OCaml code by generating and applying custom rewriting rules through AST manipulation. Supports creation and modification of mappers that process abstract syntax trees and string identifiers. Enables tasks such as inserting logging statements, optimizing expressions, or enforcing coding standards. Allows developers to define precise transformations for use in compiler plugins or static analysis.",
-      "description_length": 409,
+      "module_path": "Meta_conv.Result.Open",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides bind and map operations for handling result values with error propagation. It works with the `('a, 'error) Meta_conv.Result.t` type, enabling chaining of fallible computations and transforming their outputs. Concrete use cases include parsing or validating data structures where errors need to be accumulated or handled in a structured way.",
+      "description_length": 361,
       "index": 14,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_meta_conv_plugin.Ppx_meta_conv",
-      "description": "Provides functions to generate serialization and deserialization code for custom types, supporting both single and split representations. Works with OCaml's type system to inject derived functions at compile time. Used to automatically create JSON-like encoding/decoding routines without runtime overhead.",
-      "description_length": 305,
+      "module_path": "Meta_conv.Error",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module represents and formats structured decoding errors with detailed descriptions, including exceptions, unknown fields, missing required fields, and arity mismatches. It works with custom data types during deserialization, tracking error causes and their contextual traces to enable precise diagnostics for malformed input or schema mismatches. The `exn` and `catch` functions allow direct error propagation via exceptions, simplifying decoding logic by avoiding `Result` monad chaining. For example, a JSON decoder can raise an exception on invalid input, while error traces help pinpoint nested decoding failures.",
+      "description_length": 623,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Coder",
-      "description": "Encapsulates operations for building and dissecting OCaml data structures, including tuples, records, variants, and objects, with support for labeled fields and key-value mappings. Provides functions to generate abstract syntax tree nodes or decompose existing values into their components. Users can construct records with defined labels or extract variant tags and payloads. Examples include creating a typed record or parsing a variant into its underlying structure.",
-      "description_length": 469,
+      "module_path": "Meta_conv.Result",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module implements a result monad for handling computations that may fail, using the `('a, 'error) t` type with `Ok` and `Error` constructors. It provides core operations like `bind`, `fmap`, and `catch` to chain and transform results, while supporting error propagation and mapping over lists with functions like `map` and `mapi`. The child module enhances this functionality by defining `bind` and `map` specifically for `('a, 'error) t`, enabling structured handling of errors in fallible computations. Examples include parsing input, validating data structures, and managing I/O operations where errors must be explicitly handled or accumulated.",
+      "description_length": 653,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Error",
-      "description": "Encapsulates exception handling with custom data, offering a type `t` to store error details and context. Supports creating, raising, and associating additional information with errors, enabling precise control over error states during parsing and validation. Functions allow structured error propagation and recovery, such as attaching error messages or metadata to specific failure points. Example use includes validating user input by generating detailed error reports for incomplete or malformed data.",
-      "description_length": 505,
+      "module_path": "Meta_conv.Coder",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides tools for defining bidirectional transformations between OCaml values and structured representations, supporting precise encoding and decoding of complex data. It revolves around a target type that captures encoded forms, with operations like `format`, `exn`, and `result` to handle decoding results and errors. It includes utilities for breaking down data structures, encoding variants, and converting primitives and containers. You can use it to decode JSON into records, encode variants into tagged binary formats, or safely convert lists of encoded values into native OCaml lists.",
+      "description_length": 605,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Meta_conv.Internal",
-      "description": "Provides functions to handle field associations, filtering, and decoding errors in structured data, including extracting and validating fields from lists of key-value pairs. Works with lists of string-target tuples, optionals, and error-wrapped results to support custom decoding logic. Used for managing embedded records, validating tuple and variant arities, and handling primitive decoding failures in data serialization pipelines.",
-      "description_length": 434,
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module includes functions for decoding structured data, handling errors during decoding, and manipulating lists. It works with tuples, variants, and lists, providing tools to filter, map, and construct values with index tracking. Use this module when implementing custom decoders for data types that require field association, error handling, or list transformation.",
+      "description_length": 371,
       "index": 18,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Meta_conv.Open",
-      "description": "Provides functions to manipulate optional values, field lists, and lazy results, including conversion between option and mc_option types, and handling of key-value pairs in hashtbl structures. Works with custom types like mc_fields, mc_leftovers, and mc_lazy_t for structured data processing. Used to manage configuration parsing, error handling in lazy computations, and data transformation in data-driven applications.",
-      "description_length": 420,
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module provides specialized types and inline definitions required for proper handling by the meta_conv library during encoding and decoding operations. It works directly with custom type declarations that must be referenced unqualified to trigger meta_conv's special processing. Concrete use cases include defining types like `mc_option` or `mc_list` in signatures to ensure correct code generation for serialization and deserialization.",
+      "description_length": 442,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Result",
-      "description": "Encapsulates error-handling logic through a type that represents either a successful value or an error, supporting sequential operations and transformations. Offers bind and map functions to chain computations, maintaining error states across steps. Allows safe processing of unreliable operations, such as parsing and validation, by propagating failures automatically. Examples include parsing user input, handling file I/O, and executing a series of conditional checks.",
-      "description_length": 471,
+      "module_path": "Meta_conv.Types",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module defines core abstractions for encoding and decoding OCaml values, primarily working with custom data types and structured data representations. It includes `Encoder` and `Decoder` modules that handle serialization and deserialization operations, such as converting values to and from JSON or binary formats. Concrete use cases include implementing custom marshaling logic for ADTs, records, and polymorphic variants, enabling precise control over data transformation in data interchange or storage systems. Submodules support constructing and deconstructing complex data types, converting between encoded representations, and handling low-level decoding of abstract types.",
+      "description_length": 684,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv.Types",
-      "description": "Encapsulates operations for building, extracting, decoding, and converting structured data, including tuples, variants, records, and objects. Provides functions to create abstract syntax tree nodes, decompose complex values, parse input streams into typed OCaml structures, and convert between numeric and composite types with error handling. Supports hierarchical data manipulation through labeled fields, sub-values, and monadic error propagation. Examples include generating AST nodes from tuples, extracting record fields, parsing JSON into OCaml types, and converting floats to integers with safety checks.",
-      "description_length": 611,
+      "module_path": "Meta_conv",
+      "library": "ppx_meta_conv.runtime",
+      "description": "This module enables structured encoding and decoding of OCaml values with robust error handling and bidirectional transformations. It centers on data types like `('a, 'error) result`, `Decoder`, `Encoder`, and specialized types such as `mc_option` and `mc_list`, supporting operations including `bind`, `fmap`, `exn`, and `format` for managing fallible computations and data conversion. You can decode JSON into records, encode variants into binary formats, validate data structures, or map over lists with index tracking, all while capturing detailed decoding errors and handling custom types in serialization pipelines.",
+      "description_length": 621,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ppx_meta_conv",
-      "description": "Provides conversion functions between OCaml types and structured data formats like JSON, Sexp, and OCaml code. Operates on OCaml types annotated with `[@@deriving conv{target}]`, generating functions such as `target_of_ty` and `ty_of_target`. Integrates with external modules like `Target_conv` to handle specific format primitives.",
-      "description_length": 332,
+      "module_path": "Ppx_meta_conv_plugin.Ppx_driver.Make",
+      "library": "ppx_meta_conv_plugin",
+      "description": "This module implements a PPX driver for applying AST mappers to OCaml source files. It provides entry points for processing implementation files (`impl`), interface files (`intf`), and handling anonymous mappers (`anonymous`), all operating on the `Ast_mapper.mapper` type. It is used to build custom PPX rewriters that transform OCaml syntax trees during compilation.",
+      "description_length": 368,
       "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_meta_conv_plugin",
-      "description": "Transforms OCaml code through AST manipulation, enabling custom rewriting rules, mappers, and identifier processing for tasks like logging or optimization. Generates compile-time serialization and deserialization code for custom types, supporting flexible representation formats. Users can inject derived functions directly into the type system, eliminating runtime overhead. Examples include modifying syntax trees for analysis or automatically creating JSON encoders for user-defined types.",
-      "description_length": 492,
+      "module_path": "Ppx_meta_conv_plugin.Ppx_driver",
+      "library": "ppx_meta_conv_plugin",
+      "description": "This module enables the creation of custom PPX rewriters by applying AST mappers to OCaml source files. It supports processing implementation and interface files, as well as handling anonymous mappers, all centered around the `Ast_mapper.mapper` type. With it, developers can transform OCaml syntax trees during compilation, enabling extensions like deriving serializers or inject code. For example, it can be used to automatically generate JSON encoders from type definitions or rewrite function calls based on custom attributes.",
+      "description_length": 530,
       "index": 23,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Meta_conv",
-      "description": "Combines data structure manipulation, error handling, and decoding logic to process and transform OCaml values. It supports constructing and deconstructing tuples, records, variants, and objects, while managing errors through custom types and monadic operations. Functions enable field extraction, validation, optional value handling, and safe conversions, with examples like parsing JSON, generating ASTs, and validating input with detailed error reports. It provides tools for structured data processing, including key-value mapping, lazy evaluation, and error-aware decoding.",
-      "description_length": 578,
+      "module_path": "Ppx_meta_conv_plugin.Ppx_meta_conv",
+      "library": "ppx_meta_conv_plugin",
+      "description": "This module generates serialization and deserialization functions for OCaml types based on the `@@deriving` syntax extension. It operates on algebraic data types, records, and variants, enabling conversion to and from external representations like JSON or S-expressions. Use cases include automatically deriving converters for configuration data, API payloads, or persistent storage formats.",
+      "description_length": 391,
       "index": 24,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Ppx_meta_conv_plugin",
+      "library": "ppx_meta_conv_plugin",
+      "description": "This module provides tools for extending OCaml's syntax and generating type-driven code transformations. It centers around AST mappers and the `@@deriving` mechanism, enabling developers to create custom PPX rewriters and automatically generate serialization functions for algebraic data types, records, and variants. For example, it can rewrite function calls during compilation or derive JSON encoders from type definitions. Specific use cases include transforming syntax trees for custom attributes and generating converters for API payloads or configuration data.",
+      "description_length": 567,
+      "index": 25,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 26,
-    "meaningful_modules": 25,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9615384615384616
+    "total_modules_in_package": 29,
+    "meaningful_modules": 26,
+    "filtered_empty_modules": 3,
+    "retention_rate": 0.896551724137931
   },
   "statistics": {
-    "max_description_length": 611,
-    "min_description_length": 230,
-    "avg_description_length": 375.32,
-    "embedding_file_size_mb": 0.09126472473144531
+    "max_description_length": 803,
+    "min_description_length": 283,
+    "avg_description_length": 475.2307692307692,
+    "embedding_file_size_mb": 0.09487247467041016
   }
 }

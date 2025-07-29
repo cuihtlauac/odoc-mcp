@@ -1,105 +1,85 @@
 {
   "package": "dns-server",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:36:43.026803",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:28.211641",
   "modules": [
     {
-      "module_path": "Dns_server_mirage.Make.UDP",
-      "description": "Provides functions to manage UDP communication, including listening for packets on specific ports, handling incoming datagrams, and writing data with optional source and destination addresses and TTL. Operates on types such as IP addresses, Cstruct.t for packet data, and custom error types. Used to establish and manage UDP connections, process incoming traffic, and send packets with controlled network parameters.",
-      "description_length": 416,
+      "module_path": "Dns_server_mirage.Make",
+      "library": "dns-server.mirage",
+      "description": "This module implements DNS server functionality for MirageOS, providing `primary` and `secondary` functions to run authoritative and secondary DNS servers. It works with DNS zones represented as `Dns_trie.t`, handles zone updates via `on_update` callbacks, and supports DNS NOTIFY and SOA-based zone transfers. Concrete use cases include hosting DNS zones with dynamic updates, managing zone propagation between primary and secondary servers, and handling authenticated DNS updates from trusted sources.",
+      "description_length": 503,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_server_mirage.Make.TCP",
-      "description": "<think> Okay, let's tackle this. The user wants a 2-3 sentence description based on the module summaries. The module is TCP, but I shouldn't repeat the name. First, I need to identify the main operations. From the first chunk, there's connection management, data transfer, disconnecting, reading, writing, shutting down, closing flows. Also creating connections, listening on ports, handling IP input, working with network flows, IP addresses, data buffers. So the main operations are managing TCP connections and data transfer. Next, the data structures. The first chunk mentions network flows, IP addresses, data buffers. The second chunk defines a type 't' but no operations. But since the second chunk doesn't have functions, maybe the main data structures are the ones mentioned in the first part. So the module works with network flows, IP addresses, and data buffers. Also, maybe the 't' type from the second chunk, but since there's no info on it, maybe just mention the ones from the first chunk. Use cases: The first chunk mentions low-level TCP communication and error handling. So use cases would be building networked applications that require direct control over TCP, like custom servers or clients needing precise control over connections and data. Maybe also handling IP-level input, which could be for network monitoring or packet processing. Wait, the user said not to use generic phrases. So instead of saying \"network applications,\" maybe specify \"custom TCP servers or clients\" or \"applications requiring low-level network control.\" Also, need to mention specific use cases where applicable. The first chunk's summary mentions error handling, so maybe include that as part of the use cases. Putting it all together: The module provides low-level TCP operations like connection management, data transfer, and error handling, working with network flows, IP addresses, and data buffers. It's used for building custom networked applications requiring direct control over TCP communication and IP-level interactions. But need to check if the second chunk's 't' type is relevant. Since the second chunk says no operations, maybe it's just a type definition, but without functions, perhaps it's not part of the main data structures. So stick with the first chunk's data structures. Final check: 2-3 sentences, no module name, specific operations, data structures, use cases. Avoid generic terms. Make sure to mention the 't' type? The second chunk says it defines type 't' but no functions. But since there's no info on how it's used, maybe not mention it unless necessary. The user might want to include it, but the instructions say to specify data structures or types it works with. So maybe include 't' as a type, but since there's no info on its structure, just mention it as a type. But the first chunk's data structures are network flows, IP addresses, data buffers. So perhaps the module works with type 't' (from the second chunk) along with those other structures. But since the second chunk has no functions, maybe it's not part of the main operations. Hmm, this is a bit tricky. The user might expect to mention the 't' type, but without knowing its purpose, it's hard. Maybe the answer should mention the 't' type as part of the data structures, even if there's no info on it. But the user's instruction says to specify data structures or types it works with. So include 't' as a type, but since there's no functions, maybe it's just a placeholder. Alternatively, maybe the 't' is part of the first chunk's operations. But the first chunk's summary doesn't mention 't'. The second chunk's summary says it defines type 't' but no operations. So perhaps the module works with type 't' and other structures. But without more info, it's unclear. Maybe the answer should mention the 't' type, but note that it's not associated with any functions. However, the user's instruction says to specify data structures or types it works with. So I should include it. But how? Maybe say \"including a type 't' for managing network flows\" but that's assuming. Alternatively, just mention the 't' type as part of the data structures, even if there's no info. But the user might not want that. Maybe the answer should focus on the first chunk's data structures and mention the 't' type as per the second chunk. Let me check the original summaries again. First chunk: \"operating on network flows, IP addresses, and data buffers.\" Second chunk: defines type 't' but no functions. So the module works with network flows, IP addresses, data buffers, and the type 't'. But since the second chunk has no functions, maybe the 't' is not used in the operations. But the user's instruction says to specify the data structures or types it works with. So I should include 't' even if there's no functions. But",
-      "description_length": 4806,
+      "module_path": "Dns_server_mirage",
+      "library": "dns-server.mirage",
+      "description": "This module enables DNS server operations in MirageOS, supporting both authoritative and secondary server roles. It manages DNS zones using `Dns_trie.t`, handles dynamic updates through `on_update` callbacks, and supports DNS NOTIFY and SOA-based transfers. It allows hosting and propagating DNS zones, handling authenticated updates, and maintaining zone consistency across primary and secondary servers. Example uses include running a dynamic DNS service and synchronizing zones between servers.",
+      "description_length": 497,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_server_mirage.Make.IP",
-      "description": "Provides pretty-printers for errors, IP addresses, and prefixes. Handles IP layer operations such as demultiplexing incoming packets, sending data with configurable options, and generating pseudoheaders for checksums. Works with IP addresses, prefixes, and connection state, enabling tasks like packet routing and network interface configuration.",
-      "description_length": 346,
+      "module_path": "Dns_zone",
+      "library": "dns-server.zone",
+      "description": "This module parses DNS zone files into structured maps and validates DNSKEY records within specified zones. It constructs a trie from multiple zone files, ensuring consistency and returning verified zones alongside cryptographic keys. It is used to load and validate DNS data for authoritative servers or zone transfers.",
+      "description_length": 320,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_server.Authentication",
-      "description": "Provides functions to convert operations to strings, check authorization between required and key operations, and extract zone and operation details from domain names. Works with domain names and a custom operation type representing DNS-related privileges. Used to validate access for DNS zone transfers and other operations based on encoded key names.",
-      "description_length": 352,
+      "module_path": "Dns_server.Secondary",
+      "library": "dns-server",
+      "description": "This module implements a secondary DNS server that handles zone transfers (AXFR), SOA queries, and TSIG-verified communication. It maintains zone data in a `Dns_trie.t` structure and processes incoming DNS packets, managing state transitions for replication and query responses. It is used to synchronize DNS zones from a primary server and respond to client queries with up-to-date records.",
+      "description_length": 391,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dns_server.Primary",
-      "description": "Provides operations to manage a DNS primary server's state, including updating data and keys, handling incoming DNS packets, and generating notifications for secondary servers. Works with types such as `Dns_trie.t`, `Ptime.t`, `Ipaddr.t`, and `Domain_name.t`. Used to process zone transfers, handle custom query responses, and maintain connection states for DNS notifications.",
-      "description_length": 376,
+      "module_path": "Dns_server.Authentication",
+      "library": "dns-server",
+      "description": "This module manages DNS server authentication by encoding operation privileges and IP addresses within domain names. It provides functions to validate access rights for DNS operations such as zone transfers, updates, and notifications, using keys composed of domain names and DNSKEY records. It supports concrete use cases like restricting AXFR requests to authorized subdomains or verifying DNS update permissions based on encoded key names.",
+      "description_length": 442,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dns_server.Secondary",
-      "description": "Provides functions to manage DNS zone data, create and update a secondary DNS server state, and process incoming packets or buffers. Operates on types like Dns_trie.t, Dns.Dnskey.t, and custom server state `s`. Handles tasks such as SOA queries, AXFR retransmissions, and packet decoding with TSIG signing and verification.",
-      "description_length": 323,
+      "module_path": "Dns_server.Primary",
+      "library": "dns-server",
+      "description": "This module implements a primary DNS server with zone management, supporting dynamic updates to DNS data and cryptographic keys. It processes DNS queries and zone transfer requests, handles notifications to secondary servers, and maintains state for active connections and cached data. Use cases include authoritative DNS hosting, secure zone transfers with TSIG, and custom query responses for load balancing or dynamic data.",
+      "description_length": 426,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dns_server_mirage.Make",
-      "description": "<think> The module enables low-level TCP communication through connection management, data transfer, and error handling, operating on network flows, IP addresses, and data buffers. It supports building custom networked applications requiring direct control over TCP interactions, such as implementing custom servers or clients with precise flow management. Specific tasks include reading and writing data streams, shutting down connections, and handling IP-level input with configurable parameters.",
-      "description_length": 498,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "dns-server",
-      "description": "Processes DNS queries and responses using wire-format parsing and serialization. Operates on structured data types like domain names, resource records, and message headers. Used to implement DNS resolvers and authoritative servers that handle zone overrides and private IP range lookups.",
-      "description_length": 287,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Dns_zone",
-      "description": "Parses zone file data into a map of resource records or returns an error, and decodes DNSKEY records within specified zones, ensuring they belong to the zone. It constructs a consistent DNS trie from multiple zones, logging errors and ignoring invalid data. Additionally, it extracts DNSKEY records from zones named with a \"_keys\" suffix for specialized processing.",
-      "description_length": 365,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Dns_server",
-      "description": "handles DNS server operations by managing zone data, processing incoming packets, and maintaining server state. it works with types like `Dns_trie.t`, `Dns.Dnskey.t`, and `Domain_name.t`, enabling tasks such as zone transfers, SOA queries, and TSIG verification. it supports validation of DNS operations through domain name analysis and key-based authorization. examples include handling AXFR requests, updating server state, and generating notifications for secondary servers.",
-      "description_length": 477,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Dns_server_mirage",
-      "description": "Manages TCP communication by handling connections, data transfer, and error recovery, working with IP addresses, network flows, and byte buffers. It supports reading from and writing to data streams, terminating connections, and processing IP-level input with customizable settings. Applications include implementing custom network protocols or servers requiring fine-grained control over TCP behavior. Tasks like sending structured payloads, managing connection lifecycles, and parsing incoming data are directly achievable.",
-      "description_length": 525,
-      "index": 10,
+      "library": "dns-server",
+      "description": "This module implements a DNS server that processes queries, updates, and zone transfers using a trie-based DNS database. It supports answering DNS questions, handling dynamic updates with TSIG authentication, and performing AXFR/IXFR zone transfers, with key data structures including `t` for server state and `Dns_trie.t` for DNS data. The secondary server submodule synchronizes zones from a primary and responds to queries, while the authentication submodule enforces access control using DNSKEY records and domain-encoded keys. The primary server submodule enables authoritative hosting, secure zone replication, and dynamic record management, supporting use cases like load-balanced DNS responses and automated zone updates.",
+      "description_length": 729,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Dns_trie",
-      "description": "This module provides operations to manage a trie-based structure for domain names, enabling insertion, deletion, and lookup of resource records while enforcing DNS constraints like SOA and NS requirements. It works with domain labels as tree edges and resource record maps at nodes, supporting CNAMEs, glue records, and zone delegation. Use cases include DNS zone management, ensuring record consistency, and computing differences for zone transfers.",
-      "description_length": 450,
-      "index": 11,
+      "library": "dns-server",
+      "description": "This module provides operations for managing DNS resource records using a prefix tree structure, enabling insertion, deletion, and modification of records while enforcing DNS invariants such as SOA requirements, delegation rules, and type consistency. It operates on domain names structured as a trie, where nodes store resource maps and handle zone-specific data like SOA entries and name servers, supporting use cases such as CNAME-aware lookups, IXFR-style zone differencing, and validation of DNS constraints.",
+      "description_length": 513,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 4806,
-    "min_description_length": 287,
-    "avg_description_length": 768.4166666666666,
-    "embedding_file_size_mb": 0.04403400421142578
+    "max_description_length": 729,
+    "min_description_length": 320,
+    "avg_description_length": 477.625,
+    "embedding_file_size_mb": 0.029478073120117188
   }
 }

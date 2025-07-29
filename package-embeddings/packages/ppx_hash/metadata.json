@@ -1,49 +1,85 @@
 {
   "package": "ppx_hash",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:28:30.674802",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:47.909692",
   "modules": [
     {
-      "module_path": "Ppx_hash_lib.Hashable",
-      "description": "Provides operations to compute hash values and fold hash states for a given type `t`. Works with the `Base.Hash.state` and `Base.Hash.hash_value` types to enable efficient hashing. Used to generate consistent hash representations for custom types in hash tables and related data structures.",
-      "description_length": 290,
+      "module_path": "Ppx_hash_expander",
+      "library": "ppx_hash.expander",
+      "description": "This module generates hash functions for OCaml types by expanding type declarations into corresponding hash-folding functions. It transforms core types into expressions that compute hash states, supporting both structure and signature type declarations with location tracking and attribute handling. Concrete use cases include automatically deriving hash functions for custom data types during compilation, enabling efficient hashing for data structures like maps and sets.",
+      "description_length": 473,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ppx_hash",
-      "description": "Generates hash functions from type definitions and expressions using custom syntax extensions. It processes OCaml types, records, and variants, allowing selective ignoring of fields with attributes. Produces a hash_fold_t function for integrating with the Hash module.",
-      "description_length": 268,
+      "module_path": "Ppx_hash_lib.Hashable.S1",
+      "library": "ppx_hash.runtime-lib",
+      "description": "Implements hash folding for a polymorphic type `'a t`, providing a function to combine values into a hash state. Works with custom data structures that require deterministic hashing, such as algebraic data types or containers. Enables efficient and consistent hashing of values for use in hash tables or serialization.",
+      "description_length": 318,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_hash_lib",
-      "description": "Encapsulates hash computation and state folding for arbitrary types, leveraging `Base.Hash.state` and `Base.Hash.hash_value` to produce consistent hash representations. Enables efficient hashing of custom types for use in hash tables and similar structures. Supports incremental hash updates through state manipulation. Can generate unique hash values for complex data structures like records and variants.",
-      "description_length": 406,
+      "module_path": "Ppx_hash_lib.Hashable.S2",
+      "library": "ppx_hash.runtime-lib",
+      "description": "Implements hash combination for pairs of values using a given folding function for each element. Works with any pair type `('a, 'b) t` where `t` represents a product type like a tuple or record. Useful for defining custom hash functions for composite data structures where both components contribute to the overall hash state.",
+      "description_length": 326,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_hash_expander",
-      "description": "Generates hash functions for OCaml types by transforming core types into expressions that fold values into a hash state. Operates on `Ppxlib.core_type`, `Ppxlib.expression`, and `Ppxlib.type_declaration` to produce hashable representations. Used to automatically derive hash functions for custom types in ppx rewriters.",
-      "description_length": 319,
+      "module_path": "Ppx_hash_lib.Hashable.S3",
+      "library": "ppx_hash.runtime-lib",
+      "description": "Implements hash folding for a three-argument polymorphic type, combining individual hash functions for each component into a single hashing operation. Works with any tuple-like structure of three elements, using `Base.Hash.state` as the accumulator. Enables custom hashing strategies for composite types in hash table implementations or equality checks.",
+      "description_length": 353,
       "index": 3,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_hash_lib.Hashable.S",
+      "library": "ppx_hash.runtime-lib",
+      "description": "This module defines a hashable type `t` with operations to fold a hash state and compute a hash value. It works with custom data types requiring hashing, such as algebraic data types or records. Concrete use cases include enabling structural hashing for custom types in maps, sets, or memoization tables.",
+      "description_length": 304,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_hash_lib.Hashable",
+      "library": "ppx_hash.runtime-lib",
+      "description": "This module provides hashable type signatures and utilities for generating deterministic hash values from diverse types, including integers, strings, and custom algebraic data types. It supports customizable hash functions and seeds, enabling use cases like hash tables, memoization, and caching, while its submodules handle structured hashing for composite types. The first submodule folds hashes for polymorphic types, the second combines hashes for pairs, the third extends this to triples, and the fourth defines a core hashable interface for custom types, all working with `Base.Hash.state` to ensure consistency. Together, they allow precise control over hashing strategies across both simple and complex data structures.",
+      "description_length": 727,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_hash_lib.Std",
+      "library": "ppx_hash.runtime-lib",
+      "description": "This module generates hash functions for algebraic data types, providing `hash_fold_t` and `hash_t` implementations tailored to custom type definitions. It operates on user-defined variants, records, and tuples, enabling efficient hashing for data structures like maps and sets. Concrete use cases include automatically deriving hash functions for types used in hash tables or as keys in hashed collections.",
+      "description_length": 407,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_hash_lib",
+      "library": "ppx_hash.runtime-lib",
+      "description": "This module enables the creation and manipulation of hash functions for both built-in and custom algebraic data types, ensuring deterministic hash value generation. It provides core operations like `hash_fold_t` and `hash_t`, supporting structured hashing for composite types such as pairs, triples, variants, and records. These operations interface with `Base.Hash.state` to maintain consistency across hashing strategies. Example uses include deriving hash functions for custom types used as keys in hash tables or for memoization.",
+      "description_length": 533,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 4,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.5714285714285714
+    "total_modules_in_package": 9,
+    "meaningful_modules": 8,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.8888888888888888
   },
   "statistics": {
-    "max_description_length": 406,
-    "min_description_length": 268,
-    "avg_description_length": 320.75,
-    "embedding_file_size_mb": 0.014936447143554688
+    "max_description_length": 727,
+    "min_description_length": 304,
+    "avg_description_length": 430.125,
+    "embedding_file_size_mb": 0.029450416564941406
   }
 }

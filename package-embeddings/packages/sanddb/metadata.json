@@ -1,56 +1,85 @@
 {
   "package": "sanddb",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:40.442848",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:08.903759",
   "modules": [
     {
-      "module_path": "Sanddb.Database",
-      "description": "Provides functions to read all or visible records from a database, insert new records, and manage record IDs. Operates on a type `t` representing database records and `Record_id.t` for unique identifiers. Used to persist and retrieve data with support for shadowing existing entries during insertion.",
-      "description_length": 300,
+      "module_path": "Sanddb.Serializer.Json_serializer",
+      "library": "sanddb",
+      "description": "Implements serialization and deserialization of SandDB data structures to and from JSON format. Converts values of type `t` to JSON strings using `string_of_t` and reconstructs `t` values from JSON strings using `t_of_string`. Useful for storing or transmitting SandDB records in a structured, human-readable format.",
+      "description_length": 316,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sanddb.Record_id",
-      "description": "Provides functions to generate, compare, and convert record identifiers, including random ID creation, string parsing, and serialization. Works with the `t` type, a unique identifier compatible with set operations. Used to uniquely reference database records and ensure consistent comparisons and representations.",
-      "description_length": 313,
+      "module_path": "Sanddb.Serializer.Biniou_serializer",
+      "library": "sanddb",
+      "description": "This module implements a Biniou-based serialization format for converting values to and from a binary representation. It provides the functions `t_of_string` and `string_of_t` to decode from and encode to Biniou-formatted strings, working directly with the type `t` defined in the parent module. It is used when persisting or transmitting structured data in a compact, efficient binary format.",
+      "description_length": 393,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sanddb.Serializer",
-      "description": "Converts between a custom type `t` and its string representation, supporting both parsing from and serialization to strings with optional length control. Works with the abstract type `t` to encode and decode structured data. Used to generate compact string representations for network transmission or file storage.",
+      "module_path": "Sanddb.Serializer.Generic_serializer",
+      "library": "sanddb",
+      "description": "Handles serialization and deserialization of arbitrary data types to and from strings. Works directly with custom data types by leveraging conversion functions provided by the user. Useful for persisting complex values like configuration settings or database records to storage or transmitting them over a network.",
       "description_length": 314,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "sanddb",
-      "description": "Handles file-based data persistence with minimal API. Operates on OCaml values serialized to and from disk using binary encoding. Used to store application state or configuration that needs to survive process restarts.",
-      "description_length": 218,
+      "module_path": "Sanddb.Database.T",
+      "library": "sanddb",
+      "description": "This module defines the core operations for interacting with a database instance, including inserting records, reading all records, and reading only visible records. It works with the abstract type `t` representing database entries and uses `Record_id.t` to uniquely identify records. Concrete use cases include managing persistent storage of structured data with support for record insertion and retrieval.",
+      "description_length": 407,
       "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sanddb.Database",
+      "library": "sanddb",
+      "description": "This module defines the core type and internal structure of a database, providing operations for initialization, querying, and modification. It supports typed storage and retrieval of records, using `Record_id.t` to manage unique identifiers, and handles transactional state changes and schema definitions. The module enables use cases like in-memory database setup and structured data persistence, with direct support for inserting, reading, and managing records. Submodules extend these capabilities with specialized operations for record visibility and persistent storage.",
+      "description_length": 575,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sanddb.Serializer",
+      "library": "sanddb",
+      "description": "This module enables serialization and deserialization of data structures using generic, JSON, and Biniou formats, supporting both built-in and custom data types through user-defined conversion functions. It provides core operations like `string_of_t` and `t_of_string` for transforming values to and from string or binary representations, facilitating data persistence and transmission. The JSON submodule handles structured, human-readable serialization, the Biniou submodule offers compact binary encoding, and the generic submodule supports arbitrary data types with user-provided serializers. Examples include converting a database record to JSON for logging, encoding a configuration value to Biniou for efficient storage, or serializing custom types over a network.",
+      "description_length": 771,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sanddb.Record_id",
+      "library": "sanddb",
+      "description": "This module defines a type `t` for unique record identifiers in a database, supporting creation, comparison, string conversion, and serialization. It includes functions to generate random IDs, check equality, and convert to and from strings, with optional formatting. Concrete use cases include managing primary keys in a database or tracking unique entities across sessions.",
+      "description_length": 375,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Sanddb",
-      "description": "manages database records through operations like reading, inserting, and ID management, with support for shadowing and efficient referencing. It handles unique identifiers through generation, comparison, and conversion, enabling consistent record tracking. It also facilitates serialization and parsing of structured data into compact string formats. This enables tasks such as inserting a new record with a generated ID, retrieving visible entries, and converting records to strings for storage or transmission.",
-      "description_length": 512,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "library": "sanddb",
+      "description": "This module provides a persistent, versioned key-value store that supports record shadowing and multiple serialization formats, enabling efficient storage and retrieval of user-defined data types. It manages unique record identifiers through built-in operations and supports structured querying, transactional updates, and schema handling via its core submodule. Serialization capabilities allow conversion of records to JSON for readability or Biniou for compact storage, while record IDs facilitate entity tracking and version comparisons. Use cases include configuration management, audit logging with versioning, and lightweight persistent state handling with selective shadowing.",
+      "description_length": 684,
+      "index": 7,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 512,
-    "min_description_length": 218,
-    "avg_description_length": 331.4,
-    "embedding_file_size_mb": 0.01862621307373047
+    "max_description_length": 771,
+    "min_description_length": 314,
+    "avg_description_length": 479.375,
+    "embedding_file_size_mb": 0.02946949005126953
   }
 }

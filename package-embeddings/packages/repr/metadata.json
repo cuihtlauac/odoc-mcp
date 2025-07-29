@@ -1,231 +1,365 @@
 {
   "package": "repr",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 30,
-  "creation_timestamp": "2025-06-18T16:37:38.809770",
+  "total_modules": 43,
+  "creation_timestamp": "2025-07-15T23:13:41.595577",
   "modules": [
     {
-      "module_path": "Repr.Binary.Unit",
-      "description": "Encodes a unit value by returning a function that takes a string and performs an action. Decodes a string into an integer reference, modifying it in place. Manages size information for unit values using a custom sizer type.",
-      "description_length": 223,
+      "module_path": "Repr.Binary.S1",
+      "library": "repr",
+      "description": "This module defines low-level encoding, decoding, and sizing operations for working directly with Repr's binary format for type representations. It operates on type representations (`'a t`) and uses functions to serialize values into a binary buffer, parse them from a binary string, and calculate their serialized size. Concrete use cases include optimizing serialization performance for specific types and implementing custom binary codecs without relying on dynamic type representations.",
+      "description_length": 490,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Bool",
-      "description": "Encodes a boolean value into a string using a provided callback function. Decodes a string into a boolean using an integer reference as a counter. Handles size calculations for boolean values in serialization contexts.",
-      "description_length": 218,
+      "module_path": "Repr.Binary.String_unboxed",
+      "library": "repr",
+      "description": "This module directly encodes and decodes string values to and from a binary format, using specified integer width representations such as `Int32` or fixed-size fields. It operates on raw strings and provides precise control over binary layout, making it suitable for low-level data serialization such as network protocols or file formats. The included sizer function allows determining the exact size of the binary representation for efficient buffer allocation.",
+      "description_length": 462,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Repr.Binary.Char",
-      "description": "Encodes a character into a string using a provided output function. Decodes a string into a character using a reference to an index. Manages character size information through a size handler.",
-      "description_length": 191,
+      "library": "repr",
+      "description": "This module encodes and decodes individual characters directly to and from a binary format using low-level operations. It works with `char` values and handles their compact binary representation without requiring a full type representation. Useful for optimizing binary serialization performance when dealing with character-based protocols or storage formats.",
+      "description_length": 359,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Binary.Varint",
-      "description": "Encodes integers into variable-length byte sequences using a given output function, and decodes them from strings into integer references. Operates on integers and string buffers, handling variable-length encoding efficiently. Serves as a size calculator for determining the byte length of encoded integers.",
-      "description_length": 307,
+      "module_path": "Repr.Binary.S3",
+      "library": "repr",
+      "description": "This module defines low-level binary encoding, decoding, and sizing operations for a ternary sum type (`('a, 'b, 'c) t`) using direct buffer manipulation. It works with custom binary formats for each of the three type parameters, handling manual serialization and deserialization via continuation-based writers and position-tracking readers. Concrete use cases include optimizing binary protocol implementations where precise control over encoding layout and performance is required, such as network packet serialization or compact on-disk formats.",
+      "description_length": 548,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Binary.Varint_int63",
-      "description": "Encodes 63-bit integers into a variable-length byte sequence using a given output function, decodes such sequences back into 63-bit integers while tracking the read position, and provides a size calculator for determining the byte length of a 63-bit integer. Works with Optint's Int63 type and string-based data. Used in binary serialization protocols to efficiently represent integers of varying sizes.",
-      "description_length": 403,
+      "module_path": "Repr.Binary.S4",
+      "library": "repr",
+      "description": "This module directly encodes, decodes, and calculates the size of 4-tuples in a binary format using custom per-field functions. It operates on values of type `('a, 'b, 'c, 'd) t`, representing structured data with four components. Use this when handling binary serialization of fixed-size, heterogeneous data structures like database records or network packets.",
+      "description_length": 361,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Int16",
-      "description": "Encodes an integer into a string using a provided output function, decodes a string back into an integer using a reference, and provides a size calculator for integers. Works with integers and strings, leveraging fixed-size encoding. Used to serialize and deserialize 16-bit integer values in binary data formats.",
-      "description_length": 313,
+      "module_path": "Repr.Binary.S",
+      "library": "repr",
+      "description": "This module defines low-level binary serialization operations for working directly with Repr's binary format. It provides functions to encode values into a binary string output, decode values from a binary string input, and determine the size of the binary representation. These operations are useful for optimizing performance in scenarios like persistent storage or network transmission where efficient binary encoding is required.",
+      "description_length": 433,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Int32",
-      "description": "Encodes an int32 value into a string using a provided writer function. Decodes an int32 from a string into a reference. Manages size calculations for int32 values in serialization contexts.",
-      "description_length": 189,
+      "module_path": "Repr.Binary.Triple",
+      "library": "repr",
+      "description": "This module implements binary serialization and deserialization for triple values using custom encoders and decoders for each component. It provides `encode`, `decode`, and `sizer` functions to handle triples of arbitrary types directly in a binary format. Concrete use cases include efficiently serializing structured data like three-dimensional coordinates or triple-keyed database entries.",
+      "description_length": 392,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Int64",
-      "description": "Encodes an int64 value into a string using a provided writer function. Decodes an int64 from a string using a reference to track progress. Manages size calculations for int64 values in binary serialization contexts.",
-      "description_length": 215,
+      "module_path": "Repr.Binary.Bytes",
+      "library": "repr",
+      "description": "This module directly encodes, decodes, and calculates the size of binary data for specific integer types and fixed-length byte sequences. It operates on `bytes` and `string` inputs, using low-level binary serialization primitives without requiring a full type representation. It is used for efficient, manual handling of binary formats like network protocols or file formats where precise control over serialization is required.",
+      "description_length": 428,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Repr.Binary.Float",
-      "description": "Encodes a float into a string using a provided output function, decodes a float from a string using an integer reference for tracking, and provides a size calculator for floats. Works with floating-point numbers and string-based serialization. Used to serialize and deserialize floating-point values in network protocols or file formats.",
-      "description_length": 337,
+      "library": "repr",
+      "description": "This module encodes and decodes floating-point numbers to and from a binary format using direct, low-level operations. It works with `float` values and handles their serialization via a continuation-based encoder, a position-tracking decoder, and a sizer for precomputing storage requirements. It is used when optimizing for performance in scenarios like high-throughput data streaming or compact storage of numerical data.",
+      "description_length": 423,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.String",
-      "description": "Encodes and decodes values of various integer types and fixed-length data from strings using staged functions. Operates on strings and integer references, handling types like int, int8, int16, int32, int64, and fixed-length formats. Serves to serialize and deserialize structured data in binary-compatible formats.",
-      "description_length": 314,
+      "module_path": "Repr.Binary.Varint_int63",
+      "library": "repr",
+      "description": "This module encodes and decodes 63-bit integers in a variable-length binary format, using a compact, efficient representation suitable for serialization. It provides direct functions for writing integers to a string buffer and reading them from a byte stream, along with a sizer for determining the encoded size. It is useful in scenarios requiring high-performance, low-overhead serialization of integer values in a binary protocol or storage format.",
+      "description_length": 451,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.String_unboxed",
-      "description": "Encodes and decodes numeric types and fixed-length strings using staged functions that manipulate raw string data. Operates on OCaml's primitive numeric types and fixed-size string representations. Used for efficient serialization and deserialization in low-level data processing pipelines.",
-      "description_length": 290,
+      "module_path": "Repr.Binary.Unit",
+      "library": "repr",
+      "description": "This module handles binary serialization and deserialization of the unit type in a low-level, efficient manner. It works directly with strings and references to integers for decoding position tracking. Use it when implementing custom binary codecs for unit values in performance-sensitive contexts.",
+      "description_length": 298,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Bytes",
-      "description": "Encodes and decodes integers and fixed-size data between bytes and strings using staged functions. Handles types like int, int8, int16, int32, int64, and arbitrary fixed sizes. Computes size requirements for serialization during preprocessing.",
-      "description_length": 243,
+      "module_path": "Repr.Binary.Varint",
+      "library": "repr",
+      "description": "This module encodes and decodes variable-length integers to and from a binary format, using a compact representation where smaller integers take fewer bytes. It operates directly on `int` values and handles the variable-length encoding scheme used in Repr's binary serialization format. Use this module when optimizing for space in binary protocols or when manually handling binary data with varying integer sizes.",
+      "description_length": 414,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Bytes_unboxed",
-      "description": "Encodes and decodes integers and fixed-size data into and from byte sequences using staged functions. Handles types like int, int8, int16, int32, int64, and arbitrary fixed sizes. Used for efficient serialization and deserialization in low-level data processing tasks.",
-      "description_length": 268,
+      "module_path": "Repr.Binary.Pair",
+      "library": "repr",
+      "description": "This module encodes, decodes, and calculates the size of binary representations for pairs of values. It operates directly on functions that serialize and deserialize individual elements of a pair, as well as on sizer combinators for each element. It is useful for efficiently handling binary data of structured types in performance-sensitive contexts, such as network protocols or file formats.",
+      "description_length": 394,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Binary.List",
-      "description": "Encodes and decodes lists of values using specified serialization formats, including integer types and fixed-size data. Operates on lists of arbitrary types, with custom serialization and deserialization functions. Used for efficiently serializing structured data streams with predictable size and format requirements.",
-      "description_length": 318,
+      "module_path": "Repr.Binary.Bool",
+      "library": "repr",
+      "description": "This module handles binary serialization and deserialization of boolean values. It provides direct encoding to a writer function, decoding from a string with a position reference, and a sizer for measuring the size of boolean values in binary form. Useful for efficiently handling boolean values in binary protocols or storage formats.",
+      "description_length": 335,
       "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Binary.Array",
-      "description": "Encodes and decodes arrays of various integer types and fixed-size elements using custom serialization functions. Processes arrays by mapping element-level operations to string-based input and output. Computes size requirements for arrays during serialization workflows.",
-      "description_length": 270,
+      "module_path": "Repr.Binary.String",
+      "library": "repr",
+      "description": "This module directly encodes and decodes string values in binary format for specific fixed-width integer types and predefined size formats. It operates on raw strings and size references, using staged functions for efficient serialization and deserialization. Concrete use cases include handling binary protocols or file formats that require direct manipulation of string-encoded integers in memory-constrained or performance-sensitive contexts.",
+      "description_length": 445,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Repr.Binary.Option",
-      "description": "Encodes and decodes optional values using custom serialization functions, with support for tracking size during encoding. Operates on `'a option` and integrates with size tracking mechanisms. Used to safely serialize and deserialize optional data while managing buffer offsets.",
-      "description_length": 277,
+      "library": "repr",
+      "description": "This module handles binary serialization and deserialization of optional values. It provides `encode`, `decode`, and `sizer` functions that work with `'a option` types by leveraging existing serializers for the underlying `'a` type. Use this when efficiently handling optional fields in binary formats, such as encoding the presence or absence of data in a compact, performance-sensitive context.",
+      "description_length": 396,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Repr.Binary.Pair",
-      "description": "Encodes a pair of values by applying custom serialization functions that write to a string output. Decodes a string into a pair using custom parsing functions that read from a string and an integer reference for position tracking. Computes the size of a pair by combining the sizes of its components using provided size calculators.",
-      "description_length": 332,
+      "module_path": "Repr.Binary.Quad",
+      "library": "repr",
+      "description": "This module encodes, decodes, and calculates the size of 4-tuples in a binary format. Each element of the tuple is processed independently using provided functions for serialization or deserialization. It is useful for efficiently handling binary data structures like network packets or file formats with fixed-length records.",
+      "description_length": 326,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary.Triple",
-      "description": "Encodes a tuple of three values by applying custom serialization functions to each element, producing a string output. Decodes a string into a tuple by using parsing functions that extract each component based on position. Computes the total size of a triple by summing the sizes of its individual elements using provided size calculators.",
-      "description_length": 339,
+      "module_path": "Repr.Binary.Int64",
+      "library": "repr",
+      "description": "This module handles binary serialization and deserialization of 64-bit integers. It provides direct encoding to a string output function, decoding from a string with a position reference, and a sizer for determining the required storage size. These operations are useful for efficiently handling persistent or networked 64-bit integer values in a binary format.",
+      "description_length": 361,
       "index": 17,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Binary.Quad",
-      "description": "Encodes and decodes tuples of four elements by applying custom serialization and deserialization functions to each component, using a callback-based approach for streaming data. Works with arbitrary types that have associated serialization functions and size calculators. Used to handle complex data structures in network protocols or file formats requiring precise control over encoding and decoding processes.",
-      "description_length": 411,
+      "module_path": "Repr.Binary.Int16",
+      "library": "repr",
+      "description": "This module encodes and decodes 16-bit integers in Repr's binary format. It provides direct serialization to a string buffer and deserialization from a string, operating on standard OCaml `int` values. Use it when handling binary data streams or optimizing performance-sensitive serialization tasks involving 16-bit integers.",
+      "description_length": 325,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Of_set",
-      "description": "The module offers set operations like membership checks, unions, intersections, and element transformations, along with sequence-based construction and traversal. It works with ordered sets of type `elt` and sequences, enabling efficient data processing pipelines. Use cases include filtering large datasets, building structured collections from streams, and safely extracting extremal elements or conditional subsets.",
-      "description_length": 418,
+      "module_path": "Repr.Binary.Array",
+      "library": "repr",
+      "description": "This module implements direct binary encoding, decoding, and sizing operations for arrays of values with a known, fixed element size. It works with arrays of any type `'a` as long as the element type can be serialized to and deserialized from a binary format using provided functions. Concrete use cases include efficiently serializing arrays of integers, floats, or custom structs to a binary buffer for storage or transmission, bypassing runtime type representation overhead.",
+      "description_length": 477,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Of_map",
-      "description": "This module provides key-based operations for managing ordered maps, including creation, modification, querying, and transformation of key-value bindings, with support for customizable equality and comparison functions. It enables tasks like building maps from sequences, efficiently retrieving or updating entries, and performing bulk operations such as merging, filtering, or folding across map elements. Use cases include dynamic data aggregation, structured data processing, and maintaining ordered associations in applications requiring precise control over key ordering and manipulation.",
-      "description_length": 593,
+      "module_path": "Repr.Binary.Bytes_unboxed",
+      "library": "repr",
+      "description": "This module directly encodes, decodes, and calculates the size of binary data in `bytes` format for fixed-size integer types and predefined-length byte sequences. It provides low-level functions for serializing and deserializing binary data without requiring a full type representation, targeting performance-sensitive scenarios. Use cases include efficient binary protocol implementations and direct memory manipulation where precise control over binary layout is required.",
+      "description_length": 474,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Attribute",
-      "description": "Attaches a random generation function to a type representation, enabling custom random value creation during testing or simulation. It operates on type representations (`'a ty`) and integrates with the random state to produce values of a specified type. This is used to define randomized inputs for property-based testing frameworks.",
-      "description_length": 333,
+      "module_path": "Repr.Binary.List",
+      "library": "repr",
+      "description": "This module encodes, decodes, and calculates the size of lists of values using a specified binary format. It works directly with lists of values that have custom binary serialization functions. Concrete use cases include optimizing binary serialization performance for large lists of integers or fixed-size data structures.",
+      "description_length": 323,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Json",
-      "description": "Provides functions to decode JSON streams with rewind capability, allowing lexemes to be reprocessed. Works with decoder type and JSON lexemes, enabling manipulation of parsed data during decoding. Supports reconstructing JSON objects from association lists and managing decoded tokens dynamically.",
-      "description_length": 298,
+      "module_path": "Repr.Binary.S2",
+      "library": "repr",
+      "description": "This module defines direct serialization and deserialization routines for values of type `('a, 'b) t` using a binary format. It provides `encode`, `decode`, and `sizer` functions to handle conversion between in-memory values and their binary representations, optimized for performance-critical contexts. Use cases include efficient storage or transmission of structured data without relying on runtime type representations.",
+      "description_length": 423,
       "index": 22,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Size",
-      "description": "Provides functions to construct sizers that compute the size of values for binary encoding, supporting both static and dynamically computed sizes. Works with type representations and functions that map values to integer sizes or parse encoded strings to determine size. Used to define custom size calculations for binary protocols where structural typing is not applicable.",
-      "description_length": 373,
+      "module_path": "Repr.Binary.Int32",
+      "library": "repr",
+      "description": "This module handles binary serialization and deserialization of 32-bit integers. It provides direct encoding to a writer function, decoding from a string with a position reference, and a sizer for determining the required storage size. It is useful for efficiently handling binary protocols or storage formats that require compact 32-bit integer representation.",
+      "description_length": 361,
       "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Unboxed",
-      "description": "Provides encode, decode, and size calculation operations for top-level string-like values, including strings, bytes, and values constructed from like and map operators. Operates directly on the underlying buffer without size prefixes, assuming the value fully occupies the buffer. Used for efficient binary serialization and deserialization of standalone string or byte sequences.",
-      "description_length": 380,
+      "module_path": "Repr.DSL-Size",
+      "library": "repr",
+      "description": "This module constructs size representations for values based on their type, enabling precise size calculation for serialization or memory estimation. It works with `ty` type representations and produces `Size.sizer` functions that compute the size of values, either statically or dynamically. Concrete use cases include determining the byte size of structured data before serialization or optimizing memory layout for binary encodings.",
+      "description_length": 435,
       "index": 24,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Binary",
-      "description": "Encodes binary data into a string using a provided output function. Decodes a string into a binary structure while tracking progress with a reference. Operates on a custom type `t` and integrates with a size-scheduling mechanism for efficient data handling.",
-      "description_length": 257,
+      "module_path": "Repr.DSL-Json",
+      "library": "repr",
+      "description": "This module provides operations to decode JSON input using rewindable streams, enabling lexeme-level control during parsing. It works with JSON decoders and lexemes, allowing rewinding previously read tokens for flexible parsing strategies. Concrete use cases include implementing custom JSON parsers that require lookahead or backtracking, such as parsing complex or ambiguous JSON structures.",
+      "description_length": 394,
       "index": 25,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Repr.Staging",
-      "description": "Provides functions to wrap values in a staged context and extract them, enabling delayed evaluation. Works with the polymorphic type 'a staged, which annotates values for potential later execution. Used to construct and resolve computations in a two-phase process, such as generating code or deferring execution.",
-      "description_length": 312,
+      "module_path": "Repr.Binary",
+      "library": "repr",
+      "description": "This module provides low-level binary serialization and deserialization for primitive types and fixed-size data structures, enabling efficient handling of structured binary data in performance-critical applications. It includes operations for encoding and decoding integers, floats, booleans, strings, and fixed-length containers like tuples, arrays, and options, with precise control over binary layout and sizing. Child modules extend this functionality to specific data types and structures, such as variable-length integers, 64-bit floats, 4-tuples, and optional values, supporting use cases like network protocols, memory-mapped files, and compact on-disk formats. Direct APIs allow manual buffer manipulation, continuation-based encoding, and precomputation of serialized sizes for optimized data processing.",
+      "description_length": 814,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Repr.Witness",
-      "description": "Creates and compares type witnesses to ensure type equality, enabling safe type casting between compatible types. Operates on existential type wrappers and heterogeneous equality proofs. Used to implement type-safe downcasting in generic data structures and to enforce type constraints in polymorphic functions.",
-      "description_length": 311,
+      "module_path": "Repr.DSL-Attribute",
+      "library": "repr",
+      "description": "This module defines operations for attaching metadata to type representations, specifically through the `set_random` function, which associates a type with a random generation function. It works with type representations (`'a ty`) and standard OCaml types. A concrete use case is enabling the generation of random values for testing or simulation purposes based on a type's structure.",
+      "description_length": 384,
       "index": 27,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Repr.Size",
+      "library": "repr",
+      "description": "This module defines sizer functions for computing the size of values in bytes, either statically or dynamically, based on their runtime type representation. It supports operations to derive sizing logic from existing type representations, adapt sizing functions across types, and define custom sizing for non-structural types. Concrete use cases include determining buffer sizes for serialization, optimizing memory allocation for encoded data, and measuring the footprint of structured values at runtime.",
+      "description_length": 505,
+      "index": 28,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "repr",
-      "description": "Provides functions for generating pretty-printers, string representations, and comparisons for OCaml types using a unified interface. Works with OCaml's core types and user-defined variants, records, and polymorphic types. Enables consistent serialization and debugging output across different data structures.",
-      "description_length": 310,
-      "index": 28,
+      "module_path": "Repr.DSL-module-type-S",
+      "library": "repr",
+      "description": "This module defines a domain-specific language (DSL) for constructing and manipulating runtime type representations using combinators. It supports operations to build structured representations of records, variants, and recursive types, enabling precise type introspection and serialization. Concrete use cases include generating runtime metadata for generic programming tasks like JSON encoding, binary serialization, and schema extraction.",
+      "description_length": 441,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Json",
+      "library": "repr",
+      "description": "This module provides functions to decode JSON data using rewindable streams, supporting operations like `decode`, `rewind`, and extracting lexemes. It works with JSON decoders and lexemes, handling recursive and complex data structures through type representations. Concrete use cases include parsing JSON with custom error handling, reusing previously read tokens, and decoding nested or dynamic JSON objects into typed OCaml values.",
+      "description_length": 434,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Of_set",
+      "library": "repr",
+      "description": "This module defines a runtime type representation for standard OCaml set values and provides operations to construct and manipulate these representations. It works directly with `Set.t` values, enabling serialization, comparison, and other generic operations on sets. Concrete use cases include persisting set data structures to disk, generating human-readable representations of sets, and implementing generic traversal or transformation logic that operates uniformly across different set types.",
+      "description_length": 496,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Of_map",
+      "library": "repr",
+      "description": "This module builds runtime representations for standard library map types. It takes a module providing map operations and produces a representation for maps with values of a given type. Use it to create and manipulate map values generically, such as serializing or comparing maps based on their runtime type representation.",
+      "description_length": 323,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.DSL-Unboxed",
+      "library": "repr",
+      "description": "This module provides optimized serialization and deserialization operations for unboxed, top-level string-like values, including direct binary encoding, decoding, and size calculation. It works with values of type `string` or `bytes`, and derived types formed through combinators like `like` and `map`. Concrete use cases include efficiently handling flat binary data such as network packets or file formats where the entire buffer is consumed by a single value.",
+      "description_length": 462,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.DSL-Of_map",
+      "library": "repr",
+      "description": "This module defines a function `t` that constructs a runtime representation for standard library map types, given a representation for their value type. It works with the `Map` module parameter, which must implement the standard map interface. Use it to create type representations for maps with specific key and value types, enabling generic operations like serialization or comparison.",
+      "description_length": 387,
+      "index": 34,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Unboxed",
+      "library": "repr",
+      "description": "This module provides optimized encoding, decoding, and size calculation operations for top-level string-like values, assuming they fully occupy the target buffer. It works directly with types such as `string` and `bytes`, as well as composite types derived from them through combination or mapping. These functions are useful when serializing atomic string-based values without needing to prefix their size, improving performance in scenarios like network transmission or disk storage.",
+      "description_length": 485,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Witness",
+      "library": "repr",
+      "description": "This module provides runtime type comparison and safe casting operations. It works with type witnesses that capture runtime representations of OCaml types. Concrete use cases include verifying type equality between values at runtime and performing type-safe coercions when dynamically handling values with known representations.",
+      "description_length": 328,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.S",
+      "library": "repr",
+      "description": "This module defines core operations for working with runtime type representations, including constructing, inspecting, and manipulating values based on their type structure. It operates on algebraic data types, records, and variants, enabling precise serialization, comparison, and traversal of structured data. Concrete use cases include generic JSON encoding, structural equality checks, and automated data transformation pipelines.",
+      "description_length": 434,
+      "index": 37,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.DSL-Of_set",
+      "library": "repr",
+      "description": "This module enables the construction of runtime type representations for standard library set values. It provides a combinator `t` that derives a representative for a set type based on its element's representation. Use it to build generic operations over sets, such as serialization or comparison, when working with the Repr type combinator library.",
+      "description_length": 349,
+      "index": 38,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Repr.DSL",
+      "library": "repr",
+      "description": "This module supports constructing and transforming abstract type representations for algebraic data types (variants, records), standard containers (lists, arrays, sets), and structured data, enabling generic operations like serialization, equality, comparison, and pretty-printing. It is particularly useful for defining custom binary or JSON encodings, handling recursive or polymorphic types, and building domain-specific data manipulation tools through a combinator-based DSL. Key applications include data serialization frameworks, generic programming utilities, and typed data processing pipelines.",
+      "description_length": 603,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Repr.Attribute",
+      "library": "repr",
+      "description": "This module enables attaching metadata to type representations, specifically through functions like `set_random`, which associates a random value generator with a type. It operates on type representations defined in the broader library, allowing customization of type behaviors at runtime. A concrete use case is enhancing types with randomization logic for testing or simulation purposes.",
+      "description_length": 389,
+      "index": 40,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Repr.Staging",
+      "library": "repr",
+      "description": "This module provides `stage` and `unstage` functions to explicitly control the evaluation of values, enabling deferred execution and manual optimization of code. It works with values wrapped in the `staged` type, which represents suspended computations. Concrete use cases include delaying expensive computations until needed and manually optimizing performance-critical sections by controlling evaluation order.",
+      "description_length": 412,
+      "index": 41,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Repr",
-      "description": "Provides a type-safe way to represent and manipulate values through a polymorphic variant type, enabling pattern matching and type inspection. Works with the `t` type, which encapsulates values of various kinds, including integers, strings, and custom types. Used to serialize and deserialize data structures in a format that preserves type information.",
-      "description_length": 353,
-      "index": 29,
+      "library": "repr",
+      "description": "This module enables generic programming through runtime type representations, offering combinators to define and manipulate structured data like records, variants, and recursive types. It supports serialization to JSON and binary formats, along with operations for equality, comparison, hashing, and size calculation, while integrating metadata attachment for random generation and staged evaluation. Submodules provide precise size sizers, rewindable JSON decoding, low-level binary encoding, and runtime representations for sets and maps, enabling use cases such as data marshaling, schema-driven serialization, and generic traversal of complex data structures. Direct APIs and combinators allow constructing type representations, defining custom sizers, and manipulating structured values with fine-grained control over encoding and decoding processes.",
+      "description_length": 855,
+      "index": 42,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 30,
-    "meaningful_modules": 30,
+    "total_modules_in_package": 43,
+    "meaningful_modules": 43,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 593,
-    "min_description_length": 189,
-    "avg_description_length": 313.2,
-    "embedding_file_size_mb": 0.10938453674316406
+    "max_description_length": 855,
+    "min_description_length": 298,
+    "avg_description_length": 433.2325581395349,
+    "embedding_file_size_mb": 0.1566181182861328
   }
 }

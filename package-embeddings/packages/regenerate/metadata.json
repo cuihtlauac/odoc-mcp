@@ -1,98 +1,141 @@
 {
   "package": "regenerate",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:33:00.013801",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:09:28.688784",
   "modules": [
     {
-      "module_path": "Regenerate.Word.List",
-      "description": "Compares two lists using a total ordering function that evaluates element-wise, returning -1, 0, or 1 based on their relative order. Formats lists for pretty printing using a custom formatter. Operates on lists of any element type, supporting structured comparisons and readable output. Used to sort lists, determine equality, or generate human-readable representations in logging or debugging.",
-      "description_length": 394,
-      "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Regenerate.Word.String",
-      "description": "Provides functions for decoding integers from strings in various endianness formats, including 8-bit, 16-bit, 32-bit, and 64-bit values. Supports both signed and unsigned interpretations and includes utilities for substring operations. Main data types include int, int32, and int64, with operations like decoding and concatenation. Examples include extracting a 32-bit integer from a string's byte sequence or finding a substring within a larger string.",
-      "description_length": 453,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Segments.Trie.Make",
-      "description": "Compares two characters using their ASCII values, concatenates two instances of the type `t`, converts an instance of `t` into an iterator of characters, and constructs an instance of `t` from a list of characters. The module operates on the `t` type, which represents sequences of characters, and the `char` type. It is used to efficiently combine and process character streams, such as building strings from lists or iterating over character data for output.",
-      "description_length": 460,
-      "index": 2,
+      "library": "regenerate.segments",
+      "description": "This module implements a trie structure for efficient prefix-based storage and retrieval of sequences of elements from a base set. It supports operations like union, intersection, difference, and concatenation on these sequences, along with conversion to and from lists. It is suitable for applications like autocomplete systems or dictionary implementations where shared prefixes are common.",
+      "description_length": 392,
+      "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Segments.Trie.String",
-      "description": "Provides operations to create, combine, and manipulate collections of strings, including appending, union, intersection, and difference. Works with a custom type representing a collection of strings and supports converting between lists and iterables. Used to efficiently manage and process sets of string values in data processing pipelines.",
-      "description_length": 342,
+      "library": "regenerate.segments",
+      "description": "This module implements a trie structure for efficient storage and retrieval of string sequences. It supports operations like insertion, union, intersection, and difference of string sets, along with merging multiple tries and converting between lists and tries. It is useful for applications like auto-complete systems, dictionary implementations, and text processing pipelines where fast prefix-based lookups are required.",
+      "description_length": 423,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Segments.Trie.WORD",
+      "library": "regenerate.segments",
+      "description": "This module represents sequences of characters as trie nodes, enabling efficient prefix-based operations. It supports combining sequences with `append`, converting to an iterator for traversal, and constructing from character lists. Use it for tasks like building and searching prefix trees for autocomplete or dictionary implementations.",
+      "description_length": 338,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Segments.S",
+      "library": "regenerate.segments",
+      "description": "This module represents segments of elements and supports operations like union, intersection, difference, and merging lists of segments. It works with a segment type `t` composed of elements of type `elt`, and provides conversion to and from lists and iterators. It is useful for managing and combining ordered or contiguous ranges of values, such as intervals or sequences, efficiently.",
+      "description_length": 387,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Regenerate.Regex",
-      "description": "The module provides operations for constructing and manipulating regular expressions, including creating atoms, character sets, sequences, alternatives, repetitions, and complements. It works with abstract types such as character sets ('a cset) and regex patterns ('a t), enabling foundational structures for pattern matching and text processing. These capabilities are applicable in tasks like validation, parsing, and text transformation where precise pattern recognition is required.",
-      "description_length": 486,
+      "module_path": "Segments.OrderedMonoid",
+      "library": "regenerate.segments",
+      "description": "This module defines a type `t` with a total ordering function `compare` and an associative binary operation `append` that combines values. It enables efficient merging and comparison of ordered elements, where `append` must respect the order structure. Typical applications include combining time intervals, merging sorted sequences, or accumulating ordered events where the order affects composition.",
+      "description_length": 401,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Regenerate.Word",
-      "description": "Creates and manipulates sequences of characters with operations like appending, prepending, and measuring length. Works with the `t` type, representing a word, and the `char` type for individual characters. Used to build and format textual data in applications requiring string-like behavior.",
-      "description_length": 292,
+      "module_path": "Segments.Trie",
+      "library": "regenerate.segments",
+      "description": "This module provides a trie-based data structure for efficient prefix-driven storage and manipulation of sequences, with core operations for insertion, lookup, and traversal. It supports union, intersection, difference, and concatenation of sequence sets, and includes specialized submodules for handling generic element sequences, string sequences, and character-based tries. Examples include building autocomplete systems, merging dictionary entries, and constructing prefix trees for fast text retrieval. Each submodule extends the core functionality with tailored operations like list conversion, iteration, and character-level appending.",
+      "description_length": 642,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Regenerate.Make",
-      "description": "Provides operations to create and manipulate sequences of characters, including building empty or single-element sequences, appending two sequences, and adding a character to the front. Works with a custom type `t` representing character sequences and the built-in `char` type. Used to construct and format string-like structures for output or processing.",
-      "description_length": 355,
+      "module_path": "Segments",
+      "library": "regenerate.segments",
+      "description": "This module organizes sequences into a trie for efficient prefix-based storage and retrieval, combining ordered monoids to merge values along shared paths. It supports insertion, lookup, and traversal by prefix, with child modules handling segment manipulation, ordered element combination, and trie-based sequence operations. The core trie works with key-value pairs where keys are sequences, enabling applications like IP routing and autocomplete, while submodules provide concrete tools for interval merging, ordered appending, and string-based tries. For example, you can insert a sequence with an associated value, traverse all entries under a prefix, or merge overlapping intervals using segment operations.",
+      "description_length": 713,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Segments.Trie",
-      "description": "Compares two characters using their ASCII values. Combines two trie structures into a new one by appending their contents. Converts a trie into an iterator over its characters. Constructs a trie from a list of characters.",
-      "description_length": 221,
+      "module_path": "Regenerate.Word.S",
+      "library": "regenerate",
+      "description": "This module defines operations for constructing and manipulating sequences of characters that represent words for regular expression testing. It supports creating empty words, adding characters or other words, and determining word length. Use it to build input cases for regex engines, such as generating strings to test pattern matching behavior.",
+      "description_length": 347,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "regenerate",
-      "description": "Provides functions to parse, validate, and generate unique identifiers based on timestamp and node information. Operates on integers, strings, and custom timestamp structures. Used to create distributed unique IDs in systems requiring high throughput and low collision risk.",
-      "description_length": 274,
+      "module_path": "Regenerate.Word.List",
+      "library": "regenerate",
+      "description": "This module implements list-based word structures with operations for concatenation, prepending, and length calculation. It works with characters from a parameterized module `C` and represents words as lists of these characters. Use it to construct and manipulate sequences of characters for generating regex test cases.",
+      "description_length": 320,
       "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Regenerate",
-      "description": "Generates a sequence of values based on a defined transformation applied to an initial state. It operates on a custom type `t` that represents a stateful computation. This is used to produce iterative outputs in scenarios like simulation steps or state transitions.",
-      "description_length": 265,
+      "module_path": "Regenerate.Word.String",
+      "library": "regenerate",
+      "description": "This module offers string manipulation operations like substring search, trimming, padding, and case conversion, alongside encoding validation for UTF-8/16 and bidirectional character indexing. It works with strings, bytes, and generators, enabling in-place modifications and sequence traversals. Specific use cases include generating regex test cases with controlled character sequences, processing encoded byte streams, and constructing formatted string patterns for validation frameworks.",
+      "description_length": 491,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Segments",
-      "description": "Provides operations to create, combine, and manipulate collections of elements, including appending, union, intersection, and difference. Works with a custom type `t` representing a collection and `elt` as the element type. Used to efficiently manage and query sets of data, such as geometric segments or intervals.",
-      "description_length": 315,
+      "module_path": "Regenerate.Regex",
+      "library": "regenerate",
+      "description": "This module defines core regular expression constructs and operations for building and manipulating regex patterns. It supports data types like atoms, character sets, sequences, alternations, intersections, and repetitions, with utilities for generating and simplifying expressions. Concrete use cases include constructing regex test cases for validation, generating string samples for testing engines, and defining complex pattern hierarchies for property-based testing with QCheck.",
+      "description_length": 483,
       "index": 10,
-      "embedding_norm": 0.9999998807907104
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Regenerate.SIGMA",
+      "library": "regenerate",
+      "description": "This module defines a type `t` representing a finite alphabet of characters and provides the value `sigma` containing all characters in the alphabet. It supports operations to iterate over, filter, and fold across the characters in `sigma`. Concrete use cases include generating test inputs for regular expressions by systematically exploring character sets, such as validating regex matching across all ASCII letters or digits.",
+      "description_length": 428,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Regenerate.Word",
+      "library": "regenerate",
+      "description": "This module provides core abstractions for representing and manipulating words as sequences of characters, either as lists or strings, to support the generation and analysis of inputs for regular expression testing. It includes operations to build and transform these sequences, with support for character-level manipulations, concatenation, and length tracking, enabling precise control over pattern structure. Child modules extend this foundation with list-based word implementations, utilities for string transformations, and encoding-aware processing, allowing tasks like generating test cases, fuzzing regex engines, and validating pattern matching on structured inputs. Examples include constructing character sequences for matching, applying transformations like trimming or padding to generated strings, and validating regex behavior across different encodings.",
+      "description_length": 869,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Regenerate.Make",
+      "library": "regenerate",
+      "description": "This module generates test samples for regular expressions by constructing languages from regex patterns and enumerating their elements. It supports operations like union, intersection, and concatenation on languages, and provides functions to sample or flatten these languages into sequences of segments. It is used to create test cases for regex engines by generating strings that match specific patterns.",
+      "description_length": 407,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Regenerate",
+      "library": "regenerate",
+      "description": "This module generates test cases for regular expression engines by producing regex patterns and associated positive and negative sample strings. It supports arbitrary regex generation with configurable character sets and sample sizes, along with parsing of POSIX ERE syntax extended with complement and intersection operators. Core data types include atoms, character sets, sequences, alternations, intersections, and repetitions, with utilities for building, simplifying, and manipulating expressions. It enables creating test harnesses for regex engines using QCheck, generating fuzz inputs, or verifying correctness across different pattern structures and encodings.",
+      "description_length": 669,
+      "index": 14,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 19,
-    "meaningful_modules": 11,
-    "filtered_empty_modules": 8,
-    "retention_rate": 0.5789473684210527
+    "total_modules_in_package": 15,
+    "meaningful_modules": 15,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 486,
-    "min_description_length": 221,
-    "avg_description_length": 350.6363636363636,
-    "embedding_file_size_mb": 0.04038238525390625
+    "max_description_length": 869,
+    "min_description_length": 320,
+    "avg_description_length": 487.3333333333333,
+    "embedding_file_size_mb": 0.05494976043701172
   }
 }

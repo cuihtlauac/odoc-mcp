@@ -1,112 +1,117 @@
 {
   "package": "ppx_factory",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:32:55.549339",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:08:05.263884",
   "modules": [
     {
-      "module_path": "Ppx_factory_lib.Raise.Default",
-      "description": "Raises an error with a formatted message prefixed by \"ppx_factory.default: \", using a location and a format string. Works with Ppxlib.Location.t and format strings to generate structured error outputs. Used to signal missing default values during ppx derivation with custom error messages.",
-      "description_length": 289,
+      "module_path": "Ppx_factory",
+      "library": "ppx_factory",
+      "description": "This module provides two derivation plugins, `default` and `factory`, which generate code for creating default values and factory functions for algebraic data types. It operates on OCaml abstract syntax trees represented via `Ppxlib.Deriving.t`, enabling automatic instantiation of complex data structures. Concrete use cases include generating boilerplate for test data setup or initializing configurations from variant types.",
+      "description_length": 427,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ppx_factory_lib.Raise.Factory",
-      "description": "Provides functions to generate error messages with location context and handle unsupported type derivations. Works with location data and string identifiers to signal invalid factory usage. Used to report malformed type definitions during ppx macro expansion.",
-      "description_length": 259,
+      "library": "ppx_factory._lib",
+      "description": "This module provides functions to raise errors during the generation of factory code for OCaml types. It works with `Ppxlib.Location.t` to report precise source locations and includes specific error formatting for unsupported type constructions. Concrete use cases include signaling unsupported type kinds and generating informative error messages for malformed type declarations.",
+      "description_length": 380,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_factory_lib.Util.Expr",
-      "description": "Generates OCaml expression nodes for variables and constructors, taking location information and names. Operates on string identifiers and optional nested expressions. Used to build abstract syntax tree fragments during code transformation.",
-      "description_length": 240,
+      "module_path": "Ppx_factory_lib.Util.Result_",
+      "library": "ppx_factory._lib",
+      "description": "This module defines a single infix operator `(>|=)` that maps the successful value of a `result` type using a provided function, preserving the error type. It works with `Stdlib.result`, transforming the `Ok` case while leaving the `Error` case unchanged. This is useful for chaining operations that may fail, allowing transformation of intermediate results without explicit pattern matching.",
+      "description_length": 392,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_factory_lib.Util.List_",
-      "description": "Processes lists of result values, checking for all successes or capturing the first error. Operates on lists of `(a, b) result` and returns aggregated results or specific error states. Useful for validating a sequence of operations where failure at any step must be reported distinctly.",
-      "description_length": 286,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_factory_lib.Util.Result_",
-      "description": "Transforms the successful value of a result type using a given function, preserving the error value if present. Works with the `('a, 'err) result` type, allowing chaining of operations that may fail. Used to safely propagate success values through a sequence of computations while maintaining error tracking.",
+      "module_path": "Ppx_factory_lib.Util.Expr",
+      "library": "ppx_factory._lib",
+      "description": "This module constructs OCaml expressions for variables and constructors. It supports creating expressions from variable names and applying constructor names with optional arguments. Use it to generate expression nodes in PPX rewriters, such as when transforming or expanding AST fragments during compilation.",
       "description_length": 308,
-      "index": 4,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_factory_lib.Default",
-      "description": "Generates default expressions for OCaml core types based on location and type information, and creates structure or signature generators for type declarations. It handles type declarations by producing corresponding default values and derives names for these defaults from type names. Used to automatically insert default values in code during ppx expansion.",
-      "description_length": 358,
+      "module_path": "Ppx_factory_lib.Util.List_",
+      "library": "ppx_factory._lib",
+      "description": "This module provides operations for handling lists of results, specifically aggregating successes or errors. It includes functions to collect all successful values or find the first successful result while handling potential errors. These functions are useful when validating or processing lists where each element may fail independently, such as parsing or checking configurations.",
+      "description_length": 382,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_factory_lib.Raise.Default",
+      "library": "ppx_factory._lib",
+      "description": "This module provides the `errorf` function for raising errors with contextual location information, specifically for handling issues in `[@@deriving default]` annotations. It works with the `Ppxlib.Location.t` type to pinpoint problematic nodes in type declarations. Use cases include reporting malformed attributes or unsupported type constructs during default value derivation.",
+      "description_length": 379,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_factory_lib.Factory",
-      "description": "Generates factory functions for type declarations in OCaml ASTs, handling both structure and signature contexts. Operates on type declarations and recursive flags to produce function names based on type and constructor names. Used to automatically create named constructors for custom types during code generation.",
-      "description_length": 314,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Ppx_factory_lib.Loc_err",
-      "description": "Provides functions to create, inspect, and propagate located errors with precise source positions. Works with the `t` type, which encapsulates an error message and its associated location. Used to handle parsing or type-checking failures by raising errors with detailed contextual information.",
-      "description_length": 293,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ppx_factory_lib.Raise",
-      "description": "Generates structured error messages with location context for ppx macro expansion, using location data and format strings to pinpoint issues in type declarations. Supports custom error formatting and invalid type handling, enabling precise reporting of unsupported derivations or missing defaults. Allows developers to attach detailed error information to specific parts of the input, improving diagnostic accuracy. Examples include signaling invalid type syntax or missing required fields during code generation.",
-      "description_length": 513,
-      "index": 8,
+      "library": "ppx_factory._lib",
+      "description": "This module defines a type `t` for representing errors with associated source locations. It provides functions to construct and manipulate located errors, including creating a result-wrapped error, extracting the error message, and raising errors with `Raise.errorf`. It is used to handle and propagate errors with precise location information in a type-safe manner.",
+      "description_length": 366,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ppx_factory_lib.Util",
-      "description": "creates a unified interface for constructing AST nodes, handling error aggregation, and transforming result values. it manages `string` identifiers and location data for AST construction, evaluates lists of `(a, b) result` to detect failures, and applies functions to successful `('a, 'err) result` values without losing error context. it enables building and validating code structures while maintaining error tracking through chained operations. examples include generating variable nodes for code generation, validating a series of parser steps, and mapping over successful parse results.",
-      "description_length": 591,
+      "library": "ppx_factory._lib",
+      "description": "This module offers utilities for manipulating type declarations and guiding code generation tasks, with tools to extract core types and compute name transformations. Its submodules handle expression construction, result mapping, and list validation, enabling operations like AST node creation, error-preserving computations, and aggregation of fallible list elements. Functions and operators such as `(>|=)` and result-aware list processors streamline common patterns in PPX rewriters and configuration parsers. Together, these components support robust transformation and derivation workflows across OCaml codebases.",
+      "description_length": 617,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_factory_lib.Factory",
+      "library": "ppx_factory._lib",
+      "description": "This module generates factory functions for OCaml data types based on their structure or signature. It provides functions to derive names for factory functions from type and constructor names. Use it to automatically create value constructors for algebraic data types during code generation.",
+      "description_length": 291,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_factory_lib.Default",
+      "library": "ppx_factory._lib",
+      "description": "This module generates default values for OCaml types based on their structure, producing expressions and type declarations with location-aware error handling. It operates on `core_type`, `structure`, and `signature` types from Ppxlib, providing functions to derive default expressions and construct type declarations. Concrete use cases include automatically generating boilerplate for record fields, variant types, and signature items during PPX rewriting.",
+      "description_length": 457,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ppx_factory",
-      "description": "Generates factory functions and default values based on type annotations, enabling structured test data creation. Works with OCaml type definitions, including records and variants. Allows quick setup of test scenarios by specifying only necessary fields or constructors.",
-      "description_length": 270,
+      "module_path": "Ppx_factory_lib.Raise",
+      "library": "ppx_factory._lib",
+      "description": "This module provides the `errorf` function for raising ppx errors with precise source location information, focusing on problematic nodes in type declarations. It works directly with `Ppxlib.Location.t` and formatted messages to report actionable errors, particularly for unsupported or malformed type constructs. The `Default` and `Factory` submodules specialize this functionality for `[@@deriving default]` annotations and ppx factory code generation, respectively, covering use cases like signaling unsupported types and malformed attributes. Together, they enable precise, context-aware error reporting tailored to different stages of type-driven code generation.",
+      "description_length": 668,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_factory",
-      "description": "Provides functions to generate default values and factory functions for types annotated with ppx syntax. Works with OCaml types and ppxlib's deriving structures. Used to automatically create instances or default representations during code generation.",
-      "description_length": 251,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Ppx_factory_lib",
-      "description": "Generates default values and factory functions for OCaml types, using location and type information to create named constructors and insert defaults during ppx expansion. Handles error reporting with precise locations, offering structured messages and error propagation for diagnostics. Manages AST construction with location-aware identifiers and result tracking, enabling validation and transformation of code structures. Examples include creating default values for records, generating constructors for variants, and reporting syntax errors with source positions.",
-      "description_length": 566,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
+      "library": "ppx_factory._lib",
+      "description": "This module handles error reporting, type manipulation, and code generation for OCaml PPX extensions. It provides data types like `t` for located errors and operations for constructing AST nodes, deriving factory functions, and generating default values for types. You can use it to build PPX rewriters that automatically create constructors, fill in default fields for records or variants, and report detailed errors with source locations when type definitions are malformed or unsupported. For example, it enables deriving `[@@deriving default]` implementations or generating factory functions for algebraic data types based on their structure.",
+      "description_length": 646,
+      "index": 11,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 13,
-    "meaningful_modules": 13,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 591,
-    "min_description_length": 240,
-    "avg_description_length": 349.0769230769231,
-    "embedding_file_size_mb": 0.04766273498535156
+    "max_description_length": 668,
+    "min_description_length": 291,
+    "avg_description_length": 442.75,
+    "embedding_file_size_mb": 0.04403400421142578
   }
 }

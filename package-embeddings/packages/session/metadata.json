@@ -1,77 +1,109 @@
 {
   "package": "session",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:58.388189",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:07:32.703577",
   "modules": [
     {
-      "module_path": "Session.Lift.Ident",
-      "description": "Provides binding and lifting operations for computations that do not introduce asynchronous behavior. Works with a parameterized type 'a t representing computations that yield values of type 'a. Used to execute blocking operations in a monadic context without altering their synchronous nature.",
-      "description_length": 294,
+      "module_path": "Session.S.Now",
+      "library": "session",
+      "description": "This module defines operations for managing session data in synchronous backends. It provides functions to generate session keys with optional expiration and value, retrieve session values with their remaining expiry, set or update session values and expiration, and clear sessions explicitly. It works with abstract types for sessions (`t`), keys, values, and time periods, making it suitable for use with in-memory or blocking backends where asynchronous handling is not required.",
+      "description_length": 482,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Session.Lift.IO",
-      "description": "Handles asynchronous value wrapping and chaining, enabling sequential execution of I/O operations. Operates on monadic structures representing deferred computations. Used to manage file reads, network requests, and event-driven workflows with explicit control flow.",
-      "description_length": 265,
+      "library": "session",
+      "description": "This module provides asynchronous session management operations using a synchronous backend, including generating, retrieving, updating, and clearing session keys with configurable expiration periods. It works with session data types including keys, values, and time-based expiration periods, handling interactions with the underlying backend through IO operations. Concrete use cases include managing user sessions in a web application where sessions must expire after a defined period and support asynchronous access patterns.",
+      "description_length": 528,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Session.Lift.Thread_IO",
-      "description": "Provides asynchronous computation sequencing and thread-based execution, allowing operations to be chained with >>= and wrapped in separate threads using in_thread. Works with a monadic type 'a t that represents delayed or concurrent computations. Enables non-blocking I/O operations and parallel task execution within a single-threaded environment.",
-      "description_length": 349,
+      "module_path": "Session.Lift.Ident",
+      "library": "session",
+      "description": "This module implements the identity monad to handle blocking computations without altering their behavior, providing `return`, bind (`>>=`), and `run` to wrap and unwrap values. It works directly with the `S.Now.t` type, allowing synchronous computations to be lifted into a monadic structure for compatibility with lifting mechanisms. Concrete use cases include stubbing out blocking operations during testing or bridging between synchronous and lifted code without introducing concurrency.",
+      "description_length": 491,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Session.Lift",
-      "description": "Combines synchronous and asynchronous computation handling through a unified monadic interface, supporting both blocking and non-blocking operations. It defines a type 'a t for encapsulating computations, with operations like binding, lifting, and sequencing to manage control flow. Synchronous tasks can be executed directly, while asynchronous ones handle I/O and concurrency via deferred execution and thread isolation. Examples include performing file I/O in sequence, executing network calls without blocking, and running multiple tasks in parallel within a single thread.",
-      "description_length": 577,
+      "module_path": "Session.S.IO",
+      "library": "session",
+      "description": "This module defines core operations for composing blocking computations in a session context. It provides `return` for wrapping values in a computation context and `>>=` for chaining sequential, dependent computations. These functions enable managing session state transitions and I/O operations with explicit sequencing and value passing.",
+      "description_length": 339,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Session.Memory",
-      "description": "Provides functions to manage in-memory session data with expiration, including generating keys with custom or default expiry, retrieving session values, and clearing entries. Operates on strings for keys and values, and integer-based periods for expiry management. Used to handle temporary user sessions in applications requiring short-lived data storage.",
-      "description_length": 355,
+      "module_path": "Session.S.Future",
+      "library": "session",
+      "description": "This module defines operations for managing asynchronous session storage with expiration. It provides functions to generate session keys with optional values and expiry times, retrieve session data with remaining expiry, update session values and expiry, and clear sessions explicitly. The module works with abstract types for sessions (`t`), keys, values, and time periods, making it suitable for implementing session backends like in-memory or database-backed stores. Concrete use cases include handling user authentication tokens, temporary session data in web applications, and time-limited access control mechanisms.",
+      "description_length": 621,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Session.S",
-      "description": "Provides monadic binding and lifting for blocking computations, enabling sequential composition of operations that produce values wrapped in a type parameterized by the result. Works with a type `'a t` representing computations that yield values of type `'a`. Used to structure synchronous I/O operations or other blocking tasks in a composable manner.",
-      "description_length": 352,
+      "module_path": "Session.Lift.Thread_IO",
+      "library": "session",
+      "description": "This module uses threads to lift a synchronous session backend into an asynchronous interface, enabling non-blocking session management. It provides functions to generate, retrieve, update, and clear session entries with explicit expiration control. Concrete use cases include handling HTTP session storage in concurrent web applications where synchronous backends like databases or in-memory stores are used.",
+      "description_length": 409,
       "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "session",
-      "description": "Handles cookie-based session management and persistence, including creation, retrieval, and expiration of session data. Operates on HTTP request and response objects, integrating with CoHTTP, Async, and Lwt for request handling. Used to implement authenticated routes where access is granted after a client completes an authentication flow.",
-      "description_length": 340,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Session",
-      "description": "Encapsulates computations with a unified monadic interface, supporting both synchronous and asynchronous operations through type 'a t, enabling control flow management via binding, lifting, and sequencing. Manages in-memory session data with string keys and integer-based expiration, allowing retrieval, storage, and cleanup of temporary values. Supports structured execution of blocking tasks, enabling sequential composition of I/O or computation-heavy operations. Examples include performing file operations, handling network requests without blocking, and managing user sessions with time-limited data.",
-      "description_length": 606,
+      "module_path": "Session.S.Thread_IO",
+      "library": "session",
+      "description": "This module implements a monadic interface for executing blocking and synchronous computations in a separate thread. It provides `return` to wrap values into the monadic type, `>>=` for chaining threaded computations, and `in_thread` to run a function in a background thread. It is used to handle long-running or blocking operations without halting the main execution flow, such as performing file I/O or CPU-intensive tasks concurrently.",
+      "description_length": 438,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Session.S",
+      "library": "session",
+      "description": "This module provides core abstractions for managing session state with support for both synchronous and asynchronous operations. It defines key data types like session keys, values, and time periods, along with operations for retrieval, update, and expiration, while handling errors during key-value interactions. Child modules extend this functionality with blocking and non-blocking backends, enabling concrete use cases like user authentication tokens, temporary web session data, and thread-safe or async I/O handling. It combines direct APIs for session manipulation with monadic interfaces for sequencing dependent computations and offloading blocking tasks.",
+      "description_length": 664,
       "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Session.Memory",
+      "library": "session",
+      "description": "This module implements an in-memory session store with expiration tracking. It supports creating sessions, retrieving and setting session values with custom expiration times, clearing sessions explicitly, and adjusting the default expiration period. Use cases include managing short-lived user sessions in web applications or caching temporary data with time-based invalidation.",
+      "description_length": 378,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Session.Lift",
+      "library": "session",
+      "description": "This module bridges synchronous and asynchronous session management by lifting blocking operations into non-blocking ones using threads and monadic structures. It supports session data types like keys, values, and expiration times, offering operations to generate, retrieve, update, and clear sessions either synchronously or asynchronously. The identity monad enables seamless composition of blocking computations, while thread-based lifting allows integration with concurrent backends such as databases or in-memory stores. Example uses include managing expiring user sessions in a web application or stubbing synchronous IO during testing.",
+      "description_length": 642,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Session",
+      "library": "session",
+      "description": "This module manages session state with support for synchronous and asynchronous operations, centered around data types like session keys, values, and expiration times. It provides core operations to create, retrieve, update, and expire sessions, with both blocking and non-blocking backends for use in web applications, caching, and thread-safe or async I/O scenarios. The module enables time-based session invalidation, explicit session clearing, and composable session logic using monads. Example uses include handling user authentication tokens, temporary web session data, and concurrent access to session stores.",
+      "description_length": 617,
+      "index": 10,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 8,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 606,
-    "min_description_length": 265,
-    "avg_description_length": 392.25,
-    "embedding_file_size_mb": 0.02944660186767578
+    "max_description_length": 664,
+    "min_description_length": 339,
+    "avg_description_length": 509.90909090909093,
+    "embedding_file_size_mb": 0.040406227111816406
   }
 }

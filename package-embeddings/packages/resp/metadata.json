@@ -1,70 +1,133 @@
 {
   "package": "resp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:23.471202",
+  "total_modules": 14,
+  "creation_timestamp": "2025-07-15T23:06:54.064602",
   "modules": [
     {
-      "module_path": "Resp.Reader",
-      "description": "Reads binary data, lines, and individual characters from an input channel, and parses lexemes into structured data. Operates on input channels and lexeme representations, returning results in a lazy, non-blocking manner. Used for processing streamed or file-based input with asynchronous I/O and error handling.",
-      "description_length": 311,
+      "module_path": "Resp.INPUT",
+      "library": "resp",
+      "description": "Handles input operations for Redis protocol parsing, including reading raw strings, lines, and individual characters from a connection. Works with the `ic` type, representing input channels. Used to implement low-level Redis client or server communication over network streams.",
+      "description_length": 277,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Resp.Writer",
-      "description": "Writes a string to a file descriptor, appends a separator, writes a lexical token, and serializes a custom type to a file descriptor. Operates on file descriptors and lexical tokens. Used to generate structured output files from parsed data.",
-      "description_length": 241,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Resp.Make",
-      "description": "Writes a string to a file descriptor, separates lines, writes a lexeme with formatting, and serializes a custom type to a stream. Operates on file descriptors and a custom data type. Used to generate structured output in compiler or parser tools.",
-      "description_length": 246,
-      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Resp.String_reader",
-      "description": "Reads a specified number of characters from a string-based input channel, retrieves lines or individual characters, extracts lexemes with error handling, and decodes lexemes into a structured type. Operates on string references as input channels and returns results through Lwt promises. Used for parsing structured text data from in-memory strings in asynchronous workflows.",
-      "description_length": 375,
-      "index": 3,
+      "library": "resp",
+      "description": "This module implements Redis protocol parsing from a string-based input channel. It provides functions to read raw strings, lines, characters, and lexemes, and to decode lexemes into Redis protocol values. It operates on a string reference as the input source, handling incremental parsing and buffer management internally. Use this module to parse Redis commands or responses from a string buffer, such as when implementing a Redis client or server over a custom transport.",
+      "description_length": 474,
+      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Resp.String_writer",
-      "description": "Writes a string to a file-like object represented by a mutable reference, with support for writing lexemes and encoding structured data. Operates on mutable string references and lexeme data structures. Used to construct output streams with controlled formatting and encoding.",
-      "description_length": 276,
-      "index": 4,
+      "module_path": "Resp.S-Reader",
+      "library": "resp",
+      "description": "This module implements Redis protocol parsing for input channels, supporting asynchronous reading of Redis commands and responses. It handles low-level data types like bulk strings, integers, and arrays by decoding raw bytes into structured values. Use it to build Redis clients or proxies that process serialized Redis data streams.",
+      "description_length": 333,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "resp",
-      "description": "Encodes and decodes values according to the Redis Serialization Protocol, handling integers, strings, arrays, and bulk strings. It supports streaming operations for efficient data processing in networked applications. Used to implement Redis clients and servers by parsing and generating protocol messages.",
-      "description_length": 306,
+      "module_path": "Resp.S",
+      "library": "resp",
+      "description": "Implements Redis serialization and deserialization for asynchronous I/O. Handles conversion between Redis protocol values and OCaml types, supporting bulk strings, integers, arrays, and error messages. Used to encode commands for Redis clients and decode responses from Redis servers over Lwt-based connections.",
+      "description_length": 311,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp.S-Writer",
+      "library": "resp",
+      "description": "This module handles the serialization of Redis protocol data into a string output channel. It provides functions to write raw strings, separators, individual lexemes, and fully encoded Redis values to a writer. Concrete use cases include sending Redis commands or responses over a network connection using the Redis serialization format.",
+      "description_length": 337,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp.Writer",
+      "library": "resp",
+      "description": "This module handles writing Redis protocol data to an output channel. It provides functions to write raw strings, separators, individual protocol lexemes, and fully encoded Redis values. Use it to serialize Redis commands or responses for transmission over a network connection.",
+      "description_length": 278,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Resp",
-      "description": "Processes input by reading and parsing binary, line, and character data into structured formats, while supporting asynchronous I/O and error handling. Outputs structured data by writing strings, separators, and custom types to file descriptors. Supports lazy, non-blocking operations for efficient data handling. Can parse streamed logs and generate formatted output files with consistent delimiters.",
-      "description_length": 400,
+      "module_path": "Resp.WRITER",
+      "library": "resp",
+      "description": "This module handles writing Redis protocol data to an output channel. It provides functions to write raw strings, separators, lexemes, and fully encoded Redis values. It operates directly on `Resp.lexeme` and `Resp.t` types, making it suitable for serializing Redis commands and responses to be sent over a network connection.",
+      "description_length": 326,
       "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp.Make",
+      "library": "resp",
+      "description": "Implements Redis serialization and deserialization for communication over network streams. Uses `Reader` and `Writer` to handle input and output operations, parsing and constructing Redis protocol messages. Useful for building Redis clients or proxies that require low-level protocol control.",
+      "description_length": 292,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp.String",
+      "library": "resp",
+      "description": "Handles Redis string values in the REdis Serialization Protocol. Parses and serializes string data during Redis client-server communication. Used for reading and writing string responses like bulk strings or simple strings.",
+      "description_length": 223,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp.Reader",
+      "library": "resp",
+      "description": "This module implements the deserialization logic for Redis protocol messages by reading from an input channel. It provides functions to parse low-level Redis protocol elements like lines, characters, and length-prefixed strings, and to decode them into lexemes and structured Redis values. Use it to process Redis commands or responses from a network stream.",
+      "description_length": 358,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Resp.OUTPUT",
+      "library": "resp",
+      "description": "Handles writing Redis protocol-formatted data to output channels. Works with Redis request and response structures, serializing them into strings for transmission. Used to send commands and data to Redis servers over network connections.",
+      "description_length": 237,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp.READER",
+      "library": "resp",
+      "description": "Reads and parses Redis protocol data from an input channel. It provides functions to read raw strings, lines, characters, and lexemes, as well as decode them into Redis protocol values. Useful for implementing Redis clients or servers that need to process incoming Redis commands or responses.",
+      "description_length": 293,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp.String_writer",
+      "library": "resp",
+      "description": "This module handles incremental construction of Redis protocol messages by writing strings, separators, and lexemes into a mutable string reference. It processes `Resp.lexeme` values and serializes them into the correct Redis wire format. Useful for building networked Redis clients or proxies that require efficient, buffer-based message assembly.",
+      "description_length": 348,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Resp",
+      "library": "resp",
+      "description": "This module implements the REdis Serialization Protocol for OCaml, enabling both parsing and serialization of Redis commands and responses. It operates on input and output channels with support for asynchronous I/O, handling low-level data types like bulk strings, integers, arrays, and errors through structured values and lexemes. You can read from or write to network streams incrementally, parse Redis protocol messages from string buffers, or serialize commands for transmission. Specific operations include decoding length-prefixed strings, reading lines from a connection, and assembling Redis wire format messages in memory.",
+      "description_length": 632,
+      "index": 13,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 7,
-    "filtered_empty_modules": 5,
-    "retention_rate": 0.5833333333333334
+    "total_modules_in_package": 14,
+    "meaningful_modules": 14,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 400,
-    "min_description_length": 241,
-    "avg_description_length": 307.85714285714283,
-    "embedding_file_size_mb": 0.025831222534179688
+    "max_description_length": 632,
+    "min_description_length": 223,
+    "avg_description_length": 337.07142857142856,
+    "embedding_file_size_mb": 0.05130958557128906
   }
 }

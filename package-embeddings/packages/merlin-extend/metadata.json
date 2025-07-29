@@ -1,77 +1,87 @@
 {
   "package": "merlin-extend",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:33.438287",
+  "creation_timestamp": "2025-07-15T23:06:40.481837",
   "modules": [
     {
-      "module_path": "Extend_protocol.Reader",
-      "description": "Loads a buffer into an internal representation and parses it into an abstract syntax tree. Provides methods to analyze code structure, extract identifiers, and generate completion information based on cursor position. Supports line-by-line parsing and pretty-printing of both parse and outcome trees.",
-      "description_length": 300,
+      "module_path": "Extend_protocol.Reader.V0",
+      "library": "merlin-extend",
+      "description": "This module handles parsing and analysis of OCaml source buffers, providing operations to load buffers, extract abstract syntax trees (ASTs), and identify expressions or identifiers at specific positions. It supports interactive features like completion and type queries by parsing user input in context and optimizing ASTs for specific locations. The module works directly with lexing positions, parsetrees, and outcometrees to enable precise tooling such as type display, error reporting, and code navigation.",
+      "description_length": 511,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Extend_main.Description",
-      "description": "Creates a structured representation of a software component with a name and version. Operates on string-based identifiers and returns a typed value encapsulating these attributes. Used to generate versioned object identifiers for configuration management and dependency tracking.",
-      "description_length": 279,
+      "module_path": "Extend_main.Utils",
+      "library": "merlin-extend",
+      "description": "This module provides two logging functions: `notify` for standard messages and `debug` for detailed diagnostic output. It works with string inputs to display information during program execution. Concrete use cases include tracking program flow and inspecting variable states during development.",
+      "description_length": 295,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Extend_main.Utils",
-      "description": "Prints messages to the console for notification and debugging purposes. Accepts string inputs to convey information or trace execution flow. Used to alert developers of key events during runtime or to log intermediate state changes.",
-      "description_length": 232,
+      "module_path": "Extend_protocol.Reader",
+      "library": "merlin-extend",
+      "description": "This module processes OCaml source code by parsing, loading, and pretty-printing buffers into structured forms like parsetrees and outcometrees, enabling tasks such as reading files, parsing interactive lines, and formatting output. It provides core operations for buffer manipulation, expression identification at specific positions, and AST extraction, while its child module enhances these capabilities with context-aware parsing, type queries, and optimized AST transformations. Together, they support precise tooling features like code navigation, error reporting, and type display by working directly with lexing positions and structured syntax trees. Example uses include loading and parsing source files, extracting expressions at cursor positions in an editor, and formatting OCaml code or toplevel responses for display.",
+      "description_length": 830,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Extend_main.Reader",
-      "description": "Provides operations to construct a reader instance from a module conforming to the Extend_protocol.Reader.V0 signature. Works with the abstract type t, which encapsulates reader state and behavior. Used to initialize a reader for processing structured data streams in a protocol-specific manner.",
-      "description_length": 295,
+      "module_path": "Extend_main.Description",
+      "library": "merlin-extend",
+      "description": "This module defines a type `t` representing a description with name and version fields. It provides the `make_v0` function to construct a description instance using specified name and version strings. Concrete use cases include creating structured metadata for components or services requiring identification and versioning.",
+      "description_length": 324,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Extend_main.Handshake",
-      "description": "Provides functions to retrieve a magic number string, access supported protocol versions, and negotiate a driver using input and output channels. Works with string, in_channel, out_channel, and a versions record type containing protocol version details. Used to establish communication protocols by validating initial handshake data and selecting compatible driver capabilities.",
-      "description_length": 378,
+      "module_path": "Extend_main.Reader",
+      "library": "merlin-extend",
+      "description": "This module implements a versioned reader interface for parsing binary data. It provides a `make_v0` function that constructs a reader using a specified V0 protocol module. The module handles deserialization of structured binary formats, supporting use cases like network protocol parsing or binary file format decoding.",
+      "description_length": 320,
       "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Extend_main.Handshake",
+      "library": "merlin-extend",
+      "description": "This module defines the protocol handshake mechanism for establishing communication between a client and a server. It includes a magic number for protocol identification, versioned magic numbers for different file types, and a function to negotiate capabilities with a driver over input and output channels. It is used to ensure compatibility and secure initial communication in distributed or plugin-based systems.",
+      "description_length": 415,
+      "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "merlin-extend",
-      "description": "Provides functions to integrate a custom parser with Merlin, including a functor for generating a binary from a reader implementation. Works with parser interfaces and abstract syntax tree representations. Used to add support for alternative syntaxes like Reason within the Merlin environment.",
-      "description_length": 293,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Extend_protocol",
-      "description": "Converts raw code input into structured representations, enabling analysis, navigation, and editing support. Processes buffers into abstract syntax trees, allowing extraction of symbols, code inspection, and intelligent completion. Supports incremental parsing and visualizing both original and transformed code structures. Enables tasks like finding variable declarations, generating auto-complete suggestions, and displaying parsed code in readable formats.",
-      "description_length": 459,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Extend_helper",
-      "description": "Provides functions to handle custom syntax extensions and attributes in OCaml ASTs, including generating syntax error nodes, adjusting location information for completion, and marking nodes for exclusion or focus during analysis. Works with Parsetree extensions, attributes, and location data to influence how Merlin processes code. Used to manage generated code annotations and improve accuracy in IDE features like autocompletion and error reporting.",
-      "description_length": 452,
+      "library": "merlin-extend",
+      "description": "This module provides functions to manipulate and classify extension nodes and attributes in the OCaml AST, particularly for handling syntax errors, location relaxation, and node visibility in tools like Merlin. It operates on types such as `Parsetree.extension`, `Parsetree.attribute`, and `Location.t`, enabling precise control over how specific code regions are processed or displayed. Concrete use cases include generating syntax error placeholders, marking nodes to be hidden or focused in IDEs, and extracting location information for error reporting.",
+      "description_length": 556,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Extend_main",
+      "library": "merlin-extend",
+      "description": "This module initializes and runs extensions using configuration data and metadata, coordinating setup through the `extension_main` function. It integrates logging via `notify` and `debug`, structured identification with name and version fields, and binary data parsing using a versioned reader interface. You can define component metadata, log runtime events, decode binary formats, and negotiate protocol capabilities during extension startup. Concrete use cases include bootstrapping plugins with custom arguments, parsing network protocols, and managing versioned file formats.",
+      "description_length": 580,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Extend_driver",
-      "description": "Provides functions to start, stop, and query the capabilities of a driver process, and to handle reader requests with specific protocol responses. Operates on a stateful handle of type `t` and interacts with protocol-defined request and response types. Used to manage real-time data streaming and feature availability checks within a development environment.",
-      "description_length": 358,
+      "library": "merlin-extend",
+      "description": "This module manages the lifecycle and interaction with a language server, providing functions to start and stop the server, retrieve its capabilities, and send reader requests. It works with the `t` type representing the server instance and handles communication using the `Extend_protocol` types. Concrete use cases include initializing the server with custom notification and debug hooks, querying supported features, and processing code reading requests.",
+      "description_length": 457,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Extend_main",
-      "description": "Encapsulates software components with named, versioned identifiers and supports console logging, reader initialization, and protocol negotiation. Operates on strings, channels, and abstract reader types to manage configuration, debugging, and data processing. Enables creation of versioned object IDs, logging of runtime events, and setup of protocol-specific data readers. Facilitates protocol validation through magic number checks and version negotiation using input and output channels.",
-      "description_length": 490,
+      "module_path": "Extend_protocol",
+      "library": "merlin-extend",
+      "description": "This module manages communication protocols for external devices, particularly readers, by defining message formats and handling requests like initiating communication or forwarding commands. It processes responses such as notifications, debug output, and reader results, and works with structured data types like messages, capabilities, and communication states. The child module extends its functionality by processing OCaml source code\u2014parsing, loading, and pretty-printing buffers into structured forms such as parsetrees and outcometrees. Together, they enable precise tooling features like code navigation, type display, and error reporting while supporting direct interaction with hardware readers through structured communication flows.",
+      "description_length": 744,
       "index": 9,
       "embedding_norm": 1.0
     }
@@ -83,9 +93,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 490,
-    "min_description_length": 232,
-    "avg_description_length": 353.6,
-    "embedding_file_size_mb": 0.03679084777832031
+    "max_description_length": 830,
+    "min_description_length": 295,
+    "avg_description_length": 503.2,
+    "embedding_file_size_mb": 0.03675651550292969
   }
 }

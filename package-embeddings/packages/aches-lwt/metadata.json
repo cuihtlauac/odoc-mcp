@@ -1,84 +1,85 @@
 {
   "package": "aches-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:30:51.103001",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:18.649865",
   "modules": [
     {
-      "module_path": "Lache.Make.H",
-      "description": "Compares and hashes key values for efficient lookup and storage. Operates on arbitrary key types with customizable equality and hashing strategies. Used to implement hash tables or sets where key comparison and hashing must align with specific semantics.",
-      "description_length": 254,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lache.Make_option.H",
-      "description": "Compares keys using a user-defined equality function and generates hash values for key-based data structures. Operates on a custom type `t` representing keys, ensuring consistent hashing for equal values. Used to implement hash tables or sets where key comparison and hashing must align with specific semantics, such as structural equality or physical identity.",
-      "description_length": 361,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lache.Make_result.H",
-      "description": "Compares and hashes key values for efficient lookup and storage in hash tables. Operates on arbitrary key types, ensuring consistent equality and hash behavior. Used to define custom key semantics in data structures requiring hash-based operations.",
-      "description_length": 248,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Lache.Make",
-      "description": "Provides a bounded, mutable cache for managing resources with automatic cleanup upon removal. Supports arbitrary key types with customizable equality and hashing, enabling efficient storage and lookup. Elements are added and removed based on size constraints, with policies varying between strict and flexible enforcement. Can manage file descriptors or database connections, ensuring resources are properly released when no longer needed.",
-      "description_length": 439,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lache.Make_option",
-      "description": "provides a mutable, size-bounded cache for managing resources, removing elements when the limit is exceeded according to a specified policy. it operates on custom key types with user-defined equality and hashing, enabling tailored hash-table behavior. examples include managing file descriptors with custom comparison logic or tracking database connections with flexible size control. cleanup actions are triggered when elements are evicted, ensuring resource safety.",
-      "description_length": 467,
-      "index": 4,
+      "library": "aches-lwt.lache",
+      "description": "This module implements a size-bounded, mutable cache structure for storing promises, supporting operations like insertion, removal, filtering, and promise chaining. It works with keys defined by the parameter module and stores values wrapped in Lwt promises, allowing for asynchronous resolution and transformation. Concrete use cases include caching asynchronous computations with controlled memory usage and managing concurrent promise-based operations with dynamic key-based access.",
+      "description_length": 485,
+      "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lache.Make_result",
-      "description": "Provides a bounded, mutable cache for managing resources with automatic cleanup upon removal. Uses custom key comparison and hashing to enable efficient storage and lookup, supporting arbitrary key types. Allows controlled addition and removal of elements, with policies that may vary in how strictly they enforce size limits. Example operations include inserting a file descriptor with a custom key, retrieving it by key, and ensuring it is properly released when evicted.",
-      "description_length": 473,
+      "library": "aches-lwt.lache",
+      "description": "This module implements a cache that stores promises resolving to `result` values, where successful resolutions (`Ok`) retain bindings and errors (`Error`) remove them. It supports operations like `put` to insert promise bindings, `take` to remove and return promises, and `bind` to process resolved values, with policies for size limits and promise cancellation. Use cases include caching asynchronous computations where failures should evict entries, such as retrying network requests or managing transient state.",
+      "description_length": 514,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lache.Make_option",
+      "library": "aches-lwt.lache",
+      "description": "This module implements a cache that stores promises resolving to optional values, where `None` indicates failure and removes the binding, while `Some _` retains it. It supports operations like `put` for inserting promise bindings, `take` for safely removing them, and `bind` for chaining computations on resolved values. Use cases include managing asynchronous computations with fallback handling, such as caching HTTP responses or deferring expensive lookups with optional results.",
+      "description_length": 482,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lache.MAP_OPTION",
+      "library": "aches-lwt.lache",
+      "description": "This module manages a cache of keys bound to option promises, automatically removing rejected promises and those resolving to `None`. It supports operations like `put` to insert promises, `take` to remove and return them, and `bind` to chain computations on resolved values. Use cases include caching asynchronous results where `None` indicates failure, such as memoizing lookups that may expire or fail.",
+      "description_length": 404,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lache.MAP_RESULT",
+      "library": "aches-lwt.lache",
+      "description": "This module implements a size-bound cache for asynchronous result promises, automatically evicting rejected promises and those resolving to `Error`. It provides operations to insert, retrieve, and transform cached promises while managing their lifecycle, including cancellation on removal. Concrete use cases include caching HTTP responses that may fail, background computation results, or any async operations where failed results should not be retained.",
+      "description_length": 455,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lache.MAP",
+      "library": "aches-lwt.lache",
+      "description": "This module manages a bounded-size cache of promises, automatically cleaning up rejected and evicted promises. It supports operations like inserting, removing, and folding over promises, with control over cancellation and resolution. Use it to cache asynchronous computations with predictable memory usage, such as memoizing network requests or background tasks.",
+      "description_length": 362,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "aches-lwt",
-      "description": "Provides key-value and simple-value cache operations with automatic eviction when size limits are exceeded. Works with bounded-size structures such as maps and lists, ensuring efficient memory usage. Used to manage temporary data like API responses or file handles, with resource caches supporting automatic cleanup of external assets.",
-      "description_length": 335,
+      "module_path": "Lache",
+      "library": "aches-lwt.lache",
+      "description": "This library provides cache structures optimized for Lwt promises, enabling efficient insertion, retrieval, and eviction of asynchronous values. It supports key-value storage with specialized handling for `result`, `option`, and plain promise values, allowing operations like `put`, `take`, and `bind` to manage resolution, transformation, and cleanup. Submodules offer size-bounded caches that evict entries based on limits or resolution outcome, such as removing failed promises or `None` results. Examples include caching HTTP responses, memoizing async computations, and managing transient or retryable operations with automatic cleanup.",
+      "description_length": 641,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Aches_lwt",
-      "description": "provides a set of cache implementations designed to work safely with Lwt promises, avoiding race conditions by managing promise-based values directly. it includes data types for caches that store key-value pairs where values are promises, and operations to retrieve, insert, and manage these entries. examples include fetching a value from a cache, automatically resolving a promise if the value is missing, and ensuring that concurrent accesses do not result in duplicate or inconsistent results. the module ensures that promise resolution and cache updates are synchronized to maintain consistency.",
-      "description_length": 600,
+      "library": "aches-lwt",
+      "description": "This module provides cache implementations specifically designed to handle Lwt promises, ensuring safe and efficient caching of values that may involve asynchronous resolution. It supports operations like insertion, retrieval, and size management of cached promises without introducing race conditions during concurrent access. Concrete use cases include caching results of expensive or delayed I/O operations, such as network requests or file reads, where promise resolution must be coordinated with cache state.",
+      "description_length": 513,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lache",
-      "description": "Caches key-value pairs where values are promises resolving to a result type, automatically removing entries on failure or when exceeding size limits. It manages promise lifecycle, canceling unresolved promises during removal or eviction. Used to manage asynchronous computations with error handling, ensuring only successful results are retained.",
-      "description_length": 346,
-      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 9,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 600,
-    "min_description_length": 248,
-    "avg_description_length": 391.44444444444446,
-    "embedding_file_size_mb": 0.033135414123535156
+    "max_description_length": 641,
+    "min_description_length": 362,
+    "avg_description_length": 482.0,
+    "embedding_file_size_mb": 0.02947998046875
   }
 }

@@ -1,56 +1,69 @@
 {
   "package": "bitcoin",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:20.520002",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:45.627978",
   "modules": [
     {
-      "module_path": "Bitcoin.Make.Monad",
-      "description": "Provides operations to sequence computations with context, including lifting values into the monadic context, handling failures, chaining operations, and catching exceptions. Works with a parameterized type 'a t that encapsulates values and side effects. Used to manage error propagation and control flow in effectful code, such as parsing or I/O operations.",
-      "description_length": 358,
+      "module_path": "Bitcoin.ENGINE",
+      "library": "bitcoin",
+      "description": "This module orchestrates blockchain interaction through querying and verification, manages peer-to-peer network operations, and handles cryptographic transactions. It manipulates block hashes, raw transaction hex, cryptographic keys, and node addresses to enable use cases like transaction signing, wallet encryption, and network information retrieval. Core patterns include blockchain analysis, secure key management, and constructing validated transactions for decentralized Bitcoin node control.",
+      "description_length": 498,
       "index": 0,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Bitcoin.HTTPCLIENT-Monad",
+      "library": "bitcoin",
+      "description": "This module implements a monadic interface for handling asynchronous HTTP requests and responses in the context of interacting with the Bitcoin client API. It provides operations like `bind`, `return`, `fail`, and `catch` to sequence and error-handle HTTP-based Bitcoin operations, such as querying blockchain data or sending transactions. It works with data types representing HTTP responses, JSON payloads, and exceptions specific to Bitcoin RPC calls.",
+      "description_length": 454,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bitcoin.CONNECTION",
+      "library": "bitcoin",
+      "description": "Handles establishing and managing connections to Bitcoin nodes. Provides functions to configure connection parameters, initiate sessions, and retrieve connection metadata. Works with `conn_t` structures representing node connections. Useful for interacting with the Bitcoin network, such as sending transactions or querying blockchain data.",
+      "description_length": 340,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bitcoin.Make",
-      "description": "Provides functions to manage connection states, including retrieving a default connection. Works with connection type options and boolean flags. Used to initialize or reset connection settings in networked applications.",
-      "description_length": 219,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bitcoin.Monad",
-      "description": "Provides operations to sequence computations with context, including lifting values into the monadic context, handling failures, chaining operations, and catching exceptions. Works with a parameterized type 'a t that encapsulates values and effects. Used to manage error propagation and control flow in effectful code.",
-      "description_length": 318,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "bitcoin",
-      "description": "Processes Bitcoin protocol messages by parsing and serializing network packets, handling version exchanges, and validating block headers. It operates on byte streams, message payloads, and structured data types like `network_version` and `block_header`. Used to implement peer-to-peer communication and blockchain synchronization in a Bitcoin node.",
-      "description_length": 348,
+      "library": "bitcoin",
+      "description": "This module offers APIs for blockchain data retrieval, raw transaction manipulation, and wallet management, enabling interactions with Bitcoin nodes through operations like block querying, transaction signing, and address validation. It works with Bitcoin-specific data structures such as transaction IDs (`txid_t`), hex-encoded transactions (`hextx_t`), and connection handles (`conn_t`), while supporting use cases like wallet encryption, peer network management, and programmable control over mining and transaction broadcasting. Applications include building wallet services, blockchain explorers, or automated transaction processing systems requiring direct node communication.",
+      "description_length": 682,
       "index": 3,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Bitcoin.HTTPCLIENT",
+      "library": "bitcoin",
+      "description": "Implements HTTP POST requests for interacting with the Bitcoin client API, handling raw string payloads and custom headers. Works with network addresses, hostnames, ports, and URIs to send data to Bitcoin nodes. Used to communicate with the Bitcoin daemon via JSON-RPC over HTTP.",
+      "description_length": 279,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bitcoin",
-      "description": "Encapsulates effectful computations with a parameterized type 'a t, enabling error handling, chaining, and exception catching. Supports lifting values into the monadic context and sequencing operations with structured control flow. Allows for custom monadic behavior, with the identity monad as a fallback for simple cases. Enables robust handling of HTTP POST requests by managing side effects and failures in a compositional manner.",
-      "description_length": 434,
-      "index": 4,
+      "library": "bitcoin",
+      "description": "This interface models Bitcoin transactions and network interactions with strongly typed representations of addresses, transaction identifiers, and financial amounts, while coordinating with submodules to enable full integration with Bitcoin infrastructure. It supports precise financial calculations through bidirectional conversion between BTC floats and 64-bit integers, and manages cryptographic operations, node connections, and transaction construction via its child modules. The monadic HTTP interface sequences JSON-RPC calls and handles errors during blockchain queries or transaction submissions, while the connection layer maintains sessions with Bitcoin nodes using `conn_t` handles. Users can validate addresses, sign transactions, retrieve blockchain data, or send raw transactions through a combination of direct utilities and submodule APIs that support wallet services, blockchain explorers, and decentralized applications.",
+      "description_length": 939,
+      "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 434,
-    "min_description_length": 219,
-    "avg_description_length": 335.4,
-    "embedding_file_size_mb": 0.0186004638671875
+    "max_description_length": 939,
+    "min_description_length": 279,
+    "avg_description_length": 532.0,
+    "embedding_file_size_mb": 0.022233963012695312
   }
 }

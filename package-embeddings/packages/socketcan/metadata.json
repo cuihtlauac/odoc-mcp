@@ -1,84 +1,85 @@
 {
   "package": "socketcan",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:59.558489",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:11.122797",
   "modules": [
     {
-      "module_path": "Socketcan.Id",
-      "description": "Creates and manipulates CAN identifiers, supporting both 11-bit standard (SFF) and 29-bit extended (EFF) frame formats. Provides conversion between integer values and identifier types, with operations to enforce format specificity. Used to ensure correct CAN frame identification in embedded systems communication.",
-      "description_length": 314,
+      "module_path": "Socketcan.BCM",
+      "library": "socketcan",
+      "description": "This module supports configuring and managing CAN message transmission and reception in kernel space using the Broadcast Manager (BCM) protocol. It provides operations to set up periodic transmissions, define receive filters, and manage timers with precise control over message handling flags. Concrete use cases include scheduling periodic CAN frame broadcasts and monitoring specific CAN IDs for changes or timeouts.",
+      "description_length": 418,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Socketcan.Frame",
-      "description": "The module offers functions to construct, modify, and analyze CAN frames, handling operations like setting/retrieving identifiers, payloads, timestamps, and flags (e.g., RTR, error), along with format conversions between standard and extended CAN. It works with structured data representing frame details, ensuring validation and proper manipulation. Use cases include real-time vehicle diagnostics, industrial control systems, and embedded applications requiring precise CAN message handling.",
-      "description_length": 493,
+      "module_path": "Socketcan.Filter",
+      "library": "socketcan",
+      "description": "This module defines filters for incoming CAN messages based on message IDs and masks. It allows specifying whether to include extended or remote frames in the filter criteria. Use this module to configure which CAN messages a socket should receive based on identifier patterns and frame types.",
+      "description_length": 293,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Socketcan.Mask",
-      "description": "Provides functions to create and manipulate CAN identifier masks for standard (11-bit) and extended (29-bit) frame formats. Works with integer values and a custom type `t` representing mask configurations. Used to filter CAN messages by applying specific bitmasks to identifiers.",
-      "description_length": 279,
+      "module_path": "Socketcan.Socket",
+      "library": "socketcan",
+      "description": "This module implements low-level CAN socket operations for interacting with Linux SocketCAN interfaces. It provides functions to open and close CAN sockets, send and receive CAN frames, apply receive filters, and configure error handling. It works directly with CAN frame and filter types, enabling precise control over message reception and transmission on a specific CAN interface.",
+      "description_length": 383,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Socketcan.Filter",
-      "description": "Filters incoming CAN data based on ID, frame type, and masking. Operates on CAN identifiers, frame types, and custom masks to select specific messages. Used to isolate certain message types or IDs in real-time network communication.",
-      "description_length": 232,
+      "module_path": "Socketcan.Mask",
+      "library": "socketcan",
+      "description": "This module defines and manipulates CAN identifier masks used for filtering messages. It supports two primary data types: standard frame format (11-bit) and extended frame format (29-bit) masks. Concrete operations include creating masks from integers, converting masks back to integers, and accessing predefined standard and extended format masks. Use cases involve configuring CAN bus filters to match specific message identifiers based on bitwise masking.",
+      "description_length": 458,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Socketcan.Error",
-      "description": "Parses CAN frames to extract error information, returning error types and statuses or empty lists if none are present. Converts error types and statuses to human-readable strings for logging or display. Used to interpret and report errors from CAN network communications.",
-      "description_length": 271,
+      "library": "socketcan",
+      "description": "This module defines error codes and status flags specific to CAN bus communication errors, including transmission timeouts, arbitration loss, controller and protocol errors, and physical layer issues. It provides functions to parse error information from a CAN frame and convert error codes to human-readable strings. Use this module to diagnose and handle communication failures in CAN bus systems, such as identifying bus-off conditions or electrical faults.",
+      "description_length": 460,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Socketcan.Socket",
-      "description": "Creates and manages CAN socket connections, allowing for sending and receiving CAN frames, applying receive filters, and setting error flags. Operates on socket handles and CAN frame data structures. Used to interface with CAN bus hardware for real-time message processing and diagnostics.",
-      "description_length": 289,
+      "module_path": "Socketcan.Id",
+      "library": "socketcan",
+      "description": "This module handles creation, transformation, and inspection of CAN frame identifiers, supporting both 11-bit standard (SFF) and 29-bit extended (EFF) formats. It provides functions to construct identifiers from integers, convert between formats, and check the current format of an identifier. Use cases include preparing CAN message IDs for transmission and validating received ID formats in a Linux SocketCAN environment.",
+      "description_length": 423,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Socketcan.BCM",
-      "description": "Manages CAN message broadcasting through kernel-level sockets, enabling periodic transmission without user-space intervention. It handles operations involving CAN frame configurations, timers, and interface descriptors. The module works with CAN interface names, opcode and flag lists, timer values, and CAN frame data.",
-      "description_length": 319,
+      "module_path": "Socketcan.Frame",
+      "library": "socketcan",
+      "description": "This module handles the manipulation and representation of raw CAN message data, supporting operations to construct and validate frames with standard or extended identifiers, control flags like remote transmission requests, and variable-length payloads. It works with timestamped frame structures that encapsulate binary data, providing utilities to enforce format constraints and convert frames into textual diagnostics. Typical applications include automotive network communication, embedded systems monitoring, and industrial control protocols where precise message framing and interpretation are critical.",
+      "description_length": 609,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "socketcan",
-      "description": "Provides functions to send and receive CAN frames over a socket interface, with support for setting socket options and handling error conditions. Operates on raw CAN frame data structures and socket file descriptors. Used for real-time vehicle diagnostics and industrial control system communication.",
-      "description_length": 300,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Socketcan",
-      "description": "handles CAN identifier creation, frame manipulation, masking, filtering, error parsing, socket management, and message broadcasting. It uses types like identifiers, frames, masks, and socket handles to enable precise control over CAN communication. Operations include setting identifiers, applying masks, filtering messages, extracting errors, and managing socket connections. It supports real-time diagnostics, message filtering, and reliable broadcasting in embedded and vehicle systems.",
-      "description_length": 489,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "library": "socketcan",
+      "description": "This module provides comprehensive access to Linux SocketCAN features, enabling configuration of CAN interfaces, message filtering, and error handling. It supports key operations such as setting up periodic message transmission, defining ID-based receive filters using bitmasking, and sending or receiving raw CAN frames with precise control over identifiers and flags. Developers can use it to schedule CAN frame broadcasts, filter incoming messages by ID or type, diagnose communication errors, and manipulate CAN identifiers and masks for both standard and extended frame formats. Example tasks include monitoring specific CAN IDs for changes, diagnosing bus errors, and constructing or parsing CAN frames for transmission on automotive or industrial networks.",
+      "description_length": 763,
+      "index": 7,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 493,
-    "min_description_length": 232,
-    "avg_description_length": 331.77777777777777,
-    "embedding_file_size_mb": 0.03314781188964844
+    "max_description_length": 763,
+    "min_description_length": 293,
+    "avg_description_length": 475.875,
+    "embedding_file_size_mb": 0.02947521209716797
   }
 }

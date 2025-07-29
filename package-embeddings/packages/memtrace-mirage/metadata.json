@@ -1,147 +1,157 @@
 {
   "package": "memtrace-mirage",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 18,
-  "creation_timestamp": "2025-06-18T16:34:21.542640",
+  "total_modules": 17,
+  "creation_timestamp": "2025-07-15T23:09:11.894181",
   "modules": [
     {
       "module_path": "Memtrace.Make.Trace.Location_code.Tbl",
-      "description": "This module offers standard hashtable operations\u2014such as insertion, deletion, lookup, and iteration\u2014alongside sequence-based utilities for constructing and updating tables using key-value pairs. It works with hash tables where keys are of type `t` (specifically location codes) and values are generic, enabling flexible data manipulation. Use cases include dynamically managing location-specific data or efficiently refreshing tables from sequential inputs.",
-      "description_length": 457,
+      "library": "memtrace-mirage",
+      "description": "This module enables storing and manipulating values associated with location codes using standard hash table operations like insertion, lookup, iteration, and folding, along with in-place filtering and batch sequence-based updates. It works with hashtables where keys are `Trace.Location_code.t` and values can be arbitrary data, supporting conversions from and to sequences of key-value pairs. It is useful for tracking metadata or aggregated statistics linked to specific backtrace locations during trace analysis.",
+      "description_length": 516,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Memtrace.Make.Trace.Obj_id.Tbl",
-      "description": "This module offers operations for inserting, deleting, and looking up key-value pairs in a hashtable indexed by object IDs, along with iteration and transformation capabilities. It supports sequence-based construction and modification of these structures, enabling efficient dynamic data management. Use cases include scenarios requiring frequent updates or processing of structured data through functional transformations.",
-      "description_length": 423,
+      "library": "memtrace-mirage",
+      "description": "This module implements a hash table using allocation identifiers (`Trace.Obj_id.t`) as keys to map to arbitrary values, supporting standard operations like insertion, lookup, and iteration, as well as sequence-based bulk updates (`add_seq`, `replace_seq`) and construction (`of_seq`). It is designed to track metadata (e.g., allocation sizes, lifetimes, or source locations) during memory trace analysis, enabling efficient aggregation or transformation of allocation data when processing trace files. The sequence operations are particularly useful for batch updates, such as merging trace segments or summarizing allocation patterns.",
+      "description_length": 635,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memtrace.Make.Trace.Timestamp",
-      "description": "Provides functions to create timestamps from the current time, convert between timestamps and 64-bit integers representing microseconds since the Unix epoch, and transform timestamps into and out of floating-point seconds. Operates on the `t` type, which encapsulates time values. Used to synchronize events with precise microsecond resolution and integrate with systems using Unix time formats.",
-      "description_length": 395,
+      "module_path": "Memtrace.Make.Trace.Info",
+      "library": "memtrace-mirage",
+      "description": "This module defines the `t` record type that captures metadata associated with a memory trace, including sampling rate, word size, executable name, host name, OCaml runtime parameters, process ID, start time, and an optional context string. It provides functions to serialize and deserialize this trace metadata for reading and writing trace files. Concrete use cases include storing configuration and runtime environment details alongside memory traces for later analysis or debugging.",
+      "description_length": 486,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memtrace.Make.Trace.Timedelta",
-      "description": "Converts a time difference to microseconds and applies a time offset to a timestamp. Works with 64-bit integer-based time intervals and timestamp values. Used to calculate elapsed time between events and adjust timestamps for event sequencing.",
-      "description_length": 243,
+      "module_path": "Memtrace.Make.Trace.Event",
+      "library": "memtrace-mirage",
+      "description": "Handles allocation, promotion, and collection events in memory traces, encoding them with object identifiers, backtraces, and metadata. Works with trace files using `Trace.Obj_id.t`, `Trace.Location_code.t`, and allocation sources. Used to log and serialize memory events for profiling and analysis tools.",
+      "description_length": 305,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Memtrace.Make.Trace.Location",
-      "description": "Represents source code positions with file, line, and column information. Provides conversion to string representation and a default \"unknown\" location. Used to track and report exact positions during program execution tracing.",
-      "description_length": 227,
+      "module_path": "Memtrace.Make.Trace.Timestamp",
+      "library": "memtrace-mirage",
+      "description": "Handles conversion and representation of timestamps in Memtrace traces. Works with `t` type representing timestamps, and supports conversions to and from `int64` (microseconds since Unix epoch) and `float` (Unix time). Used to record and interpret event times in trace files with high precision.",
+      "description_length": 295,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Memtrace.Make.Trace.Obj_id",
-      "description": "manages key-value mappings indexed by object IDs, supporting insertion, deletion, lookup, iteration, and transformation. It defines a hashtable type with operations for dynamic data manipulation and sequence-based updates. Users can efficiently process structured data through functional pipelines and maintain stateful collections. Examples include tracking object metadata, updating records in real-time, and generating derived data from existing mappings.",
-      "description_length": 458,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Memtrace.Make.Trace.Location_code",
-      "description": "provides hash tables with key-type `t` for location codes, supporting insertion, deletion, and lookup, along with sequence-based updates. It enables dynamic management of location-specific data and efficient table rebuilding from ordered inputs. Operations include iterating over entries and constructing tables from key-value sequences. For example, it can track call stack positions or map execution points to debug information.",
-      "description_length": 430,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Memtrace.Make.Trace.Allocation_source",
-      "description": "Provides functions to classify and inspect allocation sources, including checking if a source is dynamic, static, or unknown. Works with the `t` type, which represents different allocation strategies in memory management. Used to determine the origin of memory allocations during program analysis or debugging.",
-      "description_length": 310,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Memtrace.Make.Trace.Event",
-      "description": "Converts event data into a human-readable string using a location mapping function. Operates on event records that include location codes and timestamps. Used to generate logs for debugging or auditing purposes.",
-      "description_length": 211,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Memtrace.Make.Trace.Info",
-      "description": "Provides functions to extract and manipulate trace identifiers, timestamps, and metadata from structured log entries. Operates on records containing fields like `id`, `time`, and `source`. Used to filter and annotate logs during system diagnostics and performance analysis.",
-      "description_length": 273,
-      "index": 9,
+      "library": "memtrace-mirage",
+      "description": "This module encodes and decodes subsequences of locations in backtraces using compact integer codes, managing internal tables that map these codes to location sequences. It supports efficient storage and retrieval of shared location fragments in memory traces, and pairs with a child module that provides hash table operations for associating arbitrary data with location codes. The child module enables insertion, lookup, iteration, and folding over tables keyed by location codes, along with in-place filtering and sequence-based updates, making it suitable for tracking metadata or statistics linked to backtrace locations. Together, they allow working with location codes as identifiers for location sequences and managing associated data efficiently.",
+      "description_length": 755,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Memtrace.Make.Trace.Writer",
-      "description": "Writes trace data including memory allocations, collections, promotions, and events, with support for callstack decoding and timestamped records. Operates on types such as Timestamp.t, Obj_id.t, Allocation_source.t, Location_code.t, and Event.t. Used to instrument applications for detailed memory and execution analysis during runtime.",
-      "description_length": 336,
+      "library": "memtrace-mirage",
+      "description": "This module writes Memtrace trace events to a stream, encoding allocations, collections, promotions, and custom events with timestamps and callstacks. It operates on trace writers (`t`), object IDs, timestamps, and structured allocation data, including backtraces. Concrete use cases include logging memory events during program execution and serializing profiling data for external analysis.",
+      "description_length": 392,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Memtrace.Make.Trace.Location",
+      "library": "memtrace-mirage",
+      "description": "Handles source location data in memory traces, providing structured access to file, line, and character positions. It includes operations to convert locations to strings and represents unknown locations. Useful for correlating memory allocation samples with specific code positions during profiling.",
+      "description_length": 299,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Memtrace.Make.Trace.Obj_id",
+      "library": "memtrace-mirage",
+      "description": "This module manages unique integer-based identifiers for memory allocations, providing a core type and table structure to map and track identifiers in allocation traces. It enables efficient lookups and associations between allocation events and metadata, such as source locations or sizes, using operations like insertion, lookup, and iteration. The table supports sequence-based bulk updates and construction, making it suitable for processing and aggregating trace data across multiple allocation events. It is particularly effective for correlating sampled allocations with their context or for summarizing memory usage patterns from trace files.",
+      "description_length": 650,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Memtrace.Make.Trace.Timedelta",
+      "library": "memtrace-mirage",
+      "description": "Encodes and decodes time intervals relative to the start of a memory trace. Uses `int64` to represent microseconds and adjusts timestamps by adding a time delta. Useful for reconstructing event timing during trace analysis.",
+      "description_length": 223,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Memtrace.Make.Trace.Allocation_source",
+      "library": "memtrace-mirage",
+      "description": "This module defines the `t` type to represent sources of memory allocations, specifically `Minor`, `Major`, and `External`. It is used to categorize where allocations occur within the memory management system. This classification supports precise analysis and debugging of memory usage patterns in applications.",
+      "description_length": 311,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memtrace.Make.Trace",
-      "description": "Encapsulates tools for handling time, location, and trace data, enabling precise event synchronization, source tracking, and structured logging. It supports operations on timestamps, intervals, source positions, and key-value mappings, with functions to convert, transform, and inspect trace elements. Users can generate human-readable logs, manage dynamic data, and analyze memory allocation patterns. Examples include tracking execution flow with location codes, calculating event durations, and writing detailed trace files for debugging.",
-      "description_length": 541,
+      "module_path": "Memtrace.Make.External",
+      "library": "memtrace-mirage",
+      "description": "This module tracks external memory allocations outside the OCaml GC heap within a tracing session. It provides `alloc` to record allocations of a given byte size and `free` to mark those allocations as released, using a token returned by `alloc`. Use it to profile memory usage of off-heap data structures or resources like memory-mapped files.",
+      "description_length": 344,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Memtrace.Make.Trace",
+      "library": "memtrace-mirage",
+      "description": "The Trace module processes memory trace data by capturing metadata, tracking allocation events, and encoding timestamps and backtraces for analysis. It centers on types like `t` for trace metadata, timestamps, location codes, and object IDs, with operations to serialize and deserialize trace files. You can log allocations, promotions, and collections with precise timing and callstacks, map location codes to source positions, and associate runtime configuration data with trace events. Specific uses include profiling memory usage, debugging allocation patterns, and reconstructing execution timelines from stored traces.",
+      "description_length": 624,
+      "index": 12,
+      "embedding_norm": 0.9999998807907104
     },
     {
       "module_path": "Memtrace.Make.Memprof_tracer",
-      "description": "Tracks memory allocations and deallocations with custom tokens, enabling precise control over memory profiling data collection. Operates on trace writers and external allocation tokens to record detailed memory usage patterns. Used to instrument specific memory operations in performance-critical applications.",
-      "description_length": 310,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Memtrace.Make.External",
-      "description": "Tracks memory allocations outside the garbage-collected heap, using a token system to correlate allocations with their subsequent frees. It handles byte counts and token references, enabling precise tracking of raw memory usage. Used to monitor and analyze non-heap memory in applications with low-level memory management.",
-      "description_length": 322,
+      "library": "memtrace-mirage",
+      "description": "This module samples memory allocations at a configurable rate and records trace events for profiling. It works with raw memory operations and trace writers to capture allocation and deallocation events. Use it to manually control memory profiling sessions and track memory usage patterns in long-running programs.",
+      "description_length": 313,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Memtrace.Make",
-      "description": "Provides functions for reading from and writing to network flows, with error handling and shutdown capabilities. Operates on flow objects and Cstruct.t buffers, supporting both single and multiple buffer writes. Handles EOF and connection closure states, ensuring proper resource management and error reporting.",
-      "description_length": 311,
+      "module_path": "Memtrace.Geometric_sampler",
+      "library": "memtrace-mirage",
+      "description": "This module implements a geometric distribution sampler for probabilistic memory tracing. It generates geometrically distributed integers used to determine sampling intervals, based on a specified sampling rate. The sampler is used to control the frequency of memory allocation sampling in tracing systems.",
+      "description_length": 306,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Memtrace.Geometric_sampler",
-      "description": "Generates geometrically distributed random integers using a specified sampling rate and random state. Operates on a stateful object that tracks internal randomness and sampling parameters. Used to simulate events with a fixed probability of occurrence, such as modeling rare occurrences in stochastic simulations.",
-      "description_length": 313,
+      "module_path": "Memtrace.Make",
+      "library": "memtrace-mirage",
+      "description": "This module enables manual control of memory tracing with start and stop operations, using a configurable sampling rate, and produces tracer instances for capturing memory allocation traces. It integrates with a custom flow type from module F to manage trace sessions, allowing precise profiling of memory usage in specific program sections and analysis of allocation patterns under controlled conditions. The child module for external memory tracking provides `alloc` and `free` operations to monitor off-heap allocations, such as memory-mapped files, using tokens to track lifetime events. The Trace module captures and processes trace data with types like `t` for metadata, timestamps, and location codes, supporting serialization, backtrace encoding, and source position mapping to reconstruct execution timelines and analyze memory events.",
+      "description_length": 844,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "memtrace-mirage",
-      "description": "Handles TCP-based transmission of memory traces generated by OCaml programs, supporting real-time monitoring and analysis. Works with byte sequences and network sockets to stream data between a unikernel and a tracing listener. Used to capture and save memory allocation patterns during unikernel execution for performance debugging.",
-      "description_length": 333,
-      "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Memtrace",
-      "description": "captures the interaction between network flow management and probabilistic sampling, enabling controlled data transmission and event generation. It includes flow objects for network communication and a stateful sampler for generating geometrically distributed events. Operations include reading/writing data over flows, managing connection states, and producing random integers based on a specified rate. Examples include simulating packet loss with controlled probability or managing data streams with periodic sampling.",
-      "description_length": 521,
-      "index": 17,
+      "library": "memtrace-mirage",
+      "description": "This module provides probabilistic sampling for memory tracing using a geometric distribution to determine allocation intervals, allowing control over performance impact through a sampling rate parameter. It supports manual tracing sessions with start and stop operations, integration with external memory tracking via `alloc` and `free` calls, and detailed trace capture with metadata, timestamps, and backtraces. Specific use cases include profiling memory allocations in targeted code sections, tracking off-heap memory usage with lifetime tokens, and reconstructing execution timelines from serialized trace data. A sampling rate of 1e-4, for example, would sample 1 in 10,000 allocations to balance detail and overhead.",
+      "description_length": 724,
+      "index": 16,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
-    "meaningful_modules": 18,
+    "total_modules_in_package": 17,
+    "meaningful_modules": 17,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 541,
-    "min_description_length": 211,
-    "avg_description_length": 356.3333333333333,
-    "embedding_file_size_mb": 0.0658273696899414
+    "max_description_length": 844,
+    "min_description_length": 223,
+    "avg_description_length": 471.88235294117646,
+    "embedding_file_size_mb": 0.062218666076660156
   }
 }

@@ -1,56 +1,53 @@
 {
   "package": "irmin-chunk",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:29:41.715019",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:47.440134",
   "modules": [
     {
       "module_path": "Irmin_chunk.Conf.Key",
-      "description": "Provides configuration keys for adjusting chunk size, minimum size, and chunking strategy in a storage backend. Works with integer and variant types to control data segmentation. Used to optimize storage layout for performance and space efficiency in versioned data systems.",
-      "description_length": 274,
+      "library": "irmin-chunk",
+      "description": "This module defines configuration keys for chunking strategies, including chunk size, minimum size, and chunking mode (`Best_fit` or `Max`). It works with integer and enumeration types to control how content is split into blocks. Concrete use cases include tuning block sizes for efficient storage in 4K sectors or optimizing deduplication granularity.",
+      "description_length": 352,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Irmin_chunk.Conf",
-      "description": "Controls configuration parameters for data segmentation, including chunk size, minimum size, and strategy, using integers and variants to tailor storage behavior. Key types include configuration records and variant strategies, with operations to set and retrieve parameters. Users can adjust segmentation rules to balance performance and storage efficiency in versioned systems. Example tasks include defining custom chunking policies or tuning size thresholds for specific workloads.",
-      "description_length": 484,
+      "module_path": "Irmin_chunk.Content_addressable",
+      "library": "irmin-chunk",
+      "description": "This module implements a content-addressable store where values are stored and retrieved using their cryptographic hashes as keys. It provides operations to check existence (`mem`), retrieve values (`find`), and store new values (`add`) by their hash, with `unsafe_add` allowing direct key assignment. Designed for use with Irmin backends, it supports efficient storage of chunked data using consistent hashing.",
+      "description_length": 411,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Irmin_chunk.Content_addressable",
-      "description": "Provides operations to create, compare, and hash content-based identifiers using a custom type `t` derived from a specific representation. Works with binary data and cryptographic hashes to ensure unique, deterministic identifiers. Used to generate stable keys for storing and retrieving data in distributed systems.",
-      "description_length": 316,
+      "module_path": "Irmin_chunk.Conf",
+      "library": "irmin-chunk",
+      "description": "This module manages configuration parameters for chunking raw content into fixed-size blocks, supporting string-based keys and integer-based block sizes. It provides operations to define and manipulate chunking strategies, including setting chunk sizes, minimum thresholds, and modes like `Best_fit` or `Max`. These configurations optimize storage efficiency for binary files and block-level access in Irmin backends, enabling precise control over deduplication and sector alignment. Submodules extend this functionality by organizing strategy-specific keys and enumeration types for dynamic tuning.",
+      "description_length": 599,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "irmin-chunk",
-      "description": "Provides versioned storage and retrieval of custom data types with support for branching, merging, and conflict resolution. Operates on structured data and integrates with various storage backends like in-memory, disk, and remote databases. Enables automated data synchronization and pipeline management in distributed systems requiring high throughput and consistency.",
-      "description_length": 369,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Irmin_chunk",
-      "description": "Encapsulates logic for segmenting and identifying data blocks, enabling efficient storage and retrieval in versioned systems. Uses a custom type `t` for content-based identifiers and configuration records to control chunking parameters like size and strategy. Supports creating unique keys from binary data and adjusting segmentation rules to optimize performance. Can generate stable keys for distributed storage or tailor chunk sizes for large file handling.",
-      "description_length": 460,
-      "index": 4,
+      "library": "irmin-chunk",
+      "description": "This module organizes data into a tree of fixed-size chunks addressed by hash, using an append-only store to efficiently manage large files and binary content within Irmin's content-addressable model. It provides core operations to split content into blocks, track them via hash-based keys, and reconstruct data from stored chunks, supporting use cases like versioned file storage and block device backends. The content-addressable store allows checking existence, retrieving, and storing values by hash, while the configuration module tunes chunking strategies with parameters like block size and allocation modes. Together, these components enable precise control over storage efficiency, deduplication, and access patterns for structured and unstructured data.",
+      "description_length": 763,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 484,
-    "min_description_length": 274,
-    "avg_description_length": 380.6,
-    "embedding_file_size_mb": 0.018624305725097656
+    "max_description_length": 763,
+    "min_description_length": 352,
+    "avg_description_length": 531.25,
+    "embedding_file_size_mb": 0.01494598388671875
   }
 }

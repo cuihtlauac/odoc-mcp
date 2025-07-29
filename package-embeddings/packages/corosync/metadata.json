@@ -1,140 +1,141 @@
 {
   "package": "corosync",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 17,
-  "creation_timestamp": "2025-06-18T16:35:12.249348",
+  "total_modules": 15,
+  "creation_timestamp": "2025-07-15T23:09:39.953524",
   "modules": [
     {
       "module_path": "Corosync_tools.Quorumtool.ViewList",
-      "description": "Provides functions to retrieve and manipulate a list of view list entries, each containing a node name and associated data. Operates on `node_name` and `view_list_entry` types, where entries track membership information. Used to access current node membership status in a distributed system context.",
-      "description_length": 299,
+      "library": "corosync.tools",
+      "description": "This module manages a list of cluster membership views, providing the `get_view_list` function to retrieve current node information including node names, IDs, and optional vote quorum details. It works with data types like `node_name` (either a string name or list of IP addresses) and `view_list_entry` records. Use cases include inspecting cluster membership state and tracking node participation in quorum decisions.",
+      "description_length": 419,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Corosync_lib.Cfg.Corosync_cfg_shutdown_flags",
-      "description": "Converts an integer to a bitset representing shutdown flags for Corosync configurations. Operates on an opaque type encapsulating bitwise combinations of shutdown options. Used to configure graceful termination behaviors in distributed cluster environments.",
-      "description_length": 257,
+      "module_path": "Corosync_tools.Cfgtool",
+      "library": "corosync.tools",
+      "description": "This module retrieves the local node ID, reloads the Corosync configuration on the current node, and fetches network addresses for a specified node ID. It operates on node identifiers and Corosync configuration data structures, supporting multiple network interfaces per node. Use cases include node identification, configuration updates, and network address resolution in clustered environments.",
+      "description_length": 396,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Corosync_lib.Cmap.CmapValue",
-      "description": "Provides constructors for various numeric and string types, including signed and unsigned integers of different widths, floats, and byte sequences. Offers conversion functions to extract integer and string representations from typed values. Used to encapsulate and manipulate heterogeneous data in a type-safe manner.",
-      "description_length": 317,
+      "module_path": "Corosync_tools.Cmapctl",
+      "library": "corosync.tools",
+      "description": "This module provides direct access to Corosync's CMAP database, allowing retrieval and modification of key-value pairs. It supports operations to get a typed value by key, set a key to a specific value, and list all key-value pairs under a given prefix. It is used for inspecting and configuring Corosync's in-memory state, such as reading node status or updating runtime settings.",
+      "description_length": 381,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Corosync_lib.Corotypes.CsError",
-      "description": "Provides conversion between integer values and a custom error type, along with serialization to a string and wrapping into a result type. Works with an opaque type representing error codes and a C-compatible type for interoperability. Used to translate low-level error codes into structured error values for safe error handling in mixed-language environments.",
-      "description_length": 359,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Corotypes.CsDispatchFlag",
-      "description": "Provides conversion between an integer and a custom type representing dispatch flags, and defines a Ctypes-compatible type for interoperability. Works with an opaque type `t` and integer values to encode or decode flag states. Used to interface with C libraries that expect specific bit-flag representations.",
-      "description_length": 308,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_tools.Cfgtool",
-      "description": "Provides functions to retrieve the local node ID, reload the Corosync configuration on the current node, and fetch a list of network addresses for a specified node. Operates with types such as `int`, `Corosync_lib.Cfg.cfg_node_address list`, and error types from `Corosync_lib.Corotypes.CsError.t`. Used to dynamically adjust cluster behavior and gather node-specific network information during runtime.",
-      "description_length": 403,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_tools.Cmapctl",
-      "description": "Provides functions to retrieve and modify key-value pairs in a distributed in-memory database, with type-specific access for retrieval and direct string-based setting. Operates on strings as keys and values wrapped in a type-safe structure. Used to dynamically adjust cluster configuration settings during runtime or query state information from the cluster metadata store.",
-      "description_length": 373,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Corosync_tools.Quorumtool",
-      "description": "manages a dynamic set of node entries, each linking a node name to its associated data, enabling retrieval and modification of membership details. It supports operations like adding, removing, and querying entries based on node names. Users can inspect current system membership or update entries to reflect changes in a distributed environment. For example, it allows tracking which nodes are active or retrieving data associated with a specific node.",
-      "description_length": 452,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Cfg",
-      "description": "Encapsulates bitwise operations for managing shutdown flags in distributed systems, using an opaque type to represent combinations of termination options. Provides functions to convert integers into these bitset representations and manipulate their logical states. Enables precise control over cluster shutdown sequences through bitwise logic. Examples include setting, clearing, or checking specific flags for graceful node termination.",
-      "description_length": 437,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Cmap",
-      "description": "Encapsulates heterogeneous data through typed values, supporting numeric, string, and byte sequence operations. Provides conversions between types, enabling safe extraction and manipulation of underlying data. Allows creation of structured data with precise type control. Examples include converting a 32-bit signed integer to a string or extracting a byte sequence from a float.",
-      "description_length": 379,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Corotypes",
-      "description": "Converts integer values to and from custom error and flag types, supporting serialization and result wrapping for safe error handling. Uses opaque and Ctypes-compatible types to interface with C libraries, enabling bit-flag manipulation and error code translation. Examples include decoding C error codes into structured values and encoding flag states for low-level system calls. Supports interoperability by bridging OCaml's type system with C's numeric representations.",
-      "description_length": 472,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Cpg",
-      "description": "This module offers low-level operations for managing group communication protocols, including initializing, joining, leaving, and monitoring group memberships, alongside error-checked and asynchronous data handling. It works with custom types like `cpg_name` and `cpg_address`, along with numeric identifiers, to facilitate cluster coordination and real-time data delivery. Use cases include distributed system synchronization, fault-tolerant messaging, and dynamic group membership updates in clustered environments.",
-      "description_length": 517,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Corosync_lib.Quorum",
-      "description": "Provides monadic binding for error-handled operations, and manages quorum tracking, notification, and state through low-level C types and callbacks. Works with unsigned integers, error types, and C-compatible structures for system-level coordination. Used to initialize and dispatch quorum events, track participant status, and check quorate conditions in distributed systems.",
-      "description_length": 376,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Corosync_lib.Votequorum",
-      "description": "This module handles low-level management of quorum configurations in distributed systems, focusing on operations like initializing, finalizing, and extracting vote counts, ring IDs, and node states from structured data. It works with specific types such as `votequorum_info` structures, `Unsigned.uint64` handles, and Ctypes-organized data to track cluster quorum metrics and event-driven notifications. Use cases include real-time cluster state monitoring and ensuring consensus in distributed environments through precise state and ring management.",
-      "description_length": 550,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "corosync",
-      "description": "Provides functions to interact with cluster configuration, quorum, and voting systems through libcorosync components. Works with data structures such as cluster nodes, configuration maps, and quorum states. Used to manage dynamic cluster configurations and monitor quorum membership during runtime.",
-      "description_length": 298,
-      "index": 14,
+      "library": "corosync.tools",
+      "description": "This module provides tools to query and analyze quorum status and membership in a Corosync cluster, combining direct access to quorum state with structured views of cluster membership. It supports operations like checking quorum status, retrieving votequorum details for nodes, and listing current members with customizable name formatting. The main data types include structured representations of quorum state and node information, such as `node_name` and `view_list_entry` records. Specific use cases include inspecting current quorum membership, tracking node participation, and retrieving detailed quorum views across the cluster.",
+      "description_length": 635,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Corosync_tools",
-      "description": "Retrieves and modifies cluster node information, configuration data, and membership details through targeted operations. It handles node IDs, network addresses, key-value pairs, and node entries, supporting dynamic adjustments and queries. Functions include reloading configurations, fetching node data, and updating membership states. Examples include adjusting cluster settings at runtime or tracking active nodes in a distributed system.",
-      "description_length": 440,
-      "index": 15,
+      "library": "corosync.tools",
+      "description": "This module provides tools for managing and inspecting Corosync clusters through node identification, configuration updates, and network address resolution. It supports direct access to Corosync's CMAP database for reading and modifying runtime state, along with querying quorum status and cluster membership with structured output. Key data types include node identifiers, key-value pairs, and structured quorum and node records. Examples include reloading Corosync configuration, retrieving a node's network addresses, updating CMAP values, and listing current quorum members with custom formatting.",
+      "description_length": 601,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib.Cfg.Corosync_cfg_shutdown_flags",
+      "library": "corosync.lib",
+      "description": "This module defines shutdown flag constants for Corosync configuration, including request, regardless, and immediate flags. It provides a conversion function from integers to these flag values. These flags are used to specify shutdown behavior in Corosync-based cluster management systems.",
+      "description_length": 289,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib.Corotypes.CsDispatchFlag",
+      "library": "corosync.lib",
+      "description": "This module defines a set of dispatch flags used to control message handling behavior in event loops. It supports conversion between integer values and flag variants, along with a Ctypes type definition for integration with C-based APIs. Concrete use cases include configuring dispatch behavior in Corosync event-driven systems, such as specifying non-blocking or blocking message retrieval.",
+      "description_length": 391,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Corosync_lib",
-      "description": "Manages distributed system operations through bitwise flag manipulation, type-safe data conversion, and low-level cluster coordination. Provides opaque types for flags, error codes, and quorum data, along with functions to set, check, and convert these values. Supports group communication, quorum tracking, and C interoperability via custom types and monadic error handling. Examples include decoding C error codes, managing node membership in a cluster, and tracking quorum states for consensus.",
-      "description_length": 497,
-      "index": 16,
+      "module_path": "Corosync_lib.Cmap.CmapValue",
+      "library": "corosync.lib",
+      "description": "This module defines a polymorphic variant type for representing various data types in a CMAP (Configuration Map) context, including integers, floating-point numbers, strings, and binary data. It provides constructors for creating typed values and functions to convert these values to integers or strings. Use cases include storing and retrieving typed configuration data in a CMAP database, such as numeric settings, textual identifiers, or binary payloads.",
+      "description_length": 457,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib.Corotypes.CsError",
+      "library": "corosync.lib",
+      "description": "This module defines a set of error codes used to indicate specific failure conditions in Corosync operations, such as initialization failures, invalid parameters, resource exhaustion, and communication errors. It provides functions to convert between error values and integers, represent errors as strings, and transform error values into standard OCaml result types. These operations are used to handle and propagate errors when interacting with Corosync APIs, particularly during system initialization, configuration, and communication tasks.",
+      "description_length": 544,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib.Cfg",
+      "library": "corosync.lib",
+      "description": "This module manages Corosync cluster configuration state through low-level bindings, supporting handle initialization, node address retrieval, and runtime configuration reloads. It operates on Corosync-specific types like `corosync_cfg_handle_t` and `corosync_cfg_node_address_t`, enabling dynamic reconfiguration, node identity management, and fault-tolerant communication. The module includes a submodule that defines shutdown flags\u2014such as request, regardless, and immediate\u2014and provides conversion from integers to these flags, allowing precise control over shutdown behavior in cluster management workflows. Together, the module and its submodule enable direct interaction with Corosync's configuration system while ensuring safe, scoped execution of C-backed operations.",
+      "description_length": 776,
+      "index": 9,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Corosync_lib.Votequorum",
+      "library": "corosync.lib",
+      "description": "This module manages quorum state and node membership in clustered systems by providing operations to initialize quorum services, retrieve node-specific information (like votes and state), and handle event notifications via callbacks. It works with structured data representations such as node metadata records, ring identifiers, and quorum status flags, all mapped to low-level C structures through type definitions. Typical use cases include cluster membership tracking, failure detection, and ensuring consensus in distributed applications requiring coordinated node participation.",
+      "description_length": 583,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Corosync_lib.Corotypes",
+      "library": "corosync.lib",
+      "description": "This module establishes the foundational types and constants for interacting with the Corosync cluster engine, enabling configuration of event tracking and dispatch behavior. It defines key data types such as dispatch flags and error codes, along with integer constants that govern interface limits and tracking modes. Dispatch flags control message handling in event loops, allowing for non-blocking or blocking retrieval, while error codes represent and propagate failures like initialization errors or communication issues. Together with its submodules, it provides a structured interface for managing Corosync state changes and handling low-level API interactions.",
+      "description_length": 668,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Corosync_lib.Quorum",
+      "library": "corosync.lib",
+      "description": "This module manages quorum operations in a cluster environment, providing functions to initialize and finalize quorum handling, track quorum state changes, and dispatch quorum events. It works with low-level types such as `uint64` handles and pointers, along with structured callbacks for notifications. Concrete use cases include monitoring cluster membership, ensuring quorum during node failures, and synchronizing distributed state transitions.",
+      "description_length": 448,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib.Cmap",
+      "library": "corosync.lib",
+      "description": "This module manages a hierarchical key-value store with typed values, allowing initialization and finalization of handles, setting and retrieving typed values (integers, floats, strings, and raw data) via string keys, and iterating over key-value pairs. It uses a structured type representation, such as `CmapValue`, to ensure type-safe access to configuration data stored in a handle-based API. The polymorphic variant type defined in the child module supports creating and converting typed values, enabling operations like storing numeric settings or binary payloads and retrieving them with type-specific accessors. Together, these components facilitate working with structured, hierarchical configuration data such as cluster settings or node-specific state.",
+      "description_length": 762,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Corosync_lib",
+      "library": "corosync.lib",
+      "description": "This collection of modules provides direct access to Corosync's cluster management capabilities, enabling configuration, quorum tracking, event handling, and hierarchical data storage through low-level bindings. Core data types include handles for configuration and quorum state, structured node and quorum metadata, dispatch flags controlling event behavior, and typed key-value representations for hierarchical data. Operations allow dynamic reconfiguration, node membership tracking, quorum event notification, non-blocking event dispatch, and type-safe storage of configuration values. Examples include reloading cluster settings at runtime, monitoring node votes during failures, dispatching quorum events with custom callbacks, and storing typed configuration data like node roles or heartbeat intervals.",
+      "description_length": 810,
+      "index": 14,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 17,
-    "meaningful_modules": 17,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 16,
+    "meaningful_modules": 15,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9375
   },
   "statistics": {
-    "max_description_length": 550,
-    "min_description_length": 257,
-    "avg_description_length": 396.11764705882354,
-    "embedding_file_size_mb": 0.0622406005859375
+    "max_description_length": 810,
+    "min_description_length": 289,
+    "avg_description_length": 544.0,
+    "embedding_file_size_mb": 0.054932594299316406
   }
 }

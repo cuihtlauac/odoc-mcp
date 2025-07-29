@@ -1,126 +1,165 @@
 {
   "package": "trail",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 15,
-  "creation_timestamp": "2025-06-18T16:33:59.155576",
+  "total_modules": 18,
+  "creation_timestamp": "2025-07-15T23:09:33.273073",
   "modules": [
     {
-      "module_path": "Trail.Sock.Default",
-      "description": "Handles incoming frame and message data by updating the connection state or returning an error, using specific types for frames and messages. Operates on `Frame.t` and `Riot.Message.t` to process network interactions. Used to manage protocol-specific responses during message parsing and transmission.",
-      "description_length": 301,
-      "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Trail.Frame.Request",
-      "description": "Handles decoding of binary protocol messages, returning either an error, more data needed, or a fully parsed request. Operates on a string input and produces a typed request structure. Used to process incoming network traffic by converting raw bytes into structured request objects.",
-      "description_length": 282,
-      "index": 1,
+      "library": "trail",
+      "description": "Deserializes and serializes WebSocket frames with support for handling incomplete or malformed data, working directly with `Trail.Frame.t` and `Riot.Bytestring.t`. The module processes low-level WebSocket frame encoding and decoding, including opcode validation and size constraints. Use it when implementing custom WebSocket transport logic or parsing raw WebSocket messages in a Trail-based server.",
+      "description_length": 400,
+      "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Trail.Frame.Response",
-      "description": "Handles decoding of binary data into structured responses, including error states for unknown opcodes and partial data markers. Operates on a custom type representing protocol responses and byte strings. Used to process incoming network messages and prepare them for transmission.",
-      "description_length": 280,
+      "library": "trail",
+      "description": "Deserializes and serializes WebSocket frames to and from byte strings, handling opcodes and message fragmentation. Works with `Trail.Frame.t` and `Riot.Bytestring.t` for efficient message processing. Used internally during WebSocket handshake and data exchange to parse incoming frames and prepare outgoing frames for network transmission.",
+      "description_length": 339,
+      "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Trail.Adapter.Intf",
+      "library": "trail",
+      "description": "This module defines low-level adapter operations for handling HTTP connections, including sending responses, streaming chunks, serving files, and reading request bodies. It works directly with connection, request, and response types to manage the lifecycle of HTTP interactions. Concrete use cases include implementing custom middleware for logging, authentication, file serving, and streaming large payloads without loading them entirely into memory.",
+      "description_length": 451,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trail.Frame",
-      "description": "Decodes binary data into structured request and response objects, handling errors and incomplete data. Processes network traffic by converting raw bytes into typed representations, supporting both incoming requests and outgoing responses. Accepts string inputs and custom response types, producing parsed structures or error states. Can parse a request from a byte stream or generate a response byte string from a structured object.",
-      "description_length": 432,
+      "module_path": "Trail.Sock.Intf",
+      "library": "trail",
+      "description": "This module defines the interface for handling WebSocket connections, including initializing connection state, processing incoming frames, and handling messages. It works with `state`, `args`, `Trail.Frame.t`, `Atacama.Connection.t`, and `Riot.Message.t` types. Concrete use cases include authenticating WebSocket clients, routing messages based on opcodes, and managing per-connection state during real-time communication.",
+      "description_length": 423,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Trail.Sock",
-      "description": "Handles WebSocket connection state transitions by processing frames and messages, returning updated state or error based on opcode. Operates on custom `state` and `args` types, along with `Frame.t` and `Riot.Message.t` data structures. Used to manage real-time communication protocols in networked applications.",
-      "description_length": 311,
+      "module_path": "Trail.Router.Resource",
+      "library": "trail",
+      "description": "This module provides RESTful routing operations for handling HTTP methods like GET, POST, PUT, and DELETE on resources. It works with `Trail.Conn.t` connections to modify or respond to requests based on resource actions. Concrete use cases include defining routes for a user resource such as listing all users (index), retrieving a specific user (get), or deleting a user (delete).",
+      "description_length": 381,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trail.Response",
-      "description": "This module provides functions for constructing HTTP responses with predefined status codes, headers, version, and body, enabling standardized server-client communication. It operates on HTTP status codes, headers, and a `response` type to encapsulate semantic HTTP behaviors. Use cases include generating error responses, success messages, or redirect statuses in web applications, ensuring consistency and correctness in HTTP interactions.",
-      "description_length": 441,
+      "module_path": "Trail.Sock.Default",
+      "library": "trail",
+      "description": "Handles incoming WebSocket frames and messages with stateful processing. Works with `Trail.Frame.t`, `Riot.Message.t`, and connection state. Used to implement custom WebSocket logic like chat protocols or real-time data streams.",
+      "description_length": 228,
       "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Trail.Request",
-      "description": "Provides methods to construct and inspect HTTP requests, including parsing from raw HTTP requests, extracting content length, determining keep-alive status, and managing body encoding. Operates on HTTP method, version, headers, and body data, using bytestrings and custom transfer encodings. Used to process incoming HTTP traffic, validate request properties, and manage streaming body data.",
-      "description_length": 391,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Trail.Adapter",
-      "description": "Handles HTTP request routing and response generation by sending raw data, chunks, and files over a connection, and reading incoming request bodies with customizable limits. Operates on connection objects, request structures, and byte strings to manage low-level network interactions. Used to stream large files efficiently and process incoming data in controlled segments during HTTP transactions.",
-      "description_length": 397,
+      "library": "trail",
+      "description": "This module defines an interface for adapting HTTP and WebSocket connections, handling tasks like reading requests, writing responses, and managing connection state using `Trail.Request.t` and `Riot.Bytestring.t`. Its core functionality includes parsing headers, streaming body content, and handling I/O errors, while the child module provides low-level operations for serving files, streaming chunks, and custom middleware like logging and authentication. Together, they enable efficient, memory-conscious handling of HTTP interactions, from request parsing to response delivery, across different server backends.",
+      "description_length": 614,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Trail.Conn",
+      "library": "trail",
+      "description": "This module provides functions to manipulate and interact with HTTP connections, including setting headers, status, and response bodies, sending data, handling streaming responses, and upgrading protocols. It works with the `t` type representing a connection, which includes request/response data, headers, and state. Concrete use cases include building custom middleware for logging, authentication, or routing by modifying connection state, streaming large responses with `send_chunked` and `chunk`, and handling file transfers with `send_file`.",
+      "description_length": 547,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Trail.Conn",
-      "description": "Provides functions to manage HTTP connections, including setting headers, bodies, and status codes, registering callbacks before and after sending, and sending data in chunks or as a file. Operates on connection objects that track state, headers, body, and protocol upgrades. Used to construct and control HTTP responses, handle streaming, and manage protocol transitions like WebSocket or HTTP/2.",
-      "description_length": 397,
+      "module_path": "Trail.Frame",
+      "library": "trail",
+      "description": "This module provides data types and operations for constructing, comparing, and manipulating WebSocket frames, including text, binary, continuation, and control messages such as ping and pong. It supports assembling fragmented messages and generating control signals, with functions to set flags for message completion and compression. The Deserializer and Serializer submodules handle low-level encoding and decoding of frames to and from byte strings, validating opcodes and managing size constraints, making them suitable for custom transport logic or raw message parsing in a Trail-based server. Together, the module and its submodules enable efficient frame processing during WebSocket handshakes and data exchange.",
+      "description_length": 720,
       "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Trail.Intf",
+      "library": "trail",
+      "description": "This module defines the interface for components that process HTTP/WebSocket connections in a pipeline. It includes initialization logic that transforms configuration into state and a processing function that takes a connection and state to produce an updated connection. It is used to build composable middleware like logging, request ID generation, session handling, and authentication within Trail pipelines.",
+      "description_length": 411,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trail.Logger",
-      "description": "Logs messages with specified severity levels, tracks connection state during logging operations, and constructs logging arguments based on configured levels. Works with connection objects, log levels, and configuration arguments. Used to initialize logging contexts, augment connections with log data, and generate log entries with dynamic severity settings.",
-      "description_length": 358,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Trail.Static",
-      "description": "Initializes a state from a set of arguments, providing a structured starting point for processing. Processes network connections by applying the state to modify and return an updated connection. Operates on connection objects and configuration arguments to manage session-based interactions.",
-      "description_length": 291,
+      "module_path": "Trail.Response",
+      "library": "trail",
+      "description": "The module provides functions to construct and manipulate HTTP responses with precise status codes, headers, and bodies, using a dedicated `t` type to represent response states. It includes predefined constants for standard HTTP status codes like `404 Not Found`, `200 OK`, and `504 Gateway Timeout`, enabling idiomatic response generation in server-side applications. These utilities simplify tasks such as returning error states, formatting JSON payloads, or logging structured responses during debugging.",
+      "description_length": 507,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Trail.CORS",
-      "description": "Provides functions to configure and apply Cross-Origin Resource Sharing (CORS) policies, including setting allowed origins, headers, methods, and credentials. Operates on connection objects and configuration arguments to modify HTTP responses with CORS headers. Used to enforce strict access controls in web services handling cross-domain requests.",
-      "description_length": 348,
+      "library": "trail",
+      "description": "Handles Cross-Origin Resource Sharing (CORS) for HTTP requests by configuring and applying CORS headers to responses. It works with HTTP connection objects and CORS configuration parameters like origin, methods, headers, and credentials. Use it to enable API access from web clients across different domains while controlling allowed origins, methods, and headers.",
+      "description_length": 364,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trail.Router",
-      "description": "Handles HTTP request routing by modifying connection state for CRUD operations, including creation, deletion, updating, and retrieval of resources. Operates on connection objects to direct requests to appropriate handlers. Used to manage resource lifecycle within a web application's request pipeline.",
-      "description_length": 301,
+      "module_path": "Trail.Request",
+      "library": "trail",
+      "description": "Handles HTTP request parsing and manipulation with functions to construct, inspect, and transform requests. Works with `Trail.Request.t` records containing HTTP methods, headers, paths, query parameters, and body data. Used to build middleware that processes incoming HTTP requests, such as logging, authentication, or routing based on method and path.",
+      "description_length": 352,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "trail",
-      "description": "Handles HTTP and WebSocket requests through a sequence of function-based middleware. Processes connection objects and context values to transform or route incoming traffic. Used to construct layered request handlers, such as parsing headers, routing endpoints, or managing WebSocket sessions.",
-      "description_length": 292,
+      "module_path": "Trail.Logger",
+      "library": "trail",
+      "description": "Handles logging of HTTP requests and responses with configurable log levels. Works with connection objects and log level configurations. Useful for debugging trails by capturing request IDs, timing, and connection state changes.",
+      "description_length": 228,
       "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Trail.Sock",
+      "library": "trail",
+      "description": "This module provides low-level WebSocket connection handling, combining direct operations for initializing connections, processing frames, and routing structured messages with Riot integration. It centers around types like `state`, `Trail.Frame.t`, `Riot.Message.t`, and `Atacama.Connection.t`, enabling concrete use cases such as upgrading HTTP connections, authenticating clients, and managing per-connection state. The child modules expand on this by defining interfaces for stateful WebSocket logic and implementing custom behavior for incoming frames and messages. Together, they support applications like real-time chat protocols and streaming data pipelines.",
+      "description_length": 665,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Trail.Static",
+      "library": "trail",
+      "description": "Serves static files from a specified root directory, mapping requests to files under a given prefix. Works with HTTP connections and file system paths, handling range requests and MIME types. Useful for delivering assets like JavaScript, CSS, or images in web applications.",
+      "description_length": 273,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Trail.Router",
+      "library": "trail",
+      "description": "This module maps HTTP methods and paths to trails, enabling route definitions for request handling using strings and route lists. It supports grouping routes under common path prefixes with `scope` and integrates with `Trail.Conn.t` connections to manage resource actions. The child module extends this functionality with RESTful operations for standard HTTP methods like GET, POST, PUT, and DELETE on resources. Examples include defining endpoints like `get \"/users\" list_users` or setting up full resource routes for creating, retrieving, updating, and deleting users.",
+      "description_length": 570,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Trail",
-      "description": "Provides initialization and execution functions for processing connection states based on custom arguments. Operates on opaque `args` and `state` types representing configuration and runtime context. Used to manage protocol-specific behaviors during network interactions.",
-      "description_length": 271,
-      "index": 14,
+      "library": "trail",
+      "description": "This module provides composable HTTP/S and WebSocket server abstractions using trails\u2014chains of functions that process and transform connection objects. It includes routing, logging, static file serving, CORS handling, and session management, working with connections, requests, and responses. Core data types include `Trail.Conn.t` for connection state, `Trail.Request.t` for HTTP requests, and `Trail.Frame.t` for WebSocket frames, with operations to manipulate headers, status, response bodies, and stream data. You can build API endpoints with route definitions, enable cross-domain access with CORS policies, log requests at varying levels of detail, serve static assets, or establish real-time WebSocket communication with custom frame handling and per-connection state.",
+      "description_length": 776,
+      "index": 17,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 15,
-    "meaningful_modules": 15,
+    "total_modules_in_package": 18,
+    "meaningful_modules": 18,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 441,
-    "min_description_length": 271,
-    "avg_description_length": 339.53333333333336,
-    "embedding_file_size_mb": 0.054902076721191406
+    "max_description_length": 776,
+    "min_description_length": 228,
+    "avg_description_length": 458.27777777777777,
+    "embedding_file_size_mb": 0.06581401824951172
   }
 }

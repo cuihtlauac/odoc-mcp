@@ -1,28 +1,133 @@
 {
   "package": "dune-deps",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 1,
-  "creation_timestamp": "2025-06-18T16:26:13.080195",
+  "total_modules": 14,
+  "creation_timestamp": "2025-07-15T23:07:13.046216",
   "modules": [
     {
-      "module_path": "dune-deps",
-      "description": "Generates a DOT-formatted graph representing internal module dependencies within an OCaml project. Processes module signatures and implementation files to trace references and build a directed graph. Outputs a structured representation suitable for visualization tools like Graphviz.",
-      "description_length": 283,
+      "module_path": "Dune_deps.Dep_graph.Node",
+      "library": "dune-deps",
+      "description": "Represents nodes in a dependency graph with specific kinds such as executable, library, or external. It stores dependencies as a list of strings along with a name and location. Used to model build targets and their relationships in a Dune project for dependency resolution and analysis.",
+      "description_length": 286,
       "index": 0,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dune_deps.Compat.Hashtbl",
+      "library": "dune-deps",
+      "description": "This module extends hash table functionality with the `find_opt` operation, which safely retrieves values as optional types. It operates on standard hash tables mapping keys of any type to values of any type. Use it to look up values in a hash table without raising exceptions when keys are missing.",
+      "description_length": 299,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Dep_graph.Name",
+      "library": "dune-deps",
+      "description": "This module defines a type `t` that represents either an executable or a library, with accessors to retrieve identifiers, kinds, and names. It provides comparison operations and normalization functions for dependency resolution in build systems. Concrete use cases include tracking dependencies in Dune by distinguishing between executables (with path and basename) and libraries (by name).",
+      "description_length": 390,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dune_deps.Dep_graph.Loc",
+      "library": "dune-deps",
+      "description": "This module represents locations within a dependency graph using a path and index. It provides functions to access the path and generate an identifier string for a location. It is used to track and reference specific points within a file-based dependency structure.",
+      "description_length": 265,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Compat.List",
+      "library": "dune-deps",
+      "description": "This module extends list manipulation with specialized functions. It offers `filter_map` to apply a transformation and filter in one pass, and `find_opt` to safely retrieve the first element matching a predicate. These functions work directly on standard OCaml lists, enabling concise data processing and optional value extraction.",
+      "description_length": 331,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Dune",
+      "library": "dune-deps",
+      "description": "Loads and interprets `dune` configuration files into a structured dependency graph. Operates on file paths and constructs a filterable graph representation of build targets and their dependencies. Useful for analyzing and exporting project dependency information directly from Dune configuration files.",
+      "description_length": 302,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Find",
+      "library": "dune-deps",
+      "description": "This module provides functions for traversing file systems and filtering files or directories based on custom criteria. It includes utilities for tracking visited paths, retrieving file metadata, and searching for files that match specific name predicates. Concrete use cases include locating Dune configuration files while excluding specified directories and efficiently traversing directory trees without revisiting nodes.",
+      "description_length": 424,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dune_deps.Dep_graph",
+      "library": "dune-deps",
+      "description": "This module builds and manages dependency graphs using nodes and string identifiers, resolving missing dependencies and fixing up references through hashtable-based tracking. It supports core operations like adding nodes, analyzing dependencies, and resolving identifiers, with nodes representing build targets such as executables or libraries, and locations tracking path-based positions in file structures. You can model Dune project dependencies, distinguish between executable and library targets, and reference specific locations in source files for build analysis. The combined interface allows constructing graphs, querying node relationships, and normalizing identifiers across a modular build system.",
+      "description_length": 709,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Filterable",
+      "library": "dune-deps",
+      "description": "This module represents a labeled directed graph with nodes categorized as executables, libraries, or external dependencies. It supports filtering nodes based on custom conditions, relabeling nodes, and marking nodes as important, along with resolving nodes by ID or label. Use cases include analyzing and visualizing dependency graphs with selective filtering and transformation based on user input.",
+      "description_length": 399,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Filter",
+      "library": "dune-deps",
+      "description": "This module provides functions to filter and traverse directed graphs by removing specific node types, such as external dependencies or executables, and by extracting subgraphs based on dependencies or reverse dependencies of given nodes. It operates on graphs implementing the `Filterable` signature, where nodes are identified by string names. Concrete use cases include analyzing build dependencies in Dune projects, isolating internal build targets, or visualizing dependency relationships.",
+      "description_length": 494,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dune_deps.Dot",
+      "library": "dune-deps",
+      "description": "Handles the generation of DOT format representations for dependency graphs. It provides functions to format and output graph nodes, edges, and attributes into a buffer, specifically working with `Filterable.node` and `Filterable.t` types. This module is used to visualize build dependencies by converting them into a structured graph format suitable for tools like Graphviz.",
+      "description_length": 374,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Disambiguate",
+      "library": "dune-deps",
+      "description": "Simplifies path-like names by disambiguating them based on their directory structure, returning the shortest unique representation. It operates on lists of file paths, producing abbreviated names that include just enough of the parent directory path to ensure uniqueness. This is useful for labeling nodes in a build graph where multiple files share the same base name but reside in different directories.",
+      "description_length": 405,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Dune_deps.Compat",
+      "library": "dune-deps",
+      "description": "This module enhances standard OCaml data structures with safer and more expressive operations. It provides `find_opt` for hash tables to retrieve values without exceptions and `filter_map` and `find_opt` for lists to transform and query elements efficiently. You can use it to handle optional hash table lookups, filter and map lists in a single pass, or find elements conditionally without error handling overhead.",
+      "description_length": 415,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dune_deps",
+      "library": "dune-deps",
+      "description": "This module processes Dune project configurations into structured dependency graphs, using file system traversal and filtering to locate and analyze build targets. It models dependencies with a labeled directed graph, supporting operations like node addition, dependency resolution, subgraph extraction, and graph visualization via DOT format. Path names are disambiguated for clarity, and graph nodes represent executables, libraries, or external dependencies, enabling precise filtering, relabeling, and traversal. You can analyze Dune project dependencies, isolate internal build targets, generate visual graphs, and export structured build information for tooling integration.",
+      "description_length": 680,
+      "index": 13,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 1,
-    "meaningful_modules": 1,
+    "total_modules_in_package": 14,
+    "meaningful_modules": 14,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 283,
-    "min_description_length": 283,
-    "avg_description_length": 283.0,
-    "embedding_file_size_mb": 0.00406646728515625
+    "max_description_length": 709,
+    "min_description_length": 265,
+    "avg_description_length": 412.35714285714283,
+    "embedding_file_size_mb": 0.05128955841064453
   }
 }

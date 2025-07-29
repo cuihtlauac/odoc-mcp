@@ -1,196 +1,237 @@
 {
   "package": "mirage-crypto-ec",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 25,
-  "creation_timestamp": "2025-06-18T16:38:17.514957",
+  "total_modules": 27,
+  "creation_timestamp": "2025-07-15T23:11:38.499436",
   "modules": [
     {
-      "module_path": "Mirage_crypto_ec.P521.Dsa.K_gen",
-      "description": "This module provides hash computation and HMAC generation functionalities, supporting operations on byte-based data types like `Bytes.t`, `String.t`, and `Digestif.bigstring`, as well as lists and iterators. It enables incremental data processing, digest generation, and format conversions between hexadecimal, raw bytes, and pretty-printed representations, with options for secure, constant-time comparisons. Use cases include cryptographic integrity checks, secure message authentication, and flexible data serialization workflows.",
-      "description_length": 533,
+      "module_path": "Mirage_crypto_ec.P256.Dsa.K_gen",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates a deterministic nonce `k` for the digital signature algorithm using a specified hash function. It operates on private keys and message digests to produce values suitable for signing operations. A concrete use case is ensuring secure, reproducible nonce generation in ECDSA signing processes over the P-256 curve.",
+      "description_length": 334,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.P521.Dsa.Precompute",
-      "description": "Provides functions to generate and access precomputed tables of elliptic curve points, specifically multiples of the generator point for scalar multiplication. Works with multi-dimensional arrays of strings representing curve data. Used to initialize cryptographic tables required for efficient public key operations.",
-      "description_length": 317,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Mirage_crypto_ec.P384.Dsa.K_gen",
-      "description": "The module offers hash computation and HMAC generation, supporting operations on byte sequences, strings, and bigstrings, along with incremental updates and direct digest generation. It includes specialized functions for handling diverse data formats, constant-time comparisons, and hex/raw string conversions, suitable for secure data integrity checks and cryptographic authentication. Abstract types `ctx` and `t` likely manage internal state and structured data, enabling efficient processing of large or streaming inputs.",
-      "description_length": 525,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.P384.Dsa.Precompute",
-      "description": "Provides functions to generate and access precomputed tables of elliptic curve points, specifically multiples of the generator point for efficient scalar multiplication. Works with multi-dimensional arrays of strings representing curve data. Used to embed critical cryptographic tables directly into compiled code for performance.",
-      "description_length": 330,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.P256.Dsa.K_gen",
-      "description": "This module provides cryptographic operations for hash computation and HMAC generation, supporting incremental and direct processing of data in formats like bytes, strings, and bigstrings. It handles byte-based data types and includes utilities for converting between hexadecimal, raw strings, and HMAC digest representations, along with secure comparison functions. Abstract types `ctx` and `t` likely manage context and structured data for these operations, applicable in scenarios requiring data integrity verification or secure authentication.",
-      "description_length": 547,
-      "index": 4,
+      "library": "mirage-crypto-ec",
+      "description": "This module generates a deterministic nonce `k` for digital signatures using the RFC6979 algorithm, based on a given private key and message digest. It operates on the NIST P-384 elliptic curve and requires a hashing module to produce cryptographically secure values. It is used internally during the signing process to ensure nonces are both random and non-repeating for each signature operation.",
+      "description_length": 397,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_ec.P256.Dsa.Precompute",
-      "description": "Provides functions to generate and access precomputed tables of elliptic curve points, specifically multiples of the generator point for efficient scalar multiplication. Works with multi-dimensional arrays of strings representing curve data. Used to embed critical cryptographic tables directly into the compiled code for performance.",
-      "description_length": 334,
-      "index": 5,
+      "library": "mirage-crypto-ec",
+      "description": "This module generates precomputed tables of multiples of the generator point on the P-256 curve, specifically structured for efficient scalar multiplication during digital signature operations. It returns the tables as a three-dimensional array of strings with fixed dimensions, representing field elements and curve points. These precomputed values are intended to be hardcoded into the library to accelerate cryptographic computations at runtime.",
+      "description_length": 448,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
+      "module_path": "Mirage_crypto_ec.P521.Dsa.Precompute",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates precomputed tables of multiples of the generator point on the P-521 elliptic curve, specifically structured for efficient scalar multiplication during digital signature operations. It returns the tables as a three-dimensional array of strings, with dimensions derived from the field element size and fixed table depths. These precomputed values are intended to be hardcoded into the library to accelerate cryptographic computations at runtime.",
+      "description_length": 465,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_crypto_ec.P521.Dsa.K_gen",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates a deterministic nonce `k` for digital signatures using the RFC6979 algorithm, based on a given private key and message digest. It operates on the NIST P-521 elliptic curve and requires a hashing module to produce cryptographically secure values. It is used during the signing process to ensure nonces are both unique and secret, preventing signature forgery.",
+      "description_length": 380,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.P384.Dsa.Precompute",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates precomputed tables of multiples of the generator point on the P-384 curve, specifically structured for efficient scalar multiplication during digital signature operations. It outputs a 3D array encoding point multiples, used to hardcode lookup tables into the library at compile time. These tables are essential for optimizing performance in cryptographic operations such as ECDSA signing and verification.",
+      "description_length": 428,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
       "module_path": "Mirage_crypto_ec.P521.Dh",
-      "description": "Encodes and decodes secret values as binary buffers, supporting optional compression. Generates ephemeral Diffie-Hellman key pairs with customizable random number generators, ensuring valid private keys. Performs key exchanges using a secret and a received public key, validating the input against elliptic curve constraints.",
-      "description_length": 325,
+      "library": "mirage-crypto-ec",
+      "description": "This module implements Diffie-Hellman key exchange on the NIST P-521 elliptic curve. It operates on secret keys and public key points, providing functions to generate ephemeral key pairs, decode and encode secrets, and compute shared secrets from a secret and a received public key. It is used to securely establish shared cryptographic keys in protocols like TLS or secure messaging.",
+      "description_length": 384,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_ec.P521.Dsa",
-      "description": "Combines hash, HMAC, and elliptic curve operations for cryptographic tasks, handling byte sequences, strings, and curve data structures. Supports incremental hashing, digest conversion, secure comparisons, and precomputed elliptic curve points for efficient scalar multiplication. Enables integrity checks, message authentication, and public key initialization. Examples include generating HMACs from raw data, converting digests to hex, and using precomputed points for elliptic curve operations.",
-      "description_length": 497,
+      "module_path": "Mirage_crypto_ec.P256.Dh",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements Diffie-Hellman key exchange on the NIST P-256 curve. It operates on secret keys and public points, providing functions to generate ephemeral key pairs, decode and encode secrets, and compute shared secrets. It is used to securely establish shared keys for encryption protocols like TLS during handshake negotiations.",
+      "description_length": 339,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_ec.P384.Dh",
-      "description": "Encodes and decodes secret values as binary buffers, supporting optional compression. Generates ephemeral Diffie-Hellman key pairs with customizable random number generators, ensuring valid private keys. Performs key exchanges using a secret and a received public key, validating the input against elliptic curve constraints.",
-      "description_length": 325,
+      "module_path": "Mirage_crypto_ec.P256.Dsa",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the ECDSA digital signature algorithm over the NIST P-256 curve, providing key generation, signing, and verification operations. It supports encoding and decoding of private and public keys with configurable public key compression, enabling secure handling of cryptographic identities and message signatures. The first child module enhances signing by deterministically generating the nonce `k` using a specified hash function, ensuring reproducibility and security in signature creation. The second child module accelerates scalar multiplication by precomputing and returning fixed-structure tables of generator point multiples as three-dimensional arrays of field elements.",
+      "description_length": 698,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mirage_crypto_ec.P384.Dsa",
-      "description": "Combines cryptographic hash and HMAC operations with elliptic curve precomputation, enabling secure message authentication and efficient public-key cryptography. It handles byte sequences, strings, and bigstrings with incremental processing, and provides precomputed elliptic curve points for fast scalar multiplication. Operations include digest generation, constant-time comparisons, and format conversions, alongside table-based optimizations for cryptographic protocols. Users can verify data integrity, generate secure signatures, and accelerate elliptic curve computations in performance-critical applications.",
-      "description_length": 616,
+      "module_path": "Mirage_crypto_ec.P384.Dh",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements Diffie-Hellman key exchange on the NIST P-384 elliptic curve. It provides functions to generate ephemeral key pairs, convert secrets to and from byte strings, and compute shared secrets from a private key and a peer's public key. Typical use includes secure key agreement in TLS handshakes or encrypted messaging protocols where ephemeral keys are required.",
+      "description_length": 380,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mirage_crypto_ec.P256.Dh",
-      "description": "Encodes and decodes secret values as binary buffers, supporting optional compression. Generates ephemeral Diffie-Hellman key pairs with customizable random number generators, ensuring valid private keys. Performs key exchanges using a secret and a received public key, validating the input against elliptic curve constraints.",
-      "description_length": 325,
+      "module_path": "Mirage_crypto_ec.P384.Dsa",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the ECDSA digital signature algorithm over the NIST P-384 elliptic curve, providing private and public key types along with operations for key serialization, public key derivation, deterministic key generation, and signing and verification. It uses a child module to generate deterministic nonces according to RFC6979, ensuring secure and repeatable signature generation, and another child module that precomputes generator point multiples for efficient scalar multiplication. These components together enable secure digital signing of messages, verification of signed data, and efficient elliptic curve arithmetic operations required for cryptographic protocols. Example uses include authenticating data integrity, securing communications, and integrating with systems requiring P-384-based signatures.",
+      "description_length": 826,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_ec.P256.Dsa",
-      "description": "Computes hashes and HMACs with support for incremental data processing, offering operations on byte sequences and conversions between formats, while providing secure comparison and context management. Implements elliptic curve precomputation tables for efficient scalar multiplication, embedding curve data directly into compiled code. Users can verify data integrity through hash comparisons or accelerate cryptographic operations using precomputed points. Examples include generating HMACs for message authentication or optimizing elliptic curve-based key exchanges.",
-      "description_length": 568,
+      "module_path": "Mirage_crypto_ec.P521.Dsa",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the ECDSA digital signature algorithm over the NIST P-521 curve, offering key generation, signing, and verification operations with private and public keys that support byte string serialization. It includes a submodule for generating precomputed tables of elliptic curve points to accelerate scalar multiplication, structured as a three-dimensional array of strings for efficient lookup, and another submodule for producing deterministic nonces using RFC6979, ensuring secure and unique signature nonces based on a private key and message digest. Users can generate hardened cryptographic keys, sign and verify data, and optimize performance-critical operations through precomputation and secure nonce generation.",
+      "description_length": 737,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_crypto_ec.Dsa.K_gen",
-      "description": "This module offers hash and HMAC generation capabilities, supporting incremental data processing and direct digest computation across byte-based data types like `Bytes.t`, `String.t`, and `Digestif.bigstring`. It includes utilities for format conversion (hex, raw bytes) and secure comparisons, enabling use cases such as data integrity checks and cryptographic authentication. Abstract types `ctx` and `t` likely manage state and structured data within these operations.",
-      "description_length": 471,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.Dsa.Precompute",
-      "description": "Provides functions to generate and access precomputed tables of generator point multiples for elliptic curve operations, using arrays of strings to store fixed data. Works with cryptographic curve data structures, specifically tailored for scalar multiplication. Used to embed essential lookup tables directly into compiled code for efficient elliptic curve computations.",
-      "description_length": 371,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.P256",
-      "description": "Encodes and decodes secret values, generates and validates elliptic curve key pairs, and performs Diffie-Hellman key exchanges using the NIST P-256 curve. Supports hash and HMAC computations, incremental data processing, and precomputed elliptic curve points for optimized scalar multiplication. Users can generate secure HMACs for message authentication or accelerate key exchanges with precomputed tables. Operations include validating public keys, securely comparing hashes, and managing cryptographic contexts.",
-      "description_length": 514,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_crypto_ec.P384",
-      "description": "Encodes and decodes secret values, generates and validates elliptic curve key pairs, and performs secure key exchanges using the NIST P-384 curve. Combines hash, HMAC, and elliptic curve precomputation to enable message authentication, signature generation, and optimized scalar multiplication. Processes byte sequences and bigstrings with incremental support and constant-time operations for secure, efficient cryptographic workflows. Examples include generating ephemeral keys, verifying data integrity, and accelerating public-key operations in high-performance systems.",
-      "description_length": 573,
-      "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_ec.P521",
-      "description": "Handles elliptic curve cryptography using the NIST P-521 curve, combining key generation, exchange, and cryptographic operations. It manages secret values, public keys, and hash-based authentication, with support for binary encoding, HMAC, and secure comparisons. Operations include generating ephemeral key pairs, performing Diffie-Hellman exchanges, and using precomputed points for efficient scalar multiplication. Examples include deriving shared secrets, authenticating messages with HMAC, and converting cryptographic digests to hexadecimal format.",
-      "description_length": 554,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.X25519",
-      "description": "Generates and manipulates X25519 elliptic curve Diffie-Hellman keys, converting between secret keys and byte strings. It supports key pair generation with optional compression and performs shared secret calculations from a secret and a public key. The module handles encoding and decoding of keys according to SEC 1 standards, ensuring valid curve points during exchanges.",
-      "description_length": 372,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mirage_crypto_ec.Ed25519",
-      "description": "Encodes and decodes private and public keys from and to byte buffers, and derives a public key from a private key. Generates random key pairs and signs/verifies messages using Ed25519 digital signatures. Processes raw byte strings for cryptographic operations compliant with RFC 8032.",
-      "description_length": 284,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_crypto_ec.Dh",
-      "description": "Encodes and decodes secret values as binary buffers, supporting optional compression. Generates ephemeral Diffie-Hellman key pairs with customizable random number generators, ensuring valid private keys. Performs key exchanges using a secret and a received public key, returning shared secrets or errors based on input validity.",
-      "description_length": 328,
-      "index": 19,
+      "library": "mirage-crypto-ec",
+      "description": "This module provides cryptographic operations on the NIST P-521 elliptic curve, supporting both Diffie-Hellman key exchange and ECDSA digital signatures. It includes data types for secret keys, public key points, and signed data, with operations to generate keys, encode/decode secrets, compute shared keys, and produce or verify signatures. Users can perform secure key exchanges, sign and verify messages with ECDSA, and leverage precomputed tables and RFC6979 nonces for improved performance and security. Example uses include implementing secure messaging protocols and cryptographic authentication mechanisms.",
+      "description_length": 614,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_ec.Dsa",
-      "description": "Combines hash, HMAC, and elliptic curve operations, enabling secure data authentication and cryptographic key exchanges. It defines types for context management and structured data, along with functions for incremental hashing, secure comparisons, and precomputed elliptic curve tables. Users can verify data integrity through digest generation or accelerate elliptic curve computations with embedded lookup tables. Examples include generating HMACs for message authentication or using precomputed points for efficient scalar multiplication.",
-      "description_length": 541,
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the digital signature algorithm (ECDSA) with functions to generate key pairs, sign and verify messages, and serialize private and public keys. It operates on private (`priv`) and public (`pub`) key types, handling operations such as key derivation, deterministic signing with optional nonce input, and signature verification. Concrete use cases include securing communications, authenticating data integrity, and managing cryptographic identities in network protocols.",
+      "description_length": 491,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dh_dsa-Dsa-Precompute",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates precomputed tables of elliptic curve points for efficient scalar multiplication. It returns a three-dimensional array structure containing multiples of the generator point, specifically shaped for internal use during compilation. These tables optimize cryptographic operations in DSA implementations by reducing runtime computation overhead.",
+      "description_length": 363,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dh",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the Diffie-Hellman key exchange protocol for secure cryptographic key negotiation. It operates on a `secret` type representing private keys and uses strings for public key and shared secret encodings. Functions support key generation, secret encoding/decoding, and shared secret computation, suitable for establishing secure communications in protocols like TLS or encrypted messaging.",
+      "description_length": 408,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.P256",
+      "library": "mirage-crypto-ec",
+      "description": "This module provides cryptographic operations on the NIST P-256 curve, supporting both Diffie-Hellman key exchange and ECDSA digital signatures. It includes data types for secret keys, public points, and signature structures, with operations to generate keys, compute shared secrets, sign and verify messages, and encode or decode key material. Users can perform secure key exchanges for TLS handshakes, generate and verify digital signatures with configurable key formats, and benefit from optimized scalar multiplication for improved performance. Example uses include establishing session keys in encrypted communications and authenticating software updates with ECDSA signatures.",
+      "description_length": 682,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dsa-K_gen",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates a deterministic nonce `k` for digital signatures using a private key and message digest, following RFC6979. It operates on private keys and strings representing digests, producing a string suitable for seeding the signing process. It is used in cryptographic implementations where deterministic signature generation is required, such as in secure messaging or transaction signing.",
+      "description_length": 402,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dh_dsa",
+      "library": "mirage-crypto-ec",
+      "description": "Implements Diffie-Hellman key exchange and Digital Signature Algorithm (DSA) operations over elliptic curves. Works with elliptic curve groups and private/public key pairs to enable secure key agreement and signature generation/verification. Useful for cryptographic protocols requiring authenticated key exchange or message signing, such as TLS or blockchain transactions.",
+      "description_length": 373,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dh_dsa-Dsa",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the digital signature algorithm (DSA) for elliptic curve cryptography, providing functions for key generation, signature creation, and verification. It operates on private and public key types, supporting serialization to and from byte buffers, and includes options for compressed public key encoding. Concrete use cases include securing communications with ECDSA signatures, authenticating data integrity, and generating key pairs for cryptographic protocols.",
+      "description_length": 483,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Ed25519",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements Ed25519 digital signature operations, providing key generation, serialization, public key derivation, signing, and verification. It works with private and public key types represented as opaque structures, serialized to and from strings. Use cases include secure message signing for authentication, verifying data integrity in distributed systems, and generating cryptographic key pairs for secure communications.",
+      "description_length": 436,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_ec.K_gen",
-      "description": "This module offers hash and HMAC generation functionalities, supporting incremental and direct computation of digests from byte-like data structures such as `Bytes.t`, `String.t`, and `Digestif.bigstring`. It includes utilities for format conversion, constant-time comparisons, and handling diverse input sources, enabling secure data authentication and integrity checks. Abstract types `ctx` and `t` likely manage stateful operations and structured data within these cryptographic workflows.",
-      "description_length": 492,
+      "module_path": "Mirage_crypto_ec.Dsa-Precompute",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates precomputed tables of elliptic curve points derived from the generator point. It returns a 3D array structure containing multiples of the generator, specifically arranged to optimize scalar multiplication operations. These tables are intended to be hardcoded into the library for faster cryptographic computations during runtime.",
+      "description_length": 351,
       "index": 21,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_crypto_ec.Precompute",
-      "description": "Provides functions to generate and access precomputed tables of generator point multiples for elliptic curve operations, using arrays of strings to store fixed data. Works with cryptographic curve data structures requiring hardcoded values for efficient scalar multiplication. Used to initialize essential lookup tables in mirage-crypto-ec during build time.",
-      "description_length": 358,
-      "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-crypto-ec",
-      "description": "Provides AES, RSA, and elliptic curve operations with built-in protections against timing attacks, including AES-NI acceleration and RSA blinding. Works with byte sequences, keys, and cryptographic contexts for encryption, decryption, and key exchange. Used for securing network communications, generating authenticated messages, and implementing secure key derivation in MirageOS-based systems.",
-      "description_length": 395,
+      "module_path": "Mirage_crypto_ec.X25519",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements the X25519 Diffie-Hellman key exchange protocol. It operates on secret keys and public keys represented as strings, providing functions to generate key pairs, decode and encode secrets, and compute shared secrets. It is used to securely establish shared cryptographic keys between parties over insecure channels.",
+      "description_length": 335,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_crypto_ec.P384",
+      "library": "mirage-crypto-ec",
+      "description": "This module provides cryptographic operations on the NIST P-384 elliptic curve, supporting both Diffie-Hellman key exchange and ECDSA digital signatures. It includes data types for private and public keys, along with operations for key generation, serialization, shared secret computation, and message signing and verification. Users can generate ephemeral key pairs for secure key agreement in TLS or messaging, or sign and verify data for authentication and integrity. Example workflows include deriving a shared secret from two key pairs or producing and validating ECDSA signatures for secure communications.",
+      "description_length": 612,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_ec",
-      "description": "Offers hash and HMAC generation with support for incremental and direct computation across various data types, including byte sequences and bigstrings, while providing secure comparison and format conversion. Includes precomputed tables for elliptic curve operations, enabling efficient scalar multiplication through hardcoded generator point multiples. Users can authenticate data, verify integrity, and perform cryptographic operations like signing and key exchange. Examples include generating SHA-256 digests, creating HMACs with secret keys, and initializing elliptic curve parameters for public key algorithms.",
-      "description_length": 616,
+      "module_path": "Mirage_crypto_ec.Dh_dsa-Dsa-K_gen",
+      "library": "mirage-crypto-ec",
+      "description": "This module generates a deterministic nonce `k` for DSA signing using a specified hash function. It takes a private key and a message digest as inputs and returns a nonce suitable for cryptographic signing. It ensures compliance with RFC6979 for deterministic DSA signatures.",
+      "description_length": 275,
       "index": 24,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec.Dh_dsa-Dh",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements Ephemeral Diffie-Hellman key exchange for cryptographic protocols. It handles key generation, secret encoding/decoding, and shared secret computation using elliptic curve cryptography. Typical use includes securely negotiating session keys in TLS or secure messaging protocols.",
+      "description_length": 300,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_crypto_ec",
+      "library": "mirage-crypto-ec",
+      "description": "This module implements elliptic curve cryptography across multiple curves, enabling secure key exchanges and digital signatures with strong constant-time guarantees. It provides core data types for private and public keys, signatures, and shared secrets, along with operations for key generation, signing, verification, and scalar multiplication, supporting curves like P256, P384, P521, and Ed25519. Users can perform TLS key exchanges, sign and verify blockchain transactions, or implement secure messaging protocols using submodules that handle curve-specific operations, deterministic nonce generation, and precomputed tables for performance optimization. Direct APIs interoperate with submodule implementations such as X25519 for Diffie-Hellman, ECDSA for signatures, and RFC6979 for deterministic signing.",
+      "description_length": 811,
+      "index": 26,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 25,
-    "meaningful_modules": 25,
+    "total_modules_in_package": 27,
+    "meaningful_modules": 27,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 616,
-    "min_description_length": 284,
-    "avg_description_length": 444.44,
-    "embedding_file_size_mb": 0.0841379165649414
+    "max_description_length": 826,
+    "min_description_length": 275,
+    "avg_description_length": 472.2962962962963,
+    "embedding_file_size_mb": 0.09852123260498047
   }
 }

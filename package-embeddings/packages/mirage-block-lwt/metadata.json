@@ -1,224 +1,301 @@
 {
   "package": "mirage-block-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 29,
-  "creation_timestamp": "2025-06-18T16:39:39.047371",
+  "total_modules": 35,
+  "creation_timestamp": "2025-07-15T23:12:44.801253",
   "modules": [
     {
-      "module_path": "Mirage_block_copy.Copy.From_seekable",
-      "description": "Provides functions for reading, writing, and seeking data in block devices, with error handling for I/O operations. Works with page-aligned buffers, block device information, and custom error types. Used to manage data transfer and positioning in low-level storage interfaces.",
-      "description_length": 276,
+      "module_path": "Mirage_block_copy.Copy.Sparse_copy",
+      "library": "mirage-block-lwt",
+      "description": "This module implements sparse copying between seekable sources and writeable destinations, preserving sparsity by skipping ranges of zeroes. It handles errors from both source and destination operations, including size mismatches and read-only destinations. Useful for efficiently copying virtual disk images or files with large zero-filled regions.",
+      "description_length": 349,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_copy.Make_seekable",
-      "description": "Provides functions to read from and write to block devices using page-aligned buffers, with error handling for I/O and write-specific issues. Works with types like `page_aligned_buffer`, `error`, `write_error`, and `t` representing device handles. Used to manage disk operations, query device properties, and handle disconnection in asynchronous I/O workflows.",
-      "description_length": 360,
+      "module_path": "Mirage_block_copy.Copy.From_seekable",
+      "library": "mirage-block-lwt",
+      "description": "This module implements block device copy operations with support for seekable sources, handling page-aligned buffer transfers. It provides functions to read from and write to specific offsets, disconnect resources, retrieve device metadata, and handle both mapped and unmapped seek operations. Use cases include disk image copying, virtual machine storage migration, and low-level data replication between block devices.",
+      "description_length": 420,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_copy.Sparse_copy",
-      "description": "Provides functions to disconnect from a block device, query its info, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t and custom error types for I/O and write failures. Used to manage low-level disk interactions, such as copying data between storage devices or handling device-specific I/O constraints.",
-      "description_length": 389,
+      "module_path": "Mirage_block_lwt.SEEKABLE",
+      "library": "mirage-block-lwt",
+      "description": "This module provides operations to read from and write to block devices with support for seeking within mapped and unmapped regions. It works with sector-aligned buffers and handles errors specific to I/O and write protection. Concrete use cases include managing disk images, implementing filesystems, and performing low-level storage operations where precise control over block device regions is required.",
+      "description_length": 406,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mirage_block_copy.Copy",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers, I/O results, and custom error types for handling I/O and write-specific failures. Used to manage data transfer to and from storage devices with precise control over buffer alignment and error reporting.",
-      "description_length": 390,
+      "module_path": "Mirage_block_lwt.Fold",
+      "library": "mirage-block-lwt",
+      "description": "This module folds a function across blocks read sequentially from a block device. It operates on block devices represented by the `A.t` type, using Lwt for asynchronous execution. A concrete use case is aggregating or processing data from a disk image in a virtualization context.",
+      "description_length": 280,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_block_log.Log",
-      "description": "Provides logging operations at various severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process logging data. Enables structured error recovery by wrapping result-returning functions with custom error message handling and formatting.",
-      "description_length": 374,
+      "library": "mirage-block-lwt",
+      "description": "This module provides functions for logging messages at various severity levels, handling result values with error logging, and formatting log output. It works with `result` types and leverages the `Logs` library for structured, level-based logging. Concrete use cases include logging disk access errors, tracing block device operations, and reporting runtime failures with structured data.",
+      "description_length": 389,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_iter.Fold",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t and custom error types for I/O and write failures. Used to manage low-level disk interactions, ensuring data is correctly read from or written to storage devices with precise error handling.",
-      "description_length": 402,
+      "module_path": "Mirage_block_lwt.Make_safe",
+      "library": "mirage-block-lwt",
+      "description": "This module wraps a block device implementation with safety checks for read and write operations, ensuring buffers meet alignment requirements and providing clearer error messages. It works directly with page-aligned buffers (`Cstruct.t`), 64-bit sector offsets, and result types that capture both I/O and safety violations. It is used when robustness against invalid buffer usage is needed, such as in virtualized or embedded storage systems where debugging low-level errors like `EINVAL` is difficult.",
+      "description_length": 503,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_iter.Fast_fold",
-      "description": "Provides functions to read from and write to block devices, handle I/O errors, and manage device disconnection. Operates on page-aligned buffers, error types, and I/O actions represented as Lwt promises. Used for low-level disk operations, ensuring data integrity during reads and writes, and handling device-specific errors like read-only or disconnected states.",
-      "description_length": 363,
+      "module_path": "Mirage_block_lwt_s.S",
+      "library": "mirage-block-lwt",
+      "description": "This module defines operations for interacting with block devices, supporting reading from and writing to sectors using page-aligned buffers. It handles disconnection, device information retrieval, and provides typed errors for I/O and write-specific failures. Concrete use cases include managing disk images, implementing filesystems, or handling raw device access in virtualized environments.",
+      "description_length": 394,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_patterns.Fill",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t, and handles specific error types for I/O failures and write constraints. Used to manage low-level disk interactions, ensuring data integrity during transfers and handling device-specific error conditions.",
-      "description_length": 417,
+      "module_path": "Mirage_block_compare.Compare",
+      "library": "mirage-block-lwt",
+      "description": "Compares the contents of two block devices, `From.t` and `Dest.t`, returning the result of the comparison as an integer indicating match or mismatch. It handles errors from either source or destination block device operations, formatting them into readable messages with `pp_error`. This module is useful for verifying data integrity between storage devices or during migration processes.",
+      "description_length": 388,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_mem.Int64Map",
-      "description": "The module provides operations for manipulating maps with 64-bit integer keys, including insertion, deletion, lookup, and transformations like folding, filtering, and merging. It works with key-value pairs where keys are Int64 and values are generic, enabling efficient traversal and modification. Use cases include managing large numerical datasets or applications requiring structured data access via 64-bit integer identifiers.",
-      "description_length": 430,
+      "module_path": "Mirage_block_iter.Fold",
+      "library": "mirage-block-lwt",
+      "description": "Iterates over the contents of a block device, applying a function to each sector. Works with `Cstruct.t` buffers and `Block.t` devices. Useful for checksumming or analyzing raw block data sequentially.",
+      "description_length": 201,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_block_compare.Compare",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Operates with page-aligned buffers, error types for I/O failures, and write-specific error variants. Used to manage low-level disk interactions, ensuring data integrity during transfers and handling device-specific failure conditions.",
-      "description_length": 389,
-      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt.Compare",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with custom error types for I/O failures and write-specific errors, along with page-aligned buffer structures represented as Cstruct.t. Used to manage low-level disk interactions, ensuring proper handling of partial failures and device state during data transfer.",
-      "description_length": 424,
+      "module_path": "Mirage_block_mem.Int64Map",
+      "library": "mirage-block-lwt",
+      "description": "This module implements an ordered dictionary structure using 64-bit integer keys paired with arbitrary values, supporting efficient insertion, lookup, and traversal operations alongside higher-order transformations like mapping, filtering, and merging. It is particularly suited for managing sparse data ranges, time-series indexing, or scenarios requiring ordered key-value associations with numeric identifiers, leveraging immutability and functional iteration patterns.",
+      "description_length": 472,
+      "index": 9,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Mirage_block_patterns.Fill",
+      "library": "mirage-block-lwt",
+      "description": "Randomly fills a block device with data. Works with `Block.t` devices. Useful for testing storage initialization or generating sample data.",
+      "description_length": 139,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt.Fold",
-      "description": "Provides functions to disconnect from a block device, query its info, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t and custom error types for I/O and write failures. Used to manage low-level disk interactions, ensuring data is correctly read from or written to storage devices with precise error handling.",
-      "description_length": 395,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Mirage_block_lwt.Fast_fold",
-      "description": "Provides functions for reading, writing, and querying block devices, including handling errors and disconnecting. Operates on page-aligned buffers, sector offsets, and custom error types. Used for low-level disk I/O, ensuring data integrity during reads and writes, and locating unmapped or mapped regions on the device.",
-      "description_length": 320,
-      "index": 12,
+      "library": "mirage-block-lwt",
+      "description": "This module performs efficient folds over block devices by leveraging seek operations to skip over zero-filled regions. It provides two main functions: `mapped_s` folds over all data blocks, skipping known-zero blocks, while `unmapped_s` folds only over regions guaranteed to be zero. These operations are useful for tasks like disk image analysis, sparse file handling, or checksum computation across large block devices.",
+      "description_length": 422,
+      "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt.Copy",
-      "description": "Provides functions to read from and write to block devices, with error handling for I/O operations. Works with page-aligned buffers, device information, and custom error types. Supports disconnecting from a device and reporting detailed error conditions during read or write operations.",
-      "description_length": 286,
-      "index": 13,
+      "module_path": "Mirage_block_lwt.Compare",
+      "library": "mirage-block-lwt",
+      "description": "Compares the contents of two block devices by reading and checking their data sequentially. Works with block device implementations that support Lwt-based asynchronous reads. Useful for verifying data integrity between disk images or ensuring consistency after a copy operation.",
+      "description_length": 278,
+      "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mirage_block_lwt.Sparse_copy",
-      "description": "Provides functions to disconnect from a block device, query its info, and perform asynchronous read and write operations using page-aligned buffers. Operates on custom error types for I/O failures and write-specific errors, with guarantees around buffer alignment and ownership. Used to manage low-level disk interactions where precise control over data transfer and error handling is required.",
-      "description_length": 394,
-      "index": 14,
+      "module_path": "Mirage_block_copy.Sparse_copy",
+      "library": "mirage-block-lwt",
+      "description": "This module copies data from one block device to another, handling sparse files efficiently by skipping blocks of zeros. It operates on block devices with compatible read and write interfaces, ensuring exact size matching between source and destination. Use it to clone virtual disk images or back up block devices while preserving sparsity.",
+      "description_length": 341,
+      "index": 13,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_block_lwt.Fill",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t and custom error types for I/O and write failures. Used to manage low-level disk interactions, ensuring data integrity during transfers and handling specific error conditions like read-only access or disconnection.",
-      "description_length": 426,
-      "index": 15,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mirage_block_lwt.Make_safe",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t and custom error types for I/O and write failures. Used to safely interact with block devices in a non-blocking manner, ensuring proper error handling and resource management.",
-      "description_length": 387,
-      "index": 16,
+      "library": "mirage-block-lwt",
+      "description": "This module fills a block device with pseudorandom data using Lwt for asynchronous operations. It operates on block devices represented by the `A.t` type. A concrete use case is securely erasing storage by overwriting it with random content.",
+      "description_length": 241,
+      "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt.Mem",
-      "description": "Provides functions to read from and write to an in-memory block device using page-aligned buffers, with error handling for I/O operations. Works with block devices represented as a type `t`, using `Cstruct.t` for data buffers and handling specific error types for read and write operations. Used to simulate block device behavior in memory, suitable for testing or temporary storage scenarios.",
-      "description_length": 393,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
+      "module_path": "Mirage_block_copy.Make_seekable",
+      "library": "mirage-block-lwt",
+      "description": "This module implements seekable block device operations for reading from and writing to specific sectors on a block device. It works with page-aligned buffers (`Cstruct.t`), handles I/O and write errors explicitly, and supports disconnecting from the device. Concrete use cases include copying data between block devices, performing direct sector-level I/O operations, and implementing disk imaging tools.",
+      "description_length": 405,
+      "index": 15,
+      "embedding_norm": 0.9999998807907104
     },
     {
       "module_path": "Mirage_block_safe.Make",
-      "description": "Provides functions to disconnect from a block device, query its information, and perform asynchronous read and write operations on sector-aligned buffers. Works with page-aligned buffers represented as Cstruct.t, and handles specific error types for I/O failures and write restrictions. Used to manage low-level disk interactions, ensuring data integrity during bulk reads and writes.",
-      "description_length": 384,
+      "library": "mirage-block-lwt",
+      "description": "This module provides safe, validated read and write operations for block devices, including error handling for safety violations and delegation to underlying errors. It operates on page-aligned buffers, block device handles (`B.t`), and 64-bit offsets, ensuring alignment and validity before I/O operations. Designed for virtualized or constrained environments, it enforces strict safety checks while supporting asynchronous execution via Lwt for reliable storage interaction.",
+      "description_length": 476,
+      "index": 16,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_block_iter.Fast_fold",
+      "library": "mirage-block-lwt",
+      "description": "Iterates over a seekable device's contents using two modes: `mapped_s` applies a function to each chunk of data read into a Cstruct buffer, while `unmapped_s` processes ranges of unused blocks without loading data. It operates on a `Seekable.t` device, tracking position and length information. This module is used to efficiently scan or transform disk images, analyze free space, or stream data from block devices.",
+      "description_length": 415,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_block_lwt_s.SEEKABLE",
+      "library": "mirage-block-lwt",
+      "description": "This module defines operations for interacting with seekable block devices, supporting reading from and writing to specific sectors using page-aligned buffers. It provides functions to disconnect from a device, retrieve device metadata, and handle both mapped and unmapped seek operations, returning results in Lwt IO. The module works with block devices that may be read-only or support random access, and is used for low-level disk access, virtual block device management, and disk image manipulation.",
+      "description_length": 503,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-block-lwt",
-      "description": "Provides functions to read from and write to block devices, including sector-level access and device metadata retrieval. Operates on raw byte arrays and sector-aligned data structures. Used to implement low-level storage operations in networked or embedded systems.",
-      "description_length": 265,
+      "module_path": "Mirage_block_lwt.Sparse_copy",
+      "library": "mirage-block-lwt",
+      "description": "This module efficiently copies data between two block devices by skipping unmapped or zero-filled regions, using seek operations to minimize I/O. It works with seekable source devices and block destination devices, ensuring data is only written where necessary. It is useful for tasks like disk image cloning or backup, where sparse data handling reduces storage and transfer overhead.",
+      "description_length": 385,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_copy",
-      "description": "Offers asynchronous read and write operations on block devices using page-aligned buffers, with support for error handling and device disconnection. It manages sector-aligned data transfers, provides device information queries, and includes custom error types for I/O and write failures. Operations include copying data between storage devices, handling buffer alignment constraints, and managing device-specific I/O workflows. It supports low-level disk interactions, such as reading sector-by-sector or writing with precise control over buffer boundaries.",
-      "description_length": 557,
+      "module_path": "Mirage_block_lwt.RESIZABLE",
+      "library": "mirage-block-lwt",
+      "description": "This module supports resizing block devices and performing asynchronous I/O operations like read, write, and disconnect. It works with page-aligned buffers and 64-bit integers for sector addressing. Use cases include dynamically adjusting storage capacity and transferring data to or from block devices in virtualized environments.",
+      "description_length": 331,
       "index": 20,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_log",
-      "description": "Logs messages at multiple severity levels with formatted output and error handling, using result types to manage success and failure states. Supports structured error recovery by wrapping functions that return results, allowing custom message formatting during failures. Provides operations to filter and process logs based on severity and context. Can track application flow, diagnose issues, and handle errors gracefully in networked or embedded systems.",
-      "description_length": 456,
+      "module_path": "Mirage_block_lwt.Copy",
+      "library": "mirage-block-lwt",
+      "description": "Implements byte-level copying between two block devices, ensuring data from a source device is replicated to a destination device. Operates on block devices represented by modules A and B, handling errors like read-only destinations or size mismatches. Useful for disk imaging, backups, or cloning virtual machine storage.",
+      "description_length": 322,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt_s",
-      "description": "Provides functions to interact with block devices in an asynchronous manner using Lwt. It supports reading and writing data in page-aligned buffers, querying device information, and handling specific error types for I/O operations. Used for managing storage operations in networked or embedded systems where reliable block device access is required.",
-      "description_length": 349,
+      "module_path": "Mirage_block_copy.Copy",
+      "library": "mirage-block-lwt",
+      "description": "This module copies data between seekable sources and destinations, preserving sparsity and ensuring size consistency while reporting detailed I/O and size mismatch errors. It supports efficient virtual disk cloning, storage migration, and zero-aware file transfers through sparse copying and block-aligned operations. Key data types include seekable sources, writeable destinations, and block-aligned buffers, with operations for reading, writing, and disconnecting resources. Specific functionality includes skipping zero-filled regions, handling read-only targets, and transferring data between block devices or virtual disks with precise error handling.",
+      "description_length": 656,
       "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_iter",
-      "description": "manages low-level block device interactions through asynchronous I/O operations, error handling, and device disconnection. it works with page-aligned buffers (Cstruct.t) and custom error types, enabling precise control over disk reads and writes. functions include querying device information, performing sector-aligned operations, and managing I/O actions via Lwt promises. examples include reading data from a storage device, writing updates with error recovery, and safely disconnecting from a block device.",
-      "description_length": 510,
+      "module_path": "Mirage_block_lwt.S",
+      "library": "mirage-block-lwt",
+      "description": "This module defines operations for interacting with block devices using Lwt for asynchronous I/O. It supports reading from and writing to sector-aligned buffers, disconnecting from devices, and retrieving device metadata. It works with types like `page_aligned_buffer`, `error`, `write_error`, and `t`, handling I/O results with `Stdlib.result`. Concrete use cases include managing disk images, implementing storage backends, and performing low-level disk access in virtualized environments.",
+      "description_length": 491,
       "index": 23,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_patterns",
-      "description": "Manages low-level block device interactions through functions for disconnection, information queries, and asynchronous read/write operations on sector-aligned buffers. Supports page-aligned data using Cstruct.t and handles I/O errors and write constraints. Enables precise control over disk operations, ensuring data integrity during transfers. Examples include reading sector data, writing buffer contents, and handling device-specific error responses.",
-      "description_length": 453,
+      "module_path": "Mirage_block_lwt.Mem",
+      "library": "mirage-block-lwt",
+      "description": "Implements an in-memory block device with fixed-size 16MB blocks, supporting read, write, and disconnect operations. It works with page-aligned buffers using `Cstruct.t` and handles errors specific to block device I/O and read-only writes. Useful for testing block device logic without relying on physical storage or external drivers.",
+      "description_length": 334,
       "index": 24,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_mem",
-      "description": "manages key-value stores with 64-bit integer keys, supporting insertion, deletion, lookup, and complex transformations such as folding, filtering, and merging. It handles generic value types, allowing efficient manipulation of structured data through numeric identifiers. Operations enable tasks like dynamic data aggregation or real-time dataset updates. Examples include tracking session states or managing large indexed records.",
-      "description_length": 431,
+      "module_path": "Mirage_block_lwt_s.RESIZABLE",
+      "library": "mirage-block-lwt",
+      "description": "This module supports operations to read from, write to, and resize block devices using Lwt for asynchronous I/O. It works with `Cstruct.t` buffers for data transfer and handles device-specific errors, including read-only constraints during writes. Concrete use cases include managing virtual disk images, implementing disk-based storage backends, and handling dynamic disk resizing in virtualized environments.",
+      "description_length": 410,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_compare",
-      "description": "Manages low-level block device interactions through functions to disconnect, query, and perform asynchronous read/write operations on page-aligned buffers. Supports error handling for I/O failures, including write-specific error variants, and ensures data integrity during transfers. Examples include reading sector-aligned data, writing buffers with error recovery, and querying device properties. Provides direct control over disk operations with explicit error management.",
-      "description_length": 475,
+      "module_path": "Mirage_block_copy",
+      "library": "mirage-block-lwt",
+      "description": "This module copies data between block devices while preserving sparsity by skipping zero-filled blocks, ensuring exact size matching and handling I/O errors explicitly. It operates on seekable sources and writeable destinations using block-aligned buffers, supporting virtual disk cloning, storage migration, and direct sector-level I/O. Key operations include reading from and writing to specific sectors, disconnecting devices, and transferring data with precise error reporting. Example uses include backing up sparse virtual disks, migrating storage between block devices, and implementing disk imaging tools with zero-aware copying.",
+      "description_length": 637,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_block_lwt",
-      "description": "Provides functions to interact with block devices in a non-blocking manner, including reading, writing, and resizing. Operates on page-aligned buffers and handles specific error types for I/O operations. Used to manage storage devices in networked applications, such as adjusting disk size or transferring data asynchronously.",
-      "description_length": 326,
+      "module_path": "Mirage_block_mem",
+      "library": "mirage-block-lwt",
+      "description": "This module provides an in-memory block device implementation that supports reading and writing fixed-size blocks using `Cstruct.t` buffers, along with a mapping of block identifiers to contents via an ordered dictionary. The main data types include block device handles and an immutable ordered dictionary with 64-bit integer keys and arbitrary values, enabling efficient insertion, lookup, traversal, and functional transformations like map and filter. Operations allow connecting to and disconnecting from block devices, reading and writing blocks, and performing atomic updates and merges on the underlying key-value structure. Example uses include virtualized storage backends with sparse block allocation, time-indexed data storage, or in-memory disk emulation with ordered metadata tracking.",
+      "description_length": 798,
       "index": 27,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Mirage_block_safe",
-      "description": "manages block device interactions with asynchronous read and write operations on aligned buffers, supporting error handling for I/O and write constraints. It processes page-aligned data using Cstruct.t and retrieves device metadata. Operations include disconnecting, querying, and performing bulk data transfers. Examples include reading sector-based data from storage and writing protected blocks with error checks.",
-      "description_length": 416,
+      "library": "mirage-block-lwt",
+      "description": "This module enables safe, validated access to block devices with strict alignment and bounds checking, using page-aligned buffers, block handles, and 64-bit offsets. It supports asynchronous I/O through Lwt, ensuring safety violations and underlying errors are properly handled. Operations include reading from and writing to block devices, with guarantees of alignment and validity before execution. For example, it can securely read a block of data at a specific offset or write a buffer to a designated location on a virtualized storage device.",
+      "description_length": 547,
       "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_block_lwt_s",
+      "library": "mirage-block-lwt",
+      "description": "This module defines type classes for seekable and resizable block devices, enabling asynchronous I/O operations such as reading from and writing to specific offsets using `Cstruct.t` buffers. It supports dynamic resizing, device disconnection, and metadata retrieval, with typed error handling for I/O and write-specific failures. The interface accommodates both raw device access and virtual block devices, allowing operations like disk image manipulation, filesystem implementation, and storage backend development in virtualized environments. Submodules refine these capabilities with sector-level access, seek control, and Lwt-based concurrency for low-level disk management and dynamic storage allocation.",
+      "description_length": 710,
+      "index": 29,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_block_log",
+      "library": "mirage-block-lwt",
+      "description": "This module offers structured logging capabilities with support for severity levels, custom formatters, and error propagation through result-aware logging functions. It enables detailed tracking of block device operations, structured error reporting, and integration with the `Logs` library for flexible log output. Use it to log disk access failures, trace virtualized storage interactions, or audit data flow with contextual tags and formatted messages. Its submodules extend these capabilities with enhanced formatting, tagging, and result-handling utilities.",
+      "description_length": 562,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_block_iter",
+      "library": "mirage-block-lwt",
+      "description": "This module defines a custom bind operator for Lwt result values and includes submodules for iterating over block devices. It supports asynchronous operations on `Block.t` and `Seekable.t` devices, handling `Cstruct.t` buffers and tracking position and length information. The main operations allow sequential processing of sectors, mapped and unmapped data chunks, and efficient scanning or transformation of disk images. Example uses include checksumming block contents, analyzing free space, and streaming data from seekable devices.",
+      "description_length": 536,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_block_lwt",
+      "library": "mirage-block-lwt",
+      "description": "This module implements block device operations using Lwt for asynchronous I/O, supporting reading, writing, seeking, and resizing over streams or memory buffers. It provides core data types like `page_aligned_buffer` and `Cstruct.t`, along with result types to capture I/O and safety errors, enabling precise control over block regions and efficient handling of sparse data. Operations include copying between devices while skipping zero-filled regions, folding over block contents, comparing device contents, and filling devices with pseudorandom data. Submodules enhance safety, enable in-memory testing, and support virtualization tasks like disk imaging, backup, and integrity verification.",
+      "description_length": 694,
+      "index": 32,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_block_patterns",
+      "library": "mirage-block-lwt",
+      "description": "This module provides utilities for filling block devices with random data, enabling testing and sample data generation. It operates on `Block.t` devices, offering a function to write pseudorandom byte sequences across specified ranges. For example, it can simulate storage initialization or populate a virtual disk with test data for benchmarking. Specific operations include device range selection and configurable seed-based randomization for reproducibility.",
+      "description_length": 461,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mirage_block_compare",
+      "library": "mirage-block-lwt",
+      "description": "This module compares the contents of two block devices, `From.t` and `Dest.t`, to verify data integrity by returning a result integer indicating match or mismatch. It provides operations to handle and format errors from device interactions using `pp_error`. Use it to ensure consistency between storage devices or validate data during migration. For example, it can detect discrepancies after copying or transferring disk images.",
+      "description_length": 429,
+      "index": 34,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 35,
-    "meaningful_modules": 29,
-    "filtered_empty_modules": 6,
-    "retention_rate": 0.8285714285714286
+    "meaningful_modules": 35,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 557,
-    "min_description_length": 265,
-    "avg_description_length": 394.37931034482756,
-    "embedding_file_size_mb": 0.10579776763916016
+    "max_description_length": 798,
+    "min_description_length": 139,
+    "avg_description_length": 437.85714285714283,
+    "embedding_file_size_mb": 0.12753868103027344
   }
 }

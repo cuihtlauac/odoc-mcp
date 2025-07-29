@@ -1,168 +1,165 @@
 {
   "package": "bos",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:38:00.603577",
+  "total_modules": 18,
+  "creation_timestamp": "2025-07-15T23:10:06.924076",
   "modules": [
     {
       "module_path": "Bos.OS.Path.Mode",
-      "description": "Returns an integer representing file permissions based on a file path. Modifies file permissions by setting a specified integer value on a given path. Used to retrieve and apply specific Unix-style permission codes to files.",
-      "description_length": 224,
+      "library": "bos",
+      "description": "This module handles file and directory permission modes using the `int` type to represent modes. It provides `get` to retrieve the permission mode of a path and `set` to update it. Use it to inspect or modify permissions, such as making a file executable or restricting directory access.",
+      "description_length": 287,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Bos.OS.Dir",
+      "library": "bos",
+      "description": "This module handles directory operations including existence checks, creation, deletion, and traversal. It works with file paths represented by `Fpath.t` and supports temporary directory management with customizable permissions and cleanup. Concrete use cases include creating nested directories with specific access modes, recursively deleting directory trees, and safely handling temporary directories that are automatically removed after use.",
+      "description_length": 445,
+      "index": 1,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Bos.OS.Env",
-      "description": "Provides functions to access and manipulate environment variables, including retrieving values, setting variables, and parsing them into specific types like booleans, paths, and commands. Works with strings, optional strings, and custom parsers that convert strings into typed values. Used to safely parse configuration values from the environment, such as converting a string to a boolean or a file path.",
-      "description_length": 405,
-      "index": 1,
+      "library": "bos",
+      "description": "This module handles environment variable operations, including retrieving, setting, and parsing variables with typed values. It works with strings, optional values, and custom types through parsers for booleans, paths, commands, and more. Concrete use cases include reading required or optional environment variables with defaults, parsing environment settings into structured types, and handling configuration values from the process environment.",
+      "description_length": 447,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bos.OS.Arg",
-      "description": "This module provides functions for parsing command-line arguments, including handling short and long options, flag detection, and value conversion for types like booleans, integers, and custom data structures. It operates on strings, numeric types (e.g., int32, float), enums, lists, and arrays, using converters to transform inputs into structured data. It is suited for quick scripting tasks where simple argument parsing and help documentation generation are needed, though not recommended for complex, user-facing tools requiring thread safety or advanced flexibility.",
-      "description_length": 572,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bos.OS.Path",
-      "description": "Manages file and directory permissions through integer codes, allowing retrieval and modification of Unix-style access rights. Provides operations to read and set permission values for any path, whether file or directory. Examples include changing a file's read/write access or ensuring a directory is executable. Functions work uniformly across both file and directory paths.",
-      "description_length": 376,
+      "library": "bos",
+      "description": "This module offers command-line argument parsing with support for flags, optional parameters, and positional arguments, enabling typed value conversion from strings to OCaml types like integers, booleans, and paths. It leverages built-in and customizable parsers to handle common data structures and complex types such as lists or enumerated values. Designed for lightweight scripting tasks, it ensures straightforward migration to more robust parsing frameworks as application requirements mature.",
+      "description_length": 498,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bos.OS.File",
-      "description": "The module provides file system operations such as path manipulation, file existence checks, content reading/writing, and temporary file management, emphasizing safety and resource cleanup. It works with byte buffers, file channels, and path representations to handle low-level I/O and structured data exchange. Use cases include secure data processing, logging, and scenarios requiring temporary file generation with automatic cleanup.",
-      "description_length": 436,
+      "module_path": "Bos.OS.Cmd",
+      "library": "bos",
+      "description": "This module enables executing shell commands, managing I/O redirection, and handling process status with support for capturing outputs as strings or lines, redirecting input/output streams, and composing command pipelines. It operates on command values (`Cmd.t`), file paths (`Fpath.t`), and custom types representing execution environments, process statuses, and stream configurations. Typical use cases include scripting system interactions, building error-resilient command chains, and integrating external tools with OCaml applications through precise control over execution contexts and resource handling.",
+      "description_length": 610,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos.OS.Dir",
-      "description": "Provides functions to check, create, delete, and list directory contents using `Fpath.t` paths. Supports operations like setting and restoring the current working directory, managing temporary directories, and retrieving user and system-specific directories. Enables recursive deletion, path resolution, and directory creation with custom permissions.",
-      "description_length": 351,
+      "module_path": "Bos.OS.Path",
+      "library": "bos",
+      "description": "This module provides operations for manipulating and interacting with file system paths, including checking existence, moving, deleting, and querying metadata for both files and directories. It supports advanced features like working with hard and symbolic links, pattern matching paths, and traversing directory trees with customizable filtering and error handling. The module includes functions to retrieve and modify permission modes, enabling tasks like making a file executable or restricting directory access. Use cases include safely renaming or removing paths, resolving symbolic links, finding files by pattern, and applying actions across directory hierarchies.",
+      "description_length": 671,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos.OS.Cmd",
-      "description": "This module facilitates executing shell commands and managing their input/output, including redirecting outputs to files, strings, or null, and capturing exit statuses. It operates on command objects, file paths, and stream handles, enabling precise control over process execution and data flow. Use cases include automating system tasks, parsing command outputs, and integrating external tools within applications.",
-      "description_length": 415,
+      "module_path": "Bos.OS.U",
+      "library": "bos",
+      "description": "This module wraps low-level Unix system calls with improved error handling and path type integration. It operates on file paths (`Fpath.t`) and Unix-specific types like `Unix.error` and `Unix.stats`, providing direct access to POSIX operations such as file creation, deletion, renaming, and metadata queries. Concrete use cases include interacting with the file system in a type-safe manner, handling Unix-specific errors during system calls, and converting those errors into actionable messages or combined error types.",
+      "description_length": 520,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos.OS.U",
-      "description": "Provides functions for low-level Unix operations with Fpath.t paths, including file creation, deletion, renaming, and metadata retrieval. Handles Unix errors by converting them to messages or combining error variants for consistent error propagation. Includes retry logic for EINTR errors during system calls.",
-      "description_length": 309,
+      "module_path": "Bos.OS",
+      "library": "bos",
+      "description": "This module provides comprehensive OS interaction capabilities through a suite of specialized components. It supports directory management, environment variable handling, command-line argument parsing, process execution, path manipulation, and low-level Unix system calls, all integrated with type-safe path representations and robust error handling. Users can create and traverse directories, parse environment variables into structured types, execute shell commands with controlled I/O, and perform atomic file operations. Examples include safely managing temporary directories, extracting and validating command-line arguments, scripting process pipelines, and modifying file permissions or metadata across Unix-based systems.",
+      "description_length": 729,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bos.Pat",
-      "description": "Extracts and manipulates named string patterns containing variables in the form \"$(VAR)\". Processes patterns to substitute variables, format strings, or check if a string matches a pattern. Works with strings and maps from variable names to values, enabling tasks like generating file paths from templates or parsing structured text.",
-      "description_length": 333,
+      "library": "bos",
+      "description": "This module processes named string patterns with variable substitution and matching capabilities. It handles operations like parsing, formatting, and substituting variables within strings, working with data types such as `t` for patterns and `defs` for variable mappings. Concrete use cases include dynamically generating file paths or command-line arguments from templates and extracting values from structured strings like log entries.",
+      "description_length": 437,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bos.Cmd",
-      "description": "The module offers functions to construct, combine, and inspect command lines and fragments, primarily working with lists of strings and a type `t` for structured command representations. It enables operations like argument addition, executable name extraction, and serialization, ensuring precise control over command-line arguments without shell interpretation. Use cases include generating system commands or scripts where exact argument passing is critical, such as in automated workflows or secure execution contexts.",
-      "description_length": 521,
+      "library": "bos",
+      "description": "The module provides operations to construct and manipulate command lines as structured values using type `t`, supporting combinators like `v`, `%`, and `%%` to build and compose commands from program names and arguments. It enables safe, explicit handling of command-line fragments without shell interpretation, with utilities to convert between strings/lists, inspect components, and format commands for execution. This is particularly useful for generating secure command lines in applications like system administration tools or automated scripts where avoiding shell injection is critical.",
+      "description_length": 593,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos.OS",
-      "description": "manages system-level interactions through environment variables, command-line arguments, file permissions, and I/O operations, offering typed conversions, path handling, and process control. it supports retrieving and modifying environment values, parsing arguments into structured data, adjusting file permissions, reading/writing files safely, and executing shell commands with output redirection. operations include converting strings to booleans, parsing command-line flags, setting directory access rights, and managing temporary files. examples include securely reading configuration values, automating script execution, and handling file metadata with error resilience.",
-      "description_length": 676,
+      "module_path": "Bos",
+      "library": "bos",
+      "description": "This module enables robust interaction with the operating system through structured, type-safe interfaces for managing files, directories, processes, and environment variables. It provides data types for paths, commands, and string templates, with operations to manipulate these values programmatically, such as executing processes, parsing command-line arguments, and substituting variables in strings. You can use it to build secure command pipelines, generate paths dynamically, or handle environment configuration safely. Examples include scripting system tasks, creating temporary directories with automatic cleanup, and parsing log data using pattern matching.",
+      "description_length": 666,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos_setup.R",
-      "description": "Provides a set of combinators for handling result values, focusing on avoiding null while managing failure cases. Core operations include mapping, binding, and error propagation across computations. Examples include transforming success values, chaining operations, and handling errors in a functional style. The module is minimal, offering no direct functions but relying on external implementations for specific use cases.",
-      "description_length": 424,
+      "module_path": "Bos_setup.Char",
+      "library": "bos.setup",
+      "description": "This module provides functions for converting characters to and from integer representations, comparing characters, and formatting them for output. It works directly with the `char` type, offering safe and unsafe conversion from integers, equality checks, and hash generation. Concrete use cases include handling ASCII character manipulations, implementing custom character-based encodings, and debugging through character serialization.",
+      "description_length": 437,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos_setup.Char",
-      "description": "Provides basic character handling with operations for manipulation and inspection. Includes types for characters and functions for checking properties like lowercase, uppercase, and digit. Supports conversion between characters and their ASCII integer representations. Can be used to validate input, process text, or perform character-based transformations.",
-      "description_length": 357,
+      "module_path": "Bos_setup.Pat",
+      "library": "bos.setup",
+      "description": "This module handles pattern parsing, substitution, and matching for strings with embedded variables. It provides operations to create patterns from strings, substitute variables with values from a map, and check or extract variable matches in target strings. Concrete use cases include processing file paths or configuration templates where variables need replacement or extraction.",
+      "description_length": 382,
       "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bos_setup.String",
-      "description": "Provides string manipulation, substring extraction, and set and map operations for string-based keys. Core data types include strings, substrings, string sets, and string maps, with operations for indexing, slicing, and associative lookups. Functions allow creating substrings, checking membership in sets, and retrieving values from maps. Examples include extracting a substring from a larger string, checking if a string exists in a set, and looking up a value in a string-based map.",
-      "description_length": 485,
-      "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bos_setup.Pat",
-      "description": "Extracts variables from strings using patterns with $(VAR) syntax. Processes strings with escaped $ and matches/matches variables greedily. Supports substitution, formatting, and querying variable values from input strings.",
-      "description_length": 223,
+      "module_path": "Bos_setup.R",
+      "library": "bos.setup",
+      "description": "This module provides functions for manipulating `Rresult.result` values through constructors, combinators, and error transformation tools like `reword_error` and `error_to_msg`. It works with result types that encapsulate custom error representations, string-based messages, and formatted error outputs, supporting idiomatic error handling and propagation. Key use cases include structured error reporting, exception trapping into results, and converting between result variants for interoperability with optional values or polymorphic error contexts.",
+      "description_length": 551,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bos_setup.Fmt",
+      "library": "bos.setup",
+      "description": "This module provides a suite of formatting combinators for structured data rendering, including precise layout control (indentation, boxing), delimiters, and styled text output with support for terminal capabilities like ANSI colors. It operates on `Format.formatter` streams and handles atomic values (integers, strings, floats), collections (lists, arrays, hashtables), and structured types (pairs, options, records) with customizable separators and formatting directives. Use cases include pretty-printing complex data structures for debugging, generating human-readable CLI output with dynamic styling, and serializing values into strings with controlled precision or memory representations.",
+      "description_length": 695,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bos_setup.Cmd",
-      "description": "The module provides functions for constructing, manipulating, and formatting command lines, operating on lists of strings and a specialized type `t` to represent arguments. It includes utilities for appending arguments, converting between values and command-line representations, and serializing commands without shell interpretation. Use cases include building system commands, handling path specifications, and generating executable scripts with precise argument handling.",
-      "description_length": 474,
+      "library": "bos.setup",
+      "description": "This module provides utilities for constructing, inspecting, and converting command-line representations, focusing on programmatic manipulation of executable paths and arguments. It operates on a structured type representing commands, supporting transformations like appending fragments or splitting components while adhering to POSIX shell parsing rules. Typical applications include generating debug-friendly command dumps, dynamically building system call arguments, or safely composing shell commands from structured data.",
+      "description_length": 526,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bos_setup.Fmt",
-      "description": "Provides low-level control over formatting US-ASCII strings and basic data structures without boxing. Includes functions for dumping values and pretty-printing, with distinct operations for inspection and display. Supports whitespace handling and newline-aware formatting. Example tasks include printing debug information, customizing output layouts, and generating human-readable representations of data.",
-      "description_length": 405,
-      "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Bos_setup.Logs",
-      "description": "The module provides a flexible logging system where messages are formatted only when reported, using a printf-like function passed to log operations. It supports custom log sources, reporting levels, and multiple reporters, with mechanisms for thread safety and asynchronous handling. Key data types include log sources, reporting levels, and reporter functions, enabling controlled message filtering and output. Examples include setting up a formatter reporter, defining custom sources, and combining multiple reporters for unified logging.",
-      "description_length": 541,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "bos",
-      "description": "Provides functions to read environment variables, parse command-line arguments, manipulate file paths, and execute external commands. It operates on strings, file paths, and process exit codes, supporting both POSIX and Windows. Used to build reliable command-line tools that handle system interactions consistently across platforms.",
-      "description_length": 333,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bos",
-      "description": "Processes strings with variable substitution, constructs and manipulates command-line structures, and handles system interactions including environment, files, and processes. It works with patterns, command-line arguments as lists or structured types, and environment variables, enabling tasks like template expansion, precise command generation, and secure file operations. Users can substitute variables in strings, build safe command sequences, and manage system resources with typed conversions and error handling. Examples include generating dynamic paths, constructing secure shell commands, and parsing and modifying environment settings.",
-      "description_length": 645,
-      "index": 19,
+      "library": "bos.setup",
+      "description": "This module provides structured, level-based logging operations to manage log verbosity, emit messages with custom sources, and handle errors through integrated logging. It works with log levels, custom log sources, result types, formatted messages, and reporter configurations that support output customization, concurrency controls, and error/warning counters. These features are ideal for debugging complex workflows, implementing error tracking systems, or maintaining audit trails where granular log control and structured diagnostics are required.",
+      "description_length": 553,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bos_setup",
-      "description": "provides utilities for handling results, characters, strings, variable substitution, command-line construction, OS operations, formatting, and logging. it includes result combinators, character checks, string manipulation, variable extraction, command-line arguments, OS error handling, ASCII formatting, and flexible logging. operations range from error propagation and text validation to command building and debug output. examples include chaining error-prone computations, extracting variables from templates, and generating formatted log messages.",
-      "description_length": 552,
-      "index": 20,
-      "embedding_norm": 0.9999999403953552
+      "library": "bos.setup",
+      "description": "This module combines result handling, system interaction, and structured logging with utilities for character manipulation, string templating, command-line construction, and rich formatting. It centers on `result`, `char`, `string`, and command types, offering operations for error propagation, process execution, pattern substitution, and terminal-styled output. Users can write robust shell scripts, format complex data structures for display, parse and rebuild command lines safely, or manipulate characters and strings with precision. Submodules enhance these capabilities with specialized tools for logging diagnostics, handling character encodings, and applying variable templates in configuration workflows.",
+      "description_length": 714,
+      "index": 17,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 38,
-    "meaningful_modules": 21,
-    "filtered_empty_modules": 17,
-    "retention_rate": 0.5526315789473685
+    "total_modules_in_package": 21,
+    "meaningful_modules": 18,
+    "filtered_empty_modules": 3,
+    "retention_rate": 0.8571428571428571
   },
   "statistics": {
-    "max_description_length": 676,
-    "min_description_length": 223,
-    "avg_description_length": 431.2857142857143,
-    "embedding_file_size_mb": 0.07675838470458984
+    "max_description_length": 729,
+    "min_description_length": 287,
+    "avg_description_length": 542.2777777777778,
+    "embedding_file_size_mb": 0.06586647033691406
   }
 }

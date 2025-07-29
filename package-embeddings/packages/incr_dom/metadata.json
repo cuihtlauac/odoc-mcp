@@ -1,406 +1,501 @@
 {
   "package": "incr_dom",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 55,
-  "creation_timestamp": "2025-06-18T16:44:59.980341",
+  "total_modules": 60,
+  "creation_timestamp": "2025-07-15T23:17:37.850867",
   "modules": [
     {
-      "module_path": "Ui_incr.Incr.Let_syntax.Let_syntax.Open_on_rhs",
-      "description": "Registers a watch on a variable to trigger evaluation of a delayed computation when the variable changes, using a custom type that encapsulates suspended computations. It operates on variables from the Var module and delayed values from the t type. This enables reactive updates in systems where variable changes need to propagate to dependent computations.",
-      "description_length": 357,
+      "module_path": "Incr_dom.App_intf.Private.S_for_bonsai",
+      "library": "incr_dom",
+      "description": "This module defines the core components and behavior for managing a stateful application with incremental updates. It includes types for the application's model, actions that modify the model, and the state used during execution, along with functions to handle action application, stabilization, and startup logic. It supports use cases like building interactive UIs with time-based effects and incremental model updates, where actions may trigger async operations or require clock advancement.",
+      "description_length": 494,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ui_incr.Map.Lookup.M",
-      "description": "Provides functions to compare values of type t using a predefined comparator, and to generate comparator witnesses for type t. Works with the t type and its associated comparator_witness to enable ordered operations. Used to sort lists of t values and check equality in a type-safe manner.",
-      "description_length": 289,
+      "module_path": "Incr_dom.App_intf.Private.S_for_bonsai-Model",
+      "library": "incr_dom",
+      "description": "This module defines a model type and a `cutoff` function that determines whether a new model instance should trigger a recomputation in an incremental system. It is used internally to manage state changes efficiently by avoiding unnecessary updates. The `cutoff` function compares two model values and returns `true` if they are considered equivalent for the purposes of incremental computation.",
+      "description_length": 395,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ui_incr.Map.Lookup.For_debug",
-      "description": "Converts a map with custom key and value pretty-printing into an S-expression. Accepts functions to serialize keys and values, and operates on maps with ordered keys. Used to generate structured debug output for complex data structures during development.",
-      "description_length": 255,
+      "module_path": "Incr_dom.App_intf.Private.S_for_bonsai-State",
+      "library": "incr_dom",
+      "description": "This module defines the structure and operations for managing application state in a Bonsai-based incremental UI. It includes functions for creating, updating, and accessing state values, as well as handling incremental computations tied to user interface elements. The primary data type is `t`, representing the internal state of the application, which supports efficient diffing and patching for reactive updates. Concrete use cases include tracking form inputs, managing component visibility, and synchronizing state across UI elements in response to user interactions.",
+      "description_length": 572,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ui_incr.Incr.State.Stats",
-      "description": "Calculates and aggregates performance metrics such as request counts, response times, and error rates. Operates on a custom type representing incremental statistics data. Used to generate structured data for logging and monitoring systems.",
-      "description_length": 239,
+      "module_path": "Incr_dom.App_intf.Private.S_for_bonsai-Action",
+      "library": "incr_dom",
+      "description": "This module defines a type `t` representing actions within an incremental DOM application and provides a function `sexp_of_t` to convert these actions into S-expressions. It works with action values that are used to model user interactions or state changes. A concrete use case is serializing action data for debugging or logging purposes.",
+      "description_length": 339,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ui_incr.Incr.Observer.Update",
-      "description": "Compares two updates using a custom comparator function, enabling precise control over the ordering of update values. Converts an update into an S-expression representation using a provided value serializer for serialization purposes. Works with the 'a t type, which encapsulates observer update data in the Incremental library.",
-      "description_length": 328,
+      "module_path": "Incr_dom.App_intf.S-Action",
+      "library": "incr_dom",
+      "description": "This module defines a type `t` representing actions that can be dispatched in response to user input or events, along with a function `sexp_of_t` to convert these actions into S-expressions for serialization or debugging. It is typically used to model discrete user interactions or state transitions in an application. Concrete use cases include encoding button clicks, form submissions, or navigation events as first-class values that can be logged or replayed.",
+      "description_length": 462,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ui_incr.Incr.Let_syntax.Let_syntax",
-      "description": "Monitors variable changes to automatically evaluate suspended computations, linking Var values with delayed operations through a custom type. It supports reactive behavior by linking dependent computations to variable updates. Users can create dynamic dependencies where changes in a variable trigger recomputation of related expressions. For example, a UI element can update automatically when an underlying state variable changes.",
-      "description_length": 432,
+      "module_path": "Incr_dom.App_intf.Private",
+      "library": "incr_dom",
+      "description": "This module provides the foundation for building interactive, stateful UIs using incremental programming techniques. It centers around managing models, actions, and state values, with operations for applying actions, stabilizing state, and performing efficient updates based on model changes. The core types include the application model, action values, and state (`t`), with key operations like action application, stabilization, and cutoff-based recomputation. Users can build dynamic interfaces that react to input, validate forms in real time, or coordinate state across components, while leveraging submodules for action serialization, model diffing, and state management.",
+      "description_length": 677,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ui_incr.Incr.Expert.Dependency",
-      "description": "Provides functions to create and inspect dependencies that track changes in incremental values. Works with a typed dependency structure that wraps incremental computations. Used to derive current values and serialize dependencies into S-expressions for debugging or logging.",
-      "description_length": 274,
+      "module_path": "Incr_dom.App_intf.S-Model",
+      "library": "incr_dom",
+      "description": "This module defines the structure and change-detection logic for tracking model updates in an incremental computation graph. It includes a type `t` representing the model state and a `cutoff` function that determines if two model instances are sufficiently different to warrant recomputation. It is used to optimize performance by preventing unnecessary updates when the model changes insignificantly.",
+      "description_length": 401,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ui_incr.Incr.Expert.Node",
-      "description": "Provides functions to serialize node values to S-expressions, create nodes with observability callbacks, and manage dependencies and state changes. Operates on a generic node type that wraps incremental computation data. Used to track and react to changes in computed values, such as updating UI elements when underlying data becomes stale.",
-      "description_length": 340,
+      "module_path": "Incr_dom.App_intf.Action",
+      "library": "incr_dom",
+      "description": "This module defines a type `t` representing actions that can be dispatched in response to user input or events, along with a function `sexp_of_t` to convert these actions into S-expressions for serialization or debugging. It is typically used to model discrete, serializable user interactions within a UI component. For example, it can represent button clicks or form submissions that trigger state updates in a predictable, traceable way.",
+      "description_length": 439,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Expert.Step_result",
-      "description": "Provides serialization of step result data to S-expressions. Works with a type representing the outcome of incremental computation steps, including success or failure states. Used to encode step results for logging, debugging, or inter-process communication.",
-      "description_length": 258,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.App_intf.Private.Model",
-      "description": "Tests whether two model states are sufficiently different to trigger a reevaluation of the incremental graph, using a custom comparison function. Operates on values of type `t`, which represent model states. Useful for preventing infinite loops in systems that track model changes and recompute dependencies.",
-      "description_length": 308,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.App_intf.Private.Action",
-      "description": "Converts action representations to S-expression format for serialization. Operates on a custom type `t` that encapsulates executable commands. Used to generate structured data for logging and configuration export.",
-      "description_length": 213,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.App_intf.Private.State",
-      "description": "Provides functions to create, update, and query a stateful value, including binding operations that chain state transformations. Works with the abstract type `t` to encapsulate mutable or immutable state representations. Used to manage application-specific state in event-driven or reactive workflows.",
-      "description_length": 301,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Map.Instrumentation",
-      "description": "Provides functions to instrument operations like `Incr_map.fold_symmetric_diff` by wrapping their execution with custom timing or logging logic. Operates on a record type `t` containing a polymorphic function that wraps a unit-returning computation. Used to track execution time of specific map operations, such as measuring how long a transformation takes during a profiling session.",
-      "description_length": 384,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ui_incr.Map.Lookup",
-      "description": "offers ordered operations and pretty-printing for structured data by combining value comparison and serialization capabilities. It supports the t type and associated comparator_witness for sorting and equality checks, and enables map serialization using custom key and value formatting functions. Users can sort lists of t values, verify type-safe equality, and generate debug-friendly S-expressions for maps. This allows for both algorithmic manipulation and human-readable representation of complex data.",
-      "description_length": 506,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Map.For_testing",
-      "description": "Finds the first key in a map that is greater than or equal to a specified start value and less than an end value, returning the key and an optional next key. It operates on OCaml's Base.Map type with three type parameters. This is useful for range-based lookups in ordered data structures.",
-      "description_length": 289,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.State",
-      "description": "Tracks and compiles performance data through a custom statistics type, enabling real-time aggregation of metrics like request rates and response latencies. Supports operations for updating, merging, and extracting key performance indicators. Examples include calculating average response time from a stream of requests or combining statistics from multiple sources. Provides structured outputs suitable for logging, dashboards, and alerting systems.",
-      "description_length": 449,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Infix",
-      "description": "Processes monadic transformations on wrapped values, applying functions to extract and wrap results. Operates on types conforming to the `t` functor interface. Enables chaining of value extraction and re-wrapping in a concise, readable format.",
-      "description_length": 243,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Unordered_array_fold_update",
-      "description": "Provides functions to fold over an unordered array while updating elements based on a given function, supporting in-place modifications. Works with arrays of type ('a, 'b) t, where 'a represents keys and 'b represents values. Used to efficiently process and modify elements in a collection during traversal, such as aggregating results or applying transformations.",
-      "description_length": 364,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Scope",
-      "description": "Provides operations to manage and query scope states, including retrieving the top scope, accessing the current scope, and executing functions within a specified scope. Works with a scoped state type that tracks hierarchical context. Used to isolate computations and check scope hierarchy during incremental processing.",
-      "description_length": 319,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Var",
-      "description": "Provides operations to create and manage mutable values with change tracking, including setting values, watching for updates, and retrieving current or latest values. Works with a parameterized type representing a variable wrapped in an incremental computation structure. Used to track and react to changes in configuration settings or dynamic state within a reactive system.",
-      "description_length": 375,
-      "index": 19,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ui_incr.Incr.Observer",
-      "description": "manages observer update data through the 'a t type, allowing custom comparison and serialization of values. It supports precise ordering via a comparator function and enables conversion to S-expressions using a user-defined serializer. This facilitates tailored handling of update sequences and data persistence. For example, it can sort updates based on application-specific logic or serialize them for logging or transmission.",
-      "description_length": 428,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Update",
-      "description": "Compares two values using a custom comparator function, producing an integer result. Converts a value into an S-expression using a provided conversion function. Designed for use with incremental update structures in data processing pipelines.",
-      "description_length": 242,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Cutoff",
-      "description": "Provides functions to define and evaluate cutoff conditions based on value comparisons, including custom predicates, equality checks, and reference identity. Works with arbitrary data types through provided comparison and equality functions. Used to determine if a value change should trigger an update in incremental computation systems.",
-      "description_length": 338,
-      "index": 22,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Node_value",
-      "description": "Converts values of a wrapped type to S-expressions using a provided converter function. Operates on a polymorphic variant type that encapsulates values of any type. Used to serialize internal node representations for debugging or logging purposes.",
-      "description_length": 247,
-      "index": 23,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ui_incr.Incr.Packed",
-      "description": "Generates Graphviz DOT format representations of graph structures, supporting edge emission control and user-defined labels/attributes. Operates on a list of `t` values, which encapsulate incremental graph data. Enables visualization of graph states with customizable node metadata for debugging or analysis.",
-      "description_length": 308,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Let_syntax",
-      "description": "Tracks variable changes to trigger automatic re-evaluation of suspended computations, using a custom type to link variables with delayed operations. It enables reactive programming by establishing dynamic dependencies between values and computations. Operations include creating and managing these dependencies, allowing expressions to update automatically in response to variable changes. For instance, a user interface can reflect real-time updates as underlying state variables evolve.",
-      "description_length": 488,
-      "index": 25,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ui_incr.Incr.Before_or_after",
-      "description": "Handles conversion of time-based state representations to S-expression format. Operates on a specialized time state type that captures whether an event occurs before or after a reference point. Used in serialization workflows where temporal context needs to be preserved in a structured, human-readable format.",
-      "description_length": 310,
-      "index": 26,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Clock",
-      "description": "Manages time-based events and state transitions using a clock abstraction that tracks absolute time and supports scheduling and advancing time. It works with time values as 63-bit integers and provides precise control over time progression and event triggering. Use cases include simulating real-time systems, testing time-sensitive logic, and managing event schedules in reactive applications.",
-      "description_length": 394,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr.Expert",
-      "description": "Manages incremental computations with dependency tracking, value serialization, and step result encoding. It handles typed dependencies, observable nodes, and step outcomes, enabling change detection, debugging, and state management. Users can derive current values, serialize data for logging, and react to updates in computed values. Examples include tracking UI state changes, serializing computation results, and debugging dependency graphs.",
-      "description_length": 445,
-      "index": 28,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Incr_dom.Start_app.Private",
-      "description": "Provides functions to initialize a Bonsai application with a specific model and action type, including options for debugging, logging, and simulating UI interactions. Operates with custom action and model types, along with time source configurations. Used to set up interactive UI components with precise control over initialization and behavior.",
-      "description_length": 346,
-      "index": 29,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.App_intf.Private",
-      "description": "Checks for significant differences between model states to avoid unnecessary recomputation, using a custom comparison on `t` values. Serializes executable commands into S-expressions for logging and configuration, operating on a `t` type that wraps actions. Manages state transitions through creation, updating, and querying, with binding operations that compose state changes, all working with an abstract `t` type. Can prevent infinite loops, generate structured logs, and handle dynamic state in reactive systems.",
-      "description_length": 516,
-      "index": 30,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.Js_misc.Rect",
-      "description": "The module provides serialization and deserialization capabilities via Sexp and Bin_prot, along with geometric operations for a rectangle type that handles coordinates and dimensions in both integer and float variants. It includes component accessors (left, right, top, bottom), mapping functions, and size extraction, enabling manipulation of 2D spatial data. These features are applicable in graphics rendering, layout management, or coordinate transformation tasks.",
-      "description_length": 468,
-      "index": 31,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Incr_dom.Js_misc.Variants_of_rows_or_columns",
-      "description": "Provides operations to process row and column variants, including folding, iteration, and mapping over row and column data. Works with custom variant types representing rows or columns and returns integer ranks, string names, and descriptive tuples. Used to generate match patterns, transform variant data, and extract metadata for structured data processing.",
-      "description_length": 359,
-      "index": 32,
+      "library": "incr_dom",
+      "description": "This module defines operations for working with row and column variants in a tabular layout context. It provides functions to fold, iterate, map, and match over these variants, enabling transformations and inspections based on whether a dimension is rows or columns. Use cases include rendering table headers, managing layout orientation, and handling dimension-specific logic in UI components.",
+      "description_length": 394,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Incr_dom.App_intf.Model",
-      "description": "Tests whether a model's state has changed sufficiently to trigger a reevaluation of the incremental graph, using a custom comparison function. Operates on values of type `t`, which represent model states and are expected to support meaningful equality or semantic comparison. Useful in scenarios where incremental updates must avoid redundant computations, such as in reactive systems or compilers with dependency tracking.",
-      "description_length": 423,
-      "index": 33,
+      "library": "incr_dom",
+      "description": "This module defines a model type `t` and a `cutoff` function that determines if two model instances are sufficiently different to warrant recomputation in an incremental system. It is used to control when updates propagate through a dependency graph by comparing model values. Concrete use cases include optimizing performance in UI frameworks by preventing unnecessary re-renders when model changes are insignificant.",
+      "description_length": 418,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Incr_dom.App_intf.Action",
-      "description": "Converts action representations to S-expression format for serialization. Operates on a custom type `t` that encapsulates executable commands. Used to generate human-readable and machine-parsable logs of user-initiated operations.",
-      "description_length": 230,
-      "index": 34,
+      "module_path": "Incr_dom.Start_app.Private",
+      "library": "incr_dom",
+      "description": "This module implements core application bootstrapping operations for Incr_dom, including initializing the model, binding to DOM elements, and setting up action handling with Bonsai integration. It works directly with model and action types defined in the provided App_intf module, along with time sources for scheduling updates. It is used to launch interactive web applications by connecting UI components to runtime logic and event loops.",
+      "description_length": 440,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom.App_intf.S",
+      "library": "incr_dom",
+      "description": "This module defines the structure for building incremental UI components with separate model, action, and state types. It supports creating components that update asynchronously and handle user interactions via injected actions, using incremental computations for efficient re-rendering. Concrete use cases include building dynamic web UIs where state changes trigger targeted DOM updates and handling one-time initialization tasks like fetching remote data.",
+      "description_length": 458,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Incr_dom.Js_misc.Rect",
+      "library": "incr_dom",
+      "description": "This module represents a rectangle with `top`, `left`, `bottom`, and `right` fields, supporting operations like `map` to transform its values and accessors like `int_width` and `int_height` to compute dimensions. It provides serialization functions for S-expressions and binary formats, along with comparison and direct field access. It is useful for layout calculations and serialization in web UI components where rectangular regions are manipulated.",
+      "description_length": 452,
+      "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Incr_dom.App_intf.State",
-      "description": "Provides functions to create, update, and query a stateful value, including binding operations that chain state transformations. Works with the abstract type `t` to encapsulate mutable or immutable state representations. Used to manage application configuration during initialization and handle session-specific data in interactive processes.",
-      "description_length": 342,
-      "index": 35,
+      "library": "incr_dom",
+      "description": "This module defines a type `t` representing the state of an incremental web application. It is used to manage and update application state in response to user actions and events. Concrete use cases include tracking UI component states, handling form inputs, and maintaining session data across interactions.",
+      "description_length": 307,
+      "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Incr_dom_testing.Driver",
-      "description": "Provides functions to create and manage an application state with model, action, and state types, including methods to access the model variable, generate a view, process actions, and update the time. Works with Incr_dom's incremental variables and queues for actions. Used to build reactive user interfaces that respond to model changes and external events.",
-      "description_length": 358,
-      "index": 36,
+      "module_path": "Incr_dom.App_intf.S-State",
+      "library": "incr_dom",
+      "description": "This module defines the structure and operations for managing application state in a UI component tree. It includes functions for creating, updating, and accessing state values, as well as handling subscriptions and event propagation. The primary data type is a nested state object that supports incremental updates and reactive bindings. Concrete use cases include form state management, UI component communication, and handling user input events in a declarative interface.",
+      "description_length": 475,
+      "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Incr_dom_testing.Helpers",
-      "description": "Displays UI elements based on a selector, interacts with application state, and triggers actions. Manipulates model data, updates the view, and simulates user interactions like clicks and text input. Processes a list of actions to drive application behavior.",
-      "description_length": 258,
-      "index": 37,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Incr",
-      "description": "Combines performance tracking, monadic transformations, array folding, scope management, and mutable state tracking with incremental updates, enabling real-time data processing and reactive behavior. It supports custom comparators, S-expression serialization, and graph visualization, along with time-based event handling and dependency-aware computation. Operations include merging statistics, folding arrays, managing scopes, and triggering updates on variable changes. Examples include real-time dashboards, reactive UIs, and time-synchronized event processing.",
-      "description_length": 564,
-      "index": 38,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Map",
-      "description": "Instrumentation, ordered operations, and range queries are unified through a shared `t` type and Base.Map integration. Functions enable timing, logging, sorting, equality checks, and key-based range lookups, with support for custom serialization and comparison. Users can measure operation durations, sort and compare map entries, and efficiently find keys within specified intervals. Examples include profiling map transformations, generating debug outputs, and querying ordered data ranges.",
-      "description_length": 492,
-      "index": 39,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_incr.Select",
-      "description": "Extracts and filters values from incremental data structures, returning boolean signals based on specified conditions. Works with incremental lists and tuples containing hashable keys and associated values. Used to track changes in selected elements or their corresponding data within reactive systems.",
-      "description_length": 302,
-      "index": 40,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Javascript_profiling.Manual",
-      "description": "Tracks specific events and timing intervals by recording named markers and measuring time between start and end points. Operates on strings to log and track temporal data. Used to instrument code for performance analysis and event tracing.",
-      "description_length": 239,
-      "index": 41,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Vdom_file_download.Button",
-      "description": "Creates a button node with optional enable state, click handler, and additional attributes. It interacts with DOM events and generates a virtual DOM node for rendering. The button initiates a file download by invoking a provided function upon being clicked.",
-      "description_length": 257,
-      "index": 42,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ui_time_source.Private",
-      "description": "Handles internal state management for event scheduling and alarm triggering. Operates on a custom state type to track pending effects and alarms. Used to ensure delayed actions are executed at the correct point in the rendering cycle.",
-      "description_length": 234,
-      "index": 43,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.App_intf",
-      "description": "Monitors state changes in a model using a custom comparator, enabling efficient reevaluation of dependent computations by comparing values of type `t`. Serializes executable commands into S-expressions, allowing for structured logging and communication of user actions. Manages stateful values through creation, update, and query operations, supporting complex state transformations and session management with an abstract type `t`. This enables precise control over application behavior, from detecting necessary recalculations to preserving and replaying user interactions.",
-      "description_length": 575,
-      "index": 44,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.Js_misc",
-      "description": "Offers serialization and geometric operations for 2D spatial data, along with row and column processing capabilities. It handles rectangle types with integer and float coordinates, enabling transformations and layout calculations, while also supporting variant type manipulation for rows and columns to extract ranks, names, and metadata. Operations include mapping, folding, and component access for spatial and tabular data. Examples include rendering graphics, transforming coordinates, and generating match patterns from structured data.",
-      "description_length": 541,
-      "index": 45,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom.Start_app",
-      "description": "Initializes a Bonsai app with custom model and action types, supporting debugging, logging, and UI simulation. Offers time source configuration and control over startup behavior. Can create interactive UI components with defined initialization logic. Examples include setting up a counter app with logging or a form with simulated user input.",
-      "description_length": 342,
-      "index": 46,
+      "module_path": "Incr_dom.Incr",
+      "library": "incr_dom",
+      "description": "This module enables declarative manipulation of dynamic, interdependent values through transformation, combination, and aggregation operations on incremental computation nodes. It primarily handles incremental values (`Incr.t`) and arrays of such values, supporting functional reactive patterns like dependency tracking, conditional evaluation, and stateful accumulation. Key applications include building responsive user interfaces where derived values automatically update in response to input changes, optimizing computation graphs via memoization, and analyzing incremental dependencies for performance tuning.",
+      "description_length": 614,
+      "index": 15,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Incr_dom.Component",
-      "description": "Provides functions to apply actions, update visibility based on DOM state, generate virtual DOM nodes, and expose component-specific data. Operates on models, actions, states, and optional extra data to manage dynamic UI updates. Used to build interactive web applications by integrating DOM events and rendering only visible elements.",
-      "description_length": 335,
-      "index": 47,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "incr_dom",
-      "description": "Provides functions for manipulating and querying DOM elements, including creating, updating, and removing nodes, as well as handling event listeners. Works with element nodes, attributes, and event handlers. Used to dynamically update web interfaces in response to user interactions or data changes.",
-      "description_length": 299,
-      "index": 48,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Incr_dom_testing",
-      "description": "Manages application state through model, action, and state types, enabling reactive UI updates via incremental variables and action queues. Supports view generation, model manipulation, and user interaction simulation, including click and input events. Processes action lists to drive application behavior and reflects state changes in the UI. Allows access to model variables and time-based updates for dynamic interactions.",
-      "description_length": 425,
-      "index": 49,
+      "library": "incr_dom",
+      "description": "This module defines the core structure for building UI components in an Incr_dom application. It includes functions to handle user actions, update visibility state, render virtual DOM nodes, and manage component-specific state through optional lifecycle hooks. Key operations include `apply_action` for updating state in response to user input, `view` for rendering UI, and `on_display` for side effects triggered by DOM updates. It works directly with models, actions, and virtual DOM nodes, enabling use cases like form validation, dynamic UI rendering, and visibility-based performance optimizations.",
+      "description_length": 603,
+      "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ui_incr",
-      "description": "combines performance tracking, incremental updates, and reactive behavior through a shared `t` type and Base.Map integration. It supports timing, sorting, range queries, and boolean signal generation for filtering reactive data. Users can measure operation durations, query ordered data ranges, and track changes in selected elements. Examples include real-time dashboards, profiling map transformations, and event-driven data filtering.",
-      "description_length": 437,
-      "index": 50,
+      "module_path": "Incr_dom.App_intf",
+      "library": "incr_dom",
+      "description": "This module establishes the foundation for building incremental web applications by defining core interfaces that govern state management, user interactions, and UI updates. It introduces key data types such as models for representing application state, actions for encoding user input or events, and state objects that support efficient, incremental computation and reactivity. Operations include applying actions to update models, stabilizing state, and determining when changes require recomputation using cutoff logic. Submodules refine this structure by enabling action serialization, model diffing, and component-level state management, allowing developers to build dynamic, type-safe UIs with optimized rendering and traceable state transitions.",
+      "description_length": 752,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom.Start_app",
+      "library": "incr_dom",
+      "description": "This module bootstraps Incr_dom applications by initializing Async, binding the UI to the DOM, and setting up the model and action loop with Bonsai integration. It works with modules defining model and action types to configure runtime behavior, including debug mode, logging, and shutdown signals. Child modules handle core operations like DOM element binding, time-based updates, and action dispatching. Example usage includes launching a web UI that reacts to user input and efficiently updates the DOM based on model changes.",
+      "description_length": 529,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom.Js_misc",
+      "library": "incr_dom",
+      "description": "This module provides utilities for analyzing DOM geometry and managing layout behavior, particularly in virtualized or responsive UIs. It includes functions to measure element visibility, compute scroll ranges, and determine spatial relationships between nodes, operating on DOM elements and an orientation-aware `rows_or_columns` type. The `rows_or_columns` submodule supports transformations and inspections based on row or column orientation, useful for table headers and dimension-specific logic, while the rectangle submodule models rectangular regions with field accessors, dimension calculations, and serialization support. Examples include implementing infinite scrolling, adaptive grids, and layout-aware component rendering.",
+      "description_length": 734,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom",
+      "library": "incr_dom",
+      "description": "This module orchestrates incremental computation and UI rendering for dynamic web applications by managing interdependent values, state transitions, and DOM updates. It centers around `Incr.t` for tracking reactive values, models for application state, actions for user input, and virtual DOM nodes for rendering, with operations like `apply_action`, `view`, and dependency-aware computations. It enables responsive interfaces that update efficiently in reaction to input changes, supports layout-aware rendering through DOM geometry analysis, and integrates with Async and Bonsai for runtime execution. Example uses include form validation with real-time feedback, virtualized lists that adapt to scroll position, and performance-optimized UIs that recompute only when necessary.",
+      "description_length": 780,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Javascript_profiling.Manual",
+      "library": "incr_dom.javascript_profiling",
+      "description": "This module provides functions to manually mark and measure time intervals in JavaScript profiling. It works with string identifiers to track specific points and durations in the execution timeline. Concrete use cases include profiling function calls, measuring rendering performance, or analyzing asynchronous operation delays.",
+      "description_length": 328,
+      "index": 21,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Javascript_profiling",
-      "description": "Tracks named events and measures time intervals, enabling detailed performance analysis and tracing of code execution. It uses strings to label markers and calculates durations between start and end points. Operations include starting, stopping, and logging events, as well as retrieving time differences. For example, it can measure the execution time of a function or track the sequence of method calls in an application.",
-      "description_length": 423,
+      "library": "incr_dom.javascript_profiling",
+      "description": "This module enables precise profiling of code execution by recording time intervals, clearing performance marks, and resetting measures using string identifiers. It supports wrapping arbitrary functions to measure their runtime and resetting collected data, while its child module allows manual marking of time points and measuring durations between them. Use it to analyze function performance, track rendering times, or inspect delays in asynchronous workflows. Key operations include `record`, `clear_marks`, `clear_measures`, and direct manipulation of performance timeline markers.",
+      "description_length": 586,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Let_syntax.Let_syntax.Open_on_rhs",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides the `watch` function, which tracks changes to an incremental variable and returns an incremental value that updates reactively. It works with `Ui_incr.Incr.Var.t` and `Ui_incr.Incr.t` types, enabling dynamic dataflow programming. Use it to build reactive UI components that respond to state changes in real time.",
+      "description_length": 333,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Map.Lookup.M",
+      "library": "incr_dom.ui_incr",
+      "description": "This module implements incremental map lookups indexed by keys of type `K.t`, supporting efficient retrieval and tracking of values associated with keys. It works with values of any type `'v` and maintains key-value associations using a comparator witness from module `K`. Concrete use cases include building dynamic user interface components that react to changes in map data, such as displaying or updating keyed elements in a list or table.",
+      "description_length": 443,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Incr.State.Stats",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides a type `t` representing statistics for an incremental computation state, along with a function `sexp_of_t` to convert these statistics into an S-expression format. It works with internal incremental state data structures to expose performance or diagnostic metrics. Use this module when inspecting or logging the internal behavior of incremental computations, such as tracking node counts or change propagation.",
+      "description_length": 432,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Let_syntax.Let_syntax",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables composing and transforming incremental computations using monadic and applicative operations like `bind`, `map`, and `both`, working directly with `'a Ui_incr.Incr.t` values to build complex, dependency-aware data flows. Its `Open_on_rhs` pattern simplifies writing incremental logic with standard let-bindings, making it ideal for constructing reactive UIs or orchestrating stateful computations. The `watch` function in its child module tracks changes to incremental variables, producing reactive values that update automatically when dependencies change. Together, these features support building dynamic, efficient dataflow programs where state propagates correctly and efficiently through the system.",
+      "description_length": 725,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Observer.Update",
+      "library": "incr_dom.ui_incr",
+      "description": "This module defines operations for comparing and converting observer update values to S-expressions. It works with the `'a Ui_incr.Incr.Observer.Update.t` type, which represents changes observed in incremental computations. Concrete use cases include ordering observer updates for sorting or merging, and serializing them for logging or debugging purposes.",
+      "description_length": 356,
+      "index": 27,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Map.Lookup.For_debug",
+      "library": "incr_dom.ui_incr",
+      "description": "Converts a map lookup structure into an S-expression representation using provided key and value conversion functions. Works with incrementally computed maps that have a comparison type. Useful for debugging by serializing map contents into a readable format.",
+      "description_length": 259,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Expert.Dependency",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides functions to create and manipulate dependency values linked to incremental computations. It supports tracking changes in incremental values with callbacks and converting dependencies to S-expressions for serialization. A concrete use case is managing dynamic dependencies in user interface components that update based on changing data sources.",
+      "description_length": 365,
+      "index": 29,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Incr.Expert.Node",
+      "library": "incr_dom.ui_incr",
+      "description": "This module manages incremental computation nodes with explicit dependency tracking. It supports creating nodes that compute values on demand, watching their current state, and manually controlling staleness and invalidation. Key operations include adding or removing dependencies, triggering recomputation, and observing changes in node state, useful for implementing custom reactive data structures.",
+      "description_length": 401,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Expert.Step_result",
+      "library": "incr_dom.ui_incr",
+      "description": "This module defines a type `t` representing the result of a step in an incremental computation, with values `Keep_going` and `Done`. It includes a function `sexp_of_t` to convert values of type `t` to S-expressions. This type is used to control the termination of iterative incremental processes, such as those managing state transitions or event loop steps.",
+      "description_length": 358,
+      "index": 31,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Incr.Node_value",
+      "library": "incr_dom.ui_incr",
+      "description": "Converts a node value to an S-expression using a provided function to serialize its contents. Works with any type `'a` wrapped in a node value, enabling structured data representation. Useful for debugging or logging incremental computation states with custom serialization.",
+      "description_length": 274,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Infix",
+      "library": "incr_dom.ui_incr",
+      "description": "Implements applicative and monadic transformations on incremental values. Works with `'a Ui_incr.Incr.t`, enabling chaining of computations that react to changes. Useful for building reactive user interfaces where values update in response to other value changes.",
+      "description_length": 263,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Before_or_after",
+      "library": "incr_dom.ui_incr",
+      "description": "Represents positional relationships between elements in an incremental UI system. Used to determine whether one node should be rendered before or after another during layout updates. Directly supports incremental computation of UI element ordering and positioning.",
+      "description_length": 264,
+      "index": 34,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Packed",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides functions to visualize incremental computation graphs using Graphviz. It works with `Ui_incr.Incr.Packed.t` values, which represent nodes in an incremental computation. Use `save_dot` or `save_dot_to_file` to output the graph structure to a channel or file, and `append_user_info_graphviz` to add custom labels and attributes to nodes for enhanced visualization.",
+      "description_length": 383,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Var",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides mutable variables that support incremental computation, allowing values to be watched and updated reactively. It works with arbitrary data types `'a` and supports operations like setting a value, watching for changes, and applying transformations. Concrete use cases include building reactive UI components where state changes must propagate efficiently to dependent computations.",
+      "description_length": 401,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Cutoff",
+      "library": "incr_dom.ui_incr",
+      "description": "This module defines cutoff policies for incremental computations, determining when updates should be suppressed based on value comparisons. It supports policies using equality, physical identity, or custom comparison functions, and includes predefined policies like `always`, `never`, `phys_equal`, and `poly_equal`. These policies are used to control when incremental nodes should propagate changes, based on whether the new value is considered the same as the old one.",
+      "description_length": 470,
+      "index": 37,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Expert",
+      "library": "incr_dom.ui_incr",
+      "description": "This module orchestrates incremental computations over directed acyclic graphs of nodes, enabling efficient, selective recomputation in response to changes. It coordinates with its child modules to manage dependency tracking, node evaluation, and step result handling, supporting dynamic updates through mechanisms like callbacks and explicit invalidation. The core data types include nodes that compute and cache values, dependency links that define update propagation paths, and step results that control computation flow. You can build reactive UIs, dataflow pipelines, and stateful event loops that update only affected components when inputs change.",
+      "description_length": 654,
+      "index": 38,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Update",
+      "library": "incr_dom.ui_incr",
+      "description": "This module defines operations for comparing and converting incremental update values to S-expressions. It works with the `'a Update.t` type, which represents changes to incrementally computed values. These functions are used to analyze or serialize updates in user interfaces that track dynamic data changes.",
+      "description_length": 309,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Scope",
+      "library": "incr_dom.ui_incr",
+      "description": "Manages incremental computation scopes to track and control the flow of dynamic values in user interfaces. It provides operations to access the current scope, execute functions within a specific scope, and check if a scope is the top-level one. This module is used to ensure computations and updates occur within the correct context during UI rendering and event handling.",
+      "description_length": 372,
+      "index": 40,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Let_syntax",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables monadic composition of incremental computations, offering operations like `bind`, `map`, and `both` for building reactive data flows over `'a t` values. It supports direct manipulation of incremental state through functions like `return` and `watch`, allowing dynamic tracking of dependencies and automatic updates in response to changes. The `Open_on_rhs` submodule simplifies writing incremental logic using standard let-bindings, while applicative combinators enable efficient combination of multiple incremental values. Example uses include constructing reactive UI components and orchestrating stateful, dependency-aware computations.",
+      "description_length": 659,
+      "index": 41,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Clock",
+      "library": "incr_dom.ui_incr",
+      "description": "This module manages a clock for incremental computations, providing operations to create, advance, and observe time. It works with time values represented as `Core.Int63.t` and supports scheduling events, stepping state over time, and capturing time-based snapshots. Concrete use cases include coordinating timed updates in a UI, implementing animations, and managing event-driven logic that depends on precise time tracking.",
+      "description_length": 425,
+      "index": 42,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Incr.State",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables introspection and tuning of incremental computation states by exposing key metrics such as node counts, tree heights, and observer totals, along with configuration flags like backtrace retention. It operates on shared state objects to provide real-time access to performance characteristics and control over computation behavior. The included submodule provides a type `t` for representing these statistics and a function `sexp_of_t` for converting them into S-expressions, making it useful for logging or inspecting the internal state of incremental computations. Together, these components allow developers to analyze and optimize incremental evaluations by tracking changes, diagnosing inefficiencies, and adjusting runtime settings dynamically.",
+      "description_length": 768,
+      "index": 43,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Map.Instrumentation",
+      "library": "incr_dom.ui_incr",
+      "description": "This module provides a polymorphic instrumentation mechanism for tracking and profiling performance-critical sections of Incr_map operations. It works with a record type `t` containing a function that wraps and executes a given unit function, enabling interception of the inner computation. Concrete use cases include measuring execution time or collecting statistics during operations like `Map.fold_symmetric_diff`.",
+      "description_length": 417,
+      "index": 44,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Map.Lookup",
+      "library": "incr_dom.ui_incr",
+      "description": "This module creates and manages incremental map lookups with customizable equality and instrumentation, enabling efficient, incremental `find` operations on maps with keys of any comparable type. It supports dynamic tracking of key-value associations through its core operations and integrates with submodules for structured access and serialization. One submodule implements incremental lookups indexed by keys of type `K.t`, maintaining associations using a comparator witness and enabling efficient retrieval for dynamic UI components. Another submodule converts map lookups into S-expressions using key and value conversion functions, supporting readable serialization of incrementally computed map data for debugging.",
+      "description_length": 722,
+      "index": 45,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr.Observer",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables observing and reacting to changes in incremental values, supporting operations like retrieving current values, enforcing invariants, and managing update callbacks within a declarative UI context. It integrates with a child module that provides utilities for comparing and converting observer updates to S-expressions, working with the `'a Ui_incr.Incr.Observer.Update.t` type to support ordering, merging, and serialization of changes. You can use it to synchronize UI components with dynamic state, validate observed values on update, or log changes by converting them to readable S-expressions. The combination allows both direct observation of incremental values and structured handling of their evolution over time.",
+      "description_length": 739,
+      "index": 46,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Map.For_testing",
+      "library": "incr_dom.ui_incr",
+      "description": "Performs a linear search to find a key within a specified integer range in a map. Works with any map type that uses integers as keys. Useful for testing scenarios where specific key ranges need validation without relying on the map's internal ordering.",
+      "description_length": 252,
+      "index": 47,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Incr",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables functional reactive programming through incremental computation, supporting transformations, monadic binding, and conditional logic over dynamic values. It works with collections like arrays, lists, and trees of incremental values (`'a t`), offering efficient folding, memoization, and dependency tracking for stateful workflows such as dynamic UIs and dataflow pipelines. Submodules handle visualization via Graphviz, scoped computation management, time-based updates, and observer-based state synchronization, while utilities for cutoff policies, serialization, and comparison control update behavior and enable debugging. You can build reactive UI components, track and optimize computation graphs, and manage time-driven or state-dependent updates with precise control over change propagation and memory usage.",
+      "description_length": 834,
+      "index": 48,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_incr.Select",
+      "library": "incr_dom.ui_incr",
+      "description": "This module implements incremental selection logic for tracking single or multiple selected values within a UI context. It provides functions to map over dynamic collections of key-identified items, maintaining selection state based on predicates or direct key lookups. These operations are useful for implementing UI components like dropdowns, checkboxes, or dynamic lists where selections update reactively.",
+      "description_length": 409,
+      "index": 49,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr.Map",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables incremental manipulation and analysis of maps through operations like transformation (`mapi`, `map`), filtering, merging with customizable combinators, key-based restructuring (ranking, slicing), and aggregation (summing, counting). It operates on `Ui_incr.Incr.t`-wrapped `Core.Map.t` values, supporting nested structures, map fusion, and optimized change detection via custom equality or instrumentation, making it ideal for dynamic UIs or real-time data pipelines. Submodules extend this functionality with polymorphic instrumentation for performance profiling, incremental map lookups with structured access and serialization, and linear key-range searches for testing. Specific capabilities include tracking execution time during symmetric diffs, creating efficient key-indexed lookups for UI components, and converting map data to S-expressions for debugging.",
+      "description_length": 885,
+      "index": 50,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ui_incr",
+      "library": "incr_dom.ui_incr",
+      "description": "This module enables functional reactive programming through incremental computation, supporting transformations, monadic binding, and conditional logic over dynamic values. It works with collections like arrays, lists, and trees of incremental values (`'a t`), offering efficient folding, memoization, and dependency tracking for stateful workflows such as dynamic UIs and dataflow pipelines. Submodules handle visualization via Graphviz, scoped computation management, time-based updates, and observer-based state synchronization, while utilities for cutoff policies, serialization, and comparison control update behavior and enable debugging. You can build reactive UI components, track and optimize computation graphs, and manage time-driven or state-dependent updates with precise control over change propagation and memory usage.",
+      "description_length": 834,
       "index": 51,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vdom_file_download",
-      "description": "Generates a downloadable file from a string, using a button to trigger the download process. It manages DOM interactions, allowing for custom click behavior and button state control. The module supports creating interactive elements with tailored attributes and event handling. For example, it can generate a disabled button that, when enabled, triggers a CSV file download with specified content.",
-      "description_length": 397,
+      "module_path": "Vdom_file_download.Button",
+      "library": "incr_dom.vdom_file_download",
+      "description": "This module creates a button that triggers a file download when clicked. It works with `Vdom_file_download.t` values, which specify the file contents and metadata. The button can be dynamically enabled or disabled and supports custom attributes and click handlers.",
+      "description_length": 264,
       "index": 52,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ui_time_source",
-      "description": "Manages event scheduling and alarm triggering through a custom state type that tracks pending effects and alarms, ensuring delayed actions execute at the right time during rendering. Provides operations to update and query the internal state, enabling precise control over timed events. Examples include setting delayed callbacks, managing alarm expiration, and synchronizing actions with the rendering cycle. The state is manipulated directly to maintain consistency between scheduled events and application logic.",
-      "description_length": 515,
+      "module_path": "Vdom_file_download",
+      "library": "incr_dom.vdom_file_download",
+      "description": "This module enables triggering browser file downloads from string-based content, with a `create` function to define files by filename, MIME type, and content, and `trigger` to start the download. The `Button` submodule integrates this functionality into UI components, allowing creation of buttons that initiate downloads, with support for dynamic enabling, custom attributes, and event handlers. For example, a button can be set up to download a JSON file generated from an RPC response. Both direct API functions and UI components work seamlessly with standard Vdom event and attribute handling.",
+      "description_length": 597,
       "index": 53,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom_testing.Helpers.S",
+      "library": "incr_dom.testing",
+      "description": "This module provides functions to manipulate and inspect the state of a UI component during testing, including setting the model, performing actions, and simulating user interactions like clicks and text input. It works with model, action, and state types to enable precise control over the component's behavior and rendering. Concrete use cases include writing integration tests for UI components by simulating user events and verifying the resulting model or view.",
+      "description_length": 466,
+      "index": 54,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Incr_dom",
-      "description": "provides state management, serialization, and UI rendering capabilities through custom comparators, 2D geometry handling, and Bonsai app initialization. It supports operations on abstract state types, spatial transformations, and dynamic DOM updates with action application and visibility control. Users can track state changes, serialize commands, and build interactive web interfaces with logging and simulation. Examples include rendering graphics, managing complex state transitions, and creating debuggable UI components.",
-      "description_length": 526,
-      "index": 54,
+      "module_path": "Incr_dom_testing.Driver",
+      "library": "incr_dom.testing",
+      "description": "This module creates and manages a test environment for incremental domain-driven applications. It allows setting up models, states, and actions with a provided application module, enabling direct manipulation and observation of the model and view through mutable variables and incrementally updated nodes. Use it to simulate user interactions, verify state transitions, and test time-dependent behavior by explicitly controlling the passage of time.",
+      "description_length": 449,
+      "index": 55,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom_testing.Helpers",
+      "library": "incr_dom.testing",
+      "description": "This module enables testing of incremental DOM applications by providing tools to create test drivers and simulate user interactions. It supports manipulating models, applying actions, and inspecting state through operations like setting up initial conditions, dispatching events, and asserting expected outcomes. Its functions allow writing unit and integration tests that verify component behavior under various inputs, such as simulating clicks or text entry and checking resulting model changes or rendered output. Submodules extend this capability with utilities for detailed state inspection and interaction simulation.",
+      "description_length": 625,
+      "index": 56,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Incr_dom_testing",
+      "library": "incr_dom.testing",
+      "description": "This module provides a framework for testing incremental domain-driven applications by simulating user interactions, managing state transitions, and inspecting model and view updates. It supports creating test environments with mutable models, dispatching actions, and asserting expected outcomes, including time-based behavior. Key operations include setting up initial state, applying actions, inspecting rendered nodes, and simulating events like clicks or input changes. For example, you can test how a model updates in response to a dispatched action or verify that a specific DOM node renders correctly after user input.",
+      "description_length": 626,
+      "index": 57,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ui_time_source.Private",
+      "library": "incr_dom.ui_time_source",
+      "description": "This module provides low-level time management operations for UI event handling, including flushing enqueued alarms, triggering effects after display rendering, and checking for pending post-display effects. It works with the `Ui_time_source.t` type to manage timing events in a UI context. Concrete use cases include synchronizing UI updates with animation frames and managing delayed effect execution in interactive applications.",
+      "description_length": 431,
+      "index": 58,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Ui_time_source",
+      "library": "incr_dom.ui_time_source",
+      "description": "This module provides a virtual clock interface for controlling time progression and scheduling timed events, working with time sources to enable precise manipulation of time in UI contexts. It supports operations like advancing time, scheduling alarms, and creating incremental values that change over time, while its child module offers low-level utilities for managing UI-related timing events such as flushing alarms and coordinating effects with display rendering. Main data types include `t` for time sources and alarm queues, with operations to enqueue, trigger, and manage timed effects. Example uses include simulating time in tests, scheduling UI animations, and ensuring post-rendering effect execution in interactive applications.",
+      "description_length": 741,
+      "index": 59,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 96,
-    "meaningful_modules": 55,
-    "filtered_empty_modules": 41,
-    "retention_rate": 0.5729166666666666
+    "total_modules_in_package": 61,
+    "meaningful_modules": 60,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9836065573770492
   },
   "statistics": {
-    "max_description_length": 575,
-    "min_description_length": 213,
-    "avg_description_length": 362.2909090909091,
-    "embedding_file_size_mb": 0.20029354095458984
+    "max_description_length": 885,
+    "min_description_length": 252,
+    "avg_description_length": 497.56666666666666,
+    "embedding_file_size_mb": 0.21469879150390625
   }
 }

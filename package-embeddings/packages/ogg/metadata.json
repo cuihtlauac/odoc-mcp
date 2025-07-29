@@ -1,70 +1,69 @@
 {
   "package": "ogg",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:04.482988",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:06:02.045904",
   "modules": [
     {
-      "module_path": "Ogg.Page",
-      "description": "Encapsulates Ogg page data, providing access to serial numbers, end-of-stream markers, beginning-of-stream indicators, and packet count information. Works with a tuple of strings representing the page's header and body, and includes methods to retrieve granule positions and page numbers. Used for tracking packet boundaries, managing stream synchronization, and handling audio/video decoding metadata.",
-      "description_length": 402,
+      "module_path": "Ogg.Skeleton",
+      "library": "ogg",
+      "description": "This module creates and manages Ogg Skeleton packets, specifically generating initial header packets (`fishead`) with customizable timing and metadata parameters, and end-of-stream markers. It operates on Ogg logical streams, producing packets that define the structure and timing for multiplexed media streams. Use it to initialize and finalize Ogg Skeleton tracks when interleaving audio, video, or other timed data streams.",
+      "description_length": 426,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ogg.Sync",
-      "description": "Provides functions to initialize, read, and reset an Ogg bitstream processor, and to synchronize and seek within the stream. Operates on a custom state type and a read function that consumes bytes. Used to manage Ogg page extraction and navigation in multimedia file processing.",
-      "description_length": 278,
+      "library": "ogg",
+      "description": "This module handles synchronization and reading of Ogg bitstreams, providing functions to initialize, reset, and seek within the stream. It works with byte streams and Ogg pages, using a custom read function to fill the stream buffer. Concrete use cases include reading Ogg pages from a file or network source, resynchronizing after seeking, and handling stream errors during playback or decoding.",
+      "description_length": 397,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ogg.Stream",
-      "description": "Creates and manages Ogg bitstreams, handling packet assembly into pages and stream termination. Operates on `stream` and `packet` types, enabling page submission, packet extraction, and granule position tracking. Used for decoding Ogg streams, managing packet flow, and ensuring proper page generation during data processing.",
-      "description_length": 325,
+      "module_path": "Ogg.Page",
+      "library": "ogg",
+      "description": "This module handles Ogg page structures, providing access to metadata and control information such as serial numbers, page position, packet counts, and checksums. It operates on the `t` type, which represents an Ogg page as a pair of strings. Use cases include parsing and constructing Ogg bitstreams, verifying page integrity with checksums, and managing packet continuity during decoding or streaming.",
+      "description_length": 403,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ogg.Skeleton",
-      "description": "Generates an initial Ogg skeleton packet with customizable time parameters and an end-of-stream packet for terminating a logical stream. Operates on Int64.t and Int32.t values to define timing metadata. Used to structure multimedia streams with precise time synchronization and stream termination.",
-      "description_length": 297,
+      "module_path": "Ogg.Stream",
+      "library": "ogg",
+      "description": "This module handles the assembly and disassembly of Ogg packets and pages, managing streaming operations for reading and writing Ogg bitstreams. It works with `stream`, `packet`, and `Page.t` types, enabling precise control over packet submission, page generation, and stream termination. Concrete use cases include encoding or decoding Ogg files by submitting packets and extracting pages for output, or parsing incoming pages and extracting packets for decoding.",
+      "description_length": 464,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ogg",
-      "description": "Provides functions for encoding and decoding audio streams using the Ogg, Vorbis, and Opus formats. Works with byte sequences, audio buffers, and stream state objects. Enables integration of audio processing pipelines in multimedia applications and streaming services.",
-      "description_length": 268,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Ogg",
-      "description": "manages Ogg stream processing through a set of interrelated functions that handle page parsing, bitstream navigation, packet assembly, and stream initialization. it works with types such as `stream`, `packet`, and custom state structures, enabling operations like extracting granule positions, synchronizing pages, and generating timing packets. it supports tasks like decoding audio/video streams, tracking packet boundaries, and constructing synchronized multimedia content. examples include generating start and end-of-stream packets, extracting metadata from page headers, and managing page sequences during playback.",
-      "description_length": 621,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "library": "ogg",
+      "description": "This module provides tools for working with Ogg bitstreams, enabling the creation, manipulation, and reading of Ogg pages and packets. It supports key operations such as initializing and finalizing Ogg Skeleton tracks, synchronizing and seeking within bitstreams, parsing and constructing Ogg pages with metadata and checksums, and assembling or disassembling packets for encoding or decoding. Data types include `Page.t` for representing Ogg pages and `stream` and `packet` for handling streaming operations. Examples include generating a `fishead` header for timed media, reading and resynchronizing Ogg pages from a file or network, and verifying page integrity using checksums during playback.",
+      "description_length": 697,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Ogg_decoder",
-      "description": "The module provides functions for initializing, managing, and extracting data from Ogg streams, including track handling, seeking, and audio/video decoding. It works with Ogg streams, tracks, file descriptors, and specialized data structures like `audio_ba_data` and `video_data` to enable stream demultiplexing and content extraction. Specific use cases include real-time multimedia processing, track-specific decoding, and position-based data retrieval from Ogg files.",
-      "description_length": 470,
-      "index": 6,
+      "library": "ogg.decoder",
+      "description": "This module enables decoding, seeking, and track management within Ogg streams using abstract data types for audio/video tracks and decoders. It operates on low-level Ogg stream data through callback-driven interfaces, supporting custom media type handling and synchronization control. Typical applications include multimedia playback, streaming analysis, or container format processing where precise demuxing and decoder initialization/reset capabilities are required.",
+      "description_length": 469,
+      "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 621,
-    "min_description_length": 268,
-    "avg_description_length": 380.14285714285717,
-    "embedding_file_size_mb": 0.025854110717773438
+    "max_description_length": 697,
+    "min_description_length": 397,
+    "avg_description_length": 476.0,
+    "embedding_file_size_mb": 0.022230148315429688
   }
 }

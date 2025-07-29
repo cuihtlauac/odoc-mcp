@@ -1,63 +1,61 @@
 {
   "package": "ocaml-probes",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:30:01.417245",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:30.818448",
   "modules": [
     {
       "module_path": "Probes_lib.Pid_or_self",
-      "description": "Provides functions to create and manipulate process identifiers, including converting from a PID integer, retrieving the process's executable path, and extracting the PID from a process handle. Works with the `t` type, representing a process identifier. Used to obtain the current process's information or inspect another process's details via its PID.",
-      "description_length": 352,
+      "library": "ocaml-probes.probes_lib",
+      "description": "This module represents a process identifier, either a specific PID or the current process. It provides operations to construct values from a PID or the current process, retrieve the executable path, and convert back to a PID. It is used to associate process identifiers with file paths for introspection or monitoring tasks.",
+      "description_length": 324,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Probes_lib.Self",
-      "description": "Provides functions to update probe states based on actions, retrieve specific or all probe states, and manage a flag for gigatext support. Operates on probe names, actions, and probe states. Used to monitor and adjust internal probe configurations during runtime.",
-      "description_length": 263,
+      "library": "ocaml-probes.probes_lib",
+      "description": "This module manages probe states within the same process, allowing updates and retrieval of probe information. It provides functions to get and set probe states, list probe names, and enable gigatext logging. Use cases include monitoring internal system metrics and dynamically adjusting probe behavior during runtime.",
+      "description_length": 318,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Probes_lib.With_ptrace",
-      "description": "Provides atomic access to process state via ptrace, enabling probe management and inspection. Operates on process IDs and probe states, allowing updates to memory and retrieval of enabled probe configurations. Used to safely modify and query instrumentation points in a running process without disrupting execution flow.",
-      "description_length": 320,
+      "module_path": "Probes_lib.Raw_ptrace",
+      "library": "ocaml-probes.probes_lib",
+      "description": "This module provides low-level operations for starting a process in a paused state using `ptrace` and detaching from it. It works directly with process IDs and string arrays representing command-line arguments. Concrete use cases include debugging and process inspection tools where controlled process startup and detachment are required.",
+      "description_length": 338,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Probes_lib.Raw_ptrace",
-      "description": "Starts a process with the given command-line arguments and returns its process ID, pausing it immediately. Detaches from a paused process using its process ID. Useful for initializing and managing processes in a controlled, suspended state for debugging or inspection.",
-      "description_length": 268,
+      "module_path": "Probes_lib.With_ptrace",
+      "library": "ocaml-probes.probes_lib",
+      "description": "This module uses ptrace to manage probe states in a running process by stopping it, updating or retrieving probe configurations, and resuming execution. It provides functions to attach to a process, enable or disable specific probes, read their current states, and detach while resuming execution. It works directly with process IDs, probe names, and action configurations to control dynamic tracing in low-level systems programming scenarios.",
+      "description_length": 443,
       "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "ocaml-probes",
-      "description": "Tracks program execution by inserting probes that capture state information, enabling dynamic control of performance monitoring and debug logging. Operates on OCaml native code structures and runtime state, allowing inspection of variables, function calls, and control flow. Used to instrument running applications for real-time diagnostics and performance analysis.",
-      "description_length": 366,
-      "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Probes_lib",
-      "description": "manages process instrumentation and monitoring through process ID manipulation, probe state control, and ptrace-based access. it handles process identifiers, probe names, and states, enabling actions like starting paused processes, updating probe configurations, and inspecting running processes. it supports regex-based and predicate-driven probe selection, and allows atomic memory updates and state queries. examples include retrieving a process's executable path, enabling specific probes, and suspending a process for debugging.",
-      "description_length": 533,
-      "index": 5,
+      "library": "ocaml-probes.probes_lib",
+      "description": "This module enables dynamic instrumentation and debugging by inspecting and modifying probes in binaries and running processes. It supports reading probe metadata from ELF files, controlling probe states by name or pattern, and managing process execution through PID-based or `ptrace`-driven operations. Key data types include process identifiers, probe configurations, and action settings, with core operations for enabling/disabling probes, tracing system calls, and manipulating memory or registers. For example, users can load a binary, pause a target process via `ptrace`, modify probe states at runtime, or trace execution by attaching to a running PID and inspecting probe activity.",
+      "description_length": 689,
+      "index": 4,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 533,
-    "min_description_length": 263,
-    "avg_description_length": 350.3333333333333,
-    "embedding_file_size_mb": 0.022218704223632812
+    "max_description_length": 689,
+    "min_description_length": 318,
+    "avg_description_length": 422.4,
+    "embedding_file_size_mb": 0.018594741821289062
   }
 }

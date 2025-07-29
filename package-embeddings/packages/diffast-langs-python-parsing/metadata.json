@@ -1,161 +1,181 @@
 {
   "package": "diffast-langs-python-parsing",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 20,
-  "creation_timestamp": "2025-06-18T16:37:21.601079",
+  "creation_timestamp": "2025-07-15T23:10:40.482609",
   "modules": [
     {
-      "module_path": "Python_parsing.Tokens_.T.MenhirInterpreter",
-      "description": "Provides parsing operations using a state machine, including transition, reduction, and error handling. Works with terminal symbols and parser states to process input streams. Used to implement custom parsers for domain-specific languages and input validation.",
-      "description_length": 260,
+      "module_path": "Python_parsing.Tokens.Make.MenhirInterpreter",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module defines a comprehensive set of terminal symbols for parsing Python source code, including keywords, operators, literals, and punctuation. It works with token types consumed by Menhir parsers, enabling precise recognition of Python syntax elements like control flow, arithmetic operations, and string literals. Concrete use cases include building Python parsers that handle indentation, string concatenation, and operator precedence correctly.",
+      "description_length": 454,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Python_parsing.Tokens.Make.MenhirInterpreter",
-      "description": "Provides parsing operations for LALR(1) grammars, including shift, reduce, and error recovery. Works with terminal types defined as polymorphic variants to represent input tokens. Used to implement custom parsers for domain-specific languages and syntax validation.",
-      "description_length": 265,
+      "module_path": "Python_parsing.Parser.Make.Incremental",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module provides an incremental parser entry point for Python source code, starting parsing from a given position in the input stream. It processes Python abstract syntax trees as defined in the `Python_parsing.Ast` module. A concrete use case is resuming parsing after an error or partial input in an interactive Python environment.",
+      "description_length": 337,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Parser.Make.MenhirInterpreter",
-      "description": "This module enables low-level control and inspection of a parser's execution, offering operations to manage state transitions, resume parsing, and examine environments and stacks during incremental processing. It works with LR(1) parsing states, productions, grammar elements, and token sequences, facilitating detailed manipulation of parsing logic and symbol handling. Use cases include custom error recovery, interactive parsing workflows, and advanced grammar analysis requiring direct access to internal parser structures.",
-      "description_length": 527,
+      "module_path": "Python_parsing.Parser.Make",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module parses Python source code into abstract syntax trees using a lexer and token stream, processing `lexbuf` input to generate a `fileinput` AST structure. It supports incremental parsing through a child module that resumes parsing from a specific position, enabling use cases like handling partial input or errors in interactive environments. Key data types include `lexbuf` and the AST nodes defined in `Python_parsing.Ast`, with operations for tokenizing and parsing Python code. Example uses include building linters, compilers, or interactive Python tools that require precise syntax analysis.",
+      "description_length": 606,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Parser.Make.Incremental",
-      "description": "Processes a file input starting from a specified position, using a checkpoint to manage parsing state. It operates on `Lexing.position` and `Ast.fileinput` types, enabling controlled parsing of OCaml source code. This is used to resume parsing after partial input has been processed.",
-      "description_length": 283,
+      "module_path": "Python_parsing.Ulexer.F",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module implements a lexer for Python source code, handling tokenization with support for indentation-based syntax, string literals, and keyword recognition. It processes input through `Sedlexing.lexbuf` buffers, tracking positions to generate tokens with precise source locations. Key operations include indentation checking, newline handling, and parsing string literals with proper escaping and delimiters.",
+      "description_length": 413,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Tokens_.T",
-      "description": "Processes input streams using a state machine with transitions, reductions, and error handling, enabling custom parser implementations. Operates on terminal symbols and parser states to validate and parse structured data. Supports domain-specific language processing and input validation through defined state transitions. Examples include lexical analysis, syntax validation, and custom grammar interpretation.",
-      "description_length": 411,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Python_parsing.Tokens.Make",
-      "description": "Provides access to environment variables through a structured record type. Operates on a custom `env` type that maps string keys to string values. Used to retrieve and inspect process environment settings during build configuration.",
-      "description_length": 232,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Python_parsing.Ulexer.F",
-      "description": "Provides operations to manage indentation tracking, token queuing, and parenthesis counting during parsing. Works with stack-based indentation tracking, a queue for tokens, and mutable state for formatting control. Used to enforce consistent indentation and track structural elements in code generation or transformation workflows.",
-      "description_length": 331,
-      "index": 6,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module defines lexical tokens and terminal symbols for parsing Python source code, combining string-based values like identifiers and literals with control tokens for syntax constructs. It supports operations for recognizing keywords, operators, and structural elements, enabling precise parsing with Menhir. Examples include handling Python's indentation rules, string formatting, and operator precedence in custom parsers. Submodules extend this functionality to manage specific syntactic elements like punctuation and literals in a structured way.",
+      "description_length": 555,
+      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Python_parsing.Ast.Loc",
-      "description": "The module provides functions for creating, manipulating, and comparing lexical positions and location ranges, focusing on operations like range collapsing, containment checks, and position arithmetic. It works with `Lexing.position` and a custom location type, enabling conversions between these representations and generating string formats for debugging or error reporting. These capabilities are tailored for managing text spans in parsing and lexing workflows, such as tracking source code positions or validating input boundaries.",
-      "description_length": 536,
-      "index": 7,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module provides utilities for managing source code location data, including creation, merging, validation, and serialization of file names, line ranges, and offsets, with support for extended location encoding via path-based data. It operates on OCaml's `Lexing.position` and a custom `Loc.t` type, offering conversions between position formats, adjustments by character counts, and comparisons to determine overlaps or ordering. These capabilities are critical for error reporting with precise positional context, AST transformations preserving source locations, and tools like linters or code formatters that require accurate lexical position tracking during analysis or modification of Python code.",
+      "description_length": 706,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Python_parsing.Tokens_.T",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module defines a comprehensive set of lexical tokens representing elements of Python syntax, including keywords, operators, literals, and structural symbols. It supports parsing and interpreting Python code by providing precise token representations such as `NAMEx`, `INTEGER`, `STRING`, and control-flow markers like `INDENT`, `DEDENT`, and `NEWLINE`. Concrete use cases include building parsers, implementing linters, and processing Python source code into abstract syntax trees. While it includes a child module, that module currently contributes no additional functionality.",
+      "description_length": 583,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Python_parsing.Parser_aux.F",
-      "description": "Provides access to the current environment configuration through a read-only record. Operates on an `env` type containing system and application-specific settings. Used to retrieve runtime parameters such as logging levels and service endpoints.",
-      "description_length": 245,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module provides functions for constructing and manipulating abstract syntax tree (AST) nodes during Python parsing, including creating statements, expressions, and primary elements with associated source locations. It includes utilities for handling errors, warnings, and location tracking, as well as building structured elements like test lists and argument lists. These operations support the creation of valid AST nodes with proper positional information, enabling accurate parsing and error reporting in the context of Python source code analysis.",
+      "description_length": 557,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Python_parsing.Parser_aux.STATE_T",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module represents the state of a parser, carrying the current environment during parsing. It includes operations to access and update the environment, enabling contextual analysis of Python code. Concrete use cases include tracking variable scopes and handling nested structures during AST construction.",
+      "description_length": 308,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Parser.Make",
-      "description": "Provides access to environment variables through a structured record type. Operates on a custom `env` type that maps string keys to string values. Used to retrieve and inspect process environment settings during build configuration.",
-      "description_length": 232,
+      "module_path": "Python_parsing.Printer",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module offers functions to transform Python abstract syntax trees into human-readable code through structured formatting and recursive rendering. It operates on AST nodes like expressions, statements, and control structures, handling elements such as punctuation, indentation, lists, and decorators to accurately represent Python syntax. Its primary use cases include code generation, pretty-printing, and AST-to-source conversion tasks.",
+      "description_length": 442,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Ast",
-      "description": "Provides functions to manage comments and blank regions within source code, using a hash table for comment storage and lists for tracking blank intervals. Operates on integers and custom comment types to represent source location data. Used to analyze and manipulate source code structure during parsing or transformation processes.",
-      "description_length": 332,
+      "module_path": "Python_parsing.Ulexer",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module performs lexical analysis of Python source code, managing state transitions, character classification, and token construction using `Sedlexing.lexbuf` and `Lexing.position` to track line and column positions. It supports Unicode input, string mode handling, and positional error reporting, enabling precise token generation for compilers or interpreters. The child module implements the actual lexer, recognizing keywords, handling indentation-based syntax, and parsing complex string literals with escaping and delimiters. Together, they allow tasks like tokenizing Python code with accurate source locations, managing newlines and indentation levels, and processing multi-quoted strings.",
+      "description_length": 701,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Lib",
-      "description": "Provides functions to control parsing flow, manage token streams, and track indentation and source state during Python parsing. Operates on mutable flags, token queues, and lexing buffers to support custom parsing logic. Used to adjust parser behavior, handle nested structures, and recover from errors during source analysis.",
-      "description_length": 326,
+      "module_path": "Python_parsing.Common",
+      "library": "diffast-langs-python-parsing",
+      "description": "Handles parsing errors by raising exceptions with descriptive messages. Works with string inputs and optional string headers. Useful for reporting failed parsing attempts in custom parsers.",
+      "description_length": 189,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Parser",
-      "description": "Handles environment variable access and manipulation via a custom `env` type, which maps strings to strings. Offers operations to retrieve, modify, and inspect key-value pairs within the build environment. Allows developers to query specific variables or alter configuration settings dynamically. For example, it can fetch the `PATH` variable or update the `DEBUG` flag during build processing.",
-      "description_length": 394,
+      "module_path": "Python_parsing.Lib",
+      "library": "diffast-langs-python-parsing",
+      "description": "Extracts the line and column numbers from a Lexing.position value. Works with OCaml's standard Lexing module data structures. Useful for error reporting or source code analysis tools that need precise location information.",
+      "description_length": 222,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Python_parsing.Parser_aux",
-      "description": "Tracks parsing state through mutable flags and counters, including token tracking, indentation levels, and comment storage. Operates on lexical positions, regions, and hash tables mapping line numbers to comments. Used to manage complex parsing logic in Python syntax analysis, such as handling nested structures and preserving comment metadata.",
-      "description_length": 345,
+      "module_path": "Python_parsing.Token",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module handles token manipulation and conversion for Python parsing, providing operations to extract raw tokens, positions, and original strings. It works with token tuples containing lexical positions and raw token data. Concrete use cases include converting tokens to strings, retrieving original source text from tokens, and creating new tokens with positional information for parsing and pretty-printing.",
+      "description_length": 413,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Python_parsing.Printer",
-      "description": "The module provides text formatting and pretty-printing operations for structured data and abstract syntax tree (AST) nodes, including low-level character and indentation handling, list and option formatting, and recursive traversal of program structures. It works with strings, AST elements, and typed language constructs, enabling tasks like code generation, debugging, and documentation by converting internal representations into human-readable output. Specific use cases include formatting expressions, literals, operators, and complex language constructs such as list comprehensions and guards with consistent, structured output.",
-      "description_length": 635,
+      "module_path": "Python_parsing.Parser",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module processes Python source code into abstract syntax trees using a lexer and token stream, supporting incremental parsing for handling partial input or errors in interactive environments. It operates on `lexbuf` input and produces AST structures defined in `Python_parsing.Ast`, offering tokenization and parsing operations. Incremental parsing allows resuming from a specific position, enabling applications like linters, compilers, or interactive Python tools that require precise syntax analysis. Example uses include analyzing Python scripts, building custom code transformers, or implementing syntax-aware editors.",
+      "description_length": 628,
       "index": 14,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Python_parsing.Tokens",
-      "description": "Manages environment variables via a custom `env` type, enabling retrieval and inspection of key-value pairs during build processes. Supports operations like lookup, filtering, and merging of environment configurations. Allows developers to access system variables, modify settings, and pass them to other components. Example tasks include reading `PATH` values or injecting custom build flags.",
-      "description_length": 393,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module represents lexical tokens and terminal symbols for parsing Python source code, combining string-based values like identifiers and literals with control tokens that manage syntax constructs. It provides data types for keywords, operators, and structural elements, along with operations to recognize and differentiate these tokens during parsing. Specific examples include enforcing Python's indentation rules, parsing string formatting expressions, and resolving operator precedence in custom grammars. Submodules organize handling of punctuation, literals, and other syntactic categories to support structured analysis and transformation of Python code.",
+      "description_length": 665,
       "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Python_parsing.Parser_aux",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module manages auxiliary parsing tasks for Python, integrating state handling and warning generation with abstract syntax tree (AST) construction and error reporting. It provides data types for parser state, source locations, and format strings, along with operations to create and manipulate AST nodes, track scopes, and emit diagnostics. You can use it to build custom parsing rules, generate structured elements like expressions and argument lists, and maintain contextual information during nested AST construction. Its submodules enable precise location tracking and environment management, supporting accurate parsing and error handling in Python language tools.",
+      "description_length": 673,
+      "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Python_parsing.Tokens_",
-      "description": "Processes input streams using state transitions, reductions, and error handling to validate and parse structured data, supporting custom parser implementations and domain-specific language processing. Operates on terminal symbols and parser states to enable lexical analysis, syntax validation, and grammar interpretation. Core data types include states, transitions, and terminal symbols, with operations for state progression and error recovery. Examples include building custom lexers, validating input formats, and interpreting structured data according to defined rules.",
-      "description_length": 575,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Python_parsing.Ulexer",
-      "description": "Provides operations for tracking indentation, queuing tokens, and managing parentheses during parsing. Uses stack-based indentation, a token queue, and mutable state for formatting control. Enables consistent code structure enforcement and tracking of nested elements. Supports tasks like code formatting, syntax analysis, and transformation by maintaining contextual state during processing.",
-      "description_length": 392,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module defines a token type representing lexical elements of Python source code, including keywords, operators, literals, and structural symbols. It provides variants for specific tokens like `IF`, `WHILE`, `PLUS`, `STAR_STAR`, and parsed values such as `INTEGER`, `FLOATNUMBER`, and `SHORTSTRING`. The child module extends this with additional lexical tokens like `NAMEx`, `STRING`, and control-flow markers such as `INDENT`, `DEDENT`, and `NEWLINE`. Together, they support lexical analysis, token stream generation, linter implementation, and abstract syntax tree construction for Python code.",
+      "description_length": 600,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "diffast-langs-python-parsing",
-      "description": "Compares abstract syntax trees (ASTs) of programming languages like Python, Java, and C/C++ by analyzing node-level differences using a tree edit distance (TED) algorithm, with optimizations for performance. It generates detailed change reports and exports syntactic and semantic information in structured formats like XML and N-Triples. These outputs enable advanced querying for tasks such as identifying code similarities, tracking changes, and analyzing software evolution.",
-      "description_length": 477,
+      "module_path": "Python_parsing.Ast",
+      "library": "diffast-langs-python-parsing",
+      "description": "This module represents and manipulates Python abstract syntax trees (ASTs), providing core data types such as locations, names, dotted names, comments, and file inputs, along with operations like `make_comment` for constructing comment nodes with source locations. Its functionality enables parsing, static analysis, code transformation, and linting of Python code, with precise tracking of lexical structure. The included submodules handle source location management, offering utilities to create, merge, validate, and serialize location data based on `Lexing.position` and a custom `Loc.t` type, supporting transformations that preserve positional context. Together, they allow tasks such as error reporting with exact source ranges, code formatting, and analysis tools requiring accurate position tracking during AST manipulation.",
+      "description_length": 833,
       "index": 18,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Python_parsing",
-      "description": "manages source code structure through comment tracking, indentation control, and token management, using hash tables, lists, and mutable state to represent and manipulate parsing contexts. it supports environment variable access, pretty-printing of structured data, and custom parser implementations with operations on tokens, states, and AST elements. examples include formatting code, tracking nested structures, and modifying build configurations dynamically. it enables detailed control over parsing flow, error recovery, and source analysis.",
-      "description_length": 546,
+      "library": "diffast-langs-python-parsing",
+      "description": "This module processes Python source code into structured representations, supporting lexical analysis, parsing, and code generation. It provides data types for tokens, abstract syntax trees (ASTs), and source locations, along with operations to transform and inspect these structures. You can tokenize Python code with precise position tracking, parse it into ASTs with support for incremental input, and render ASTs back into formatted source code. Specific tasks include building linters, implementing custom code formatters, and developing syntax-aware tools with accurate error reporting and source location handling.",
+      "description_length": 621,
       "index": 19,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 42,
+    "total_modules_in_package": 27,
     "meaningful_modules": 20,
-    "filtered_empty_modules": 22,
-    "retention_rate": 0.47619047619047616
+    "filtered_empty_modules": 7,
+    "retention_rate": 0.7407407407407407
   },
   "statistics": {
-    "max_description_length": 635,
-    "min_description_length": 232,
-    "avg_description_length": 386.85,
-    "embedding_file_size_mb": 0.06952381134033203
+    "max_description_length": 833,
+    "min_description_length": 189,
+    "avg_description_length": 525.3,
+    "embedding_file_size_mb": 0.073089599609375
   }
 }

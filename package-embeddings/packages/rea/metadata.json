@@ -1,119 +1,125 @@
 {
   "package": "rea",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:33:01.123433",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:10:49.842942",
   "modules": [
     {
-      "module_path": "Rea.StdRea.List",
-      "description": "Provides functions for transforming, filtering, and folding over lists, including map, filter, and fold_left. Works with homogeneous list structures containing elements of any type. Enables efficient processing of sequential data, such as parsing input streams or aggregating results from recursive computations.",
-      "description_length": 312,
+      "module_path": "Rea.StdRea.Result",
+      "library": "rea",
+      "description": "This module provides direct conversions between `Stdlib.Result.t` and `Rea` effectful computations, enabling seamless integration of standard result types with asynchronous effect handling. It includes functions to inject result values into the `Rea` context and project `Rea` computations back into result values. Use this when composing error-handling logic with asynchronous operations using the `Rea` framework.",
+      "description_length": 415,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rea.StdRea.Option",
-      "description": "Provides functions to handle optional values, including mapping, binding, and checking for presence. Works with the 'option' type, which represents values that may be absent. Enables safe composition of operations that might fail, such as looking up keys in a dictionary or parsing input.",
-      "description_length": 288,
+      "library": "rea",
+      "description": "This module extends `Stdlib.Option` with effectful traversal and conversion operations compatible with the `Rea` effect system. It provides `map_er` and `map_eq_er` for applying effectful functions to optional values, preserving physical equality where needed, and `to_rea`/`of_rea` for converting between options and `Rea`-based computations. It is used to integrate `Option` values into asynchronous, effectful pipelines that require composition with other `Rea`-based operations.",
+      "description_length": 482,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rea.StdRea.Result",
-      "description": "Provides functions to handle success or failure outcomes, including mapping, binding, and error propagation. Works with the `('a, 'b) result` type, where 'a is the error type and 'b is the success type. Enables safe error handling in parsing, API calls, and data processing workflows.",
-      "description_length": 284,
+      "module_path": "Rea.StdRea.List",
+      "library": "rea",
+      "description": "This module extends `Stdlib.List` with effectful traversal and transformation functions compatible with the `Rea` effect system. It provides `map_er` and `map_eq_er` for mapping over lists while preserving effects and physical equality, and `to_rea`/`of_rea` for injecting and projecting lists into and from the `Rea` context. These operations support asynchronous and effectful list processing in a composable manner, particularly useful for handling collections of values within the `Rea` framework.",
+      "description_length": 501,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Rea.StdRea.Seq",
-      "description": "Provides functions for transforming, filtering, and folding over sequences, including `map`, `filter`, and `fold_left`. Works with lazy and strict sequences, enabling efficient processing of large or infinite data streams. Used to generate filtered event logs, compute aggregated statistics from streaming data, and process input line by line without loading entire datasets into memory.",
-      "description_length": 387,
+      "library": "rea",
+      "description": "This module provides composable asynchronous traversal and conversion functions for working with standard library sequences. It includes `map_er` for effectful mapping over sequences using Rea's asynchronous effect model, and `to_rea`/`of_rea` for injecting and projecting sequences to and from Rea streams. Concrete use cases include processing large sequences of data asynchronously, such as streaming file contents or handling event streams with backpressure.",
+      "description_length": 462,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rea.Memo",
-      "description": "Provides functions to create and evaluate memoized lazy computations that handle effects, errors, and suspension. Operates on a type representing effectful computations with result, error, and suspension capabilities. Used to efficiently reuse asynchronous results, such as caching API responses or precomputing values that may be accessed multiple times.",
-      "description_length": 355,
+      "module_path": "Rea.Mut",
+      "library": "rea",
+      "description": "This module provides atomic mutable reference cells for asynchronous programming, ensuring suspended operations during updates. It supports creating, reading, and synchronously or asynchronously modifying ref cells with functions like `create`, `read`, `mutate`, `modify`, `try_mutate`, and `try_modify`. Concrete use cases include managing shared state in concurrent async workflows, such as tracking progress in a streaming computation or coordinating state across multiple async tasks.",
+      "description_length": 488,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rea.Mut",
-      "description": "Provides atomic operations for modifying and reading mutable reference cells in an asynchronous context. Works with a generic type 'v wrapped in a t container, supporting both synchronous and asynchronous updates. Used to safely update shared state in concurrent systems, such as maintaining a counter that increments across multiple asynchronous tasks.",
-      "description_length": 353,
+      "module_path": "Rea.Memo",
+      "library": "rea",
+      "description": "This module implements memoized lazy computations for asynchronous effects, allowing deferred execution and caching of results. It works with polymorphic variant effect signatures and monadic effect types defined by the `Rea` framework. Concrete use cases include optimizing repeated asynchronous operations like remote data fetching or expensive computations by ensuring they run only once per input.",
+      "description_length": 401,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Rea.Constant",
+      "library": "rea",
+      "description": "This module provides constant injection and projection operations alongside applicative combinators for boolean logic and option handling. It works with constant values encapsulated in Rea's effect system, including booleans, options, and unit effects. Concrete use cases include composing lazy boolean conditions with `&&&` and `|||`, merging option values with left bias, and sequencing unit-returning effectful computations with applicative style.",
+      "description_length": 450,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Rea.Prop",
-      "description": "Provides functions to create and manipulate properties using getter and setter functions, working with object types and arbitrary values. Retrieves and updates property values in a functional style, supporting transformations through mapping. Enables immutable updates to object properties without direct mutation.",
-      "description_length": 314,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rea.StdRea",
-      "description": "Combines list, option, result, and sequence operations to enable robust data processing. Supports mapping, filtering, and folding over lists and sequences, as well as handling optional and result values to manage absence and errors. Allows for safe composition of operations, such as parsing input, aggregating data, and processing event logs. Provides tools to work with both strict and lazy data structures, ensuring efficiency and correctness in complex workflows.",
-      "description_length": 467,
+      "library": "rea",
+      "description": "This module provides operations to create and manipulate object properties with get and set semantics. It works with polymorphic variant types representing property accessors and supports functional updates of object state. Concrete use cases include declaratively defining property lenses for immutable object transformations and composing property accesses in a type-safe way.",
+      "description_length": 378,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rea.Constant",
-      "description": "Provides operations to evaluate and interpret constant expressions, including arithmetic and logical evaluations. Works with integers, booleans, and symbolic representations of values. Used to precompute and validate expressions during compilation or configuration parsing.",
-      "description_length": 273,
+      "module_path": "Rea.StdRea",
+      "library": "rea",
+      "description": "This module bridges the `Rea` effect system with standard library types, enabling seamless integration of asynchronous effects with common data structures. It supports conversions and effectful transformations for `Result`, `Option`, `List`, and `Seq`, offering operations like `map_er`, `to_rea`, and `of_rea` to compose and sequence effectful computations. You can use it to process lists asynchronously, handle optional or result values within effectful contexts, or stream sequence elements through `Rea` pipelines. Examples include transforming a list of effectful computations into a single effectful list or converting an effectful stream into a sequence for further processing.",
+      "description_length": 685,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Rea.Identity",
-      "description": "Provides functions to generate, validate, and transform unique identifiers using string and integer representations. Works with opaque identity types and structured data containing identifier fields. Used to manage user tokens in authentication systems and track entity references in distributed data flows.",
-      "description_length": 307,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rea.Tailrec",
-      "description": "Provides tail-recursive evaluation of expressions using a stack-based approach, with support for variable binding and function application. Operates on abstract syntax trees and environment maps to manage scope and state. Used to implement interpreters for domain-specific languages with deep recursion requirements.",
-      "description_length": 316,
-      "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rea.Traverse",
-      "description": "Provides functions to transform traversal results into maps, sets, options, and boolean checks, using specific monadic and applicative contexts. Operates on nested data structures with error handling and optional values, leveraging constant and identity wrappers. Enables data extraction, validation, and aggregation within complex type hierarchies.",
-      "description_length": 349,
+      "library": "rea",
+      "description": "This module transforms traversal operations into specific computations like maps, sets, existence checks, and reductions. It works with polymorphic variant-based effectful traversals over arbitrary data structures. Use it to extract values, filter, or aggregate data from structures like lists, trees, or graphs in an effectful context.",
+      "description_length": 336,
+      "index": 9,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Rea.Identity",
+      "library": "rea",
+      "description": "This module implements the identity monad, providing direct injection and projection operations for values wrapped in the identity effect. It works with the polymorphic variant-based effect system defined in `Rea`, specifically handling computations that have no effects beyond the identity context. Use it to lift pure values into the identity effect context or extract results from effectless computations.",
+      "description_length": 408,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Rea.Tailrec",
+      "library": "rea",
+      "description": "This module implements a self-tail-recursive interpreter for executing effectful asynchronous computations, specifically designed for use with Js_of_ocaml. It provides `run` to synchronously execute an effectful computation using a given interpreter, and `spawn` to asynchronously queue such a computation for later execution. The module works directly with the `r` type representing recursive interpreter states, and dictionaries `sync` and `async` that define execution contexts for synchronous and asynchronous effects.",
+      "description_length": 522,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "rea",
-      "description": "Provides operations for sequencing, combining, and transforming asynchronous effects using monadic and applicative interfaces. Works with polymorphic variant types and object-oriented structures to model effectful computations. Enables writing reusable, effect-aware code for tasks like network requests, event handling, and concurrent processing.",
-      "description_length": 347,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Rea",
-      "description": "Provides operations for combining and manipulating parsing results, including sequencing, choice, and failure handling. Works with parser states, input streams, and result accumulations. Used to construct complex parsers by chaining simple ones and managing alternative parsing paths.",
-      "description_length": 284,
-      "index": 13,
+      "library": "rea",
+      "description": "This framework enables composable asynchronous programming through monadic and applicative operations, error handling, and stateful effect management using polymorphic variants and objects. It supports creating and combining effectful workflows that manage shared state with atomic references, memoize lazy computations, and manipulate object properties, while integrating with standard data structures like `Result`, `Option`, and `List`. You can orchestrate concurrent tasks with precise error recovery, optimize repeated async operations with memoization, and declaratively compose effectful boolean logic and option handling. The framework also includes interpreters for executing effectful computations, tools for effectful traversal of data structures, and the identity monad for pure effectless values.",
+      "description_length": 809,
+      "index": 12,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 68,
+    "meaningful_modules": 13,
+    "filtered_empty_modules": 55,
+    "retention_rate": 0.19117647058823528
   },
   "statistics": {
-    "max_description_length": 467,
-    "min_description_length": 273,
-    "avg_description_length": 331.14285714285717,
-    "embedding_file_size_mb": 0.05132293701171875
+    "max_description_length": 809,
+    "min_description_length": 336,
+    "avg_description_length": 487.46153846153845,
+    "embedding_file_size_mb": 0.04767608642578125
   }
 }

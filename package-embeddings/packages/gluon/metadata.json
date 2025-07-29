@@ -1,147 +1,165 @@
 {
   "package": "gluon",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 18,
-  "creation_timestamp": "2025-06-18T16:34:19.278004",
+  "creation_timestamp": "2025-07-15T23:08:34.465527",
   "modules": [
     {
-      "module_path": "Gluon.Sys.Selector",
-      "description": "Provides operations to create, manage, and monitor file descriptors for I/O events. Works with a custom type `t` representing a selector instance, along with file descriptors, tokens, and interest masks. Used to register file descriptors for read/write events, update their monitoring, and wait for events with a timeout.",
-      "description_length": 321,
+      "module_path": "Gluon.Sys.Event",
+      "library": "gluon",
+      "description": "Handles asynchronous events and callbacks. Works with event sources and listener functions. Useful for implementing event-driven systems like GUI interactions or network I/O monitoring.",
+      "description_length": 185,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Sys.Event",
-      "description": "Provides functions to create, compare, and serialize event records. Operates on the `t` type, which represents time-stamped occurrences with associated data. Used to log system activities and track user interactions in real-time applications.",
-      "description_length": 242,
+      "module_path": "Gluon.Event.Intf",
+      "library": "gluon",
+      "description": "This module defines a type `t` representing event states and provides boolean checks for specific event conditions such as error, priority, readability, and writability. It also extracts a token associated with an event. These operations are used to determine the current state and associated metadata of asynchronous events in event-driven systems.",
+      "description_length": 349,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Net.Addr",
-      "description": "Provides functions to parse, convert, and inspect network addresses, including extracting IP strings, ports, and Unix socket representations. Works with custom types like `tcp_addr` for IPv4/IPv6 addresses and `stream_addr` for stream-based network endpoints. Used to construct addresses from URIs, convert between Unix and custom address formats, and check loopback status.",
-      "description_length": 374,
+      "module_path": "Gluon.Net.Tcp_stream",
+      "library": "gluon",
+      "description": "This module implements TCP stream socket operations for asynchronous I/O, including connecting to addresses, reading and writing data with optional vectorized I/O, sending files directly from file descriptors, and converting streams to sources. It works with TCP stream sockets, byte buffers, and file descriptors, supporting both basic and vectored I/O operations. Concrete use cases include implementing network clients for protocols like HTTP or Redis, streaming large files over TCP, and building custom network services with async I/O.",
+      "description_length": 540,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Gluon.Net.Socket",
-      "description": "Provides operations to format socket representations, close sockets, and distinguish between listen and stream socket types. Works with file descriptor-based socket types and tagged variants for socket kinds. Used to manage network connections and ensure proper resource cleanup during communication.",
-      "description_length": 300,
+      "library": "gluon",
+      "description": "This module provides functions to manage network sockets, including closing and pretty-printing socket states. It defines distinct types for listening and streaming sockets to enforce correct usage. Concrete use cases include handling server-side connection acceptance and managing client-server communication streams.",
+      "description_length": 318,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Net.Tcp_stream",
-      "description": "Provides functions to establish and manage TCP connections, read from and write to socket streams, and handle file transfers. Operates on socket stream objects, supporting byte and vectorized I/O operations. Used for efficient data exchange in networked applications, such as streaming files or real-time communication.",
-      "description_length": 319,
+      "module_path": "Gluon.Net.Addr",
+      "library": "gluon",
+      "description": "This module handles network address manipulation for TCP and stream sockets, providing operations to construct, parse, and convert addresses between different representations. It supports data types for IPv4 and IPv6 addresses, stream socket addresses, and integrates with Unix socket APIs. Concrete use cases include resolving URIs to socket addresses, extracting IP and port information, and converting addresses to and from Unix socket structures for network communication.",
+      "description_length": 476,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Gluon.Net.Tcp_listener",
-      "description": "Listens for incoming TCP connections, accepts them with detailed stream and address information, and handles socket lifecycle operations. Operates on socket objects representing bound TCP listeners. Used to create a server endpoint that waits for client connections and converts the listener into a data source for processing incoming traffic.",
-      "description_length": 343,
+      "library": "gluon",
+      "description": "This module implements TCP server socket operations, including binding to addresses, accepting incoming connections, and closing listeners. It works with TCP listener sockets, stream sockets, and network addresses. Concrete use cases include setting up HTTP servers, handling client connections, and managing network services.",
+      "description_length": 326,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Fd",
-      "description": "Provides operations to manage file descriptors, including closing, comparing, and converting them to integers. Supports seeking within a file and pretty-printing for debugging. Works directly with Unix file descriptors to interact with system-level I/O resources.",
-      "description_length": 263,
+      "module_path": "Gluon.Source.Intf",
+      "library": "gluon",
+      "description": "This module manages event registration and deregistration for I/O sources, interacting with selectors, tokens, and interest types. It provides precise control over event monitoring by allowing registration, reregistration, and deregistration of I/O sources with specific interests and tokens. Concrete use cases include managing socket or file descriptor events within an event loop, such as handling read or write readiness notifications.",
+      "description_length": 439,
       "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Gluon.Sys.Selector",
+      "library": "gluon",
+      "description": "This module manages I/O event monitoring using a selector, allowing registration, re-registration, and deregistration of file descriptors with specific interests. It provides operations to create a selector, register events with file descriptors, and wait for events with optional timeout and limit constraints. Concrete use cases include implementing event loops for network servers and handling asynchronous I/O operations efficiently.",
+      "description_length": 437,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Gluon.Non_zero_int",
-      "description": "Creates a value of type t from an integer, returning None if the input is zero. Works with the t type, which is an alias for int. Used to enforce non-zero constraints in numerical computations, such as validating denominators in division operations.",
-      "description_length": 249,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Gluon.Token",
-      "description": "Provides hash, equality, and value extraction operations for token instances, along with pretty-printing. Works with a generic value type wrapped in a token structure. Used to generate unique identifiers for parsed elements and enable consistent comparison in symbolic processing.",
-      "description_length": 280,
+      "library": "gluon",
+      "description": "This module provides a single function `make` that attempts to convert an integer into a non-zero integer, returning `None` if the input is zero. It works with the built-in `int` type and returns an `int option`. A concrete use case is validating integer inputs where zero is considered invalid, such as dividing by user-provided values or indexing into arrays with non-zero constraints.",
+      "description_length": 387,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Interest",
-      "description": "Provides operations to combine, check, and modify access rights represented as a bitmask. Works with the `t` type, which encapsulates permissions for reading and writing. Allows adding permissions, checking if a permission is set, and removing specific permissions from a set.",
-      "description_length": 276,
+      "module_path": "Gluon.Fd",
+      "library": "gluon",
+      "description": "This module wraps Unix file descriptors with operations to close, compare, and convert them to integers, along with functions to format and seek within files. It works directly with Unix.file_descr values, providing precise control over low-level file handling. Concrete use cases include managing open files in system-level programming, implementing custom I/O layers, and debugging file descriptor states.",
+      "description_length": 407,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Event",
-      "description": "Checks event status flags such as error, priority, read/write closure, and readability/writability. Operates on event objects encapsulating I/O state. Used to determine socket or file descriptor readiness and condition during asynchronous processing.",
-      "description_length": 250,
+      "module_path": "Gluon.Net",
+      "library": "gluon",
+      "description": "This module provides a comprehensive interface for TCP-based network communication, combining socket management, address manipulation, and asynchronous I/O operations. It supports key data types such as TCP stream and listener sockets, IPv4/IPv6 addresses, and byte buffers, with operations for connecting, sending and receiving data, binding, and accepting connections. You can implement clients and servers for custom or standard protocols, stream files over TCP, resolve and manipulate network addresses, and manage asynchronous network services efficiently.",
+      "description_length": 561,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Sys",
-      "description": "manages I/O event monitoring and time-stamped event tracking through two distinct but integrated systems. It handles file descriptor registration and event detection using a custom `t` type, while also supporting time-based event recording and serialization with another `t` type. Users can monitor file activity, respond to I/O changes, and log real-time system events with precise timestamps. Examples include tracking user input, managing network sockets, and recording application state transitions.",
-      "description_length": 503,
+      "module_path": "Gluon.File",
+      "library": "gluon",
+      "description": "This module provides low-level file descriptor operations for reading, writing, and formatting output. It works directly with Unix file descriptors and supports vectored I/O through `Rio.Iovec.t`. Concrete use cases include implementing custom file-based input/output streams and integrating with system-level file handling.",
+      "description_length": 324,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Gluon.Source",
-      "description": "Manages event registration and deregistration with a selector, handling I/O operations through token-based identification and interest masks. Operates on a custom type `t` and interacts with `Sys.Selector.t`, `Token.t`, and `Interest.t` to monitor and update event sources. Used to dynamically adjust which events are monitored on file descriptors or network sockets.",
-      "description_length": 367,
+      "module_path": "Gluon.Interest",
+      "library": "gluon",
+      "description": "This module represents a set of I/O interests, such as readability or writability, and provides operations to combine, subtract, and query these interests. It works with a single abstract type `t` that encodes a set of interest flags. Concrete use cases include managing event subscriptions in an event loop, checking whether a file descriptor is ready for reading or writing, and combining or masking interest sets for efficient I/O monitoring.",
+      "description_length": 445,
       "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Gluon.File",
-      "description": "Provides functions to interact with file descriptors, including reading and writing bytes or vectorized buffers, closing the file, and pretty-printing. Operates on Unix file descriptors (`Unix.file_descr`) and returns I/O results with error handling. Used for low-level file manipulation, such as streaming data or handling binary I/O operations.",
-      "description_length": 346,
-      "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Gluon.Net",
-      "description": "manages network address manipulation, socket lifecycle, and TCP communication through specialized types and operations. It handles IP and socket conversions, socket formatting and closure, and supports establishing, reading from, and writing to TCP streams. It enables constructing addresses from URIs, managing connection lifecycles, and handling file transfers or real-time data exchange. Examples include parsing a URI into a TCP address, closing a socket after communication, and accepting incoming connections with detailed metadata.",
-      "description_length": 538,
-      "index": 14,
+      "module_path": "Gluon.Token",
+      "library": "gluon",
+      "description": "This module implements a token system that wraps arbitrary values with identity-based equality and hashing. It provides operations to create tokens from values, compare and hash them, and format them for debugging. Tokens are useful for representing unique identifiers in contexts like parsing or AST generation, where structural equality is not sufficient.",
+      "description_length": 357,
+      "index": 13,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Gluon.Source",
+      "library": "gluon",
+      "description": "This module manages event sources for asynchronous I/O operations, enabling registration, deregistration, and re-registration of file descriptors with specific interests. It works with abstract state types and integrates with selectors and tokens to track I/O events such as read or write readiness. The child module provides fine-grained control over event monitoring, allowing precise management of I/O sources using tokens and interest types. Together, they enable integration of custom I/O resources into an event loop, such as handling asynchronous socket operations or monitoring file descriptors for readiness notifications.",
+      "description_length": 631,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Gluon.Poll",
-      "description": "Manages event polling for I/O sources, allowing registration, deregistration, and monitoring of file descriptors or similar resources. Operates on `Token.t` for identifying sources and `Event.t` for reporting events. Used to efficiently track I/O readiness, such as detecting when a socket has data available for reading or writing.",
-      "description_length": 332,
+      "library": "gluon",
+      "description": "This module manages event polling for I/O sources using a polling mechanism. It allows registering, deregistering, and re-registering sources with specific interests and tokens, and retrieves events via the `poll` function with optional limits and timeouts. Concrete use cases include monitoring multiple file descriptors for readiness in network servers or event-driven applications.",
+      "description_length": 384,
       "index": 15,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "gluon",
-      "description": "Handles asynchronous task scheduling and event loop management using non-blocking I/O operations. Operates on lightweight threads, futures, and event channels to enable concurrent execution. Used for building high-performance network servers and real-time data processing pipelines.",
-      "description_length": 282,
+      "module_path": "Gluon.Sys",
+      "library": "gluon",
+      "description": "This module provides an event-driven framework for handling asynchronous I/O and system events. It centers around selectors for monitoring file descriptors and managing event sources with listener callbacks. Key operations include registering, re-registering, and deregistering event sources, as well as waiting for events with customizable timeouts. It enables building efficient network servers and responsive I/O systems through its event loop capabilities.",
+      "description_length": 460,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Gluon",
-      "description": "manages system-level I/O, permissions, tokens, and event handling through low-level operations on file descriptors, bitmask permissions, and event objects. It provides types for file descriptors, tokens, permissions, and events, along with functions to manipulate, compare, and monitor these entities. Users can track I/O readiness, enforce non-zero constraints, manage access rights, and handle network communication with precise control. Examples include monitoring socket activity, validating division denominators, and serializing time-stamped events.",
-      "description_length": 555,
+      "library": "gluon",
+      "description": "This module integrates low-level I/O management with event-driven programming, enabling precise control over file descriptors, network communication, and asynchronous operations. It supports key data types such as non-zero integers, Unix file descriptors, TCP sockets, I/O interest sets, tokens, and event sources, with operations spanning validation, formatting, seeking, reading, writing, polling, and event registration. You can implement network clients and servers, manage file I/O with vectored reads and writes, track I/O readiness using interest sets, and integrate custom resources into an event loop for asynchronous processing. Specific examples include validating user-provided integers, streaming files over TCP, and monitoring multiple sockets for readiness in a network server.",
+      "description_length": 792,
       "index": 17,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
+    "total_modules_in_package": 19,
     "meaningful_modules": 18,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9473684210526315
   },
   "statistics": {
-    "max_description_length": 555,
-    "min_description_length": 242,
-    "avg_description_length": 341.1111111111111,
-    "embedding_file_size_mb": 0.06582832336425781
+    "max_description_length": 792,
+    "min_description_length": 185,
+    "avg_description_length": 434.3333333333333,
+    "embedding_file_size_mb": 0.06582355499267578
   }
 }

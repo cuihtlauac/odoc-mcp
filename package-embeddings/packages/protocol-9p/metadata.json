@@ -1,455 +1,541 @@
 {
   "package": "protocol-9p",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 62,
-  "creation_timestamp": "2025-06-18T16:45:55.853109",
+  "total_modules": 65,
+  "creation_timestamp": "2025-07-15T23:16:34.696241",
   "modules": [
     {
-      "module_path": "Protocol_9p.Client.Make.LowLevel",
-      "description": "Provides operations for managing 9P file identifiers (fids), performing file system operations like walking, opening, creating, reading, writing, and updating file metadata. Works with 9P fid types, byte buffers, and file metadata structures. Used to interact directly with a 9P server, handling low-level file operations while enforcing fid management and message size constraints.",
-      "description_length": 382,
+      "module_path": "Protocol_9p.Types.Tag.Map",
+      "library": "protocol-9p",
+      "description": "This module implements a polymorphic map structure with keys of type `Tag.t`, supporting insertion, deletion, ordered traversal, and higher-order transformations like `fold` and `map`. It provides efficient immutable operations for querying, splitting, and merging maps ordered via `Ord.compare`, along with sequence-based construction via `of_seq`. Designed for managing 9P protocol message tags and associated data, it enables use cases like tracking tag-value associations during message parsing or processing ordered key-based state transitions in protocol implementations.",
+      "description_length": 577,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Tag.Set",
-      "description": "This module provides operations for constructing, modifying, and querying sets with generic elements, including set algebra (union, intersection, difference), membership checks, and ordered element manipulation. It supports transformations like partitioning, min/max retrieval, and sequence generation, while handling sequence-to-set conversions and preserving order during insertions. Use cases include managing dynamic collections, efficient data filtering, and processing ordered datasets with predicate-based operations.",
-      "description_length": 524,
+      "module_path": "Protocol_9p.Types.Fid.Map",
+      "library": "protocol-9p",
+      "description": "This module implements ordered maps for 9P protocol file identifiers (`Fid.t`), enabling efficient key-based operations like insertion, deletion, and lookup while maintaining strict ordering. It supports functional transformations over arbitrary value types through standard combinators like `fold`, `map`, and `filter`, along with sequence conversions for bulk data handling. Typical use cases involve tracking open file descriptors in Mirage-based systems or managing session state where FID-keyed resources require deterministic ordering and safe access patterns.",
+      "description_length": 566,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Tag.Map",
-      "description": "This module provides operations for managing ordered key-value associations, including insertion, deletion, modification, and traversal, along with predicates and transformations for filtering or altering elements. It works with polymorphic map structures that maintain ordered sequences of key-value pairs, enabling efficient queries like minimum/max key retrieval, splitting, and predicate-based searches. Use cases include maintaining sorted data structures, dynamic data aggregation, and scenarios requiring ordered traversal or merging of associative collections.",
-      "description_length": 568,
+      "module_path": "Protocol_9p.Types.Fid.Set",
+      "library": "protocol-9p",
+      "description": "This module supports standard and advanced ordered set operations over `Fid.t` values, including union, intersection, difference, filtering, and conversion to/from sequences and lists. It provides efficient membership checks, ordered iteration, and structural transformations like `split` and `filter_map`, leveraging a comparison function to maintain element ordering. These capabilities are particularly useful for managing resource identifiers in 9P protocol implementations, such as tracking open file descriptors or session-specific state across distributed systems.",
+      "description_length": 571,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Fid.Set",
-      "description": "The module offers functions for creating, modifying, and querying sets, including adding, removing, membership checks, and set operations like union, intersection, and difference. It works with ordered sets of generic elements, supporting predicate-based filtering, iteration, and conversion to lists or sequences. Use cases include efficiently managing dynamic data structures and processing sequences to build or update sets.",
-      "description_length": 427,
+      "module_path": "Protocol_9p.Client.Make.LowLevel",
+      "library": "protocol-9p",
+      "description": "This module implements low-level 9P client operations mapped directly to individual RPCs, handling file identifier (fid) management, file access, and metadata manipulation. It works with 9P protocol types such as `Fid.t`, `OpenMode.t`, `FileMode.t`, and `Stat.t`, along with Lwt for asynchronous execution. Concrete use cases include allocating and deallocating fids, walking directory paths, reading and writing files within size limits, and updating file metadata via `wstat` or its convenience wrapper.",
+      "description_length": 505,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Fid.Map",
-      "description": "This module provides operations for managing ordered key-value associations, including insertion, deletion, modification, merging, and filtering of bindings, alongside traversal and structural transformations. It works with polymorphic maps structured around ordered keys, enabling efficient queries like minimum/maximum key retrieval, predicate-based lookups, and split operations. Use cases include maintaining sorted data structures, dynamic configuration management, and scenarios requiring ordered traversal or comparison of associative collections.",
-      "description_length": 554,
+      "module_path": "Protocol_9p.Types.Tag.Set",
+      "library": "protocol-9p",
+      "description": "This module provides purely functional set operations for tag values, including membership tests, transformations, and ordered traversal via sequence interconversion. It works with sets of tags (`Protocol_9p.Types.Tag.t`) and sequences of tag elements, supporting bulk mutations and ordered processing. Typical uses include tracking active transactions in 9P communication, managing tag-based state, and ensuring deterministic iteration over message identifiers.",
+      "description_length": 462,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Server.Make",
-      "description": "Handles 9p protocol interactions for file system operations such as attaching to a file system, walking directory paths, reading and writing files, and managing file metadata. Operates on connection state and 9p request/response types to execute actions like open, create, remove, and stat. Used to implement low-level file system access in a networked environment.",
-      "description_length": 365,
+      "module_path": "Protocol_9p.S.SERIALISABLE",
+      "library": "protocol-9p",
+      "description": "This module defines values that can be serialized to and deserialized from binary buffers. It provides operations to determine the size required for serialization, parse values from a buffer, and write values into a buffer. It works with the `Cstruct.t` type for buffer manipulation and handles errors using a result type with string-tagged messages. Use cases include encoding and decoding 9P protocol messages for network transmission or storage.",
+      "description_length": 448,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Buffered9PReader.Make",
-      "description": "Provides functions to read from and write to network flows, with support for handling errors and shutting down connections. Operates on `flow` objects and `Cstruct.t` buffers, and includes specialized pretty-printers for error types. Used to manage data transmission in network protocols, ensuring proper error handling and resource cleanup.",
-      "description_length": 341,
+      "module_path": "Protocol_9p.Types.Stat",
+      "library": "protocol-9p",
+      "description": "This module defines the `Stat` type and associated operations for parsing, serializing, and manipulating 9P file metadata, including standard fields like file mode, timestamps, and ownership. It supports reading and writing `Stat` structures to and from buffers, computing their size, and constructing them with optional extended attributes. Concrete use cases include handling file metadata in 9P protocol messages for remote file system operations and serialization for network transmission.",
+      "description_length": 493,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Version",
-      "description": "Provides serialization and deserialization functions for a version structure using S-expressions, along with buffer size calculation and reading/writing operations for network communication. Works with a custom type `t` representing a version value and Cstruct buffers for binary data. Used to parse and encode version numbers in protocol messages, ensuring correct buffer handling during transmission.",
-      "description_length": 402,
+      "module_path": "Protocol_9p.Request.Create",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P `Tcreate` request messages for file creation operations. It handles structured data including file identifiers, names, permissions, open modes, and optional extensions like symlink targets. It is used to serialize and deserialize request data for network transmission or testing in Mirage-based 9P clients and servers.",
+      "description_length": 353,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Auth",
-      "description": "Encodes and decodes values between S-expressions and a binary structure, using sexp serialization. Reads and writes the structure from and to a Cstruct buffer, ensuring proper size validation. Handles parsing and serialization for network or file protocols requiring precise binary formatting.",
-      "description_length": 293,
+      "module_path": "Protocol_9p.Types.Int32",
+      "library": "protocol-9p",
+      "description": "This module provides arithmetic, bitwise, and conversion operations for 32-bit integers (`int32`), including signed/unsigned division, shifts, IEEE 754 bit-level conversions, and serialization to/from Cstruct buffers. It supports low-level numeric manipulation, S-expression representation, and buffer-safe parsing with error handling for protocol message construction. Key use cases include handling size-sensitive 9P data fields, cross-platform integer representation, and direct memory buffer interaction for network communication.",
+      "description_length": 534,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Err",
-      "description": "Handles serialization and deserialization of error representations using S-expressions. Operates on the `t` type, which encapsulates error information from the 9P2000.u protocol. Reads and writes error data to and from Cstruct buffers, ensuring proper size validation during transmission.",
-      "description_length": 288,
+      "module_path": "Protocol_9p.Request.Read",
+      "library": "protocol-9p",
+      "description": "This module handles parsing and serializing 9P read request messages. It works with `Cstruct.t` buffers to read or write structured data containing a file identifier, offset, and byte count. Use it to process incoming read requests or construct outgoing ones in a Mirage-based 9P server or client.",
+      "description_length": 297,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Flush",
-      "description": "Provides serialization and deserialization functions for converting between a unit type and S-expressions. Implements read and write operations for packing and unpacking the unit type into and from Cstruct buffers, ensuring proper buffer size management. Used to handle protocol elements that represent empty or null data structures in network or file formats.",
-      "description_length": 360,
+      "module_path": "Protocol_9p.Types.Int16",
+      "library": "protocol-9p",
+      "description": "This module handles 16-bit integer values used in 9P protocol messages, providing functions to read and write them from and to buffers, check for a special \"any\" value, and determine the required buffer size. It works directly with `int` values and `Cstruct.t` buffers, ensuring correct serialization and deserialization. Concrete use cases include parsing and constructing 9P message headers and fields that require 16-bit integers.",
+      "description_length": 433,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Response.Attach",
-      "description": "Provides serialization and deserialization between a custom type `t` and S-expressions, along with binary encoding and decoding using Cstruct buffers. Operates on a structured type `t` that includes fields for network protocol data. Used to parse incoming network packets and serialize data for transmission.",
-      "description_length": 308,
-      "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Walk",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with operations to determine buffer size, read from, and write to Cstruct buffers. Works with a structured type containing fields like name, length, and data. Used to parse and generate binary data streams in network protocols or file formats.",
-      "description_length": 333,
+      "module_path": "Protocol_9p.Types.OpenMode",
+      "library": "protocol-9p",
+      "description": "This module defines data types and operations for handling file open modes in the 9P protocol. It includes a type `io` for specifying access modes (read, write, read-write, execute) and a type `t` that extends `io` with flags like truncate, rclose, and append. Functions support serialization, parsing, and buffer manipulation for these types, along with predefined open mode values and size calculations.",
+      "description_length": 405,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Types.Tag",
+      "library": "protocol-9p",
+      "description": "This module represents 9P protocol tags with a concrete type `t`, supporting conversions to and from integers, S-expressions, and binary using `Cstruct`. It includes operations for parsing, writing to buffers, validating tag ranges, and managing sets of tags, along with predefined constants for common tag values like \"notag\". The associated map module handles tag-keyed associations with ordered traversal and transformations, while the set module provides functional set operations for membership checks and ordered processing. Together, they enable efficient tracking of 9P message tags, managing transaction state, and deterministic handling of tag-based identifiers during protocol execution.",
+      "description_length": 698,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Open",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with buffer-based reading and writing operations. Works with a structured type `t` and Cstruct buffers for efficient memory manipulation. Used to parse and generate binary data streams, such as network packets or file formats.",
-      "description_length": 316,
+      "module_path": "Protocol_9p.Client.S-LowLevel",
+      "library": "protocol-9p",
+      "description": "This module implements low-level 9P client operations for interacting with remote file servers, handling protocol-specific details like fid management and message size constraints. It provides direct mappings to 9P RPCs such as walk, open, read, write, and remove, operating on file identifiers and structured protocol types. Concrete use cases include building custom file system clients, implementing remote file access layers, or managing distributed storage systems with precise control over 9P interactions.",
+      "description_length": 512,
       "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Response.Create",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with buffer-based reading and writing operations. Works with a structured type `t` and the `Cstruct.t` buffer type for binary data manipulation. Used to parse and generate binary data streams, such as network packets or file formats, ensuring proper size validation and error handling.",
-      "description_length": 375,
+      "module_path": "Protocol_9p.Request.Remove",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P protocol remove request messages. Works with `t` records containing a `fid` field and uses `Cstruct.t` buffers for binary input/output. Used to read and write remove request data in a MirageOS-compatible 9P server or client implementation.",
+      "description_length": 279,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Read",
-      "description": "Provides serialization and deserialization between a custom type `t` and S-expressions, along with buffer size calculations. Operates on `Cstruct.t` for reading from and writing to binary buffers, and uses `Sexplib0.Sexp.t` for S-expression conversion. Used to parse and encode structured data in network protocols or file formats where precise buffer management is required.",
-      "description_length": 375,
+      "module_path": "Protocol_9p.Types.Int64",
+      "library": "protocol-9p",
+      "description": "This module defines operations for handling 64-bit integers in the context of a Mirage-friendly 9P implementation. It provides functions to parse and serialize `int64` values to and from s-expressions, read and write them from and to Cstruct buffers, and check for a special \"any\" value. These operations are used to encode and decode 64-bit integer fields in 9P protocol messages during network communication.",
+      "description_length": 410,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Write",
-      "description": "Encodes and decodes values between S-expressions and a structured type, using custom serialization functions. Operates on a type representing a structured data format, suitable for network or file protocols. Reads and writes instances of the type from and into Cstruct buffers, ensuring proper size validation.",
-      "description_length": 310,
+      "module_path": "Protocol_9p.Request.Flush",
+      "library": "protocol-9p",
+      "description": "This module handles the serialization, deserialization, and size calculation of 9P flush request messages. It operates on the `t` type, which contains an `oldtag` field identifying the request to be flushed. Concrete use cases include parsing incoming flush requests from a network buffer, generating binary representations of flush requests for transmission, and determining buffer sizes needed for these operations.",
+      "description_length": 417,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Clunk",
-      "description": "Provides serialization and deserialization between a type `t` and S-expressions, along with buffer-based reading and writing operations. Works with the `Cstruct.t` type for binary data and the `Sexplib0.Sexp.t` type for symbolic expressions. Used to parse and generate binary data streams from S-expression representations.",
-      "description_length": 323,
+      "module_path": "Protocol_9p.Types.Data",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P protocol data payloads to and from Cstruct buffers, handling variable-length binary data with precise size tracking. It provides direct conversions to and from strings and S-expressions for debugging and serialization, ensuring compatibility with Mirage's network stack. Use this module when marshaling raw data fields in 9P messages, such as reading or writing file contents and dynamic message components.",
+      "description_length": 442,
       "index": 17,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Remove",
-      "description": "Provides serialization and deserialization between a type `t` and S-expressions, along with buffer operations for reading and writing `t` values. Works with the `Cstruct.t` type for binary data and the `Sexplib0.Sexp.t` type for symbolic expressions. Used to parse and generate binary data streams from structured representations.",
-      "description_length": 330,
+      "module_path": "Protocol_9p.Response.Flush",
+      "library": "protocol-9p",
+      "description": "This module handles serialization and deserialization of 9P flush response messages. It provides functions to read and write flush responses to and from buffers, along with size calculation and S-expression conversion. It operates on the unit type, representing empty flush responses, and is used when managing message flow control in 9P communication.",
+      "description_length": 352,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Response.Stat",
-      "description": "Provides serialization and deserialization functions for a custom data type using S-expressions and Cstruct buffers. Operates on a structured type that includes fields for network statistics or similar data. Enables reading from and writing to binary buffers with error handling, useful for network protocol parsing and message encoding.",
-      "description_length": 337,
+      "module_path": "Protocol_9p.Request.Walk",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P `Walk` request messages for file system navigation. Works with `t` records containing file identifiers and path components. Used to implement client-server communication for file system traversal operations in Mirage-based systems.",
+      "description_length": 266,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Protocol_9p.Response.Wstat",
-      "description": "Provides serialization and deserialization functions for converting between a type `t` and S-expressions, along with buffer operations for reading and writing `t` values. Works with the `Cstruct.t` type for low-level buffer manipulation and the `Sexplib0.Sexp.t` type for symbolic data representation. Used to parse and encode binary data in network protocols or file formats that require precise byte-level control.",
-      "description_length": 416,
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes the 9P `Wstat` response message format. It operates on `Cstruct.t` buffers for reading and writing binary data, and uses `Sexplib0__.Sexp.t` for s-expression serialization. It is used to handle file metadata update responses in a Mirage-based 9P server or client.",
+      "description_length": 295,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Client.Make",
-      "description": "Provides functions to read from and write to network flows, with support for handling errors and shutting down connections. Operates on flow objects and Cstruct.t buffers, offering precise control over data transmission and connection state. Used to manage reliable data transfer in network protocols, ensuring proper error handling and resource cleanup.",
-      "description_length": 354,
+      "module_path": "Protocol_9p.Request.Stat",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P protocol request messages for file statistics. It works with `Cstruct.t` buffers and `Protocol_9p__.Protocol_9p_types.Fid.t` identifiers. Used to read and write `stat` request data in a MirageOS-compatible 9P implementation.",
+      "description_length": 259,
       "index": 21,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Request.Version",
-      "description": "Provides serialization and deserialization of a version structure using S-expressions, and operations to compute buffer size, read from, and write to Cstruct buffers. Works with the `t` type, which represents a version value. Used to parse and encode version information in network protocols or data streams.",
-      "description_length": 308,
-      "index": 22,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Request.Auth",
-      "description": "Provides functions to serialize and deserialize a numeric user ID structure using S-expressions, and to read from and write to byte buffers using the Cstruct library. Works with the `t` type, which represents a 9P2000.u user ID. Used to parse and encode user IDs in network protocols or file system interactions.",
-      "description_length": 312,
-      "index": 23,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Request.Flush",
-      "description": "Provides serialization and deserialization functions for converting between a custom type and S-expressions, along with buffer-based reading and writing operations. Works with the `Cstruct.t` type for efficient byte buffer manipulation and a custom type `t` representing structured data. Used to parse and encode data in network protocols or file formats where precise buffer control is required.",
-      "description_length": 396,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Attach",
-      "description": "Provides serialization and deserialization of numeric user IDs using S-expressions and binary buffers. Works with the `Cstruct.t` type for low-level buffer manipulation and the `Sexplib0.Sexp.t` type for symbolic representation. Used to parse and encode user IDs in network protocols requiring precise binary formatting.",
-      "description_length": 320,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Walk",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with methods to determine buffer size, read from, and write to Cstruct buffers. Works with a structured type containing fields and a Cstruct buffer for binary data. Used to parse and generate binary data streams with precise buffer management.",
-      "description_length": 333,
-      "index": 26,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Open",
-      "description": "Provides serialization and deserialization between a custom type `t` and S-expressions, along with binary encoding and decoding using Cstruct buffers. Operates on `t` and `Cstruct.t`, enabling efficient data parsing and storage. Used to parse network packets from byte buffers and serialize data into formats suitable for transmission or storage.",
-      "description_length": 346,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Create",
-      "description": "Represents 9P2000 metadata entries, including symbolic links and device information, with fields for type, major, and minor numbers. Provides serialization and deserialization via S-expressions, and binary encoding/decoding using Cstruct buffers. Used to parse and generate network protocol messages in low-level system interactions.",
-      "description_length": 333,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Read",
-      "description": "Provides serialization and deserialization functions for a custom type using S-expressions. Operates on Cstruct.t buffers to read and write data, ensuring proper sizing and error handling. Used to parse and encode structured data in binary formats with precise buffer management.",
-      "description_length": 279,
-      "index": 29,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Write",
-      "description": "Provides serialization and deserialization between a custom type `t` and S-expressions, along with methods to calculate buffer sizes and read/write instances of `t` from/to Cstruct buffers. Operates on a structured type `t` with specific size constraints and binary encoding rules. Used to parse and generate binary data streams with precise control over buffer allocation and consumption.",
-      "description_length": 389,
-      "index": 30,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Protocol_9p.Request.Clunk",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with binary encoding and decoding using Cstruct buffers. Operates on a structured type with fields and a fixed-size representation. Used to parse and generate binary data streams, such as network packets or file formats.",
-      "description_length": 310,
-      "index": 31,
+      "library": "protocol-9p",
+      "description": "This module handles serialization, deserialization, and size calculation for 9P clunk request messages. It operates on a structured type containing a `fid`, and provides functions to read from and write to Cstruct buffers. It is used to process clunk requests in a MirageOS-compatible 9P server or client.",
+      "description_length": 305,
+      "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Request.Remove",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, along with buffer-based reading and writing operations. Works with a structured type that includes fields for data representation and size calculation. Used to parse and generate binary data streams from and into a specific in-memory format.",
-      "description_length": 325,
-      "index": 32,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Stat",
-      "description": "Provides serialization and deserialization functions for converting between a custom type and S-expressions, along with buffer size calculation, reading, and writing operations using Cstruct. Works with a structured data type that includes fields for network protocol or message representation. Used to parse and encode data in binary formats during network communication or file I/O.",
-      "description_length": 384,
-      "index": 33,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Request.Wstat",
-      "description": "Provides serialization and deserialization of data structures using S-expressions, along with binary reading and writing operations using Cstruct buffers. Works with a custom type `t` that represents structured data, supporting size calculation for buffer allocation. Used to parse and encode data in network protocols or file formats requiring precise binary layout.",
-      "description_length": 367,
-      "index": 34,
+      "module_path": "Protocol_9p.Buffered9PReader.Make",
+      "library": "protocol-9p",
+      "description": "This module implements a buffered reader for 9P messages over a flow, handling message framing and unmarshalling. It works with `Cstruct.t` buffers and 9P message structures, using a Mirage flow for transport. It is used to read 9P protocol messages from a network or communication channel, stripping the initial length field and returning the raw message body.",
+      "description_length": 361,
+      "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Types.Int8",
-      "description": "Provides serialization and deserialization between 8-bit integers and S-expressions, along with buffer operations for reading and writing 8-bit integers. Works with the `int` type and Cstruct buffers, enabling low-level data manipulation. Used to parse and encode 8-bit values in network protocols or binary file formats.",
-      "description_length": 321,
-      "index": 35,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Types.Int16",
-      "description": "Provides serialization and deserialization functions for 16-bit integers using S-expressions, along with operations to check for a special \"any\" value. Works with the `int` type and Cstruct buffers for reading and writing binary data. Used to parse and generate 16-bit integer values in network protocols or binary file formats.",
-      "description_length": 328,
-      "index": 36,
+      "module_path": "Protocol_9p.Response.Write",
+      "library": "protocol-9p",
+      "description": "This module handles serialization and deserialization of 9P write response messages. It operates on the `t` type, which contains a single `int32` field representing the count of bytes written. It provides functions to parse and write this structure to and from Cstruct buffers, with error handling for malformed or insufficient buffers. Use cases include processing 9P protocol responses in MirageOS-based systems, particularly for file or device write operations.",
+      "description_length": 464,
+      "index": 24,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Types.Int32",
-      "description": "This module offers arithmetic and bitwise operations on 32-bit integers, including signed/unsigned division, shifts, and conversions between integer and floating-point types. It handles serialization and deserialization of 32-bit integers into Cstruct buffers, ensuring safe memory access. Use cases include low-level data manipulation, network protocol encoding, and interoperability with systems requiring fixed-size integer representations.",
-      "description_length": 443,
-      "index": 37,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Types.Int64",
-      "description": "Converts between 64-bit integers and S-expressions, checks if a value is the \"any\" placeholder, determines buffer size for serialization, and reads/writes values to and from Cstruct buffers. Operates on 64-bit integer values. Used for parsing and serializing protocol fields that may represent arbitrary 64-bit values.",
-      "description_length": 318,
-      "index": 38,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Types.Version",
-      "description": "Provides serialization and deserialization functions for converting between a custom type `t` and S-expressions. Supports operations to read and write instances of `t` from and to Cstruct buffers, along with determining the required buffer size. Includes predefined values like `default`, `unix`, and `unknown` for specific protocol extensions.",
-      "description_length": 344,
-      "index": 39,
+      "module_path": "Protocol_9p.Types.FileMode",
+      "library": "protocol-9p",
+      "description": "This module defines a structured representation of file modes for 9P protocol messages, including owner, group, and other permissions, as well as file type and special flags like append-only or setuid. It provides functions to construct, serialize, and parse these modes to and from S-expressions and binary buffers. Use cases include encoding file metadata in 9P messages and decoding received file modes for access control decisions.",
+      "description_length": 435,
+      "index": 25,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Protocol_9p.Types.Fid",
-      "description": "manages ordered collections with efficient operations for sets and maps, supporting dynamic data manipulation through insertion, deletion, and set-theoretic operations, as well as key-based lookups and transformations. It handles generic elements in sets and polymorphic key-value pairs in maps, enabling tasks like filtering, merging, and converting to lists or sequences. Users can perform union, intersection, and difference on sets, or retrieve minimum/maximum keys and split maps based on predicates. Examples include building dynamic data structures, managing sorted configurations, and processing sequences to update or query associative or set-based information.",
-      "description_length": 670,
-      "index": 40,
+      "library": "protocol-9p",
+      "description": "This module manages 9P file identifiers with strict parsing, serialization, and allocation controls, including safe conversion to and from 32-bit integers and buffer I/O with error handling. It includes an ordered map submodule for key-based operations on `Fid.t` values, supporting transformations like `map` and `fold`, and a set submodule offering efficient ordered set operations such as union and intersection. Together, they enable tracking of open file descriptors, session state management, and resource conservation in MirageOS-based 9P clients or servers. Example uses include safely managing fid state, enforcing correct message framing, and performing bulk data transformations using sequences.",
+      "description_length": 706,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.S.LOG",
+      "library": "protocol-9p",
+      "description": "This module defines standard logging functions for emitting debug, informational, and error messages. It works with the `Logs.log` type to integrate with OCaml's logging infrastructure. Concrete use cases include tracking protocol message flow, reporting connection status, and recording error conditions during 9P protocol execution.",
+      "description_length": 334,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Server.Make",
+      "library": "protocol-9p",
+      "description": "Implements a 9P server that processes client requests over a Mirage FLOW transport, using a provided filesystem abstraction. It handles connection setup, message reception, and disconnection lifecycle events. Useful for serving file operations over a networked 9P protocol stack in unikernel environments.",
+      "description_length": 305,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Response.Open",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P open response messages, handling the `qid` and `iounit` fields. It operates on `Cstruct.t` buffers for parsing and serialization, and supports sexp conversions for debugging or configuration. Use it to process 9P protocol responses during file open operations in MirageOS-based systems.",
+      "description_length": 321,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Response.Auth",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P authentication response messages. Works with Cstruct buffers and Qid values to read from or write to network data. Used to process the `Rauth` message type in 9P servers and clients, ensuring correct encoding and decoding of authentication replies.",
+      "description_length": 288,
+      "index": 30,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Types.OpenMode",
-      "description": "Provides functions to serialize and deserialize data structures representing file access modes, including read, write, read-write, and execute permissions. Works with `t` type encapsulating mode flags and `Cstruct.t` for buffer manipulation. Used to parse and generate binary representations of file modes during I/O operations.",
-      "description_length": 328,
+      "module_path": "Protocol_9p.Filesystem.S",
+      "library": "protocol-9p",
+      "description": "This module implements a 9P filesystem interface for handling remote file operations over a network. It provides functions for connecting, attaching to a filesystem, navigating paths (walk), opening, reading, writing, creating, and removing files, along with managing metadata (stat, wstat) and releasing resources (clunk). It works with 9P-specific request and response types, handling them in an asynchronous, Lwt-based fashion for MirageOS-compatible networking and storage stacks.",
+      "description_length": 484,
+      "index": 31,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Response.Clunk",
+      "library": "protocol-9p",
+      "description": "This module handles serialization and deserialization of 9P clunk response messages. It provides functions to read and write clunk responses to and from buffers, along with size calculation and S-expression conversion. Use it when implementing or parsing 9P protocol responses for file descriptor cleanup operations in a MirageOS environment.",
+      "description_length": 342,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Response.Create",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P `Rcreate` response messages, handling the `qid` and `iounit` fields. It operates on `Cstruct.t` buffers for efficient serialization and deserialization. Use this module when implementing or testing 9P servers to construct or parse responses sent over a network or used in MirageOS-based systems.",
+      "description_length": 330,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Response.Err",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P error response messages, handling both the error name and optional errno. It operates on `Cstruct.t` buffers for efficient parsing and serialization, and supports conversion to and from S-expressions for debugging or logging. Use it when processing 9P protocol errors in MirageOS-based systems, particularly for reading from or writing to network buffers.",
+      "description_length": 390,
+      "index": 34,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Request.Open",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P protocol open request messages. Works with `t` records containing a file identifier and open mode, along with Cstruct buffers for reading and writing binary data. Used to encode and decode open requests during 9P client-server communication, ensuring correct message framing and buffer handling.",
+      "description_length": 335,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Response.Stat",
+      "library": "protocol-9p",
+      "description": "This module encodes and decodes 9P protocol response messages containing file metadata. It operates on the `t` type, which wraps a `Stat.t` value, using `Cstruct.t` buffers for efficient serialization. It is used to handle responses for file attribute queries in a Mirage-based 9P client or server.",
+      "description_length": 298,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Response.Walk",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P response messages for walk operations. It works with `t` records containing a list of Qid values, representing file identifiers. Concrete use cases include reading and writing walk responses in a MirageOS-based 9P server or client, ensuring correct message formatting and buffer management.",
+      "description_length": 325,
+      "index": 37,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Request.Attach",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P attach requests, including authentication details and numeric user IDs. Works with Cstruct buffers and structured types containing file identifiers, usernames, and optional numeric user IDs. Used to process incoming attach messages and construct valid responses in a Mirage-based 9P server.",
+      "description_length": 325,
+      "index": 38,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Request.Version",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P protocol version negotiation requests. Works with `t` records containing `msize` and `version` fields, using `Cstruct.t` buffers for efficient memory operations. Used to read and write version request messages during 9P client-server handshakes.",
+      "description_length": 285,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Request.Auth",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P authentication requests. Works with `t` records containing authentication parameters like `afid`, `uname`, `aname`, and optional numeric user ID. Used to read and write 9P authentication messages to and from network buffers during protocol handshakes.",
+      "description_length": 291,
+      "index": 40,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Request.Wstat",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P `Wstat` request messages from and to buffers. Works with `t` records containing a `fid` and `stat` value, both defined in the 9P types module. Used to read and write `Wstat` requests during 9P protocol communication, ensuring correct message framing and size calculations.",
+      "description_length": 307,
       "index": 41,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.FileMode",
-      "description": "Provides functions to construct, serialize, and deserialize file permission and metadata structures, including access controls, file type flags, and special attributes. Works with custom types representing permissions, boolean flags for file properties, and a composite type encapsulating all file mode information. Used to encode and decode 9P protocol file mode data for network communication and file system operations.",
-      "description_length": 422,
+      "module_path": "Protocol_9p.Response.Read",
+      "library": "protocol-9p",
+      "description": "This module handles parsing and serializing 9P read response messages, working directly with `Cstruct.t` buffers. It provides `read` to extract a response from a buffer and `write` to encode a response into a buffer, ensuring correct header and data alignment. Use it when implementing or testing 9P servers to process client read requests efficiently.",
+      "description_length": 352,
       "index": 42,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Qid",
-      "description": "Provides functions to construct and manipulate file and directory descriptors with specific attributes, including flags like append-only, exclusive, and temporary. Works with custom types `t` and `flag`, encoding and decoding them to and from S-expressions and binary buffers. Constructs and parses descriptors for 9P2000.u protocol interactions, such as handling symlinks, hard-links, and mountpoints.",
-      "description_length": 402,
+      "module_path": "Protocol_9p.Client.S",
+      "library": "protocol-9p",
+      "description": "This module implements client-side 9P operations for interacting with a remote filesystem over a connected flow. It supports concrete actions like creating files and directories, reading and writing data at specific offsets, removing paths, and retrieving directory contents and file metadata. These operations work directly with string paths, Cstruct buffers, and 9P-specific types like FileMode and Stat, enabling precise control over remote filesystem state.",
+      "description_length": 461,
       "index": 43,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Tag",
-      "description": "Provides operations for managing sets and ordered maps with generic elements, supporting set algebra, key-value associations, and ordered data manipulation. It includes membership checks, transformations, and predicates for filtering, along with methods for generating sequences, retrieving extremes, and splitting collections. Users can construct dynamic data structures, perform efficient filtering, and process ordered datasets with customizable operations. Examples include merging sets, querying map ranges, and generating sorted outputs from arbitrary inputs.",
-      "description_length": 565,
+      "module_path": "Protocol_9p.Types.Int8",
+      "library": "protocol-9p",
+      "description": "Handles serialization and deserialization of 8-bit integers in 9P protocol messages. Works directly with `int` values and `Cstruct.t` buffers for reading and writing binary data. Used to parse and generate 8-bit integer fields in 9P message structures, ensuring correct buffer sizes and error handling during transmission.",
+      "description_length": 322,
       "index": 44,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Types.Data",
-      "description": "Provides serialization and deserialization between a custom type and S-expressions, as well as string conversion. Operates on a buffer type represented as Cstruct.t, supporting reading and writing operations that validate buffer size and content. Used to parse and encode data structures within network protocols or file formats.",
-      "description_length": 329,
+      "module_path": "Protocol_9p.Request.Write",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serializing 9P write request messages from and into Cstruct buffers. Works with `t` records containing a fid, offset, and data buffer. Used to read incoming write requests from a client or construct and send write operations to a server, ensuring correct binary encoding and decoding.",
+      "description_length": 304,
       "index": 45,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Protocol_9p.Types.Stat",
-      "description": "Provides functions to serialize and deserialize file metadata, including user and group IDs, timestamps, and file permissions, using Sexp and Cstruct formats. Works with structured data types representing file attributes and extensions, such as user identifiers and time values. Used to encode and decode file information for network protocols or file system operations.",
-      "description_length": 370,
-      "index": 46,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Types.Arr",
-      "description": "Reads and writes a specific data type from and to a Cstruct buffer, ensuring proper buffer size and handling errors. Operates on a custom type `t` and a Cstruct buffer, returning the parsed value or error during reading, and the remaining buffer after writing. Used to serialize and deserialize structured data in network protocols or binary file formats.",
-      "description_length": 355,
+      "module_path": "Protocol_9p.Response.Attach",
+      "library": "protocol-9p",
+      "description": "This module handles serialization, deserialization, and size calculation for 9P attach response messages. It operates on a record type containing a Qid, using Cstruct for buffer manipulation and Sexplib for S-expression conversion. It is used to parse and construct binary 9P response data during communication in a Mirage-based 9P protocol stack.",
+      "description_length": 347,
+      "index": 46,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Types.Qid",
+      "library": "protocol-9p",
+      "description": "This module defines and manipulates Qid values used in the 9P protocol, including operations to construct, parse, and serialize Qid structures. It works with a record type containing a list of flags, a version number, and an identifier, along with functions to create predefined Qid values like directories or files. Concrete use cases include reading and writing Qid data from network buffers during 9P message handling and constructing Qid values with specific attributes for file and directory representations.",
+      "description_length": 513,
       "index": 47,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.Client.LowLevel",
-      "description": "Provides operations for managing 9P file identifiers (fids), performing file system operations like walking, opening, creating, reading, writing, and modifying file metadata. Works with 9P protocol types such as Fid, FileMode, OpenMode, and Stat, along with Cstruct.t for binary data. Used to interact directly with a 9P server, handling low-level file operations while enforcing fid management and message size constraints.",
-      "description_length": 424,
+      "module_path": "Protocol_9p.Types.Version",
+      "library": "protocol-9p",
+      "description": "This module defines and manipulates 9P protocol version identifiers, supporting parsing from and writing to binary buffers. It includes predefined values for common versions like 9P2000.u and provides operations to determine buffer size, read versions from a buffer, and write versions to a buffer. Use cases include handling version negotiation during 9P protocol initialization and serializing version data in Mirage-based network stacks.",
+      "description_length": 440,
       "index": 48,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p.S",
-      "description": "Provides functions to determine the size of a value, read it from a Cstruct buffer, and write it into a Cstruct buffer, returning remaining buffer space or errors. Operates on a type t and Cstruct.t buffers. Used to serialize and deserialize structured data within fixed-size memory regions.",
-      "description_length": 291,
+      "module_path": "Protocol_9p.Response.Remove",
+      "library": "protocol-9p",
+      "description": "This module handles serialization and deserialization of 9P remove response messages. It provides functions to convert between in-memory representations and binary buffers, including size calculation, reading from and writing to Cstruct.t values. Use cases include processing 9P protocol responses for file removal operations in MirageOS-based systems.",
+      "description_length": 352,
       "index": 49,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Request",
-      "description": "Handles serialization and deserialization of various structured data types, including 9P protocol elements, user IDs, and metadata, using S-expressions and Cstruct buffers. Supports operations to compute buffer sizes, read from, and write to binary buffers, working with types like `t`, `Cstruct.t`, and `Sexplib0.Sexp.t`. Enables precise control over data encoding and decoding for network communication, file formats, and system interactions. Examples include parsing version strings, encoding user IDs, and generating binary metadata for 9P messages.",
-      "description_length": 553,
+      "module_path": "Protocol_9p.Response.Version",
+      "library": "protocol-9p",
+      "description": "Handles parsing and serialization of 9P version response messages, working with `Cstruct.t` buffers and the `Protocol_9p__.Protocol_9p_types.Version.t` type. Provides direct read/write operations for version responses, including size calculation and buffer management. Useful for implementing 9P client-server handshakes where version negotiation is required.",
+      "description_length": 359,
       "index": 50,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Error",
-      "description": "Provides operations for constructing and chaining results with error handling, including a function to create error results from formatted messages and a bind operator for sequencing computations. Works with the `result` type, which encapsulates either a value or an error of a sum type including string messages. Used to propagate and handle errors in a controlled manner during parsing or validation workflows.",
-      "description_length": 412,
+      "module_path": "Protocol_9p.Client.Make",
+      "library": "protocol-9p",
+      "description": "This module implements a 9P client protocol handler over a Mirage FLOW transport, managing connections, file and directory operations, and FID tracking for remote filesystem access. It provides core operations like connect, create, read, write, and stat, working with types such as Fid.t, OpenMode.t, FileMode.t, and Stat.t, all executed asynchronously with Lwt. The child module exposes low-level RPCs for fid allocation, directory walking, file I/O, and metadata updates, enabling precise control over 9P interactions. Together, they support use cases like remote storage access, custom 9P client development, and integration with MirageOS unikernels for distributed file operations.",
+      "description_length": 685,
       "index": 51,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Info",
-      "description": "Provides functions to access and manipulate session-specific data including the initial fid, protocol version, aname tree, and maximum message size. Works with a record type containing these fields. Used to track and query negotiation results during protocol setup.",
-      "description_length": 265,
+      "module_path": "Protocol_9p.Types.Arr",
+      "library": "protocol-9p",
+      "description": "This module serializes and deserializes lists of `T.t` values to and from Cstruct buffers. It provides `read` to parse a list from a buffer, `write` to encode a list into a buffer, and `sizeof` to compute the required buffer size. It is used to handle sequences of 9P protocol values in a type-safe and error-resilient way during message processing.",
+      "description_length": 349,
       "index": 52,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Infix",
+      "library": "protocol-9p",
+      "description": "Implements a monadic bind operator `>>*=` for chaining asynchronous 9P protocol operations that return `result` values. Works with `Lwt.t` promises containing `result` types, enabling error propagation and sequential composition of network requests. Useful for writing concise, error-safe client-server interactions in MirageOS applications using the 9P protocol stack.",
+      "description_length": 369,
+      "index": 53,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Protocol_9p.Response",
-      "description": "Handles serialization and deserialization of various data types between S-expressions and binary formats using Cstruct buffers. Supports custom types like version, error, unit, and structured data, enabling precise buffer management and size validation. Provides read and write operations for network and file protocols, ensuring correct data encoding and decoding. Examples include parsing 9P protocol versions, encoding error messages, and handling null data structures in binary streams.",
-      "description_length": 490,
-      "index": 53,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Types",
-      "description": "Handles serialization and deserialization of numeric and custom data types for 9P protocols, including 8-bit, 16-bit, 32-bit, and 64-bit integers, file modes, permissions, and descriptors. Provides arithmetic, bitwise, and conversion operations on integers, along with buffer management for reading and writing binary data. Supports custom types like file metadata, access modes, and ordered collections, enabling low-level data manipulation and protocol-specific encoding. Examples include parsing 64-bit timestamps, encoding file permissions, and managing dynamic sets of file descriptors.",
-      "description_length": 591,
+      "library": "protocol-9p",
+      "description": "This module handles the serialization, deserialization, and manipulation of 9P response messages, working with structured types like `payload`, `t`, and `Cstruct.t` to encode and decode binary protocol data. It provides operations to parse and generate response payloads, compute buffer sizes, and manage errors, supporting key 9P operations such as file metadata updates, read/write responses, and flow control. Child modules specialize in handling specific response types\u2014such as `Rauth`, `Ropen`, `Rread`, and `Rerror`\u2014offering functions to convert between binary buffers, in-memory representations, and S-expressions. Together, they enable robust handling of 9P protocol responses in MirageOS-based systems, from version negotiation to file operations and error signaling.",
+      "description_length": 776,
       "index": 54,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Client",
-      "description": "Manages 9P file operations through fid-based interactions, supporting file system actions like walk, open, create, read, write, and metadata updates. It utilizes types such as Fid, FileMode, OpenMode, Stat, and Cstruct.t to handle protocol-specific data and binary operations. Operations are executed in a way that enforces fid lifecycle and message size limits. Examples include opening a file, reading its contents, and modifying its permissions via the 9P protocol.",
-      "description_length": 468,
+      "module_path": "Protocol_9p.S",
+      "library": "protocol-9p",
+      "description": "This module provides core type definitions and serialization primitives for working with the 9P protocol, including message handling, buffer manipulation, and error reporting. It combines direct support for marshaling and unmarshaling 9P packets using `Cstruct.t` with logging capabilities via `Logs.log` to track protocol state and errors. Operations include determining serialization size, parsing and writing values to buffers, and emitting debug or error messages during transmission. Example uses include encoding 9P messages for network I/O and logging connection events during protocol execution.",
+      "description_length": 603,
       "index": 55,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Server",
-      "description": "manages 9p protocol interactions over a network transport, enabling file system operations like attaching, walking, reading, writing, and modifying files. It processes connection state and 9p request/response types to execute actions such as open, create, remove, and stat. Users can implement low-level file access, traverse directory structures, and manipulate file metadata remotely. Examples include serving files over a network, handling client file requests, and managing remote file system operations.",
-      "description_length": 508,
+      "module_path": "Protocol_9p.Filesystem",
+      "library": "protocol-9p",
+      "description": "This module implements a 9P server filesystem interface, enabling remote file access and management over a network. It supports core operations like open, read, write, create, remove, and directory traversal, along with metadata manipulation via stat and wstat. Built around 9P-specific types such as Qid, Stat, and file descriptors, it integrates asynchronous I/O using Lwt for compatibility with MirageOS networking and storage. Users can serve local or virtual filesystems remotely, handle concurrent client access, and manage file descriptors and permissions programmatically.",
+      "description_length": 580,
       "index": 56,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Error",
+      "library": "protocol-9p",
+      "description": "This module defines error handling constructs for the 9P protocol implementation, centered around a polymorphic error type that includes fatal message reporting. It provides functions for creating and chaining result values, enabling structured error propagation and formatted error message generation. Concrete use cases include handling failed protocol operations and logging descriptive error messages during network communication or file system interactions.",
+      "description_length": 462,
+      "index": 57,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Protocol_9p.Buffered9PReader",
-      "description": "reads and writes data over network flows using `flow` objects and `Cstruct.t` buffers, with robust error handling and connection termination. supports structured error reporting through custom pretty-printers and ensures reliable data transmission. examples include parsing protocol headers, streaming binary data, and managing connection lifecycles. operations are designed for low-level network interaction, enabling precise control over data flow and error recovery.",
-      "description_length": 469,
-      "index": 57,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Protocol_9p.Filesystem",
-      "description": "Handles 9p protocol interactions for file system operations such as attaching, walking, reading, writing, and removing files. Operates on connection state and request/response structures specific to the 9p protocol. Manages file system access and modification through asynchronous, cancellable operations.",
-      "description_length": 305,
+      "library": "protocol-9p",
+      "description": "This module provides a buffered reader for 9P protocol messages over a flow, handling message framing, size validation, and unmarshalling using `Cstruct.t` buffers and Lwt-based IO. It ensures safe parsing of incoming messages by enforcing maximum size limits, making it suitable for MirageOS applications requiring reliable 9P transport. The module works with 9P message structures and Mirage flows to read and process protocol data from network or communication channels. Example usage includes reading a 9P message from a TCP flow, stripping the length prefix, and validating the message body before further processing.",
+      "description_length": 622,
       "index": 58,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Protocol_9p.Infix",
-      "description": "Performs sequential binding of Lwt-promise results, propagating errors through the chain. Operates on Lwt threads that return result types, allowing for error-aware composition. Used to handle asynchronous operations where each step depends on the success of the previous, such as API calls with error handling.",
-      "description_length": 311,
+      "module_path": "Protocol_9p.Server",
+      "library": "protocol-9p",
+      "description": "This module implements a 9P server that processes incoming requests over a Mirage FLOW transport, handling core protocol operations like read, write, and directory traversal while translating exceptions into 9P responses. It works with a filesystem abstraction to manage connection lifecycle events and message processing, enabling the exposure of file system-like services in MirageOS unikernels. Using its submodules, developers can serve remote file operations over networked or inter-process 9P stacks, such as exposing a virtual filesystem to clients or implementing custom 9P-based services.",
+      "description_length": 597,
       "index": 59,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "protocol-9p",
-      "description": "Provides functions for parsing, constructing, and handling 9P protocol messages, including request and response encoding/decoding. Works with message structures, file descriptors, and path representations specific to the 9P protocol. Used to implement network file system clients and servers in MirageOS-based applications.",
-      "description_length": 323,
-      "index": 60,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Protocol_9p",
-      "description": "Provides serialization and deserialization capabilities for 9P protocol data using Cstruct buffers and S-expressions, with support for numeric types, metadata, and structured data. Includes error handling through result types and binding operators, and manages session state with records tracking protocol version, fid, and message size. Enables low-level network interactions, file operations via fids, and asynchronous execution of protocol commands. Examples include parsing 64-bit timestamps, encoding file permissions, and handling remote file reads and writes.",
-      "description_length": 566,
+      "module_path": "Protocol_9p.Request",
+      "library": "protocol-9p",
+      "description": "This module handles the full lifecycle of 9P request messages, enabling serialization, deserialization, and size calculation for structured data types used in network communication. It defines core operations over variant types, `Cstruct.t` buffers, and S-expressions, supporting version negotiation, authentication, file access, and directory traversal with concrete types like `fid`, `msize`, and request-specific payloads. For example, it allows reading a `Walk` request from a buffer to navigate a file system, constructing a `Tcreate` message to initiate file creation, or serializing a `Version` request for protocol handshake. Submodules provide fine-grained handling for individual request types, ensuring correct encoding, decoding, and buffer management across client and server implementations.",
+      "description_length": 805,
+      "index": 60,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Info",
+      "library": "protocol-9p",
+      "description": "Tracks client connection state during 9P protocol negotiation. Stores the root fid, negotiated protocol version, authentication name, and maximum message size. Used to initialize and validate session parameters in Mirage-based 9P servers.",
+      "description_length": 238,
       "index": 61,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Protocol_9p.Client",
+      "library": "protocol-9p",
+      "description": "This module implements client-side 9P protocol operations for connecting to remote file servers, handling authentication, file traversal, and I/O over network connections using file descriptors and 9P types like QIDs and FIDs. It supports low-level RPCs such as walk, open, read, and write, operating on structured protocol data with explicit fid management and message size handling, enabling custom filesystem clients and distributed storage systems. The child modules provide path-based file operations, directory traversal, and Mirage FLOW integration with Lwt-based async execution, supporting concrete actions like creating files, reading and writing at offsets, and retrieving metadata. Together, they enable precise control over remote filesystem state and integration with MirageOS unikernels for distributed file access.",
+      "description_length": 830,
+      "index": 62,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p.Types",
+      "library": "protocol-9p",
+      "description": "This module defines and manipulates the core data types used in 9P protocol messages, such as integers of various widths, version strings, file identifiers, open modes, and metadata. It provides functions to parse and serialize these types to and from buffers, ensuring correct size constraints and format, with support for operations like buffer reading/writing, size calculation, and S-expression conversion. Submodules handle specialized types like `Stat` for file metadata, `Qid` for file identifiers, and integer modules for 8-, 16-, 32-, and 64-bit values, enabling tasks such as decoding message headers, constructing file metadata responses, and managing session state via tags and file descriptors. Together, these components support robust 9P message construction, parsing, and transmission in Mirage-based systems.",
+      "description_length": 825,
+      "index": 63,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Protocol_9p",
+      "library": "protocol-9p",
+      "description": "This module implements the 9P protocol for MirageOS, enabling networked file access through a structured, type-safe interface. It provides core data types like `Qid`, `Stat`, `fid`, and `Cstruct.t`-based buffers, along with operations for message serialization, asynchronous I/O using `Lwt`, and error handling via `result`-typed functions. Developers can implement clients that perform remote file operations such as open, read, and write, or build servers that expose virtual filesystems over network transports, with support for protocol negotiation, session state tracking, and structured request/response handling. Example uses include serving a virtual filesystem over TCP, implementing a custom 9P-based storage client, or managing remote file metadata with precise control over protocol messages.",
+      "description_length": 804,
+      "index": 64,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 62,
-    "meaningful_modules": 62,
+    "total_modules_in_package": 65,
+    "meaningful_modules": 65,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 670,
-    "min_description_length": 265,
-    "avg_description_length": 384.741935483871,
-    "embedding_file_size_mb": 0.22557640075683594
+    "max_description_length": 830,
+    "min_description_length": 238,
+    "avg_description_length": 443.0769230769231,
+    "embedding_file_size_mb": 0.23662567138671875
   }
 }

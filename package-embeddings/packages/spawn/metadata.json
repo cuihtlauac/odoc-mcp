@@ -1,63 +1,61 @@
 {
   "package": "spawn",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:30:29.305497",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:06.687374",
   "modules": [
     {
-      "module_path": "Spawn.Working_dir",
-      "description": "Provides operations to retrieve and manipulate the current working directory as a path string. Works with string-based file paths and leverages the process's current directory context. Used to construct absolute paths for file operations or to reset the working directory after temporary changes.",
-      "description_length": 296,
+      "module_path": "Spawn.Unix_backend",
+      "library": "spawn",
+      "description": "Implements spawning processes on Unix systems using either `vfork` or `fork`, depending on environment configuration. It directly handles process creation and execution of external commands. This module is used when launching subprocesses where precise control over forking behavior is required, such as in performance-sensitive or resource-constrained environments.",
+      "description_length": 366,
       "index": 0,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Spawn.Working_dir",
+      "library": "spawn",
+      "description": "Handles working directory specification for process spawning operations. It provides functions to set and retrieve directory paths, file descriptors, or inherit the current process's working directory. Used when configuring subprocess execution contexts where directory state must be explicitly controlled or preserved.",
+      "description_length": 319,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Spawn.Unix_backend",
-      "description": "Provides functions to determine process creation strategy based on environment variables, using either fork or vfork. Works with a custom type representing the process creation method. Used to configure process spawning behavior in Unix-based systems.",
-      "description_length": 251,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Spawn.Env",
-      "description": "Creates an environment structure from a list of key-value string pairs, parsing each into a structured format. Operates on string-based key-value representations and returns a typed environment container. Used to initialize configuration contexts from command-line arguments or external configuration files.",
-      "description_length": 307,
+      "library": "spawn",
+      "description": "Handles environment variable manipulation for process spawning. It creates and manages environment blocks from key-value string lists. Used to configure environment variables when launching subprocesses with custom settings.",
+      "description_length": 224,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Spawn.Pgid",
-      "description": "Creates and manipulates process group identifiers, allowing the assignment of a new process group based on a process ID. Operates on integer-based process group IDs, ensuring valid values through strict positivity checks. Used to establish isolated process groups for task management in system-level operations.",
-      "description_length": 311,
+      "library": "spawn",
+      "description": "This module manages process group IDs for controlling process groups in Unix-like systems. It provides two values: `new_process_group`, which sets a child process's group ID to match its process ID, and `of_pid`, which converts a valid process ID into a process group ID. Use this module when creating or managing process groups for job control or signal handling.",
+      "description_length": 364,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "spawn",
-      "description": "Provides a function to start a command in the background with support for specifying a working directory, enhanced error handling for missing files or directories, and performance optimizations using vfork on Unix. Works with process execution and file system paths. Used to launch long-running tasks or external programs with precise control over environment and error conditions.",
-      "description_length": 381,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Spawn",
-      "description": "manages directory paths, process creation strategies, environment configurations, and process group identifiers. It handles string-based paths, custom process creation types, key-value environment data, and integer process group IDs. Users can construct absolute paths, configure process spawning methods, build typed environments from strings, and assign process groups for isolation. Examples include resetting the working directory, selecting fork or vfork based on environment settings, parsing command-line arguments into environments, and grouping processes for control.",
-      "description_length": 576,
-      "index": 5,
-      "embedding_norm": 1.0
+      "library": "spawn",
+      "description": "This module orchestrates process spawning with precise control over execution context, including environment variables, working directory, and process group settings. It supports Unix-specific forking strategies like `vfork` or `fork`, redirection of I/O, and signal handling, enabling efficient subprocess management in resource-sensitive scenarios. You can launch commands with custom environments, set working directories explicitly, and assign processes to specific groups for coordinated signal handling or job control. The module integrates these capabilities to streamline complex system-level workflows involving subprocess execution and isolation.",
+      "description_length": 656,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 5,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 576,
-    "min_description_length": 251,
-    "avg_description_length": 353.6666666666667,
-    "embedding_file_size_mb": 0.022190093994140625
+    "max_description_length": 656,
+    "min_description_length": 224,
+    "avg_description_length": 385.8,
+    "embedding_file_size_mb": 0.01862812042236328
   }
 }

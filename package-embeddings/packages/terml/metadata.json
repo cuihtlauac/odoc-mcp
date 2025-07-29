@@ -1,112 +1,133 @@
 {
   "package": "terml",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:57.208190",
+  "total_modules": 14,
+  "creation_timestamp": "2025-07-15T23:08:17.477836",
   "modules": [
     {
       "module_path": "Terml.Virtual_input.Virtual",
-      "description": "Reads input from a virtual source, returning parsed data, end-of-input signals, or error conditions. It handles string-based input and emits structured results including successful reads, end-of-stream, retries, or malformed data. Used to process user input in interactive applications or simulate input sources in testing environments.",
-      "description_length": 336,
+      "library": "terml",
+      "description": "This module provides a `read` function that simulates input reading, returning either a string, end-of-input, retry signal, or a malformed input with an error message. It works with polymorphic variant types to represent different input states and errors. Concrete use cases include testing input handling logic and building interactive command-line tools with custom input behavior.",
+      "description_length": 383,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Terml.Input.Input",
-      "description": "Reads input from a source, returning parsed results as tagged variants, including successful reads, end-of-input, retries, or malformed data. Processes raw string input and emits structured outcomes for handling user or external input streams. Used to implement interactive command-line interfaces and data validation pipelines.",
-      "description_length": 328,
+      "module_path": "Terml.Input_source.t",
+      "library": "terml",
+      "description": "This type represents a source of input for terminal-based applications, providing a `read` function that yields chunks of input as strings, an end-of-input marker, a retry signal, or a malformed input error. It works with string data and is used to handle raw input streams in interactive command-line interfaces. Concrete use cases include parsing user input in REPLs or processing streaming text data from a terminal.",
+      "description_length": 419,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Terml.Ansi",
-      "description": "Generates ANSI escape sequences for text formatting, including color, style, and special effects. It constructs strings that modify terminal output by applying attributes like bold, underline, and color changes. The module supports direct escape sequence generation and applies styles to foreground and background colors.",
-      "description_length": 321,
+      "module_path": "Terml.Input.Input",
+      "library": "terml",
+      "description": "Reads input events from the terminal, returning a value indicating whether a string was read, input ended, an error occurred, or the input was malformed. It processes raw terminal input into structured results for handling user commands or data entry. Useful for interactive command-line applications that require line-by-line input processing.",
+      "description_length": 344,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Color",
-      "description": "Converts color names to ANSI escape sequences, checks if ANSI colors are disabled, and parses color strings into internal representations. Works with string inputs and an abstract color type representing color values. Used to generate terminal output with color codes and conditionally disable color formatting.",
-      "description_length": 311,
+      "module_path": "Terml.Terminal",
+      "library": "terml",
+      "description": "This module provides direct control over terminal behavior through low-level commands. It supports operations like enabling/disabling line wrap, switching screen buffers, scrolling, setting terminal size and title, and managing raw input mode. Concrete use cases include building custom terminal interfaces, implementing scrollable output in command-line tools, and handling full-screen terminal applications with precise control over rendering and input.",
+      "description_length": 455,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Command",
-      "description": "Provides operations to manage and execute a list of command objects, including queuing, flushing, executing, and clearing commands. Works with a custom command type and maintains a global command queue. Used to sequence and control the execution of specific command actions in a structured manner.",
-      "description_length": 297,
+      "module_path": "Terml.Input",
+      "library": "terml",
+      "description": "This module captures and interprets terminal input, translating raw user input into structured results that indicate success, end-of-input, errors, or malformed data. It provides types to represent input states and operations to read and process lines of text. You can use it to build interactive command-line tools that respond to user commands or validate input line-by-line. For example, it can detect when a user submits an incomplete expression or issues a quit command.",
+      "description_length": 475,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Cursor",
-      "description": "Moves the cursor to specific coordinates, navigates lines, and adjusts position relative to current location. Operates on a cursor state type and a style type to control appearance and behavior. Used to dynamically adjust terminal cursor position and visibility during text rendering or interactive applications.",
-      "description_length": 312,
+      "module_path": "Terml.Ansi",
+      "library": "terml",
+      "description": "This module provides direct ANSI escape code strings for text styling and color manipulation in terminal output. It includes control sequences for text attributes like bold, underline, and blink, as well as foreground and background color setting. Use it to format terminal output with colored or styled text, such as in command-line interfaces or log output.",
+      "description_length": 359,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Input",
-      "description": "Processes raw input strings and converts them into structured outcomes through tagged variants, enabling precise handling of valid, invalid, or incomplete data. Supports operations such as parsing, validation, and stateful input processing, with types representing success, end-of-input, retries, and errors. Users can build interactive interfaces or data pipelines that respond dynamically to input conditions. For example, it can parse user commands, validate form inputs, or manage streaming data with error recovery.",
-      "description_length": 520,
+      "module_path": "Terml.Input_source",
+      "library": "terml",
+      "description": "This module represents a source of input characters for parsing or reading from streams such as files, buffers, or interactive terminals. It defines an abstract type `t` with operations to read, peek ahead, and track position in the input, supporting custom lexers, parsers, or sequential text processing. A child module specializes in terminal-based input, offering a `read` function that handles strings, end-of-input, retries, and malformed input errors. This structure enables both general-purpose and interactive use cases, such as implementing REPLs or streaming text analysis.",
+      "description_length": 583,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Terml.Input_source",
-      "description": "Reads input from a source, returning either a string, end-of-input signal, retry request, or malformed data indication. Operates on external input streams, handling errors and control flow explicitly. Used to process user input, file lines, or network data with fine-grained control over reading behavior.",
-      "description_length": 305,
+      "module_path": "Terml.Events",
+      "library": "terml",
+      "description": "This module handles low-level terminal input events, including key presses and modifier combinations like Shift or Ctrl. It parses control sequences and provides mechanisms to read or poll for events from input sources such as stdin. Concrete use cases include building terminal-based user interfaces that respond to keyboard input and escape sequences.",
+      "description_length": 353,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Style",
-      "description": "Provides functions to create and manipulate styled text elements, including setting foreground and background colors, applying text effects like bold or underline, and combining styles. Works with a private `styled` type and a `t` type representing style sequences. Used to generate ANSI-encoded strings for terminal output with specific formatting.",
-      "description_length": 349,
+      "module_path": "Terml.Virtual_input",
+      "library": "terml",
+      "description": "This module simulates input by queuing command sequences and processing them through a structured interface. It offers `enqueue` to add input and a `read` function that returns variants like string, end-of-input, retry, or malformed input with errors. The `Virtual` module abstracts input sources, enabling customizable behavior for testing or automating interactive applications. For example, you can simulate user input for CLI tools or inject errors to test input resilience.",
+      "description_length": 478,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Terml.Terminal",
-      "description": "Provides commands to control terminal behavior, including line wrapping, screen scrolling, size adjustment, title setting, and synchronous updates. Works with terminal file descriptors, clear types, and window size records. Used to manage terminal display state in applications requiring precise control over text rendering and user interface updates.",
-      "description_length": 351,
+      "module_path": "Terml.Command",
+      "library": "terml",
+      "description": "This module defines terminal command operations like setting colors, styles, and cursor actions, and manages a queue of these commands for batch execution. It works with string output and structured types for color, style, and cursor control. Use it to build and apply sequences of terminal display instructions, such as rendering styled text or managing terminal state.",
+      "description_length": 370,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Terml.Virtual_input",
-      "description": "Reads string-based input from a virtual source, returning structured results such as parsed data, end-of-stream markers, or error conditions. It supports operations to check for successful reads, detect end-of-input, and handle malformed data. Users can process interactive input or simulate input sources for testing. Examples include parsing user commands, validating input formats, and managing input flow in automated tests.",
-      "description_length": 428,
+      "module_path": "Terml.Style",
+      "library": "terml",
+      "description": "This module defines styling attributes for terminal text formatting, including foreground and background colors, text effects like bold or underline, and optional underline colors. It provides functions to construct and modify styled text elements, apply color and style modifiers, and generate corresponding ANSI escape sequences. Use cases include building richly formatted terminal output with precise control over text appearance, such as highlighting log messages or creating interactive command-line interfaces.",
+      "description_length": 517,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "terml",
-      "description": "Provides functions for positioning the cursor, clearing lines, and applying text styles in terminal output. Works with strings, coordinates, and terminal state representations. Enables creation of interactive command-line interfaces, such as progress bars or menu systems.",
-      "description_length": 272,
+      "module_path": "Terml.Color",
+      "library": "terml",
+      "description": "This module defines a set of color values including standard ANSI colors and RGB triples. It converts colors to their corresponding ANSI escape sequences and supports parsing color names from strings. Useful for terminal output formatting with colored text.",
+      "description_length": 257,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Terml.Cursor",
+      "library": "terml",
+      "description": "This module defines operations to control terminal cursor movement and appearance, including positioning commands like `MoveTo`, `Up`, `Down`, and style changes such as `SetStyle` and `EnableBlinking`. It works with a sum type representing cursor commands and a variant type for cursor styles like `BlinkingBar` or `SteadyUnderscore`. Concrete use cases include building terminal-based user interfaces, formatting console output, and implementing text editors or REPLs with precise cursor control.",
+      "description_length": 497,
+      "index": 12,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Terml",
-      "description": "combines terminal control, input handling, and text styling to enable rich, interactive command-line applications. it manages ANSI color conversion, cursor positioning, command execution, and key event processing, while supporting styled text generation and input parsing. operations include applying color and style to output, moving the cursor, queuing commands, and parsing structured input. examples include rendering colored logs, building interactive shells, and controlling terminal layout dynamically.",
-      "description_length": 509,
-      "index": 12,
+      "library": "terml",
+      "description": "This module provides comprehensive control over terminal input handling, output styling, and interactive behavior. It supports structured input processing, ANSI escape sequences for text formatting, cursor manipulation, and low-level event handling for building responsive terminal applications. Key data types include input states, styled text elements, cursor commands, and color representations, with operations to read, transform, and render terminal content. You can build full-screen interfaces, colorized logs, interactive REPLs, and custom command-line tools that handle input validation, simulated input, and dynamic output formatting.",
+      "description_length": 644,
+      "index": 13,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
     "total_modules_in_package": 14,
-    "meaningful_modules": 13,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9285714285714286
+    "meaningful_modules": 14,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 520,
-    "min_description_length": 272,
-    "avg_description_length": 356.84615384615387,
-    "embedding_file_size_mb": 0.04767608642578125
+    "max_description_length": 644,
+    "min_description_length": 257,
+    "avg_description_length": 438.14285714285717,
+    "embedding_file_size_mb": 0.05128765106201172
   }
 }

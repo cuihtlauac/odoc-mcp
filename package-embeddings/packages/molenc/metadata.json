@@ -1,98 +1,205 @@
 {
   "package": "molenc",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:39:32.503456",
+  "total_modules": 23,
+  "creation_timestamp": "2025-07-15T23:10:19.707206",
   "modules": [
     {
       "module_path": "Molenc.Rdkit.Rdkit",
-      "description": "Provides functions to convert between OCaml and Python objects, construct molecules from SMILES strings, add hydrogens, and query atomic properties such as atom types, element symbols, and neighbor counts. Works with molecule representations stored in a custom type `t` and returns arrays of integers or strings for molecular data. Used to analyze molecular structures, generate deep SMILES, and calculate distances between atoms.",
-      "description_length": 430,
+      "library": "molenc",
+      "description": "This module implements a set of operations for working with molecular structures using the RDKit library. It provides functions to create molecules from SMILES strings, add hydrogens, retrieve atom types, element symbols, atomic numbers, and compute distance metrics between atoms. Concrete use cases include molecular analysis, generation of chemical fingerprints, and preparation of molecules for cheminformatics tasks such as similarity searching or substructure matching.",
+      "description_length": 475,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Molenc.Index.Bstree",
-      "description": "The module offers operations for constructing and querying a binary search tree tailored to `FpMol.t` molecular data, enabling spatial indexing through partitioning and traversal. It supports tasks like nearest neighbor searches and distance sampling, leveraging the tree structure to efficiently manage spatial queries on molecular arrays. The `t` type encapsulates the tree, derived from lists of `FpMol.t` via dedicated construction functions.",
-      "description_length": 446,
+      "library": "molenc",
+      "description": "This module provides operations for constructing and querying a binary space partitioning tree optimized for molecular fingerprint data, supporting efficient similarity searches through nearest neighbor and range queries. It operates on hierarchical tree structures built from `Molenc.FpMol.t` molecules, using a custom bisecting strategy to organize data for structural analysis. The tree can be converted to and from nested molecule lists, enabling applications like clustering or hierarchical navigation of chemical datasets.",
+      "description_length": 528,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.Atom_pair",
-      "description": "Represents pairs of atomic identifiers with a associated distance value. Provides creation from two strings and an integer, conversion to a string representation, and retrieval of the distance. Used to model interactions between atoms in molecular simulations or graph edge data.",
-      "description_length": 279,
+      "module_path": "Molenc.Norm",
+      "library": "molenc",
+      "description": "This module defines two normalization methods, `Max_norm` and `L1_norm`, and provides a function to convert string representations to these norm types. It includes a `map_norm` function that applies the selected norm to an integer-labeled map of values, returning a float result. It is used to compute normalized values from mapped data, such as feature scaling in machine learning pipelines.",
+      "description_length": 392,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.Index",
-      "description": "provides a structured approach to managing spatial queries on molecular data through a binary search tree implementation. it defines a `t` type for the tree, built from lists of `FpMol.t`, and includes methods for insertion, traversal, and spatial queries. operations such as finding nearest neighbors and sampling distances are optimized using the tree's partitioning logic. it enables efficient querying of large molecular datasets by organizing them in a searchable hierarchical format.",
-      "description_length": 489,
+      "module_path": "Molenc.Scale",
+      "library": "molenc",
+      "description": "This module defines a type `t` representing single or multi-scale values, with operations to convert between strings, dictionary headers, and lists of integers. It provides direct parsing from file headers and string representations, specifically used for decoding scale information from molecular encoding data sources. The module handles scale transformations required during data ingestion and serialization in chemical data processing workflows.",
+      "description_length": 449,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Molenc.MyList",
-      "description": "Provides enhanced list operations with tail-recursive implementations for common functions like map, append, and fold_right, ensuring safe handling of large lists. Includes list comparison, equality, and abstraction layers for consistent behavior. Functions such as remove_assoc and split operate on lists with modified, safer implementations. Overrides standard list functions to improve reliability without changing their names or basic semantics.",
-      "description_length": 449,
+      "library": "molenc",
+      "description": "This module offers operations for list construction, transformation, and analysis, including functions for element access, mapping, folding, aggregation (sums, averages), and sorting with customizable comparators. It works with generic lists (`'a list`), supporting indexed operations, stateful accumulations, and precision-sensitive numerical computations. Specific use cases include data processing pipelines, algorithm implementation requiring safe list traversal, and structured data manipulation like matrix transposition or grouping.",
+      "description_length": 539,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.Norm",
-      "description": "The module provides a framework for handling normalized data structures, offering operations to create, manipulate, and validate instances of core data types. It includes functions for checking emptiness, merging elements, and ensuring consistency across representations. Users can construct and inspect normalized forms, perform equality checks, and apply transformations to data. Example uses include validating input formats and streamlining data processing pipelines.",
-      "description_length": 471,
+      "module_path": "Molenc.Atom_env",
+      "library": "molenc",
+      "description": "This module handles the encoding, decoding, and manipulation of molecular environments represented as layers of atom types and counts. It provides functions to serialize and deserialize these structures to and from strings and files, along with parsing utilities for extracting molecular data from comments in input files. Concrete use cases include restoring molecular indices from file metadata and converting atom environment representations for input/output operations.",
+      "description_length": 473,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.PiEltHA",
-      "description": "Provides string-based conversion and comparison operations, including transforming values to and from strings and comparing string representations. Works exclusively with string data types and ensures consistent handling of textual representations. Used to standardize string input/output and enforce strict string comparison in data processing pipelines.",
-      "description_length": 355,
+      "module_path": "Molenc.FpMol",
+      "library": "molenc",
+      "description": "This module handles the creation, parsing, and manipulation of molecular data structures with associated fingerprints and numerical values. It provides functions to calculate distances and Tanimoto coefficients between molecules, filter features, and read molecules from files. Use cases include cheminformatics tasks like similarity analysis and feature selection in molecular datasets.",
+      "description_length": 387,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.Rdkit",
-      "description": "Converts OCaml objects to Python equivalents and constructs molecules from SMILES, enabling atomic property queries like element symbols and neighbor counts. Operates on a custom molecule type `t`, returning arrays of integers or strings for detailed molecular analysis. Supports tasks such as generating deep SMILES and calculating interatomic distances. Hydrogens can be added to refine molecular structures for further processing.",
-      "description_length": 433,
+      "module_path": "Molenc.Utls",
+      "library": "molenc",
+      "description": "This module offers utilities for file management, string validation, numerical conversions, and statistical analysis, with a focus on data manipulation and system interaction. It operates on strings, arrays, lists, integers, floats, and options, enabling tasks like input sanitization, dataset ranking, or process execution. Specific applications include data pipeline preprocessing, statistical hypothesis testing, and system resource introspection.",
+      "description_length": 450,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc.Scale",
-      "description": "Converts between string representations and integer lists, and constructs instances from file headers. Works with string, integer list, and file header data types. Used to parse scale information from filenames and serialize scales for output.",
-      "description_length": 243,
+      "module_path": "Molenc.WMH",
+      "library": "molenc",
+      "description": "This module implements weighted minhash algorithms for similarity estimation, providing functions to convert fingerprints into dense representations, generate hash seeds, and compute Jaccard index and distance estimates between hashed data. It operates on dense byte arrays and integer arrays, using precomputed bounds and lookup tables to accelerate hashing and estimation. Concrete use cases include comparing large-scale fingerprint data in bioinformatics or content similarity detection in document analysis.",
+      "description_length": 512,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "molenc",
-      "description": "Encodes molecular structures into J-L Faulon's Signature Molecular Descriptor (SMD) and unfolded-counted atom pairs using RDKit through OCaml. Processes molecules represented as SMILES strings and generates feature dictionaries mapping indices to atom environments. Used for precise molecular representation in cheminformatics tasks requiring collision-free fingerprinting and atom environment analysis.",
-      "description_length": 403,
+      "module_path": "Molenc.MSE_mol",
+      "library": "molenc",
+      "description": "This module defines a data structure for representing molecules with a name and a mapping of string keys to integer values. It provides functions to construct and access molecule objects, parse molecular data from lines of text, and extract features from strings. Concrete use cases include reading and processing molecular datasets where each molecule is described by a name and a set of labeled integer values.",
+      "description_length": 412,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Molenc",
-      "description": "The module includes a type for representing atomic pairs with associated distances, enabling modeling of molecular interactions and graph edges. It supports creating pairs from strings and integers, converting them to strings, and retrieving distance values. This functionality is useful for analyzing molecular structures or graph relationships. Another part of the module offers a binary search tree for efficient spatial queries on molecular data, allowing operations like nearest neighbor searches and distance sampling.",
-      "description_length": 524,
+      "module_path": "Molenc.Rdkit",
+      "library": "molenc",
+      "description": "This module enables working with molecular structures using the RDKit library, offering functions to parse molecules from SMILES, add hydrogens, and extract atomic properties like types, symbols, and numbers. It supports operations such as computing interatomic distances and generating chemical fingerprints. Use cases include molecular analysis, similarity searching, and preparing molecules for substructure matching. Example tasks include converting a SMILES string to a molecule, calculating fingerprint similarity between compounds, or analyzing atomic composition.",
+      "description_length": 571,
       "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Mini_mol",
+      "library": "molenc",
+      "description": "This module represents molecular structures with a name, graph, and connectivity matrix. It provides operations to access atomic types, neighbors, and encode structural features like atom environments or pairs. Use it to analyze molecular graphs, compute atom neighborhoods, or generate chemical descriptors for molecules.",
+      "description_length": 322,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Atom_pair",
+      "library": "molenc",
+      "description": "This module represents pairs of atoms with a source, destination, and integer distance. It provides functions to create atom pairs, convert them to strings, and retrieve their distance. Useful for modeling molecular interactions where precise atom pair distances are required, such as in structural analysis or distance-based filtering of molecular data.",
+      "description_length": 354,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Sdf_3D",
+      "library": "molenc",
+      "description": "This module offers tools for parsing 3D molecular data from SDF files, extracting atomic and bond information, and encoding elements based on type, alongside computing spatial relationships and angular geometries. It operates on structured representations of atoms, bonds, and spatial coordinates, incorporating cutoff-driven connectivity analysis, kernel functions, and configurable encoding schemes for normalized, resolution-dependent atom arrays. These capabilities are tailored for cheminformatics tasks such as structural analysis, drug discovery, and preparing molecular datasets for machine learning pipelines.",
+      "description_length": 618,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.PiEltHA",
+      "library": "molenc",
+      "description": "This module defines a type `t` as a string and provides a dummy string value. It includes identity functions `to_string` and `of_string`, which return their input unchanged, and a `compare` function that orders strings using the standard library's comparison. These operations are useful for handling string-based identifiers or encodings where conversion functions are needed but no transformation occurs.",
+      "description_length": 406,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Molenc.Gram",
+      "library": "molenc",
+      "description": "This module processes and analyzes arrays of data points using a provided similarity function. It emits, gathers, and initializes matrix values through iterative operations, supporting tasks like clustering or graph analysis. Concrete use cases include computing adjacency matrices for graphs or similarity-based data groupings.",
+      "description_length": 328,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Fingerprint",
+      "library": "molenc",
+      "description": "This module implements fixed-size fingerprint vectors for molecular representations, supporting operations like creation, serialization, and similarity computation. It provides functions to convert fingerprints to dense arrays, compute Tanimoto and Tversky coefficients, and manipulate feature key-value pairs. Use cases include cheminformatics tasks such as molecular similarity search and feature filtering based on hash tables.",
+      "description_length": 430,
+      "index": 16,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Molenc.Node",
+      "library": "molenc",
+      "description": "This module defines a node structure used to represent elements in a graph, where each node has a type from `Molenc.PiEltHA.t` and a set of integer successors. It provides operations to create nodes, retrieve their type and successor set, and add individual successors. This structure is useful for modeling directed graphs or control flow graphs where nodes have specific semantic types and relationships.",
+      "description_length": 406,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Ap_types",
+      "library": "molenc",
+      "description": "Reads a single molecular structure from an input channel, using a reference integer to track position. Operates on `in_channel` and returns a `Mini_mol.t` value representing the parsed molecule. Useful for sequential parsing of molecular data files, such as PDB or SDF, where position tracking is required.",
+      "description_length": 306,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Molenc.Ptable",
+      "library": "molenc",
+      "description": "This module maps chemical element symbols to prime numbers and atomic numbers, providing direct lookups via hash tables and arrays. It includes precomputed arrays of all primes and atomic numbers, along with regular expressions for parsing element symbols. Use cases include encoding molecular formulas using primes and converting between symbols, atomic numbers, and primes efficiently.",
+      "description_length": 387,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Bloom",
+      "library": "molenc",
+      "description": "This module implements a Bloom filter using a two-dimensional integer array as the underlying data structure. It provides operations to generate distinct random indices, initialize the filter with specified parameters, and encode data into the filter using a hash function. Concrete use cases include efficiently checking membership in large datasets, such as detecting previously seen items in a stream or reducing disk lookups in a database.",
+      "description_length": 443,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc.Index",
+      "library": "molenc",
+      "description": "This module organizes molecular data into a binary search tree for efficient nearest neighbor searches based on fingerprints. It supports querying with a target molecule to retrieve closest matches, providing associated names and distances. The core functionality works with hierarchical tree structures built from `Molenc.FpMol.t` molecules, using a custom bisecting strategy for structural analysis. You can perform similarity searches, clustering, and hierarchical navigation of chemical datasets using nearest neighbor and range queries.",
+      "description_length": 541,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Molenc",
+      "library": "molenc",
+      "description": "This module processes and analyzes molecular data through diverse operations spanning normalization, encoding, structural manipulation, and similarity computation. Core data types include maps of labeled values, multi-scale representations, molecular graphs with atom pairs, fingerprints, Bloom filters, and tree-organized datasets, each supporting specialized parsing, transformation, and comparison functions. Operations enable tasks such as feature scaling via `map_norm`, molecular parsing from SMILES or SDF, fingerprint similarity with Tanimoto coefficients, weighted minhashing, and nearest-neighbor searches over chemical datasets. Examples include decoding molecular environments from file headers, computing atom pair distances, normalizing feature maps for machine learning, and performing efficient similarity searches over large-scale molecular data.",
+      "description_length": 863,
+      "index": 22,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 86,
-    "meaningful_modules": 11,
-    "filtered_empty_modules": 75,
-    "retention_rate": 0.12790697674418605
+    "total_modules_in_package": 23,
+    "meaningful_modules": 23,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 524,
-    "min_description_length": 243,
-    "avg_description_length": 411.09090909090907,
-    "embedding_file_size_mb": 0.04038047790527344
+    "max_description_length": 863,
+    "min_description_length": 306,
+    "avg_description_length": 460.5217391304348,
+    "embedding_file_size_mb": 0.08394527435302734
   }
 }

@@ -1,161 +1,213 @@
 {
   "package": "decoders",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 20,
-  "creation_timestamp": "2025-06-18T16:36:00.010851",
+  "total_modules": 24,
+  "creation_timestamp": "2025-07-15T23:11:04.506284",
   "modules": [
     {
-      "module_path": "Decoders.Util.My_result.Infix",
-      "description": "Provides monadic binding operations for handling computations that may fail, allowing sequential composition of functions that return results wrapped in a type parameterized by success and error types. Operates on a type that represents either a successful value or an error, enabling clean error propagation. Used to chain validation steps or API calls where each step depends on the previous one's success.",
-      "description_length": 408,
+      "module_path": "Decoders.Decode.Make.Pipeline",
+      "library": "decoders",
+      "description": "This module provides a set of functions for building decoders in a pipeline style, allowing sequential composition of decoding steps. It works with decoder values and leverages functions like `required`, `optional`, and `custom` to decode JSON-like structures field by field. Concrete use cases include parsing nested JSON objects and handling optional or required fields with custom decoding logic.",
+      "description_length": 399,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Decoders.Decode.Make.Infix",
-      "description": "Provides monadic sequencing and mapping operations for parsing workflows, enabling composition of decoder steps that process input and produce output. Works with decoder types that track input state and output values, supporting both function application and tuple accumulation. Used to chain JSON parsing steps, transform parsed values, and combine multiple parser results into structured outputs.",
-      "description_length": 398,
+      "module_path": "Decoders.Util.My_result.Infix",
+      "library": "decoders",
+      "description": "This module defines infix operators for chaining result-typed computations. It provides `>|=` for mapping over successful results and `>>=` for flat-mapping result-returning functions. These operations enable concise error propagation and transformation when decoding or processing data with possible failures.",
+      "description_length": 310,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Decode.Make.Pipeline",
-      "description": "Provides functions to construct and compose decoders for parsing structured data, supporting required and optional fields with path resolution. Works with decoder types that transform values through chained operations. Used to validate and extract specific fields from JSON or similar formats, applying custom logic during parsing.",
-      "description_length": 331,
+      "module_path": "Decoders.Decode.Make.Infix",
+      "library": "decoders",
+      "description": "This module provides infix operators for composing decoders using monadic and applicative styles. It works with decoder types that process input values of type `'i` into decoded values of type `'a`. These operators enable concise chaining of decoding steps, such as sequentially applying functions to decoded values or combining multiple decoders into one.",
+      "description_length": 356,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Decoders.Encode.Make",
-      "description": "Converts various primitive and composite values into a unified `value` type, including integers, floats, booleans, strings, lists, and key-value pairs. Supports serialization to and from strings for data interchange. Used to construct structured data for configuration parsing or API responses.",
-      "description_length": 294,
+      "library": "decoders",
+      "description": "This module provides functions to construct and manipulate encoders for converting OCaml values into a structured `value` type, which is defined by the parameter module `E`. It supports encoding primitive types like strings, integers, floats, and booleans, as well as structured data such as lists, arrays, and key-value objects. Concrete use cases include serializing OCaml data structures into JSON-like representations for output or transmission.",
+      "description_length": 449,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Util.My_result",
-      "description": "encapsulates error-handling logic through a type that represents either a success or an error, supporting sequential computation with monadic binds. It defines operations like `bind` and `map` to process values wrapped in this type, enabling safe and readable error propagation. This allows developers to chain validation steps, API requests, or any dependent operations that may fail. For example, parsing a JSON response, then extracting a field, and finally transforming it, all while handling potential failures at each stage.",
-      "description_length": 530,
+      "module_path": "Decoders.Decode.S-Pipeline",
+      "library": "decoders",
+      "description": "This module provides functions for building JSON decoders using a pipeline style, allowing sequential composition of field decoding steps. It works with JSON values and decoder combinators, focusing on structuring decoders for objects with required or optional fields at specific paths. Concrete use cases include decoding nested JSON objects into OCaml records or custom types, especially when dealing with deeply nested or optional fields.",
+      "description_length": 441,
       "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Decoders.Decode.S",
+      "library": "decoders",
+      "description": "This module provides operations for parsing structured data into OCaml primitives and collections, with error handling and combinators for composing decoders. It supports decoding JSON through field access, nested structures, and optional values, enabling use cases like deserializing hierarchical data from files or APIs and validating complex input formats.",
+      "description_length": 359,
+      "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Decoders.Util.My_opt",
-      "description": "Provides operations to lift values into option types, apply functions to wrapped values, and chain operations that may fail. Works with option types containing any arbitrary data. Enables safe computation pipelines where intermediate steps might produce no result, such as parsing input or retrieving elements from a collection.",
-      "description_length": 328,
-      "index": 5,
+      "module_path": "Decoders.Decode.Decodeable",
+      "library": "decoders",
+      "description": "This module defines a type `value` and operations for decoding structured data from strings or files into typed values. It provides functions to convert between `value` and primitive types like strings, integers, floats, booleans, and lists, as well as handling null and key-value pairs. Concrete use cases include parsing configuration files or JSON-like data into typed OCaml values and converting OCaml lists back into structured values.",
+      "description_length": 440,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Decoders.Util.My_result",
+      "library": "decoders",
+      "description": "This module works with a custom result type to transform and combine values and errors, offering functions like `map` and `map_err` for handling success and failure cases separately. It supports operations on lists of results, enabling error accumulation and transformation in decoding pipelines. Infix operators from the child module allow chaining result computations using `>|=` for mapping and `>>=` for flat-mapping, simplifying error propagation. For example, you can decode a list of values while collecting errors, then map over the results to transform them or chain dependent decoders with concise syntax.",
+      "description_length": 615,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Decoders.Encode.S",
+      "library": "decoders",
+      "description": "This module defines encoders for converting values into a structured `value` type, supporting primitives like strings, integers, floats, booleans, and `null`. It provides combinators for encoding lists, arrays, and objects, with special handling for optional and nullable values. Concrete use cases include serializing OCaml data structures into JSON-like values for APIs or configuration systems.",
+      "description_length": 397,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Decoders.Util.My_list",
-      "description": "Extracts a specified number of elements from the start of a list, converts a list of options to a list or null, applies transformations to list elements, filters and maps elements with optional results, finds the first successful mapping, accumulates values from a list, and concatenates or flattens lists. Operates on lists and option types. Used to process and transform data streams, validate and extract values from structured data, and build complex list operations from simpler components.",
-      "description_length": 495,
-      "index": 6,
+      "library": "decoders",
+      "description": "This module provides list manipulation functions such as `take` for extracting prefixes, `map` and `mapi` for indexed transformations, and `filter_map` for combined filtering and mapping. It includes operations like `fold_left` for accumulation, `append` and `@` for concatenation, and `flat_map` for flattening transformations. Use cases include parsing list-based data structures, transforming and filtering sequences with index awareness, and handling optional values within lists such as extracting all `Some` values.",
+      "description_length": 521,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Decode.Make",
-      "description": "Provides functions to parse string and file inputs into a structured value type, and to extract specific data types like strings, integers, floats, and booleans from it. Includes methods to convert values to lists and retrieve key-value pairs. Used for safely deserializing and inspecting structured data in configuration or data processing workflows.",
-      "description_length": 351,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Decoders.Decoder.Infix",
-      "description": "Performs monadic binding and sequencing operations on computations that carry an implicit context. Supports function application, value extraction, and tuple combination within a context-aware computation structure. Enables fluent composition of effectful or context-sensitive operations in a concise, readable syntax.",
-      "description_length": 318,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Decoders.Xml.Infix",
-      "description": "Provides monadic sequencing and combination operations for parsing workflows, enabling chaining of decoder steps and combining results. Operates on decoder types that track input state and output values, supporting both function application and tuple accumulation. Used to construct complex parsers by sequentially applying transformations and merging parsed values.",
-      "description_length": 366,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Decoders.Decode.Infix",
-      "description": "Provides monadic binding and sequencing operations for parsing workflows, enabling composition of decoder steps that process input and produce output. Works with decoder types that track input state and output values, supporting both function application and tuple accumulation. Used to chain JSON parsing steps, transform parsed values, and combine multiple parser results into structured outputs.",
-      "description_length": 398,
+      "module_path": "Decoders.Util.My_opt",
+      "library": "decoders",
+      "description": "This module provides functions for working with `option` values, including wrapping a value in an option, applying a function to an option's contents, and chaining option-returning functions. It handles optional data transformations and safe value propagation. Use cases include parsing optional fields in data structures or composing functions that may fail.",
+      "description_length": 359,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Decode.Pipeline",
-      "description": "Provides functions to construct and compose decoders for parsing structured data, supporting required and optional fields with path resolution. Works with decoder types that transform values through chained operations. Used to validate and extract specific fields from JSON or similar formats, applying custom transformations during parsing.",
-      "description_length": 341,
+      "module_path": "Decoders.Xml.Encode",
+      "library": "decoders",
+      "description": "This module constructs XML documents by combining tags, attributes, and encoded data. It provides functions to create XML nodes with optional attributes, encode raw strings, and serialize structured values into XML strings. Concrete use cases include generating XML payloads for APIs or configuration files from OCaml data structures.",
+      "description_length": 334,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Decode",
-      "description": "Combines monadic operations for sequencing and binding decoder steps with tools for constructing and composing decoders that handle structured data. Supports tracking input state, transforming values, and resolving field paths, enabling complex parsing workflows. Can chain JSON parsing steps, extract and validate specific fields, and apply transformations during decoding. Examples include parsing nested objects, handling optional fields, and accumulating results from multiple parsers.",
-      "description_length": 489,
+      "module_path": "Decoders.Xml.Decode-Infix",
+      "library": "decoders",
+      "description": "This module defines infix operators for composing decoders that process XML data. It supports chaining decoders sequentially, applying functions to decoded values, and combining multiple decoders to extract structured data. These operations are used to build complex XML parsing logic in a declarative and concise manner.",
+      "description_length": 321,
       "index": 12,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Decoder",
-      "description": "Encapsulates context-aware computations with support for binding, sequencing, and combining values within an implicit environment. Provides operations for function application, value extraction, and tuple manipulation while preserving context. Allows chaining of effectful operations in a readable, composable manner. For example, it can sequence database queries with error handling or combine multiple configuration values within a shared context.",
-      "description_length": 449,
+      "module_path": "Decoders.Encode.Encodeable",
+      "library": "decoders",
+      "description": "This module defines a polymorphic `value` type that can represent strings, numbers, booleans, null, lists, and key-value pairs. It provides direct conversions to and from strings, as well as constructors for various primitive and composite values. It is used to build structured data representations, such as JSON-like values, for serialization or configuration purposes.",
+      "description_length": 371,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Encode",
-      "description": "Encodes various primitive and composite types into a unified `value` type, including strings, integers, floats, booleans, and nullable options. It supports encoding lists, arrays, and object structures with custom key-value pairs. Converts any type to a string or `value` using provided encoding functions.",
-      "description_length": 306,
+      "module_path": "Decoders.Decode.Make",
+      "library": "decoders",
+      "description": "This module combines a core set of combinators with pipeline-style and operator-based decoder construction to transform structured data like JSON into OCaml values. It centers around the `decoder` type, supporting operations such as mapping, chaining, error handling, and field-by-field extraction of required or optional data, with support for nested and polymorphic structures. You can decode JSON strings into typed records, compose decoders for complex transformations, or apply custom logic to handle missing or malformed fields. The pipeline module streamlines sequential decoding steps, while infix operators enable concise applicative and monadic composition of decoders.",
+      "description_length": 679,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Error",
-      "description": "Provides operations to construct, annotate, and combine error values with contextual information. Works with a parameterized type 'a t, supporting tagging, grouping, and context transformation. Used to generate human-readable error messages, enrich errors with additional metadata, and aggregate multiple errors into a single structured representation.",
-      "description_length": 352,
+      "module_path": "Decoders.Decoder.Infix",
+      "library": "decoders",
+      "description": "This module provides infix operators for composing decoders that process input streams into structured values. It supports monadic and applicative-style chaining of decoding steps, enabling precise control over sequential and parallel decoding operations. These combinators are used to build complex parsers for formats like JSON, binary protocols, or configuration files by combining simpler decoders.",
+      "description_length": 402,
       "index": 15,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders.Util",
-      "description": "Encapsulates error handling, option manipulation, and list transformations into a unified workflow for safe, composable data processing. Provides types for handling success/failure states, option wrapping, and list operations, along with combinators like bind, map, and filter to sequence and transform data. Enables tasks such as parsing and validating structured data, building resilient pipelines, and managing optional or partial results. For example, extracting and transforming fields from a JSON response, filtering and accumulating values from a list, or safely navigating nested data structures.",
-      "description_length": 604,
+      "module_path": "Decoders.Decode.S-Infix",
+      "library": "decoders",
+      "description": "This module defines infix operators for composing decoders that process input streams into structured values. It supports monadic and applicative-style operations, enabling sequential decoding steps and combining multiple decoders. Concrete use cases include parsing JSON or binary formats where values must be decoded in sequence or combined from multiple fields.",
+      "description_length": 364,
       "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Decoders.Xml",
-      "description": "Generates XML elements with specified tags, attributes, and nested content using a structured value type. Processes and serializes data into XML format through explicit encoding functions. Constructs valid XML documents by combining text data, encoded values, and element hierarchies.",
-      "description_length": 284,
+      "module_path": "Decoders.Error",
+      "library": "decoders",
+      "description": "This module constructs and manipulates structured error values with context and tags, supporting nested error grouping and custom formatting. It works with a polymorphic error type that carries context and a string-based tag system. Concrete use cases include building descriptive decoding errors for JSON or configuration file parsers, where errors need hierarchical grouping and contextual information for clear diagnostics.",
+      "description_length": 426,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "decoders",
-      "description": "Parses JSON strings into OCaml values using a set of combinators that define how to extract and transform data. It supports common types like integers, strings, lists, and records, with custom decoding logic for nested structures. Used to convert API responses or configuration files into typed OCaml data for safe processing.",
-      "description_length": 326,
+      "module_path": "Decoders.Xml",
+      "library": "decoders",
+      "description": "This module processes XML data through both streaming and tree-based APIs, supporting decoding, encoding, and manipulation of XML structures. It provides core operations for traversing elements, extracting attributes, and transforming nodes, while its child modules enable declarative decoder composition, XML construction with attribute handling, and streaming-based parsing for large documents. You can decode XML from a stream into OCaml values using combinators, construct valid XML trees with encoded content, or parse and transform XML payloads from APIs or config files. The combination of direct node manipulation and high-level combinators makes it suitable for both structured data extraction and document generation.",
+      "description_length": 727,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Decoders",
-      "description": "Combines monadic operations, context-aware computations, and error handling to enable structured data parsing, transformation, and serialization. It supports encoding primitive and composite types into a unified value, tracking state during parsing, and constructing error-rich workflows with contextual annotations. Examples include parsing nested JSON, generating XML documents, and safely extracting fields from optional or malformed data. Key operations include binding, mapping, error aggregation, and context-preserving value manipulation.",
-      "description_length": 545,
+      "module_path": "Decoders.Decoder",
+      "library": "decoders",
+      "description": "This module implements a parser combinator library for building decoders that consume input and produce structured outputs, handling success and failure cases. It works with generic input and output types, supporting operations like mapping, binding, and error transformation, as well as combining multiple decoders. The child module provides infix operators for composing decoders using monadic and applicative styles, enabling precise control over sequential and parallel decoding steps. Together, they allow building complex parsers for formats like JSON, binary protocols, or configuration files by combining simpler decoders with rich error handling and contextual reporting.",
+      "description_length": 680,
       "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Decoders.Decode",
+      "library": "decoders",
+      "description": "This module provides a comprehensive interface for decoding structured data into typed OCaml values, supporting JSON and similar formats with robust handling of optional fields, nested structures, and error propagation. It includes combinators and operators for building decoders through mapping, chaining, and applicative or monadic composition, enabling precise extraction and transformation of data from complex payloads. Submodules focus on pipeline-based decoding, primitive and collection parsing, value conversion, and operator-driven composition, allowing workflows such as decoding nested JSON responses into records, validating hierarchical inputs, or transforming configuration files into typed structures. Specific capabilities include sequential field decoding, custom error handling, and converting between structured values and OCaml primitives like strings, integers, and lists.",
+      "description_length": 894,
+      "index": 20,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Decoders.Encode",
+      "library": "decoders",
+      "description": "This module enables encoding OCaml values into structured representations like JSON through a flexible `value` type that supports primitives, lists, and key-value pairs. It provides combinators to build encoders for custom data types, handling optional values and structured data such as arrays and objects. You can serialize domain models into strings for API responses or configuration files, or construct and manipulate structured values directly for further processing. Submodules offer concrete encoders, utilities for common data structures, and direct string conversions to streamline serialization workflows.",
+      "description_length": 616,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Decoders.Util",
+      "library": "decoders",
+      "description": "This module offers utilities for working with input channels, enabling safe file handling and stream parsing, while its submodules enhance result, option, and list operations for robust data processing. It supports reading entire files, transforming structured data, and managing optional or error-prone computations with type safety. The result submodule provides `map`, `map_err`, `>|=`, and `>>=` for chaining and transforming fallible operations, such as decoding and validating data with error accumulation. The list submodule includes `take`, `mapi`, `filter_map`, and `flat_map` for precise sequence manipulation, useful in parsing and transforming indexed or optional data, while the option submodule enables safe propagation and transformation of optional values, such as extracting or mapping over nullable fields.",
+      "description_length": 824,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Decoders",
+      "library": "decoders",
+      "description": "This module combines structured error handling, parser combinators, and data encoding/decoding to support robust processing of structured formats like JSON and XML. It provides core data types such as polymorphic errors with context and tags, decoders and encoders for typed data transformations, and utilities for stream parsing and result manipulation. You can decode nested JSON into OCaml records with precise error reporting, parse and transform XML using combinators or tree APIs, or encode domain models into structured values for serialization. Specific workflows include validating configuration files, extracting data from API responses, and building custom parsers with rich error diagnostics and compositional flexibility.",
+      "description_length": 734,
+      "index": 23,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 20,
-    "meaningful_modules": 20,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 25,
+    "meaningful_modules": 24,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.96
   },
   "statistics": {
-    "max_description_length": 604,
-    "min_description_length": 284,
-    "avg_description_length": 395.65,
-    "embedding_file_size_mb": 0.0730743408203125
+    "max_description_length": 894,
+    "min_description_length": 310,
+    "avg_description_length": 500.75,
+    "embedding_file_size_mb": 0.0876321792602539
   }
 }

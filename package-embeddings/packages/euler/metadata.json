@@ -1,84 +1,85 @@
 {
   "package": "euler",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:13.261665",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:29.045531",
   "modules": [
     {
-      "module_path": "Euler.Arith.Unsafe",
-      "description": "Performs unchecked integer arithmetic operations, including addition, subtraction, and multiplication, with no bounds checking. Operates directly on OCaml's native int type. Used in performance-critical code paths where overflow is explicitly managed and avoided.",
-      "description_length": 263,
+      "module_path": "Euler.Modular.Make",
+      "library": "euler",
+      "description": "This module enables modular arithmetic computations with a fixed modulus, offering unary and binary operations like addition, multiplication, exponentiation, and inversion on integers represented as canonical residues (0 to m\u22121). It uses a private type `t` for modular values, derived from a modulus specified once via the functor parameter, and supports overloaded operators for concise expressions. It is particularly useful in number theory problems, cryptographic algorithms, or scenarios requiring repeated operations modulo a fixed integer, such as computing multiplicative orders or residue class manipulations.",
+      "description_length": 618,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Euler.Modular.Make",
-      "description": "Calculates the remainder of integer division. Operates on integers and returns an integer result. Used to determine if a number is even or odd, or to cycle through a fixed range of values.",
-      "description_length": 188,
+      "module_path": "Euler.Arith.Unsafe",
+      "library": "euler",
+      "description": "This module provides low-level arithmetic operators for addition, subtraction, and multiplication of overflowing integers, with the guarantee that they do not check for overflow. These operations are intended for use when the caller can ensure that the result will not exceed the valid range of overflowing integers, avoiding the overhead of safety checks. They are useful in performance-critical sections where overflow behavior is explicitly managed by the programmer.",
+      "description_length": 470,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Euler.Arith",
-      "description": "Provides arithmetic operations on a symmetrical range of integers excluding Stdlib.min_int, with overflow handling through exceptions. Main data types include native integers, and operations include addition, subtraction, multiplication, and specialized division and modulus. Examples include safely computing opposites and absolute values without overflow, and performing exact divisions with explicit overflow checks. Functions like ( * ) and ( + ) operate without bounds checking, suitable for performance-critical code where overflow is managed externally.",
-      "description_length": 560,
-      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Euler.Modular",
-      "description": "Performs modular arithmetic operations with a specified modulus, enabling calculations within the ring \u2124\u2215m\u2124. It supports basic operations like addition, subtraction, multiplication, and division, with results normalized to the range [0, m-1]. Examples include checking parity, cycling through indices, and performing secure cryptographic operations. The modulus can be set globally or passed explicitly to each function.",
-      "description_length": 420,
-      "index": 3,
+      "library": "euler",
+      "description": "This module provides modular arithmetic operations over integers, including addition, multiplication, exponentiation, and inversion, all working with canonical representatives of \u2124\u2215m\u2124 under a specified modulus. It supports both dynamic modulus passing and fixed-modulus computations through the Make functor, which introduces a private type `t` for modular values and enables operator overloading. You can solve congruences, compute modular inverses, perform repeated operations efficiently with a fixed modulus, and generate random modular elements. These capabilities are used in cryptographic algorithms, number theory, and finite ring computations.",
+      "description_length": 652,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Euler.Diophantine",
-      "description": "Solves systems of linear congruences by finding integer solutions to equations of the form a_i * x \u2261 b_i (mod m_i), returning a representative solution and modulus. Operates on sequences of triples (a, b, m) representing individual congruences. Used to determine consistent integer solutions in modular arithmetic contexts, such as cryptographic key generation or number theory problems.",
-      "description_length": 387,
+      "module_path": "Euler.Farey",
+      "library": "euler",
+      "description": "This module computes and manipulates Farey sequences of a given order, working directly with fractions represented as integer pairs. It provides functions to iterate forward and backward through sequences, generate lists of ordered fractions, and validate adjacency between fractions. Concrete use cases include solving number theory problems involving rational approximations and mediant properties within bounded denominators.",
+      "description_length": 428,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Euler.Primes",
+      "library": "euler",
+      "description": "This module generates prime numbers, factors integers into primes, computes divisor sums, Euler's totient function, and M\u00f6bius function values, and handles advanced operations like arithmetic derivatives and multiplicative orders. It primarily works with integers and their factorizations, leveraging structures like prime power decompositions and modular arithmetic systems. Designed for computational number theory tasks, it excels in solving Project Euler problems requiring efficient prime-related calculations, cryptographic algorithm prototyping, or analyzing multiplicative functions at scale.",
+      "description_length": 600,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Euler.Primes",
-      "description": "This module offers prime generation, primality testing, integer factorization, and divisor arithmetic, leveraging algorithms like sieves and elliptic curve factorization. It works with integers and their prime factorizations, enabling computations such as multiplicative orders and number-theoretic functions like Euler's totient and Carmichael's function. Use cases include cryptographic protocol development, number theory research, and optimizing modular arithmetic operations.",
-      "description_length": 480,
+      "module_path": "Euler.Diophantine",
+      "library": "euler",
+      "description": "Solves systems of linear congruences with integer coefficients and moduli, returning a solution and the modulus of the general solution. Works with sequences of tuples representing equations of the form *a \u2261 b (mod m)*. Useful for finding integers satisfying multiple modular constraints, such as in number theory problems or cryptographic algorithms.",
+      "description_length": 351,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Euler.Farey",
-      "description": "Provides operations to manipulate and traverse Farey sequences of a given order, including reversing, iterating, and finding adjacent fractions. Works with pairs of integers representing fractions in reduced form. Used to generate and navigate sequences for number theory applications, such as finding rational approximations or exploring fraction relationships.",
-      "description_length": 362,
+      "module_path": "Euler.Arith",
+      "library": "euler",
+      "description": "This module provides arithmetic operations on symmetric-range integers, excluding `Stdlib.min_int`, ensuring overflow safety through exceptions. It includes addition, multiplication, exact division, exponentiation, GCD, LCM, integer logarithms, and root extraction, operating on `int`, sequences, and lists. Low-level submodules offer unchecked arithmetic for performance-critical code where overflow is explicitly managed. Example uses include precise algorithmic computations, combinatorial problems, and safe integer manipulations where overflow must be detected and handled explicitly.",
+      "description_length": 589,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "euler",
-      "description": "Performs prime factorization, modular exponentiation, and greatest common divisor calculations. Operates on OCaml's native integer types, handling 31-bit or 63-bit values efficiently. Used for solving number theory problems in competitive programming and cryptographic algorithm prototyping.",
-      "description_length": 291,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Euler",
-      "description": "Provides arithmetic operations on integers with overflow handling, modular arithmetic with customizable modulus, and tools for solving linear congruences, prime factorization, and Farey sequence manipulation. Key data types include integers, modular residues, prime factorizations, and reduced fractions, with operations ranging from basic arithmetic to advanced number-theoretic computations. It enables tasks such as secure cryptographic calculations, solving modular equations, and generating rational approximations. Examples include computing exact divisions, checking congruences, factoring large numbers, and traversing Farey sequences.",
-      "description_length": 643,
-      "index": 8,
+      "library": "euler",
+      "description": "This library implements arithmetic algorithms for solving mathematical problems, particularly in number theory and Project Euler challenges. It offers fast exponentiation with customizable multiplication, memoization for recursive functions, and operations on integers including modular arithmetic, Diophantine equations, and prime generation, alongside Farey sequence manipulation. With support for fixed and dynamic modulus computations, linear congruence solving, and overflow-safe integer arithmetic, it enables tasks like cryptographic prototyping, rational approximation, and efficient number-theoretic function evaluation. Submodules enhance these capabilities with specialized tools for modular value types, Farey sequence traversal, prime factorization, and safe symmetric-range operations.",
+      "description_length": 799,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 643,
-    "min_description_length": 188,
-    "avg_description_length": 399.3333333333333,
-    "embedding_file_size_mb": 0.03314399719238281
+    "max_description_length": 799,
+    "min_description_length": 351,
+    "avg_description_length": 563.375,
+    "embedding_file_size_mb": 0.02946758270263672
   }
 }

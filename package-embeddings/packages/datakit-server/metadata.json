@@ -1,84 +1,85 @@
 {
   "package": "datakit-server",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:31:04.978888",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:25.762245",
   "modules": [
     {
       "module_path": "Vfs.Error.Infix",
-      "description": "Performs sequential binding of Lwt-typed results, applying a function to the success value of the first result before proceeding. Operates on Lwt-promises containing result types, allowing for chained asynchronous operations. Used to handle error-prone asynchronous workflows where each step depends on the successful outcome of the previous.",
-      "description_length": 342,
+      "library": "datakit-server",
+      "description": "This module defines infix operators for chaining Lwt-based result computations that handle error codes. It provides the `(>>*=)` operator to sequence operations that return `('a, Vfs.Error.t) Result.result Lwt.t`, enabling concise error propagation. Use this module when composing asynchronous operations over a virtual filesystem where each step may fail with a specific error code.",
+      "description_length": 383,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Vfs.File.Stream",
-      "description": "Provides functions to initialize and update a session, and to create a stream that emits formatted values from the session. Works with session objects containing mutable state and a formatter for output. Used to generate real-time logs where each state change is recorded as a line in a file stream.",
-      "description_length": 299,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vfs.Error",
-      "description": "provides a mechanism for chaining asynchronous operations that return result types, ensuring each step is executed only if the previous one succeeds. It supports sequential binding of Lwt-promises, enabling the transformation of success values before proceeding. Key operations include binding and mapping over Lwt-result values, allowing for structured error handling. For example, it can be used to fetch data from an API, process the response, and then write to a database, with errors propagated automatically through the chain.",
-      "description_length": 532,
-      "index": 2,
+      "module_path": "Vfs.File.Stream",
+      "library": "datakit-server",
+      "description": "This module implements a streaming interface for file content that dynamically updates based on session state changes. It works with session values of any type `'a`, using a formatter to convert them into textual lines broadcast to stream readers. Concrete use cases include real-time log monitoring or exposing changing internal state through a virtual filesystem interface.",
+      "description_length": 375,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Vfs.File",
-      "description": "manages session state and logs changes to a file stream, using a formatter to produce structured output. It supports initializing sessions, updating their state, and generating continuous formatted logs. Key data types include session objects with mutable state and a formatter. Examples include tracking application events or recording user interactions in real time.",
-      "description_length": 368,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Vfs.Dir",
-      "description": "Provides directory listing, file and directory creation, lookup, removal, and renaming operations. Works with directory handles (`t`) and inode references (`Inode.t`). Used to manage file system structures dynamically, such as building read-only directory views from maps or lists, or creating custom directory implementations with specific behaviors.",
-      "description_length": 351,
-      "index": 4,
+      "library": "datakit-server",
+      "description": "This module enables the creation and management of file descriptors with custom read and write logic, metadata manipulation, and dynamic content generation through streams. It supports data types such as file descriptors, virtual inodes, and error values, allowing operations like constructing files from strings or command-driven sources, simulating filesystem errors, and tracking file state. The child module extends this functionality by providing a streaming interface that dynamically updates content based on session state, using formatters to expose changing data as textual lines. Together, they support use cases like virtual files that generate data on demand, real-time log monitoring, and abstract hierarchical data management.",
+      "description_length": 740,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vfs.Inode",
-      "description": "Provides operations to create and manipulate inodes with file and directory kinds, including setting and retrieving basenames, inode numbers, and kind information. Works with `string`, `File.t`, `Dir.t`, and `int64` types to represent and modify inode metadata. Used to track file identities and structure in a filesystem abstraction.",
-      "description_length": 334,
-      "index": 5,
+      "library": "datakit-server",
+      "description": "This module defines and manipulates inode values, which represent either files or directories in a virtual filesystem. It supports creating inodes with a name and kind (`File` or `Dir`), accessing and modifying their basename and inode number, and inspecting their type. Concrete use cases include modeling filesystem hierarchies, tracking file identity via `ino`, and managing directory or file metadata through typed operations.",
+      "description_length": 430,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Vfs.Logs",
-      "description": "Provides operations to interact with log sources through a virtual file system, including reading documentation and adjusting log levels via file operations. Works with directory structures and files representing log sources and their configurations. Used to dynamically modify log verbosity and access source documentation at runtime.",
-      "description_length": 335,
+      "library": "datakit-server",
+      "description": "Implements logging functionality for virtual filesystem operations, mapping log sources to directory structures. It provides functions to create, retrieve, and manage log entries within a virtual filesystem hierarchy, using `Vfs.Dir.t` and `Logs.Src.t` to organize logs by source. Concrete use cases include tracking file access, directory modifications, and error conditions within a virtualized filesystem environment.",
+      "description_length": 420,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vfs.Error",
+      "library": "datakit-server",
+      "description": "This module defines error codes like `Noent`, `Isdir`, and `Perm` for signaling filesystem-specific failures, and includes utilities to construct and format custom errors with optional `errno` values and descriptive messages. It supports both synchronous and Lwt-based asynchronous error handling workflows, particularly through the infix operator `(>>*=)` in its child module, which sequences result-returning Lwt computations that propagate error codes. Use it to handle and compose errors from operations like file access, directory traversal, and offset validation in a virtual filesystem.",
+      "description_length": 593,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vfs.Dir",
+      "library": "datakit-server",
+      "description": "This module implements directory operations for a virtual filesystem, providing functions to list contents (`ls`), create files or directories (`mkfile`, `mkdir`), look up inodes by name (`lookup`), remove or rename entries (`remove`, `rename`), and construct specialized directory structures. It works with `Vfs.Dir.t` as the abstract type for directories and interacts with `Vfs.Inode.t` for file and directory entries, using `Vfs.perm` for permission settings. Concrete use cases include building static or dynamic read-only directories, enforcing directory-only contents, and handling common filesystem operations with specific error codes like `err_already_exists` or `err_no_entry`.",
+      "description_length": 688,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "datakit-server",
-      "description": "Provides functions to manage and transform tree-structured data streams, including merging, diffing, and versioning operations. Works with hierarchical data models and versioned datasets to enable reproducible data processing pipelines. Used to coordinate build processes and manage state in distributed systems like HyperKit and DataKitCI.",
-      "description_length": 340,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Vfs",
-      "description": "combines asynchronous error-handling, session logging, filesystem operations, inode management, and log configuration into a unified virtual filesystem interface. It supports sequential Lwt-result operations, session state tracking with formatted logs, directory and file manipulations using inodes, and dynamic log control through file-like interfaces. Key data types include session objects, inodes, directory handles, and Lwt-result values, enabling tasks like API data processing, real-time event logging, and runtime log adjustments. Examples include building custom directory structures, managing file metadata, and modifying log levels without restarting the application.",
-      "description_length": 678,
-      "index": 8,
+      "library": "datakit-server",
+      "description": "This module defines a virtual filesystem interface for managing files, directories, and inodes, with support for metadata like permissions and file length. It provides operations to read, write, and traverse filesystem elements, along with a custom result type for signaling success or errors during operations. Key data types include inodes, directories, file descriptors, and error codes such as `Noent` and `Perm`, enabling use cases like emulated filesystems, custom storage backends, and testing environments. Submodules extend this foundation with directory manipulation, inode management, dynamic file content via streams, structured error handling with Lwt integration, and logging mapped to directory structures.",
+      "description_length": 721,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 678,
-    "min_description_length": 299,
-    "avg_description_length": 397.6666666666667,
-    "embedding_file_size_mb": 0.03314781188964844
+    "max_description_length": 740,
+    "min_description_length": 375,
+    "avg_description_length": 543.75,
+    "embedding_file_size_mb": 0.029478073120117188
   }
 }

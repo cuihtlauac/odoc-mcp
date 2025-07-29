@@ -1,105 +1,245 @@
 {
   "package": "ppx_compare",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:54.119560",
+  "total_modules": 28,
+  "creation_timestamp": "2025-07-15T23:12:29.702979",
   "modules": [
     {
-      "module_path": "Ppx_compare_expander.Compare.Attrs",
-      "description": "Provides attributes to skip label declarations and core types during ppx processing. Works with Ppxlib's label_declaration and core_type types. Used to filter out specific AST nodes in custom ppx rewriters.",
-      "description_length": 206,
+      "module_path": "Ppx_compare",
+      "library": "ppx_compare",
+      "description": "This module defines functions for generating comparison and equality functions for custom data types. It works with algebraic data types defined using Ppxlib, enabling automatic derivation of `compare` and `equal` operations. Concrete use cases include simplifying the implementation of ordering and equality checks for variant and record types in a type-safe manner.",
+      "description_length": 367,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare_expander.Equal.Attrs",
-      "description": "Provides attributes to suppress warnings for unused label declarations and core types. Works with Ppxlib's label_declaration and core_type data structures. Used in ppx rewriters to mute specific type-related warnings during code transformation.",
-      "description_length": 244,
+      "module_path": "Ppx_compare_lib.Comparable.S_local3",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a `compare__local` function that generates a comparator for a ternary tuple-like type by combining individual comparators for each component. It operates on a polymorphic tuple type `('a, 'b, 'c) t`, where `t` is a type constructor with three parameters. A concrete use case is enabling structural comparison of custom data types with three fields, such as comparing triples of integers, strings, and custom records.",
+      "description_length": 437,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare_expander.Compare",
-      "description": "Handles AST node filtering during ppx processing by skipping label declarations and core types. Supports custom rewriters using Ppxlib's label_declaration and core_type types. Enables selective processing by excluding specific AST elements. Can be used to refine transformations by ignoring irrelevant parts of the syntax tree.",
-      "description_length": 327,
+      "module_path": "Ppx_compare_lib.Equal.S3",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a higher-order function `equal` that takes three pairwise equality functions and a ternary data structure, then compares two instances of that structure for equality. It operates on a polymorphic ternary tuple type `('a, 'b, 'c) t`, where each component must have its own equality predicate. A concrete use case is comparing custom algebraic data types with three fields, where each field has a defined equality check, such as comparing complex nested records or variant types with three parameters.",
+      "description_length": 520,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_compare_expander.Equal",
-      "description": "Handles type comparison and local comparison functions, supporting both polymorphic and monomorphic types. Includes operations like compare and compare__local, with the latter requiring local comparison functions for type arguments. Enables fine-grained control over type comparisons in ppx rewriters, suppressing warnings for unused labels and core types during transformations. Allows incremental expansion of comparison support within complex type structures.",
-      "description_length": 462,
+      "module_path": "Ppx_compare_lib.Equal.S1",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a polymorphic equality function that takes a type-specific equality function and two values of a parametric type, returning a boolean indicating their equality. It operates on any parametric type `'a t` where `'a` has a defined equality operation. This is used to implement structural equality checks for complex data structures like lists, options, or user-defined types with derived equality.",
+      "description_length": 414,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_compare_lib.Comparable",
-      "description": "Compares two values of type t using a total ordering, returning -1, 0, or 1. Works with any data type that implements the compare function. Used to sort lists of t values or determine equality in custom data structures.",
-      "description_length": 219,
+      "module_path": "Ppx_compare_lib.Comparable.S_local1",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a single local comparison function for a type `t` using a provided comparator for its elements. It supports comparing values of type `'a t` when given a function to compare their `'a`-typed components, enabling derived comparisons for structured types. This is used internally to implement comparison operators for types with locally abstract or parameterized structures.",
+      "description_length": 391,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare_lib.Equal",
-      "description": "Compares two values of type t for structural equality, returning true if they are identical. Works with any data type that has an explicitly defined equality function. Used to check if two complex data structures, such as lists or records, contain the same elements in the same order.",
-      "description_length": 284,
+      "module_path": "Ppx_compare_lib.Comparable.S",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a total ordering relation on values of type `t` through the `compare` function, which returns a negative, zero, or positive integer depending on the relative order of its two arguments. It is used to support comparison operations in data structures that require ordered keys, such as sets and maps. The module is typically derived automatically via ppx to enable efficient, type-safe comparisons without requiring manual implementation.",
+      "description_length": 456,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_compare_lib.Builtin",
-      "description": "This module offers equality and comparison operations for a range of data types, including primitives (e.g., integers, strings, booleans), structured types (arrays, lists, options, references), and specialized types like nativeint and bytes. It enables custom comparisons by allowing user-provided functions for element types, facilitating tasks like sorting, hashing, or validating complex data structures. Use cases include ensuring consistent ordering in sorted collections or verifying deep equality in nested data formats.",
-      "description_length": 527,
+      "module_path": "Ppx_compare_lib.Comparable.S1",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a polymorphic type `t` and a comparison function `compare` that takes a comparator for elements of type `'a` and uses it to compare values of type `'a t`. It is used to support structural comparisons of container types, enabling derived comparison operations for custom data structures. Concrete use cases include defining total orderings for algebraic data types and enabling comparison of nested structures like trees or lists with user-defined element types.",
+      "description_length": 481,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_compare_expander.Attrs",
-      "description": "Provides attributes to suppress warnings for unused label declarations and core types. Works with Ppxlib's label_declaration and core_type data structures. Used in ppx rewriters to filter out specific AST nodes during processing.",
-      "description_length": 229,
+      "module_path": "Ppx_compare_lib.Equal.S2",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a higher-order function for comparing two values of a parametric type using provided equality functions for their component types. It works with any binary type constructor `('a, 'b) t` and takes two equality functions as arguments. A concrete use case is implementing custom equality checks for complex data structures like pairs or variants where structural equality is needed.",
+      "description_length": 400,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "ppx_compare",
-      "description": "Generates optimized comparison and equality functions for OCaml types using ppx rewriters, allowing manual overrides and type safety. Works with type expressions, records, and variants, supporting attributes to ignore specific fields. Enables fast, type-safe comparisons in scenarios like sorting, hashing, and protocol buffers.",
-      "description_length": 328,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare_expander",
-      "description": "Handles attribute-based suppression of warnings for unused labels and core types in AST nodes, integrating with Ppxlib. Supports operations on label_declaration and core_type, enabling selective filtering during ppx rewriter processing. Allows developers to control warning generation by marking specific AST elements as unused. Can be used to clean up generated code by hiding irrelevant or redundant type information.",
-      "description_length": 419,
+      "module_path": "Ppx_compare_lib.Equal.S_local",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a local equality check function `equal__local` for a type `t`. It is used internally to support auto-generated comparator logic for structural equality. Concrete use cases include comparing values of a specific type for equality within generated code, such as in testing or data structure operations.",
+      "description_length": 320,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_lib.Comparable.S_local2",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a `compare__local` function that takes two comparator functions and a pair of values wrapped in a polymorphic tuple-like type `('a, 'b) t`, and returns an integer comparison result. It is designed to support structural comparisons of composite data types where two distinct element types need to be compared according to their own respective orderings. A concrete use case is enabling derived comparison operators for custom algebraic data types with multiple type parameters.",
+      "description_length": 497,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare",
-      "description": "Compares values of algebraic data types using generated comparison functions. It handles tuples, records, and variants with custom equality and ordering. Used to implement derived comparison logic in generated code for pattern matching and sorting.",
-      "description_length": 248,
+      "module_path": "Ppx_compare_lib.Comparable.S2",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a polymorphic type `t` with a comparator function that takes two arguments of different types and returns an integer. It supports comparing values of type `t` using custom comparison functions for each of its type parameters. This is useful for generating efficient, type-safe comparisons for complex data structures like pairs or variants with two type parameters.",
+      "description_length": 385,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_compare_lib",
-      "description": "Provides total ordering and structural equality checks for a variety of data types, including primitives, structured types, and specialized formats. It supports sorting lists, validating nested data, and comparing custom types using user-defined functions. Operations include comparing values for order, checking deep equality, and handling complex structures like arrays, options, and records. Examples include sorting a list of records by a specific field or verifying that two nested data structures are identical.",
-      "description_length": 517,
+      "module_path": "Ppx_compare_lib.Equal.S_local3",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a single function `equal__local` that takes three equality functions for types `'a`, `'b`, and `'c`, and a comparison function for a ternary tuple type `('a, 'b, 'c) t`. It uses these to perform a structural equality check between two values of the same ternary tuple type. This function is used internally to support auto-generated equality checks for custom data types in OCaml.",
+      "description_length": 401,
       "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_lib.Comparable.S_local",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a type `t` and a comparator function `compare__local` that establishes a total ordering between values of type `t`. It is used to support structural comparisons generated by the PPX rewriter for efficient, value-based sorting and equality checks. Concrete use cases include enabling derived comparison logic for custom data types in performance-sensitive contexts like data structures or serialization layers.",
+      "description_length": 429,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Comparable.S3",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module defines a comparator for a ternary tuple-like type, enabling lexicographic comparison of values by providing a `compare` function that takes three individual comparators for each component. It works with any type `'a`, `'b`, and `'c` as long as comparators are available for each. A concrete use case is comparing complex data structures such as triples of integers, strings, and custom types in a sorted collection or during ordering operations.",
+      "description_length": 458,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Equal.S_local1",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module implements structural equality checks for custom data types using auto-generated comparator functions. It provides the `equal__local` function, which takes a comparison function and two values of the same type, returning true if they are structurally equal. Designed for use with types that require deep equality checks, such as algebraic data types or nested records.",
+      "description_length": 380,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Equal.S",
+      "library": "ppx_compare.runtime-lib",
+      "description": "Implements equality checks for types with structural equivalence. Provides the `equal` function to compare values of type `t` directly. Useful for testing or validating data structures with nested or complex value types.",
+      "description_length": 220,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Equal.S_local2",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides a single function `equal__local` that takes two equality functions and a pair of values wrapped in a polymorphic tuple type `('a, 'b) t`, and returns a boolean indicating whether the values are equal. It is designed to support structural equality checks for types generated by the `ppx_compare` extension, particularly for use in derived equality functions. Concrete use cases include comparing pairs of values where each component requires a custom equality check, such as comparing tuples of abstract or variant types.",
+      "description_length": 541,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Equal",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module enables structural equality checks for a wide range of data types by generating comparator functions that recursively compare values based on their contents. It provides `equal` and `equal__local` functions that support unary, binary, and ternary data structures, including parametric types like `('a, 'b, 'c) t`, and are used to compare records, variants, tuples, and user-defined types with derived equality. Submodules handle specific arities and type constructors, such as comparing a pair using two custom equality functions or validating ternary tuples with field-specific checks. Example uses include comparing nested records, validating algebraic data types with three parameters, and implementing deep equality for lists or options with custom element types.",
+      "description_length": 779,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_lib.Comparable",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module enables structural comparisons for custom and composite types, generating efficient comparators used in ordered data structures like sets and maps. It supports direct comparison of basic types, polymorphic variants, and parameterized types, while submodules handle derived comparisons for tuples, pairs, and ternary structures using component-wise comparators. For example, it allows comparing triples of integers, strings, and records, or defining total orderings for trees and lists with user-defined element types. The module integrates with PPX to automatically derive comparison logic for algebraic data types, enabling sorted insertion, traversal, and lookup operations in performance-sensitive contexts.",
+      "description_length": 722,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib.Builtin",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides polymorphic comparison and equality operations for primitive types (integers, floats, strings, characters) and composite structures (lists, arrays, options, references). It enables structural equality checks and ordering relations through type-specific implementations that handle deep comparisons, supporting both simple values and parameterized data structures. Typical applications include auto-generated comparator generation, value normalization validation, and ordered collection manipulation where precise type-driven comparisons are required.",
+      "description_length": 571,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_lib",
+      "library": "ppx_compare.runtime-lib",
+      "description": "This module provides runtime support for auto-generated comparison and equality operations, enabling structural comparisons of complex data types through derived comparator functions. It includes operations like `compare` and `equal` that work on tuples, variants, records, and user-defined types, with submodules handling specific arities and type constructors such as pairs, triples, and parametric types. It supports deep equality checks and total ordering for use in sets, maps, and other ordered structures, allowing efficient comparison of nested values like records with custom field types or algebraic data types with multiple parameters. Example uses include automatically comparing trees with derived orderings, validating equality of nested options, and implementing structural comparison for polymorphic variants.",
+      "description_length": 825,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_expander.Compare.Attrs",
+      "library": "ppx_compare.expander",
+      "description": "This module defines attributes to control comparison generation in type definitions. It provides `ignore_label_declaration` to skip specific record fields and `ignore_core_type` to skip entire types during comparison. These attributes are applied directly in OCaml type declarations to customize structural comparison behavior.",
+      "description_length": 327,
+      "index": 21,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_expander.Equal.Attrs",
+      "library": "ppx_compare.expander",
+      "description": "This module defines attributes to control equality comparisons in generated code. It provides `ignore_label_declaration` to exclude record fields and `ignore_core_type` to exclude type expressions from comparison logic. These attributes are applied directly in type definitions to customize structural equality behavior.",
+      "description_length": 320,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_compare_expander.S",
+      "library": "ppx_compare.expander",
+      "description": "This module generates comparison functions for OCaml types, producing core type expressions and structure/signature elements needed for deriving comparators. It handles type declarations and attributes, expanding them into appropriate comparison logic based on provided type definitions. It is used to automatically implement type-specific comparison operations in generated code.",
+      "description_length": 380,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_expander.S-Attrs",
+      "library": "ppx_compare.expander",
+      "description": "This module defines attributes to mark label declarations and core types to be ignored during comparison generation. It provides `ignore_label_declaration` and `ignore_core_type` attributes, which suppress comparison logic for specific parts of a type definition. Useful when deriving comparisons for composite types where certain fields or types should be excluded from equality checks.",
+      "description_length": 387,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_expander.Equal",
+      "library": "ppx_compare.expander",
+      "description": "This module generates type-specific equality and comparison functions by transforming OCaml type declarations into expressions that implement structural equality or ordering. It supports customization through attributes that allow excluding fields or types from comparison, enabling precise control over derived equality logic. Main operations include expanding type definitions into equality functions and applying attributes to suppress irrelevant components. For example, it can automatically derive equality for a record type while ignoring specific fields marked with `ignore_label_declaration`.",
+      "description_length": 600,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_expander.Compare",
+      "library": "ppx_compare.expander",
+      "description": "This module enables automatic derivation of structural comparison and equality functions for OCaml types through preprocessing. It transforms type definitions into efficient `compare` and `equal` implementations, supporting both `int`-valued ordering and `bool`-valued equality checks for algebraic and record types. The module allows customization via attributes like `ignore_label_declaration` to skip specific record fields or `ignore_core_type` to exclude entire types from comparison. For example, applying these attributes in a type definition can generate a custom `equal` function that omits certain fields during comparison.",
+      "description_length": 633,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_compare_expander",
+      "library": "ppx_compare.expander",
+      "description": "This module automates the generation of structural comparison and equality functions for OCaml types, including algebraic data types, records, and variants, by transforming type declarations into efficient `compare` and `equal` implementations. It supports customization through attributes like `ignore_label_declaration` and `ignore_core_type` that exclude specific fields or types from comparison logic, enabling precise control over equality checks. The module handles type declarations, attributes, and core type expressions to produce type-specific comparison functions and the necessary structure elements for integrating derived logic into OCaml code. For example, it can generate a custom `equal` function for a record type that omits certain fields or derive a `compare` function for a variant type with nested structures.",
+      "description_length": 831,
+      "index": 27,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 28,
+    "meaningful_modules": 28,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 527,
-    "min_description_length": 206,
-    "avg_description_length": 334.1666666666667,
-    "embedding_file_size_mb": 0.044028282165527344
+    "max_description_length": 831,
+    "min_description_length": 220,
+    "avg_description_length": 481.14285714285717,
+    "embedding_file_size_mb": 0.10213851928710938
   }
 }

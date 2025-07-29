@@ -1,105 +1,93 @@
 {
   "package": "middleware",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:42.518795",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:40.093373",
   "modules": [
     {
-      "module_path": "Middleware.Make.Diverter",
-      "description": "Handles control flow redirection in middleware pipelines by capturing input, passing it to subsequent components, and transforming their output. Operates on input and output values of varying types, using a function to map the result of the next middleware. Used to inject custom processing between middleware layers without altering the flow of execution.",
-      "description_length": 356,
+      "module_path": "Middleware.Make2.Infix",
+      "library": "middleware",
+      "description": "This module provides infix operators for composing and terminating middleware chains. It works with middleware functions that transform inputs and outputs within a two-parameter monadic context. Use it to build and link middleware steps, then terminate them with a final function to execute the composed logic.",
+      "description_length": 310,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Middleware.Make.Infix",
-      "description": "Combines two layered structures using an infix composition operator and applies a termination function to produce a new layered structure. It operates on type-annotated components with input, output, and state transitions. Used to chain processing layers and finalize computations with monadic results.",
-      "description_length": 302,
+      "library": "middleware",
+      "description": "This module provides infix operators for composing and terminating middleware chains. It works with middleware functions that transform inputs and outputs within a monadic context. Use it to build and link middleware steps, such as adding logging, authentication, or validation before handling HTTP requests.",
+      "description_length": 308,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Middleware.Monads.Identity",
-      "description": "Provides functions to transform, sequence, and wrap values within a monadic context that carries no additional computational effects. Operates on values of any type wrapped in a monadic container that is structurally identical to the unwrapped value. Used to model computations where the monadic structure is needed for consistency with other monadic code, such as in pipelines that require uniform handling of results.",
-      "description_length": 419,
+      "library": "middleware",
+      "description": "This module implements the identity monad, providing `map`, `bind`, and `return` to sequence and transform values without additional effects. It wraps and unwraps values of any type, enabling monadic composition in middleware pipelines. Use it to build chains of middleware functions that process values directly, such as passing request data through a series of transformations before reaching a final handler.",
+      "description_length": 411,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Middleware.Make2.Diverter",
-      "description": "Handles control flow redirection in middleware pipelines, transforming outputs from one middleware to serve as inputs for the next. Operates on typed input and output values within a monadic context. Enables precise manipulation of data flow between sequential processing stages.",
-      "description_length": 279,
+      "module_path": "Middleware.Monads",
+      "library": "middleware",
+      "description": "This module provides the identity monad for sequencing and transforming values without side effects, using `map`, `bind`, and `return`. It wraps and unwraps values of any type, supporting monadic composition in middleware pipelines. You can use it to chain functions that process data directly, like transforming request data through multiple stages before a final handler. For example, you can compose a series of data validation and normalization functions into a single pipeline that processes incoming requests.",
+      "description_length": 515,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Middleware.Make2.Infix",
-      "description": "Provides composition and termination operations for structured data flows, combining two components where the output of the first matches the input of the second, and appending a termination function to a component. Works with typed, parameterized structures representing input, output, and intermediate states. Used to chain processing stages and attach finalizers to data pipelines.",
-      "description_length": 384,
+      "module_path": "Middleware.Make2",
+      "library": "middleware",
+      "description": "This module implements a Middleware system using a two-parameter monad, allowing the creation of composable processing pipelines that manipulate input and output values through monadic effects. It supports operations to continue, stop, or terminate a chain with a final monadic result, enabling layered processing in contexts like web handlers or event systems. The included infix operators streamline the composition and termination of middleware steps, making it easier to build and execute complex transformation chains. While one submodule enhances expressiveness through operator-based chaining, the other remains empty and unused.",
+      "description_length": 636,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Middleware.Monads",
-      "description": "Encapsulates values in a monadic structure that supports transformation, sequencing, and wrapping without additional effects. Operates on any type within a container that mirrors the original value's structure. Allows chaining of operations in a consistent manner, such as mapping over values or combining sequences. Enables uniform handling of computations in pipelines that require monadic consistency.",
-      "description_length": 404,
+      "module_path": "Middleware.MONAD",
+      "library": "middleware",
+      "description": "This module defines core monadic operations for composing middleware functions. It supports `map`, `bind`, and `return` to manipulate values within a monadic context, enabling sequential composition and value injection. It works with the monadic type `'a t`, allowing structured chaining of middleware actions.",
+      "description_length": 310,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Middleware.Make",
-      "description": "Applies a function to each element of a monadic structure and returns a new monadic value. Chains operations by passing the result of one monadic computation to the next. Wraps a value into a monadic context for sequential processing.",
-      "description_length": 234,
+      "module_path": "Middleware.Infix",
+      "library": "middleware",
+      "description": "This module defines infix operators for composing and terminating middleware functions. It works with the `Middleware.t` type, which represents functions that wrap other functions in a processing chain. Use `<<>>` to combine two middlewares into a sequential chain and `<&>` to terminate a middleware chain with a final function, enabling concise pipeline definitions.",
+      "description_length": 368,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Middleware.Make2",
-      "description": "Provides operations to transform, sequence, and lift values within a monadic context. Works with a type that encapsulates values along with a monadic context, supporting function application and chaining. Used to handle sequential computations where each step depends on the previous one's result, such as processing data streams or managing side effects in a controlled way.",
-      "description_length": 375,
+      "module_path": "Middleware.MONAD2",
+      "library": "middleware",
+      "description": "This module defines monadic operations for handling values wrapped in a two-parameter type constructor, supporting composition of effectful computations. It provides `map`, `bind`, and `return` to transform, sequence, and inject values into the monadic structure. Concrete use cases include managing effectful middleware chains where each step depends on the result of the previous, such as request processing pipelines with context or state propagation.",
+      "description_length": 454,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Middleware.Diverter",
-      "description": "Handles control flow redirection in a middleware pipeline, transforming input and output between stages using a provided function. Operates on tuples of input, intermediate output, and final output types. Used to route processed data from one middleware component to another while preserving transformation logic.",
-      "description_length": 313,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Middleware.Infix",
-      "description": "Provides composition and termination operations for typed, layered data transformations. Works with structured data types that represent input, intermediate, and output states across multiple layers. Used to chain sequential processing steps and finalize computations with monadic results.",
-      "description_length": 289,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "middleware",
-      "description": "Provides functions to wrap and execute inner functions with additional behavior, such as timing or authentication. Works with function values and their arguments, enabling context setup and teardown. Used to instrument function calls for logging, performance tracking, or access control.",
-      "description_length": 287,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Middleware",
-      "description": "Provides operations to transform and sequence values within a monadic context, including mapping over values and binding actions that produce new monadic values. Works with a type parameterized by a monoidal context and a value, allowing for chained computations. Used to handle side effects or contextual data in a compositional way, such as managing state or error handling within a pipeline.",
-      "description_length": 394,
-      "index": 11,
+      "library": "middleware",
+      "description": "This module orchestrates middleware pipelines where functions wrap and modify the behavior of others, enabling layered processing of inputs and outputs. It centers on types like `'a t` and diverter constructs, with core operations such as `compose` for chaining and `terminate` for final execution, often in combination with infix operators like `<<>>` and `<&>`. The submodules enhance this system by introducing monadic structures\u2014supporting `map`, `bind`, and `return`\u2014that allow effectful or pure transformations to be sequenced, such as validating, logging, or authenticating requests in a web framework. Specific pipelines can combine middleware steps for data normalization and authentication, using monadic composition and infix syntax to build concise, executable chains.",
+      "description_length": 780,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 13,
+    "meaningful_modules": 9,
+    "filtered_empty_modules": 4,
+    "retention_rate": 0.6923076923076923
   },
   "statistics": {
-    "max_description_length": 419,
-    "min_description_length": 234,
-    "avg_description_length": 336.3333333333333,
-    "embedding_file_size_mb": 0.04401874542236328
+    "max_description_length": 780,
+    "min_description_length": 308,
+    "avg_description_length": 454.6666666666667,
+    "embedding_file_size_mb": 0.033127784729003906
   }
 }

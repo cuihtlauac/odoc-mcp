@@ -1,70 +1,93 @@
 {
   "package": "lru",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:29:51.533517",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:20.046771",
   "modules": [
     {
-      "module_path": "Lru.M.Make",
-      "description": "Compares keys for equality and generates hash values for key-based data structures. Operates on arbitrary types through user-defined equality and hashing functions. Used to implement hash tables or sets where custom key comparison and hashing are required.",
-      "description_length": 256,
+      "module_path": "Lru.F.S",
+      "library": "lru",
+      "description": "The module provides a functional LRU cache implementation using a priority search queue to manage key-value bindings under weight-based capacity constraints. It supports operations like insertion, removal, promotion, and weight-aware trimming with logarithmic time complexity, along with folding, iteration, and bulk conversions sensitive to usage order or key sorting. This structure is ideal for resource caching scenarios where items have variable weights, such as memory or network resource management, ensuring efficient eviction of least-recently-used entries while preserving immutability.",
+      "description_length": 596,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lru.M.MakeSeeded",
-      "description": "Compares keys using a custom equality function and generates consistent hash values based on a provided seed. Operates on values of type `t` to ensure deterministic hashing behavior. Used to create hash tables with predictable collision resistance under specific seeding conditions.",
-      "description_length": 282,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lru.F.Make",
-      "description": "Compares two values of type t using a total ordering, returning -1, 0, or 1 based on their relative positions. It operates on the abstract type t, which represents keys in a structured format. This function is used to sort or order elements in data structures that require a defined comparison logic.",
-      "description_length": 300,
-      "index": 2,
+      "module_path": "Lru.M.MakeSeeded",
+      "library": "lru",
+      "description": "This module implements a mutable LRU cache with weight-based capacity control, offering operations to insert, remove, and access key-value pairs while maintaining least-recently-used eviction semantics. It combines a hash table with a doubly-linked list to track usage order and supports traversal, serialization, and human-readable output for debugging. Suitable for resource-constrained caching scenarios where entries have variable weights, such as memory-limited object pools or prioritized data buffering.",
+      "description_length": 510,
+      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lru.F",
-      "description": "This module offers operations to manage bounded key-value collections using an LRU (Least Recently Used) eviction policy, including insertion, deletion, promotion, and traversal in LRU or sorted order. It works with generic key-value pairs, enabling customization through formatting functions for output and conversion between maps and lists. Use cases include implementing caches, tracking recent interactions, or maintaining ordered data structures with efficient access patterns.",
-      "description_length": 482,
+      "module_path": "Lru.M.Make",
+      "library": "lru",
+      "description": "This module implements a mutable cache with weighted capacity management, using a hash table paired with a doubly-linked list to enable O(1) access and LRU-based eviction. It supports key-value operations, iteration in LRU-to-MRU order, and automatic trimming when cumulative weights exceed capacity, making it suitable for resource-constrained caching scenarios like memory-sensitive data retention or bounded-size lookup tables. The module works with arbitrary key and value types where weights are derived from values, enabling use cases that require prioritizing recently used entries while respecting dynamic size limits.",
+      "description_length": 626,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru.M.S",
+      "library": "lru",
+      "description": "This module implements a mutable finite map with weight-bounded capacity, using a hash table and doubly-linked list to track key-value pairs. It supports operations for inserting, accessing, and removing elements with customizable weights, automatically evicting least-recently-used entries when the cumulative weight exceeds a configured limit. Such structures are useful for memory-constrained caching scenarios where entries vary in size or resource footprint, requiring efficient O(1) access patterns while maintaining strict capacity bounds.",
+      "description_length": 546,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lru.M",
-      "description": "This module offers operations to manage key-value caches with LRU (Least Recently Used) eviction, including adding, removing, promoting, and retrieving entries, as well as iterating through items in LRU-to-MRU order. It works with mutable structures that track usage patterns of arbitrary key-value pairs, enabling efficient cache resizing and eviction. Use cases include optimizing memory-limited systems like web proxies or database query caches, where frequent access patterns require dynamic resource management.",
-      "description_length": 516,
+      "module_path": "Lru.F.Make",
+      "library": "lru",
+      "description": "This module implements a weight-bounded functional cache with operations to insert, remove, and retrieve key-value pairs while enforcing capacity limits through LRU eviction. It uses an ordered map structure where keys are compared via `K.t` and values carry weights determined by `V.t`, maintaining internal consistency through priority search queues. Typical applications include memory-constrained caches where entries require variable weighting (e.g., byte-size tracking) or bounded session stores where temporal access patterns dictate retention priority.",
+      "description_length": 560,
       "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru.M",
+      "library": "lru",
+      "description": "This module provides a mutable LRU map backed by a hash table and doubly-linked list, supporting O(1) insertion, lookup, and removal while maintaining a total weight limit. It automatically evicts least-recently-used entries when capacity is exceeded, making it suitable for memory-constrained caching such as HTTP response buffers or session stores. The module supports key-value operations, iteration in LRU-to-MRU order, and customizable weight functions, enabling efficient resource management for variable-sized entries. Submodules extend this functionality with traversal, serialization, and debugging capabilities, all while preserving the core eviction and access semantics.",
+      "description_length": 682,
+      "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "lru",
-      "description": "Provides operations to insert, lookup, and evict entries from a weight-bounded cache, with methods to adjust the maximum allowed weight. Works with key-value pairs where each value has an associated weight, using either a persistent data structure or an in-place mutable structure. Used to manage limited resources like memory or API rate limits by automatically discarding least recently used items when the weight threshold is exceeded.",
-      "description_length": 438,
-      "index": 5,
+      "module_path": "Lru.Weighted",
+      "library": "lru",
+      "description": "This module defines types with a measurable weight, used to determine their contribution to a capacity-limited LRU cache. It includes a function `weight` that returns a strictly positive integer representing the weight of a value. This interface is essential for managing cache entries where each binding's impact on the total capacity must be explicitly defined.",
+      "description_length": 363,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru.F",
+      "library": "lru",
+      "description": "This module implements a functional LRU map using a priority search queue to manage weighted key-value pairs, automatically evicting least-recently-used entries to stay within a specified weight limit. It supports efficient insertion, lookup, deletion, and promotion operations in logarithmic time, with concrete use cases including caches for HTTP responses or bounded in-memory stores with prioritized entries. The child modules refine this structure with weight-aware trimming, ordered key comparisons, and usage-sensitive iteration, enabling applications like size-constrained memory caches or session stores with temporal access patterns. Together, they provide a coherent API for managing immutable, capacity-limited collections where both key ordering and access frequency influence retention.",
+      "description_length": 800,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lru",
-      "description": "Provides operations to manage elements with adjustable weights, including retrieving the weight of an element. Works with a type `t` representing items that contribute to a capacity limit. Used to implement cache eviction policies based on individual element weights.",
-      "description_length": 267,
-      "index": 6,
+      "library": "lru",
+      "description": "This module implements weight-bounded LRU caches that automatically evict least-recently-used entries to stay within a capacity limit, supporting both functional and imperative map variants. The mutable map uses a hash table and doubly-linked list for O(1) operations, while the functional map uses a priority search queue with O(log n) performance, both tracking access order and entry weights to manage memory-constrained storage. It handles key-value pairs where each value has a defined weight, enabling use cases like caching HTTP responses, session stores, or bounded in-memory databases. Submodules provide weight definitions, ordered traversal, and trimming logic, extending core operations with customizable weight functions, access-pattern-sensitive iteration, and efficient size management.",
+      "description_length": 801,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 516,
-    "min_description_length": 256,
-    "avg_description_length": 363.0,
-    "embedding_file_size_mb": 0.02584075927734375
+    "max_description_length": 801,
+    "min_description_length": 363,
+    "avg_description_length": 609.3333333333334,
+    "embedding_file_size_mb": 0.033110618591308594
   }
 }

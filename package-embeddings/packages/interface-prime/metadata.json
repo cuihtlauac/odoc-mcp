@@ -1,84 +1,149 @@
 {
   "package": "interface-prime",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:32:35.280678",
+  "total_modules": 16,
+  "creation_timestamp": "2025-07-15T23:09:08.929083",
   "modules": [
     {
-      "module_path": "Interface'.Monad_result.Make",
-      "description": "Constructs a value from an exception, enabling error handling within a custom type. Operates on exception values and converts them into a structured representation. Used to propagate and manage errors in a controlled manner during program execution.",
-      "description_length": 249,
+      "module_path": "Interface'.Monad.S_base",
+      "library": "interface-prime",
+      "description": "This module defines the core operations for a monadic structure, enabling sequencing of computations that carry context. It provides `return` to wrap values in a monadic context and `bind` to chain functions that produce monadic results. These operations are essential for handling effects like optional values, error propagation, or asynchronous actions in a structured way.",
+      "description_length": 375,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface'.Monad.Make",
-      "description": "Provides operations for sequencing computations with context, including lifting values into a context and chaining operations that produce contextual results. Works with a parameterized type that represents computations with side effects or dependencies. Used to construct workflows where each step depends on the successful outcome of the previous one, such as building complex data transformations or orchestrating I/O operations.",
-      "description_length": 432,
+      "module_path": "Interface'.Io.S-M",
+      "library": "interface-prime",
+      "description": "This module defines monadic operations for composing computations that produce values within a monadic context. It supports core functions like `bind`, `fmap`, and their infix variants to chain and transform monadic actions, along with `seq` to sequence a list of monadic values into a monadic list. It works specifically with values of type `'a M.t`, enabling structured control flow for effectful computations such as I/O or stateful operations.",
+      "description_length": 447,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface'.Io.M",
-      "description": "Provides monadic operations for chaining computations, including binding, sequencing, and mapping over values wrapped in a context. Works with a parameterized type 'a t, supporting sequential execution and transformation of wrapped values. Enables structured handling of effectful computations, such as parsing or stateful operations, by composing functions that return values in the same context.",
-      "description_length": 397,
+      "module_path": "Interface'.Monad.S",
+      "library": "interface-prime",
+      "description": "This module defines core monadic operations including value injection, chaining computations, and mapping functions over monadic values. It works with monadic types `'a t` that represent structured computations. Concrete use cases include handling optional values, error propagation, and asynchronous operations through a unified interface.",
+      "description_length": 340,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Interface'.Monad_result.E",
-      "description": "Converts an exception into a specific type, enabling error handling within a custom error domain. Works with the type `t` and exception values to encapsulate and propagate errors. Used to safely wrap exceptions in a structured format for controlled error flow in application logic.",
-      "description_length": 281,
+      "module_path": "Interface'.Io.S_base",
+      "library": "interface-prime",
+      "description": "This module defines basic input and output operations for handling channels, including reading exact or available amounts of data, writing strings, and closing input and output channels. It works directly with `in_channel` and `out_channel` types, providing functions that return monadic results wrapped in the `M` module. Concrete use cases include implementing network communication, file handling, or any I/O-bound tasks requiring precise control over data transmission.",
+      "description_length": 473,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface'.Io",
-      "description": "Encapsulates effectful computations through a parameterized type 'a t, enabling sequential execution and transformation of wrapped values. Supports monadic operations like binding, sequencing, and mapping to compose functions that handle side effects or state. Allows parsing, state management, and other context-dependent tasks by chaining operations that preserve computational context. For example, it can sequence a series of I/O operations or manage state transitions in a functional way.",
-      "description_length": 493,
+      "module_path": "Interface'.Monad_result.Make",
+      "library": "interface-prime",
+      "description": "This module implements monadic operations for handling computations that may fail, using the `M` monad and `E` for error values. It provides functions like `bind`, `return`, and `fmap` to chain operations, transform results, and sequence lists of computations, while `fail` and `lift_opt` handle error propagation and optional values. Concrete use cases include composing validation pipelines and managing error-prone operations with clear failure paths.",
+      "description_length": 454,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface'.Monad",
-      "description": "Provides binding and lifting operations for sequencing computations with side effects, including monadic composition via bind and sequential execution with >>. Works with parameterized types representing computational contexts, such as option, list, or state. Enables chaining of I/O operations, error handling, and asynchronous workflows in a structured manner.",
-      "description_length": 362,
+      "module_path": "Interface'.Io.S_base-M",
+      "library": "interface-prime",
+      "description": "This module defines monadic operations for composing computations that produce values within a monadic context. It supports core functions like `bind`, `fmap`, and their operator forms (`>>=`, `>|=`), enabling chaining of effectful actions and transformations. It works with monadic values of type `'a M.t`, and is used for sequencing operations, handling effects, and building complex workflows from simpler actions.",
+      "description_length": 417,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface'.Monad_result",
-      "description": "Encapsulates exceptions within a custom error type, allowing structured error handling and propagation. It operates on the type `t` and provides functions to convert and manage exceptions as part of a controlled error flow. This enables safe wrapping of error-prone operations and consistent error representation. For example, it can transform a `Not_found` exception into a domain-specific error value for use in a result type.",
-      "description_length": 428,
+      "module_path": "Interface'.Monad_result.S-E",
+      "library": "interface-prime",
+      "description": "This module defines a monadic structure for handling computations that may fail with an exception. It provides a type `t` representing values that are either successful or raised exceptions, along with the `of_exn` function to wrap exceptions into the monad. It is used to compose error-handling pipelines where failures are propagated explicitly through the type system.",
+      "description_length": 371,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "interface-prime",
-      "description": "Provides monadic operations such as bind, map, and return, along with applicative and functor interfaces for handling effectful computations. Works with type constructors that support these patterns, including asynchronous and lazy evaluation structures. Enables seamless integration with libraries like Lwt and Async by abstracting their specific implementations.",
-      "description_length": 364,
+      "module_path": "Interface'.Io.S",
+      "library": "interface-prime",
+      "description": "This module handles low-level input and output operations on channels, supporting both reading and writing of raw data types such as strings, bytes, and 64-bit integers. It provides functions to read exact or available amounts of data, close channels, and write strings to output channels, all returning results in the `M.t` monadic context. Concrete use cases include implementing custom binary protocols, parsing file formats, or managing network communication with precise control over data transfer.",
+      "description_length": 503,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Interface'",
-      "description": "Encapsulates effectful computations using a parameterized type 'a t, supporting monadic operations like bind, map, and sequencing to manage side effects, state, and I/O in a compositional way. Provides tools for error handling by wrapping exceptions in a custom error type, enabling structured propagation and conversion of errors into domain-specific representations. It allows chaining of context-aware operations, such as parsing, state transitions, or asynchronous workflows, while maintaining type safety and control flow. For instance, it can sequence file reads, manage optional values, or convert exceptions into result types for robust error handling.",
-      "description_length": 660,
+      "module_path": "Interface'.Monad.Make",
+      "library": "interface-prime",
+      "description": "This module implements monadic operations for a custom type `t`, providing core functions like `bind`, `return`, and `fmap` with standard operator aliases. It works with values wrapped in the monadic type `'a t`, enabling chaining and transformation of effectful computations. Concrete use cases include handling optional values, managing state transitions, or sequencing asynchronous operations with consistent error handling.",
+      "description_length": 427,
       "index": 8,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Interface'.Monad_result.ErrorType",
+      "library": "interface-prime",
+      "description": "This module defines an error type `t` and a function `of_exn` that converts exceptions into values of this error type. It is used to represent and handle error conditions in computations that return `Monad_result` values. A concrete use case is capturing exception-based errors during file I/O or parsing, allowing them to be propagated and handled within result-returning functions.",
+      "description_length": 383,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Interface'.Monad.ErrorType",
+      "library": "interface-prime",
+      "description": "This module defines a monadic structure for handling computations that may fail, providing an `of_exn` function to wrap exceptions into the error type. It works with a polymorphic type `t` representing values that can either succeed or fail. Concrete use cases include error propagation in parsing, input validation, and system operations where exceptional failure needs to be explicitly handled.",
+      "description_length": 396,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Interface'.Monad_result.S",
+      "library": "interface-prime",
+      "description": "This module implements monadic operations for handling computations that may fail, using the `E` submodule to represent error values. It provides functions like `bind`, `map`, and their infix operators to chain and transform computations, along with utilities to sequence lists of results, inject values, and convert optional values into result-aware contexts. Concrete use cases include structuring error-handling pipelines and composing operations that depend on prior successful outcomes.",
+      "description_length": 491,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Interface'.Io",
+      "library": "interface-prime",
+      "description": "This module provides core input/output operations for working with data streams through channels, offering precise control over buffering, encoding, and low-level data handling. It supports operations on `in_channel`, `out_channel`, string, and bytes types, enabling tasks like implementing network protocols, streaming files, and managing interactive terminals. The module combines direct functions for channel manipulation with monadic combinators from its submodules, allowing effectful I/O workflows to be composed using `bind`, `fmap`, and sequencing utilities. Specific capabilities include reading exact byte amounts, writing strings to output channels, and transforming monadic I/O actions into structured pipelines.",
+      "description_length": 724,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Interface'.Monad",
+      "library": "interface-prime",
+      "description": "This module provides a foundational framework for building and composing monadic structures, centered around abstract types `'a t` and core operations like `bind`, `return`, and `fmap`. It supports custom monad implementations with error handling, enabling structured sequencing of effectful computations such as error propagation, optional values, and stateful or asynchronous operations. Child modules refine this interface with specific instantiations, including error-aware monads that capture failure conditions and standard operators for chaining and transforming monadic values. Examples include parsing with error tracking, validating inputs with short-circuiting logic, and managing state transitions through pure, composable functions.",
+      "description_length": 745,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Interface'.Monad_result",
+      "library": "interface-prime",
+      "description": "This module provides a monadic framework for composing computations that can fail, using the `Result` type to represent either a success value or an error. It includes core operations like `bind`, `map`, and `return` to sequence and transform results, while utilities like `lift_opt` and functions for handling exceptions allow integration of optional and exception-raising code. Submodules extend this structure with specialized error types, exception handling, and monadic combinators, enabling use cases such as validation pipelines, error-resilient I/O, and sequencing dependent operations with explicit failure propagation. Specific examples include transforming a list of result-returning computations into a single result, converting exceptions into typed errors, and chaining file operations that short-circuit on the first failure.",
+      "description_length": 840,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Interface'",
+      "library": "interface-prime",
+      "description": "This module combines monadic structures with I/O capabilities to manage effectful computations and data streams with precision. It centers around data types like `'a t` for monadic values, `Result.t` for error-aware computations, and channel-based I/O primitives for handling input and output operations. Key operations include `bind`, `map`, and `return` for sequencing, along with channel reading, writing, and transformation functions. You can use it to build resilient parsing pipelines, manage stateful I/O with error handling, or implement network protocols with controlled buffering and encoding.",
+      "description_length": 603,
+      "index": 15,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 9,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9
+    "total_modules_in_package": 16,
+    "meaningful_modules": 16,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 660,
-    "min_description_length": 249,
-    "avg_description_length": 407.3333333333333,
-    "embedding_file_size_mb": 0.03315925598144531
+    "max_description_length": 840,
+    "min_description_length": 340,
+    "avg_description_length": 499.3125,
+    "embedding_file_size_mb": 0.05854225158691406
   }
 }

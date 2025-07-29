@@ -1,105 +1,101 @@
 {
   "package": "cmdlang-stdlib-runner",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:33:17.956096",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:09.107810",
   "modules": [
     {
-      "module_path": "Cmdlang_stdlib_runner.Positional_state.One_pos",
-      "description": "Provides operations to create and manipulate a single, non-optional value wrapped in a type-safe container, including lifting functions to operate on the contained value and checking for presence. Works with the 'a t type, which holds a single element or is empty, and the packed type, which represents a value with a known, fixed size. Used to enforce exactly one occurrence of a value in parsing or configuration validation scenarios.",
-      "description_length": 436,
+      "module_path": "Cmdlang_stdlib_runner.Arg_state.Parse_error",
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module defines error types for handling parsing failures during command line argument processing, specifically for missing required arguments and positional arguments. It works with structured types like `Cmdlang_ast.Ast.Nonempty_list.t` and `Cmdlang_ast.Ast.Param.t` to capture detailed context when an argument is absent. Concrete use cases include reporting errors when a flag expects a value but none is provided or when a positional argument is omitted in the command line input.",
+      "description_length": 489,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cmdlang_stdlib_runner.Positional_state.Pos_all",
-      "description": "Provides operations to pack and unpack values into a compact representation, including functions to serialize and deserialize data between different formats. Works with the 'a t type for structured data and the packed type for binary-encoded representations. Used to efficiently store and retrieve complex data structures in memory-constrained environments.",
-      "description_length": 357,
+      "module_path": "Cmdlang_stdlib_runner.Positional_state.One_pos",
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module manages the parsing state for a single positional argument during command-line processing. It tracks the argument's value, presence, and type-specific handling via functions like `set` and `get`. Used internally by the execution engine to bind positional arguments to their expected types as defined in the command's AST.",
+      "description_length": 333,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang_stdlib_runner.Command_selector.Selected",
-      "description": "Provides functions to filter, map, and fold over a collection of selected elements, with support for adding and removing items from a set. Works with a polymorphic type 'a t that represents a structured collection of values. Used to manage user-selected items in a UI, such as filtering a list of options based on selection criteria.",
-      "description_length": 333,
+      "module_path": "Cmdlang_stdlib_runner.Positional_state.Pos_all",
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module implements a mutable state for collecting positional argument values during command-line parsing with `Arg.anon_fun`. It defines a GADT-based structure to track expected positional arguments and their parsed values, ensuring type-safe accumulation. It is used internally to build and execute command-line interfaces where positional arguments have specific types and order constraints.",
+      "description_length": 397,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang_stdlib_runner.Arg_state.Parse_error",
-      "description": "Provides functions to construct, inspect, and format error messages during parsing. Works with a custom type representing error details, including position, expected tokens, and contextual information. Used to generate human-readable diagnostics when parsing input streams or abstract syntax trees.",
-      "description_length": 298,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cmdlang_stdlib_runner.Arg_runner",
-      "description": "Evaluates a parsed command-line configuration to execute user-defined logic, extracting the final result from the internal representation. It operates on a type that encapsulates the parsed state and associated actions. Used to trigger the execution of a command-line tool after its arguments have been processed.",
-      "description_length": 313,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Cmdlang_stdlib_runner.Arg_state",
-      "description": "Manages intermediate parsing state for command line arguments, using mutable references to store parsed values. Supports constructing and reporting errors with detailed diagnostics, including positions and expected tokens. Enables tracking of flags, their names, documentation, and associated mutable storage. Allows for structured parsing of command line inputs and retrieval of parsed values through referenced variables.",
-      "description_length": 423,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cmdlang_stdlib_runner.Command_selector",
-      "description": "Selects commands from a hierarchical structure based on command-line prefixes, returning both the matched command and the parsing index. It operates on a polymorphic collection type 'a t, supporting filtering, mapping, folding, and modifying elements. This enables dynamic management of command selections, such as refining a list of subcommands by user input. For instance, it can isolate a specific subcommand from a nested group and track where parsing should continue.",
-      "description_length": 472,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cmdlang_stdlib_runner.Param_parser",
-      "description": "Parses command-line strings into typed values using parameter specifications, such as converting \"42\" to 42 as an integer. Works with parameter types defined in `Cmdlang_ast.Ast.Param`, including integers, strings, and custom types. Generates help documentation by extracting or formatting parameter values, such as displaying default values or usage examples.",
-      "description_length": 360,
-      "index": 7,
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module manages the parsing phase of command line arguments by maintaining mutable state for intermediate results, transforming `Cmdlang_ast.Ast.Arg.t` structures into a runtime representation for argument processing. It tracks and collects parsed values, supporting operations like handling flags that expect values and managing positional arguments. The child module defines error types for parsing failures, such as missing required arguments, providing detailed context using types like `Cmdlang_ast.Ast.Nonempty_list.t` and `Cmdlang_ast.Ast.Param.t`. Together, they enable robust argument parsing with precise error reporting and state management during command line evaluation.",
+      "description_length": 687,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cmdlang_stdlib_runner.Parser_state",
-      "description": "Tracks and accumulates parsing data during command-line argument processing. Manages argument specifications, positional state, and finalizes into an executable expression. Processes command-line arguments into a structured form for evaluation.",
-      "description_length": 244,
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module manages a mutable parser state used to accumulate command-line argument information during parsing. It provides operations to create an initial state from an AST argument definition, retrieve a list of Arg specifications for parsing, and extract positional argument state. After parsing, it finalizes the state into an executable argument runner or returns a parse error.",
+      "description_length": 383,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang_stdlib_runner.Param_parser",
+      "library": "cmdlang-stdlib-runner",
+      "description": "Converts command-line string parameters to typed values based on parameter specifications. Works with `Cmdlang_ast.Ast.Param.t` types, handling conversions like string to integer or boolean. Used during command execution to validate and transform user input into the expected types for further processing.",
+      "description_length": 305,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang_stdlib_runner.Arg_runner",
+      "library": "cmdlang-stdlib-runner",
+      "description": "Handles the final evaluation phase of a command-line argument parser generated by `cmdlang`. It takes the fully parsed and validated configuration and executes the corresponding user-defined actions. This module works directly with the internal representation of parsed command-line arguments, converting them into executable functions that produce the desired output. Use this module when running a fully constructed command-line tool, where all parsing and validation has already been completed.",
+      "description_length": 497,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cmdlang_stdlib_runner.Command_selector",
+      "library": "cmdlang-stdlib-runner",
+      "description": "The module enables command selection within a hierarchical group structure by matching the prefix of the provided command-line arguments against a nested command tree. It centers around the `select` function, which operates on `Cmdlang_ast.Ast.Command.t` to identify and return the appropriate command in the `Selected` submodule. This supports use cases like resolving subcommands in a multi-level CLI, where the input may only partially match the full command path. The `Selected` submodule provides structured access to the resolved command and its associated arguments.",
+      "description_length": 573,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Cmdlang_stdlib_runner.Positional_state",
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module manages mutable state for parsing positional command-line arguments, combining an array of per-argument specifications with an optional catch-all handler to track values and validate input. It advances the current position as arguments are processed through `anon_fun`, and constructs usage messages with `usage_msg` based on expected positional parameters. The child modules provide per-argument state management with typed `set` and `get` operations, and a GADT-based structure that enforces type-safe accumulation of parsed values during command execution. Example usage includes binding a sequence of required and optional positional arguments with specific types, such as parsing a filename followed by an optional integer count.",
+      "description_length": 746,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cmdlang_stdlib_runner.Positional_state",
-      "description": "Tracks and manages parsed positional argument values, supporting both single and structured data through type-safe containers and compact binary representations. It offers operations to create, check, and transform values within 'a t types, as well as pack and unpack data between structured and binary formats. Users can enforce exact occurrence constraints, lift functions over contained values, and efficiently serialize complex data. For example, it can validate that exactly one input file is provided or convert a configuration record into a binary blob for storage.",
-      "description_length": 572,
+      "module_path": "Cmdlang_stdlib_runner",
+      "library": "cmdlang-stdlib-runner",
+      "description": "This module executes command-line interfaces described by `Cmdlang.Command.t`, using `stdlib.arg` for parsing. It provides `run` to execute commands directly, `eval` to parse and run with explicit arguments, and `eval_exit_code` for handling exit codes, supporting typed arguments, flags, and subcommands. The parsing phase is managed by child modules that transform `Cmdlang_ast.Ast.Arg.t` into a runtime representation, accumulate parsed values, and report errors like missing arguments or type mismatches. Submodules handle stateful argument parsing, command selection in nested trees, typed parameter conversion, and final execution of user-defined actions based on fully parsed configurations.",
+      "description_length": 698,
       "index": 9,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "cmdlang-stdlib-runner",
-      "description": "Provides a domain-specific language for defining command-line interfaces, supporting parsing of flags, options, and positional arguments. Works with OCaml's type system to generate structured representations of command-line inputs. Used to create custom CLI tools that integrate with existing execution frameworks like cmdliner and core.command.",
-      "description_length": 345,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cmdlang_stdlib_runner",
-      "description": "Executes command-line configurations by processing parsed states, managing argument parsing with mutable references, and selecting commands based on input prefixes. It handles typed value conversion, tracks positional arguments, and supports structured data manipulation and serialization. Operations include error reporting, command selection, parameter parsing, and data transformation. Examples include validating input constraints, generating help text, and converting configurations to binary formats.",
-      "description_length": 506,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 11,
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9090909090909091
   },
   "statistics": {
-    "max_description_length": 572,
-    "min_description_length": 244,
-    "avg_description_length": 388.25,
-    "embedding_file_size_mb": 0.04400825500488281
+    "max_description_length": 746,
+    "min_description_length": 305,
+    "avg_description_length": 510.8,
+    "embedding_file_size_mb": 0.036774635314941406
   }
 }

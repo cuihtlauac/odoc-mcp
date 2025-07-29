@@ -1,98 +1,149 @@
 {
   "package": "mnd",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:43.252081",
+  "total_modules": 16,
+  "creation_timestamp": "2025-07-15T23:08:38.854482",
   "modules": [
     {
-      "module_path": "Mnd.Instances.Option",
-      "description": "Provides operations to handle optional values, including lifting functions into the option monad, sequencing computations, and transforming lists with monadic effects. Works with the option type, allowing safe propagation of absence of values through chains of operations. Enables conditional execution, list transformations, and sequential composition of monadic actions that may fail.",
-      "description_length": 386,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mnd.Instances.Result",
-      "description": "Provides operations to chain computations that may fail, transform successful values, and combine results. Works with the `('a, 'b) t` type, representing either a success value of type 'a or a failure of type 'b. Enables sequential execution of I/O operations, error propagation in parsing, and combining multiple result-bearing computations.",
-      "description_length": 342,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Mnd.Instances.State",
-      "description": "Provides monadic operations for sequencing computations that carry a state of type 'b, including binding, mapping, and state manipulation. Works with stateful computations represented as functions from 'b to ('b * 'a), enabling transformations and chaining of stateful actions. Used to manage and propagate state through a series of operations, such as updating a configuration or tracking progress in a computation.",
-      "description_length": 416,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Mnd.Instances.Reader",
-      "description": "Provides operations to sequence computations that carry a shared environment, including mapping, binding, and chaining actions. Works with the function type ('a, 'b) t, which represents a computation that produces a value of type 'a while consuming an environment of type 'b. Executes environment-aware workflows such as processing a list of inputs with a shared context or conditionally executing actions based on a boolean.",
-      "description_length": 425,
-      "index": 3,
+      "library": "mnd",
+      "description": "This module implements a reader monad that allows functions to implicitly carry and access a shared environment. It provides operations to chain computations that depend on this environment, including `bind`, `map`, and applicative-style operators like `let*` and `let+`. Use cases include dependency injection, configuration management, and passing contextual data through a series of transformations without explicit parameter passing.",
+      "description_length": 437,
+      "index": 0,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mnd.Instances.Option",
+      "library": "mnd",
+      "description": "This module implements monadic operations for the Option type, enabling sequential computation with values that may be absent. It provides core functions like `bind`, `map`, and their operator forms (`>>=`, `|>>`) to chain computations that handle optional values. These operations are useful for safely propagating `None` results through a series of transformations or conditional logic without explicit pattern matching.",
+      "description_length": 422,
+      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Mnd.Instances.Writer",
-      "description": "Provides operations to combine values of type t using monoidal composition, with a neutral element for empty values. Works with structured data that supports associative combining, such as logs or accumulators. Used to concatenate logging contexts or aggregate results in a sequential processing pipeline.",
-      "description_length": 305,
-      "index": 4,
+      "library": "mnd",
+      "description": "This module implements a writer monad that accumulates values of type `M.t` during computations. It provides standard monadic operations like `return`, `map`, and `bind`, along with operators such as `let*`, `let+`, `>>=`, and `|>>`, enabling sequential composition and function application within the monadic context. Additionally, it includes utility functions like `foldM`, `mapM`, and `iterM` for working with lists in a monadic way, and `write` allows appending to the accumulated log or output of type `M.t`.",
+      "description_length": 514,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mnd.Instances.Result",
+      "library": "mnd",
+      "description": "This module implements monadic operations for handling result values, providing functions like `return`, `map`, `bind`, and various applicative and monadic combinators. It works with the standard Result type, where values are either successful (`Ok`) or failed (`Error`). Concrete use cases include chaining error-prone computations, validating input before processing, and aggregating errors across multiple operations.",
+      "description_length": 420,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mnd.Make2",
-      "description": "Provides operations to transform values within a context that may contain an error, including lifting values into this context, applying functions to the contained value, and chaining operations that produce new contexts. Works with a type parameterized by a success type and an error type, allowing for sequential computation while preserving error states. Used to handle optional or error-prone computations in a structured way, such as parsing input or processing data with potential failures.",
-      "description_length": 496,
+      "module_path": "Mnd.Instances.MONOID",
+      "library": "mnd",
+      "description": "This module defines a monoid structure with an identity element `mempty` and an associative binary operation `mappend`. It works with a single abstract type `t` and provides operations to combine values of that type. Concrete use cases include combining lists, numbers under addition, or strings under concatenation.",
+      "description_length": 316,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mnd.Instances.State",
+      "library": "mnd",
+      "description": "This module implements a state monad that threads a mutable state through a sequence of computations. It provides core monadic operations like `bind`, `map`, and their infix variants, along with utilities for state manipulation such as `get`, `put`, and `run`. Functions like `foldM`, `mapM`, and `ifM` enable stateful iterations, conditional execution, and transformations over lists.",
+      "description_length": 385,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mnd.Make2WithProduct",
-      "description": "Handles computations that may fail, supporting transformation, chaining, and combination of results. Operates on a monadic type that wraps a value or an error. Combines two computations to produce a tuple of their results while preserving any shared error.",
-      "description_length": 256,
+      "module_path": "Mnd.MONAD",
+      "library": "mnd",
+      "description": "This module defines core monadic operations including `return`, `bind`, and `map`, along with syntactic sugar like `let*` and `let+` for sequencing computations. It works with monadic values of type `'a t`, enabling composition of effectful computations. Concrete use cases include chaining I/O operations, handling optional values, and managing stateful computations where each step depends on the result of the previous.",
+      "description_length": 422,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mnd.Make",
-      "description": "Provides operations to construct and chain computations within a monadic context. Supports transforming values with `map`, sequencing actions with `bind`, and wrapping values with `return`. Works with parameterized types `'a t` to encapsulate computations that may involve side effects or asynchronous behavior.",
-      "description_length": 311,
+      "module_path": "Mnd.MONAD2",
+      "library": "mnd",
+      "description": "This module implements monadic operations for a polymorphic type `('a, 'b) t`, supporting composition of effectful computations. It provides functions like `bind`, `map`, and `foldM` for sequencing actions and transforming values within a monadic context. Use it to handle error propagation, stateful computations, or asynchronous workflows with precise control over side effects.",
+      "description_length": 380,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mnd.Instances",
-      "description": "Provides operations for combining and initializing instances of a type `t`, including an empty value and a binary append operation. Works with any data structure that supports these monoidal operations. Used to merge configurations or accumulate results in a consistent manner.",
-      "description_length": 277,
+      "module_path": "Mnd.Make2WithProduct",
+      "library": "mnd",
+      "description": "This module implements monadic operations for a custom type `('a, 'b) t`, supporting composition through `bind`, `map`, and applicative-style operators like `let*` and `|>>`. It provides utilities for sequencing computations that carry both a result and an effect, such as error handling or state transitions, with functions like `foldM`, `mapM`, and `ifM` enabling structured control flow over lists and conditions. Use cases include building pipelines that thread error contexts through a series of dependent computations or managing transformations with associated metadata.",
+      "description_length": 577,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "mnd",
-      "description": "Provides monadic binding (`>>=`), mapping (`mapM`), and syntax extensions for sequencing operations. Works with monadic types that have one or two type parameters. Enables cleaner handling of effectful computations and state transformations in a structured way.",
-      "description_length": 261,
+      "module_path": "Mnd.MONAD_DEF",
+      "library": "mnd",
+      "description": "This module defines the core operations required to implement a monad: `return` wraps a value into a monadic context, `map` applies a function to a monadic value, and `bind` sequences two monadic actions. It works with any type `'a t` representing a monadic structure, such as optional values, lists, or asynchronous computations. Concrete use cases include chaining database queries, handling optional values without nested pattern matching, and composing asynchronous operations.",
+      "description_length": 481,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mnd",
-      "description": "Provides monadic operations for sequencing computations that may fail, including binding, mapping, and folding over lists. Works with the `( 'a, 'b ) t` type, representing computations that yield a value of type `'a` or an error of type `'b`. Enables error-aware transformations, such as applying a function to a value within a context or executing a series of operations that accumulate errors.",
-      "description_length": 395,
+      "module_path": "Mnd.Instances",
+      "library": "mnd",
+      "description": "This module provides monadic and applicative abstractions for composing effectful computations, integrating core data types like Option, Result, State, Reader, and Writer. It enables handling optional values, error propagation, environment access, state threading, and output accumulation through unified interfaces with operators like `let*`, `let+`, `bind`, and `map`. For example, the Reader supports dependency injection by implicitly passing configuration, while Result allows chaining validations that short-circuit on errors. The Writer accumulates logs or metrics alongside computations, State manages transformations of internal state, and Option safely propagates absent values\u2014all with utilities like `mapM`, `foldM`, and `iterM` for working with collections in a monadic context.",
+      "description_length": 791,
       "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mnd.MONAD2_WITH_AND",
+      "library": "mnd",
+      "description": "This module implements monadic operations for a two-parameter type constructor, supporting chaining computations with `bind`, `map`, and applicative-style composition using `let*`, `let+`, and `and*` operators. It provides utilities for working with lists in a monadic context, including `mapM`, `foldM`, and `iterM`, which enable transforming, folding, and iterating over lists while accumulating effects. These functions are particularly useful for handling effectful operations like error propagation or state manipulation over collections.",
+      "description_length": 543,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mnd.Make2",
+      "library": "mnd",
+      "description": "This module implements monadic operations for a parameterized type `('a, 'b) t`, including `return`, `bind`, and various composition operators like `(>>=)` and `(let*)`. It supports working with values wrapped in a monadic context, enabling sequential computation with effects such as error handling or state. Specific functions like `mapM`, `foldM`, and `iterM` allow mapping, folding, and iteration over lists within the monad, while `ifM` provides conditional execution based on a boolean flag.",
+      "description_length": 497,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mnd.Make",
+      "library": "mnd",
+      "description": "Instantiates a monad interface with operations like `return`, `bind`, and `map`, along with syntactic sugar such as `let*` and `let+`. It works with a custom type `'a t` defined by the input module `M`, allowing composition of sequential and transformed monadic computations. Use to build and chain effectful operations like stateful computations, error handling, or asynchronous actions, where each step depends on the result of the previous.",
+      "description_length": 443,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mnd.MONAD2_DEF",
+      "library": "mnd",
+      "description": "This module implements monadic operations for a two-argument type constructor, supporting `return` for wrapping values, `map` for transforming contained values, and `bind` for chaining computations. It works with types of the form `('a, 'b) t`, where the first type parameter varies while the second remains fixed. Concrete use cases include handling effectful computations with a consistent error or environment type, such as parsing with error tracking or stateful operations.",
+      "description_length": 478,
+      "index": 14,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mnd",
+      "library": "mnd",
+      "description": "This module structures computations using unary and binary monads, enabling effectful operations like `bind`, `map`, and `return` to sequence actions and transform values within contexts such as options, results, or custom effects. It supports both single-parameter types `'a t` and two-parameter types `('a, 'b) t`, allowing fixed contexts like error or environment types to persist across operations. Functions like `foldM`, `mapM`, and `ifM` enable structured control flow over lists and conditions, while syntactic sugar such as `let*` and `let+` simplifies chaining and composing computations. Submodules extend this foundation with applicative and monadic utilities for state, reader, writer, and result types, enabling use cases like error propagation, configuration handling, and logging pipelines.",
+      "description_length": 806,
+      "index": 15,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 16,
+    "meaningful_modules": 16,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 496,
-    "min_description_length": 256,
-    "avg_description_length": 351.8181818181818,
-    "embedding_file_size_mb": 0.040398597717285156
+    "max_description_length": 806,
+    "min_description_length": 316,
+    "avg_description_length": 494.5,
+    "embedding_file_size_mb": 0.05853080749511719
   }
 }

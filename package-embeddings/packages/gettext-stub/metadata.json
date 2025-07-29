@@ -1,42 +1,53 @@
 {
   "package": "gettext-stub",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:27:45.676972",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:44.406837",
   "modules": [
     {
-      "module_path": "gettext-stub",
-      "description": "Provides functions to translate strings at runtime and extract translatable content during compilation, using localized message catalogs. Works with strings and format strings, supporting pluralization and formatted output. Enables display of user-specific language messages, such as showing \"bonjour\" for French speakers and \"hello\" for English speakers.",
-      "description_length": 355,
+      "module_path": "GettextStub.Preload",
+      "library": "gettext-stub",
+      "description": "This module provides the `realize` function, which preloads all translation strings for a given text domain by leveraging the native gettext library. It operates on `GettextTypes.t` values, transforming them into fully realized translation environments (`GettextTypes.t'`). Use this module when early loading of all translations is preferred, such as in environments where translation completeness is critical at startup.",
+      "description_length": 421,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "GettextStub",
-      "description": "Provides access to the native gettext library for internationalization, enabling translation of strings at runtime. Exposes functions for loading message catalogs and retrieving localized strings. Supports handling of domain-specific translations and character encoding conversions. Can be used to dynamically switch languages or fetch translated error messages in applications.",
-      "description_length": 378,
+      "module_path": "GettextStub.Native",
+      "library": "gettext-stub",
+      "description": "Implements translation retrieval using the native gettext C library, binding all translations directly to C calls. Works with `GettextTypes.t` configurations to produce localized strings with format checking. Useful for applications requiring integration with system-level gettext infrastructure and compiled message catalogs.",
+      "description_length": 326,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "GettextStubCompat",
-      "description": "Provides functions to manage locale settings, look up translated strings, and handle plural forms using the gettext C library. Works with locale categories, message domains, and character encodings to customize translation behavior. Enables dynamic translation of application messages based on user locale and domain-specific catalogs.",
-      "description_length": 335,
+      "library": "gettext-stub",
+      "description": "This module directly interfaces with the C gettext library, enabling localization tasks such as setting locales, retrieving translated strings, and managing message catalogs. It operates on strings and enumerated locale categories (like LC_MESSAGES), supporting functions for singular/plural translations and domain-specific lookups. Concrete use cases include implementing multilingual applications, translating UI elements, and handling regional formatting for time or currency.",
+      "description_length": 480,
       "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "GettextStub",
+      "library": "gettext-stub",
+      "description": "This module implements translation handling using the native gettext library, enabling applications to load and retrieve localized strings based on text domains. It operates on `GettextTypes.t` configurations, transforming them into realized translation environments or directly retrieving translated strings through C bindings. You can use it to preload all translations at startup or fetch individual translations on demand, ensuring integration with system-level gettext infrastructure and compiled message catalogs. For example, `realize` preloads translations into a `GettextTypes.t'` environment, while direct retrieval supports format-checked localized string generation during runtime.",
+      "description_length": 693,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 3,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.6
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 378,
-    "min_description_length": 335,
-    "avg_description_length": 356.0,
-    "embedding_file_size_mb": 0.011323928833007812
+    "max_description_length": 693,
+    "min_description_length": 326,
+    "avg_description_length": 480.0,
+    "embedding_file_size_mb": 0.014933586120605469
   }
 }

@@ -1,42 +1,77 @@
 {
   "package": "trace-tef",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:28:53.614931",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:06:14.193650",
   "modules": [
     {
-      "module_path": "trace-tef",
-      "description": "Provides functions to create and manipulate message counters and logging tags, supporting increment, reset, and retrieval operations. Works with custom types for counters and message identifiers, enabling fine-grained instrumentation. Used to track function calls, measure performance, and log events in real-time applications.",
-      "description_length": 327,
+      "module_path": "Trace_tef_tldrs",
+      "library": "trace-tef.tldrs",
+      "description": "This module provides functions to set up trace collection and subscription by writing to a specified file output. It works with trace data through `Trace_core.collector` and `Trace_subscriber.t` types, directing output to a file specified at setup. Concrete use cases include logging trace events to disk for analysis by the tldrs daemon, particularly in production environments where persistent trace storage is required.",
+      "description_length": 422,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Trace_tef_tldrs",
-      "description": "Provides functions to configure and manage trace collection and subscription, directing output to files or standard streams. Works with output specifications that determine where trace events are written, including environment-based activation. Enables tracing during function execution with setup and teardown, useful for debugging and logging in production environments.",
-      "description_length": 372,
+      "module_path": "Trace_tef.Subscriber.Callbacks",
+      "library": "trace-tef",
+      "description": "This module defines callbacks invoked during tracing events, handling initialization, thread/process naming, span entry/exit, data attachment, logging, counters, and manual span management. It operates on trace state (`st`), timestamps, thread IDs, spans, and structured data. Concrete use cases include capturing span lifecycle events, annotating spans with metadata, and recording metrics or logs during distributed tracing.",
+      "description_length": 426,
       "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Trace_tef.Subscriber.Buf_pool",
+      "library": "trace-tef",
+      "description": "Manages a pool of buffers for efficient memory reuse in streaming data applications. Provides functions to create a pool with configurable maximum size and buffer capacity, and to allocate or release buffers on demand. Useful for handling high-throughput event streams without frequent memory allocation.",
+      "description_length": 304,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Trace_tef.Exporter",
+      "library": "trace-tef",
+      "description": "This module provides functions to create exporters that write JSON objects to output channels or buffers. It supports writing in JSONL format or as a single JSON array, with control over resource handling and flushing. Use cases include exporting trace data to files, network streams, or in-memory buffers for logging or analysis.",
+      "description_length": 330,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Trace_tef.Writer",
+      "library": "trace-tef",
+      "description": "This module writes low-level tracing events to a JSON buffer, handling event types like durations, manual spans, instant events, thread/process naming, and counters. It operates on primitive types like integers, floats, and string pairs, along with `Buffer.t` for output. It is used to serialize trace data into TEF-compliant JSON for external consumption, such as visualization or analysis tools.",
+      "description_length": 397,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Trace_tef.Subscriber",
+      "library": "trace-tef",
+      "description": "This module coordinates trace event subscription with efficient buffer management, JSON serialization, and process identification. It allows creating and managing subscribers that capture trace data through customizable callbacks for span lifecycle, metadata attachment, and logging, while leveraging buffer pooling to reduce allocation overhead during high-throughput streaming. You can use it to build custom trace exporters that process span events in real-time or to integrate diagnostic tools that capture structured logs and metrics. The combined interface supports both direct subscriber control and fine-grained event handling through its callback and buffer management submodules.",
+      "description_length": 689,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Trace_tef",
-      "description": "Emits TEF traces to a specified output using a subscriber and manages event collection through a collector. It supports writing to files, stdout, stderr, or environment-controlled destinations. Provides a scoped setup to initialize and clean up tracing within a function's execution.",
-      "description_length": 283,
-      "index": 2,
+      "library": "trace-tef",
+      "description": "This module manages trace collection and output configuration for diagnostic traces, supporting outputs like stdout, stderr, or files. It enables setting up trace subscribers, collectors, and scoped trace handling, with direct control over trace formatting and destination. Child modules provide JSON serialization of low-level events, including durations, counters, and spans, along with exporters that write JSONL or arrays to streams or buffers. You can use it to capture structured trace data in-memory, stream it to files or network endpoints, or integrate with analysis tools via customizable serialization and buffering strategies.",
+      "description_length": 638,
+      "index": 6,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 3,
-    "meaningful_modules": 3,
+    "total_modules_in_package": 7,
+    "meaningful_modules": 7,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 372,
-    "min_description_length": 283,
-    "avg_description_length": 327.3333333333333,
-    "embedding_file_size_mb": 0.011308670043945312
+    "max_description_length": 689,
+    "min_description_length": 304,
+    "avg_description_length": 458.0,
+    "embedding_file_size_mb": 0.02585601806640625
   }
 }

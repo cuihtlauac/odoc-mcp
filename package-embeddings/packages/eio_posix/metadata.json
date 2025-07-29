@@ -1,42 +1,53 @@
 {
   "package": "eio_posix",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:29:24.981705",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:04:41.855228",
   "modules": [
     {
-      "module_path": "Eio_posix.Low_level.Open_flags",
-      "description": "Provides bitwise operations to combine and manipulate file access and behavior flags, including read, write, append, create, and directory modes. Works with the `t` type, representing a set of open file flags. Used to construct precise open options for system calls like `open` or `openfile` with specific access and behavior requirements.",
-      "description_length": 339,
+      "module_path": "Eio_posix.Low_level.Process",
+      "library": "eio_posix",
+      "description": "This module directly maps POSIX process operations to an effect-based interface, handling signals, process spawning, and exit status tracking. It works with process descriptors and integrates signal delivery and wait operations into Eio's fiber-aware concurrency model. Concrete use cases include spawning child processes with precise fork/exec semantics and waiting for their termination status in an async-safe manner.",
+      "description_length": 420,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "eio_posix",
-      "description": "Reads from and writes to files, establishes network connections, and executes blocking or CPU-bound tasks in a concurrent manner. It operates on file descriptors, sockets, and asynchronous channels, enabling non-blocking I/O and parallel execution. Use it to build high-performance network servers or process large data streams efficiently.",
-      "description_length": 340,
+      "module_path": "Eio_posix.Low_level.Open_flags",
+      "library": "eio_posix",
+      "description": "This module defines constants and combinators for constructing open(2) system call flags. It supports bitwise combination of flags like read-only, write-only, append, create, and directory modes. Use it to specify file access modes and options when opening files directly on POSIX systems.",
+      "description_length": 289,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Eio_posix.Low_level",
+      "library": "eio_posix",
+      "description": "This module provides a low-level, effect-based interface to POSIX system calls, enabling direct control over asynchronous I/O, file descriptors, and file system operations while ensuring safe concurrency and resource management. It introduces core types like Fd.t for safe file descriptor handling, supports vectorized I/O with preadv/pwritev, and integrates with Eio's fiber model to automatically handle EINTR and suspend on EAGAIN. Submodules extend functionality to process management with signal handling and process spawning, and to flag combinators for constructing open(2) flags with bitwise operations. Example uses include implementing custom socket protocols, managing directory structures with atomic operations, and spawning and monitoring child processes with async-safe waits.",
+      "description_length": 791,
+      "index": 2,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Eio_posix",
-      "description": "manages file open flags using a `t` type, allowing bitwise combinations to control access modes, such as reading, writing, and creating files. It enables precise system call configuration, like setting `O_CREAT` or `O_RDWR` for `open`. A secondary module acts as a no-op placeholder, contributing no functional logic. Together, they facilitate low-level file manipulation with detailed permission and behavior control.",
-      "description_length": 418,
-      "index": 2,
+      "library": "eio_posix",
+      "description": "This module provides an event loop and POSIX-specific environment setup for asynchronous applications, combining low-level system access with safe concurrency. It introduces core types like `Fd.t` for managing file descriptors and supports operations such as vectorized I/O, signal handling, and process spawning. You can use it to build network servers, manage files atomically, or monitor child processes asynchronously. Submodules extend these capabilities with fine-grained control over system calls, process management, and flag combinators for system APIs like `open(2)`.",
+      "description_length": 577,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 3,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.5
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 418,
-    "min_description_length": 339,
-    "avg_description_length": 365.6666666666667,
-    "embedding_file_size_mb": 0.011320114135742188
+    "max_description_length": 791,
+    "min_description_length": 289,
+    "avg_description_length": 519.25,
+    "embedding_file_size_mb": 0.014937400817871094
   }
 }

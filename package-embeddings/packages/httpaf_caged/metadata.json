@@ -1,147 +1,173 @@
 {
   "package": "httpaf_caged",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 18,
-  "creation_timestamp": "2025-06-18T16:34:22.909328",
+  "total_modules": 19,
+  "creation_timestamp": "2025-07-15T23:09:08.680013",
   "modules": [
     {
       "module_path": "Httpaf_caged.Server.Response_body",
-      "description": "Handles parsing and serialization of HTTP response bodies, including handling chunked encoding and content length validation. Works with byte sequences and string data to manage data flow in network communications. Used to process incoming HTTP responses and prepare outgoing data for transmission.",
-      "description_length": 298,
+      "library": "httpaf_caged",
+      "description": "This module handles response body construction for HTTP servers using either a static string or a stream of strings via an asynchronous pipe reader. It provides operations to create, read from, and write response bodies efficiently in both synchronous and streaming contexts. Concrete use cases include sending static content like HTML pages or dynamically generated data such as logs or real-time updates.",
+      "description_length": 406,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpaf_caged.Version",
-      "description": "Compares version numbers using lexicographical order, converts versions to and from string representations, and formats them for human-readable output. It operates on a structured type representing HTTP protocol versions, including major and minor numeric components. This is used to validate incoming HTTP requests and ensure compatibility with specified protocol versions.",
-      "description_length": 374,
+      "module_path": "Httpaf_caged.Httpaf_private.Serialize",
+      "library": "httpaf_caged",
+      "description": "This module provides functions to serialize HTTP requests and responses into a Faraday buffer. It works with `Request.t` and `Response.t` types, converting them into their wire representations. Useful for implementing HTTP clients or servers that need to send raw HTTP messages over a network connection.",
+      "description_length": 304,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpaf_caged.Method",
-      "description": "Provides functions to check if a request method is safe, cacheable, or idempotent, and converts between string representations and internal types. Works with request method values defined by HTTP standards, including GET, POST, PUT, DELETE, and others. Used to enforce HTTP semantics in server logic, validate client requests, and manage caching behavior.",
-      "description_length": 355,
+      "module_path": "Httpaf_caged.Httpaf_private.Parse",
+      "library": "httpaf_caged",
+      "description": "Parses HTTP requests and responses from raw byte strings using Angstrom parsers. It operates directly on `Httpaf_caged.Request.t` and `Httpaf_caged.Response.t` types, enabling efficient, low-level HTTP message parsing. Useful for implementing custom HTTP servers or clients that require direct control over request and response handling.",
+      "description_length": 337,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged.Status",
-      "description": "Provides functions to convert between status codes and their integer representations, check classification categories like informational or client error, and generate reason phrases. Works with custom types representing HTTP status code categories and their integer values. Used to validate and categorize HTTP response codes in server-side request handling.",
-      "description_length": 358,
+      "module_path": "Httpaf_caged.Accept",
+      "library": "httpaf_caged",
+      "description": "Parses the `Accept` header from HTTP requests into a list of media types and their quality parameters. It handles wildcard types and subtypes, returning structured values like `Any`, `Any_sub_type`, or specific type pairs. This is useful for content negotiation, where a server selects a response format based on client preferences.",
+      "description_length": 332,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpaf_caged.Headers",
-      "description": "The module manages HTTP headers as ordered collections of case-insensitive key-value pairs, enabling operations like adding, removing, and combining fields with the same name by concatenating values. It supports extracting values in single or list formats, preserving semantic integrity for protocols requiring strict header ordering, such as handling Set-Cookie directives or control data in message processing. This ensures accurate parsing and generation of HTTP messages while adhering to standards like RFC7230.",
-      "description_length": 516,
+      "module_path": "Httpaf_caged.Server_connection",
+      "library": "httpaf_caged",
+      "description": "This module implements HTTP/1.1 server connection handling with explicit read and write operations, request parsing, and error reporting. It works with low-level buffer types like Bigstringaf and IOVec, and manages connection state transitions for serving HTTP requests. Concrete use cases include building custom HTTP servers that require precise control over network I/O and request processing, such as reverse proxies or streaming APIs.",
+      "description_length": 439,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged.Request",
-      "description": "Provides functions to create HTTP requests, determine body length constraints, and check for persistent connection eligibility. Works with HTTP method, version, headers, and request body metadata. Used to validate request configurations and manage connection reuse in HTTP client implementations.",
-      "description_length": 296,
+      "module_path": "Httpaf_caged.Version",
+      "library": "httpaf_caged",
+      "description": "This module represents and manipulates HTTP protocol versions using a record type with major and minor integers. It supports parsing from and converting to strings, pretty-printing, and comparing versions. Concrete use cases include handling HTTP/1.0, HTTP/1.1, and HTTP/2 version identifiers in network communication.",
+      "description_length": 318,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged.Response",
-      "description": "Provides functions to construct HTTP responses with status, headers, and optional reason/version. Computes body length based on request method and proxy status, and determines if a connection can be reused. Works with status codes, headers, and HTTP methods to handle response-specific logic.",
-      "description_length": 292,
+      "module_path": "Httpaf_caged.Method",
+      "library": "httpaf_caged",
+      "description": "This module defines HTTP method types, including standard methods and custom ones via `Other`. It provides predicates to check properties like safety, cacheability, and idempotence for standard methods, and functions to convert methods to and from strings. Use cases include handling HTTP requests, validating method types, and formatting output in web servers or clients.",
+      "description_length": 372,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Httpaf_caged.IOVec",
-      "description": "Provides operations to manipulate and query contiguous memory buffers, including calculating lengths, shifting data, and pretty-printing. Works with a buffer type representing a sequence of bytes or arbitrary data. Used to efficiently manage data chunks in network I/O or file processing pipelines.",
-      "description_length": 298,
+      "library": "httpaf_caged",
+      "description": "This module provides operations for manipulating IOVec structures, including measuring their length, shifting their contents by a specified offset, and pretty-printing them. It supports single IOVec values and lists of IOVecs, enabling efficient handling of buffered data. Concrete use cases include managing network data buffers and processing HTTP message fragments.",
+      "description_length": 368,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Httpaf_caged.Reqd",
-      "description": "Handles HTTP request and response lifecycle, including reading request data, generating responses, and streaming content. Operates on connection state and HTTP messages, supporting both synchronous and streaming response delivery. Used to manage server-side interactions where precise control over headers, body transmission, and error reporting is required.",
-      "description_length": 358,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Httpaf_caged.Config",
-      "description": "Provides functions to create and manipulate configuration records with default values for buffer sizes and thresholds. Works with a record type containing integer fields for size and limit parameters. Used to initialize system settings for data processing pipelines and network communication buffers.",
-      "description_length": 300,
-      "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpaf_caged.Server_connection",
-      "description": "Handles HTTP connection lifecycle by managing read and write operations, error reporting, and state transitions. Works with `Bigstringaf.t` for byte-level input/output, `Reqd.t` for request processing, and custom error types for exception handling. Used to process incoming HTTP requests, manage buffered data, and coordinate asynchronous I/O with yield mechanisms.",
-      "description_length": 365,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Httpaf_caged.Client_connection",
-      "description": "Handles HTTP requests and manages bidirectional communication by providing methods to initiate requests, read and write data, and manage connection states. It operates with connection objects, error and response handlers, and byte buffers for efficient data transfer. Use cases include processing HTTP responses, handling stream-based input, and managing connection shutdowns after EOF.",
-      "description_length": 386,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Httpaf_caged.Body",
-      "description": "Schedules read callbacks for byte availability and EOF detection, and manages write operations by buffering and combining data for efficient transmission. Supports writing characters, strings, and bigstrings, with options to schedule data without copying. Provides mechanisms to flush buffered data, close channels, and check closure status.",
-      "description_length": 341,
-      "index": 12,
+      "library": "httpaf_caged",
+      "description": "This module manages HTTP/1.1 client connections, handling request submission and response processing. It works with HTTP requests and responses, streaming request bodies and parsing response bodies, with support for error handling and connection lifecycle management. Concrete use cases include sending HTTP requests over a network socket, processing server responses incrementally, and handling errors such as malformed responses or unexpected connection closures.",
+      "description_length": 465,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Httpaf_caged.Server",
-      "description": "Manages HTTP response body parsing and serialization, supporting chunked encoding and content length checks. Processes byte sequences and strings to ensure correct data handling during network exchanges. Enables efficient reading and writing of response payloads. Can validate incoming data integrity and format outgoing messages for transmission.",
-      "description_length": 347,
+      "library": "httpaf_caged",
+      "description": "This module implements an HTTP server for handling TCP connections with async I/O, allowing users to define request handlers that process HTTP methods, headers, and bodies. It supports responding with static strings, redirects, streamed data from pipes, and serving static files, enabling use cases like REST APIs, dynamic content delivery, and file transfers. The child module enhances response handling by offering efficient construction of response bodies using either static strings or asynchronous streams, ideal for sending HTML pages or real-time data. Together, they provide a cohesive interface for building scalable HTTP services with both simple and streaming response workflows.",
+      "description_length": 690,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Httpaf_caged.Response",
+      "library": "httpaf_caged",
+      "description": "This module constructs and analyzes HTTP responses, providing functions to create responses with custom status, headers, and metadata. It calculates response body lengths according to HTTP rules and determines if a connection should persist based on response headers. Use it when building HTTP servers or clients to manage response formatting, transmission, and connection lifecycle decisions.",
+      "description_length": 393,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Httpaf_caged.Reqd",
+      "library": "httpaf_caged",
+      "description": "This module provides functions to handle HTTP requests and responses, including accessing request metadata, reading request bodies, and sending responses with strings, bigstrings, or streaming bodies. It works with HTTP request and response types, along with standard exceptions and result types for error handling. Concrete use cases include building HTTP servers that process incoming requests, stream large responses, or handle errors within a request context.",
+      "description_length": 463,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Httpaf_caged.Config",
+      "library": "httpaf_caged",
+      "description": "This module defines configuration parameters for HTTP connection handling, including buffer sizes for reading, request bodies, responses, and response bodies. It provides a `default` value that sets standard buffer sizes suitable for most HTTP traffic scenarios. Use this module to customize buffer sizes for performance tuning in specific networking applications.",
+      "description_length": 364,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Httpaf_caged.Httpaf_private",
+      "library": "httpaf_caged",
+      "description": "This module handles the serialization and parsing of HTTP messages, converting between in-memory representations and their wire formats. It operates on `Request.t` and `Response.t` types, using Faraday for efficient serialization and Angstrom for parsing raw byte strings. You can use it to build HTTP clients or servers that directly manage network communication, such as sending formatted requests or decoding incoming HTTP traffic. Example uses include generating HTTP/1.1 request bytes for transmission or parsing raw response data received from a socket.",
+      "description_length": 559,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged.Cookie",
-      "description": "Extracts key-value pairs from HTTP headers, specifically targeting cookie data. It processes headers in the format of a list of strings and returns a list of tuples representing parsed cookies. This is used to retrieve and decode cookies sent by a client in an HTTP request.",
-      "description_length": 274,
+      "module_path": "Httpaf_caged.Request",
+      "library": "httpaf_caged",
+      "description": "This module constructs and analyzes HTTP request messages, handling methods, targets, versions, and headers. It provides functions to determine body length, check for persistent connections, and pretty-print requests. Concrete use cases include building client requests, parsing server inputs, and managing HTTP/1.1 connection behaviors.",
+      "description_length": 337,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged.Accept",
-      "description": "Extracts media types and their associated quality values from HTTP headers. Operates on HTTP header structures to parse content negotiation preferences. Used to determine client-supported content types and their priority in request handling.",
-      "description_length": 241,
+      "module_path": "Httpaf_caged.Cookie",
+      "library": "httpaf_caged",
+      "description": "Extracts HTTP cookies from request headers, parsing them into a list of key-value pairs. It operates on `Httpaf.Headers.t` and returns tuples of strings representing cookie names and values. Useful for inspecting or processing cookies sent by clients in HTTP requests.",
+      "description_length": 268,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "httpaf_caged",
-      "description": "Provides functions to parse common HTTP request headers, including cookies and accept headers, and facilitates handling HTTP requests and responses through a simplified interface. Works with raw HTTP data and structured header values. Used to extract and process client-provided headers in web applications.",
-      "description_length": 307,
+      "module_path": "Httpaf_caged.Status",
+      "library": "httpaf_caged",
+      "description": "This module defines standard HTTP status codes as polymorphic variants, categorized into informational, successful, redirection, client error, and server error types. It provides functions to convert status codes to integers, strings, and reason phrases, as well as predicates to classify them. Use cases include validating HTTP responses, generating appropriate status messages, and handling different classes of HTTP errors in a type-safe manner.",
+      "description_length": 448,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpaf_caged",
-      "description": "Encapsulates HTTP protocol handling through structured version comparisons, method validation, and status code classification, enabling precise request and response management. It supports header manipulation, buffer operations, and connection state control, facilitating efficient data processing and protocol compliance. Functions include parsing cookies, negotiating content types, and managing chunked encoding for body transmission. It enables server-side request validation, response construction, and connection reuse logic with detailed control over HTTP semantics and data flow.",
-      "description_length": 587,
+      "module_path": "Httpaf_caged.Body",
+      "library": "httpaf_caged",
+      "description": "This module handles reading from and writing to HTTP message bodies using bigstrings and strings. It provides functions to schedule reads, write characters or strings, flush output, and close readers or writers. Concrete use cases include processing incoming HTTP request bodies and constructing outgoing response bodies in a network server.",
+      "description_length": 341,
       "index": 17,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Httpaf_caged",
+      "library": "httpaf_caged",
+      "description": "This module suite provides HTTP protocol handling with structured parsing and generation of messages, connection management, and content negotiation. Key data types include HTTP methods, status codes, headers, cookies, protocol versions, and message bodies, with operations for parsing, constructing, and manipulating each. You can build HTTP servers or clients that handle streaming I/O, manage persistent connections, select response formats based on client preferences, and process cookies or request metadata. Specific tasks include serving dynamic content with async responses, sending custom HTTP requests, and parsing raw network data into typed HTTP structures for processing.",
+      "description_length": 684,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 18,
-    "meaningful_modules": 18,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 20,
+    "meaningful_modules": 19,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.95
   },
   "statistics": {
-    "max_description_length": 587,
-    "min_description_length": 241,
-    "avg_description_length": 349.6111111111111,
-    "embedding_file_size_mb": 0.06584548950195312
+    "max_description_length": 690,
+    "min_description_length": 268,
+    "avg_description_length": 415.1578947368421,
+    "embedding_file_size_mb": 0.0694589614868164
   }
 }

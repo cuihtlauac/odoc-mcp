@@ -1,56 +1,77 @@
 {
   "package": "ortac-qcheck-stm",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:31:39.655895",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:06:03.649765",
   "modules": [
     {
-      "module_path": "Ortac_qcheck_stm.Config",
-      "description": "Processes and validates configuration data for a system under test, handling type checks, value bindings, and module declarations. Works with OCaml AST structures like core_type, value_binding, and type_declaration, and tracks configuration state during construction. Initializes configurations from strings, ensuring type correctness and extracting system-under-test information.",
-      "description_length": 380,
+      "module_path": "Ortac_qcheck_stm.Ir",
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module defines intermediate representations for terms, values, and state transitions used in model-based testing. It includes operations to construct and manipulate terms with associated source text, project values with type information, and specify preconditions, postconditions, and state modifications for functions. These structures are used to represent the behavior of system-under-test components and their interactions with ghost state in property-based testing scenarios.",
+      "description_length": 485,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ortac_qcheck_stm.Ir_of_gospel",
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module processes Gospel type and value descriptions to generate intermediate representations for stateful model-based testing. It handles operations like type unification, argument splitting, and state transition extraction, working with data types such as `val_description`, `signature_item`, and `core_type`. Concrete use cases include extracting preconditions, postconditions, and state transitions from function specifications to drive property-based testing scenarios.",
+      "description_length": 478,
+      "index": 1,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Ortac_qcheck_stm.Stm_of_ir",
-      "description": "The module provides a framework for translating intermediate representations into structured text formats. It defines abstract syntax trees and transformation rules for encoding IR constructs. Users can generate formatted output by applying these rules to IR nodes. Example tasks include converting control flow structures into human-readable code snippets.",
-      "description_length": 357,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ortac_qcheck_stm.Plugin",
-      "description": "Provides a command-line interface for executing plugin-related tasks through the `cmd` function, which returns a Cmdliner command structure. Operates with command-line argument parsing and execution logic. Used to integrate plugin management into CLI workflows, such as loading or listing plugins at runtime.",
-      "description_length": 308,
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module facilitates the translation of intermediate representations (IR) into OCaml AST constructs for stateful testing scenarios. It provides operations for term substitution, state manipulation, and the generation of expressions, patterns, and structure items from IR elements like types, identifiers, and values, with support for error handling and configuration. These utilities are specifically used to produce QCheck-based test generators, command serializers, and model modules that validate state machine behavior during property-based testing.",
+      "description_length": 556,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ortac-qcheck-stm",
-      "description": "Provides atomic read and write operations for shared memory cells, along with transactional updates that ensure consistency. Works with mutable reference types and transactional variables to manage concurrent state changes. Enables safe coordination of multiple threads during complex state transitions in testing frameworks.",
-      "description_length": 325,
+      "module_path": "Ortac_qcheck_stm.Config",
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module manages the construction and validation of configuration data for generating test models. It processes PPX AST fragments to build a validated configuration record, handling type definitions, value bindings, and module structures. Key operations include scanning declarations, validating SUT (System Under Test) types, and initializing configurations with context and module prefixes.",
+      "description_length": 395,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ortac_qcheck_stm.Plugin",
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module defines a command-line interface for integrating QCheck-based testing plugins into applications. It provides the `cmd` value, which represents a command that can be executed via the command line to run property-based tests. It is used to enable testing workflows directly through executable commands, specifically for state machine models tested with QCheck.",
+      "description_length": 370,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ortac_qcheck_stm.Reserr",
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module provides error handling and propagation mechanisms tailored for symbolic test generation, offering utilities to compose error-aware computations using monadic and applicative patterns. It introduces a `reserr` type representing fallible computations alongside error and warning variants for specific failure modes like function arity mismatches, type inconsistencies, or missing specifications, with support for traversing lists and promoting warnings to errors. Its applicative operations (`<$>`, `<*>`) and formatter enable structured error accumulation and reporting, making it suitable for validation pipelines, configuration processing, or any context requiring robust error tracking with human-readable diagnostics.",
+      "description_length": 733,
+      "index": 5,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Ortac_qcheck_stm",
-      "description": "combines configuration handling, IR translation, and CLI integration, offering tools to validate system setups, transform abstract representations into text, and manage plugins via command-line commands. It works with OCaml AST elements, IR nodes, and command structures, enabling tasks like parsing configuration strings, generating code snippets, and executing plugin operations. The module supports initializing system-under-test data, formatting intermediate representations, and embedding plugin management into CLI workflows. Examples include validating type declarations, converting control flow to readable code, and listing available plugins.",
-      "description_length": 651,
-      "index": 4,
+      "library": "ortac-qcheck-stm.plugin",
+      "description": "This module compiles and processes formal specifications into executable OCaml code for property-based testing and model validation. It operates on abstract syntax trees and intermediate representations derived from Gospel specifications, enabling use cases such as test case generation, state machine validation, and integration of formal verification into build pipelines. Main data types include terms, values, state transitions, and configurations, with core operations spanning parsing, transformation, code generation, and error handling. Submodules support model construction, type processing, OCaml AST translation, configuration management, CLI integration, and structured error propagation for robust test model development.",
+      "description_length": 734,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 5,
-    "filtered_empty_modules": 9,
-    "retention_rate": 0.35714285714285715
+    "total_modules_in_package": 7,
+    "meaningful_modules": 7,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 651,
-    "min_description_length": 308,
-    "avg_description_length": 404.2,
-    "embedding_file_size_mb": 0.018602371215820312
+    "max_description_length": 734,
+    "min_description_length": 370,
+    "avg_description_length": 535.8571428571429,
+    "embedding_file_size_mb": 0.025887489318847656
   }
 }

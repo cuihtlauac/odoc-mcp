@@ -1,98 +1,93 @@
 {
   "package": "ppx_jsonaf_conv",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:54.488619",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:27.901595",
   "modules": [
     {
-      "module_path": "Ppx_jsonaf_conv_lib.Jsonaf_conv_error",
-      "description": "This module generates targeted error messages for JSON parsing and conversion failures, focusing on structural inconsistencies, invalid field usage, and type-specific issues like nested or empty lists. It operates on type metadata from Jsonaf_kernel__.Type, producing polymorphic error values to reflect malformed input scenarios. Use cases include validating complex JSON schemas, debugging type mismatches in data serialization, and enforcing strict parsing rules during API data processing.",
-      "description_length": 493,
+      "module_path": "Ppx_jsonaf_conv",
+      "library": "ppx_jsonaf_conv",
+      "description": "This module generates functions to convert between OCaml values and JSONAF representations, handling both polymorphic and record types. It provides attributes for deriving `of_jsonaf`, `jsonaf_of`, and field-specific conversions directly in type definitions. Use it to automatically serialize and deserialize complex OCaml data structures to and from JSONAF format.",
+      "description_length": 365,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_jsonaf_conv_lib.Option",
-      "description": "Provides functions to transform, combine, and inspect optional values, including mapping, filtering, and unwrapping. Works with the 'a option type, representing values that may be absent. Enables safe handling of missing data in computations like parsing, configuration retrieval, and error propagation.",
-      "description_length": 303,
+      "module_path": "Ppx_jsonaf_conv_expander.Of_jsonaf",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "This module provides functions to generate JSON deserialization code for OCaml types using the `ppxlib` library. It transforms type declarations into corresponding expressions and signatures that handle parsing JSON values into typed OCaml structures. It is used internally during the expansion phase of a ppx rewriter that derives `of_jsonaf` functions for custom types.",
+      "description_length": 371,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_jsonaf_conv_expander.Attrs",
-      "description": "Extracts and manipulates attributes from OCaml type declarations, handling label declarations and expressions. Provides mechanisms to retrieve default values, optional defaults, and conditional drops based on attribute presence. Used to process ppx rewriters' metadata during syntax tree traversal.",
-      "description_length": 298,
+      "module_path": "Ppx_jsonaf_conv_expander.Jsonaf_fields",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "Expands type declarations into JSON serialization/deserialization functions for each field. Works with OCaml type declarations and generates structure items for converting values to and from JSON. Used to automatically derive JSON codecs for custom types in a type-safe manner.",
+      "description_length": 277,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_jsonaf_conv_expander.Jsonaf_of",
-      "description": "Converts OCaml core types into JSON-compatible representations, generating expressions and type declarations with specified locations and module paths. Handles recursive and non-recursive type definitions, producing structured outputs for use in code generation or serialization pipelines. Supports both signature and structure contexts, enabling integration with OCaml's type-checking and AST manipulation workflows.",
-      "description_length": 417,
+      "module_path": "Ppx_jsonaf_conv_expander.Sig_jsonaf",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "Expands type declarations into JSON serialization and deserialization functions for use with the `Jsonaf` library. It processes OCaml type definitions and generates corresponding `to_jsonaf` and `of_jsonaf` functions in module signatures. This enables types to be converted to and from JSON format, typically used for data interchange in APIs or configuration files.",
+      "description_length": 366,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_jsonaf_conv_expander.Jsonaf_fields",
-      "description": "Handles the generation of type declarations for JSON fields, accepting location information, a path string, and a list of type declarations. Operates on Ppxlib's location and type declaration structures to construct valid OCaml type definitions. Used to dynamically create field-specific types during ppx macro processing.",
-      "description_length": 322,
+      "module_path": "Ppx_jsonaf_conv_expander.Attrs",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "This module defines attributes used to control JSON serialization behavior during code generation. It provides `default`, `drop_default`, and `drop_if` to specify default values, optional defaults, and conditional dropping of fields, respectively. These attributes are applied to label declarations to influence how values are encoded or omitted in generated JSON serializers.",
+      "description_length": 376,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_jsonaf_conv_expander.Of_jsonaf",
-      "description": "Converts OCaml type definitions into JSON-compatible representations, handling core types, signature declarations, and structure declarations. It processes OCaml core types, type declarations, and location data to generate expressions and signatures. Used to serialize type information for JSON-based configuration or interop scenarios.",
-      "description_length": 336,
+      "module_path": "Ppx_jsonaf_conv_expander.Jsonaf_of",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "This module generates JSON serialization functions from OCaml type declarations using the `jsonaf` library. It provides functions to convert core types to JSON expressions and expand type declarations into module signatures and structures. It is used to automatically derive JSON encoders for custom data types in a type-safe manner.",
+      "description_length": 333,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_jsonaf_conv_expander.Sig_jsonaf",
-      "description": "Provides functions to construct type declarations within a ppx rewriter's signature, taking location, module path, and type definitions as input. Operates on ppxlib's location, string, and type declaration structures. Used to dynamically generate type signatures during macro expansion.",
-      "description_length": 286,
+      "module_path": "Ppx_jsonaf_conv_expander",
+      "library": "ppx_jsonaf_conv.expander",
+      "description": "This module processes OCaml type declarations to generate type-safe JSON serialization and deserialization code using the `jsonaf` library. It expands types into `to_jsonaf` and `of_jsonaf` functions, handling both core types and complex structures with support for attributes like `default`, `drop_default`, and `drop_if` to customize encoding behavior. It enables automatic derivation of JSON codecs for custom types, allowing values to be converted to and from JSON for use in APIs or configuration files. For example, a type `person` with fields `name` and `age` can be automatically converted to JSON with optional default values or conditional field omission.",
+      "description_length": 665,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ppx_jsonaf_conv",
-      "description": "Provides functions to serialize and deserialize OCaml values to and from JSON using custom syntax extensions. Works with variant types, records, and algebraic data types annotated with JSON field names. Enables direct conversion between OCaml types and JSON structures in applications requiring strict schema control.",
-      "description_length": 317,
+      "module_path": "Ppx_jsonaf_conv_lib.Jsonaf_conv_error",
+      "library": "ppx_jsonaf_conv.runtime-lib",
+      "description": "This module provides error handling functionality for JSON decoding operations, focusing on validating structural correctness and type consistency during conversion to OCaml types. It works with strings, lists, and `Type.t` values to detect and signal issues like unexpected JSON structures, invalid polymorphic variant representations, or improperly formatted fields. Specific use cases include handling mismatched type expectations, malformed lists, and empty type representations when parsing JSON data.",
+      "description_length": 506,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_jsonaf_conv",
-      "description": "Converts OCaml types to and from JSON-like structures using custom syntax extensions. Handles record fields, polymorphic variants, and type annotations through specialized derivation functions. Enables seamless serialization and deserialization of complex data structures in JSON format.",
-      "description_length": 287,
-      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ppx_jsonaf_conv_lib",
-      "description": "Generates detailed error messages for JSON parsing and conversion issues, leveraging type metadata to identify structural and type-related problems. Handles optional values through transformation and inspection functions, enabling safe data processing in scenarios with missing or conditional inputs. Supports validation of complex JSON structures and robust error handling during data serialization and API interactions. Examples include debugging type mismatches, enforcing strict parsing rules, and managing absent fields in configuration data.",
-      "description_length": 547,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_jsonaf_conv_expander",
-      "description": "Processes OCaml type declarations to extract and manipulate attributes, generating JSON-compatible representations and type definitions. Handles core types, location data, and module paths to produce structured outputs for serialization, code generation, and ppx macro expansion. Supports dynamic creation of field types, default value handling, and conditional type adjustments. Enables integration with OCaml's AST and type-checking systems for metadata-driven transformations.",
-      "description_length": 479,
-      "index": 10,
+      "library": "ppx_jsonaf_conv.runtime-lib",
+      "description": "This module provides core utilities for converting and manipulating JSONAF data structures, with support for optional values, reference dereferencing, and structural equality checks. Its primary data types include JSONAF representations, options, and references, while key operations enable deserialization, comparison, and value transformation. The included error handling submodule enhances decoding robustness by validating type consistency and structural integrity during JSON-to-OCaml conversions, catching issues like malformed lists or invalid variant encodings. Together, the module and submodule support complete workflows for parsing, validating, and transforming JSON data with precise control over conversion behavior.",
+      "description_length": 730,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 11,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.7857142857142857
+    "total_modules_in_package": 10,
+    "meaningful_modules": 9,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9
   },
   "statistics": {
-    "max_description_length": 547,
-    "min_description_length": 286,
-    "avg_description_length": 371.3636363636364,
-    "embedding_file_size_mb": 0.04038715362548828
+    "max_description_length": 730,
+    "min_description_length": 277,
+    "avg_description_length": 443.22222222222223,
+    "embedding_file_size_mb": 0.033135414123535156
   }
 }

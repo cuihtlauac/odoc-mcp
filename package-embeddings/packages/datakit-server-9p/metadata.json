@@ -1,42 +1,47 @@
 {
   "package": "datakit-server-9p",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:32.002792",
+  "creation_timestamp": "2025-07-15T23:05:19.496442",
   "modules": [
     {
-      "module_path": "Fs9p.Make",
-      "description": "Provides pretty-printers for error and write error types, and implements reading from and writing to a network flow. Supports reading data into a buffer, writing single or multiple buffers, and closing the flow gracefully. Operates on Lwt-based asynchronous I/O, buffers represented as Cstruct.t, and flow objects abstracting network connections.",
-      "description_length": 346,
+      "module_path": "Fs9p_error.Infix",
+      "library": "datakit-server-9p",
+      "description": "Implements a custom bind operator for asynchronous result values, enabling sequential composition of Lwt promises that return `Result.result` values. Works with `('a, Fs9p_error.t) Result.result Lwt.t`, allowing functions to chain operations that handle both errors and concurrency. Useful for writing clean, error-resilient asynchronous workflows without explicit pattern matching at each step.",
+      "description_length": 395,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fs9p_error.Infix",
-      "description": "Performs sequential binding of Lwt-typed results, applying a function to the successful value of the first result before proceeding. Operates on Lwt-promise wrapped Result types, where failures are preserved through the chain. Enables streamlined error-handling in asynchronous workflows, such as processing HTTP responses or database queries.",
-      "description_length": 343,
+      "module_path": "Fs9p.S",
+      "library": "datakit-server-9p",
+      "description": "Implements the 9P protocol server for handling client connections and file operations over a virtual file system. It processes incoming requests on a network flow, routes them to the appropriate VFS directory, and manages connection lifecycle until closure. Used to serve a virtual directory tree over 9P, enabling remote clients to interact with local VFS structures.",
+      "description_length": 368,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "datakit-server-9p",
-      "description": "Provides functions to manage and transform tree-structured data streams, including merging, diffing, and applying changes to hierarchical data. Operates on data structures such as JSON-like trees, versioned datasets, and incremental updates. Used to coordinate build processes, manage configuration states, and synchronize data across distributed systems.",
-      "description_length": 355,
+      "module_path": "Fs9p.Make",
+      "library": "datakit-server-9p",
+      "description": "Builds a 9p server that processes incoming connections and serves a virtual filesystem directory over the provided flow. It handles client requests and manages connection lifecycle until closure. This module is used to expose a VFS directory over a network or Unix domain socket using the 9p protocol.",
+      "description_length": 301,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fs9p",
-      "description": "Handles network connection acceptance and request processing for 9p protocols, operating on a root directory structure and a flow object representing the communication channel. Processes incoming messages and manages session lifecycle until closure. Used to establish and maintain 9p server sessions over a specified flow.",
-      "description_length": 322,
+      "library": "datakit-server-9p",
+      "description": "This module implements a 9p protocol server that exposes a virtual file system directory over a network or local channel, enabling remote clients to perform standard file operations like read, write, and stat. It provides a functor that integrates with custom VFS implementations, allowing seamless mapping of file operations between the network and the virtual directory tree. The server handles connection lifecycle management, request routing, and protocol encoding, making it suitable for embedding a sandboxed file system in a networked service or exposing it over a Unix domain socket. Specific use cases include serving a virtualized directory structure to remote 9p clients or implementing custom file system semantics over a network channel.",
+      "description_length": 750,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
       "module_path": "Fs9p_error",
-      "description": "Sequently binds Lwt results, applying functions to successful values while preserving errors through the chain. Operates on Lwt-promise wrapped Result types, enabling structured error handling in asynchronous operations. It allows for chaining operations like parsing HTTP responses or handling database query outcomes. For example, it can transform a raw JSON string into a typed record after a successful network fetch.",
-      "description_length": 421,
+      "library": "datakit-server-9p",
+      "description": "This module provides tools for handling and transforming errors in 9P protocol operations, including conversions between error types and the creation of structured error responses with optional codes. It includes a custom bind operator for asynchronous result values, enabling clean composition of Lwt-based functions that return `Result.result` values. The core operations support mapping `Vfs.Error.t` to `Fs9p_error.t`, generating formatted errors, and chaining asynchronous computations with error propagation. For example, it allows writing pipelines that perform file access or message parsing while handling failures through typed errors and composing them seamlessly with Lwt promises.",
+      "description_length": 693,
       "index": 4,
       "embedding_norm": 1.0
     }
@@ -48,9 +53,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 421,
-    "min_description_length": 322,
-    "avg_description_length": 357.4,
-    "embedding_file_size_mb": 0.018602371215820312
+    "max_description_length": 750,
+    "min_description_length": 301,
+    "avg_description_length": 501.4,
+    "embedding_file_size_mb": 0.018611907958984375
   }
 }

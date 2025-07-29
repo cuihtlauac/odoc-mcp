@@ -1,44 +1,49 @@
 {
   "package": "pcap-format",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:30:09.072471",
+  "creation_timestamp": "2025-07-15T23:05:33.447776",
   "modules": [
     {
-      "module_path": "Pcap.Network",
-      "description": "Converts between a network protocol representation and 32-bit integers, supporting safe decoding from raw data. Operates on an opaque type representing the outermost network protocol in packet captures. Used to extract or construct protocol identifiers in network analysis tools.",
-      "description_length": 279,
+      "module_path": "Pcap.BE",
+      "library": "pcap-format",
+      "description": "This module provides big-endian encoding and decoding of PCAP file headers and packet metadata, with accessors for fields like magic number, timestamp resolution, and link-layer type, alongside utilities to hexdump structured binary data. It operates on `Cstruct.t` values representing packet headers and raw buffers, enabling precise manipulation of binary formats. Typical use cases include parsing or generating PCAP files with strict endianness requirements, such as cross-platform network trace analysis or converting between byte orders in packet capture tools.",
+      "description_length": 567,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Pcap.LE",
-      "description": "This module provides low-level operations for inspecting and modifying PCAP packet headers, including timestamp fields, length values, and raw data, through getter and setter functions tailored for `Cstruct.t` and `Buffer.t` structures. It enables detailed packet analysis by offering hexdumping capabilities and field size retrieval, supporting tasks like network traffic debugging or protocol validation. The functionality is designed for scenarios requiring direct manipulation of raw packet data in networking applications.",
-      "description_length": 527,
+      "library": "pcap-format",
+      "description": "This module provides low-level access to PCAP header and packet fields through mutable `Cstruct.t` buffers, enabling precise manipulation of metadata like magic numbers, timestamps (seconds/microseconds), and packet lengths. It supports direct in-place modification of binary representations, with utilities for hexdumping headers and packet contents to aid debugging or serialization tasks. Typical use cases include crafting custom PCAP files, parsing network captures, or implementing protocol dissectors where fine-grained control over binary data is required.",
+      "description_length": 564,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pcap.BE",
-      "description": "This module provides low-level operations for manipulating PCAP file format structures, including reading and writing numeric fields with endianness handling, timestamp extraction, and length management within packet headers. It works with Cstruct.t buffers for packet data and Buffer.t for output, enabling tasks like hex dump generation. Specific use cases include network packet analysis, protocol inspection, and processing captured traffic for debugging or monitoring.",
-      "description_length": 473,
+      "module_path": "Pcap.Network",
+      "library": "pcap-format",
+      "description": "This module defines the type `t` representing the outermost network protocol in captured frames, specifically supporting Ethernet and IEEE 802.11 protocols. It provides conversions between this type and 32-bit integers via `to_int32` and `of_int32`. Use this when parsing or constructing packet capture data to identify or set the network protocol type.",
+      "description_length": 353,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "pcap-format",
-      "description": "Encodes and decodes pcap file formats, handling byte order and automatic endianness detection. Processes raw packet data and timestamp information from network capture files. Used to parse and generate pcap files for network analysis and packet inspection tasks.",
-      "description_length": 262,
+      "module_path": "Pcap.HDR",
+      "library": "pcap-format",
+      "description": "This module provides functions to manipulate PCAP header metadata and packet fields in memory buffers, focusing on endian-aware access to values like magic numbers, timestamps, and length fields. It operates on `Cstruct.t` buffers representing raw PCAP headers and packets, ensuring correct interpretation of 32-bit integers (e.g., microsecond timestamps, packet lengths) across different endianness. Typical use cases include parsing or generating PCAP files for network traffic analysis, where precise handling of header structure and byte order is critical for interoperability.",
+      "description_length": 581,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Pcap",
-      "description": "The module provides functions to read and write specific fields of pcap headers and packet data, focusing on numeric values such as timestamps, lengths, and version numbers within a Cstruct buffer. It includes targeted operations for modifying packet metadata like microseconds of timestamp, included length, and original length using 32-bit integers. This is particularly useful in network packet processing tasks requiring precise header manipulation or analysis.",
-      "description_length": 465,
+      "library": "pcap-format",
+      "description": "This module processes PCAP file headers and packet data with support for both big and little endian formats, using `Cstruct.t` buffers to detect PCAP structure, extract metadata, and traverse packet records. It includes submodules for endian-specific encoding, in-place header manipulation, network protocol identification (Ethernet, IEEE 802.11), and endian-aware field access, enabling tasks like cross-platform trace analysis, custom PCAP generation, and protocol dissection. Key data types include `Cstruct.t` for binary data representation and 32-bit integers for timestamps and protocol identifiers. Example uses include parsing network captures, converting byte order in packet headers, and constructing PCAP files with precise control over metadata and payload layout.",
+      "description_length": 776,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
@@ -48,9 +53,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 527,
-    "min_description_length": 262,
-    "avg_description_length": 401.2,
-    "embedding_file_size_mb": 0.01860523223876953
+    "max_description_length": 776,
+    "min_description_length": 353,
+    "avg_description_length": 568.2,
+    "embedding_file_size_mb": 0.018596649169921875
   }
 }

@@ -1,210 +1,269 @@
 {
   "package": "aches",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 27,
-  "creation_timestamp": "2025-06-18T16:37:09.905149",
+  "total_modules": 31,
+  "creation_timestamp": "2025-07-15T23:12:52.254117",
   "modules": [
     {
-      "module_path": "Rache.Borrow.H",
-      "description": "Compares and hashes key values for efficient lookup in hash-based structures. Operates on arbitrary key types, ensuring consistent equality and hash behavior. Used to implement custom key semantics in hash tables or sets, such as structural equality with proper float handling or physical equality for mutable objects.",
-      "description_length": 318,
+      "module_path": "Aches",
+      "library": "aches",
+      "description": "This module provides cache implementations for managing limited-size collections of in-memory values and external resources. It supports operations for inserting, retrieving, and evicting entries based on policies like FIFO and LRU, with options for size tracking and garbage collection handling. Concrete use cases include caching function results, managing file descriptors, and limiting memory usage in long-running processes.",
+      "description_length": 429,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rache.EmptyBorrowMap.H",
-      "description": "Compares and hashes key values for efficient lookup in hash-based structures. Operates on arbitrary key types, ensuring consistent equality and hash behavior. Used to implement custom key semantics in data structures like hash tables or sets.",
-      "description_length": 242,
+      "library": "aches.rache",
+      "description": "This module implements a borrow-map that only supports an empty cache with a fixed size limit of zero. It provides functions to create and manage a cache that never stores any elements, ensuring all resource requests result in immediate creation without eviction. It is useful in scenarios where resource caching is optional but ownership must remain with the cache.",
+      "description_length": 366,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Rache.SingletonBorrowMap.H",
-      "description": "Compares keys using a custom equality function and generates hash values for them, ensuring consistent hashing for equivalent keys. Works with arbitrary key types, including mutable or cyclic structures. Used to implement hash tables with specific comparison semantics, such as structural equality or physical identity.",
-      "description_length": 319,
+      "library": "aches.rache",
+      "description": "This module implements a singleton borrow-map that stores at most one key-value pair, using a hash-table-like structure with a fixed size limit of 1. It provides operations to borrow values associated with keys, ensuring resource ownership remains with the map and enforcing safe cleanup when entries are evicted. It is useful for managing exclusive, on-demand resources like unique file descriptors or singleton database connections where only one instance should exist at a time.",
+      "description_length": 481,
       "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rache.EmptyTransferMap.H",
-      "description": "Compares keys using a user-defined equality function and generates hash values for them. It supports custom key types, including those with mutable or cyclic structures. Used to implement hash tables with specific comparison semantics.",
-      "description_length": 235,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Rache.Transfer.H",
-      "description": "Compares and hashes key values for efficient lookup and storage. Operates on arbitrary key types with customizable equality and hashing strategies. Used to implement hash tables or sets where key comparison and hashing must align with specific semantics.",
-      "description_length": 254,
-      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Rache.SingletonTransferMap.H",
-      "description": "Compares and hashes key values for efficient lookup in hash-based structures. Operates on arbitrary key types, ensuring consistent equality and hash behavior for reliable use in maps or sets. Used to define custom equality and hashing for objects that require precise control over comparison semantics.",
-      "description_length": 302,
+      "library": "aches.rache",
+      "description": "This module implements a singleton transfer-map with a fixed size limit of one, using hash-based key comparisons. It provides operations to add, find, and remove key-value pairs, automatically evicting the existing entry when a new one is inserted. The module is useful for caching single resources like file descriptors or connections, where only one item is needed at a time and older entries must be cleanly disposed of when replaced.",
+      "description_length": 437,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Rache.EmptyTransferMap.H",
+      "library": "aches.rache",
+      "description": "This module implements a transfer map that always remains empty, regardless of insertions, with keys using a provided hash and equality function. It provides operations to add, find, and remove elements, but all such operations immediately discard or ignore the inserted values or return `None` for lookups. It is useful in scenarios where resource caching is desired but actual caching is disabled, such as for testing or disabling caching paths without changing code structure.",
+      "description_length": 479,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Rache.Borrow.H",
+      "library": "aches.rache",
+      "description": "This module defines a hash-table-like structure with a bounded size and resource management capabilities. It supports key-based insertion, lookup, and removal, with automatic cleanup of displaced resources. Designed for caching resources like file descriptors or connections, it enforces cache ownership and on-demand resource creation.",
+      "description_length": 336,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vache.EmptyMap.H",
-      "description": "Compares keys using a user-defined equality function and generates hash values for key-based data structures. Operates on arbitrary key types, ensuring consistent hashing for equivalent keys. Used to implement hash tables or sets where custom equality and hashing are required, such as with mutable or cyclic objects.",
-      "description_length": 317,
+      "module_path": "Rache.Transfer.H",
+      "library": "aches.rache",
+      "description": "This module defines a cache structure that maps keys to values with a bounded size, using a hash table for storage. It supports insertion, lookup, and removal operations, automatically evicting elements according to a replacement policy when the size limit is exceeded. The module ensures proper cleanup of stored resources like file descriptors or connections when they are removed from the cache.",
+      "description_length": 398,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vache.SingletonMap.H",
-      "description": "Compares and hashes key values for efficient lookup in hash tables. Operates on arbitrary key types with customizable equality and hashing strategies. Used to implement custom hash table backends requiring precise control over key comparison and representation.",
-      "description_length": 261,
+      "module_path": "Rache.TRANSFER-H",
+      "library": "aches.rache",
+      "description": "This module defines the interface for key types used in hash tables, including equality comparison and hashing operations. It works with arbitrary key types, ensuring consistent hashing and equality checks. Concrete use cases include implementing hash tables with custom key types, such as strings, integers, or compound keys, where reliable hashing and equality are required for efficient lookups and insertions.",
+      "description_length": 413,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vache.Map.H",
-      "description": "Compares and hashes key values for efficient lookup in hash tables. Operates on arbitrary key types, ensuring consistent equality and hash behavior. Used to define custom key semantics in data structures requiring hash-based operations.",
-      "description_length": 236,
+      "module_path": "Rache.TRANSFER",
+      "library": "aches.rache",
+      "description": "This module implements bounded, mutable caches for managing resource ownership, supporting operations to put, take, and borrow resources while handling cleanup automatically. It works with keyed resources like file descriptors or connections, using a size limit to control storage and offering functions to transfer ownership explicitly. Concrete use cases include caching limited database connections or temporary files, where resources must be safely released when evicted or removed.",
+      "description_length": 486,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.Transfer",
-      "description": "Compares and hashes values of type t for structural or physical equality, ensuring consistent behavior for key-based operations. Works with arbitrary data types, including mutable or cyclic structures. Used to implement hash tables or sets where custom equality and hashing are required.",
-      "description_length": 287,
+      "module_path": "Rache.Borrow",
+      "library": "aches.rache",
+      "description": "This module provides a size-bounded cache for managing and borrowing resources such as file descriptors or database connections, using a specified replacement policy to control eviction. It supports key-based access, on-demand resource creation, and automatic cleanup of evicted resources, while enforcing cache ownership to prevent unsafe resource handling. Child modules extend this functionality with hash-table-like interfaces and specialized policies for size management. You can use it to efficiently cache and reuse limited resources in scenarios where strict predictability is not required.",
+      "description_length": 598,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.Borrow",
-      "description": "Compares keys using a custom equality function and generates hash values for key-based operations. Works with arbitrary data types through provided equality and hashing functions. Used to ensure consistent key comparisons in hash tables or associative structures.",
-      "description_length": 263,
+      "module_path": "Rache.SingletonTransferMap",
+      "library": "aches.rache",
+      "description": "This module implements a singleton transfer-map that enforces a strict size limit of one, replacing the existing entry whenever a new key-resource pair is inserted. It provides hash-based key comparisons, along with operations to add, find, and remove entries, ensuring automatic cleanup of evicted resources. The module is ideal for managing exclusive resources such as a single database connection or a transient file descriptor, where only one active entry is needed and ownership transfer must be explicitly controlled. By combining direct API operations with its child module's hash-based functionality, it offers a focused interface for maintaining a single cached resource with predictable disposal behavior.",
+      "description_length": 715,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.EmptyTransferMap",
-      "description": "Compares keys using a provided equality function and generates hash values for key-based operations. Works with arbitrary key types, supporting structural, physical, or custom comparisons. Used to implement hash tables or maps where key equivalence and hashing must align precisely.",
-      "description_length": 282,
+      "module_path": "Rache.SingletonBorrowMap",
+      "library": "aches.rache",
+      "description": "This module manages a fixed-capacity borrow-map that holds at most one resource, ensuring exclusive ownership and automatic cleanup when evicted or removed. It offers operations to borrow or create resources on-demand, fold over the single entry, and remove or filter entries, all while maintaining strict resource ownership. The child module provides a hash-table-like interface for singleton resource management, enabling use cases such as caching a single database connection or file descriptor where only one instance is needed and ownership must remain with the cache. Together, the module and its child support efficient, safe handling of unique, borrowable resources without requiring policy configuration.",
+      "description_length": 713,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.SingletonTransferMap",
-      "description": "Provides operations for managing key-value mappings where keys are compared and hashed using custom functions. Works with a type `t` representing the map, using provided `equal` and `hash` functions for key handling. Used to implement efficient lookups and comparisons in scenarios requiring non-default equality or hashing, such as with mutable or cyclic data structures.",
-      "description_length": 372,
+      "module_path": "Rache.EmptyTransferMap",
+      "library": "aches.rache",
+      "description": "This module implements a transfer map that enforces zero capacity, immediately discarding inserted elements and returning empty results for lookups. It provides standard cache operations like add, find, and remove, but all behave as no-ops or immediate cleanup actions, ensuring no state is retained. The child module extends this behavior by allowing custom hash and equality functions for keys, enabling type-safe usage in contexts where caching is syntactically present but semantically disabled. Together, they support scenarios like testing resource cleanup, enforcing one-time transfers, or disabling caching paths without altering code structure.",
+      "description_length": 653,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Rache.EmptyBorrowMap",
-      "description": "Provides key comparison and hashing operations for structured data, ensuring consistent equality and hash values for use in associative containers. Works with arbitrary key types, supporting structural, physical, or custom equality checks. Used to implement hash tables or sets where key identity must align with both equality and hash consistency.",
-      "description_length": 348,
+      "module_path": "Rache.BORROW",
+      "library": "aches.rache",
+      "description": "This module implements size-bounded caches for resources like file descriptors or database connections, where resources are owned by the cache and can only be borrowed. It supports operations to borrow resources, create them on demand, traverse bindings, and remove entries with automatic cleanup. Use cases include managing limited resource pools in servers or applications where resource lifetime must be tightly controlled by the cache.",
+      "description_length": 439,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.SingletonBorrowMap",
-      "description": "Provides operations to manage a mapping from keys to values with custom equality and hashing. Works with arbitrary key types through provided equal and hash functions, supporting structural, physical, or custom comparisons. Used to safely borrow and manage unique instances of values associated with specific keys in scenarios requiring precise control over equality semantics.",
-      "description_length": 377,
+      "module_path": "Rache.EmptyBorrowMap",
+      "library": "aches.rache",
+      "description": "This module implements a borrow-map with zero capacity, immediately cleaning up all resources after use and never storing any elements. It provides standard cache operations like borrowing and folding, but all ignore size limits since the map is always empty. Child modules enforce this behavior by fixing the size limit to zero, ensuring that resources are created on demand and never retained. Use this to test resource management logic or as a stub when caching is unnecessary.",
+      "description_length": 480,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vache.Map",
-      "description": "Compares key-value maps for structural equality using a provided equality function and computes hash values for keys to support efficient lookups. Operates on associative structures where keys are compared and hashed according to user-defined rules. Used to implement custom map behaviors, such as comparing objects by identity or handling special numeric values like NaN.",
-      "description_length": 372,
+      "module_path": "Rache.Transfer",
+      "library": "aches.rache",
+      "description": "This module provides a size-bounded mutable cache for managing resources such as file descriptors or database connections, using a hash table for storage and enforcing a replacement policy to handle eviction when the size limit is exceeded. It supports insertion, lookup, removal, and traversal of key-resource pairs, with explicit control over resource ownership transfer during these operations. The cache automatically cleans up resources when they are evicted or removed, ensuring safe resource management in long-running or resource-constrained processes. Example use cases include caching network connections, limiting memory usage in servers, and managing system resources that require deterministic release.",
+      "description_length": 715,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vache.EmptyMap",
-      "description": "Compares key structures using a provided equality function and generates hash values for key-based operations. Operates on custom key types where equality and hashing must be explicitly defined. Used to implement custom map-like behaviors with non-standard key comparison semantics.",
-      "description_length": 282,
+      "module_path": "Rache.BORROW-H",
+      "library": "aches.rache",
+      "description": "This module defines a hash and equality interface for key types, providing `equal` and `hash` functions that ensure consistent comparison and hashing behavior. It works directly with a key type `t`, typically used in hash tables or sets where key identity and distribution are critical. Concrete use cases include implementing custom key types for hash-based collections, such as symbols in a compiler or identifiers in a database.",
+      "description_length": 431,
       "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Vache.SingletonMap",
-      "description": "Provides operations for comparing and hashing keys in a map-like structure, ensuring consistent behavior for equality and hashing. Works with arbitrary key types through customizable equal and hash functions. Used to implement efficient lookups and comparisons in scenarios requiring custom equality semantics, such as handling NaN values or physical object identity.",
-      "description_length": 367,
-      "index": 17,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vache.Set",
-      "description": "Compares sets for structural equality using a provided key equality function and computes hash values based on key structure. Operates on sets represented as `t`, supporting custom equality and hashing strategies for diverse key types. Used to ensure consistent set comparisons in applications requiring precise control over key equivalence, such as handling floating-point values or mutable data.",
-      "description_length": 397,
+      "module_path": "Rache",
+      "library": "aches.rache",
+      "description": "This module manages resource caches with customizable replacement policies and size limits, enabling efficient storage and controlled access to resources like file descriptors or database connections. It supports abstract data types through `TRANSFER` and `BORROW` module types, allowing precise control over resource acquisition and release, while child modules provide hash-based key interfaces, singleton and zero-capacity variants, and hash-table-backed implementations. You can create bounded caches that evict entries using LRU or FIFO, borrow or transfer resource ownership explicitly, or disable caching entirely for testing, all with automatic cleanup of evicted or removed resources. Specific configurations include a singleton cache for exclusive resource use, a zero-capacity stub for testing, or a hash-based map with customizable keys and eviction policies for flexible resource management.",
+      "description_length": 904,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.SingletonMap.H",
+      "library": "aches.vache",
+      "description": "Implements a singleton map with fixed capacity for a given key type, using hash-based equality. Provides operations to create, query, and manipulate maps containing at most one key-value pair. Useful for scenarios requiring a simple, size-limited mapping where only a single entry is needed, such as caching results for a specific key without eviction complexity.",
+      "description_length": 363,
       "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.EmptyMap.H",
+      "library": "aches.vache",
+      "description": "This module implements a map structure that always remains empty, regardless of insertions or size limits. It uses a hashing function and equality predicate on keys to handle key comparisons and hashing, but all operations that would modify the map have no effect. Concrete use cases include testing or placeholder scenarios where a map interface is needed but no actual data storage is required.",
+      "description_length": 396,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.Map.H",
+      "library": "aches.vache",
+      "description": "This module implements a bounded, mutable map structure similar to a hash table, with configurable policies for handling size limits. It supports key-based insertion, lookup, and removal operations, relying on provided equality and hash functions for keys. It is suitable for caching scenarios where approximate size control is acceptable, such as transient data storage or resource pooling.",
+      "description_length": 391,
+      "index": 20,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vache.EmptySet",
-      "description": "Compares and hashes elements of type `t` using a custom equality and hash function, ensuring consistent behavior for key-based operations. Works with any data type that supports the specified `equal` and `hash` functions, including objects, numbers, and mutable structures. Used to implement hash tables or sets where key comparison and hashing must align with specific semantics.",
-      "description_length": 380,
-      "index": 19,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Vache.SingletonSet",
-      "description": "Compares and hashes elements based on provided equality and hashing functions, ensuring consistent behavior for key-based operations. Operates on a single value type `t` and enforces hash consistency with equality checks. Used to implement set-like behavior for unique elements in scenarios requiring custom equality and hashing, such as handling mutable or cyclic data structures.",
-      "description_length": 381,
-      "index": 20,
+      "library": "aches.vache",
+      "description": "This module implements a set-like structure that always remains empty, ignoring size parameters during creation. It supports standard set operations like `add`, `mem`, `remove`, and folding, but all operations have no effect or return empty results. It is useful in scenarios where a placeholder set is needed, or to disable caching logic without changing interfaces.",
+      "description_length": 367,
+      "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache.H",
-      "description": "Compares keys using a custom equality function and generates hash values for key-based lookups. Operates on a generic key type that can represent objects, numbers, or references. Used to implement hash tables with specific comparison semantics, such as structural equality for immutable data or physical equality for mutable structures.",
-      "description_length": 336,
-      "index": 21,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Vache.H",
-      "description": "Compares and hashes key values for efficient lookup in hash tables. Operates on arbitrary key types with customizable equality and hashing strategies. Used to implement custom hash table backends requiring precise control over key comparison and representation.",
-      "description_length": 261,
+      "module_path": "Vache.Map",
+      "library": "aches.vache",
+      "description": "This module provides a mutable, hash-indexed cache with bounded size, supporting insertion, lookup, and removal with customizable replacement policies. It includes operations for folding over entries in age order, clearing, and maintaining the cache within approximate size limits. Child modules extend this functionality with configurable key equality and hash functions, enabling use cases like transient data caching and resource pooling where strict size control is not critical. Together, they allow building and managing efficient, policy-driven caches tailored to specific performance needs.",
+      "description_length": 598,
       "index": 22,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "aches",
-      "description": "Provides functions for managing bounded-size key-value and simple-value stores, with automatic eviction of elements when the size limit is exceeded. Works with structures such as caches that track resources and values, including mechanisms for cleanup and ownership tracking. Used to implement efficient memory-bound data storage, such as caching API responses or managing limited system resources.",
-      "description_length": 398,
+      "module_path": "Vache.EmptyMap",
+      "library": "aches.vache",
+      "description": "This module provides a map-like structure that always remains empty, regardless of attempted modifications or size limits. It supports standard operations like `replace`, `find_opt`, `remove`, and `fold`, but all have no effect, making it useful for testing or placeholder implementations where a map interface is needed without actual data storage. The structure uses a hashing function and equality predicate on keys, mirroring behavior of real maps but without retaining any entries. It is particularly suitable for scenarios requiring a stubbed-out cache or a no-op map implementation.",
+      "description_length": 589,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Rache",
-      "description": "provides a hash-table-like structure with customizable key comparison and hashing, designed for managing resources with transferable ownership. it supports operations like insertion, lookup, and removal, with automatic cleanup of resources when they are evicted. it enables fine-grained control over how keys are compared and hashed, allowing for specialized use cases such as structural equality or reference-based lookups. examples include caching database connections with custom key handling or managing file descriptors using physical equality.",
-      "description_length": 549,
+      "module_path": "Vache.MAP-H",
+      "library": "aches.vache",
+      "description": "This module defines the interface for hash-consed maps, providing `equal` and `hash` operations tailored for comparing and hashing map keys. It works with a hash-consed key type `H.t`, ensuring consistent equality and hashing behavior. Concrete use cases include efficient key comparison and hash-based storage in environments like compilers or symbolic evaluators where hash-consing is critical for performance.",
+      "description_length": 412,
       "index": 24,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aches",
-      "description": "provides in-memory value and resource caching with customizable policies and ownership models; it includes value caches for key-value and set-based storage, and resource caches for managing external resources requiring explicit cleanup; operations include inserting, retrieving, and evicting elements, with support for FIFO, LRU, and size-aware strategies; examples include caching API responses or database connections while ensuring proper resource release.",
-      "description_length": 459,
+      "module_path": "Vache.SET",
+      "library": "aches.vache",
+      "description": "This module implements a mutable cache structure similar to a set, with an approximate size bound. It supports operations to add and remove elements, check membership, and fold over elements in either newest-first or oldest-first order. The structure is suited for scenarios like in-memory caches where strict size guarantees are not critical, and elements can be evicted based on implementation-specific policies.",
+      "description_length": 414,
       "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.MAP",
+      "library": "aches.vache",
+      "description": "This module implements a mutable cache with a bounded size, supporting operations to add, remove, and query key-value bindings. It provides functions for inserting with `replace`, retrieving with `find_opt`, and iterating with `fold` and `fold_oldest_first`, while tracking current size with `length` and maximum capacity with `capacity`. Use cases include caching results of expensive computations with limited memory usage, where strict eviction policies are not required.",
+      "description_length": 474,
+      "index": 26,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Vache.SingletonSet",
+      "library": "aches.vache",
+      "description": "This module implements a mutable cache structure that stores at most one element, providing operations to add, remove, and check membership of elements. It supports folding over its elements in either order and reports its current length and capacity. Use it when managing a cache that should only retain the most recent value, such as tracking the latest result of a computation or a current configuration setting.",
+      "description_length": 415,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.Set",
+      "library": "aches.vache",
+      "description": "This module implements a size-bounded, mutable set-like structure that allows insertion, membership testing, and element removal. It supports operations like `add`, `mem`, `remove`, and traversal via `fold` variants, with size limits that may be enforced loosely depending on the cache policy. It is suited for scenarios where approximate size control is acceptable, such as caching mechanisms in dynamic environments.",
+      "description_length": 418,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vache.SingletonMap",
+      "library": "aches.vache",
+      "description": "This module implements a singleton map with a fixed capacity of one, using hash-based equality from the `H` module to manage key-value pairs. It provides core operations like `insert`, `find`, `remove`, and `fold`, all optimized under the guarantee of at most one binding, making eviction policies unnecessary. The structure is ideal for caching a single result, such as memoizing a function with a most-recently-used key or tracking a lone computed value. Submodules extend this functionality with type-specific implementations, enabling direct use in applications like keyed memoization or simple, strictly bounded storage.",
+      "description_length": 625,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Vache",
-      "description": "Provides operations to manage a bounded, mutable collection of elements with policies affecting addition, removal, and traversal. Works with a custom type `elt` and a cache-like structure `t` that tracks elements in a specific order. Supports use cases such as maintaining a recent history of items, where adding new elements may evict older ones based on policy, and checking membership without strict size enforcement.",
-      "description_length": 420,
-      "index": 26,
-      "embedding_norm": 0.9999999403953552
+      "library": "aches.vache",
+      "description": "This module implements in-memory caches with support for multiple eviction policies, offering both map and set interfaces with precise control over size and retention behavior. It provides core data types such as bounded-size maps and sets, singleton caches, and hash-consed structures, with operations for insertion, lookup, removal, and ordered traversal. Concrete use cases include memoizing functions with bounded memory, caching parsed configuration values, and managing transient data with weak or strong references. Submodules extend functionality with hash customization, no-op stubs, and specialized cache sizes, enabling efficient, policy-driven caching strategies tailored to performance-critical applications.",
+      "description_length": 721,
+      "index": 30,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 37,
-    "meaningful_modules": 27,
-    "filtered_empty_modules": 10,
-    "retention_rate": 0.7297297297297297
+    "total_modules_in_package": 31,
+    "meaningful_modules": 31,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 549,
-    "min_description_length": 235,
-    "avg_description_length": 333.8888888888889,
-    "embedding_file_size_mb": 0.09852123260498047
+    "max_description_length": 904,
+    "min_description_length": 336,
+    "avg_description_length": 505.03225806451616,
+    "embedding_file_size_mb": 0.11305904388427734
   }
 }

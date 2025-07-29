@@ -1,42 +1,69 @@
 {
   "package": "lru_cache",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:28:03.857833",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:27.865658",
   "modules": [
     {
-      "module_path": "Lru_cache.Make",
-      "description": "Compares instances of the type `t` using a custom ordering, converts `t` values to S-expression representations, computes hash values for use in hash tables, and checks internal consistency guarantees. Works with the abstract type `t` that represents build configurations. Used to ensure consistent behavior during build process comparisons, serialization, and debugging.",
-      "description_length": 371,
+      "module_path": "Lru_cache.Make_with_monad",
+      "library": "lru_cache",
+      "description": "Implements an LRU cache with monadic operations, allowing asynchronous or effectful value computation. Works with a key type `K.t` and a monad `M` to handle effects during cache initialization, retrieval, and validation. Useful for caching results of expensive computations, such as fetching remote data or processing large files, where values are loaded monadically and validated before use.",
+      "description_length": 392,
       "index": 0,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru_cache.Key",
+      "library": "lru_cache",
+      "description": "This module defines a key type `t` with a comparison function `compare` for ordering keys and a `witness` value for initializing cache instances. It supports the creation and management of LRU caches by providing necessary key semantics and a default key value. Use this module when implementing caches that require key comparison and a placeholder for cache initialization.",
+      "description_length": 374,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru_cache.Monad",
+      "library": "lru_cache",
+      "description": "This module provides monadic operations for composing computations that manipulate an LRU cache. It supports binding cached values into subsequent cache-dependent actions and returning pure values into the cache monad. Concrete use cases include chaining cache lookups and updates while preserving eviction order and state.",
+      "description_length": 323,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "lru_cache",
-      "description": "Maintains a fixed-size cache that automatically evicts the least recently used items when capacity is reached. It operates on key-value pairs with time-based expiration and supports concurrent access. Used to optimize repeated lookups in high-throughput systems, such as query result caching in distributed services.",
-      "description_length": 316,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "module_path": "Lru_cache.Make",
+      "library": "lru_cache",
+      "description": "Implements an LRU cache with operations to initialize, check presence, retrieve, and remove entries based on a provided key module. Works with any key type `K.t` and stores values of a generic type `'a`, using a monadic interface for asynchronous or effectful computations. Useful for caching results of expensive computations where recent access patterns dictate eviction strategy, such as memoizing database query results or API responses.",
+      "description_length": 441,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lru_cache.S",
+      "library": "lru_cache",
+      "description": "Implements a Least Recently Used (LRU) cache with operations to initialize a cache of fixed size, check for key presence, retrieve and update values while managing cache eviction, and remove specific entries. Works with a specified key type and a monadic value type, supporting validation callbacks during initialization and retrieval. Useful for caching expensive computations where recent and frequent access patterns dictate relevance, ensuring efficient memory usage by discarding the least recently used items when capacity is reached.",
+      "description_length": 540,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Lru_cache",
-      "description": "Provides operations to manage an LRU cache, including inserting, retrieving, and removing key-value pairs while maintaining size constraints. Works with key-value pairs and tracks access order to evict the least recently used entries. Used to optimize repeated lookups by storing results of expensive computations or frequently accessed data.",
-      "description_length": 342,
-      "index": 2,
+      "library": "lru_cache",
+      "description": "This module implements a bounded LRU cache that tracks key-value pairs and evicts the least recently used entries when capacity is reached, supporting operations to add, retrieve, and remove values based on a customizable key type. It provides monadic interfaces for asynchronous or effectful value computation, allowing integration with external data sources or validation steps during cache access. Submodules define key comparison logic, cache initialization semantics, and monadic combinators for chaining cache operations, enabling use cases like memoizing HTTP responses, database queries, or parsed file contents while maintaining efficient memory usage. Specific examples include caching remote API results with on-demand loading or managing a bounded store of processed documents with automatic eviction of stale entries.",
+      "description_length": 830,
+      "index": 5,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 3,
-    "meaningful_modules": 3,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 371,
-    "min_description_length": 316,
-    "avg_description_length": 343.0,
-    "embedding_file_size_mb": 0.011325836181640625
+    "max_description_length": 830,
+    "min_description_length": 323,
+    "avg_description_length": 483.3333333333333,
+    "embedding_file_size_mb": 0.022222518920898438
   }
 }

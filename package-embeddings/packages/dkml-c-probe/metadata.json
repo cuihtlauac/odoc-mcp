@@ -1,91 +1,93 @@
 {
   "package": "dkml-c-probe",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:04.131984",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:26.994510",
   "modules": [
     {
-      "module_path": "Dkml_c_probe.C_abi.V1",
-      "description": "Provides functions to retrieve operating system and ABI information, returning results with specific type aliases or error strings. Works with custom types t_os and t_abi, along with string values. Used to determine platform characteristics during runtime initialization.",
-      "description_length": 271,
+      "module_path": "Dkml_c_probe.C_abi.V3",
+      "library": "dkml-c-probe",
+      "description": "This module defines enumerations for operating systems and ABIs, along with functions to determine the current system's OS, ABI, and ABI name. It works with the `t_os` and `t_abi` sum types, and returns results in a standardized format. Concrete use cases include detecting the runtime environment for cross-platform applications and selecting appropriate binary assets based on the detected ABI.",
+      "description_length": 396,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dkml_c_probe.C_abi.V2",
-      "description": "Provides functions to retrieve operating system and ABI information as typed results, along with a function to extract the ABI name as a string. Works with custom types `t_os` and `t_abi` alongside strings. Used to obtain system-specific identifiers for runtime configuration or diagnostics.",
+      "module_path": "Dkml_c_probe.C_conf.Ocamlmklib_flags",
+      "library": "dkml-c-probe",
+      "description": "Represents and manipulates flags used by `ocamlmklib` for linking C libraries with OCaml code. It stores and retrieves compiler flags such as `-L` for library paths and `-l` for library names. Used when generating build commands to ensure correct linking of C dependencies in OCaml projects.",
       "description_length": 291,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_c_probe.C_abi.V3",
-      "description": "Provides functions to retrieve the operating system and ABI information, along with the ABI name, each returning a result type with either the parsed value or an error string. Operates on custom types representing OS identifiers and ABI specifications. Used to determine runtime environment details during program execution.",
-      "description_length": 324,
+      "module_path": "Dkml_c_probe.C_abi.V1",
+      "library": "dkml-c-probe",
+      "description": "This module detects the operating system and application binary interface (ABI) at runtime. It returns results as OCaml variant types (`t_os`, `t_abi`) or a string name representing the ABI. Use it to implement platform-specific logic, such as selecting native libraries or adjusting behavior for Android, iOS, Linux, macOS, or Windows architectures.",
+      "description_length": 350,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_c_probe.C_conf.C_flags",
-      "description": "Provides functions to extract C compiler and linker flags from a configuration, separating library and path flags for precise control. Operates on a configuration type `t` that encapsulates compiler settings. Used to generate build commands with explicit linking options for external libraries.",
-      "description_length": 294,
+      "module_path": "Dkml_c_probe.C_abi.V2",
+      "library": "dkml-c-probe",
+      "description": "This module detects the operating system and application binary interface (ABI) at runtime. It returns results as standard OCaml `result` types, distinguishing between supported architectures like ARM64, x86, and platform-specific ABIs for Android, iOS, Linux, macOS, and Windows. Use it to select native libraries or configure low-level system interactions based on the host environment.",
+      "description_length": 388,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_c_probe.C_conf.Ocamlmklib_flags",
-      "description": "Provides functions to generate and manage compiler and linker flags for OCaml libraries, specifically handling -L and -l options. Operates on a custom type `t` that encapsulates configuration settings for library linking. Used to construct command-line arguments for building OCaml projects with external dependencies.",
-      "description_length": 318,
+      "module_path": "Dkml_c_probe.C_conf.C_flags",
+      "library": "dkml-c-probe",
+      "description": "This module represents C compiler and linker flags, including include paths, library paths, and libraries to link. It provides accessors to retrieve specific subsets of flags such as only the library paths (`-L`) or only the libraries (`-l`). Concrete use cases include configuring build systems or passing flags to C compilers and linkers during cross-compilation.",
+      "description_length": 365,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Dkml_c_probe.C_abi",
-      "description": "Collects and processes operating system and ABI information through functions that return typed results or error strings, utilizing custom types `t_os` and `t_abi`. Includes methods to extract ABI names as strings and retrieve system-specific identifiers for runtime use. Supports error handling and detailed environment analysis during program execution. Examples include determining platform characteristics, configuring runtime settings, and diagnosing system compatibility.",
-      "description_length": 477,
+      "library": "dkml-c-probe",
+      "description": "This module detects the runtime operating system and application binary interface (ABI), returning results as OCaml variant types (`t_os`, `t_abi`) or string names. It supports architectures like ARM64, x86, and platform-specific ABIs for Android, iOS, Linux, macOS, and Windows. Use it to select native libraries, adjust behavior across platforms, or configure low-level system interactions based on the detected environment. For example, you can determine whether the host is running macOS on ARM64 or Windows on x86 and load the appropriate binary asset.",
+      "description_length": 557,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Dkml_c_probe.C_conf",
-      "description": "Encapsulates configuration settings for compiling and linking C and OCaml projects, offering precise control over compiler and linker flags. Supports extraction and management of -L and -l options, along with separation of library and path flags for customizable build processes. Can generate build commands with explicit linking instructions for external dependencies. Example tasks include constructing linker arguments for a C library or embedding OCaml library paths into a build script.",
-      "description_length": 491,
+      "library": "dkml-c-probe",
+      "description": "This module manages C library configurations for cross-compilation by loading compiler and linker flags based on environment variables, supporting queries for specific compilers like GCC or MSVC and integration with Dune and Findlib. It provides data types to represent and manipulate `ocamlmklib` flags, such as `-L` for library paths and `-l` for library names, enabling precise control over linking C libraries with OCaml code. Operations include retrieving subsets of flags, configuring build systems, and generating correct linking commands for dependencies like GMP in cross-compilation scenarios. Submodules enhance this functionality by structuring flag representation and access, ensuring compatibility across different toolchains and target architectures.",
+      "description_length": 765,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dkml-c-probe",
-      "description": "Provides functions to detect and retrieve information about C compiler installations, including paths, versions, and supported standards. Works with system paths, environment variables, and parsed compiler output. Used to automatically configure build systems with accurate C compiler settings.",
-      "description_length": 294,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Dkml_c_probe",
-      "description": "Provides tools for analyzing system environments and managing build configurations by combining OS and ABI detection with compiler/linker flag manipulation. It defines custom types for operating system and ABI data, enabling precise extraction of system identifiers and error handling. Operations include generating linker commands, isolating library paths, and adapting build settings to platform specifics. Tasks such as embedding OCaml library paths into build scripts or determining ABI compatibility can be executed with direct, type-safe interfaces.",
-      "description_length": 555,
-      "index": 8,
+      "library": "dkml-c-probe",
+      "description": "This module identifies the runtime operating system and application binary interface (ABI), providing variant types and string names for architectures like ARM64, x86, and platform-specific ABIs including Android, iOS, Linux, macOS, and Windows. It supports selecting native libraries, adapting behavior across platforms, and configuring low-level system interactions based on the detected environment, such as loading macOS ARM64 or Windows x86 binaries. Additionally, it manages C library configurations for cross-compilation by loading compiler and linker flags from environment variables, supporting compilers like GCC and MSVC, and integrates with Dune and Findlib. The module enables manipulation of `ocamlmklib` flags like `-L` and `-l`, retrieves flag subsets, configures build systems, and generates correct linking commands for dependencies such as GMP in cross-compilation setups.",
+      "description_length": 891,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Probe_common",
-      "description": "Converts ASCII strings by replacing CRLF with LF and filtering non-alphanumeric characters, replacing them with underscores. Processes raw text data for consistent formatting and safe encoding. Used to clean user input and prepare strings for system interactions.",
-      "description_length": 263,
-      "index": 9,
+      "library": "dkml-c-probe.common",
+      "description": "Converts CRLF line endings to LF and normalizes strings by converting lowercase letters to uppercase and replacing non-alphanumeric characters with underscores. Works directly on ASCII-encoded strings. Useful for preparing input data for systems that require consistent line endings and alphanumeric-only identifiers.",
+      "description_length": 317,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 555,
-    "min_description_length": 263,
-    "avg_description_length": 357.8,
-    "embedding_file_size_mb": 0.03676033020019531
+    "max_description_length": 891,
+    "min_description_length": 291,
+    "avg_description_length": 480.0,
+    "embedding_file_size_mb": 0.03314971923828125
   }
 }

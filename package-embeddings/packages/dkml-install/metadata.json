@@ -1,98 +1,117 @@
 {
   "package": "dkml-install",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:23.097575",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:08:30.592876",
   "modules": [
     {
       "module_path": "Dkml_install_api.Forward_progress.Exit_code",
-      "description": "Provides functions to convert exit codes to strings, pretty print them, and retrieve their integer representations for process termination. Works with a custom type `t` representing distinct exit code values. Used to generate human-readable error messages and ensure consistent exit status handling in command-line tools.",
-      "description_length": 321,
+      "library": "dkml-install.api",
+      "description": "This module defines a sum type for exit codes indicating specific failure or action conditions, such as transient failure, unrecoverable failure, restart, reboot, or upgrade requirements. It provides functions to convert exit codes to human-readable strings, formatted output, and standard integer exit codes suitable for process termination. Use cases include signaling precise termination states in installation processes or subprocess chains where distinct exit reasons require handling or logging.",
+      "description_length": 501,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Dkml_install_api.Context.Abi_v2",
-      "description": "Provides equality, comparison, and enumeration conversion for ABI identifiers, along with checks for platform-specific traits like Windows or Linux. Operates on the opaque type `t`, which represents supported ABIs. Used to map ABI names to integers for serialization, validate string inputs, and generate canonical representations for tooling.",
-      "description_length": 343,
+      "library": "dkml-install.api",
+      "description": "This module defines a variant type representing supported CPU architectures and operating system combinations (ABIs), including 32-bit and 64-bit versions of Android, Darwin, Linux, and Windows. It provides functions to convert between string representations and enum values, compare and check equality of ABIs, determine platform categories (like is_windows), and retrieve word size. Use cases include selecting appropriate binaries based on the target architecture and validating architecture strings during installation setup.",
+      "description_length": 529,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_register.Component_registry.Private",
-      "description": "Resets internal state by clearing stored values and reinitializing private variables. Operates on mutable references and internal data structures managed by the module. Used to restore default behavior after configuration changes or error states.",
-      "description_length": 246,
+      "module_path": "Dkml_install_api.Component_config",
+      "library": "dkml-install.api",
+      "description": "This module defines the configuration for a component in an installation system, specifying dependencies and subcommands for installation and uninstallation with user or administrator privileges. It works with strings, lists, and command-line interface structures from Cmdliner to create executable subcommands tied to component lifecycle actions. Concrete use cases include defining install/uninstall procedures for components like compilers or runtime environments, where dependency ordering and privilege levels are critical.",
+      "description_length": 528,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_api.Context",
-      "description": "Encapsulates ABI identifier handling with operations to compare, enumerate, and convert between string and integer representations. Supports platform-specific checks and ensures consistent serialization through canonical forms. Provides functions to validate inputs and map names to internal representations. Enables tools to reliably process and interpret ABI information across different environments.",
-      "description_length": 403,
+      "module_path": "Dkml_install_api.Log_config",
+      "library": "dkml-install.api",
+      "description": "This module defines a log configuration type with optional style renderer and log level. It provides functions to create a configuration instance and convert it into a string array. It is used to set up and pass logging options to command-line tools or logging systems that require structured configuration.",
+      "description_length": 307,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dkml_install_api.Default_component_config",
-      "description": "Provides functions to define installation and uninstallation subcommands for components, with separate user and admin permissions. Works with strings for component names, context records, and Cmdliner terms to build CLI commands. Used to generate install-user, install-admin, uninstall-user, and uninstall-admin subcommands for a package manager.",
-      "description_length": 346,
+      "module_path": "Dkml_install_api.Context",
+      "library": "dkml-install.api",
+      "description": "The module manages evaluation context with a record type `t` that holds path and string resolution functions, target ABI version 2 values, and logging configuration. Its variant type enumerates supported CPU and OS combinations, offering conversions, comparisons, and platform checks such as `is_windows`, enabling binary selection and architecture validation during installation. Operations include resolving paths via `Fpath.t`, evaluating strings, and configuring logs based on structured settings. This combination supports context-aware configuration and installation workflows across different ABIs and platforms.",
+      "description_length": 619,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_api.Log_config",
-      "description": "Creates a log configuration with specified style renderer and log level. Translates the configuration into a string array for command-line arguments. Used to customize log output formatting and verbosity in applications.",
-      "description_length": 220,
+      "module_path": "Dkml_install_api.Default_component_config",
+      "library": "dkml-install.api",
+      "description": "This module provides default implementations for component configuration values, including dependency lists and subcommand builders for installation and uninstallation. It works with strings, lists, and Cmdliner terms for command-line interface setup, along with context and logging types for runtime configuration and error handling. Concrete use cases include defining user and admin install/uninstall subcommands for dkml-install-runner.exe and determining when elevated privileges are required based on the environment.",
+      "description_length": 523,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_api.Forward_progress",
-      "description": "handles exit code conversion, formatting, and retrieval through a custom type `t`, enabling consistent and readable process termination management. it supports generating human-readable messages from exit codes and extracting their integer values for system-level interactions. operations include pretty-printing, string conversion, and value extraction. examples include displaying \"operation failed\" from a specific exit code or logging the integer 127 for a command not found scenario.",
-      "description_length": 488,
+      "module_path": "Dkml_install_api.Component_config_defaultable",
+      "library": "dkml-install.api",
+      "description": "This module defines component configuration values with defaults for installation and uninstallation dependencies, and provides functions to create user and admin subcommands for managing components via `dkml-install-runner.exe`. It works with `Context.t` from `Dkml_install_api__.Types` and uses `Cmdliner` to define command-line interfaces for installation logic. Concrete use cases include defining install/uninstall workflows for components that require specific user permissions or depend on other components.",
+      "description_length": 514,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_register.Component_registry",
-      "description": "Resets internal state by clearing stored values and reinitializing private variables. Operates on mutable references and internal data structures managed by the module. Used to restore default behavior after configuration changes or error states. This module supports operations that modify or reset component configurations, allowing for dynamic reinitialization of component properties and ensuring consistent state management across component instances.",
-      "description_length": 456,
+      "module_path": "Dkml_install_api.Forward_progress",
+      "library": "dkml-install.api",
+      "description": "This module provides a monadic framework for managing forward progress in applications with nested subprocesses, using a custom `'a t` monad to represent computation states and support graceful exits. It includes operations like `fatal_logger` for error logging, `catch_exceptions` for exception handling, and utilities to chain subprocess calls with error recovery. The child module defines structured exit codes for signaling failure types or required actions, enabling precise termination handling with human-readable messages and formatted output. Together, they support robust subprocess orchestration with clear error reporting, restart coordination, and customizable exit logic.",
+      "description_length": 685,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dkml-install",
-      "description": "Provides functions to parse and generate DKML install manifests, resolve dependencies, and validate installation configurations. Works with custom data types such as `manifest`, `dependency`, and `installation_config`. Used to automate the setup of OCaml projects with specific runtime and build dependencies.",
-      "description_length": 309,
+      "module_path": "Dkml_install_api",
+      "library": "dkml-install.api",
+      "description": "This module orchestrates installation workflows by combining process execution with logging, component configuration, and platform-specific context management. It provides core operations for spawning and logging subprocesses, uninstalling files with timeouts, and defining component lifecycles through configurable subcommands that respect dependencies and privilege requirements. Data types include component configurations tied to Cmdliner for CLI generation, log settings that convert to string arrays, and an evaluation context that resolves paths and selects binaries based on CPU/OS targets. Examples include embedding installation executables that handle failures with contextual logs, generating user/admin subcommands for dkml-install-runner.exe, and ensuring clean uninstallation across Unix and Windows with platform-aware logic.",
+      "description_length": 841,
       "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Dkml_install_register.Component_registry.Private",
+      "library": "dkml-install.register",
+      "description": "The `Private` module provides a `reset` function that clears all registered components from the global registry. It operates directly on the internal state of the component registry, ensuring a clean slate for subsequent registrations. This function is used during testing or reinitialization scenarios where a fresh registry state is required.",
+      "description_length": 344,
+      "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dkml_install_api",
-      "description": "Provides functions to define installation and uninstallation subcommands for components, with separate user and admin permissions. Works with string lists for dependencies and context records containing environment and logging information. Used to generate CLI commands for installing or uninstalling components with appropriate privilege levels based on system requirements.",
-      "description_length": 375,
-      "index": 9,
+      "module_path": "Dkml_install_register.Component_registry",
+      "library": "dkml-install.register",
+      "description": "The registry tracks installable components and their dependencies, enabling dependency validation and ordered evaluation of installation or uninstallation actions. It supports adding components with explicit dependencies, ensuring correctness in component workflows. The Private module adds the ability to reset the registry, clearing all registered components for testing or reinitialization. For example, components can be registered with dependencies, validated for completeness, and then installed or uninstalled in the correct order, with the registry state optionally reset between operations.",
+      "description_length": 599,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Dkml_install_register",
-      "description": "Resets internal state by clearing stored values and reinitializing private variables, ensuring consistent behavior after configuration changes or errors. It operates on mutable references and internal data structures, allowing dynamic reinitialization of component properties. This enables restoring default settings or preparing for new operations. For example, it can reset a component's state before applying a new configuration or recovering from an invalid state.",
-      "description_length": 468,
-      "index": 10,
+      "library": "dkml-install.register",
+      "description": "This module manages the registration and tracking of installation components, ensuring proper setup and cleanup of system resources during installation or uninstallation. It provides core operations to record component states and manage metadata, while the registry submodule organizes components by dependencies, enabling ordered execution and validation of installation workflows. The Private submodule allows resetting the registry, facilitating clean reinitialization or testing. For example, components can be registered with dependencies, validated for correctness, and installed or uninstalled in the correct sequence, with the registry state cleared between test runs.",
+      "description_length": 676,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 488,
-    "min_description_length": 220,
-    "avg_description_length": 361.3636363636364,
-    "embedding_file_size_mb": 0.04036998748779297
+    "max_description_length": 841,
+    "min_description_length": 307,
+    "avg_description_length": 555.5,
+    "embedding_file_size_mb": 0.04401111602783203
   }
 }

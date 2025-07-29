@@ -1,343 +1,445 @@
 {
   "package": "speed",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 46,
-  "creation_timestamp": "2025-06-18T16:42:52.644635",
+  "total_modules": 53,
+  "creation_timestamp": "2025-07-15T23:15:39.832921",
   "modules": [
     {
-      "module_path": "Speed_domain.LwtDomain.Dom",
-      "description": "Provides functions to define and execute test cases that return results wrapped in Lwt, supporting asynchronous test execution. Works with custom test input types, example structures, and test suites that can include child suites. Used to build and run unit tests in a concurrent environment, such as testing asynchronous HTTP requests or event-driven systems.",
-      "description_length": 360,
+      "module_path": "Speed_domain.Sync.Dom",
+      "library": "speed",
+      "description": "Handles synchronization operations for test results in a distributed testing environment. It provides functions to merge, compare, and update test results across different nodes. Works with the `test_result` type to ensure consistency and resolve conflicts during synchronization.",
+      "description_length": 280,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_domain.Sync.Dom",
-      "description": "Provides functions to define and execute tests that return results of type `test_result`, with support for test inputs and structured test examples. Works with polymorphic types such as `test_function`, `example`, and `t` to encapsulate test logic and results. Used to build and run synchronous test suites with explicit result handling and structured test organization.",
-      "description_length": 370,
+      "module_path": "Speed_runner.ExampleRunner.EXAMPLE_RUNNER",
+      "library": "speed",
+      "description": "Handles asynchronous test execution with continuation-passing style. Uses `test_function` to define tests that return a continuation result, supporting delayed computation and result extraction via `run` and `wait`. Useful for running non-blocking tests and retrieving results once completed.",
+      "description_length": 292,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_domain.MakeComplex.Dom",
-      "description": "Provides functions to define and execute tests, including creating test cases, managing test suites, and generating results. Works with custom test input types, test results, and structured test examples. Used to organize and run unit tests with typed inputs and expected outputs.",
-      "description_length": 280,
+      "module_path": "Speed_dsl_effect.LwtEffectDsl.MakeTypes",
+      "library": "speed",
+      "description": "Defines an effect type for operations that transform LwtDomain values using a computation function. Works with `C.t Domain.LwtDomain.t` values, applying functions to thread-like LwtDomain computations. Enables building custom effects that manipulate Lwt-based concurrent workflows in a typed, composable way.",
+      "description_length": 308,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Speed_dsl_effect.Make.MakeTypes",
-      "description": "Provides functions to create, compare, and serialize instances of type t, including parsing from strings and generating unique identifiers. Works with custom data structures that represent configuration parameters and build targets. Used to enforce consistent representation of build settings across different parts of the system.",
-      "description_length": 330,
+      "library": "speed",
+      "description": "Defines an effect type for operations that transform streams of `C.t` values using functions of type `C.t D.t -> C.t D.t`. Provides a single effect constructor `Op` that wraps such transformations as effectful actions. This module is used to build composable stream processing pipelines where each operation modifies a stream of `C.t` values in a specific way.",
+      "description_length": 360,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_effect.Sync.MakeTypes",
-      "description": "Provides functions to create, compare, and serialize instances of type t. Works with custom data structures that represent build configurations and dependencies. Used to generate unique identifiers for build targets and ensure consistency across build processes.",
-      "description_length": 262,
+      "module_path": "Speed_domain.MakeComplex.Dom",
+      "library": "speed",
+      "description": "Handles complex test result validation and transformation using the `T` module's types. Provides functions to construct, compare, and serialize test outcomes with rich metadata. Useful for test frameworks needing structured result reporting and analysis.",
+      "description_length": 254,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Speed_dsl_effect.LwtEffectDsl.MakeTypes",
-      "description": "Provides functions to create, compare, and serialize instances of type t. Works with custom data structures that represent build configurations and dependencies. Used to generate unique identifiers for build targets and ensure consistency across build processes.",
-      "description_length": 262,
+      "module_path": "Speed_runner.ExampleRunner.SyncRunner",
+      "library": "speed",
+      "description": "Handles synchronous test execution with explicit control over test outcomes. Works with functions that take no arguments and return a test result, along with arbitrary input and continuation functions. Useful for running tests in a controlled sequence where each test depends on the result of the previous.",
+      "description_length": 306,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_runner.ExampleRunner.SyncRunner",
-      "description": "Provides functions to manage synchronous test execution, including waiting for results, returning values, and running test functions with continuation-based handling. Operates with test functions, continuation types, and outcome-based result processing. Used to coordinate test steps and handle asynchronous outcomes in a structured, imperative flow.",
-      "description_length": 350,
+      "module_path": "Speed_dsl_effect.Sync.MakeTypes",
+      "library": "speed",
+      "description": "Defines an effect for applying transformations to synchronized values in a concurrent context. It works with types involving `C.t Domain.Sync.t`, where `C` is a provided module. This is useful for safely modifying shared, synchronized state across domains.",
+      "description_length": 256,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Speed_runner.ExampleRunner.LwtRunner",
-      "description": "Provides blocking wait for Lwt promises, asynchronous execution of test functions with continuation passing, and structured handling of test outcomes. Operates with Lwt threads, test input structures, and continuation callbacks. Used to manage asynchronous test execution and coordinate test results within a domain-specific testing framework.",
-      "description_length": 343,
+      "library": "speed",
+      "description": "This module implements asynchronous test execution with Lwt, handling input validation and continuation passing. It works with Lwt threads, domain test inputs, and continuation functions. Concrete use cases include running effectful test cases that require waiting for results or chaining asynchronous validations.",
+      "description_length": 314,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_ppx_metadata.Ppx_metadata",
-      "description": "Processes OCaml parse trees to expand function arguments in ppx rewriters, transforming expressions using context-specific rules. Operates on parsetree expressions and extension rules from the Ppxlib library. Used to customize macro expansion behavior in syntax extensions.",
-      "description_length": 273,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_list.Make",
-      "description": "Provides functions to create and manage test cases, execute test functions with specific inputs, and organize test suites with child suites. Works with custom test result types, test functions that take domain-specific inputs, and structured test examples. Used to define and run performance tests with controlled input scenarios and aggregated results.",
-      "description_length": 353,
+      "module_path": "Speed_domain.LwtDomain.Dom",
+      "library": "speed",
+      "description": "This module provides functions for running and managing concurrent test executions using Lwt domains. It handles test scheduling, execution, and result aggregation, returning outcomes via the `test_result` type. Concrete use cases include parallel test suite execution and performance benchmarking in Lwt-based applications.",
+      "description_length": 324,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed.Dsl.Effect",
+      "library": "speed",
+      "description": "Handles effectful computations in a synchronous domain by providing a way to define and execute effect builders. It works with metadata and builder functions to construct and run domain-specific effects. Useful for defining and interpreting sequences of effects in a structured, composable manner.",
+      "description_length": 297,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_list.Sync",
-      "description": "Provides test and context setup functions for organizing synchronous test suites, along with parsing and registration mechanisms for test structures. Operates on test functions, contexts, and metadata lists to build and execute test hierarchies. Used to define test cases with focused execution, attach metadata, and structure tests into nested suites.",
-      "description_length": 352,
+      "module_path": "Speed_runner.ExampleRunner",
+      "library": "speed",
+      "description": "This module orchestrates test execution across synchronous and asynchronous contexts, producing outcomes as Success, Failure, or formatted messages. It supports direct test definition with explicit result handling, and extends functionality through submodules for continuation-based async testing, controlled sync execution, and Lwt-driven asynchronous validation. With it, you can define tests that run immediately, sequence tests with dependency chains, or launch non-blocking test threads that resolve later. For example, you can write an Lwt-backed test that waits for an HTTP response, or a synchronous test that builds state incrementally across multiple steps.",
+      "description_length": 667,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_list.LwtDsl",
-      "description": "Provides test and context setup functions for asynchronous test suites, including test registration, metadata tagging, and context scoping. Operates on `LwtDomain.t` values to manage test execution flow and state. Used to define and organize asynchronous test cases with focus flags, metadata, and nested contexts.",
-      "description_length": 314,
+      "module_path": "Speed_dsl_effect.ROOT_SUITE",
+      "library": "speed",
+      "description": "This module defines a root test suite reference for organizing and executing test cases in a testing framework. It provides direct access to the root suite through the `root_suite` value, enabling dynamic registration and execution of tests. Concrete use cases include structuring unit tests, integrating test cases into larger test hierarchies, and managing test execution contexts.",
+      "description_length": 383,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_ppx_fun.Ppx_fun",
-      "description": "Parses strings into placeholder structures, manages list additions, and performs downward folding over integers. It manipulates AST expressions and context data during code transformation. Used to replace placeholders in expressions while tracking context during ppx expansion.",
-      "description_length": 277,
+      "module_path": "Speed_dsl_effect.Make",
+      "library": "speed",
+      "description": "This module implements a domain-specific language for defining and executing speed tests, enabling the construction and execution of performance benchmarks with custom configurations through builder patterns and deferred computation types. It supports profiling function execution speed and comparing performance across implementations, while the child module introduces an effect type to transform streams of `C.t` values using functions of type `C.t D.t -> C.t D.t`, allowing composable stream processing pipelines. The main data types include deferred computations (`D.t`) and effectful operations (`Op`), with operations to build, modify, and run test cases and stream transformations. Example uses include defining a test suite that measures and compares the speed of different sorting algorithms or applying a sequence of effectful transformations to a stream of input values.",
+      "description_length": 882,
       "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Speed_dsl_effect_simple.Make",
-      "description": "Provides functions to create and manage test cases, execute test functions with specific inputs, and organize test suites with child suites. Works with custom test result types, test functions that take domain-specific inputs, and structured test examples. Used to define and run performance tests by associating input data with expected outcomes and hierarchical test organization.",
-      "description_length": 382,
+      "module_path": "Speed.Dsl",
+      "library": "speed",
+      "description": "This module enables the definition and execution of structured, composable effect builders for synchronous domains. It centers on effectful computations using metadata and builder functions, allowing sequences of domain-specific effects to be constructed and interpreted. For example, you can define a computation that logs messages or interacts with external systems, then interpret those effects in different ways\u2014such as collecting logs or performing real I/O\u2014without changing the core logic.",
+      "description_length": 495,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Speed_dsl_effect_simple.Sync",
-      "description": "Provides functions to execute synchronous operations, parse synchronization structures, and define test contexts and tests. Works with custom synchronization types and test functions encapsulated in domain-specific modules. Used to structure and run test suites, manage execution flow, and define focused test cases.",
-      "description_length": 316,
+      "module_path": "Speed_domain.DOMAIN",
+      "library": "speed",
+      "description": "This module defines a type `test_result` to represent the outcome of domain-specific tests, typically including success or failure states along with associated metadata. It provides functions to evaluate, compare, and serialize test results for analysis or reporting. Use cases include validating domain logic correctness and generating structured test outputs.",
+      "description_length": 361,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_effect_simple.LwtEffectDsl",
-      "description": "Provides functions to execute and structure asynchronous test scenarios, including running test blocks, defining test contexts, and parsing test definitions. Operates with Lwt-based asynchronous workflows and test structures defined in the Domain module. Used to define and execute test suites with focused execution and hierarchical organization.",
-      "description_length": 347,
+      "module_path": "Speed_dsl_effect_simple.ROOT_SUITE",
+      "library": "speed",
+      "description": "Defines a mutable reference to a root test suite structure, used to organize and manage test cases. The module centers around the `t` type, representing a hierarchical test suite, and the `root_suite` value that serves as the entry point for test execution. It is used to construct and run nested test suites in testing frameworks.",
+      "description_length": 331,
       "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_domain.TestInput",
-      "description": "Returns a list of metadata entries from a test input structure, allowing access to associated test attributes. Operates on a polymorphic record type that encapsulates test data and context. Used to extract configuration details during test execution or reporting.",
-      "description_length": 263,
-      "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_domain.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications, generating dependency graphs, and executing build steps. Operates on the `t` type, which represents a structured build plan with targets, dependencies, and execution rules. Used to automate software compilation workflows by defining precise build sequences and handling incremental builds.",
-      "description_length": 398,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_domain.MakeFunctions",
-      "description": "Provides functions to create and manage test cases, including building test inputs, executing test functions, and organizing test suites. Works with custom types such as test results, test functions, and nested test structures. Used to define and run individual tests, aggregate related tests into suites, and handle test input generation.",
-      "description_length": 339,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_domain.SyncTestResult",
-      "description": "Provides functions to track and compare synchronization states between threads, using unit types to signal completion or success. Operates on shared state variables and atomic counters to enforce and verify thread coordination. Used to validate concurrent execution order in test scenarios involving lock-free data structures.",
-      "description_length": 326,
-      "index": 19,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_domain.LwtTestResult",
-      "description": "Provides functions to create, combine, and inspect asynchronous test outcomes represented as unit Lwt.t values. Operates on lightweight threads and test result combinators to manage success and failure states. Used to sequence and validate asynchronous test cases in a test framework.",
-      "description_length": 284,
-      "index": 20,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Speed_domain.MakeComplex",
-      "description": "Provides functions to create, manipulate, and perform arithmetic operations on complex numbers, including addition, multiplication, and conjugation. Works with the `t` type, representing complex numbers as pairs of floating-point values. Used to implement mathematical computations in signal processing and numerical algorithms.",
-      "description_length": 328,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_domain.Sync",
-      "description": "Encapsulates test logic through polymorphic types like `test_function`, `example`, and `t`, enabling structured test definition and execution. Supports test inputs and returns results of type `test_result`, allowing for explicit result handling and organized test suites. Functions include defining test cases, running them synchronously, and capturing detailed outcomes. Example use includes validating functions with custom inputs and asserting expected results.",
-      "description_length": 464,
-      "index": 22,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_domain.LwtDomain",
-      "description": "Executes asynchronous test cases with custom input and result handling, supporting nested test suites and concurrent test execution. Key data types include test cases, test inputs, and test suites, with operations for defining, combining, and running tests. Examples include testing non-blocking I/O operations, validating event handlers, and orchestrating parallel test scenarios. Tests can be structured hierarchically and executed in a controlled, asynchronous manner.",
-      "description_length": 471,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_ppx_matcher.Ppx_matcher",
-      "description": "Generates OCaml structure items for type declarations based on provided paths and location information. Operates on type declarations, lists of type declarations, and location data to produce abstract syntax tree fragments. Used to automatically create boilerplate code for pattern matching scenarios.",
-      "description_length": 301,
-      "index": 24,
+      "library": "speed",
+      "description": "This module structures complex test hierarchies with support for fixtures, nested contexts, and focused test execution. It allows defining test cases with metadata, grouping tests into logical units, and sharing setup/teardown logic across multiple tests. The child module handles result validation and transformation, enabling structured reporting and analysis of test outcomes with rich metadata. Together, they support building and evaluating intricate test suites with customizable execution and detailed output handling.",
+      "description_length": 525,
+      "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Speed_assertions.AssertionResult",
-      "description": "Provides operations to chain computations that may fail, including binding a function over a result and mapping a function over the success value. Works with a result type that encapsulates either a value or an error. Used to handle error-prone calculations in a sequence, such as parsing input or processing external data.",
-      "description_length": 323,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_dsl_effect.Make",
-      "description": "Provides functions to create and manage test cases, execute test functions with input, and organize test suites with child suites. Works with custom types such as test results, test functions that take domain-specific inputs, and structured test examples. Used to define and run performance tests by associating input data with expected outcomes and grouping related tests.",
-      "description_length": 373,
-      "index": 26,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Speed_dsl_effect.Sync",
-      "description": "Manages build configuration instances through creation, comparison, and serialization. Operates on custom data types representing build targets and dependencies, generating unique identifiers to maintain consistency. Supports operations that ensure data integrity during build processes. Examples include generating hash-based IDs for targets and comparing configurations for changes.",
-      "description_length": 384,
-      "index": 27,
+      "library": "speed",
+      "description": "This module enables the construction and execution of synchronous workflows using a builder pattern, centered around the `Domain.Sync` type for composing sequences of effects like data validation or state transformations. It provides core operations to run and parse these workflows, while its child module extends functionality to handle concurrent state modifications through effects that transform synchronized values in shared contexts. The main data types involve `Domain.Sync.t` and builder combinators for defining steps, with operations to chain, map, and sequence effects. Examples include building a pipeline that validates input data step-by-step or applying transformations to a shared state across domains in a thread-safe manner.",
+      "description_length": 743,
+      "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_effect.LwtEffectDsl",
-      "description": "Manages build configuration data through creation, comparison, and serialization of instances. Supports custom data structures for tracking dependencies and generating unique identifiers. Enables consistent build target management and cross-process data exchange. Examples include generating stable IDs for build steps and validating configuration equality before execution.",
-      "description_length": 374,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_runner.ExampleRunner",
-      "description": "Provides functions to construct and execute test scenarios, with `return` wrapping values into a continuation result, `run` executing test functions with input and continuation, and `wait` blocking until a continuation result is available. Operates on test functions, continuation results, and continuations that map input and test outcomes to results. Used to manage asynchronous test execution and coordinate test steps with explicit control flow.",
-      "description_length": 449,
-      "index": 29,
+      "module_path": "Speed_dsl_list.Make",
+      "library": "speed",
+      "description": "This module builds and manipulates test structures using a list-based DSL, providing functions to define tests, apply parsing logic, and organize test contexts. It works with test functions and context transformations, specifically handling values of type `'a T.test_function` and `'a T.t`. Use it to construct nested test suites, register test cases, and apply metadata or focus flags within a testing framework.",
+      "description_length": 413,
+      "index": 18,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Speed_runner.Reporter",
-      "description": "Produces and evaluates test suite results, offering a structured way to track test outcomes. It includes a base result value for empty suites and a predicate to check if a suite's outcome is successful. Works with a custom type representing the state of test executions.",
-      "description_length": 270,
-      "index": 30,
+      "library": "speed",
+      "description": "Tracks and evaluates the outcome of test suite executions. It represents results using the `suite_result` type, which encapsulates the success or failure status of a suite. Use it to check whether a suite completed successfully with `is_success`, or to initialize a default empty result with `empty_suite_result`.",
+      "description_length": 313,
+      "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_runner.Make",
-      "description": "Provides functions to create and manage test cases, execute test functions with input, and organize test suites with child suites. Works with custom types such as test results, test functions that take domain-specific inputs, and structured test examples. Used to define and run performance tests by associating input data with expected outcomes and grouping related tests.",
-      "description_length": 373,
-      "index": 31,
+      "module_path": "Speed_domain.Make",
+      "library": "speed",
+      "description": "Implements functions to analyze and validate speed test results using the data type R.t. Provides operations to compare, aggregate, and derive metrics from test outcomes. Useful for evaluating network performance data where R represents raw test measurements.",
+      "description_length": 259,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_domain.Sync",
+      "library": "speed",
+      "description": "This module organizes hierarchical test suites with shared contexts, using `Dom.t` structures to represent test domains and support setup functions and metadata. It allows defining test cases with examples, child groups, and fixtures, enabling focused execution and structured test organization. The child module handles synchronization of test results across distributed nodes, providing operations to merge, compare, and update results while resolving conflicts. Together, they support building and managing complex test workflows with both local structure and distributed coordination.",
+      "description_length": 588,
+      "index": 21,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_domain.LwtTestResult",
+      "library": "speed",
+      "description": "Handles asynchronous test results using Lwt promises. Provides functions to create, compose, and evaluate test outcomes in a concurrent testing framework. Used to integrate test execution with Lwt-based event loops and error handling.",
+      "description_length": 234,
+      "index": 22,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_runner.SyncRunner",
-      "description": "Filters synchronization suites and child suites, manages test execution flow, and tracks test results. Operates on domain-specific synchronization types, test metadata, and result accumulators. Used to run and monitor test suites, handle setup/teardown sequences, and aggregate pass/fail counts.",
-      "description_length": 295,
-      "index": 32,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_runner.LwtRunner",
-      "description": "Filters test suites and child suites by excluding non-matching elements, executes test groups and examples with custom formatting, and manages setup contexts and test outcomes. Operates on domain structures, test metadata, and result accumulators to track and report test execution status. Used to run and aggregate test results, filter focused tests, and handle asynchronous test execution flows.",
-      "description_length": 397,
-      "index": 33,
+      "module_path": "Speed_dsl_effect_simple.Sync",
+      "library": "speed",
+      "description": "This module defines an effect-based DSL for synchronizing operations on a list structure, allowing the composition and execution of transformations as effects. It provides functions to run, test, and contextualize these operations, specifically working with `Speed_dsl_list.Sync.t` values to model and manipulate synchronized state. Use cases include building and testing domain-specific logic that requires ordered or conditional execution of list-based synchronizations.",
+      "description_length": 472,
+      "index": 23,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Speed_metadata.List",
-      "description": "Finds the first element that, when passed to a given function, returns a `Some` value, and returns that result. It operates on lists of any type and is useful for searching and transforming elements in a single pass. This function is particularly effective when extracting specific values from a list based on conditional logic.",
-      "description_length": 328,
+      "library": "speed",
+      "description": "This module provides a function `find_map` that traverses a list, applying a given function to each element until it returns a `Some` value, which is then returned. It works with polymorphic lists and optional values. A concrete use case is searching for the first element in a list that satisfies a condition and extracting a transformed result from it.",
+      "description_length": 354,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_domain.TEST_RESULT",
+      "library": "speed",
+      "description": "Represents the outcome of a test execution, including success or failure states with associated metadata. It provides functions to create, query, and compare test results, such as extracting error messages or determining if a test passed. Used to report and analyze the results of automated tests in a structured format.",
+      "description_length": 320,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_dsl_effect.LwtEffectDsl",
+      "library": "speed",
+      "description": "This module provides a domain-specific language for constructing and executing effectful computations using Lwt for concurrency, organizing operations through domains that manage execution contexts. It defines effect types for transforming LwtDomain values with computation functions, allowing custom effects that manipulate thread-like Lwt workflows in a typed and composable way. The DSL supports building asynchronous workflows by sequencing operations over domains and interpreting them in isolated execution contexts. For example, users can define a custom effect that applies a function to a running LwtDomain computation, then compose and run it alongside other effects within a domain.",
+      "description_length": 693,
+      "index": 26,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_domain.SyncTestResult",
+      "library": "speed",
+      "description": "This module provides functions to record and retrieve test results for synchronization operations, specifically tracking success or failure states. It works with basic system primitives like threads and mutable state to capture outcomes during concurrent execution. A concrete use case includes validating correct behavior of lock-free data structures under high concurrency.",
+      "description_length": 375,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_dsl_list.LwtDsl",
+      "library": "speed",
+      "description": "This module defines combinators for building and composing Lwt-based test domains with contextual metadata, focusing on structuring and registering test suites. It operates on LwtDomain.t values, allowing the creation of hierarchical test contexts, focused tests, and metadata-augmented test functions. Use cases include organizing asynchronous test cases with nested contexts and conditional execution metadata.",
+      "description_length": 412,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_runner.LwtRunner",
+      "library": "speed",
+      "description": "This module implements asynchronous test execution for domain-specific test suites using Lwt, handling setup, example running, and result aggregation. It works with Lwt domains, test suites, examples, and metadata to manage execution context and reporting. Concrete use cases include running filtered test suites, capturing test outcomes, and determining suite success based on passing or failing examples.",
+      "description_length": 406,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_assertions.AssertionResult",
+      "library": "speed",
+      "description": "This module provides `bind` and `map` functions for chaining operations on `result` values. It works directly with OCaml's `result` type, handling both `Ok` and `Error` cases. Use it to sequence validation steps or transform successful outcomes while preserving error propagation.",
+      "description_length": 280,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_runner.SyncRunner",
+      "library": "speed",
+      "description": "This module implements synchronous test execution for a testing framework, handling test suites and examples with setup and filtering capabilities. It works with data types like `Speed_runner.suite_result`, `Domain.Sync.t`, and `ExampleRunner` continuations to manage test state and outcomes. Concrete operations include running filtered suites, executing individual tests with context, collecting results, and determining success or failure based on test output.",
+      "description_length": 463,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_domain.MakeFunctions",
+      "library": "speed",
+      "description": "This module constructs and manipulates test suites and examples within a testing framework. It operates on data structures representing test suites, examples, fixtures, and contexts, built around the `D` module's types. Concrete use cases include defining test hierarchies, adding parameterized tests, grouping tests with shared setup, and counting test elements.",
+      "description_length": 363,
+      "index": 32,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_dsl_effect_simple.Make",
+      "library": "speed",
+      "description": "This module implements an effect-based DSL for constructing and running test suites with contextual nesting and focused execution. It provides operations to define tests, contexts, and root-level test suites, using effect handlers to build and modify test structures. The `run` and `parse` functions process effectful test definitions, while `test`, `it`, and `context` define individual tests and grouped test cases.",
+      "description_length": 417,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_runner.Make",
+      "library": "speed",
+      "description": "This module implements functions for filtering and executing test suites, managing setup and execution of test examples, and reporting results. It operates on test suites and examples defined in the `D` module and uses the `Runner` module to handle execution continuations. Concrete use cases include running filtered test suites, capturing test outcomes, and exiting with appropriate status codes based on test success or failure.",
+      "description_length": 431,
       "index": 34,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "speed",
-      "description": "Provides functions for defining test cases, executing them, and reporting results with detailed failure information. Operates on custom test structures that encapsulate expectations and actual outcomes. Used to validate edge cases in complex data transformations and ensure consistent behavior under specific input conditions.",
-      "description_length": 326,
+      "module_path": "Speed_dsl_effect_simple.LwtEffectDsl",
+      "library": "speed",
+      "description": "This module defines effectful operations for building and running domain-specific language constructs using Lwt for asynchronous execution. It introduces an `Op` effect that manipulates LwtDsl values, with functions to run, parse, and test DSL expressions. It supports structured testing with contexts, focused execution, and root-level control for test organization and isolation.",
+      "description_length": 381,
       "index": 35,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_ppx_metadata",
-      "description": "Processes OCaml parse trees to expand function arguments within ppx rewriters, applying context-specific transformation rules. It works with parsetree expressions and extension rules from Ppxlib, enabling custom macro expansion logic. Users can define and apply domain-specific rewriting strategies during syntax extension development. For example, it allows injecting contextual information into generated code or modifying argument handling based on surrounding syntax.",
-      "description_length": 471,
+      "module_path": "Speed_domain.LwtDomain",
+      "library": "speed",
+      "description": "This module structures and runs asynchronous test suites using Lwt, supporting test grouping, fixtures, and shared contexts. It includes operations to define test domains, add test cases, and manage setup/teardown logic, with core data types like `test_domain` and `test_case`. Its child module handles concurrent execution, scheduling tests across Lwt domains and returning structured results via `test_result`. You can use it to organize end-to-end network tests, run database integration tests in parallel, or isolate state in concurrent test environments.",
+      "description_length": 559,
       "index": 36,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_dsl_list",
-      "description": "combines test creation, execution, and organization capabilities for both synchronous and asynchronous scenarios, supporting structured test hierarchies and custom input handling. It defines test functions, contexts, and metadata, and manages test suites with nested structures and focused execution. Operations include test registration, result aggregation, and context scoping using `LwtDomain.t` for async workflows. Examples include running performance tests with controlled inputs, attaching metadata to test cases, and executing nested test suites with shared contexts.",
-      "description_length": 575,
+      "module_path": "Speed_domain.TestInput",
+      "library": "speed",
+      "description": "Retrieves metadata associated with test input values. Works with typed test input structures and metadata lists. Useful for inspecting or validating test data properties during test execution or analysis.",
+      "description_length": 204,
       "index": 37,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Speed_ppx_fun",
-      "description": "Processes strings into structured placeholders and integrates them into ASTs, maintaining context during ppx transformations. It handles integer lists through folding and expression manipulation, enabling dynamic code substitution. Operations include parsing, context tracking, and expression replacement. Example: replacing a placeholder with a computed value while preserving surrounding syntax and context.",
-      "description_length": 409,
+      "module_path": "Speed_dsl_list.Sync",
+      "library": "speed",
+      "description": "This module defines synchronous test execution structures with support for test registration, context management, and metadata attachment. It operates on `Domain.Sync.t` values, representing synchronous test cases and suites, and provides functions to compose and run tests with contextual setup. Concrete use cases include building hierarchical test suites, applying before/after hooks, and tagging tests with metadata for filtering or reporting.",
+      "description_length": 447,
       "index": 38,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_dsl_effect_simple",
-      "description": "Provides functions to manage a suite of test cases, including adding children, setting names, and tracking execution state. Works with a custom type `t` representing test suites, using references to maintain mutable state. Used to construct and organize test hierarchies in a performance-critical testing framework.",
-      "description_length": 315,
-      "index": 39,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Speed_domain",
-      "description": "Provides functions to evaluate test inputs against predefined test functions, generate structured test results, and manage test suites with hierarchical child suites. Operates on custom types such as test results, test functions, examples, and nested test suites. Used to execute and organize performance benchmarks, validate input-output behavior, and track test outcomes in a structured format.",
-      "description_length": 396,
-      "index": 40,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_ppx_matcher",
-      "description": "Generates abstract syntax tree fragments for type declarations using path and location data, enabling automated pattern matching code creation. Processes type declarations, lists of types, and location information to construct OCaml structure items. Allows developers to define match cases dynamically based on type hierarchies and source positions. For example, it can generate match clauses for variant types or record fields based on specified paths.",
-      "description_length": 453,
-      "index": 41,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_assertions",
-      "description": "Encapsulates error-handling logic through a result type that represents either a successful value or an error. Supports chaining operations with bind and mapping over successful outcomes, enabling sequential processing of unreliable computations. Allows for safe manipulation of data flows, such as parsing or external input handling, by propagating errors through the computation chain. Examples include validating user input, processing JSON data, or handling file I/O with explicit error tracking.",
-      "description_length": 500,
-      "index": 42,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Speed_dsl_effect",
-      "description": "Provides functions to manage and execute test suites, including adding tests, setting up dependencies, and running sequences of operations. Works with a reference to a test suite structure, allowing dynamic modification and execution. Used to define and run performance tests with controlled execution contexts.",
-      "description_length": 311,
-      "index": 43,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Speed_runner",
-      "description": "combines test scenario execution, result tracking, and suite management into a unified testing framework. It handles test functions, continuation results, and custom types for tracking outcomes, with operations like `return`, `run`, and `wait` for asynchronous control flow. It supports defining test cases, organizing suites, filtering tests, and aggregating results with structured metadata. Examples include running performance tests with input data, coordinating asynchronous steps, and generating aggregated pass/fail reports.",
-      "description_length": 531,
-      "index": 44,
+      "library": "speed",
+      "description": "This module organizes and executes hierarchical test suites with support for fixtures, contexts, and parameterized testing, using domain-specific structures like `'a Dom.t` and `test_input`. It provides operations to define test groups, manage setup/teardown logic, count test elements, and execute tests synchronously or asynchronously with Lwt integration. The module tracks outcomes through `test_result` and related types, enabling structured reporting, comparison, and serialization of results, including error details and metadata. Submodules enhance these capabilities with distributed synchronization, performance analysis, metadata inspection, and concurrent execution, supporting use cases like network testing, database integration, and validation of concurrent systems.",
+      "description_length": 781,
+      "index": 39,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Speed_metadata",
-      "description": "Extracts the first element from a list that satisfies a predicate function, returning the transformed result. It works with lists of any type, applying a function to each element until a non-None result is found. This allows for efficient conditional searches and value extraction, such as finding the first even number in a list of integers or locating a specific record in a list of structures. The core operation is a tailored find-and-map that combines filtering and transformation in one step.",
-      "description_length": 498,
+      "library": "speed",
+      "description": "This module processes speed-related metadata, parsing, validating, and transforming structured speed data, including unit conversion and list manipulation. It defines core types like speed units and measurements, and supports operations such as extracting values from lists and validating external data sources. The `find_map` function in its child module searches through lists to find and return the first transformed result that meets a condition. Together, they enable tasks like extracting and validating speed limits from configurations or network inputs.",
+      "description_length": 561,
+      "index": 40,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_dsl_effect_simple",
+      "library": "speed",
+      "description": "This module enables effect-driven testing with structured organization and state synchronization, centered around `Speed_dsl_list.Sync.t` for managing test state and effectful DSLs for defining test logic. It provides core operations to create and execute test suites with nested contexts, using effect handlers to build hierarchical test structures that support setup, teardown, and focused execution. Submodules manage a mutable root suite for hierarchical organization, define effect-based DSLs for list synchronization and Lwt-backed asynchronous execution, and provide primitives like `test`, `context`, and `run` to compose and run effectful test cases. Example usage includes writing synchronized, context-aware test blocks that manipulate shared state or perform asynchronous operations under controlled conditions.",
+      "description_length": 823,
+      "index": 41,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_dsl_list",
+      "library": "speed",
+      "description": "This module provides a domain-specific language for defining and organizing test suites with rich contextual metadata, supporting both synchronous and asynchronous test structures. It centers around data types like `'a T.test_function`, `Domain.Sync.t`, and `LwtDomain.t`, enabling hierarchical test composition, metadata tagging, and focused execution. Operations include registering test cases, nesting contexts, applying before/after hooks, and structuring test domains with combinators. Use it to build structured test hierarchies, run tagged subsets of tests, or define context-specific setup and teardown logic.",
+      "description_length": 617,
+      "index": 42,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_dsl_effect",
+      "library": "speed",
+      "description": "This module provides a DSL for defining and running effectful test suites with support for synchronous and Lwt-based effects, using builder patterns to construct test cases and track state through domain-specific types. It enables effectful integration tests with pre- and post-conditions, composable stream processing over deferred values, and structured test execution via a root suite reference. Core data types include deferred computations (`D.t`), effectful operations (`Op`), and domain-specific wrappers like `Domain.Sync.t`, with operations to build, chain, and run effectful workflows across synchronous, concurrent, and Lwt-driven contexts. Users can define performance benchmarks comparing sorting algorithms, construct thread-safe data validation pipelines, or compose asynchronous LwtDomain effects into isolated, executable test workflows.",
+      "description_length": 854,
+      "index": 43,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed",
+      "library": "speed",
+      "description": "This module handles speed calculations and unit conversions while supporting rich metadata associations for contextualized measurements. It provides core types like `speed` and `metadata` with operations to compute averages, convert units, and attach contextual information. The child module extends this functionality by enabling structured effectful computations, allowing you to define and interpret domain-specific operations\u2014such as logging or external interactions\u2014based on speed data. Together, they support use cases like processing a sequence of speed measurements while logging results or triggering alerts based on thresholds.",
+      "description_length": 637,
+      "index": 44,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_assertions",
+      "library": "speed",
+      "description": "This module implements assertion combinators for building test expectations with detailed error reporting. It includes functions like `equal_int`, `be_true`, `be_ok`, and `contain` that return typed result values capturing failure details, enabling structured test reporting and composition through `expect` and `should`. The module supports chaining and transformation of these results using `bind` and `map`, which handle both success and error cases for seamless validation sequences. For example, you can assert that a function returns an `Ok` value containing a specific integer, then map over that result to perform a subsequent check on a derived string.",
+      "description_length": 661,
       "index": 45,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_runner",
+      "library": "speed",
+      "description": "This module coordinates test execution across synchronous and asynchronous contexts, producing structured outcomes as Success, Failure, or formatted messages. It supports immediate test definitions, dependency-chained sequences, and non-blocking async execution, with core types like `suite_result` to represent test suite outcomes and `ExampleRunner` continuations to manage state. You can define Lwt-backed tests that wait for HTTP responses, run filtered test suites synchronously, or launch async test threads that resolve later. Submodules handle Lwt-driven async validation, controlled sync execution, and result evaluation, enabling use cases like capturing outcomes, aggregating results, and exiting with status codes based on test success.",
+      "description_length": 748,
+      "index": 46,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_ppx_metadata.Ppx_metadata",
+      "library": "speed_ppx_metadata",
+      "description": "This module defines functions and values for transforming expressions and handling extensions in a PPX rewriter. It works with OCaml abstract syntax trees, specifically expressions and extensions, using location and context-free rule types. Concrete use cases include expanding function arguments during AST transformation and registering custom syntax extensions.",
+      "description_length": 364,
+      "index": 47,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_ppx_metadata",
+      "library": "speed_ppx_metadata",
+      "description": "This module provides tools for manipulating OCaml abstract syntax trees during PPX rewriting, focusing on expression transformations and extension handling. It includes data types for locations, expressions, and context-free rules, along with operations to expand function arguments and register custom syntax extensions. You can use it to modify AST nodes based on source locations or inject new syntactic constructs into expressions. For example, it enables rewriting function calls by transforming their arguments or introducing new extension points in the syntax.",
+      "description_length": 567,
+      "index": 48,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_ppx_matcher.Ppx_matcher",
+      "library": "speed_ppx_matcher",
+      "description": "This module generates code for type declarations and structure items based on input patterns and location information. It processes type declarations and derives new structures using a custom deriver, primarily working with AST nodes and type definitions. It is used to automate the creation of boilerplate code such as serializers, comparators, or other type-driven implementations.",
+      "description_length": 383,
+      "index": 49,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_ppx_matcher",
+      "library": "speed_ppx_matcher",
+      "description": "This module automates the generation of type-driven code by analyzing input patterns and location data to derive new structures and type declarations. It operates on AST nodes and type definitions, enabling the creation of serializers, comparators, and similar boilerplate constructs. Key data types include AST elements and type representations, with operations centered on pattern matching and code synthesis. For example, it can generate a serializer for a custom variant type or build a comparator based on structural equality.",
+      "description_length": 531,
+      "index": 50,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Speed_ppx_fun.Ppx_fun",
+      "library": "speed_ppx_fun",
+      "description": "This module processes and transforms placeholder variables in expressions, tracking their usage and numbering. It provides functions to parse placeholders, replace them in expressions, and maintain context about the highest placeholder used. Used internally for expanding syntactic sugar in expressions with numbered or anonymous placeholders.",
+      "description_length": 343,
+      "index": 51,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Speed_ppx_fun",
+      "library": "speed_ppx_fun",
+      "description": "This module handles the expansion of syntactic sugar involving numbered and anonymous placeholders in expressions. It tracks placeholder usage, assigns numbers, and replaces placeholders with fresh variables during transformation. Key data types include expression representations and context for tracking placeholder state. Operations allow parsing placeholders, substituting them in expressions, and maintaining numbering consistency\u2014enabling transformations like turning `f _` into `fun x1 -> f x1`.",
+      "description_length": 502,
+      "index": 52,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 69,
-    "meaningful_modules": 46,
-    "filtered_empty_modules": 23,
-    "retention_rate": 0.6666666666666666
+    "total_modules_in_package": 53,
+    "meaningful_modules": 53,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 575,
-    "min_description_length": 262,
-    "avg_description_length": 362.95652173913044,
-    "embedding_file_size_mb": 0.1603994369506836
+    "max_description_length": 882,
+    "min_description_length": 204,
+    "avg_description_length": 455.35849056603774,
+    "embedding_file_size_mb": 0.19298362731933594
   }
 }

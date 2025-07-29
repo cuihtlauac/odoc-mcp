@@ -1,105 +1,93 @@
 {
   "package": "capnp-rpc-unix",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:32:18.694590",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:22.617539",
   "modules": [
     {
       "module_path": "Capnp_rpc_unix.Network.Location",
-      "description": "Provides functions to create and validate Unix and TCP address representations, including converting strings to addresses and checking if a address is publicly accessible. Works with a sum type representing different address kinds, such as Unix paths and TCP endpoints. Used to parse command-line arguments into address structures and ensure Unix paths are absolute before use.",
-      "description_length": 377,
+      "library": "capnp-rpc-unix",
+      "description": "This module defines and manipulates network address locations using TCP and Unix-domain sockets. It supports parsing, validation, and formatting of addresses, ensuring Unix paths are absolute and TCP addresses have valid host and port. Use cases include configuring network endpoints for RPC services and validating input addresses in command-line tools.",
+      "description_length": 354,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Capnp_rpc_unix.Network.Types",
-      "description": "Provides functions to generate, compare, and serialize unique identifiers for provisions, recipients, third-party capabilities, and join key parts. Operates on opaque type wrappers around string representations of these identifiers. Used to ensure type-safe handling of entity references in authentication and data sharing workflows.",
-      "description_length": 333,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Capnp_rpc_unix.Network.Address",
-      "description": "Extracts network address and service ID from a URI, and reconstructs a URI from those components. Works with a type representing a location and authentication digest. Used to serialize and deserialize addresses in network communication and verify endpoint authenticity.",
-      "description_length": 269,
+      "library": "capnp-rpc-unix",
+      "description": "This module handles network addresses combined with authentication digests for secure service identification. It provides functions to parse and construct URIs that encode both an address and service ID, ensuring round-trip consistency. Use cases include securely identifying and connecting to remote services over TCP or Unix-domain sockets.",
+      "description_length": 342,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Capnp_rpc_unix.CapTP",
+      "library": "capnp-rpc-unix",
+      "description": "This module implements the CapTP protocol for securely sharing capabilities over a network link. It provides functions to connect to a remote endpoint, handle incoming messages, and manage capability bootstrapping and disconnection. The module works with network endpoints and capability objects, enabling direct communication between distributed services. Use cases include establishing secure, bidirectional capability-based RPC connections between processes on different machines.",
+      "description_length": 483,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Capnp_rpc_unix.Unix_flow",
-      "description": "Provides read and write operations for handling data buffers over Unix file descriptors, with support for shutdown and close actions to manage connection states. Works with Cstruct.t buffers and custom error types for reporting read/write failures. Used to implement network communication layers, such as establishing bidirectional data transfer between endpoints or managing TCP connections with proper error handling.",
-      "description_length": 419,
+      "module_path": "Capnp_rpc_unix.Vat_config",
+      "library": "capnp-rpc-unix",
+      "description": "This module configures a Capnp RPC vat for network operation, handling secret key management, service identity derivation, and URI generation. It works with network addresses, secret keys, and cryptographic identifiers to set up secure, persistent services. Concrete use cases include initializing a server vat with a known secret key, deriving stable service IDs for restoration, and constructing sturdy URIs for remote access.",
+      "description_length": 428,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Capnp_rpc_unix.Network",
-      "description": "Encapsulates network communication by handling address parsing, identifier management, and URI manipulation. It uses a sum type for address representations, opaque identifiers for entity references, and a location type for URI construction and extraction. Functions include validating addresses, generating unique IDs, and ensuring secure endpoint authentication. It enables parsing command-line arguments, serializing network data, and verifying URI authenticity.",
-      "description_length": 464,
+      "library": "capnp-rpc-unix",
+      "description": "This module implements a network layer for TCP and Unix-domain sockets, supporting secure and unencrypted communication through connection setup, authentication with TLS secret keys, and endpoint validation. It provides data types for network endpoints and operations to establish authenticated RPC channels over local or networked connections. The address module handles parsing, validation, and formatting of TCP and Unix socket addresses, ensuring correctness for service configuration and CLI input handling. The authenticated address module extends this with URIs that bind network locations to service identifiers, enabling secure service discovery and remote connections with round-trip consistency.",
+      "description_length": 706,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Capnp_rpc_unix.CapTP",
-      "description": "Provides functions to establish and manage CapTP connections over a network, including bootstrapping capabilities and graceful disconnection with error reasons. Operates on endpoint objects and capability identifiers to enable remote object interaction. Used to initialize peer connections, retrieve bootstrap objects, and terminate sessions with explicit failure reasons.",
-      "description_length": 372,
+      "module_path": "Capnp_rpc_unix.Cap_file",
+      "library": "capnp-rpc-unix",
+      "description": "This module handles loading and saving capability references to and from files. It supports operations for persisting sturdy capability references, service identifiers, and URIs to disk with restricted permissions. Use it to securely store and retrieve capability URLs for inter-process communication or long-term storage.",
+      "description_length": 322,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Capnp_rpc_unix.Vat",
-      "description": "Creates and manages CapTP network actors, enabling connection setup, address configuration, and capability exchange. Operates with network endpoints, sturdy references, and URIs to facilitate inter-Vat communication. Used to establish secure connections, expose services via URIs, and import remote capabilities for distributed object interaction.",
-      "description_length": 347,
+      "module_path": "Capnp_rpc_unix.File_store",
+      "library": "capnp-rpc-unix",
+      "description": "Stores and retrieves Cap'n Proto service data on disk using base64-encoded digests as filenames. It supports creating a storage directory, saving service state to files, loading saved state by digest, and removing stored files. This is useful for persisting Cap'n Proto service instances across process lifetimes.",
+      "description_length": 313,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Capnp_rpc_unix.Vat_config",
-      "description": "Creates a Vat configuration with a secret key sourced from a file, PEM data, or generated ephemeral key, and specifies listening and public addresses. Works with Network.Location.t, Capnp_rpc_net.Auth.Secret_key.t, and Capnp_rpc_net.Restorer.Id.t. Used to generate a sturdy URI for a service, derive a stable ID from a name and secret key, and extract a hashed secret for restoration purposes.",
-      "description_length": 393,
+      "module_path": "Capnp_rpc_unix.Vat",
+      "library": "capnp-rpc-unix",
+      "description": "This module manages a Vat in the CapTP network, enabling direct communication between distributed objects across networked applications. It supports creating a Vat with a secret key and network configuration, establishing and managing CapTP connections in client or server mode, and exporting or importing sturdy references as URIs for remote object access. Concrete use cases include building distributed systems where services are securely discovered, connected, and invoked across different nodes.",
+      "description_length": 500,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Capnp_rpc_unix.File_store",
-      "description": "Stores Cap'n Proto structs on disk using a directory-based structure, with operations to save, load, and remove data by digest. Works with a directory path and base64-encoded digests to manage serialized data. Saves and retrieves structured data for persistent service storage.",
-      "description_length": 277,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Capnp_rpc_unix.Cap_file",
-      "description": "Loads and saves capability references and URIs to files, handling file permissions and error reporting. Works with Vat, Sturdy_ref, Restorer.Id, and Uri types. Saves service identifiers, capability references, and URIs to specified paths for persistent storage.",
-      "description_length": 261,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "capnp-rpc-unix",
-      "description": "Processes and validates JSON input, extracts specific fields, and constructs typed records. Operates on strings, JSON values, and custom record types with defined fields. Used to parse configuration files and transform API responses into structured data for further processing.",
-      "description_length": 277,
-      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Capnp_rpc_unix",
-      "description": "provides network communication and data management capabilities for Capnp_rpc_lwt, handling buffer I/O, address parsing, connection setup, and persistent storage. It supports Cstruct.t buffers, network endpoints, CapTP connections, and Cap'n Proto serialization, with operations for reading, writing, validating, and storing data. Examples include establishing TCP connections, parsing URIs, generating secure URIs, and saving structured data to disk. It enables distributed object interaction, secure authentication, and persistent service state management.",
-      "description_length": 558,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
+      "library": "capnp-rpc-unix",
+      "description": "This module enables Cap'n Proto RPC communication over traditional OS networking with support for TCP and Unix sockets, including connection progress reporting and CLI parsing for URIs. It provides core operations like `connect_with_progress` and `serve` for building clients and servers that exchange capabilities, leveraging sturdy references and vat configurations. Submodules implement CapTP for secure bidirectional RPC, network layers with TLS authentication, and utilities for persisting capability references and service state to disk. Use cases include secure service networking, capability-based inter-process communication, and durable storage of remote object references.",
+      "description_length": 683,
+      "index": 8,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 558,
-    "min_description_length": 261,
-    "avg_description_length": 362.25,
-    "embedding_file_size_mb": 0.04397869110107422
+    "max_description_length": 706,
+    "min_description_length": 313,
+    "avg_description_length": 459.0,
+    "embedding_file_size_mb": 0.03316974639892578
   }
 }

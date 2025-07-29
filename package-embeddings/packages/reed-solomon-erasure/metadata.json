@@ -1,56 +1,61 @@
 {
   "package": "reed-solomon-erasure",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:30:22.165839",
+  "creation_timestamp": "2025-07-15T23:06:07.283143",
   "modules": [
     {
       "module_path": "Reed_solomon_erasure.ReedSolomon",
-      "description": "The module provides encoding, verification, and reconstruction functions for Reed-Solomon erasure codes, operating on byte arrays, strings, and bigstrings. It supports partial or single-shard encoding, data integrity checks, and recovery of missing shards using presence flags or optional values, making it suitable for ensuring data reliability in distributed storage systems.",
-      "description_length": 377,
+      "library": "reed-solomon-erasure",
+      "description": "The module implements Reed-Solomon erasure coding for encoding data into parity shards, validating shard integrity, and rebuilding missing data segments from available shards. It supports byte arrays, strings, and bigstrings, enabling applications such as distributed storage systems or resilient data transmission where data loss can be recovered if redundancy is sufficient. Operations include error-aware verification and reconstruction methods that accommodate pre-allocated buffers or optional inputs, requiring external error detection (e",
+      "description_length": 544,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Reed_solomon_erasure.ShardByShard",
-      "description": "Manages incremental encoding of data and parity shards using a Reed-Solomon codec, tracking input shard indices and ensuring proper sequence of operations. Accepts arrays of bytes, strings, or bigstrings for data and parity, and enforces constraints to prevent overwriting or misordering. Provides error-handling variants of encoding functions and resets bookkeeping state after completion.",
-      "description_length": 390,
+      "library": "reed-solomon-erasure",
+      "description": "This module tracks incremental encoding of data shards using a Reed-Solomon erasure code, allowing step-by-step processing of data as it becomes available. It operates on arrays of bytes, strings, or bigstrings, maintaining internal state to ensure correct shard encoding order and readiness. It is particularly useful in streaming scenarios such as real-time packet encoding over a network, where data arrives sequentially and must be encoded on receipt rather than in bulk.",
+      "description_length": 475,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 0.9999998807907104
     },
     {
       "module_path": "Reed_solomon_erasure.RS_Shard_utils",
-      "description": "Converts between arrays of shards and arrays of optional shards for byte, string, and bigstring types, enabling repair operations. Creates blank shards of specified size and count for byte, string, and bigstring representations. Provides deep copy functions for shard arrays and individual bigstrings.",
-      "description_length": 301,
+      "library": "reed-solomon-erasure",
+      "description": "This module provides functions to convert between arrays of optional and non-optional shards for bytes, strings, and bigstrings, along with utilities to create blank shards and copy existing ones. It operates directly on arrays of these data types, handling memory initialization and transformation required during encoding and decoding. These operations are essential for preparing and managing shard data before and after erasure coding.",
+      "description_length": 439,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "reed-solomon-erasure",
-      "description": "Provides encoding and decoding operations for Reed-Solomon erasure codes using finite field arithmetic. Works with byte arrays and polynomial representations over GF(2^8). Enables data reconstruction from partial fragments in distributed storage systems.",
-      "description_length": 254,
-      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Reed_solomon_erasure",
-      "description": "provides encoding, verification, and reconstruction of data using Reed-Solomon erasure codes, operating on byte arrays, strings, and bigstrings. it supports incremental encoding with shard tracking, partial or single-shard encoding, and recovery of missing shards via presence flags or optional values. it also includes conversion between shard arrays and optional shard arrays, along with functions to create blank shards and perform deep copies. examples include reconstructing lost data from available shards, verifying data integrity, and managing distributed storage with redundancy.",
-      "description_length": 588,
-      "index": 4,
+      "module_path": "Reed_solomon_erasure.RS_SBS_Error",
+      "library": "reed-solomon-erasure",
+      "description": "This module defines error types for handling failures in the erasure coding process, including excessive decoding attempts, leftover shards, and Reed-Solomon errors. It provides functions to convert these errors into exceptions and to unwrap result values by raising them on error. Use it to handle or propagate errors during shard reconstruction or validation in erasure-coded data systems. The only child module is a placeholder with no additional functionality.",
+      "description_length": 464,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Reed_solomon_erasure",
+      "library": "reed-solomon-erasure",
+      "description": "This module implements Reed-Solomon erasure coding for data redundancy and recovery, allowing reconstruction of missing shards when enough non-corrupted shards are available. It operates on bigstrings and provides direct encoding and decoding through the `ReedSolomon` and `ShardByShard` modules, supporting configurations with specified data and parity shard counts. The `ShardArray` module converts between optional and non-optional shard arrays, while the `Error` and `Config_error` modules define and handle failures during encoding or decoding. Examples include rebuilding lost data in distributed storage or recovering transmitted packets in streaming protocols.",
+      "description_length": 668,
+      "index": 4,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
+    "total_modules_in_package": 8,
     "meaningful_modules": 5,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.5555555555555556
+    "filtered_empty_modules": 3,
+    "retention_rate": 0.625
   },
   "statistics": {
-    "max_description_length": 588,
-    "min_description_length": 254,
-    "avg_description_length": 382.0,
-    "embedding_file_size_mb": 0.01860332489013672
+    "max_description_length": 668,
+    "min_description_length": 439,
+    "avg_description_length": 518.0,
+    "embedding_file_size_mb": 0.018587112426757812
   }
 }

@@ -1,42 +1,47 @@
 {
   "package": "arp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:16.046205",
+  "creation_timestamp": "2025-07-15T23:05:14.566679",
   "modules": [
     {
       "module_path": "Arp.Make",
-      "description": "Provides functions to manage Ethernet connections, including writing frames with specified source and destination MAC addresses, handling input packets via protocol-specific callbacks, and retrieving the MAC address and MTU. Operates on types such as Macaddr.t, Cstruct.t, and custom error types. Used to construct and process Ethernet packets, route incoming traffic based on protocol, and cleanly disconnect from the network layer.",
-      "description_length": 433,
+      "library": "arp.mirage",
+      "description": "This module implements an ARP layer that manages IP-to-MAC address resolution, supporting operations to add, remove, and query IP addresses, as well as handle incoming ARP frames. It works with `Ipaddr.V4.t` for IP addresses, `Macaddr.t` for MAC addresses, and uses `Cstruct.t` for frame input handling. Concrete use cases include responding to ARP requests, sending GARP packets when IP bindings change, and maintaining an address cache for network communication over Ethernet.",
+      "description_length": 478,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "arp",
-      "description": "Handles ARP request and response message parsing, construction, and validation using IPv4 addresses and Ethernet MAC addresses. Processes ARP packets to resolve hardware addresses from IP addresses in networked environments. Used in network stack implementations to facilitate communication between devices on the same local network.",
-      "description_length": 333,
+      "module_path": "Arp.S",
+      "library": "arp.mirage",
+      "description": "This module implements the Address Resolution Protocol (ARP) for translating IPv4 addresses into MAC addresses. It provides functions to manage a list of bound IP addresses, send GARP packets on changes, and query or update the ARP cache. Operations include adding, removing, or querying IP-MAC mappings, handling incoming ARP frames, and disconnecting from the ARP layer.",
+      "description_length": 372,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Arp_packet",
-      "description": "Provides functions to convert ARP operation codes to and from integers, calculate the size of an ARP frame, and pretty-print frames or errors. Works with Ethernet and IPv4 ARP frames represented as a record type and error variants. Decodes byte buffers into frames, encodes frames into new buffers, and checks frame equality.",
-      "description_length": 325,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Arp_handler",
-      "description": "Handles ARP cache operations including adding static entries, managing IPv4 to MAC address mappings, and processing ARP input. Works with IPv4 addresses, MAC addresses, and custom state types. Used to resolve IP addresses to MACs, manage dynamic and static entries, and generate ARP replies or requests during network communication.",
-      "description_length": 332,
-      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Arp",
-      "description": "Handles ARP protocol operations including querying MAC addresses from IP addresses, managing IP bindings with GARP announcements, and processing incoming ARP frames. Works with IP addresses (IPv4) and MAC addresses, maintaining a cache of resolved addresses. Used to dynamically update and query network address mappings in a network interface.",
-      "description_length": 344,
+      "library": "arp.mirage",
+      "description": "This module implements the Address Resolution Protocol (ARP) to map IPv4 addresses to MAC addresses, managing a cache of resolved addresses and supporting operations to add, remove, and query IP-MAC mappings. It processes incoming ARP frames, sends requests and responses, and handles GARP packets when IP bindings change, using `Ipaddr.V4.t`, `Macaddr.t`, and `Cstruct.t` for frame handling. It works with network interfaces and Ethernet frames to establish and maintain connectivity in local networks, enabling tasks like responding to ARP queries and updating address bindings dynamically.",
+      "description_length": 592,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Arp_handler",
+      "library": "arp",
+      "description": "This module implements an ARP protocol handler for resolving IPv4 addresses to Ethernet addresses, maintaining a cache of mappings and managing dynamic and static entries. It supports operations to query, update, and remove cache entries, process incoming ARP packets, generate ARP requests and replies, and handle timeouts and retries for unresolved queries. Concrete use cases include network stack implementations where IPv4 address resolution over Ethernet is required, such as in TCP/IP stacks or virtual networking components.",
+      "description_length": 532,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Arp_packet",
+      "library": "arp",
+      "description": "This module handles ARP packet encoding and decoding for Ethernet and IPv4. It converts between a structured representation of ARP messages and their byte-level wire format, supporting operations like `decode` to parse packets from buffers and `encode` to serialize them. Use cases include network stack implementations and packet analysis tools where precise ARP handling is required.",
+      "description_length": 385,
       "index": 4,
       "embedding_norm": 1.0
     }
@@ -48,9 +53,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 433,
-    "min_description_length": 325,
-    "avg_description_length": 353.4,
-    "embedding_file_size_mb": 0.018584251403808594
+    "max_description_length": 592,
+    "min_description_length": 372,
+    "avg_description_length": 471.8,
+    "embedding_file_size_mb": 0.018607139587402344
   }
 }

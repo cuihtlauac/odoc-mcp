@@ -1,84 +1,101 @@
 {
   "package": "atdgen-codec-runtime",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:30:52.856619",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:07:03.651084",
   "modules": [
     {
-      "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field.Default_param",
-      "description": "Provides functions to handle default parameters with a specific type field name, using a string identifier. Operates on configuration records that include a type field. Used to enforce consistent parameter handling in data serialization and parsing workflows.",
-      "description_length": 259,
+      "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field.Param",
+      "library": "atdgen-codec-runtime",
+      "description": "This module defines the type field name used to indicate the type of JSON objects in a type-driven decoding strategy. It works with JSON objects where a specific field holds the type identifier, enabling proper deserialization based on that type. A concrete use case is handling polymorphic JSON data in APIs where the payload structure varies based on a type field, such as a `\"kind\"` or `\"type\"` key.",
+      "description_length": 402,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field.Make",
-      "description": "Provides a function to retrieve a specific field name used for type identification. Works with string-based identifiers and type metadata. Used to dynamically access field names in generated code or configuration structures.",
-      "description_length": 224,
+      "library": "atdgen-codec-runtime",
+      "description": "This module implements JSON normalization and restoration for objects with a type field, converting between arbitrary JSON trees and Atdgen-compatible representations. It operates on `Atdgen_codec_runtime.Json.t` values, typically JSON objects, by leveraging a `Param` module to define type-specific transformations. Concrete use cases include adapting JSON payloads with embedded type information, such as deserializing polymorphic data or aligning external JSON formats with Atdgen-generated decoders.",
+      "description_length": 503,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field",
-      "description": "Provides a way to retrieve the name of a type field as a string. Works with type definitions and their associated fields. Used to dynamically access field names in code generation or serialization logic.",
-      "description_length": 203,
+      "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field.Default_param",
+      "library": "atdgen-codec-runtime",
+      "description": "This module defines the default type field name used for discriminating JSON object types during serialization and deserialization. It provides a single value `type_field_name` set to `\"type\"`, which is used by type field adapters to identify the type of an object in the JSON representation. This supports scenarios where different JSON structures must be decoded into OCaml variants based on a known type indicator field.",
+      "description_length": 423,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atdgen_codec_runtime.Decode",
-      "description": "Provides a JSON decoding framework that converts JSON values into OCaml values, utilizing combinators to construct complex decoders from simpler ones, with support for primitives, collections, and structured data. It includes operations for tuple composition, enum parsing, option handling, and custom adapters to transform JSON data before decoding, enabling flexible parsing of structured and variant types.",
-      "description_length": 409,
+      "module_path": "Atdgen_codec_runtime.Json_adapter.Type_field",
+      "library": "atdgen-codec-runtime",
+      "description": "This module processes JSON objects with a dedicated type field to guide deserialization, converting between raw JSON and Atdgen-compatible representations using `normalize` and `restore`. It centers around `Atdgen_codec_runtime.Json.t` values and uses a configurable type field\u2014by default `\"type\"`\u2014to determine the structure of polymorphic data during decoding. Submodules define the type field name, implement normalization logic, and provide default configurations, enabling seamless handling of JSON payloads where the type field dictates the object's shape. Example use cases include decoding API responses with varying structures based on a `\"kind\"` field or aligning external JSON formats with OCaml variant types.",
+      "description_length": 720,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Atdgen_codec_runtime.Encode",
-      "description": "The module offers encoding functionalities to convert structured data types\u2014such as integers, floats, strings, lists, arrays, and tuples\u2014into JSON formats, along with tools for building JSON objects and handling nullability. It leverages type-specific encoders and transformation utilities to adapt outputs, supporting scenarios like API data serialization and dynamic JSON generation.",
-      "description_length": 385,
+      "module_path": "Atdgen_codec_runtime.Json_adapter.S",
+      "library": "atdgen-codec-runtime",
+      "description": "This module defines the interface for JSON adapters that transform JSON trees between their original structure and a normalized form compatible with Atdgen's expectations. It operates on `Atdgen_codec_runtime.Json.t` values, which represent JSON nodes. Implementations are used to handle custom JSON formats during serialization and deserialization, such as adapting tagged unions or renaming fields.",
+      "description_length": 400,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Atdgen_codec_runtime.Json",
-      "description": "Constructs JSON values from strings and nested structures, supporting null, boolean, number, string, list, and object types. Combines values using operations that build complex JSON hierarchies from simple components. Used to generate structured data for API responses and configuration files.",
-      "description_length": 293,
+      "module_path": "Atdgen_codec_runtime.Json_adapter",
+      "library": "atdgen-codec-runtime",
+      "description": "This module provides a core interface for JSON adapters that transform JSON structures to conform with Atdgen's expected format, particularly for handling polymorphic and variant types. It includes a concrete implementation that adjusts type fields\u2014by default `\"type\"`\u2014to guide deserialization, using functions like `normalize` and `restore` to convert between raw JSON and Atdgen-compatible representations. Submodules allow customization of type field names, define normalization logic, and support decoding JSON where a specific field determines the object's structure, such as handling API responses that vary by `\"kind\"`. It operates on `Atdgen_codec_runtime.Json.t` values, enabling both direct use and extension for custom JSON serialization and parsing needs.",
+      "description_length": 767,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atdgen_codec_runtime.Json_adapter",
-      "description": "Converts JSON trees between a format compliant with ATD and a standard JSON representation. Operates on the Json.t data type, ensuring structural compatibility with specific serialization needs. Used to prepare JSON for ATD-based code generation and to revert transformed data to its original form.",
-      "description_length": 298,
+      "module_path": "Atdgen_codec_runtime.Json",
+      "library": "atdgen-codec-runtime",
+      "description": "This module defines a JSON abstract syntax tree (AST) with standard JSON types like objects, arrays, numbers, and strings, along with OCaml-specific variants like `Intlit` and `Tuple`. It provides functions `constr0` and `constr1` to construct JSON values representing polymorphic variants with zero or one argument. Use this module to build and manipulate JSON values directly, especially when working with schemas that require precise control over JSON serialization and deserialization.",
+      "description_length": 489,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "atdgen-codec-runtime",
-      "description": "Provides functions to parse ATD syntax, generate type definitions, and produce serialization/deserialization code for C++. Works with abstract syntax trees, type declarations, and language-specific code templates. Used to create efficient data interchange formats between systems requiring strict type guarantees and performance.",
-      "description_length": 329,
+      "module_path": "Atdgen_codec_runtime.Encode",
+      "library": "atdgen-codec-runtime",
+      "description": "This module enables converting OCaml values into JSON representations, supporting primitive types (integers, strings, booleans), collections (lists, arrays), tuples up to four elements, and structured objects with optional fields. It provides combinators to build JSON objects incrementally, encodes variant constructors, applies value transformations during serialization, and handles optional data through nullable wrappers or constructor-based representations. It is particularly useful for scenarios requiring precise JSON output control, such as generating API payloads, persisting hierarchical data, or mapping OCaml types to JSON schemas.",
+      "description_length": 645,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atdgen_codec_runtime",
-      "description": "Provides a comprehensive JSON processing pipeline with decoding, encoding, value construction, and format conversion capabilities. It handles OCaml types through combinators, supports primitive and complex data structures, and enables transformation via adapters and custom encoders/decoders. Examples include parsing variant types from JSON, serializing API responses, and converting between ATD-compliant and standard JSON. Key operations involve tuple composition, enum parsing, null handling, and hierarchical value building.",
-      "description_length": 529,
+      "module_path": "Atdgen_codec_runtime.Decode",
+      "library": "atdgen-codec-runtime",
+      "description": "This module enables converting JSON data into OCaml values through decoders that handle primitive types, collections, and structured data like tuples or nested objects. It supports advanced workflows such as decoding nullable or optional fields, custom enum representations, and applying JSON transformations before parsing, using combinators to compose decoders for complex schemas. It is particularly useful for deserializing intricate JSON payloads into typed OCaml models with precise control over field handling and data shape adjustments.",
+      "description_length": 544,
       "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Atdgen_codec_runtime",
+      "library": "atdgen-codec-runtime",
+      "description": "This module suite provides a comprehensive interface for transforming JSON data to and from OCaml types, with specialized support for handling polymorphic variants, structured objects, and customizable type representations. It centers around the `Json.t` AST for representing JSON values, offering operations to construct, normalize, and decode JSON based on schema-driven conventions such as type field dispatch. Key capabilities include customizing type field names, encoding and decoding variant types with constructor-based logic, and building or parsing complex JSON structures with combinators for optional and nullable fields. Example uses include mapping API responses with dynamic shapes, serializing OCaml models to strict JSON schemas, and handling versioned or polymorphic data formats with precise control over encoding and decoding behavior.",
+      "description_length": 855,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 529,
-    "min_description_length": 203,
-    "avg_description_length": 325.44444444444446,
-    "embedding_file_size_mb": 0.033145904541015625
+    "max_description_length": 855,
+    "min_description_length": 400,
+    "avg_description_length": 574.8,
+    "embedding_file_size_mb": 0.03677654266357422
   }
 }

@@ -1,84 +1,117 @@
 {
   "package": "starpath",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:32:01.151389",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:36.118282",
   "modules": [
     {
-      "module_path": "Starpath.Make",
-      "description": "Provides operations to create a position value from a specific argument, compare two position values, and convert a position to its string representation. Works with the abstract type `t` and a concrete type `pos0_arg` used for initialization. Used to generate unique identifiers for source code positions in compiler tools.",
-      "description_length": 324,
+      "module_path": "Starpath.CharToken",
+      "library": "starpath",
+      "description": "This module defines a character token type and provides a function to convert tokens to their string representation. It works directly with individual characters as tokens. A typical use case involves parsing or lexing text where each character is treated as a distinct token.",
+      "description_length": 276,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Starpath.CharToken",
-      "description": "Converts a single character into its string representation. Operates on character values to produce corresponding string literals. Useful for generating output in systems that require string-based token representations.",
-      "description_length": 219,
+      "module_path": "Starpath.MakeChar",
+      "library": "starpath",
+      "description": "This module supports constructing parsers for character streams with precise position tracking, offering combinators for sequencing, choice, repetition, and error handling. It operates on sequences of tokens paired with source positions, using a parser monad to build complex grammars for tasks like language parsing, configuration file interpretation, or error-resilient lexing. The design enables parsing structured text with contextual error messages, handling whitespace-sensitive formats, and extracting typed values from character sequences.",
+      "description_length": 547,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Starpath.StringPos",
-      "description": "Provides operations to create a position value from a unit argument, compare positions, and convert positions to strings. Works with a custom type representing string positions and a unit type for initialization. Used to track and manipulate cursor positions in text processing tasks.",
-      "description_length": 284,
+      "library": "starpath",
+      "description": "This module represents and manipulates positions within strings, primarily used for tracking locations during parsing or text processing. It includes functions to create an initial position (`pos0`), compare positions (`compare`), and convert positions to strings (`string_of_pos`). Concrete use cases include error reporting in parsers, source code analysis, and text navigation where precise character offsets are required.",
+      "description_length": 425,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Starpath.FilePos",
-      "description": "Provides functions to create a position from a file name, compare positions, and convert positions to strings. Works with file positions represented as a custom type and file names as input. Used to track and display source code locations during parsing or error reporting.",
-      "description_length": 273,
+      "module_path": "Starpath.Combinators",
+      "library": "starpath",
+      "description": "This module provides monadic parsing combinators for constructing and composing parsers that process token sequences with position tracking, supporting operations like sequencing, error handling, and repetition. It works with a `token` type to parse structured data, extract values through conditional logic (e.g., `satisfy`, `sep_by`), and manage control flow for tasks like error recovery or precise input analysis. Use cases include building robust parsers for configuration files, protocols, or any domain-specific languages requiring detailed error reporting and positional context.",
+      "description_length": 587,
       "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Starpath.MakeChar",
-      "description": "Provides operations to create a character representation from a position argument, compare characters, and convert characters to strings. Works with a custom type `t` representing characters and a type `pos0_arg` used as input for creation. Used to generate human-readable character labels from numerical positions in a structured format.",
-      "description_length": 338,
-      "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Starpath.StringCombinators",
-      "description": "This module offers parsing capabilities through monadic combinators, enabling operations like sequencing, choice, and repetition on token streams while tracking positions and handling errors. It manipulates token values derived from characters and employs a stateful parser type to manage sequence matching, range extraction, and string construction. Use cases include lexing structured text, validating input formats, and building custom parsing pipelines with precise error diagnostics.",
-      "description_length": 488,
+      "library": "starpath",
+      "description": "This module offers monadic and applicative parser combinators for constructing and composing parsers that process token streams, primarily character sequences with positional tracking. It supports operations like predicate-based token matching, repetition handling, input consumption, and direct string parsing, while managing stateful data such as positions for error reporting. These tools are ideal for parsing structured text formats, implementing domain-specific languages, or extracting data from semi-structured input where precise token-level control and position-aware error handling are required.",
+      "description_length": 606,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Starpath.Pos",
+      "library": "starpath",
+      "description": "This module defines a data type `t` representing positions, along with a type `pos0_arg` used to construct position values. It provides functions to create a position with `pos0`, compare positions with `compare`, and convert positions to strings with `string_of_pos`. Concrete use cases include tracking locations in a grid-based system or managing coordinates in a game or simulation.",
+      "description_length": 386,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Starpath.FileCombinators",
-      "description": "This module offers parsing combinators for sequential, conditional, and repetitive token processing, along with error handling and state management. It operates on custom `token` and `pos` types, enabling structured file analysis and precise position tracking. Use cases include parsing configuration files, handling nested data formats, and implementing robust token validation with optional parsing capabilities.",
-      "description_length": 414,
+      "module_path": "Starpath.Make",
+      "library": "starpath",
+      "description": "This module provides parser combinators and monadic operations for constructing token stream processors with precise position tracking. It supports error handling, repetition, and optional value parsing through a functional interface that manipulates a `'a t` parser type and `token` values, enabling structured input analysis. Typical applications include building language parsers, data format processors, or any system requiring incremental, context-aware token analysis.",
+      "description_length": 474,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "starpath",
-      "description": "Provides combinators for building parsers that track position information, enabling precise error reporting. Operates on input streams and returns results with location data. Useful for parsing structured text where error messages need to indicate exact positions in the input.",
-      "description_length": 277,
+      "module_path": "Starpath.FileCombinators",
+      "library": "starpath",
+      "description": "This set of parser combinators enables structured processing of token sequences with integrated position tracking, supporting operations like sequencing, choice, predicate-based token selection, delimiter-separated parsing, and error handling. It works with token streams and file position data from `CharToken` and `FilePos` to build complex parsers using monadic and applicative patterns. These combinators are particularly useful for parsing text files into structured formats while maintaining precise error reporting and positional context.",
+      "description_length": 545,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Starpath.Token",
+      "library": "starpath",
+      "description": "This module defines a token type `t` and a function `string_of_token` that converts a token to its string representation. It works with abstract token values, typically representing lexical elements in a parser or interpreter. Concrete use cases include printing tokens for debugging or error messages in a compiler or language toolchain.",
+      "description_length": 338,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Starpath.FilePos",
+      "library": "starpath",
+      "description": "This module represents and manipulates file positions in a structured format. It provides functions to create a position from a string, compare two positions, and convert a position back to a string. It is used to track locations within source files, such as for error reporting or parsing tasks.",
+      "description_length": 296,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Starpath.CharCombinators",
+      "library": "starpath",
+      "description": "This module provides parser combinators for sequencing, choice, repetition, and delimiter-separated parsing over token sequences, with operations to peek, skip/take tokens based on predicates, and handle errors via position tracking. It works with a `token` type (often characters) embedded in a parser monad `t`, enabling lexical analysis and structured consumption of input streams. Typical use cases include building custom parsers for textual data formats, token validation, and error-resilient stream processing.",
+      "description_length": 517,
+      "index": 10,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Starpath",
-      "description": "Provides operations to create a position from a specific argument, compare positions, and convert positions to strings. Works with a custom type `t` representing positions and a related argument type `pos0_arg`. Used to generate human-readable representations of positions and enforce ordering in path-related computations.",
-      "description_length": 323,
-      "index": 8,
-      "embedding_norm": 1.0
+      "library": "starpath",
+      "description": "This module implements a parsing library for character-based input with positional tracking, centered around tokens and positions as core data types. It provides combinators for building parsers that handle sequencing, choice, repetition, and error reporting, while tracking source locations with precision. Users can parse structured text formats, extract typed values, and construct domain-specific languages with contextual error messages tied to exact row and column positions. Submodules refine this functionality with specific token representations, position manipulation, and layered parser abstractions that support both in-memory strings and file-based input.",
+      "description_length": 668,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 488,
-    "min_description_length": 219,
-    "avg_description_length": 326.6666666666667,
-    "embedding_file_size_mb": 0.033150672912597656
+    "max_description_length": 668,
+    "min_description_length": 276,
+    "avg_description_length": 472.0833333333333,
+    "embedding_file_size_mb": 0.04398632049560547
   }
 }

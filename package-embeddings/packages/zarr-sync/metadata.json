@@ -1,119 +1,125 @@
 {
   "package": "zarr-sync",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 14,
-  "creation_timestamp": "2025-06-18T16:35:51.989263",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:08:54.750073",
   "modules": [
     {
       "module_path": "Zarr_sync.Storage.FilesystemStore.Deferred.Infix",
-      "description": "Performs monadic binding and mapping over values in a context, applying a function that returns a context-aware result or a pure value. Operates on types conforming to the `t` type constructor, such as option, result, or custom monadic types. Enables chaining of asynchronous or effectful computations, like handling optional values or propagating errors in a pipeline.",
-      "description_length": 369,
+      "library": "zarr-sync",
+      "description": "This module defines infix operators for composing deferred computations in a filesystem-based Zarr storage context. It provides `>>=` for chaining asynchronous operations that depend on prior results and `>>|` for transforming the result of a deferred computation. These operators simplify sequential, effectful workflows like file reads, writes, or metadata updates in a deferred execution model.",
+      "description_length": 397,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zarr_sync.Storage.FilesystemStore.Deferred.Syntax",
-      "description": "Provides monadic binding and sequencing operations for effectful computations, where `let*` chains computations with side effects and `let+` binds results in a pure context. Works with values wrapped in a monadic type `t`, typically used for asynchronous or stateful operations. Enables structured handling of sequential computations in effectful code, such as parsing or I/O workflows.",
-      "description_length": 386,
+      "module_path": "Zarr_sync.Storage.MemoryStore.Deferred.Infix",
+      "library": "zarr-sync",
+      "description": "This module defines monadic bind (`>>=`) and map (`>>|`) operators for working with deferred values in the context of an in-memory Zarr storage backend. It enables chaining asynchronous operations on `Deferred.t` values that represent computations within the MemoryStore. Concrete use cases include composing asynchronous file reads, writes, and metadata updates in a Zarr hierarchy without blocking execution.",
+      "description_length": 410,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zarr_sync.Storage.MemoryStore.Deferred.Infix",
-      "description": "Performs monadic binding and mapping over values in a context, applying a function that returns a context-aware result or a pure value. Operates on types that implement the `t` type constructor, such as option, result, or custom monadic structures. Enables chaining of operations that may fail or produce side effects, like parsing input or handling asynchronous computations.",
-      "description_length": 376,
+      "module_path": "Zarr_sync.Storage.FilesystemStore.Deferred.Syntax",
+      "library": "zarr-sync",
+      "description": "This module provides monadic binding and mapping operations for deferred computations in the context of a local filesystem storage backend. It supports working with values wrapped in the `Deferred.t` type, enabling sequential composition of asynchronous filesystem operations. Concrete use cases include chaining file reads, writes, and metadata updates in a Zarr V3 storage hierarchy without blocking execution.",
+      "description_length": 412,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Zarr_sync.Storage.MemoryStore.Deferred.Syntax",
-      "description": "Provides monadic binding and sequencing operations for effectful computations, where `let*` chains computations with side effects and `let+` lifts pure functions over effectful values. Works with a generic `'a t` type representing computations. Used to compose asynchronous or stateful operations in a readable, sequential style.",
-      "description_length": 329,
+      "library": "zarr-sync",
+      "description": "This module provides monadic binding and mapping operations for deferred computations in the in-memory Zarr V3 storage backend. It works with values wrapped in `Zarr_sync.Storage.MemoryStore.Deferred.t`, enabling sequential composition of asynchronous storage operations. Concrete use cases include chaining reads, writes, and metadata updates in a deferred, non-blocking manner.",
+      "description_length": 379,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Zarr_sync.Storage.FilesystemStore.Deferred",
-      "description": "combines monadic composition and sequencing to handle context-aware computations, supporting both pure and effectful operations through `t`-wrapped values. It allows chaining of asynchronous or error-prone steps using `let*` for side effects and `let+` for pure results, enabling workflows like parsing, I/O, or optional value processing. Operations include binding, mapping, and lifting functions into the monadic context, facilitating clean pipelines for complex data transformations. Examples include safely unwrapping nested options, handling errors in a sequence, or composing asynchronous tasks.",
-      "description_length": 601,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Zarr_sync.Storage.MemoryStore.Deferred",
-      "description": "combines monadic operations for context-aware and effectful computations, allowing chaining of functions that return wrapped values or side-effecting results. It supports types like option, result, and custom monads, with `let*` for sequencing and `let+` for lifting pure functions. Operations include binding, mapping, and composing computations that may fail or involve I/O. Examples include parsing structured data, handling asynchronous network requests, and managing state transitions in a clean, sequential style.",
-      "description_length": 519,
+      "library": "zarr-sync",
+      "description": "This module enables deferred computation over in-memory Zarr V3 storage, supporting list-processing operations like `iter`, `fold_left`, and `concat_map` that handle asynchronous transformations of hierarchical data. It works with `Deferred.t` values representing non-blocking operations on Zarr structures, allowing for batch metadata updates and consistency checks across a Zarr hierarchy. The child modules provide monadic bind and map operators that facilitate chaining asynchronous reads, writes, and metadata updates in a non-blocking way. For example, you can use `>>=` to sequence deferred reads and writes, or `fold_left` to accumulate results from traversing a Zarr group\u2019s contents asynchronously.",
+      "description_length": 708,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zarr_sync.Storage.FilesystemStore.Deferred",
+      "library": "zarr-sync",
+      "description": "This module orchestrates deferred I/O operations against a local filesystem storage backend in a Zarr V3 hierarchy, enabling asynchronous traversal, batching, and accumulation over filesystem resources. It offers core operations like `iter`, `fold_left`, and `concat_map` to process lists of deferred values, while its child modules supply infix operators `>>=` and `>>|` for sequencing and transforming asynchronous filesystem actions. Main data types center on `Deferred.t`, wrapping values to support non-blocking execution of operations such as chained file reads, writes, and metadata updates. For example, it can batch multiple file writes or walk directory trees asynchronously, aggregating results as they become available.",
+      "description_length": 731,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Zarr_sync.Storage.MemoryStore",
-      "description": "provides a monadic framework for building reliable, composable operations within an in-memory storage system, supporting option, result, and custom monads through sequencing and lifting. It enables safe handling of failures, I/O, and state changes, with operations like binding and mapping to chain effectful computations. Users can parse hierarchical data, manage concurrent updates, and ensure error resilience in storage workflows. Examples include safely reading nested metadata, performing atomic writes, and recovering from partial operations.",
-      "description_length": 549,
+      "library": "zarr-sync",
+      "description": "This module implements an in-memory storage backend for Zarr V3 hierarchies, supporting creation, deletion, and manipulation of group and array nodes. It provides operations to create and manage groups with optional attributes, create arrays with specified metadata and codecs, read and write array slices, reshape arrays, and query node existence. The child module enables deferred computation over the in-memory storage, supporting list-processing operations like `iter`, `fold_left`, and `concat_map` that handle asynchronous transformations of hierarchical data. For example, you can use `>>=` to sequence deferred reads and writes, or `fold_left` to accumulate results from traversing a Zarr group\u2019s contents asynchronously.",
+      "description_length": 729,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zarr_sync.Storage.FilesystemStore",
-      "description": "Encapsulates context-aware computations for file-based Zarr V3 storage, using `t`-wrapped values to manage side effects and pure operations. Supports sequencing with `let*` for effectful steps and `let+` for pure results, enabling safe error handling and asynchronous workflows. Key operations include binding, mapping, and lifting, allowing for structured data processing like parsing file metadata or handling optional paths. Examples include safely navigating nested file structures, composing I/O operations, and managing error-prone file reads.",
-      "description_length": 549,
+      "module_path": "Zarr_sync.Deferred.Syntax",
+      "library": "zarr-sync",
+      "description": "This module provides monadic binding and mapping operations for deferred computations. It works with values wrapped in the `Zarr_sync.Deferred.t` type, allowing sequential composition of asynchronous actions. Concrete use cases include chaining file I/O operations and transforming results of asynchronous computations without blocking.",
+      "description_length": 336,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Zarr_sync.Deferred.Infix",
-      "description": "Performs monadic binding and mapping over values in a context, applying a function that returns a context-aware result or a pure value. Operates on types conforming to the `t` functor interface, such as option or result. Enables chaining of asynchronous or effectful computations, like handling optional values or propagating errors in a pipeline.",
-      "description_length": 347,
+      "module_path": "Zarr_sync.Storage.FilesystemStore",
+      "library": "zarr-sync",
+      "description": "This module provides a local filesystem backend for managing Zarr V3 array and group hierarchies, enabling creation, modification, and traversal of structured scientific datasets stored on disk. It supports direct operations like reading, writing, and reshaping arrays, as well as hierarchical metadata management, with child modules introducing deferred I/O handling for asynchronous traversal, batching, and transformation of filesystem operations. Using types like `Deferred.t`, it allows non-blocking sequences of file actions, such as asynchronously walking a directory tree to aggregate array metadata or batching multiple array writes into a single operation. Example use cases include persisting multi-dimensional datasets to disk and loading or processing subsets of those datasets asynchronously.",
+      "description_length": 806,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Zarr_sync.Deferred.Syntax",
-      "description": "Provides monadic binding and sequencing operations for effectful computations, where `let*` chains computations with side effects and `let+` lifts a function over a single effectful value. Works with type `'a t`, representing computations in a monadic context. Used to compose asynchronous or stateful operations in a readable, sequential style.",
-      "description_length": 345,
+      "module_path": "Zarr_sync.Deferred.Infix",
+      "library": "zarr-sync",
+      "description": "Implements monadic bind and map operations for deferred values. Works with `'a Zarr_sync.Deferred.t`, enabling chaining asynchronous computations and transforming their results. Useful for sequencing dependent asynchronous tasks and applying pure transformations to deferred values.",
+      "description_length": 282,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Zarr_sync.Deferred",
-      "description": "combines monadic operations for chaining and transforming values within a context, supporting both pure and effectful computations. it works with types like option, result, and custom monads, enabling seamless error handling, asynchronous workflows, and state management. operations such as `let*` and `let+` allow for sequential execution and function application over wrapped values, while `bind` and `map` facilitate transformation and composition. examples include safely unwrapping optional values, propagating errors through pipelines, and composing asynchronous I/O operations.",
-      "description_length": 584,
+      "library": "zarr-sync",
+      "description": "This module orchestrates deferred execution for synchronous Zarr operations, combining direct constructs like `return`, `iter`, `fold_left`, and `concat_map` with monadic extensions for binding and mapping deferred values. It centers on the `'a t` type, representing deferred computations that can wrap standard values, functions, and lists, enabling lazy evaluation and non-blocking pipelines. The core API supports building and composing lazy sequences for tasks like array chunk processing and I/O-bound workloads, while submodules refine this with operations like monadic bind and map to sequence dependent actions and transform results. Example uses include deferring file reads until computation is forced and chaining transformations over asynchronously loaded data.",
+      "description_length": 773,
       "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Zarr_sync.Storage",
-      "description": "provides a monadic framework for building reliable, composable operations in both in-memory and file-based storage systems, supporting sequencing, lifting, and error handling through option, result, and custom monads. It enables structured data processing, safe I/O, and state management, with operations like binding and mapping to chain effectful computations. Users can parse hierarchical metadata, perform atomic writes, and handle concurrent updates with resilience. Examples include safely reading nested file structures, composing asynchronous I/O, and recovering from partial operations.",
-      "description_length": 595,
+      "library": "zarr-sync",
+      "description": "This module provides in-memory and filesystem backends for managing Zarr V3 hierarchies, supporting creation, traversal, and manipulation of groups and arrays with attributes, metadata, and codecs. It enables reading, writing, and reshaping array data, and offers deferred computation for asynchronous processing of hierarchical operations such as `fold_left` and `concat_map`. The filesystem backend supports non-blocking I/O, directory traversal, and batched operations, allowing tasks like asynchronously aggregating metadata or persisting multi-dimensional datasets. Example uses include building and modifying nested Zarr structures in memory, or efficiently loading and transforming large datasets stored on disk.",
+      "description_length": 719,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "zarr-sync",
-      "description": "Handles creation and manipulation of n-dimensional arrays with flexible chunking and compression. Operates on arrays and chunks, applying codecs like gzip or lz4 for data compression. Enables efficient storage and retrieval of large datasets in parallel computing environments.",
-      "description_length": 277,
-      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Zarr_sync",
-      "description": "combines monadic operations for chaining and transforming values within contexts like option, result, and custom monads, enabling error handling, asynchronous workflows, and state management through constructs like `let*`, `let+`, `bind`, and `map`. it supports structured data processing, safe I/O, and resilient operations across in-memory and file-based systems, allowing tasks such as parsing nested metadata, performing atomic writes, and recovering from failed operations. users can sequentially unwrap optional values, propagate errors through pipelines, and compose asynchronous I/O with structured resilience. examples include safely handling partial file reads, managing concurrent updates, and transforming wrapped values in complex workflows.",
-      "description_length": 754,
-      "index": 13,
+      "library": "zarr-sync",
+      "description": "This module enables deferred execution and hierarchical data management for Zarr operations, combining lazy evaluation with in-memory and filesystem backends. It centers on the `'a t` type for representing deferred computations, supporting operations like `bind`, `map`, `fold_left`, and `concat_map` to build and sequence asynchronous workflows. The module handles Zarr V3 groups and arrays with support for attributes, metadata, and codecs, allowing non-blocking I/O and batched processing of hierarchical data. Example uses include asynchronously loading and transforming large datasets from disk or building complex Zarr structures in memory with deferred I/O operations.",
+      "description_length": 675,
+      "index": 12,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 14,
+    "total_modules_in_package": 13,
+    "meaningful_modules": 13,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 754,
-    "min_description_length": 277,
-    "avg_description_length": 470.0,
-    "embedding_file_size_mb": 0.05127429962158203
+    "max_description_length": 806,
+    "min_description_length": 282,
+    "avg_description_length": 565.9230769230769,
+    "embedding_file_size_mb": 0.04764556884765625
   }
 }

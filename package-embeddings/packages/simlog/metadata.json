@@ -1,259 +1,325 @@
 {
   "package": "simlog",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 34,
-  "creation_timestamp": "2025-06-18T16:38:40.881270",
+  "total_modules": 38,
+  "creation_timestamp": "2025-07-15T23:12:50.407516",
   "modules": [
     {
-      "module_path": "Simlog.Printer.Builtin.Stdout_Printer",
-      "description": "Provides functions to configure and output strings to standard output. Operates with a configuration record and string data. Used to dynamically control output behavior and display formatted messages during runtime.",
-      "description_length": 215,
+      "module_path": "Simlog.Builtin.Logger.Formatter",
+      "library": "simlog",
+      "description": "Formats log records into strings for output. Takes a recorder and a target printer, then returns the formatted string. Useful for customizing log output in applications and testing frameworks.",
+      "description_length": 192,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Simlog.Printer.Builtin.Stderr_Printer",
-      "description": "Provides functions to configure and output messages to standard error. Operates with a configuration record and string data. Used to log error messages or debug information during program execution.",
-      "description_length": 198,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Printer.Builtin.Stdout_Mutex_Printer",
-      "description": "Provides atomic printing to standard output using a mutex to prevent interleaving of concurrent outputs. Operates on strings and a configuration record controlling behavior such as buffering or formatting. Ensures thread-safe logging in multi-threaded applications where output order must be preserved.",
-      "description_length": 302,
-      "index": 2,
+      "module_path": "Simlog.Printer.Builtin.Stdout_Printer",
+      "library": "simlog",
+      "description": "This module provides a `print` function that outputs strings directly to standard output, using a predefined configuration for formatting and verbosity. It works with raw string data, applying the configuration to control output behavior such as timestamps or log levels. Concrete use cases include logging diagnostic messages during program execution or displaying user-facing output in command-line tools.",
+      "description_length": 407,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Simlog.Printer.Builtin.Stderr_Mutex_Printer",
-      "description": "Provides atomic printing to standard error using a mutex to prevent interleaving of output. Operates on strings and a configuration record controlling behavior. Used to safely log messages from concurrent threads without corruption.",
-      "description_length": 232,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Simlog.Printer.Builtin.File_Printer",
-      "description": "Prints the contents of a file to standard output, using the provided file path. Operates on string-based file paths and outputs raw text. Used to display log files or configuration files during runtime diagnostics.",
-      "description_length": 214,
-      "index": 4,
+      "library": "simlog",
+      "description": "This module provides a thread-safe logging mechanism that writes formatted messages to standard error. It uses a mutex to synchronize access to the output stream, ensuring safe concurrent use. The `print` function accepts a string message, which it outputs to stderr after applying the configured formatting.",
+      "description_length": 308,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Simlog.Printer.Builtin.File_Mutex_Printer",
-      "description": "Provides functions to acquire a mutex, write formatted messages to a file, and release the mutex. Operates on file paths, mutexes, and formatted strings. Used to safely log messages from concurrent processes to a shared file.",
-      "description_length": 225,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Simlog.Filter.Builtin.Filter",
-      "description": "Filters records based on predefined criteria, returning a new record or none if no match is found. It operates on `Recorder.t` type, which encapsulates structured data entries. Used to refine log entries or event data by specific attributes during processing pipelines.",
-      "description_length": 269,
-      "index": 6,
+      "library": "simlog",
+      "description": "This module implements a thread-safe file logging mechanism that ensures atomic writes to a shared log file. It uses a mutex to synchronize access to the `print` function, which appends messages to the file configured in `config`. It works with plain strings as log messages, and is suitable for multi-threaded applications where concurrent logging to a single file must be coordinated.",
+      "description_length": 386,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Recorder.Builtin.Recorder",
-      "description": "Records and manipulates option values, offering a direct way to handle presence or absence of data. It works with the 'a option type, enabling safe access and transformation. Used to safely extract values from optional fields in configuration or user input.",
-      "description_length": 257,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "module_path": "Simlog.Printer.Builtin.Stderr_Printer",
+      "library": "simlog",
+      "description": "Implements logging to standard error with a predefined configuration. Accepts string messages and outputs them directly to stderr. Useful for debugging and error reporting in command-line applications.",
+      "description_length": 201,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Simlog.Builtin.Logger.Filter",
-      "description": "Filters records based on predefined criteria, returning a new record or none if no match is found. Works with the Recorder.t data type, which represents structured data entries. Used to refine log entries or data streams by applying specific exclusion rules.",
-      "description_length": 258,
-      "index": 8,
+      "library": "simlog",
+      "description": "Filters log records based on predefined criteria, returning a modified recorder that selectively processes entries. Works directly with `Simlog.Recorder.t` instances. Useful for implementing conditional logging, such as excluding verbose or debug-level messages in production environments.",
+      "description_length": 289,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Simlog.Builtin.Logger.Printer",
-      "description": "Provides functions to access and modify printing configuration and to output strings. Operates with a configuration record and string data. Used to dynamically adjust output settings and log messages during runtime.",
-      "description_length": 215,
+      "library": "simlog",
+      "description": "This module provides a logging mechanism with a predefined configuration and a function to output log messages. It works with strings as input for logging and uses a printer configuration to format and write messages. Concrete use cases include debugging and tracing execution flow by printing log statements to standard output or a file.",
+      "description_length": 338,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog.Printer.Builtin.Stdout_Mutex_Printer",
+      "library": "simlog",
+      "description": "This module provides a thread-safe printer implementation that outputs log messages to standard output using a mutex for synchronization. It works with string messages and a shared configuration value that defines printing behavior. Concrete use cases include logging diagnostic information in multi-threaded applications where output consistency is critical.",
+      "description_length": 359,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog.Printer.Builtin.File_Printer",
+      "library": "simlog",
+      "description": "This module writes log messages to a file using a predefined configuration. It provides `print` to output formatted strings and `config` to set logging behavior like file path and verbosity. Use it to persist logs to disk for debugging or auditing without modifying output format or destination.",
+      "description_length": 295,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Simlog.Filter.Builtin.Filter",
+      "library": "simlog",
+      "description": "Implements built-in filtering logic that determines whether a log should be processed based on severity, source, or custom predicate checks. It operates directly on `Simlog.Recorder.t` values, applying filters before log output. Useful for selectively capturing logs in production environments or suppressing verbose debug output during testing.",
+      "description_length": 345,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Builtin.Logger.Formatter",
-      "description": "Formats a recorded event into a string using a specified output target, enabling structured logging. Works with `Recorder.t` to extract event data and `Printer.Target.t` to determine output formatting. Used to generate human-readable logs for debugging or system monitoring.",
-      "description_length": 274,
+      "module_path": "Simlog.Formatter.Builtin.Formatter",
+      "library": "simlog",
+      "description": "This module implements the `format` function that takes a `Simlog.Recorder.t` and a `Simlog.Printer.Target.t` and produces a formatted string representation. It operates on log records and output targets to enable structured logging. Use this module to convert recorded log events into printable strings for specific output destinations like consoles or files.",
+      "description_length": 360,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Builtin.Logger.Recorder",
-      "description": "Records and retrieves configuration values from a structured data source. Operates on key-value pairs stored in a custom record type. Used to dynamically access settings during application runtime.",
-      "description_length": 197,
+      "module_path": "Simlog.Recorder.Builtin.Recorder",
+      "library": "simlog",
+      "description": "This module provides a default implementation of a logging recorder that captures and stores log messages in memory. It works with log messages structured as strings and supports optional configuration through the `opt` value, which allows setting log levels and output formats. Concrete use cases include debugging applications by inspecting logged events or exporting logs for analysis.",
+      "description_length": 388,
       "index": 11,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Formatter.Builtin.Formatter",
-      "description": "Formats a recorded event into a string using a specified output target. Works with `Recorder.t` to extract event data and `Printer.Target.t` to determine output formatting. Used to generate human-readable logs or structured data outputs for debugging or analysis.",
-      "description_length": 263,
+      "module_path": "Simlog.Builtin.Logger.Recorder",
+      "library": "simlog",
+      "description": "This module provides a concrete implementation of a logging recorder that captures and stores log messages in memory. It works with log entries containing timestamps, severity levels, and message strings. Useful for debugging and testing scenarios where programmatic access to log output is required.",
+      "description_length": 300,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Printer.Target",
-      "description": "Provides functions to create, compare, and serialize target identifiers, including parsing from strings and converting to JSON. Works with the `t` type, which represents a uniquely identifiable target entity. Used to validate user input against predefined targets and generate consistent representations for storage or transmission.",
-      "description_length": 332,
+      "module_path": "Simlog.Formatter.T",
+      "library": "simlog",
+      "description": "This module implements the `format` function, which takes a log record and a target printer, then returns a formatted string representation of the log entry. It operates on structured log data to produce output suitable for specific destinations like consoles or files. Use this module to customize log formatting for different output targets while maintaining consistent log structure.",
+      "description_length": 386,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Printer.Builtin",
-      "description": "manages input/output operations through configurable, thread-safe functions for standard output and error, file content display, and cross-process logging. it handles string formatting, mutex-protected writes, and file-based output using configuration records and file paths. examples include safely printing debug messages, displaying log files, and ensuring ordered writes to shared logs. operations support dynamic control over buffering, formatting, and concurrency.",
-      "description_length": 470,
+      "module_path": "Simlog.Recorder.Level",
+      "library": "simlog",
+      "description": "This module defines a set of severity levels for logging messages, including Info, Warn, Error, and Debug. It provides a conversion function to_string that maps each level to its string representation. This module is used to categorize and filter log output based on severity in logging systems.",
+      "description_length": 295,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Filter.Builtin",
-      "description": "Filters process `Recorder.t` data by applying criteria to extract or discard records, enabling precise data selection. Key operations include `find` and `filter`, which return either a single matching record or a list of matches. For example, it can isolate log entries with a specific status or timestamp range. This supports efficient data refinement in workflows like analytics or error tracking.",
-      "description_length": 399,
+      "module_path": "Simlog.Recorder.Trace",
+      "library": "simlog",
+      "description": "This module provides a function `get` that retrieves a string value representing a trace in the simulation logging system. It works exclusively with the string data type to capture and return trace information. A concrete use case is extracting the current trace context for logging or debugging within a simulation environment.",
+      "description_length": 328,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Recorder.Level",
-      "description": "Converts a level value to its string representation. Works with an abstract type representing hierarchical or ordinal levels. Used to generate human-readable labels for game difficulty settings or progress tracking.",
-      "description_length": 215,
+      "module_path": "Simlog.Recorder.T",
+      "library": "simlog",
+      "description": "This module provides a single value `opt` that represents a configuration option for a recorder component. It works with the `Simlog.Recorder.opt` type, which likely encapsulates optional parameters or settings for logging or simulation recording. A concrete use case is passing `opt` to functions that initialize or customize the behavior of a recorder instance.",
+      "description_length": 363,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Recorder.Trace",
-      "description": "Returns the current trace identifier as a string, allowing for contextual logging and debugging. Operates on a single global state represented by a string type. Used to inject unique identifiers into log messages for tracking request flows in distributed systems.",
-      "description_length": 263,
+      "module_path": "Simlog.Printer.Target",
+      "library": "simlog",
+      "description": "This module defines output targets for log messages, including standard output, standard error, and file destinations. It supports directing log output to different destinations based on the provided type, enabling flexible logging configurations. Concrete use cases include writing logs to the console during development or saving them to a file in production environments.",
+      "description_length": 374,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Recorder.Builtin",
-      "description": "Handles optional values using the 'a option type, providing safe access and transformation mechanisms. It allows for chaining operations and unwrapping values with defined fallbacks, ensuring robust error handling. Users can safely extract data from configuration or input sources that may lack certain fields. For example, it can retrieve a user's email from a record, returning a default value if the field is missing.",
-      "description_length": 420,
+      "module_path": "Simlog.Filter.T",
+      "library": "simlog",
+      "description": "This module defines a filter interface that determines whether a log should be processed by a recorder. It works with `Simlog.Recorder.t` values, applying a predicate to decide inclusion. Concrete use cases include filtering logs by severity level or message content before recording.",
+      "description_length": 284,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Builtin.Logger",
-      "description": "filters refine log entries by applying exclusion rules to recorder.t data, while printer functions adjust output settings and format events into strings using target configurations; configuration values are stored and retrieved from structured key-value records, enabling dynamic control over logging behavior and output; this system allows for precise log filtering, customizable formatting, and runtime configuration adjustments; examples include filtering out debug messages, changing log verbosity on the fly, and generating timestamped output for monitoring.",
-      "description_length": 563,
+      "module_path": "Simlog.Printer.Builtin",
+      "library": "simlog",
+      "description": "This module provides thread-safe logging and printing functionality for outputting formatted strings to standard output, standard error, and log files. It supports operations that accept string messages and apply a shared configuration to control formatting, verbosity, and output destination. Specific use cases include logging diagnostic messages in multi-threaded applications, displaying user-facing output in command-line tools, and persisting logs to disk for auditing. Examples include printing a debug message to standard error with a timestamp or appending a log entry atomically to a shared file.",
+      "description_length": 606,
       "index": 19,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Formatter.Level",
-      "description": "Converts level values to human-readable strings and formats messages with ASCII representations based on the level. Works with the internal level type used to represent log severity. Used to generate log output strings and customize message formatting in diagnostic tools.",
-      "description_length": 272,
+      "module_path": "Simlog.Builtin.Logger",
+      "library": "simlog",
+      "description": "This module provides a flexible logging system that captures, filters, formats, and outputs log records based on configurable criteria. It centers around the `Recorder.t` type, which stores log entries containing timestamps, severity levels, and messages, and supports operations for filtering, formatting, and printing logs. You can use it to selectively log messages by severity, format them for different outputs, or capture logs in memory for testing. For example, you can configure a recorder to suppress debug logs in production or capture logs programmatically for validation during testing.",
+      "description_length": 598,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Formatter.Builtin",
-      "description": "Handles event formatting by combining recorded data with output targets, enabling customizable log generation. It uses `Recorder.t` to access event details and `Printer.Target.t` to define output structure. This allows for creating readable logs or structured outputs like JSON or CSV. Examples include generating debug traces or exporting event data for external processing.",
-      "description_length": 375,
+      "module_path": "Simlog.Printer.T",
+      "library": "simlog",
+      "description": "This module defines a printing interface with a `config` value that holds formatting settings and a `print` function that outputs strings. It works with string data and configuration structures to control output behavior. Concrete use cases include logging messages with consistent formatting or directing output to different destinations based on the configuration.",
+      "description_length": 366,
       "index": 21,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Make.Filter",
-      "description": "Filters out invalid or incomplete records from a stream, returning a new record or nothing if the input is not usable. Works with the Recorder.t type, which represents structured data entries. Used to clean sensor data streams before processing or storage.",
-      "description_length": 256,
+      "module_path": "Simlog.Recorder.Builtin",
+      "library": "simlog",
+      "description": "This module implements a logging recorder that captures and stores log messages in memory, supporting structured string-based logs with optional configuration for log levels and output formats. It enables developers to inspect logged events for debugging or export logs for external analysis. For example, you can configure it to record only error-level messages or format logs with timestamps.",
+      "description_length": 394,
       "index": 22,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Make.Printer",
-      "description": "Provides functions to access and modify output formatting settings, and to print strings with those settings applied. Works with configuration records that define formatting options. Used to generate consistent log outputs and user-facing messages with controlled styling.",
-      "description_length": 272,
+      "module_path": "Simlog.Formatter.Level",
+      "library": "simlog",
+      "description": "This module defines a type `t` representing log severity levels and provides two functions. It supports converting level values to strings and formatting log messages with ASCII representations of their level. Use cases include standardizing log output and enhancing readability in console applications.",
+      "description_length": 303,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Make.Formatter",
-      "description": "Formats a recorded event into a string using a specified output target. It processes data from the Recorder module and directs the output to a Printer.Target. This is used to generate human-readable logs or structured data outputs.",
-      "description_length": 231,
+      "module_path": "Simlog.Formatter.Builtin",
+      "library": "simlog",
+      "description": "This module provides a `format` function that converts log records into structured strings tailored for specific output targets. It processes `Simlog.Recorder.t` and `Simlog.Printer.Target.t` values to generate printable log messages. Use it to produce formatted log output suitable for consoles, files, or other destinations. For example, it can transform a log event into a timestamped string for console display or a JSON object for file logging.",
+      "description_length": 449,
       "index": 24,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Make.Recorder",
-      "description": "Records and retrieves configuration values from a structured data source. Operates on key-value pairs stored in a custom configuration type. Used to dynamically adjust application behavior based on environment-specific settings.",
-      "description_length": 228,
+      "module_path": "Simlog.Filter.Builtin",
+      "library": "simlog",
+      "description": "This module provides filtering capabilities for log records based on severity, source, or custom predicates, determining which logs to process or suppress. It operates directly on `Simlog.Recorder.t` values, applying filters before output to control log visibility. Use it to capture only error-level logs in production or exclude debug logs during testing.",
+      "description_length": 357,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Filter",
-      "description": "Filters out invalid or incomplete records from a stream, returning a new record or nothing if the input is not usable. Works with the Recorder.t type, which represents structured data entries. Used to clean sensor data before processing, ensuring only valid measurements are passed to downstream systems.",
-      "description_length": 304,
+      "module_path": "Simlog.Logger",
+      "library": "simlog",
+      "description": "This module handles logging with structured data, offering filtering, formatting, and recording of log events. It works with log messages, severity levels, and contextual metadata. Use it to implement custom log processing pipelines, such as capturing errors with specific attributes or transforming logs into a standardized format for external systems.",
+      "description_length": 353,
       "index": 26,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Simlog.Formatter",
-      "description": "Formats a recorded event into a string using a specified output target. It operates on `Recorder.t` instances and `Printer.Target.t` configurations. Used to generate human-readable logs for debugging or system monitoring.",
-      "description_length": 221,
+      "module_path": "Simlog.Logger-Formatter",
+      "library": "simlog",
+      "description": "Formats log records into strings for output. Takes a recorder and a target printer, then returns a formatted string ready for display or storage. Useful for customizing log output in simulation tools or debugging environments.",
+      "description_length": 226,
       "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Simlog.Recorder",
-      "description": "Records timing and performance data for specific code segments, capturing start and end timestamps and durations. Operates on mutable state and timestamp values to track execution intervals. Used to profile critical sections of code during testing and optimization phases.",
-      "description_length": 272,
-      "index": 28,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Simlog.Printer",
-      "description": "Provides functions to access and modify printing configuration and to output strings. Operates with a configuration record and string data. Used to dynamically adjust output settings and log messages during runtime.",
-      "description_length": 215,
+      "library": "simlog",
+      "description": "This module formats and outputs structured log data to various destinations, combining flexible configuration with thread-safe operations for consistent logging. It defines a core `config` type that controls formatting and output targets, such as console or file destinations, and includes built-in formatting schemes for common log structures. The module supports operations that accept string messages and apply shared configuration to control verbosity and layout, enabling use cases like logging diagnostic messages in multi-threaded applications or appending timestamped entries to a file. Specific examples include printing debug output to standard error with custom formatting or persisting logs to disk with atomic writes.",
+      "description_length": 730,
+      "index": 28,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Simlog.Logger-Filter",
+      "library": "simlog",
+      "description": "This module provides a filtering mechanism for log recorders, allowing selective processing of logs based on predefined criteria. It operates on `Simlog.Recorder.t` values, applying a filter function that may exclude or transform recorded log entries. A typical use case involves restricting log output to specific severity levels or contextual tags during runtime.",
+      "description_length": 365,
       "index": 29,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog.Builtin",
-      "description": "filters refine log entries by applying exclusion rules to recorder.t data, while printer functions format events into strings using target configurations; key-value records store and retrieve configuration values, enabling dynamic control over logging behavior; this system supports filtering out specific log levels, adjusting verbosity at runtime, and generating timestamped output for real-time monitoring.",
-      "description_length": 409,
-      "index": 30,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Simlog.Make",
-      "description": "Filters process and refine data streams by validating records, formatting output, and managing configuration settings. It handles Recorder.t for structured data, configuration records for settings, and Printer.Target for output destinations. Operations include cleaning sensor data, generating styled logs, and applying dynamic configuration values. Examples include filtering unreliable sensor readings, printing formatted debug messages, and adjusting output based on environment variables.",
-      "description_length": 492,
-      "index": 31,
+      "library": "simlog",
+      "description": "This module implements logging functionality with configurable severity levels, allowing users to record messages using `info`, `error`, `warn`, and `debug` functions. It operates on string-based formatted messages through OCaml's `format4` type, integrating directly with the `Recorder.Level.t` type for log level control. Concrete use cases include tracking execution flow, reporting runtime errors, and debugging application behavior with structured log output.",
+      "description_length": 464,
+      "index": 30,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "simlog",
-      "description": "Provides functions to log messages at different severity levels, including info, warning, and error, with a configurable output destination. Works with a Logger type that defines how messages are formatted and delivered. Used to instrument simulation code with structured logs for debugging and monitoring.",
-      "description_length": 306,
+      "module_path": "Simlog.Filter",
+      "library": "simlog",
+      "description": "This module enables filtering log messages based on customizable criteria such as severity level, source, or message content, working with structured log entries that include fields like timestamp, level, and message. It defines a filter interface that applies predicates to `Simlog.Recorder.t` values, allowing logs to be selectively processed or suppressed based on severity, source, or custom conditions. You can use it to suppress debug logs in production, capture only error-level logs from specific components, or apply custom filtering logic to control log visibility. The module combines direct predicate-based filtering with submodules that provide ready-made filters for common use cases like severity-based logging.",
+      "description_length": 726,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog.Logger-Printer",
+      "library": "simlog",
+      "description": "This module handles logging output configuration and message printing. It works with string messages and a printer configuration record that defines output formatting. Concrete use cases include setting log output styles and writing formatted log entries to standard output.",
+      "description_length": 274,
       "index": 32,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Simlog",
-      "description": "Filters process and refine data streams by validating records, adjusting output settings, formatting events, and tracking performance metrics. It handles `Recorder.t` for structured data, `Printer.Target.t` for output configuration, and timestamped intervals for performance analysis. Operations include cleaning sensor inputs, dynamically modifying log outputs, generating formatted logs, and profiling code execution. Examples include filtering unreliable sensor readings, adjusting log verbosity at runtime, creating debug-friendly event logs, and measuring function execution times.",
-      "description_length": 586,
+      "module_path": "Simlog.Recorder",
+      "library": "simlog",
+      "description": "This module captures and structures log records with optional metadata such as timestamps, thread identifiers, and call traces. It supports filtering logs by severity levels like Info, Warn, Error, and Debug, and allows attaching contextual data such as simulation traces obtained via the `get` function. The `opt` value configures which metadata fields to include, enabling customization of log output format and verbosity. Developers can use it to record, inspect, and export structured logs in memory, for example, to capture error-level messages with timestamps or generate trace-aware log entries for simulation analysis.",
+      "description_length": 626,
       "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog.Formatter",
+      "library": "simlog",
+      "description": "This module formats log messages with customizable severity levels and output formats, supporting both human-readable and structured outputs like JSON. It processes log records containing timestamps and severity metadata through a `format` function that adapts to different targets such as consoles or files. The severity module defines level types and ASCII representations, enhancing readability in console output. An example use is transforming a log event into a timestamped line in development or a JSON object for production monitoring.",
+      "description_length": 542,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Simlog.Builtin",
+      "library": "simlog",
+      "description": "This module implements a logging system centered on the `Recorder.t` type, which captures log entries with timestamps, severity levels, and messages. It supports filtering by severity, custom formatting, and multiple output destinations, enabling selective logging and programmatic log capture. You can configure a recorder to suppress debug logs in production or validate logs during testing by capturing them in memory. Specific operations include creating recorders, applying filters, formatting log entries, and directing output to files or streams.",
+      "description_length": 553,
+      "index": 35,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog.Logger-Recorder",
+      "library": "simlog",
+      "description": "This module provides a recorder implementation that captures and stores log messages in memory. It works with log messages and optional metadata, allowing retrieval of recorded entries for analysis or debugging. A concrete use case is tracking log output during test execution to verify expected behavior without writing to external files.",
+      "description_length": 339,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Simlog",
+      "library": "simlog",
+      "description": "This module implements a structured logging system with components for filtering, formatting, recording, and printing log messages. It centers on the `Recorder.t` type, which captures log entries containing timestamps, severity levels, and message payloads, supporting customizable output formats and storage backends. Developers can create recorders, apply filters to selectively process logs based on severity or metadata, format entries into human-readable or structured outputs like JSON, and direct logs to destinations such as console or file with thread-safe operations. Specific examples include capturing error logs with timestamps for debugging, exporting structured logs to monitoring tools, and validating log output during testing by inspecting in-memory records.",
+      "description_length": 776,
+      "index": 37,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 34,
-    "meaningful_modules": 34,
+    "total_modules_in_package": 38,
+    "meaningful_modules": 38,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 586,
-    "min_description_length": 197,
-    "avg_description_length": 300.5882352941176,
-    "embedding_file_size_mb": 0.12395381927490234
+    "max_description_length": 776,
+    "min_description_length": 192,
+    "avg_description_length": 401.1842105263158,
+    "embedding_file_size_mb": 0.1384878158569336
   }
 }

@@ -1,91 +1,77 @@
 {
   "package": "shuttle",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:33:02.630051",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:06:09.581970",
   "modules": [
     {
-      "module_path": "Shuttle.Output_channel.Logger.For_testing",
-      "description": "Sets up a test-specific logging output that strips metadata from log messages and prints only their bodies. Accepts a transformation function to modify messages before output. Used to simplify log verification during testing by eliminating extraneous details.",
-      "description_length": 259,
+      "module_path": "Shuttle.Output_channel.Flush_result",
+      "library": "shuttle",
+      "description": "This module defines a result type for flush operations on output channels, indicating whether data was successfully flushed, the remote end closed the connection, or an error occurred. It includes a function to convert the result type to an S-expression for serialization or debugging. Use this module to handle and inspect outcomes of asynchronous flush operations in networked or I/O-bound applications.",
+      "description_length": 405,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shuttle.Output_channel.Logger",
-      "description": "Logs are processed by stripping metadata and applying custom transformations, with outputs tailored for test verification. The core data type is a log message, and operations include filtering, transforming, and printing. Functions allow developers to customize how logs are displayed, such as removing timestamps or formatting text. This enables precise control over log visibility during testing and debugging.",
-      "description_length": 412,
+      "module_path": "Shuttle.Output_channel",
+      "library": "shuttle",
+      "description": "This module enables asynchronous writing to file descriptors using buffered output channels, supporting timed writes, deferred closures, and state serialization. It defines a result type for flush operations, indicating success, remote closure, or error, and includes utilities to convert these results to S-expressions for debugging or serialization. You can use it to build reliable, non-blocking output systems with configurable timeouts and error recovery, particularly in network services or logging pipelines that require inspection and handling of flush outcomes.",
+      "description_length": 570,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shuttle.Output_channel.Flush_result",
-      "description": "Provides operations to convert internal state representations into S-expression format for serialization. Works with custom data types representing processing outcomes. Used to log or transmit result states in a structured, human-readable format.",
-      "description_length": 246,
+      "module_path": "Shuttle.Bytebuffer",
+      "library": "shuttle",
+      "description": "This module enables efficient byte-oriented I/O with dynamically resizable buffers backed by bigstrings, supporting operations like appending data, reading/writing file descriptors, and buffer slicing. It provides both safe interfaces for stream-based data accumulation and unsafe low-level access for direct memory manipulation via slices and indexing. Typical applications include network protocol implementations, binary file processing, and systems programming tasks requiring precise control over byte sequences and memory layout.",
+      "description_length": 535,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shuttle.Input_channel",
-      "description": "Provides methods to manage and interact with asynchronous input channels, including reading data, controlling buffer sizes, and handling timeouts. Works with file descriptors, buffers, and async pipes to facilitate data transfer and stream processing. Enables efficient data consumption via `consume`, `drain`, and `transfer`, and supports structured data serialization through `sexp_of_t`.",
-      "description_length": 390,
+      "module_path": "Shuttle.Tcp_channel",
+      "library": "shuttle",
+      "description": "This module implements TCP client and server functionality using async I/O, providing functions to create listening servers and establish outgoing connections. It works with TCP sockets and wraps input/output operations through `Input_channel` and `Output_channel` abstractions, handling connection lifecycle and error propagation. Concrete use cases include building TCP-based network services that require asynchronous handling of incoming connections and clients, such as HTTP servers or custom network protocols.",
+      "description_length": 516,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shuttle.Output_channel",
-      "description": "Processes log messages by stripping metadata and applying transformations, while also converting internal state representations into S-expressions for structured output. Core data types include log messages and custom state objects, with operations for filtering, formatting, and serializing data. Developers can tailor log displays by removing timestamps or adjusting formats, and serialize processing results for logging or transmission. This enables precise control over test outputs and facilitates structured data exchange.",
-      "description_length": 528,
+      "module_path": "Shuttle.Slice",
+      "library": "shuttle",
+      "description": "This module represents a slice of a Bigstring with a position and length, enabling efficient manipulation of binary data. It provides a way to serialize slices into S-expressions for debugging or logging purposes. Useful for working with binary protocols or file formats where precise memory views are required.",
+      "description_length": 311,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shuttle.Tcp_channel",
-      "description": "Provides TCP server and client setup with input and output channels for handling connections. Works with socket addresses, deferreds, and time sources to manage connection lifecycles. Listens for incoming connections, establishes client connections, and ensures proper channel cleanup on errors or shutdown.",
-      "description_length": 307,
+      "module_path": "Shuttle.Input_channel",
+      "library": "shuttle",
+      "description": "This module implements an asynchronous input channel for reading data from a file descriptor with support for buffer management, timeouts, and integration with async pipes. It provides operations to create, refill, consume, and close input channels, along with utilities to transfer data between channels and pipes. Concrete use cases include streaming data from network sockets, reading large files in chunks, and managing input buffers in event-driven servers.",
+      "description_length": 462,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shuttle.Bytebuffer",
-      "description": "This module offers efficient buffer management through operations like appending diverse data types, modifying content (e.g., dropping bytes), and handling I/O with file descriptors, all operating on an extensible `t` type backed by bigstrings. It enables precise data manipulation via slice creation, allowing positional extraction and raw data inspection through functions like `slice` and `unsafe_peek`, suitable for tasks such as network protocol parsing or streaming data processing.",
-      "description_length": 488,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Shuttle.Slice",
-      "description": "Provides operations to convert a record type with a name and a list of integers into an S-expression format. Works with a structured data type containing a string and a list of integers. Used to serialize data for logging or configuration purposes.",
-      "description_length": 248,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "shuttle",
-      "description": "Provides functions for scheduling read and write operations on file descriptors with manual buffer management. Works with raw file descriptors and byte buffers to enable low-level I/O control. Used in scenarios requiring precise timing of I/O operations or reduced overhead compared to higher-level abstractions.",
-      "description_length": 312,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Shuttle",
-      "description": "manages asynchronous I/O, logging, TCP communication, and data serialization through a unified set of operations. It handles buffer manipulation, log message processing, and network connections, with core types including buffers, log messages, and structured records. Functions like `consume`, `sexp_of_t`, and `transfer` enable data processing, transformation, and serialization, while `slice` and `unsafe_peek` support low-level data inspection. It facilitates tasks such as parsing network protocols, customizing log outputs, and serializing structured data for transmission.",
-      "description_length": 578,
-      "index": 9,
+      "library": "shuttle",
+      "description": "This module provides a comprehensive system for asynchronous I/O operations with a focus on efficiency, reliability, and low-level control. It centers around data types like buffered output channels, input channels, and bigstring slices, offering operations for non-blocking reads and writes, buffer management, TCP communication, and direct memory manipulation. You can build network services with async TCP clients and servers, process binary data with precise memory views, and manage streaming input or output with support for timeouts and error handling. Specific tasks include implementing custom protocols, logging with flush control, and parsing binary formats using resizable buffers and slice-based access.",
+      "description_length": 716,
+      "index": 6,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 7,
+    "meaningful_modules": 7,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 578,
-    "min_description_length": 246,
-    "avg_description_length": 376.8,
-    "embedding_file_size_mb": 0.03674030303955078
+    "max_description_length": 716,
+    "min_description_length": 311,
+    "avg_description_length": 502.14285714285717,
+    "embedding_file_size_mb": 0.025857925415039062
   }
 }

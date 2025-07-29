@@ -1,49 +1,69 @@
 {
   "package": "subtype-refinement",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:28:49.743904",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:40.083587",
   "modules": [
     {
-      "module_path": "Subtype_refinement.Refine",
-      "description": "Filters elements based on a predicate function, returning true or false for each instance of type `t`. Operates on custom data types defined within the module, allowing for selective processing. Used to isolate specific instances in a dataset for further transformation or analysis.",
-      "description_length": 282,
-      "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Subtype_refinement.Singleton",
-      "description": "Returns the single instance of a type, ensuring global access. Works with any data type wrapped in a singleton pattern. Used to manage shared resources or configuration across an application.",
-      "description_length": 191,
+      "library": "subtype-refinement",
+      "description": "This module defines a type `t` that is a private alias for `Value.t`, ensuring strict type distinction while allowing controlled conversion between the two. It provides `upcast` to convert `t` to `super` and `downcast` to convert `super` back to `t`, enforcing type safety during the process. It is useful for refining types based on singleton values, such as modeling unique identifiers or constrained values with runtime validation.",
+      "description_length": 434,
+      "index": 0,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Subtype_refinement.Subtype",
+      "library": "subtype-refinement",
+      "description": "This module defines a relationship between a base type `super` and a refined type `t` that is a restricted version of `super`. It supports safe upcasting from the refined type to the base type and downcasting from the base type back to the refined type. This is useful for modeling type hierarchies where certain values of a common type require additional constraints or semantic distinctions.",
+      "description_length": 393,
       "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Subtype_refinement.Refine",
+      "library": "subtype-refinement",
+      "description": "This module defines a refined type `t` that is a constrained version of `Constraint.t`, ensuring values adhere to specific invariants. It provides `upcast` to convert `t` to its supertype `Constraint.t`, and `downcast` to check and convert `Constraint.t` to `t`. Use this when enforcing runtime constraints on values, such as validating input before narrowing its type.",
+      "description_length": 369,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Subtype_refinement.IValue",
+      "library": "subtype-refinement",
+      "description": "This module defines a single abstract type `t` and a value `v` of that type. It is used to represent and enforce a specific refinement of a type, typically to encode invariants or constraints directly in the type system. Concrete use cases include modeling values with guaranteed properties, such as non-empty lists, positive integers, or parsed and validated data structures.",
+      "description_length": 376,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "subtype-refinement",
-      "description": "Encodes refinement types using private type definitions to enforce invariants at the type level. Works with custom types wrapped in existential quantification to capture constraints. Enables safe manipulation of values like non-empty lists and bounded integers within strict type boundaries.",
-      "description_length": 291,
-      "index": 2,
-      "embedding_norm": 1.0
+      "module_path": "Subtype_refinement.IConstraint",
+      "library": "subtype-refinement",
+      "description": "This module defines a constraint type `t` with a `where` function that evaluates a boolean condition on values of that type. It supports refining types by imposing logical predicates that can be checked at runtime. Concrete use cases include validating data structures, enforcing invariants on numeric types, or filtering values during parsing or deserialization.",
+      "description_length": 363,
+      "index": 4,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Subtype_refinement",
-      "description": "Checks if a type satisfies a set of constraints defined by its structure. Operates on abstract type representations to enforce or verify subtype relationships. Used to validate type hierarchies in compiler or type-checking workflows.",
-      "description_length": 233,
-      "index": 3,
-      "embedding_norm": 1.0
+      "library": "subtype-refinement",
+      "description": "This module enables type refinement through constraint application, producing subtypes with restricted value sets by associating arbitrary types `'a` with boolean predicates. It provides mechanisms for defining refined types with enforced invariants, supporting safe upcasting and downcasting between base and refined types, and modeling constrained values such as positive integers or validated data structures. Submodules implement specific refinement strategies, including singleton-based constraints, predicate-based validation, and abstract invariants, allowing precise control over value membership and type relationships. Examples include narrowing integers to positive values, restricting strings to valid identifiers, and ensuring lists are non-empty through type refinement.",
+      "description_length": 784,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 4,
-    "meaningful_modules": 4,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 291,
-    "min_description_length": 191,
-    "avg_description_length": 249.25,
-    "embedding_file_size_mb": 0.014926910400390625
+    "max_description_length": 784,
+    "min_description_length": 363,
+    "avg_description_length": 453.1666666666667,
+    "embedding_file_size_mb": 0.02221393585205078
   }
 }

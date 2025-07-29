@@ -1,196 +1,229 @@
 {
   "package": "mirage-block-xen",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 25,
-  "creation_timestamp": "2025-06-18T16:36:12.155958",
+  "total_modules": 26,
+  "creation_timestamp": "2025-07-15T23:11:15.642702",
   "modules": [
     {
-      "module_path": "Blkback.Make.BlockError",
-      "description": "Handles I/O operations with explicit error propagation, returning Lwt promises that fail with specific read or write errors. Operates on custom error types B.error and B.write_error. Used to signal and manage file or stream access failures in asynchronous workflows.",
-      "description_length": 266,
+      "module_path": "Blkproto.Req.PROTOCOL_IMPLEMENTATION",
+      "library": "mirage-block-xen",
+      "description": "This module defines key constants and operations for handling block protocol requests. It provides functions to serialize and deserialize request data, including writing segments and full requests to buffers, and reading requests from buffers. It works with Cstruct.t for memory-efficient data manipulation and Blkproto.Req.t for structured request representation. Use this module to implement block device request handling in networked or storage systems.",
+      "description_length": 456,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.Req.Proto_32",
-      "description": "Handles 32-bit protocol operations involving segment arrays and Cstruct buffers. Performs direct and indirect page segmentation, with fixed total size and segment count per page. Enables writing and reading request data structures to and from raw byte sequences.",
-      "description_length": 262,
+      "module_path": "Blkproto.Req.Proto_64",
+      "library": "mirage-block-xen",
+      "description": "This module defines operations for serializing and deserializing block request data in a 64-bit protocol format. It works with `Cstruct.t` buffers and `Blkproto.Req.t` request structures, providing functions to read and write request headers and segment data. Concrete use cases include preparing block I/O requests for transmission over a network or storage interface and parsing incoming request data into usable structures.",
+      "description_length": 426,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.Req.Proto_64",
-      "description": "Provides operations for managing fixed-size data segments and request serialization in a 64-bit protocol. Works with arrays of segments, Cstruct.t buffers, and a custom request type. Enables writing and reading of structured data packets with precise size control and layout.",
-      "description_length": 275,
+      "module_path": "Blkproto.Req.Proto_32",
+      "library": "mirage-block-xen",
+      "description": "This module defines constants and operations for handling block request protocols with 32-bit addressing. It provides functions to serialize and deserialize block requests, including writing segments and full requests to memory buffers, and reading them back. It works with Cstruct.t for memory representation and Blkproto.Req.t for request data, used in virtualization or storage systems for efficient block I/O handling.",
+      "description_length": 422,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkback.Log",
-      "description": "Provides logging operations at different severity levels, including error, warning, info, and debug, with support for formatted messages and error handling. Works with log levels, formatted strings, and result types to capture and process logging data. Used to instrument application flow, capture structured error messages, and handle failures with custom recovery logic.",
-      "description_length": 372,
+      "module_path": "Blkproto.Hotplug",
+      "library": "mirage-block-xen",
+      "description": "This module defines string constants representing hotplug status indicators for block devices. It provides direct access to predefined status values such as `_hotplug_status` and `_online`. These values are used to check or set device availability states in system management contexts.",
+      "description_length": 285,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkback.Opt",
-      "description": "Iterates over the contents of an optional value, applying a given function to the wrapped value if it exists. Operates on `option` types, executing the function only when the value is `Some`. Used to perform side effects conditionally based on the presence of a value.",
-      "description_length": 268,
+      "module_path": "Blkproto.Mode",
+      "library": "mirage-block-xen",
+      "description": "This module defines a simple enumeration type `t` with two variants: `ReadOnly` and `ReadWrite`. It is used to represent access modes for resources that support different levels of access. This type is commonly used in APIs to specify whether a resource should be opened for reading only or for both reading and writing.",
+      "description_length": 320,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkback.Request",
-      "description": "Handles parsing and validation of HTTP request methods and headers, with support for extracting query parameters from URLs. Operates on strings, maps, and custom type `kind` to represent request semantics. Used to process incoming HTTP requests in a web server, enabling route matching and parameter extraction.",
-      "description_length": 311,
+      "module_path": "Blkproto.DiskInfo",
+      "library": "mirage-block-xen",
+      "description": "Represents disk metadata with sector size, total sectors, media type, and access mode. Converts disk information to a list of key-value pairs for serialization or display. Useful for inspecting storage device properties and runtime configuration.",
+      "description_length": 246,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkback.Make",
-      "description": "Provides functions to pretty-print errors and write errors, disconnect from a device, retrieve block device information, and perform asynchronous read and write operations on a block device using Cstruct lists. Operates with custom error types and a device handle type `t`. Used for low-level disk I/O, handling sector-based data transfers, and managing device disconnection in network or storage applications.",
-      "description_length": 410,
+      "module_path": "Blkproto.Req",
+      "library": "mirage-block-xen",
+      "description": "This module provides functions to parse and construct block device request structures using Cstruct.t buffers, supporting both direct and indirect segment layouts. It enables decoding incoming block I/O requests from Xen guests and preparing responses tailored to either 32-bit or 64-bit protocol variants. The module includes submodules that handle serialization and deserialization of request data, offering operations to read and write request headers, segments, and full requests. These capabilities facilitate implementing block device handling in virtualized or networked storage systems, with concrete use cases such as preparing requests for transmission or parsing received data into structured formats.",
+      "description_length": 712,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Blkproto.FeatureIndirect",
-      "description": "Provides operations to retrieve a key representing maximum indirect segments and convert an internal structure into an association list of string pairs. Works with a record type containing internal state or configuration data. Used to process and serialize feature configurations for external consumption.",
-      "description_length": 305,
+      "library": "mirage-block-xen",
+      "description": "This module defines a configuration type for limiting indirect segments in block protocols, with a field specifying the maximum allowed indirect segments. It provides a named constant for the maximum indirect segments key and converts the configuration to an association list. Useful for serializing indirect segment limits into key-value pairs for protocol negotiation or configuration storage.",
+      "description_length": 395,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Blkproto.State",
-      "description": "Provides operations to convert between a state representation and strings, including parsing from a string and generating an association list of key-value pairs. Works with a custom type `t` that encapsulates state data. Used to serialize and deserialize state information for storage or transmission.",
-      "description_length": 301,
+      "module_path": "Blkproto.Protocol",
+      "library": "mirage-block-xen",
+      "description": "This module defines a variant type `t` representing different protocol architectures, specifically `X86_64`, `X86_32`, and `Native`. It provides direct pattern matching and comparison operations for handling architecture-specific logic. Use cases include conditional branching based on target architecture in low-level system code.",
+      "description_length": 331,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Blkproto.Mode",
-      "description": "Provides functions to create, modify, and query mode settings, including setting read-only, executable, or hidden attributes. Operates on a custom type representing file or system modes, with bitwise operations for combination and extraction. Used to enforce access control policies and configure file permissions in system-level applications.",
-      "description_length": 343,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Blkproto.Media",
-      "description": "Provides functions to parse, validate, and transform media metadata, including extracting duration, checking format compatibility, and normalizing file paths. Works with custom data types representing audio, video, and image files, including embedded metadata. Used to preprocess media assets before encoding and to ensure consistency in media handling workflows.",
-      "description_length": 363,
-      "index": 10,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Blkproto.DiskInfo",
-      "description": "Returns a list of key-value pairs representing disk information, where keys are strings and values are formatted disk metrics. Works with a record type containing details such as device paths, mount points, and storage capacities. Used to generate configuration data for system monitoring tools or to serialize disk state for logging purposes.",
-      "description_length": 343,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Blkproto.Hotplug",
-      "description": "Returns the current hotplug status as a string and the online state as another string. Works with system-level status information typically retrieved from device drivers or kernel interfaces. Used to monitor and manage device availability in real-time during system runtime.",
-      "description_length": 274,
-      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Blkproto.Connection",
-      "description": "Returns a list of tuples mapping port numbers to (host, service) pairs, derived from connection data. Operates on a structured type containing network connection details. Used to generate configuration snapshots or for debugging network activity.",
-      "description_length": 246,
+      "library": "mirage-block-xen",
+      "description": "This module represents and transforms block device connection information into an association list. It works with a record type containing virtual device identifiers, backend and frontend paths and domain IDs, mode, media type, and removable status. The `to_assoc_list` function maps this structured data into a list of key-value pairs indexed by integer, suitable for serialization or configuration output.",
+      "description_length": 407,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Blkproto.State",
+      "library": "mirage-block-xen",
+      "description": "This module defines a sum type representing the lifecycle states of a block device connection, including transitions like initialisation, connection, and closure. It provides functions to convert state values to and from strings, as well as to generate key-value pairs for state inspection. Useful for tracking and serializing the runtime state of block device protocols.",
+      "description_length": 371,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Blkproto.Res",
+      "library": "mirage-block-xen",
+      "description": "This module defines response types for block protocol operations, including success, error, and not-supported states. It provides functions to serialize and deserialize response messages to and from Cstruct buffers. Used for handling communication responses in block device protocol implementations.",
+      "description_length": 299,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Blkproto.Media",
+      "library": "mirage-block-xen",
+      "description": "This module defines a type `t` representing storage media types, specifically `CDROM` and `Disk`. It provides functions to convert these values to strings, compare them, and serialize or deserialize them. Use this module when handling different types of storage devices in a system that needs to distinguish between optical and disk-based media.",
+      "description_length": 345,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Blkproto.RingInfo",
+      "library": "mirage-block-xen",
+      "description": "This module defines a data structure for managing block device ring information, including reference, event channel, and protocol fields. It provides functions to convert the structure to a string, extract keys, and parse from an association list. It is used to configure and serialize block device frontend and backend communication parameters in Xen virtualization environments.",
+      "description_length": 380,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.Req",
-      "description": "Provides functions to calculate total size and segments per indirect page, write segment arrays to a buffer, and serialize/deserialize request data structures. Operates on arrays of segments, Cstruct.t buffers, and request records. Used to pack request data into a binary format for network transmission and to parse incoming request data.",
-      "description_length": 339,
+      "module_path": "Device_number",
+      "library": "mirage-block-xen",
+      "description": "This module manages device number specifications and their representations across different virtualization interfaces. It supports operations to convert device numbers to and from string formats, disk numbers, and xenstore keys, with specific handling for Xen, SCSI, and IDE buses. Use cases include parsing and formatting device identifiers for virtual machine disks and mapping them to Linux device names or XenStore keys.",
+      "description_length": 424,
       "index": 14,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.Res",
-      "description": "Writes a response header and payload into a buffer using a status code and response structure. Parses a buffer to extract a status code and response structure. Operates on 64-bit integers and custom response types for network protocol handling. Used to serialize and deserialize protocol messages in a binary format.",
-      "description_length": 316,
+      "module_path": "Blkproto",
+      "library": "mirage-block-xen",
+      "description": "This module organizes core protocol definitions and utilities for managing block device interactions in virtualized environments. It introduces key data types like protocol architectures, access modes, media types, and connection states, along with operations for state transitions, serialization, and configuration. The module handles request parsing and construction using Cstruct buffers, supports indirect segment limits, and manages disk metadata and ring structures. Specific use cases include negotiating protocol features, serializing device states, and processing I/O requests across Xen guests.",
+      "description_length": 604,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.Protocol",
-      "description": "Provides functions to parse, serialize, and validate protocol messages using a custom binary format. Operates on the `t` type, which represents structured data with nested fields and variable-length encoding. Used to encode and decode network packets in a distributed system's communication layer.",
-      "description_length": 297,
+      "module_path": "Blkback.Make.BlockError",
+      "library": "mirage-block-xen.back",
+      "description": "This module defines error-handling functions for read and write operations in a block device context. It provides `fail_read` and `fail_write` to propagate errors asynchronously using Lwt, specifically for I/O failures. These functions are used when implementing or working with block device backends that require precise error signaling during disk access.",
+      "description_length": 357,
       "index": 16,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkproto.RingInfo",
-      "description": "Provides operations to retrieve a list of keys, convert an instance to a string, and construct from an association list with error handling. Works with a record type containing string-based key-value pairs. Used to serialize configuration data and validate input during deserialization.",
-      "description_length": 286,
+      "module_path": "Blkback.ACTIVATIONS",
+      "library": "mirage-block-xen.back",
+      "description": "This module manages event channels for handling asynchronous events in a Xen environment, specifically tracking event generations and waiting for events on specified channels. It provides a `program_start` event to signal initial program execution and an `after` function to block until a new event occurs on a given channel. Concrete use cases include coordinating device interrupts or inter-domain communication in virtualized systems.",
+      "description_length": 437,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-block-xen",
-      "description": "Handles block I/O operations between Xen frontend and backend, enabling reading and writing of disk sectors. Operates on raw block data and Xen-specific request structures. Used to implement storage communication in unikernel-based networked applications.",
-      "description_length": 255,
+      "module_path": "Blkback.Make",
+      "library": "mirage-block-xen.back",
+      "description": "This module implements block device backend functionality for Xen virtualization, handling storage requests from guest domains. It initializes block devices, manages Xenstore communication, and processes asynchronous I/O with Lwt threads, using block device handles, Xenstore connections, and disk image representations. The child module enhances I/O reliability by defining error-handling functions like `fail_read` and `fail_write` to propagate disk access errors asynchronously. Together, they support creating virtual block devices, handling guest read/write operations, and managing backend-to-frontend domain connections with robust error signaling.",
+      "description_length": 655,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Blkback",
-      "description": "Handles event channel notifications by waiting for subsequent events on a specified channel. Accepts an event channel and a reference event to block until a newer event arrives. Used to synchronize asynchronous system events, such as waiting for a device to signal completion after a request.",
-      "description_length": 292,
+      "module_path": "Blkback.Request",
+      "library": "mirage-block-xen.back",
+      "description": "This module defines the structure and operations for handling block device requests, specifically supporting read and write operations. It works with data types such as `kind` (indicating read or write), `int64` for sector addresses, and lists of `Cstruct.t` buffers and `int` slots. Concrete use cases include managing I/O requests in virtualization environments where precise buffer and sector tracking are required.",
+      "description_length": 418,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Block_request",
-      "description": "Generates a string representation of a request, checks for request conflicts, and manages lists of requests with operations to add, coalesce, and split them. Works with request records containing operation details and data buffers. Used to process and manage block I/O requests in a storage system, ensuring efficient handling and conflict detection.",
-      "description_length": 350,
+      "module_path": "Blkback.Log",
+      "library": "mirage-block-xen.back",
+      "description": "This module provides functions for logging messages at various severity levels, including debug, info, warning, error, and application-specific logs. It supports structured logging with custom formatters, tags, and result-handling utilities to propagate or format errors inline. Concrete use cases include tracking execution flow, reporting failures with contextual data, and integrating error handling directly into result pipelines.",
+      "description_length": 434,
       "index": 20,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Block",
-      "description": "Provides pretty-printers for error and write error types, and operations to connect to, disconnect from, and query block devices. Supports reading from and writing to a block device using lists of buffer chunks, ensuring proper sector alignment and handling I/O failures. Used to manage low-level block device interactions in a non-blocking, asynchronous manner.",
-      "description_length": 362,
+      "module_path": "Blkback.Opt",
+      "library": "mirage-block-xen.back",
+      "description": "Applies a function to the value inside an option if it exists, otherwise does nothing. Works with `'a option` values. Useful for performing side effects like logging or resource cleanup conditionally based on the presence of a value.",
+      "description_length": 233,
       "index": 21,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Blkproto",
-      "description": "Combines operations for serializing and deserializing structured data, handling file modes, parsing media metadata, and managing network protocol messages. It supports custom types for state, modes, media, and protocol data, along with conversions to and from association lists, strings, and binary formats. Functions include parsing disk info, extracting port mappings, and writing response headers, while enabling bitwise manipulation of permissions and binary serialization of requests. Examples include converting configuration records to key-value pairs, validating media metadata, and serializing protocol messages for network transmission.",
-      "description_length": 646,
+      "module_path": "Block_request",
+      "library": "mirage-block-xen.back",
+      "description": "This module manages block device request scheduling and conflict detection. It provides operations to add, merge, and prioritize block I/O requests with sector-level granularity, tracking dependencies and buffer associations. Key functions include conflict checking between requests, coalescing adjacent requests, and splitting request lists for execution.",
+      "description_length": 356,
       "index": 22,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Device_number",
-      "description": "Provides functions to create and manipulate device numbers for a Xen paravirtualized bus, including converting between specifications, Linux device names, Xenstore keys, and disk numbers. Works with types such as bus_type, spec, xenstore_key, and disk_number to represent and transform device interfaces. Used to map between human-readable names and internal representations for system configuration and device management.",
-      "description_length": 422,
-      "index": 23,
       "embedding_norm": 1.0
     },
     {
+      "module_path": "Blkback",
+      "library": "mirage-block-xen.back",
+      "description": "This module orchestrates block device operations with asynchronous I/O on Cstruct buffers, tracking performance metrics like ring utilization and request success rates, while integrating Lwt for concurrency and handling 64-bit block offsets and memory segments. Its child modules coordinate event signaling in Xen environments, manage Xenstore communication for virtual block backends, define structured block request handling with sector and buffer tracking, implement structured logging with custom formatting, and apply functions conditionally on optional values. Key data types include `kind`, `int64` sector addresses, `Cstruct.t` buffers, event channels, and result-aware logging utilities, with operations such as asynchronous read/write, event waiting, error propagation, and conditional side effects. Examples include handling guest domain storage requests with error resilience, coordinating virtual device interrupts via event channels, and embedding logging and metrics collection into I/O pipelines.",
+      "description_length": 1012,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
       "module_path": "Blkfront",
-      "description": "Provides functions to connect to and interact with block devices, including reading and writing data in sectors, querying device information, and handling errors. Operates with types such as `error`, `write_error`, and `t`, and uses `Cstruct.t list` for data buffers. Used to manage I/O operations in a non-blocking manner, ensuring proper error reporting and resource management during disk access.",
-      "description_length": 399,
+      "library": "mirage-block-xen.front",
+      "description": "This module implements client-side block device operations for Xen virtualization environments. It provides functions to connect to block devices, read from and write to specific sectors using Cstruct buffers, and retrieve device metadata. Key use cases include disk image access in unikernels and virtual machine storage management.",
+      "description_length": 333,
       "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Block",
+      "library": "mirage-block-xen.front",
+      "description": "This module implements low-level block device operations including connection management, read and write primitives, and device metadata queries. It works with block devices represented by the `t` type, supporting sector-aligned data transfers using `Cstruct.t` buffers. Concrete use cases include disk image access, virtual block device communication, and direct sector-level data manipulation for storage systems.",
+      "description_length": 415,
+      "index": 25,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 26,
-    "meaningful_modules": 25,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9615384615384616
+    "meaningful_modules": 26,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 646,
-    "min_description_length": 246,
-    "avg_description_length": 332.12,
-    "embedding_file_size_mb": 0.09123992919921875
+    "max_description_length": 1012,
+    "min_description_length": 233,
+    "avg_description_length": 425.88461538461536,
+    "embedding_file_size_mb": 0.09487628936767578
   }
 }

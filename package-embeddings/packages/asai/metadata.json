@@ -1,168 +1,245 @@
 {
   "package": "asai",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:34:53.876746",
+  "total_modules": 28,
+  "creation_timestamp": "2025-07-15T23:11:32.069490",
   "modules": [
     {
-      "module_path": "Asai.GitHub.Make",
-      "description": "Provides functions to retrieve the default severity level and a short code for diagnostics. Works with a custom type `t` representing diagnostic messages. Used to standardize error reporting and enable quick lookup of diagnostic details.",
-      "description_length": 237,
+      "module_path": "Asai.Explicator.S-Tag",
+      "library": "asai",
+      "description": "Handles tagging and prioritization of diagnostic messages for precise error reporting. Works with `Tag.t` values to assign and compare priorities, ensuring higher-priority diagnostics appear first. Used to sort and filter compiler diagnostics before display, such as grouping errors above warnings.",
+      "description_length": 298,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Asai.Explicator.Make",
-      "description": "Compares tag equality and retrieves priority values for sorting. Operates on a custom tag type representing system priorities. Used to sort processes by importance in a task scheduler.",
-      "description_length": 184,
-      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Asai.Reporter.Make",
-      "description": "Provides functions to retrieve the default severity level and a short code for diagnostic messages. Works with a custom type `t` representing diagnostic entries. Used to standardize error reporting and enable quick lookup of diagnostic details.",
-      "description_length": 244,
-      "index": 2,
+      "library": "asai",
+      "description": "This module enables structured diagnostic reporting with customizable severity, location, and backtrace handling through operations like message emission, error abortion, and context manipulation. It operates on diagnostics represented as `Message.t Asai.Diagnostic.t` values, supporting transformations, error interception, and integration with OCaml's exception system. Typical use cases include compiler error handling, diagnostic context propagation across nested computations, and structured logging with rich metadata.",
+      "description_length": 524,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.Tty.Make",
-      "description": "Generates a unique, searchable string identifier for each message instance. Operates on the `t` type, which represents message objects. Used to quickly reference or look up specific messages in logs or databases.",
-      "description_length": 212,
-      "index": 3,
+      "module_path": "Asai.Explicator.Make",
+      "library": "asai",
+      "description": "This module provides the `explicate` function, which generates highlighted text from tagged ranges for diagnostic rendering. It works with `Tag.t` and `Asai.Range.t` to produce structured explications suitable for displaying compiler diagnostics. Use it to format error or warning messages with source code context, applying custom blending and formatting rules.",
+      "description_length": 362,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Asai.StructuredReporter.Make",
-      "description": "Provides functions to retrieve the default severity, default text, and short code of a diagnostic message. Works with a custom type `t` that represents diagnostic configurations. Used to standardize error messages by defining their severity, detailed explanation, and a compact identifier for quick reference.",
-      "description_length": 309,
-      "index": 4,
+      "module_path": "Asai.Reporter.S",
+      "library": "asai",
+      "description": "This module provides operations for emitting and transforming structured diagnostics with support for severity levels, source locations, and backtraces, using algebraic effects to manage control flow. It works with diagnostics represented as `Message.t Asai.Diagnostic.t`, enabling context-sensitive handling of compiler-generated messages like errors or warnings. Key use cases include integrating diagnostics from external contexts, intercepting uncaught exceptions, and customizing diagnostic output through effect handlers or transformation pipelines.",
+      "description_length": 555,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Asai.Explicator.Tag",
-      "description": "Compares tag values for equality and retrieves their priority integers, which follow the UNIX convention of lower numbers indicating higher priority. It supports sorting tags using List.sort based on their priority. The module includes a debugging printer for tag values.",
-      "description_length": 271,
-      "index": 5,
+      "library": "asai",
+      "description": "This module defines a type `t` representing tags used to annotate and prioritize diagnostic messages. It provides operations to compare tags for equivalence, retrieve their priority values, and print them for debugging. These tags help structure and filter compiler diagnostics based on importance, such as distinguishing errors from warnings.",
+      "description_length": 343,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.Reporter.Message",
-      "description": "Returns the default severity level for a diagnostic message, used to categorize the importance of the message without affecting program flow. Provides a short, unique identifier for each message, suitable for quick lookup or referencing in logs. Works with the `t` type to represent structured diagnostic information.",
-      "description_length": 317,
+      "module_path": "Asai.Explicator.S",
+      "library": "asai",
+      "description": "Explicates source code ranges into formatted text with tags for rendering diagnostics. Works with tagged ranges and source readers to generate highlighted output. Useful for building custom diagnostic handlers that require precise source location visualization.",
+      "description_length": 261,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Asai.MinimumSigs.Reporter-Message",
+      "library": "asai",
+      "description": "This module defines a type `t` representing diagnostic messages and provides the `short_code` function to extract a concise, searchable identifier for each message. It works with string-based message codes and is used to standardize diagnostic output in compiler tools. Concrete use cases include generating error or warning codes that users can search online for more information.",
+      "description_length": 381,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.StructuredReporter.Message",
-      "description": "Returns the default severity level for a diagnostic message, used to categorize the importance of the message without affecting program flow. Retrieves the default explanatory text for the message, intended for detailed user display. Provides a short, searchable identifier for the message, optimized for quick reference and lookup. Works with diagnostic message structures containing severity, text, and code fields. Used to standardize error reporting in compiler diagnostics and static analysis tools.",
-      "description_length": 504,
+      "module_path": "Asai.Tty.Make",
+      "library": "asai",
+      "description": "This module displays compiler diagnostics in UNIX terminals with customizable formatting, including color, line breaks, and backtrace visibility. It operates on diagnostic messages structured as `Message.t Asai.Diagnostic.t`, allowing configuration of output channel, ANSI escape codes, and text layout. Concrete use cases include rendering syntax errors, type-checking warnings, and other compiler feedback directly to the terminal.",
+      "description_length": 433,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Asai.MinimumSigs.Message",
-      "description": "Produces a short, searchable string representation of message instances. Operates on the `t` type, which encapsulates message data. Used to generate identifiers for logging, error tracking, and message lookup in external systems.",
-      "description_length": 229,
+      "module_path": "Asai.StructuredReporter.S",
+      "library": "asai",
+      "description": "This module handles structured diagnostics for compilers, supporting operations to emit warnings, errors, and fatal messages with optional locations, backtraces, and structured annotations. It works with diagnostics that include severity levels, source ranges, formatted text, and contextual remarks, and supports algebraic effects for intercepting and handling diagnostics during computation. Concrete use cases include reporting type-checking errors with source locations, tracing execution frames to build diagnostic backtraces, and integrating diagnostics from external libraries into a main application's error-handling pipeline.",
+      "description_length": 634,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.Range",
-      "description": "The module provides operations for constructing, analyzing, and annotating positional data, focusing on code locations through positions (with line numbers, offsets, and sources) and ranges defined by start and end positions. It supports tasks like converting OCaml lexer positions, extracting source metadata, and attaching location information to parsed elements. These capabilities are essential for tools requiring precise tracking of code segments, such as linters, debuggers, or compilers.",
-      "description_length": 495,
+      "module_path": "Asai.StructuredReporter.Message",
+      "library": "asai",
+      "description": "This module defines the interface for structured diagnostic messages, including operations to retrieve the default severity, text, and short code of a message. It works with the `t` type representing message instances, and interacts with `Asai.Diagnostic.severity` and `Asai.Diagnostic.text` types for diagnostic classification and explanation. Concrete use cases include generating compiler warnings or errors with customizable severity and human-readable content, while providing short identifiers for quick reference.",
+      "description_length": 520,
       "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Asai.StructuredReporter.S-Message",
+      "library": "asai",
+      "description": "This module defines the interface for structured diagnostic messages, including operations to retrieve the default severity, text, and short code of a message. It works with the abstract type `t` representing a diagnostic message and interacts with `Asai.Diagnostic.severity` and `Asai.Diagnostic.text` for message customization. Concrete use cases include generating compiler warnings and errors with structured metadata, such as assigning severity levels and providing user-facing explanations and error codes like \"E001\".",
+      "description_length": 524,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Asai.Diagnostic",
-      "description": "Converts strings to formatted text with newline handling, constructs location-aware diagnostics with optional backtraces and remarks, and supports formatted message generation with context-aware formatting. Works with text, loctext, backtrace, and message-typed diagnostics. Used to create structured error messages with source location highlighting and detailed debugging information.",
-      "description_length": 385,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Asai.Reporter",
-      "description": "Handles diagnostic message creation with automatic context filling, including location, backtrace, and severity. Exposes the `t` type for structured diagnostics, along with functions to retrieve default severity and message identifiers. Allows for quick lookup via unique identifiers and customizes messages without disrupting program flow. Example: generate a warning with a predefined ID and automatic location tracking.",
-      "description_length": 422,
+      "module_path": "Asai.Reporter.Message",
+      "library": "asai",
+      "description": "Defines the structure and behavior of diagnostic messages, including their severity level and short identifier. Works with a custom message type `t` and interacts with severity classifications and string codes. Used to standardize error and warning messages in a compiler or linter, ensuring consistent presentation and ease of reference.",
+      "description_length": 338,
       "index": 11,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "Asai.StructuredReporter",
-      "description": "Provides functions to generate and manage diagnostic messages with automatic location and backtrace tracking. Includes operations to retrieve severity levels, explanatory text, and unique codes for message identification. Supports structured message creation with fields for severity, text, and code. Can be used to produce standardized error reports, filter messages by severity, or look up details using a code.",
-      "description_length": 413,
+      "module_path": "Asai.StructuredReporter.Make",
+      "library": "asai",
+      "description": "This module generates a structured reporter for compiler diagnostics, providing operations to emit and handle structured messages with severity levels, locations, backtraces, and additional context. It works with message types defined by the parameter module and constructs diagnostics that include contextual information like source ranges and formatted text. Concrete use cases include reporting compiler errors and warnings with rich context, tracing execution flow for debugging, and integrating diagnostics from different components into a unified reporting system.",
+      "description_length": 570,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.MinimumSigs",
-      "description": "Provides a mechanism to generate unique, searchable identifiers from message instances, enabling logging, error tracking, and external system integration. It operates on the `t` type, offering methods to extract and manipulate message representations. Users can map diagnostic messages to custom formats and adopt reporters for unified output. Example tasks include generating log keys, filtering messages, and integrating with external monitoring tools.",
-      "description_length": 454,
+      "module_path": "Asai.GitHub.Make",
+      "library": "asai",
+      "description": "This module provides a `print` function that converts a diagnostic message into a GitHub Actions workflow command, specifically emitting only the main explanation of the diagnostic. It operates on `Message.t` values wrapped in `Asai.Diagnostic.t`, which include structured compiler diagnostics. It is used to report errors or warnings directly within GitHub Actions workflows, translating internal diagnostics into actionable output for CI/CD pipelines.",
+      "description_length": 453,
       "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Asai.Tty",
-      "description": "Provides a system for uniquely identifying and referencing message instances in UNIX terminal diagnostics. The `t` type represents message objects, with operations to generate and manage searchable identifiers. These identifiers enable efficient lookup and tracking of messages in logs or databases. For example, a message can be tagged with a unique string for later retrieval or filtering.",
-      "description_length": 391,
+      "module_path": "Asai.Reporter.S-Message",
+      "library": "asai",
+      "description": "Handles the formatting and classification of compiler diagnostics, providing functions to determine severity levels and generate short, searchable diagnostic codes. Works with diagnostic messages and severity types to ensure consistent reporting. Used to create user-facing error and warning messages during compilation.",
+      "description_length": 320,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.GitHub",
-      "description": "Handles diagnostic message management with a custom type `t` for standardized error reporting. Offers functions to extract severity levels and short codes for quick reference. Allows developers to retrieve and interpret diagnostic information efficiently. Example use includes logging errors with predefined severity and code mappings.",
-      "description_length": 335,
+      "module_path": "Asai.MinimumSigs.Reporter",
+      "library": "asai",
+      "description": "This module defines the interface for handling diagnostics in a compiler or library, providing functions to emit non-fatal messages and handle fatal errors. It works with diagnostic messages wrapped in the `Diagnostic.t` type, carrying optional location and backtrace information. Concrete use cases include integrating custom error reporting in a compiler frontend or logging diagnostics during build system execution.",
+      "description_length": 419,
       "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Asai.Explication",
-      "description": "Provides functions to serialize and debug structured text data, including segments, lines, blocks, and parts. Works with tagged data structures such as strings, lists, and nested records. Used for generating human-readable representations of parsed text during development or diagnostics.",
-      "description_length": 288,
-      "index": 16,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Asai.Explicator",
-      "description": "Manages tag values with equality checks, priority-based sorting, and debugging output. It defines tag values and provides operations to compare, sort, and inspect them. Tags are ordered using UNIX-style priorities, where lower integers mean higher precedence. Examples include sorting a list of tags by priority or printing tag values for debugging.",
-      "description_length": 349,
+      "module_path": "Asai.MinimumSigs.Message",
+      "library": "asai",
+      "description": "This module defines the minimal interface for diagnostic messages, primarily working with the abstract type `t`. It provides the `short_code` function to generate a unique, searchable identifier for each message. This interface ensures consistency in how diagnostic tools represent and handle messages across different implementations.",
+      "description_length": 335,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Asai.StructuredReporter",
+      "library": "asai",
+      "description": "This module generates and manages structured diagnostics using algebraic effects, enabling precise control over message creation, severity assignment, and output formatting. It supports data types like `t` for diagnostic messages, `severity` for classification, and operations to attach source locations, backtraces, and annotations. You can emit compiler errors with source ranges, customize message content with formatted text and error codes like \"E001\", or build IDE-friendly output by intercepting and transforming diagnostics during computation. Submodules handle message definition, severity handling, and backend integration, making it suitable for type-checkers, linters, and multi-component error aggregation systems.",
+      "description_length": 727,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai.SourceReader",
-      "description": "Loads a source file into memory using memory-mapped I/O and provides access to its content via direct indexing. Works with the `source` type, allowing retrieval of individual characters and determination of file size. Used to process large files efficiently in scenarios requiring low-level file access and custom error handling.",
-      "description_length": 329,
+      "module_path": "Asai.MinimumSigs",
+      "library": "asai",
+      "description": "This module establishes the foundational interfaces for diagnostic messaging and reporting in compiler tools, integrating core types like `Message` and `Reporter` with submodules that refine message structure and handling. It supports structured diagnostics with severity, location, and short codes, enabling consistent error reporting across components such as type checkers and linters. Submodules provide concrete representations for message codes, emit non-fatal diagnostics, and define minimal interfaces for message handling, all working with types like `Diagnostic.t` and `t`. Example uses include generating searchable error codes for user documentation or routing compiler diagnostics to custom logging backends.",
+      "description_length": 721,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "asai",
-      "description": "Provides functions to parse, format, and filter compiler error messages, including locating issues within source code lines. Works with structured error records, source file paths, and line numbers. Used to generate human-readable diagnostics and highlight syntax errors during compilation.",
-      "description_length": 290,
+      "module_path": "Asai.Tty",
+      "library": "asai",
+      "description": "This module displays compiler diagnostics in UNIX terminals with customizable formatting for color, line breaks, and backtrace visibility. It processes structured diagnostic messages of type `Message.t Asai.Diagnostic.t` and supports configuration of output channels and ANSI escape codes. It can render syntax errors, type-checking warnings, and other compiler feedback directly to the terminal with precise control over text layout.",
+      "description_length": 434,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Asai",
-      "description": "Collects and manages structured diagnostic information with location-awareness, severity, and unique identifiers. It handles positional data, formats messages with context, and provides tools to generate, track, and serialize diagnostics for error reporting and debugging. Operations include extracting source metadata, creating formatted errors with backtraces, and generating unique keys for message lookup. Examples include logging warnings with automatic location tracking, filtering messages by severity, and integrating diagnostics with external monitoring systems.",
-      "description_length": 571,
+      "module_path": "Asai.Reporter",
+      "library": "asai",
+      "description": "This module generates and handles diagnostics using algebraic effects, supporting structured text attachment and customizable severity, location, and backtrace handling. It operates on `Message.t Asai.Diagnostic.t` values, enabling message emission, error interception, and integration with OCaml's exception system for use cases like compiler error handling and structured logging. Diagnostic messages are standardized through severity levels and short identifiers, with support for context-sensitive transformations and user-facing formatting. Example uses include emitting compiler warnings with source locations, intercepting uncaught exceptions into structured diagnostics, and customizing output for console or JSON log backends.",
+      "description_length": 735,
       "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Asai.Range",
+      "library": "asai",
+      "description": "This module provides operations to manage source code positions and ranges, supporting both file-based and in-memory string sources. It includes functions to convert raw lexer positions into structured ranges, annotate values with location metadata for error reporting, and pretty-print these structures for debugging using OCaml's `Format` module. These capabilities are critical for compiler diagnostics, enabling precise source location tracking and the generation of actionable error messages with contextual source information.",
+      "description_length": 532,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Asai.Explicator",
+      "library": "asai",
+      "description": "This module transforms source code location data into formatted, highlighted text for diagnostic messages, using tag types to represent formatting attributes and resolving conflicts through tag prioritization. It includes functionality to explicate tagged ranges into styled output, blend overlapping tags based on priority, and compare or print tags for debugging and filtering. Concrete use cases involve rendering compiler errors and warnings with colored or structured source context, such as displaying high-priority errors before warnings or applying custom formatting rules to specific code regions. Submodules handle tag definitions, prioritization logic, and the actual explication process using source readers and range data.",
+      "description_length": 735,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Asai.Diagnostic",
+      "library": "asai",
+      "description": "This module defines diagnostics for reporting issues during compilation, such as errors, warnings, and hints, using structured severity levels and location information. It supports constructing diagnostic messages from strings or formatted text, with optional backtraces and additional remarks tied to source code locations. Concrete use cases include generating compiler error messages tied to specific source ranges, producing warning diagnostics for unused variables, or creating hint diagnostics for code improvements in a language server.",
+      "description_length": 543,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Asai.Explication",
+      "library": "asai",
+      "description": "This module defines structured explanations for compiler diagnostics, including operations to format and render highlighted source code regions. It works with tagged data structures representing diagnostic messages and source locations. Use this module to generate detailed, context-aware error or warning messages with precise code highlighting for custom compiler diagnostics.",
+      "description_length": 378,
+      "index": 24,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Asai.GitHub",
+      "library": "asai",
+      "description": "This module translates structured compiler diagnostics into GitHub Actions workflow commands, emitting actionable output for CI/CD pipelines. It operates on `Asai.Diagnostic.t` values, extracting and printing the main explanation of each diagnostic message. The primary function, `print`, is used to report errors or warnings directly within GitHub Actions. For example, it can convert a type-checking error into a formatted warning that appears in a GitHub Actions log.",
+      "description_length": 470,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Asai.SourceReader",
+      "library": "asai",
+      "description": "Reads source content using memory-mapped I/O, providing direct access to file bytes. Works with source type representing mapped files and integers for positions. Used to implement custom diagnostic handlers needing low-level source access.",
+      "description_length": 239,
+      "index": 26,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Asai",
+      "library": "asai",
+      "description": "This module synthesizes structured diagnostic handling across compiler components, enabling precise error reporting with source locations, severity levels, and formatted explanations. It centers around data types like `Diagnostic.t`, `Message.t`, and `severity`, with operations to attach source ranges, backtraces, and annotations, supporting both user-facing messages and machine-readable diagnostics. You can emit compiler errors with source-specific context, customize output for terminals or CI systems like GitHub Actions, or highlight source code regions in error messages. Specific examples include transforming uncaught exceptions into structured diagnostics, routing type-checker errors to custom logging backends, and rendering syntax errors with colored source context in the terminal.",
+      "description_length": 797,
+      "index": 27,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 21,
+    "total_modules_in_package": 28,
+    "meaningful_modules": 28,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 571,
-    "min_description_length": 184,
-    "avg_description_length": 344.23809523809524,
-    "embedding_file_size_mb": 0.07676124572753906
+    "max_description_length": 797,
+    "min_description_length": 239,
+    "avg_description_length": 485.0357142857143,
+    "embedding_file_size_mb": 0.10213088989257812
   }
 }

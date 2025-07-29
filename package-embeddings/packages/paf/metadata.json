@@ -1,91 +1,117 @@
 {
   "package": "paf",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:32:53.750556",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:09:20.307034",
   "modules": [
     {
-      "module_path": "Paf_mirage.Make.TCP",
-      "description": "Provides functions to read from and write to a network flow, with explicit handling of errors and write errors through pretty-printers. Operates on `flow` objects, `Cstruct.t` buffers, and IP address/port pairs. Enables controlled shutdown and closure of connections, ensuring proper resource management during data transmission.",
-      "description_length": 329,
+      "module_path": "Paf_mirage.Make.TLS",
+      "library": "paf.mirage",
+      "description": "This module implements TLS-secured communication flows over TCP, providing functions to establish secure connections, read and write encrypted data, and manage session lifecycle events like shutdown and renegotiation. It handles low-level operations such as alert propagation, certificate validation, and key updates, with explicit error handling for both transport and TLS protocol failures. Concrete use cases include building secure client-server applications, implementing HTTPS servers, and managing mutual TLS authentication in networked services.",
+      "description_length": 553,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Paf_mirage.Make.TLS",
-      "description": "Provides functions for reading from and writing to a flow, with error handling and shutdown capabilities. Operates on flow objects, Cstruct.t buffers, and custom error types for read and write operations. Enables TLS protocol setup for server and client connections over TCP, including renegotiation and key updates.",
-      "description_length": 316,
+      "module_path": "Paf_mirage.Make.TCP",
+      "library": "paf.mirage",
+      "description": "This module implements TCP flow operations for MirageOS, providing functions to read from and write to TCP connections using `Cstruct.t` buffers. It supports connection lifecycle management through shutdown, close, and endpoint access via `dst`. Use cases include handling TCP-based network protocols, streaming data over sockets, and managing connection termination in network servers or clients.",
+      "description_length": 397,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Paf_mirage.Make",
-      "description": "This module offers TCP flow management capabilities, enabling bidirectional communication, error recovery, and connection control through operations like read, write, shutdown, and disconnect. It works with network flows, IP addresses, and ports to facilitate asynchronous I/O, making it suitable for building reliable networked applications. The type `t` likely serves as a foundational structure for representing connection states or configurations.",
-      "description_length": 451,
+      "module_path": "Paf_mirage.S-TCP",
+      "library": "paf.mirage",
+      "description": "This module implements TCP communication over MirageOS, providing functions to read from and write to network flows using Cstruct buffers. It handles connection lifecycle operations like shutdown, close, and address resolution, with typed errors for failed I/O operations. Use it to build network clients and servers that exchange binary data over TCP in MirageOS unikernels.",
+      "description_length": 375,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Alpn.Body",
-      "description": "Provides functions to create, modify, and query read-only and write-only values, including lifting values into read-only contexts, extracting underlying values, and combining read-only and write-only structures. Operates on the `ro` and `wo` types, which encapsulate immutable and mutable data respectively. Used to enforce data access constraints in systems requiring strict separation between read and write operations.",
-      "description_length": 421,
+      "module_path": "Paf_mirage.Make",
+      "library": "paf.mirage",
+      "description": "This module builds HTTP/1.1 and HTTP/2 servers over TCP or TLS, enabling secure, customizable network services with support for connection control, ALPN negotiation, and MirageOS-compatible flows. It provides data types like `ctx` for configuration, `service` for request handlers, and `flow` for managing active connections, with operations to launch servers, handle requests, and control session lifecycles. The TLS submodule secures communications with certificate validation and encrypted I/O, while the TCP submodule handles low-level socket operations like reading, writing, and connection termination. Example uses include secure web servers that selectively keep connections open, reverse proxies with custom routing, and TLS-terminating services that enforce mutual authentication.",
+      "description_length": 790,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Paf_mirage.TCP",
-      "description": "Provides functions to read from and write to a network flow, with explicit handling of errors and write errors through pretty-printers. Operates on `flow` objects, `Cstruct.t` buffers, and IP address-port pairs. Reads block until data is available, writes buffers atomically, and supports graceful shutdown or termination of connections.",
-      "description_length": 337,
+      "module_path": "Paf_mirage.S",
+      "library": "paf.mirage",
+      "description": "This module implements HTTP/1.1 and HTTP/2 server functionality over TCP or TLS, handling connection management and protocol negotiation. It provides functions to create HTTP services with or without TLS, supports ALPN for version negotiation, and includes utilities to control connection closure behavior in proxy scenarios. Concrete use cases include building secure HTTPS servers, implementing HTTP proxies that maintain upstream connections, and hosting services that seamlessly support both HTTP/1.1 and HTTP/2 clients over TLS.",
+      "description_length": 533,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Paf_mirage.TLS",
-      "description": "Provides functions for reading from and writing to a network flow, with error handling and shutdown capabilities. Operates on flow objects, Cstruct.t buffers, and custom error types for read and write operations. Enables TLS protocol setup by wrapping TCP flows as secure connections, supporting renegotiation and key updates.",
-      "description_length": 326,
+      "module_path": "Paf_mirage.S-TLS",
+      "library": "paf.mirage",
+      "description": "This module implements TLS 1.2/1.3 communication over MirageOS flows, handling secure read/write operations, session management, and protocol-specific error handling. It works with TCP flows to establish client or server TLS sessions, supporting features like renegotiation, key updates, and certificate validation. Concrete use cases include securing network communication for HTTPS servers, encrypted client connections, and managing TLS session lifecycle events like shutdown and close notifications.",
+      "description_length": 503,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "paf",
-      "description": "Handles HTTP/1.1 and HTTP/2 protocol stacks with TLS integration, using TCP/IP abstractions from MirageOS. Processes incoming connections by composing TLS encryption with network stack implementations. Enables deployment of TLS-secured HTTP servers in unikernel environments or Unix-based systems.",
-      "description_length": 297,
+      "module_path": "Paf_mirage",
+      "library": "paf.mirage",
+      "description": "This module provides an HTTP client for sending requests over connections managed by a `Mimic.ctx`, supporting both HTTP/1.1 and HTTP/2 over cleartext or TLS. It automatically negotiates the protocol using ALPN and returns the server's response or an error, enabling runtime protocol selection for HTTPS requests. The TCP submodule handles low-level network communication with typed errors, while the TLS submodule secures transmissions with certificate validation and session management. Together with the HTTP server functionality in its children, it supports building and securing both clients and servers that handle ALPN negotiation, connection control, and TLS lifecycle events.",
+      "description_length": 684,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Paf",
-      "description": "Provides methods to manage read and write operations on a connection, including determining next actions, reading data, handling EOF, and resuming operations. Works with `Bigstringaf.t` for byte buffer manipulation and tracks connection state through a `t` type. Used to process HTTP input and output, handle flow control, and manage error states during network communication.",
-      "description_length": 376,
+      "module_path": "Alpn.REQD-Body",
+      "library": "paf.alpn",
+      "description": "This module handles the body of a request or response in the context of ALPN protocol negotiation, specifically managing read-only (`ro`) and write-only (`wo`) streams. It provides functions to inject, extract, and manipulate payload data during the transition between TLS and application protocols like HTTP/1.1 or HTTP/2. Concrete use cases include forwarding request/response bodies between network layers and inspecting or modifying ALPN-negotiated data streams before dispatching to the appropriate protocol handler.",
+      "description_length": 521,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Alpn",
-      "description": "Encapsulates immutable and mutable data through `ro` and `wo` types, enabling controlled access to values. Supports creating, modifying, and querying these structures, with operations to lift values into read-only contexts or extract underlying data. Combines read-only and write-only elements while maintaining access boundaries. For example, it allows safely embedding a mutable counter within a read-only interface or isolating configuration data from modification.",
-      "description_length": 468,
+      "module_path": "Alpn.REQD",
+      "library": "paf.alpn",
+      "description": "This module handles HTTP request and response processing with support for streaming bodies and error reporting. It provides direct access to request and response values, functions to send responses with strings, bigstrings, or streaming bodies, and exception handling integration. Concrete use cases include building ALPN-aware servers that route and respond to HTTP/1.0, HTTP/1.1, and HTTP/2 requests using shared runtime interfaces.",
+      "description_length": 434,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Paf_mirage",
-      "description": "provides functions for reading, writing, and managing network flows, including TLS support and error handling, operating on `flow` objects and `Cstruct.t` buffers. It enables graceful shutdown, connection termination, and custom error reporting, with support for TCP and TLS flows. It allows building HTTP/1.1 servers with or without TLS, and handles ALPN protocol selection during TLS handshakes. Examples include setting up a secure server, managing connection closure with `no_close`, and writing data atomically to a flow.",
-      "description_length": 526,
+      "module_path": "Alpn",
+      "library": "paf.alpn",
+      "description": "This module implements ALPN protocol selection for handling HTTP/1.1 and HTTP/2 connections using the `http/af` and `h2` libraries. It provides functions to construct and manage protocol-specific request/response handlers, supporting operations like protocol negotiation, client and server connection setup, and error handling. The body submodule manages read-only and write-only streams during ALPN negotiation, enabling data forwarding and inspection between TLS and application protocols. The HTTP submodule supports request/response processing with streaming bodies and error reporting, allowing ALPN-aware servers to route and respond to HTTP/1.0, HTTP/1.1, and HTTP/2 requests using a shared runtime interface.",
+      "description_length": 716,
       "index": 9,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Paf.RUNTIME",
+      "library": "paf",
+      "description": "This module manages the lifecycle and I/O operations of a network connection, handling reading, writing, yielding control, and graceful shutdowns. It works with `Bigstringaf.t` for efficient buffer management and `Faraday.iovec` for write operations, supporting precise control over data transmission. Concrete use cases include processing HTTP requests/responses by consuming input buffers, managing backpressure via yield/resume, and handling connection termination or protocol upgrades.",
+      "description_length": 489,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Paf",
+      "library": "paf",
+      "description": "This module provides a runtime for building network services with Lwt-based concurrency, enabling servers to handle connections through customizable I/O operations and flow management. It supports key data types like `'conn` and `Mimic.flow`, allowing services to process requests, manage backpressure, and perform TLS upgrades or protocol switches. The connection submodule handles per-connection lifecycle, reading and writing with `Bigstringaf.t` and `Faraday.iovec`, enabling efficient HTTP processing and graceful shutdowns. Together, they allow building robust, asynchronous network applications with fine-grained control over I/O and service behavior.",
+      "description_length": 658,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 526,
-    "min_description_length": 297,
-    "avg_description_length": 384.7,
-    "embedding_file_size_mb": 0.036757469177246094
+    "max_description_length": 790,
+    "min_description_length": 375,
+    "avg_description_length": 554.4166666666666,
+    "embedding_file_size_mb": 0.04397869110107422
   }
 }

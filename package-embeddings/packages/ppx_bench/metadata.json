@@ -1,63 +1,61 @@
 {
   "package": "ppx_bench",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:30:13.673678",
+  "total_modules": 5,
+  "creation_timestamp": "2025-07-15T23:05:34.543353",
   "modules": [
     {
-      "module_path": "Ppx_bench_lib.Benchmark_accumulator.Current_libname",
-      "description": "Sets a named value globally and removes it when called again, operating on a mutable state. Works with string identifiers and a hidden internal store. Used to manage application-wide configuration flags during runtime.",
-      "description_length": 218,
+      "module_path": "Ppx_bench_lib.Benchmark_accumulator.Entry",
+      "library": "ppx_bench.runtime-lib",
+      "description": "This module defines the structure and operations for individual benchmark entries registered in the global benchmarking system. It supports storing metadata such as unique identifiers, source locations, and test specifications, which include either regular or parameterized benchmark functions. These entries are used to represent and organize benchmarks for analysis by Core_bench when running inline benchmarks.",
+      "description_length": 413,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_bench_lib.Benchmark_accumulator.Entry",
-      "description": "Provides operations to modify and compare entries, extract module names, and manage parameterized test specifications. Works with custom types representing test specifications and entries structured around a string and a parameterized value. Used to construct and evaluate test cases with contextual metadata.",
-      "description_length": 309,
+      "module_path": "Ppx_bench_lib.Benchmark_accumulator.Current_libname",
+      "library": "ppx_bench.runtime-lib",
+      "description": "This module manages the current library name used for registering inline benchmarks in a global hashtable. It provides `set` to specify the library name and `unset` to remove it, controlling whether benchmarks are collected based on command-line arguments. These operations directly influence which benchmarks are retained for analysis by Core_bench during execution of inline benchmark runners.",
+      "description_length": 395,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ppx_bench_lib.Benchmark_accumulator",
-      "description": "Tracks and manages runtime configuration flags and test specifications, using global mutable state and custom types to support inline benchmarking. It maintains a hashtable of benchmarks indexed by library name, enabling dynamic registration based on command-line arguments. Operations include setting and removing flags, modifying test entries, and extracting module metadata. This allows for conditional benchmark collection and structured test evaluation during execution.",
-      "description_length": 475,
+      "library": "ppx_bench.runtime-lib",
+      "description": "This module coordinates the registration and management of inline benchmarks using a global hashtable indexed by library name, inspecting command-line arguments to determine whether benchmarks should be collected. It provides functions to add benchmarks and modules with source location metadata, and to retrieve benchmarks by library, enabling analysis with Core_bench via macros like `BENCH` and `BENCH_MODULE`. The module works with child modules that define benchmark entry structures and manage the current library name, allowing fine-grained control over benchmark collection. For example, setting a library name with `set` ensures subsequent benchmarks are registered under that name, while command-line inspection skips registration when benchmark runners are not in use.",
+      "description_length": 779,
       "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_bench_lib.Export",
-      "description": "Provides a function to discard the result of an expression, useful for suppressing unnecessary values in imperative-style code. Operates on any type and returns unit. Used to manage side effects where the output of an expression is irrelevant.",
-      "description_length": 243,
-      "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "ppx_bench",
-      "description": "Provides macros for embedding performance tests directly in OCaml code, enabling measurement of execution time and memory allocation. Works with OCaml expressions and values, allowing benchmarks to capture and report detailed runtime statistics. Used to evaluate the efficiency of specific code paths during development and testing.",
-      "description_length": 332,
-      "index": 4,
+      "module_path": "Ppx_bench_lib.Export",
+      "library": "ppx_bench.runtime-lib",
+      "description": "`Ppx_bench_lib.Export` defines the `ignore` function, which accepts any value and returns `unit`, effectively discarding the input. It operates on values of any type, making it useful for suppressing unused variable warnings or intentionally omitting results in benchmarking contexts. This function is commonly used when writing performance tests where certain expressions must be evaluated but their results are irrelevant.",
+      "description_length": 424,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ppx_bench_lib",
-      "description": "Manages benchmark configurations and test specifications through mutable state and custom types, enabling dynamic registration and conditional execution of benchmarks based on command-line input. Supports operations like flag manipulation, test modification, and metadata extraction, with benchmarks stored in a library-name indexed hashtable. Includes a utility function to discard expression results, allowing clean handling of side effects in imperative code. This enables precise control over benchmarking workflows and efficient management of irrelevant computation outputs.",
-      "description_length": 579,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "library": "ppx_bench.runtime-lib",
+      "description": "This module manages the registration and retrieval of inline benchmarks using a global hashtable indexed by library name, coordinating with command-line argument inspection to control collection. It supports adding benchmarks and modules with source location metadata, and enables benchmark analysis via macros like `BENCH` and `BENCH_MODULE`. The `ignore` function from `Ppx_bench_lib.Export` discards values of any type, commonly used to suppress unused results in performance tests. For example, setting a library name with `set` directs subsequent benchmarks to that library, while command-line flags determine whether benchmarks are collected or skipped.",
+      "description_length": 659,
+      "index": 4,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 5,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.8571428571428571
+    "retention_rate": 0.8333333333333334
   },
   "statistics": {
-    "max_description_length": 579,
-    "min_description_length": 218,
-    "avg_description_length": 359.3333333333333,
-    "embedding_file_size_mb": 0.0222320556640625
+    "max_description_length": 779,
+    "min_description_length": 395,
+    "avg_description_length": 534.0,
+    "embedding_file_size_mb": 0.01862049102783203
   }
 }

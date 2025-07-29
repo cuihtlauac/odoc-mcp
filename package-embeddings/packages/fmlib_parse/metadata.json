@@ -1,322 +1,405 @@
 {
   "package": "fmlib_parse",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 43,
-  "creation_timestamp": "2025-06-18T16:41:57.769952",
+  "total_modules": 48,
+  "creation_timestamp": "2025-07-15T23:15:33.850893",
   "modules": [
     {
-      "module_path": "Fmlib_parse.Utf16.Be.Encoder",
-      "description": "Encodes Unicode code points into their UTF-8 byte sequences and converts them to external representations in other encodings. It operates on values of type Uchar.t, representing individual Unicode characters. Used to prepare text for output in systems requiring specific encoding formats.",
-      "description_length": 288,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Utf16.Be.Decoder",
-      "description": "Decodes UTF-8 encoded bytes into Unicode characters, tracking the decoding state and providing access to the resulting scalar value, visible width, and byte count. It processes individual bytes using `put`, and returns the decoded character or a replacement value upon error or incomplete decoding. It supports checking for completion, errors, and newline characters during the decoding process.",
-      "description_length": 395,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Utf16.Le.Encoder",
-      "description": "Encodes Unicode code points into their UTF-8 byte sequences and converts them to external representations in other encodings. It operates on values of type Uchar.t, representing individual Unicode characters. Used to prepare text for output in specific character sets or for storage in systems requiring non-UTF-8 formats.",
-      "description_length": 322,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Fmlib_parse.Utf16.Le.Decoder",
-      "description": "Decodes UTF-8 encoded bytes into Unicode characters, tracking the decoding state and providing access to the resulting scalar value, visible width, and byte count. It processes individual bytes using `put`, and returns the decoded character or a replacement value upon error or incomplete decoding. It supports checking for newline characters and ensures initial state represents a valid, completed zero character.",
-      "description_length": 414,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make.Parser",
-      "description": "The module provides control over token-based parsing workflows, including managing input streams, signaling end-of-data, and inspecting parser states like success, failure, or progress. It operates on a parser state type `t` and token sequences from sources such as strings or input channels, enabling detailed tracking of position and buffer contents. Use cases include processing structured data formats, implementing custom parsers, or handling incremental input streams with lookahead capabilities.",
-      "description_length": 502,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_be.Parser",
-      "description": "The module provides token input management, end-of-stream signaling, and state tracking for parsing workflows, along with lookahead manipulation and status checks. It operates on parser states `t` and tokens of type `Utf16.Be.Decoder.t`, enabling precise control over parsing progress and error handling. Use cases include processing structured input streams, tracking positional metadata, and implementing custom error recovery mechanisms during parsing.",
-      "description_length": 455,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf8.Parser",
-      "description": "The module provides operations to control token input (pushing tokens, signaling end of stream), check parser status (success/failure, need for more tokens), and inspect internal state (position, final result). It works with parser states and UTF-8 encoded tokens, enabling tasks like parsing structured data from strings or input channels, tracking parsing positions for error reporting, and dynamically managing input flow during processing. Specific use cases include handling token lookahead, validating input completeness, and extracting parsed values after processing.",
-      "description_length": 574,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_le.Parser",
-      "description": "The module controls token input and end-of-stream signaling, tracking parser state, success, failure, and lookahead tokens through operations like `put_token` and `put_end`. It works with a parser state `t` and tokens of type `Utf16.Le.Decoder.t`, supporting parsing of strings or input channels while monitoring position and returning final results or expectations. Use cases include real-time token processing, error handling during parsing, and incremental input handling in streaming scenarios.",
-      "description_length": 498,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make.Encoder",
-      "description": "Encodes Unicode code points into their UTF-8 byte sequences and converts them to external representations in other encodings. It operates on values of type Uchar.t, representing individual Unicode characters. Used to prepare text for output in systems requiring specific character encodings.",
-      "description_length": 291,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Ucharacter.Make.Decoder",
-      "description": "Decodes UTF-8 encoded bytes into Unicode characters, tracking the decoding state and providing access to the resulting scalar value, visible width, and byte count. It processes individual bytes using `put`, and returns the decoded character or replacement (U+FFFD) if incomplete or in error. It supports checking for completion, errors, and newline status during decoding.",
-      "description_length": 372,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fmlib_parse.Token_parser.Make.Parser",
-      "description": "The module provides operations for incremental token processing, including adding tokens to a parser, signaling end-of-input, and checking parser status such as success, failure, or need for more tokens. It works with token streams, parser states, and lookahead mechanisms to manage parsing progress and expected input. Use cases include real-time data parsing, error handling in stream-based applications, and coordinating multiple parsers through shared lookahead tokens.",
-      "description_length": 473,
-      "index": 10,
+      "library": "fmlib_parse",
+      "description": "This module decodes Unicode characters from UTF-16 Little Endian byte sequences. It processes individual bytes via `put` to incrementally build a character, tracking completion and errors, and returns the decoded character or U+FFFD on error. It supports querying character properties like scalar value, width, byte length, and newline status.",
+      "description_length": 343,
+      "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fmlib_parse.Character.Make.Parser",
-      "description": "This module manages token consumption and state tracking during parsing, operating on a parser state `t` and related types to handle lookahead tokens, input positions (column, byte_column), and end-of-stream signals. It provides functions to execute parsers on input streams like strings or channels, retrieve results or errors, and track progress for tasks such as syntax validation or error reporting. Specific use cases include processing structured data formats and debugging parsing issues through detailed position tracking.",
-      "description_length": 530,
-      "index": 11,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Generic.Make.Parser",
-      "description": "The module manages parser state transitions, token stream manipulation, and error tracking, operating on abstract parser states and token representations. It enables functionalities like lookahead inspection, token pushing, and failure tracking, supporting tasks such as syntax validation and error recovery in parsing workflows. Key structures include internal state representations, token types, and expectation tracking to guide parsing decisions.",
-      "description_length": 450,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Error_reporter.Make",
-      "description": "Checks if a parsing operation has encountered a syntax error and retrieves associated failure details, including expected tokens and semantic issues. Operates on a structured state type containing position information, expected tokens with optional indentation context, and semantic error data. Used to diagnose parsing failures by extracting specific error markers and contextual positions during compiler or interpreter execution.",
-      "description_length": 432,
-      "index": 13,
+      "library": "fmlib_parse",
+      "description": "This module enables incremental parsing of character streams with support for user-defined state and precise error handling, offering operations to feed tokens, inspect parser status, and retrieve results or errors. It works with character-based input streams, maintaining positional context (line, column, byte position) and handling both syntax and semantic errors through dedicated failure inspectors. Typical use cases include building indentation-sensitive parsers, lexers, or compilers where incremental input processing and detailed error recovery are required.",
+      "description_length": 568,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Utf16.Be",
-      "description": "Encodes and decodes Unicode characters between UTF-8 and other encodings, handling Uchar.t values and byte sequences. It supports decoding individual bytes into characters, tracking state, and reporting errors, width, and byte counts. Operations include converting code points to UTF-8, decoding bytes with state management, and handling incomplete or invalid input. Examples include preparing text for output in specific encodings or parsing UTF-8 streams with error recovery.",
-      "description_length": 477,
+      "module_path": "Fmlib_parse.Utf16.Be.Decoder",
+      "library": "fmlib_parse",
+      "description": "This module decodes Unicode characters from UTF-16 big-endian encoded byte sequences. It processes input one byte at a time using `put`, tracking decoding state and returning the decoded character via `uchar` once complete. It supports checking completion status, error detection, character properties like width and scalar value, and handles invalid or incomplete input by returning the replacement character U+FFFD.",
+      "description_length": 417,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Token_parser.Make.Parser",
+      "library": "fmlib_parse",
+      "description": "This module provides operations to feed tokens into a parser, check parsing progress, and retrieve results or errors. It works with tokens of type `Position.range * Token.t` (combining positional data with user-defined token types) and manages parser state transitions, lookahead inspection, and error detection (both syntactic and semantic). It is particularly suited for incremental parsing of layout-sensitive grammars or scenarios requiring precise error diagnostics, such as parsing programming languages with indentation rules or validating structured configuration files.",
+      "description_length": 578,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Utf16.Be.Encoder",
+      "library": "fmlib_parse",
+      "description": "Converts Unicode characters to and from their UTF-16 Big Endian string representations. Works directly with `Stdlib.Uchar.t` values, encoding them into UTF-16 BE byte strings or decoding UTF-16 BE byte strings into `Uchar.t` values. Useful for handling text input/output in UTF-16 BE format, such as reading from or writing to binary protocols or file formats that require this encoding.",
+      "description_length": 387,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf8.Parser",
+      "library": "fmlib_parse",
+      "description": "This module provides functions to parse UTF-8 encoded Unicode character streams by feeding tokens, checking parsing progress, and retrieving results or errors. It operates on token streams decoded via `Fmlib_parse.Utf8.Decoder.t`, maintaining user state, final results, and semantic error messages, with additional introspection capabilities for lookahead and position tracking. Its use cases include processing UTF-8 input from strings or channels, validating Unicode data, and integrating with parsing workflows requiring precise UTF-8 handling.",
+      "description_length": 547,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Generic.Make.Parser",
+      "library": "fmlib_parse",
+      "description": "The module provides operations to incrementally feed tokens into a parsing process, inspect parsing outcomes (success, failure modes), and retrieve final results or error diagnostics. It works with customizable token sequences, user-defined state, and error types for syntax expectations and semantic failures, supporting precise lookahead management and error recovery. This is useful for parsing structured input streams where partial results, lookahead tokens, or detailed error messages need to be handled dynamically during parsing.",
+      "description_length": 537,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Utf16.Le.Encoder",
+      "library": "fmlib_parse",
+      "description": "This module encodes Unicode characters into UTF-16 Little Endian byte strings. It provides functions to convert characters to both internal UTF-8 representation and external UTF-16 LE encoded strings. Use it when handling or generating UTF-16 LE encoded text, such as for file output or network protocols requiring that encoding.",
+      "description_length": 329,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_le.Parser",
+      "library": "fmlib_parse",
+      "description": "This module provides parsers for consuming UTF-16 little-endian encoded Unicode character streams, offering operations to feed input tokens, inspect parsing progress, and extract results or errors. It works with user-defined state and result types, supporting both syntactic validation and semantic error handling during decoding. Typical use cases include processing UTF-16 LE encoded text files, handling Windows-specific data formats, or parsing binary streams with embedded Unicode characters using lookahead and position tracking features.",
+      "description_length": 544,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Ucharacter.Make.Parser",
+      "library": "fmlib_parse",
+      "description": "This module provides parsers for Unicode character streams encoded in UTF-8, UTF-16 (big/little endian), or custom formats via user-provided codecs. It supports token consumption, state tracking, and error handling (syntax/semantic) while exposing position-aware diagnostics (line, column, byte offset) for precise error reporting. Typical use cases include cross-platform text processing, such as parsing configuration files, network data, or multi-encoded documents where encoding flexibility and robust error recovery are critical.",
+      "description_length": 534,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_be.Parser",
+      "library": "fmlib_parse",
+      "description": "This module provides a UTF-16 big-endian byte stream parser that processes Unicode characters encoded as 2-byte (BMP) or 4-byte (supplemental planes) sequences, supporting core operations like token ingestion, lookahead inspection, and precise error handling. It works with parser state tracking structures (`Parser.t`) and offers utilities for input position tracking, stream manipulation, and execution control over string or channel-based inputs. Specific use cases include decoding UTF-16BE-encoded files (common in Windows environments), handling surrogate pairs for characters outside the BMP, and building robust lexers for Unicode-aware grammars requiring strict endianness adherence.",
+      "description_length": 692,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Interfaces.MINIMAL_PARSER",
+      "library": "fmlib_parse",
+      "description": "This module defines the core operations for feeding tokens into a parser and checking its state, supporting success, failure, and end-of-input conditions. It works with token streams, tracking expectations for error reporting and extracting final parsed values. Concrete use cases include incremental parsing of structured input like JSON or programming language syntax, where partial results and precise error messages are required.",
+      "description_length": 433,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Interfaces.CHAR_CODEC",
+      "library": "fmlib_parse",
+      "description": "Handles encoding and decoding of Unicode characters with functions for converting between character streams and byte sequences. Works directly with string and sequence data types to manage input/output operations. Useful for parsing text formats like JSON or XML where precise character handling is required.",
+      "description_length": 308,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Error_reporter.Make",
+      "library": "fmlib_parse",
+      "description": "This module generates error reporters from failed parsers, producing detailed, formatted error messages with source code snippets. It works with parsers that yield semantic or syntax errors, converting them into pretty-printed documents that highlight error locations. Use it to report parsing issues in configuration files, scripts, or structured data inputs by extracting and formatting the relevant source context.",
+      "description_length": 417,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_le",
+      "library": "fmlib_parse",
+      "description": "This library provides monadic parser combinators for processing UTF-16 little-endian Unicode character streams, integrating stateful parsing with user-defined state and semantic error handling. It supports parsing operations such as character and sequence recognition, repetition, and operator-precedence parsing, along with position tracking and lexer construction. Child modules extend this functionality with utilities for feeding input, inspecting progress, and handling errors during decoding. Examples include parsing UTF-16 LE encoded text files, validating Windows-specific formats, and extracting Unicode-aware lexical tokens from binary streams.",
+      "description_length": 655,
       "index": 14,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Utf16.Le",
-      "description": "Encodes and decodes Unicode characters using UTF-16 Little Endian, handling conversions between internal representations and external byte sequences. It processes values of type Uchar.t, supporting operations like decoding bytes into characters with state tracking and encoding characters into UTF-8. It can detect newline characters, track byte counts, and provide replacement values for invalid input. Examples include converting text for storage in non-UTF-8 systems or parsing UTF-8 data into usable Unicode characters.",
-      "description_length": 523,
+      "module_path": "Fmlib_parse.Interfaces.CHAR_ENCODER",
+      "library": "fmlib_parse",
+      "description": "Encodes Unicode characters to UTF-8 and external representations. Converts `Stdlib.Uchar.t` values to strings for internal processing and to encoded byte sequences for external output. Useful when serializing parsed text to files or network streams in specific encodings.",
+      "description_length": 271,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf8",
-      "description": "Provides functions to encode and decode UTF-8 byte sequences, including validation and conversion to and from Unicode code points. Operates on byte arrays and integer representations of code points. Used to process text input from external sources and ensure proper encoding for output or further processing.",
-      "description_length": 308,
+      "module_path": "Fmlib_parse.Interfaces.NORMAL_PARSER",
+      "library": "fmlib_parse",
+      "description": "This module defines a parser interface that processes token streams, supporting state management and handling both syntax and semantic errors. It provides operations to feed tokens, check parsing status, retrieve final results, and inspect errors. Concrete use cases include building parsers for structured data formats where error reporting and incremental parsing are required.",
+      "description_length": 379,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_be",
-      "description": "Provides functions to encode and decode UTF-16BE sequences, including handling surrogate pairs and validating byte sequences. Operates on byte arrays and lists, ensuring correct endianness and encoding rules. Used to process Unicode text in systems requiring big-endian UTF-16 representation.",
-      "description_length": 292,
+      "module_path": "Fmlib_parse.Interfaces.CHAR_CODEC-Decoder",
+      "library": "fmlib_parse",
+      "description": "This module implements a character decoder for processing UTF-8 encoded input, allowing incremental decoding of Unicode characters from a stream of bytes. It tracks decoding state, validating input and handling errors by returning the replacement character (U+FFFD) when invalid or incomplete sequences are encountered. Use this to parse UTF-8 encoded text byte-by-byte, such as when reading from a stream or buffer, and to detect character properties like newlines or width.",
+      "description_length": 475,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_le",
-      "description": "Provides functions to encode and decode UTF-16 little-endian byte sequences, including conversion between strings and byte arrays. Operates on values of type t, which represent encoded data. Used to process text in systems requiring native UTF-16 encoding, such as certain Windows APIs or binary file formats.",
-      "description_length": 309,
+      "module_path": "Fmlib_parse.Token_parser.Make",
+      "library": "fmlib_parse",
+      "description": "This module implements monadic parser combinators for token streams enriched with positional and user state context, enabling structured parsing of indentation-sensitive languages, operator precedence expressions, and stateful grammars. It supports core operations like sequencing, mapping, error handling, and state manipulation, working with tokens paired with source position ranges (`Position.range * Token.t`). The child module handles token feeding, parsing progress checks, and error retrieval, facilitating incremental parsing and precise diagnostics for use cases like Python-like indentation blocks or recursive descent parsers with backtracking. Together, they allow building robust parsers for domain-specific languages with custom syntax and semantic error recovery.",
+      "description_length": 779,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Ucharacter.Make",
-      "description": "Provides functions to construct, manipulate, and serialize build configurations represented as values of type t. Includes operations to combine targets, apply transformations, and generate output in specific formats. Used to define and manage complex build processes in compiler or tooling workflows.",
-      "description_length": 300,
+      "module_path": "Fmlib_parse.Utf8.Decoder",
+      "library": "fmlib_parse",
+      "description": "This module decodes UTF-8 encoded bytes into Unicode characters incrementally. It processes individual bytes via `put` to build up a character state, tracking completion and errors. Use cases include parsing UTF-8 streams byte-by-byte, validating encodings, and extracting character properties like scalar values or newline status.",
+      "description_length": 331,
       "index": 19,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Utf8.Encoder",
-      "description": "Encodes Unicode code points into their UTF-8 byte sequences and converts them to external representations in other encodings. It operates on values of type Uchar.t, representing individual Unicode characters. Used to prepare text for output in specific locales or file formats.",
-      "description_length": 277,
+      "module_path": "Fmlib_parse.Utf16.Le",
+      "library": "fmlib_parse",
+      "description": "This module handles Unicode character encoding and decoding for UTF-16 Little Endian. It processes byte streams incrementally to build characters, tracks completion and errors, and provides character properties such as scalar value and width. It also converts characters to UTF-8 or UTF-16 LE byte strings for output. Use it to read or write UTF-16 LE encoded text in file or network operations.",
+      "description_length": 395,
       "index": 20,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Utf8.Decoder",
-      "description": "Decodes UTF-8 encoded bytes into Unicode characters, tracking the decoding state and providing access to the resulting scalar value, visible width, and byte count. It processes individual bytes using `put`, and returns the decoded character or a replacement value upon error or incomplete decoding. It supports checking for newline characters and ensures proper state transitions during decoding.",
-      "description_length": 396,
+      "module_path": "Fmlib_parse.Ucharacter.Make",
+      "library": "fmlib_parse",
+      "description": "This module implements monadic parsing for Unicode character streams with support for UTF-8, UTF-16 (BE/LE), and custom encodings through pluggable codecs. It processes input using `Stdlib.Uchar.t` values, tracks user-defined state, and reports both syntactic and semantic errors with positional information including line, column, and byte offset. Key operations include character classification, repetition parsing, and indentation-sensitive analysis, enabling tasks like lexer construction, structured data parsing, and cross-platform text processing with precise Unicode handling and customizable error recovery. Submodules extend functionality with specialized parsers, error messaging, and result management, integrating seamlessly with the core parsing pipeline.",
+      "description_length": 769,
       "index": 21,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Token_parser.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including setting compiler flags, linking libraries, and generating output files. Operates on the `t` type, which represents a build recipe with dependencies and execution steps. Used to automate the compilation of OCaml projects with custom build rules.",
-      "description_length": 323,
+      "module_path": "Fmlib_parse.Character.Make",
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parser combinators for stateful character stream processing, combining direct support for sequencing, error handling, and repetition with incremental parsing capabilities from its child module. It operates on parameterized parsers that track user-defined state and produce typed results or semantic errors, maintaining positional context such as line and column numbers during parsing. The combined interface allows building indentation-aware lexers, parsing base-encoded data like Base64, and handling context-sensitive grammars with custom state transitions and detailed error recovery. Key operations include feeding input incrementally, inspecting parser status, and aligning character streams for precise error handling and result extraction.",
+      "description_length": 776,
       "index": 22,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Character.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications and generating output representations. Operates on the `t` type, which encapsulates build rules and dependencies. Used to automate the generation of build files for software projects.",
-      "description_length": 291,
+      "module_path": "Fmlib_parse.Interfaces.CHAR_CODEC-Encoder",
+      "library": "fmlib_parse",
+      "description": "Handles conversion between internal UTF-8 string representations and external character encodings. Works directly with `Stdlib.Uchar.t` values and string types. Used to encode or decode text data when interfacing with systems or file formats requiring specific character encodings.",
+      "description_length": 281,
       "index": 23,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Parse_with_lexer.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications and generating output representations. Operates on the `t` type, which encapsulates build rules and dependencies. Used to automate the generation of build files for software projects.",
-      "description_length": 291,
+      "module_path": "Fmlib_parse.Generic.Make",
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parser combinators for building customizable parsing workflows that manage token streams, user-defined state, and error handling through backtracking and expectation tracking. It supports key data types including `Token.t`, `State.t`, `Expect.t`, `Semantic.t`, and `Final.t`, enabling precise control over parsing outcomes, error recovery, and result extraction. With its core parser type, users can implement complex grammars, operator precedence rules, and resilient parsing strategies for domain-specific languages. The child module extends this capability by allowing incremental token feeding, dynamic lookahead management, and inspection of parsing results, making it suitable for handling structured input with partial or ambiguous data.",
+      "description_length": 773,
       "index": 24,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Parse_with_lexer.Make_utf8",
-      "description": "Encodes and decodes UTF-8 byte sequences, handling invalid input with error tracking. It operates on byte arrays and strings, providing precise control over encoding processes. Used to validate and convert text data from external sources into proper UTF-8 format.",
-      "description_length": 263,
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf8",
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parsing combinators for UTF-8 encoded Unicode character streams, integrating stateful operations, Unicode-aware primitives, and error handling. It supports direct parsing of UTF-8 byte sequences while tracking source positions and semantic context, enabling precise processing of modern text formats like JSON or XML. Child modules handle token feeding, parsing introspection, and result extraction, allowing operations such as validating Unicode input, performing lookahead, and recovering source positions during parsing. Key data types include user-defined state, final results, and semantic error messages, with operations for character recognition, case-insensitive matching, and range checks.",
+      "description_length": 727,
       "index": 25,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Generic.Make",
-      "description": "Provides functions to construct and manipulate build configurations, including parsing input specifications, generating dependency graphs, and executing build steps. Operates on the `t` type, which represents a structured build plan with targets, dependencies, and execution rules. Used to automate software compilation workflows by defining and executing precise build sequences.",
-      "description_length": 380,
+      "module_path": "Fmlib_parse.Error_reporter.FAILED_PARSER",
+      "library": "fmlib_parse",
+      "description": "This module provides operations to analyze and report parsing errors by extracting detailed information from a failed parser. It works with types representing parsing failure contexts, including expected syntax elements and semantic error data. Concrete use cases include generating precise error messages with positional information and expected tokens for syntax errors, or retrieving semantic error details for further processing.",
+      "description_length": 433,
       "index": 26,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Interfaces.Encoder",
-      "description": "Encodes Unicode code points into their internal UTF-8 string representation and into an external encoding specified by the context. It processes values of type Uchar.t, representing individual Unicode characters. This is used to prepare text for storage or transmission in different encodings.",
-      "description_length": 293,
+      "module_path": "Fmlib_parse.Interfaces.LEXER",
+      "library": "fmlib_parse",
+      "description": "This module defines a lexer as a restartable parser that processes character streams, grouping them into tokens while handling whitespace and syntax errors. It provides operations to feed tokens, check parsing status, retrieve final results or error details, and track positions in the input. Use it to build lexers that identify tokens like identifiers, numbers, or operators in source code, handling cases like unterminated comments or unexpected characters.",
+      "description_length": 460,
       "index": 27,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Interfaces.Decoder",
-      "description": "Decodes UTF-8 encoded bytes into Unicode characters, tracking the decoding state and providing access to the resulting scalar value, visible width, and byte count. It processes individual bytes using `put`, and returns the decoded character or a replacement value upon error or incomplete decoding. It supports checking for completion, errors, and newline characters during the decoding process.",
-      "description_length": 395,
+      "module_path": "Fmlib_parse.Interfaces.FULL_PARSER",
+      "library": "fmlib_parse",
+      "description": "This module provides operations for parsing token streams with support for mutable state, semantic error handling, and lookahead inspection. It works with parser states that track input progress, manage buffered lookahead tokens, and store final results or error diagnostics. Typical use cases include implementing parsers requiring stateful processing, error recovery strategies, or syntactic analysis dependent on peeking ahead in the token stream.",
+      "description_length": 450,
       "index": 28,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Fmlib_parse.Interfaces.COMBINATOR",
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parser combinators for sequencing, mapping, error handling, and choice operations, alongside state manipulation and repetition constructs. It works with a parser type that encapsulates user-defined state, tracks expected inputs and semantic errors, enabling structured parsing tasks like operator precedence resolution, parenthesized expressions, and optional/repeated elements. These features are suited for building grammars requiring stateful error recovery, nested syntactic structures, or incremental input processing.",
+      "description_length": 552,
+      "index": 29,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Position",
-      "description": "Provides operations to track and manipulate positions in a text file, including line and column numbers, byte offsets, and adjustments for multibyte characters. Works with `t` for individual positions and `range` for intervals between positions. Used to calculate valid text ranges, adjust positions after character insertion or deletion, and handle newline transitions.",
-      "description_length": 370,
-      "index": 29,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Located",
-      "description": "Provides functions to create and manipulate objects annotated with positional information in a file. Works with a tuple type containing a position range and a value. Used to track the source location of parsed elements during syntax analysis.",
-      "description_length": 242,
+      "module_path": "Fmlib_parse.Utf8.Encoder",
+      "library": "fmlib_parse",
+      "description": "Converts Unicode characters to their UTF-8 byte sequences for internal and external representations. Works directly with `Stdlib.Uchar.t` values. Used to encode characters into valid UTF-8 strings when writing parsers or handling text input/output in different encodings.",
+      "description_length": 271,
       "index": 30,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Indent",
-      "description": "Groups expectations by indentation, preserving order. Operates on lists of (value, expectation) pairs and maintains an internal state tracking allowed indentations and alignment. Used to validate token positions against expected indentation levels during parsing.",
-      "description_length": 263,
+      "module_path": "Fmlib_parse.Parse_with_lexer.Make_utf8",
+      "library": "fmlib_parse",
+      "description": "This module provides a UTF-8-aware parsing pipeline that combines a lexer for converting byte streams into positional Unicode tokens (`Position.range * Token.t`) with a stateful token parser supporting syntax and semantic error handling. It operates on UTF-8 encoded character sequences from strings or input channels, maintaining position tracking and explicit end-of-input signaling. Typical use cases include building compilers or data processors where precise error reporting, incremental parsing, and resumption from saved states are required.",
+      "description_length": 548,
       "index": 31,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Error_reporter",
-      "description": "Checks if a parser has encountered a syntax error and retrieves associated expectations, semantic errors, and the error position. Operates on parser state objects, expect lists, and semantic error records. Used to generate detailed error messages during parsing failures.",
-      "description_length": 271,
+      "module_path": "Fmlib_parse.Utf16.Be",
+      "library": "fmlib_parse",
+      "description": "This module handles Unicode character encoding and decoding in UTF-16 Big Endian format. It supports incremental decoding of byte sequences into Unicode characters and provides direct conversion between `Uchar.t` values and UTF-16 BE byte strings. Key operations include `put` for feeding bytes during decoding, `uchar` for retrieving decoded characters, and functions to encode or decode entire strings. For example, it can process UTF-16 BE input from a network stream or generate UTF-16 BE output for a binary file format.",
+      "description_length": 525,
       "index": 32,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Interfaces",
-      "description": "Provides operations to manage a restartable lexer that processes character streams, tracks parsing state, and handles token lookahead. Works with token types, position tracking, and expectation data for error reporting. Used to build two-stage parsers where token recognition is separated from higher-level syntax analysis.",
-      "description_length": 323,
+      "module_path": "Fmlib_parse.Interfaces.CHAR_DECODER",
+      "library": "fmlib_parse",
+      "description": "This module defines a character decoder for processing Unicode characters from byte sequences. It supports operations to feed bytes into the decoder, check decoding status, and retrieve the resulting Unicode character or its properties. Concrete use cases include parsing UTF-8 encoded input streams and validating or measuring individual Unicode characters.",
+      "description_length": 358,
       "index": 33,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Character",
-      "description": "Parses character streams with indentation sensitivity, supporting operations on character sequences and context-aware parsing. Core data types include `t` for representing parsed structures and `char` for token-level processing. Functions enable tasks such as extracting nested blocks, validating indentation levels, and transforming input into structured outputs. Examples include parsing multi-line strings with varying indentation and generating abstract syntax trees from character streams.",
-      "description_length": 494,
+      "module_path": "Fmlib_parse.Ucharacter.Make_utf16_be",
+      "library": "fmlib_parse",
+      "description": "This module implements UTF-16 big-endian Unicode parsing with stateful combinators, handling both BMP and supplemental plane characters through 2-byte and 4-byte sequences. It provides direct operations for character and string recognition, error signaling with semantic messages, and state management via `Parser.t`, enabling precise input position tracking and stream manipulation over strings or channels. Submodules extend this foundation with utilities for surrogate pair handling, lookahead inspection, and execution control, supporting robust lexer construction and format-specific decoding. Example applications include parsing Windows-encoded text files, validating UTF-16BE network payloads, and extracting Unicode content from binary formats requiring strict big-endian interpretation.",
+      "description_length": 796,
       "index": 34,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Ucharacter",
-      "description": "Encodes and decodes Unicode text in UTF-8, UTF-16BE, and UTF-16LE formats, handling byte arrays, code points, and endianness-specific rules. Supports validation, surrogate pair management, and conversion between strings and encoded data. Provides combinators for parsing streams as character sequences, with operations tailored to specific encoding requirements. Examples include parsing UTF-8 text from network input, converting UTF-16LE data for Windows APIs, and validating byte sequences for correct Unicode representation.",
-      "description_length": 527,
+      "module_path": "Fmlib_parse.Generic",
+      "library": "fmlib_parse",
+      "description": "This module offers a flexible parsing framework with customizable token handling, state management, and error recovery. It supports key types like `Token.t`, `State.t`, and `Expect.t`, enabling precise control over parsing logic and result extraction. Users can build complex grammars, manage operator precedence, and handle ambiguous or partial input through incremental parsing and dynamic lookahead. Example use cases include implementing domain-specific languages and resilient parsers for structured data formats.",
+      "description_length": 518,
       "index": 35,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fmlib_parse.Utf8",
-      "description": "Encodes and decodes Unicode characters between UTF-8 byte sequences and Uchar.t values, supporting conversion to and from other encodings. It handles decoding by processing bytes incrementally, tracking state, and returning scalar values, width, and byte counts. Operations include checking for newlines and replacing invalid sequences during decoding. Examples include converting a string to UTF-8 bytes for file writing or parsing UTF-8 input to extract individual characters.",
-      "description_length": 478,
+      "module_path": "Fmlib_parse.Character",
+      "library": "fmlib_parse",
+      "description": "This module provides a framework for parsing character streams with support for stateful, indentation-aware parsing and error handling. It offers monadic parser combinators that track user-defined state, manage positional context like line and column numbers, and support incremental input feeding for streaming scenarios. Key operations include sequencing, repetition, error recovery, and custom state transitions, enabling tasks like building lexers, decoding base-encoded data, and parsing context-sensitive grammars. Examples include aligning input for precise error messages, parsing indented blocks in configuration files, and decoding Base64 streams on-the-fly.",
+      "description_length": 668,
       "index": 36,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Utf16",
-      "description": "Handles encoding and decoding of Unicode characters between UTF-8 and UTF-16, managing Uchar.t values and byte sequences with state tracking, error reporting, and replacement strategies. It supports converting code points to UTF-8, decoding UTF-16 byte streams, and processing incomplete or invalid input. Operations include byte-level decoding, character encoding, and newline detection, enabling tasks like preparing text for output or parsing encoded data. Examples include transforming text for storage in legacy systems or recovering usable characters from corrupted UTF-8 streams.",
-      "description_length": 586,
+      "module_path": "Fmlib_parse.Parse_with_lexer",
+      "library": "fmlib_parse",
+      "description": "This module implements a UTF-8-aware parsing system that integrates a lexer and parser to process byte streams into structured data. It operates on character streams from strings or input channels, producing positional Unicode tokens (`Position.range * Token.t`) and consuming them to build parsed constructs with support for error handling and state management. The lexer handles input splitting and position tracking, while the parser manages token consumption, syntax validation, and semantic construction. Example uses include compilers and data processors needing precise error reporting, incremental parsing, and the ability to resume from saved states.",
+      "description_length": 659,
       "index": 37,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Located",
+      "library": "fmlib_parse",
+      "description": "This module represents parsed values annotated with their source code positions. It provides operations to create located values from a range and a value, access their start and end positions, retrieve the wrapped value, and map over the wrapped value while preserving location. It is used to track where specific parsed elements appear in the input for error reporting or source analysis.",
+      "description_length": 389,
+      "index": 38,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Fmlib_parse.Token_parser",
-      "description": "A parser that processes token streams with layout awareness and detailed error reporting. It operates on tokens wrapped with position information, using combinators to define parsing rules and construct complex grammars. Functions include token matching, sequence parsing, and error handling, enabling the creation of custom language parsers. It supports modular extension through functors, allowing integration with different token definitions and source layouts.",
-      "description_length": 464,
-      "index": 38,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fmlib_parse.Parse_with_lexer",
-      "description": "combines a lexer that processes character streams into tokens and a parser that interprets these tokens into structured data. it handles byte-level encoding and decoding with error tracking, and manages build configurations through a structured type that represents rules and dependencies. it can validate UTF-8 input, generate build files from specifications, and parse structured data from token sequences. operations include tokenization, encoding validation, and configuration transformation.",
-      "description_length": 496,
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parser combinators for processing token streams enriched with positional information and user state, enabling structured parsing of indentation-sensitive languages and stateful grammars. It supports core operations like sequencing, mapping, error handling, and state manipulation on tokens of type `Position.range * Token.t`, facilitating incremental parsing and precise error diagnostics. Specific use cases include parsing Python-like indentation blocks, operator precedence expressions, and recursive descent grammars with backtracking. The module allows building robust parsers for domain-specific languages with custom syntax and error recovery.",
+      "description_length": 679,
       "index": 39,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fmlib_parse.Generic",
-      "description": "Constructs and manages build plans using the `t` type, which encapsulates targets, dependencies, and execution rules. Enables parsing of input specs, generation of dependency graphs, and execution of build steps through customizable parameters. Users can define precise workflows, such as compiling source files or generating artifacts based on dynamic input. Operations include configuring build sequences, analyzing dependencies, and triggering execution pipelines.",
-      "description_length": 467,
+      "module_path": "Fmlib_parse.Indent",
+      "library": "fmlib_parse",
+      "description": "Handles indentation and alignment constraints during parsing by tracking valid indentation levels and checking positions against expected alignments. It works with integers representing column positions and custom types for indentation expectations like `Indent`, `Align`, and `Align_between`. Used to enforce layout rules in indentation-sensitive grammars, such as grouping aligned code blocks or validating consistent indentation after control structures.",
+      "description_length": 457,
       "index": 40,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "fmlib_parse",
-      "description": "Parses input streams using a set of combinators that build and apply parsing rules. Operates on strings and lists, supporting sequential and conditional parsing logic. Enables extraction of structured data from formatted text, such as parsing CSV fields or JSON-like tokens.",
-      "description_length": 274,
+      "module_path": "Fmlib_parse.Ucharacter",
+      "library": "fmlib_parse",
+      "description": "This module provides monadic parser combinators for processing Unicode character streams encoded in various formats, including UTF-8, UTF-16 BE/LE, and custom encodings. It operates on `Stdlib.Uchar.t` values, tracks user-defined state and precise source positions (line, column, byte offset), and supports Unicode-aware operations such as character classification, sequence recognition, repetition, and operator-precedence parsing. Specific use cases include building lexers for structured text formats like JSON or XML, validating cross-platform Unicode data, and decoding Windows-specific or network-based UTF-16 streams with correct endianness handling. Submodules provide utilities for input feeding, error handling, and result extraction, enabling robust parsing pipelines with semantic error recovery and positional diagnostics.",
+      "description_length": 835,
       "index": 41,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Error_reporter",
+      "library": "fmlib_parse",
+      "description": "This module combines error reporting with input stream analysis to generate detailed, formatted error messages that include code snippets and contextual information. It supports both syntactic and semantic errors, offering operations to construct error reporters from failed parsers and integrate user-defined error formatting. The module enables precise diagnostics by extracting failure contexts, such as expected tokens or semantic error data, and converting them into readable pretty-printed documents. Example uses include reporting syntax errors in configuration files with highlighted source locations or processing semantic errors with custom formatting logic.",
+      "description_length": 668,
+      "index": 42,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Utf16",
+      "library": "fmlib_parse",
+      "description": "This module provides incremental encoding and decoding of Unicode characters in both UTF-16 LE and BE formats, supporting seamless conversion between byte streams and `Uchar.t` values. It tracks decoding state, handles surrogate pairs, and offers direct encoding to UTF-8 or UTF-16 byte strings. Use it to parse or generate UTF-16 encoded text from files, network streams, or binary formats, with precise control over byte order and error handling. For example, it can decode UTF-16 LE input from a file or encode characters to UTF-16 BE for a network protocol.",
+      "description_length": 561,
+      "index": 43,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Interfaces",
+      "library": "fmlib_parse",
+      "description": "This module establishes a comprehensive framework for parsing and lexing structured input, integrating core interfaces with specialized submodules to support a wide range of parsing strategies and character handling. It defines parser types that manage token streams, state, and error conditions, while submodules handle Unicode decoding, lexer construction, and parser combinators for composing complex grammars. Operations include feeding input incrementally, inspecting parser state, handling syntax and semantic errors, and transforming between character encodings. For example, it enables building a lexer that identifies source code tokens, parsing JSON with precise error reporting, or decoding UTF-8 byte streams with validation and error recovery.",
+      "description_length": 756,
+      "index": 44,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fmlib_parse.Utf8",
+      "library": "fmlib_parse",
+      "description": "This module handles UTF-8 encoding and decoding through two complementary interfaces. It supports incremental decoding of byte streams into Unicode characters with state tracking, and encodes Unicode characters into valid UTF-8 byte sequences. Key operations include `put` for feeding bytes during decoding and direct conversion of `Uchar.t` values during encoding. Example uses include validating UTF-8 input, processing character streams, and generating UTF-8 output from Unicode data.",
+      "description_length": 487,
+      "index": 45,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fmlib_parse.Position",
+      "library": "fmlib_parse",
+      "description": "This module tracks and manipulates positions within text files, handling line and column numbers, byte offsets, and character position corrections for accurate parsing. It supports operations to advance positions based on character input, handle newlines, and correct column values for multibyte or special characters. Use cases include precise error reporting in parsers, source code highlighting, and maintaining location state during lexical analysis.",
+      "description_length": 454,
+      "index": 46,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fmlib_parse",
-      "description": "Provides position tracking, tokenization, and parsing capabilities for text processing, with support for Unicode encoding, indentation-sensitive syntax, and detailed error reporting. Core types include position ranges, annotated values, token streams, and build plans, with operations for adjusting positions, validating indentation, decoding text, and constructing parsers. It enables tasks like parsing multi-line structures with proper indentation, generating error messages with location data, and managing build workflows through structured dependencies. Examples include extracting nested blocks from text, converting between Unicode encodings, and building custom language parsers with layout awareness.",
-      "description_length": 710,
-      "index": 42,
-      "embedding_norm": 0.9999999403953552
+      "library": "fmlib_parse",
+      "description": "This library provides a comprehensive parsing framework for handling structured text input with rich support for Unicode, stateful parsing, and precise error reporting. It centers around core data types like `Token.t`, `State.t`, `Position.range`, and `Uchar.t`, enabling the construction of parsers that can manage indentation, operator precedence, and incremental input from various encodings including UTF-8 and UTF-16. Users can build robust domain-specific language parsers, decode structured data formats with error recovery, and generate detailed diagnostics with source code snippets. Specific capabilities include aligning indented blocks, tracking source positions for accurate errors, and combining lexing and parsing in a unified pipeline.",
+      "description_length": 751,
+      "index": 47,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 43,
-    "meaningful_modules": 43,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 49,
+    "meaningful_modules": 48,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9795918367346939
   },
   "statistics": {
-    "max_description_length": 710,
-    "min_description_length": 242,
-    "avg_description_length": 397.1860465116279,
-    "embedding_file_size_mb": 0.15298080444335938
+    "max_description_length": 835,
+    "min_description_length": 271,
+    "avg_description_length": 531.6666666666666,
+    "embedding_file_size_mb": 0.17482471466064453
   }
 }

@@ -1,65 +1,73 @@
 {
   "package": "ppx_string",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:48.327138",
+  "creation_timestamp": "2025-07-15T23:06:49.768359",
   "modules": [
     {
       "module_path": "Ppx_string.Part.Interpreted",
-      "description": "Provides functions to parse and extract interpreted string components, manipulate their structure, and generate formatted output. Works with custom types representing parsed elements and string representations of interpreted expressions. Used to process template literals or embedded code fragments in a domain-specific language.",
-      "description_length": 329,
+      "library": "ppx_string",
+      "description": "This module represents parts of a string that have been processed by a ppx extension, specifically capturing the original source location, the interpreted string content, and associated metadata like module path and padding. It includes fields for the start and end positions in the source code, the evaluated expression, and the raw interpreted string. Use cases include generating precise error messages tied to source locations and reconstructing string literals with their original formatting during code transformation.",
+      "description_length": 524,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_string.Config",
-      "description": "type t = { preprocess: bool; string_interpolator: string -> string } Provides functions to enable or disable preprocessing and to define custom string interpolation logic. Works with a configuration record containing boolean and function fields. Used to tailor the behavior of a ppx during code generation based on specific project needs.",
-      "description_length": 338,
+      "module_path": "Ppx_string.Parse_result",
+      "library": "ppx_string",
+      "description": "This module represents the result of parsing string literals, capturing the parsed parts and whether location information is precise. It works with lists of string parts and boolean flags. It is used internally during string processing to track parsing outcomes and precision of source locations.",
+      "description_length": 296,
       "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_string.Config",
+      "library": "ppx_string",
+      "description": "This module defines configuration options for customizing string interpolation behavior, including runtime module resolution, conversion function naming, and optional preprocessing. It works with strings, long identifiers, and optional transformation functions. Concrete use cases include enabling custom string-like types in interpolations and modifying input syntax before parsing.",
+      "description_length": 383,
+      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Ppx_string.Part",
-      "description": "Handles structured string processing by parsing, manipulating, and formatting interpreted components. It uses custom types for parsed elements and string representations of expressions, enabling operations like template expansion and code fragment extraction. Users can transform raw input into structured outputs or extract embedded logic for further processing. Examples include generating dynamic text from templates or isolating code snippets within larger strings.",
-      "description_length": 469,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ppx_string.Parse_result",
-      "description": "type t = { success: bool; errors: string list; data: 'a option } Provides functions to construct success or failure states, extract data, and collect error messages. Works with a structured record type containing a boolean flag, a list of error strings, and an optional data payload. Used to handle parsing outcomes by distinguishing between valid results and error conditions during input processing.",
-      "description_length": 401,
+      "library": "ppx_string",
+      "description": "This module processes string parts with support for both literal and interpreted content, handling located strings and their metadata. It captures source locations, evaluated expressions, and formatting details like padding, enabling precise error reporting and accurate reconstruction of string literals during code transformation. Child modules extend this capability to manage ppx-processed string components, including original positions, module paths, and raw string data. Example uses include transforming OCaml string literals while preserving their source structure and generating location-aware diagnostics.",
+      "description_length": 616,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_string_runtime.For_string",
-      "description": "Provides functions to manipulate and transform strings, including creating empty strings, converting from raw strings, concatenating lists, padding, and applying identity transformations. Works directly with OCaml's built-in string type. Used to ensure type consistency in code expansions and to construct formatted output with controlled spacing.",
-      "description_length": 347,
+      "module_path": "Ppx_string",
+      "library": "ppx_string",
+      "description": "This module parses and transforms interpolated strings by breaking them into components, interpreting format specifiers, and generating expression trees that reconstruct the final string. It operates on data types like `Ppxlib.location`, `Part.Interpreted.t`, and `Parse_result.t` to track source positions, parsed elements, and interpolation results. You can use it to implement custom string extensions such as `[%string \"...\"]`, support format specifiers like `%s`, and apply padding or custom conversions during string expansion. Submodules handle parsing outcomes, configuration of interpolation behavior, and detailed processing of string parts with location-aware transformations.",
+      "description_length": 687,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "ppx_string",
-      "description": "Provides string interpolation and formatting with custom syntax, including escaping and embedding expressions. Works with string literals and evaluates embedded OCaml expressions at preprocessing time. Enables dynamic generation of SQL queries and configuration strings during compilation.",
-      "description_length": 289,
+      "module_path": "Ppx_string_runtime.For_string",
+      "library": "ppx_string.runtime",
+      "description": "This module provides operations for string manipulation, including concatenation, padding, and identity transformations. It works directly with the `string` type, offering functions like `concat` to join lists of strings and `pad` to ensure a minimum length. Use cases include formatting output, constructing strings from lists, and normalizing string values during conversion processes.",
+      "description_length": 387,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_string",
-      "description": "Encapsulates configuration and processing logic for string-based code transformations, offering control over preprocessing and custom interpolation. Manages structured string manipulation through parsed elements and expression representations, enabling template expansion and code extraction. Tracks processing outcomes via a result type that distinguishes success from errors, allowing for data retrieval and error reporting. Users can customize string handling, generate dynamic content, and manage parsing results effectively.",
-      "description_length": 529,
+      "module_path": "Ppx_string_runtime.S",
+      "library": "ppx_string.runtime",
+      "description": "This module implements string-like values with customizable conversion and padding operations. It supports creating empty or literal strings, concatenating lists of values, and applying conversions or padding to specified lengths. Concrete use cases include formatting output strings with fixed widths or transforming string content through defined conversion rules.",
+      "description_length": 366,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ppx_string_runtime",
-      "description": "Provides operations to construct, combine, and manipulate string-like values, including converting from standard strings, concatenating multiple values, and padding to a specified length. Works with custom types `t` and `conversion`, and uses `length` to specify target sizes. Used to generate and manage string representations in code expanded by ppx syntax extensions.",
-      "description_length": 370,
+      "library": "ppx_string.runtime",
+      "description": "This module defines a signature `S` for string manipulation and provides a concrete implementation in `For_string`, enabling operations like concatenation, padding, and transformation on standard OCaml strings. The core module handles common text processing tasks such as formatting, parsing, and encoding, while the `For_string` submodule adds utilities for constructing and normalizing strings from lists or fixed-width values. Together, they support workflows like generating formatted output, applying padding to ensure minimum lengths, and transforming string content according to specific rules.",
+      "description_length": 601,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
@@ -69,9 +77,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 529,
-    "min_description_length": 289,
-    "avg_description_length": 384.0,
-    "embedding_file_size_mb": 0.02947998046875
+    "max_description_length": 687,
+    "min_description_length": 296,
+    "avg_description_length": 482.5,
+    "embedding_file_size_mb": 0.0294647216796875
   }
 }

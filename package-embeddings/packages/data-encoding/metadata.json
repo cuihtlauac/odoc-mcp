@@ -1,168 +1,189 @@
 {
   "package": "data-encoding",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:37:20.415194",
+  "creation_timestamp": "2025-07-15T23:10:39.328662",
   "modules": [
     {
-      "module_path": "Data_encoding.V1.Encoding.Compact.Custom",
-      "description": "Provides functions to classify input into specific layouts, compute tags and titles, and retrieve partial and JSON encodings. Operates on custom types `input` and `layout`, where `input` represents data to encode and `layout` defines encoding strategies. Used to generate structured JSON outputs by selecting appropriate encodings based on input characteristics.",
-      "description_length": 362,
+      "module_path": "Data_encoding.V1.Encoding.Compact.Custom.S",
+      "library": "data-encoding",
+      "description": "This module defines a compact binary encoding strategy for a custom type by allowing manual specification of layouts, tags, and partial encodings. It works with two core types: `input` for the data to encode and `layout` to represent distinct encoding variants. It is used to optimize serialization size when encoding complex data with shared tags, such as in blockchain transaction formats or binary protocols where tag space is limited and efficient encoding is critical.",
+      "description_length": 473,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Binary.Slicer",
-      "description": "Provides functions to create and manipulate slicing states based on string offsets and lengths. It processes encoded data using a given encoding to produce structured slices, supporting both error-aware and exception-throwing variants. Handles string and byte-based inputs, enabling precise extraction of encoded data segments for parsing or serialization tasks.",
-      "description_length": 362,
+      "module_path": "Data_encoding.V1.Encoding.Compact.Custom",
+      "library": "data-encoding",
+      "description": "This module enables precise control over tag encoding by combining multiple tags into a single byte, optimizing serialization size for custom-defined types. It introduces core types `input` and `layout`, allowing manual specification of encoding variants and partial encodings to handle complex data layouts such as nested unions or bit-packed structures. The child module extends this by defining compact binary strategies for encoding custom types, particularly useful in constrained environments like blockchain transactions or binary protocols. Together, they support efficient serialization of complex data with shared tags, minimizing wasted space and enabling fine-grained layout control.",
+      "description_length": 695,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Encoding.Big_endian",
-      "description": "Encodes and decodes 16-bit signed and unsigned integers, 31-bit signed integers, and 32- or 64-bit signed integers using big-endian byte order. Works with primitive integer types and enforces range constraints for bounded integer encoding. Used to serialize protocol data fields requiring specific integer sizes and endianness, such as network packet headers or binary file formats.",
-      "description_length": 382,
+      "module_path": "Data_encoding.V1.Encoding.Bounded",
+      "library": "data-encoding",
+      "description": "This module provides encodings for bounded strings, bytes, and bigstrings with fixed maximum lengths. It ensures safe serialization and deserialization by enforcing size constraints. Use cases include handling network protocols or binary formats where fixed-size fields are required, such as message headers or checksums.",
+      "description_length": 321,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Data_encoding.V1.Encoding.Little_endian",
-      "description": "Encodes and decodes 16-bit and 32-bit signed and unsigned integers, as well as 31-bit integers, using little-endian byte order. Works with primitive integer types and custom ranges defined at runtime. Used to serialize network protocols and file formats requiring specific byte ordering.",
-      "description_length": 287,
+      "module_path": "Data_encoding.V1.Encoding.With_JSON_discriminant",
+      "library": "data-encoding",
+      "description": "This module provides union and matching combinators that add a JSON discriminant field to encoded data. It works with case encodings structured as JSON objects, using a tag composed of an integer and a string to uniquely identify each case. Concrete use cases include encoding and decoding tagged unions in JSON format, where the discriminant ensures correct case identification during deserialization.",
+      "description_length": 402,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Encoding.With_field_name_duplicate_checks",
-      "description": "Provides encoding functions for constructing JSON-like objects with field name validation to detect duplicates during serialization. Works with field descriptors and tuples representing structured data. Used to ensure consistent encoding of records where field uniqueness is critical, such as in protocol definitions or data validation pipelines.",
-      "description_length": 346,
+      "module_path": "Data_encoding.V1.Encoding.Big_endian",
+      "library": "data-encoding",
+      "description": "This module defines encodings for integer types with explicit big-endian byte order, including signed and unsigned 16-bit integers, 31-bit integers, 32-bit integers, and 64-bit integers. It also provides a function to create encodings for integers within a specified range. These encodings are used for precise, platform-independent serialization and deserialization of integer values in binary formats.",
+      "description_length": 403,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Data_encoding.V1.Encoding.With_JSON_discriminant",
-      "description": "Provides functions to encode and decode union types with discriminant fields in JSON, ensuring each case is represented as an object without conflicting or reserved fields. Operates on object encodings and uses case tags to generate unique \"kind\" fields in JSON output. Used to safely serialize polymorphic variants where each variant must be explicitly distinguished by a unique string in the resulting JSON structure.",
-      "description_length": 419,
+      "module_path": "Data_encoding.V1.Encoding.Little_endian",
+      "library": "data-encoding",
+      "description": "This module provides integer encoding and decoding functions using little-endian byte order. It supports fixed-size signed and unsigned integers, including int16, uint16, int31, int32, int64, and custom ranged integers. These encodings are used for binary serialization of integer values in low-level data formats or network protocols where byte order matters.",
+      "description_length": 360,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Encoding.Fixed",
-      "description": "Encodes and decodes fixed-length strings, bytes, and bigstrings, with options for JSON representation. Adds null padding to encodings and enforces exact list or array lengths during serialization. Used to serialize structured data with strict length constraints, such as parsing expressions with fixed operand counts.",
-      "description_length": 317,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Data_encoding.V1.Encoding.Variable",
-      "description": "Encodes variable-length data types such as strings, byte sequences, and arrays into binary formats, supporting custom JSON representations for strings and bytes. Works with OCaml's native types including `string`, `Bytes.t`, `bigstring`, and arrays/lists of arbitrary types. Used to serialize heterogeneous data structures with flexible length constraints in binary protocols.",
-      "description_length": 376,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Data_encoding.V1.Encoding.Bounded",
-      "description": "Encodes and decodes strings, bytes, and bigstrings with length constraints using specified integer types for length headers. Accepts a maximum length and a JSON representation format, ensuring values do not exceed bounds. Handles fixed-width integer encoding for length fields, raising exceptions for invalid configurations or oversized data.",
-      "description_length": 342,
-      "index": 8,
+      "library": "data-encoding",
+      "description": "This module defines encodings for variable-length data types such as strings, byte sequences, and dynamic collections. It supports operations for safely encoding and decoding values like `string`, `bytes`, `bigstring`, and constrained `array` or `list` structures with optional length limits. Use it when working with binary formats that require length-prefixed or dynamically sized fields, such as network protocols or custom file formats.",
+      "description_length": 440,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Data_encoding.V1.Encoding.Compact",
-      "description": "This module enables efficient serialization by using shared tags to encode complex data structures with minimal byte overhead. It operates on custom types `input` and `layout`, allowing for dynamic selection of encoding strategies based on data characteristics. Functions include tag computation, layout classification, and generation of both binary and JSON encodings. For example, it can encode a variant type with nested options and eithers using a single byte to represent multiple disjunctions, reducing overall serialization size.",
-      "description_length": 536,
+      "library": "data-encoding",
+      "description": "This module enables compact binary serialization of structured data by optimizing tag encoding across unions, reducing wasted space in nested or repeated disjunctions. It provides core types like `input` and `layout` for defining custom encodings with shared tags, supporting tuples, records, integers, lists, and tagged unions in a space-efficient manner. Operations include combinators for merging tags into single bytes, mapping custom types via isomorphisms, and specifying bit-level layouts for fine-grained control. Example uses include optimizing blockchain transaction formats, network protocols, or embedded systems data where minimal serialization size is critical.",
+      "description_length": 675,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Data_encoding.V1.Encoding.Fixed",
+      "library": "data-encoding",
+      "description": "This module creates encodings for fixed-length data in binary and JSON formats. It supports strings, bytes, bigstrings, and padded encodings, along with fixed-length lists and arrays. Use it to enforce exact sizes for serialized values, such as encoding a 32-byte hash or a fixed-size list of integers.",
+      "description_length": 302,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Data_encoding.V1.Binary.Slicer",
+      "library": "data-encoding",
+      "description": "This module provides functions to slice binary-encoded data into named segments with their string representations. It operates on strings and bytes using a state object that defines the current position and length of the data being processed. Use it to decode and inspect structured binary data by breaking it into meaningful parts based on a given encoding.",
+      "description_length": 358,
       "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Data_encoding.V1.Encoding",
-      "description": "Encodes and decodes integers, strings, and structured data with precise control over endianness, length, and representation. Supports big-endian and little-endian integer encoding, JSON object and array serialization with field validation, and variable-length data with length headers. Handles unions, tuples, and custom data types, ensuring correct encoding order and avoiding conflicts in serialized output. Examples include serializing network headers with 32-bit integers, encoding JSON objects with unique fields, and representing polymorphic variants with distinct kind tags.",
-      "description_length": 581,
+      "module_path": "Data_encoding.V1.Encoding.With_field_name_duplicate_checks",
+      "library": "data-encoding",
+      "description": "This module constructs JSON object encodings from field definitions, ensuring no duplicate field names are allowed in the resulting encoding. It provides functions to create encodings for tuples of fields, from one to ten fields, and merges two encodings into a larger object. These operations are used to build structured, type-safe JSON encoders with field uniqueness guarantees.",
+      "description_length": 381,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.With_version",
-      "description": "Encapsulates versioned data encodings, allowing transitions between versions via an upgrade function. Operates on polymorphic variants of type '_ t, where each version is built from a prior one using a specified conversion. Used to serialize and deserialize data while maintaining compatibility across evolving formats.",
-      "description_length": 319,
+      "module_path": "Data_encoding.V1.Binary_stream",
+      "library": "data-encoding",
+      "description": "This module provides functions for reading and writing binary data incrementally from a stream. It supports operations like `read` and `write` that process bytes on demand, working with the `t` type representing a binary stream. Concrete use cases include parsing network protocols, deserializing file formats, and handling input/output in a memory-efficient way.",
+      "description_length": 363,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Json",
-      "description": "The module provides functions for encoding, decoding, and manipulating JSON data, including schema generation and traversal of structured data. It works with JSON values, schemas, lazy lexeme sequences, and a path type composed of field names or array indices to navigate nested structures. Use cases include efficient data serialization, schema validation, and precise element access in complex JSON objects or arrays.",
-      "description_length": 419,
+      "module_path": "Data_encoding.V1.Binary_schema",
+      "library": "data-encoding",
+      "description": "This module defines a binary schema representation for type-safe serialization and deserialization. It provides structured operations to build and manipulate binary encodings, primarily working with custom data types to ensure correct binary format conversion. It is used to define precise binary layouts for data structures, enabling efficient and safe encoding to and decoding from binary formats.",
+      "description_length": 399,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Bson",
-      "description": "Constructs and deconstructs BSON objects using specific encodings, mapping between OCaml values and BSON data structures. Operates on the `bson` type, which represents serialized JSON-like data. Used to serialize custom data structures into BSON for storage or transmission, and to parse BSON back into OCaml values during data retrieval.",
-      "description_length": 338,
+      "module_path": "Data_encoding.V1.Encoding",
+      "library": "data-encoding",
+      "description": "This module enables type-safe bidirectional serialization of complex data structures, supporting both binary and JSON formats with precise control over encoding details. It offers core operations for structured types like tuples, records, and variant unions, along with integer encodings in big and little-endian formats, length-prefixed data, and fixed-size fields. Submodules enhance this functionality with size-constrained strings, union discriminants for JSON, compact binary layouts, and unique field enforcement in JSON objects. Use it to implement network protocols, storage formats, or APIs where data integrity and interoperability across representations are essential.",
+      "description_length": 679,
       "index": 13,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Data_encoding.V1.Binary_schema",
-      "description": "Provides pretty-printing for binary data structures using a custom format printer. Operates on a type `t` that represents serialized binary schemas. Used to generate human-readable representations of binary layouts during debugging or logging.",
-      "description_length": 243,
+      "module_path": "Data_encoding.V1.Bson",
+      "library": "data-encoding",
+      "description": "This module provides functions to serialize and deserialize values to and from BSON format using type-safe encodings. It works with the `bson` type representing BSON documents and `t` which is an alias for `bson`. Concrete use cases include converting OCaml data structures to BSON for storage in MongoDB or transmitting over a network, and reconstructing OCaml values from received BSON data.",
+      "description_length": 393,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Binary_stream",
-      "description": "Checks if the stream has no undecoded bytes remaining, returning `true` when further reads would block. Operates on the `t` type, representing a stream of binary data. Used to determine readiness for reading before attempting to decode values from the stream.",
-      "description_length": 259,
+      "module_path": "Data_encoding.V1.Binary",
+      "library": "data-encoding",
+      "description": "This module enables binary serialization and deserialization with fine-grained control over encoding, error handling, and data inspection. It supports direct operations on byte sequences and strings, along with user-defined types and structured data parsing through a stateful slicing mechanism that breaks binary input into named segments. You can implement network protocol decoders, file format parsers, or error-resilient data transmission layers by combining low-level encoding functions with high-level slicing and traversal utilities. Examples include decoding a binary message into fields with descriptive names, validating encoded data against size constraints, or recovering from malformed input during stream processing.",
+      "description_length": 731,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Data_encoding.V1.Binary",
-      "description": "Handles encoding and decoding of structured data with precise control over byte-level operations. Supports string and byte slicing, error tracking, and partial decoding, allowing for safe extraction of data segments even in malformed streams. Provides mechanisms to manage dynamic sizes, validate ranges, and handle exceptional cases during parsing. Can decode values with known byte counts, track remaining data, and detect invalid or oversized inputs.",
-      "description_length": 453,
+      "module_path": "Data_encoding.V1.With_version",
+      "library": "data-encoding",
+      "description": "This module creates versioned encodings that support backward compatibility by allowing upgrades between successive versions. It works with `Data_encoding.V1.encoding` values and provides functions to define a sequence of versions linked by upgrade functions. Use it when serializing data structures that evolve over time, ensuring older serialized data can still be decoded with newer encodings.",
+      "description_length": 396,
       "index": 16,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Data_encoding.V1.Json",
+      "library": "data-encoding",
+      "description": "This module provides JSON serialization, deserialization, and transformation capabilities, including schema generation and bidirectional conversion between structured data and JSON formats. It operates on JSON values represented as a variant type, supporting both human-readable string representations and binary serialization with customizable formatting. Key use cases include pretty-printing JSON for debugging, validating data against schemas, and efficiently encoding/decoding values to and from byte sequences.",
+      "description_length": 516,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Data_encoding.V1.Registration",
-      "description": "Provides functions to inspect and manipulate encoded data representations, including schema extraction, pretty printing, and binary slicing. Operates on encoded data types, JSON values, and binary byte sequences. Used to validate and convert between JSON and binary formats, and to analyze registered encodings for debugging or tooling purposes.",
-      "description_length": 345,
-      "index": 17,
+      "library": "data-encoding",
+      "description": "This module manages the registration and lookup of type-safe encodings, enabling binary and JSON serialization, deserialization, and schema inspection. It works with identifiers (`string`), encoding definitions (`Encoding.t`), and structured data representations like `Json.t` and `Bytes.t`. Concrete use cases include converting JSON to binary using registered encodings, slicing binary data based on known encoding structures, and retrieving schema or pretty-printing functions for debugging and tooling integration.",
+      "description_length": 518,
+      "index": 18,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Data_encoding.V1",
-      "description": "Encodes and decodes structured data with precise control over byte-level operations, supporting integers, strings, JSON, BSON, and versioned formats. Operates on types like `t`, `bson`, and polymorphic variants, enabling serialization, validation, and manipulation of data across formats. Examples include encoding network headers, serializing JSON with schema validation, and converting between binary and JSON representations. Provides tools for debugging, stream readiness checks, and safe partial decoding of malformed data.",
-      "description_length": 528,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "data-encoding",
-      "description": "Encodes and decodes values using type-safe representations, supporting primitives, lists, and variant types. Converts data between OCaml values and binary or JSON formats. Used to serialize protocol buffers or store structured data in a compact form.",
-      "description_length": 250,
+      "library": "data-encoding",
+      "description": "This module enables type-safe serialization and deserialization of structured data across multiple formats, combining core combinators with specialized submodules for binary, JSON, and BSON handling. It defines encodings for tuples, records, variants, and recursive types, supporting operations like `read` and `write` for incremental processing, `schema` for binary layout definition, and `Bson` for MongoDB-compatible document conversion. You can define versioned encodings with backward compatibility, parse network protocols using stateful slicing, or enforce unique fields in JSON objects with custom constraints. Specific applications include implementing protocol buffers, persistent storage schemas, and interoperable APIs with precise control over data representation and integrity.",
+      "description_length": 791,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Data_encoding",
-      "description": "Encodes and decodes structured data with precise control over byte-level operations, supporting integers, strings, JSON, BSON, and versioned formats. Operates on types like `t`, `bson`, and polymorphic variants, enabling serialization, validation, and manipulation of data across formats. Examples include encoding network headers, serializing JSON with schema validation, and converting between binary and JSON representations. Provides tools for debugging, stream readiness checks, and safe partial decoding of malformed data.",
-      "description_length": 528,
+      "library": "data-encoding",
+      "description": "This module provides combinators for bidirectional serialization between binary, JSON, and BSON formats, supporting atomic types, collections, and structured data such as records, tuples, and variants. It allows precise control over encoding schemas through recursive definitions, lazy decoding, and size constraints, with specialized tools for merging fixed-size structures and handling polymorphic or custom data. Operations like `read`, `write`, and `schema` enable incremental processing and binary layout definition, while submodules facilitate MongoDB-compatible BSON conversion and versioned encodings with backward compatibility. You can implement network protocols, persistent storage systems, or interoperable APIs with strict data integrity, using features like stateful slicing or custom constraints on JSON fields.",
+      "description_length": 827,
       "index": 20,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 45,
+    "total_modules_in_package": 21,
     "meaningful_modules": 21,
-    "filtered_empty_modules": 24,
-    "retention_rate": 0.4666666666666667
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 581,
-    "min_description_length": 243,
-    "avg_description_length": 380.57142857142856,
-    "embedding_file_size_mb": 0.07314491271972656
+    "max_description_length": 827,
+    "min_description_length": 302,
+    "avg_description_length": 496.3333333333333,
+    "embedding_file_size_mb": 0.07679462432861328
   }
 }

@@ -1,56 +1,69 @@
 {
   "package": "conduit",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:28.685095",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:18.350041",
   "modules": [
     {
-      "module_path": "Resolver.Make",
-      "description": "Provides monadic binding and return operations for sequencing computations wrapped in a context. Works with parameterized types that support chaining via the >>= operator. Enables structured asynchronous or effectful workflows such as parsing, state transformation, or I/O handling.",
-      "description_length": 282,
+      "module_path": "Conduit.IO",
+      "library": "conduit",
+      "description": "This module defines the cooperative threading interface with bind (`>>=`) and return operations, enabling asynchronous workflows. It works with the `'a t` type representing asynchronous computations. Concrete use cases include composing non-blocking I/O operations and managing concurrency in network applications.",
+      "description_length": 314,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "conduit",
-      "description": "Provides functions for creating and managing network connections, resolving URI endpoints, and handling OS-specific connection details. Works with endpoint representations, URI strings, and network configuration data. Used to establish TCP links between local and remote services, such as connecting to a database server or a remote API.",
-      "description_length": 337,
+      "module_path": "Resolver.S",
+      "library": "conduit",
+      "description": "This module defines a resolver capable of mapping URIs to concrete endpoints for streaming connections, supporting dynamic rewrites and service resolution. It operates on types including `t` for resolver state, `svc` for services, and functions like `rewrite_fn` and `service_fn` to customize resolution logic. Use cases include configuring per-host rewrites, composing service resolution chains, and resolving URIs into endpoints using a custom service function.",
+      "description_length": 463,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Resolver",
-      "description": "Resolves URIs into concrete endpoints using a service function and customizable rewrite rules. It operates on `Uri.t` and `Conduit.endp` types, allowing for dynamic endpoint generation based on host patterns. It supports composing service functions and applying temporary rewrites during resolution.",
-      "description_length": 299,
+      "module_path": "Resolver.Make",
+      "library": "conduit",
+      "description": "Constructs a resolver for mapping URIs to endpoints using a specified I/O implementation. It supports adding rewrite rules for domain-specific resolution logic and composing service functions to handle hostname lookups. This module is used to customize URI resolution strategies in networked applications like HTTP clients or RPC systems.",
+      "description_length": 338,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Conduit_trie",
-      "description": "Provides operations to build and query a radix tree for efficient longest-prefix matching on string keys. Supports inserting key-value pairs, folding over all entries, and checking prefix relationships between strings. Used for tasks like IP address routing or pattern matching where prefix-based lookups are critical.",
-      "description_length": 318,
+      "library": "conduit",
+      "description": "This module implements a radix tree for efficient longest-prefix lookups on string keys. It supports inserting key-value pairs, finding the value associated with the longest prefix of a given string, and folding over all bindings. It is useful for applications like routing tables or IP address lookups where prefix matching is essential.",
+      "description_length": 338,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Conduit",
-      "description": "Provides bind and return operations for sequencing asynchronous computations, enabling structured handling of I/O and event-driven tasks. Works with a parameterized type representing computations that may yield control. Used to implement non-blocking network protocols and stream processing pipelines.",
-      "description_length": 301,
+      "module_path": "Resolver",
+      "library": "conduit",
+      "description": "This module resolves URIs to service endpoints for both HTTP and HTTPS protocols, using a `service` type that captures name, port, and TLS settings, with functions to serialize and deserialize services via S-expressions. Its child modules extend this core functionality by introducing customizable resolvers that support dynamic rewrites, service resolution chains, and I/O-specific implementations, enabling advanced use cases like per-host rewrites and composed hostname lookups. The API includes types such as `t` for resolver state and `svc` for service definitions, along with operations like `rewrite_fn` and `service_fn` to tailor resolution logic. Example uses include mapping database URIs to encrypted network addresses at startup and configuring custom resolution strategies in HTTP clients or RPC systems.",
+      "description_length": 817,
       "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Conduit",
+      "library": "conduit",
+      "description": "This module establishes stream connections across distributed systems using TCP, Unix domain sockets, or Xen Vchan, with support for TLS encryption and URI-based endpoint resolution. It provides core types like `endpoint` for describing connection targets and `stream` for managing I/O, along with operations to connect, resolve, and serialize endpoints. The included threading interface enables asynchronous workflows through bind and return, allowing non-blocking composition of network operations such as initiating secure connections or handling concurrent client requests. Example uses include connecting a MirageOS unikernel to a remote TCP service or securely linking Unix processes via TLS-wrapped streams.",
+      "description_length": 714,
+      "index": 5,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 337,
-    "min_description_length": 282,
-    "avg_description_length": 307.4,
-    "embedding_file_size_mb": 0.01858043670654297
+    "max_description_length": 817,
+    "min_description_length": 314,
+    "avg_description_length": 497.3333333333333,
+    "embedding_file_size_mb": 0.022200584411621094
   }
 }

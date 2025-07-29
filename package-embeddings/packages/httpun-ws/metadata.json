@@ -1,98 +1,101 @@
 {
   "package": "httpun-ws",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:33.307025",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:06:33.627473",
   "modules": [
     {
       "module_path": "Httpun_ws.Websocket.Opcode",
-      "description": "Provides operations to convert between an opaque type and integers, including safe and unsafe constructors from integer values and a pretty-printing function for human-readable output. Works with a custom type representing opcodes, partitioned into control and non-control categories. Used to encode and decode instruction codes in a low-level interpreter or compiler backend.",
-      "description_length": 376,
+      "library": "httpun-ws",
+      "description": "This module defines types and functions for working with WebSocket opcodes, including standard non-control (`Continuation`, `Text`, `Binary`) and control (`Connection_close`, `Ping`, `Pong`) codes. It provides conversions between opcode values and integers, along with safe and unsafe lookup functions for parsing and serializing WebSocket frames. Use cases include handling WebSocket message types during frame processing and validating opcode values during connection negotiation.",
+      "description_length": 482,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Httpun_ws.Websocket.Close_code",
-      "description": "Provides conversion between integer values and a custom type, including safe and unsafe options for parsing and serialization. Works with integers, bigstrings, and a tagged type representing specific code values. Used to decode and encode structured error or status codes from binary data.",
-      "description_length": 289,
+      "library": "httpun-ws",
+      "description": "This module defines and manipulates WebSocket close codes, including standard codes and custom integer-based codes. It provides functions to convert between close code values and their integer representations, supporting both safe and unsafe conversions. Concrete use cases include handling WebSocket connection closures with specific error codes during communication, such as signaling protocol errors or policy violations.",
+      "description_length": 424,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Httpun_ws.Payload",
-      "description": "Checks if a payload stream has reached its end and schedules asynchronous read operations with custom handlers for data and end-of-file events. Operates on an opaque stream type representing data sources. Used to manage network or file-based data ingestion with fine-grained control over reading and completion.",
-      "description_length": 311,
+      "library": "httpun-ws",
+      "description": "This module handles WebSocket payload management, providing functions to check if a payload is closed, schedule read operations with callbacks for data and EOF, and explicitly close a payload. It works with `Bigstringaf.t` for efficient binary data handling and is used in scenarios like streaming WebSocket messages. Concrete use cases include processing incoming WebSocket frames and managing connection lifecycle events.",
+      "description_length": 423,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpun_ws.Websocket",
-      "description": "Encodes and decodes numeric and tagged values into custom types, supporting safe and unsafe conversions, integer mapping, and pretty printing. Handles opcodes and error/status codes through distinct tagged types, enabling low-level data manipulation and interpretation. Operations include parsing binary data, serializing values, and generating human-readable representations. Can be used to process WebSocket frames, interpret control signals, or validate error conditions in network protocols.",
-      "description_length": 495,
+      "module_path": "Httpun_ws.Wsd",
+      "library": "httpun-ws",
+      "description": "This module handles WebSocket data transmission and lifecycle management. It provides functions to schedule or send binary or text frames, including control frames like ping and pong, with support for message fragmentation via the `is_fin` parameter. Designed for use with WebSocket connections in either client or server mode, it works directly with bigarrays, bytes, and iovecs for efficient data handling.",
+      "description_length": 408,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpun_ws.Wsd",
-      "description": "Provides functions to schedule WebSocket frames, send text or binary data, and manage control messages like ping and pong. Operates on `Bigstringaf.t`, `Bytes.t`, and `IOVec.t` for efficient data handling. Used to transmit fragmented messages, send application-specific control data, and handle connection closure with error tracking.",
-      "description_length": 334,
+      "module_path": "Httpun_ws.Server_connection",
+      "library": "httpun-ws",
+      "description": "This module manages WebSocket server connections by handling the lifecycle of incoming data, reading from and writing to connections, and signaling when to yield or close. It works with low-level data structures like `Bigstringaf.t` and `IOVec.t` for efficient I/O operations, and integrates with WebSocket-specific types like `Wsd.t` and `Websocket_connection.input_handlers`. Concrete use cases include implementing custom WebSocket servers that process binary or text frames, manage backpressure via `yield_reader` and `yield_writer`, and handle connection termination gracefully.",
+      "description_length": 583,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Httpun_ws.Handshake",
-      "description": "Provides functions to construct HTTP handshake requests, validate upgrade headers using a SHA-1 transformation, and respond to upgrade requests with custom headers. Operates on HTTP headers, methods, and request objects from the Httpun module. Used to establish WebSocket connections by generating and verifying handshake data.",
-      "description_length": 327,
+      "module_path": "Httpun_ws.Client_connection",
+      "library": "httpun-ws",
+      "description": "This module manages WebSocket client connections, handling the lifecycle of reading from and writing to a WebSocket. It provides functions to connect, read and write data, handle errors, and manage yielding control during I/O operations. Concrete use cases include implementing WebSocket clients that perform message-based communication over encrypted channels, such as real-time messaging or streaming data applications.",
+      "description_length": 421,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Httpun_ws.Websocket_connection",
-      "description": "Handles message parsing, frame construction, and connection management for WebSocket protocols. Processes binary and text data, manages handshake negotiation, and routes incoming messages to registered handlers. Used to establish real-time communication between client and server, supporting event-driven interactions in networked applications.",
-      "description_length": 344,
+      "library": "httpun-ws",
+      "description": "Handles WebSocket connections by processing incoming frames and end-of-file events. It works with WebSocket frames, opcodes, and payloads to manage message transmission. Concrete use cases include implementing real-time communication protocols, handling binary or text messages, and managing connection termination gracefully.",
+      "description_length": 326,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpun_ws.Client_connection",
-      "description": "Handles WebSocket connections with custom read/write logic, error reporting, and yield management. Operates on `Bigstringaf.t` for efficient buffer handling and `Wsd.t` for WebSocket data. Used to manage real-time data streaming, handle protocol errors, and coordinate asynchronous I/O operations.",
-      "description_length": 297,
+      "module_path": "Httpun_ws.Handshake",
+      "library": "httpun-ws",
+      "description": "This module handles WebSocket handshake operations by creating HTTP upgrade requests and validating handshake headers. It works with HTTP headers, methods, and request/response types to establish WebSocket connections. Concrete use cases include initiating client handshakes with a nonce and upgrading server connections using SHA-1 digest validation.",
+      "description_length": 351,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Httpun_ws.Server_connection",
-      "description": "Handles low-level HTTP and WebSocket communication, offering control over read/write operations, error reporting, and connection state. Operates on Bigstringaf.t for efficient buffer management and Wsd.t for WebSocket sessions. Used to manage asynchronous data flow in networked applications, such as streaming responses or handling real-time message exchanges.",
-      "description_length": 361,
+      "module_path": "Httpun_ws.Websocket",
+      "library": "httpun-ws",
+      "description": "This module handles core WebSocket protocol elements by managing opcodes and close codes essential for frame processing and connection management. It provides data types for distinguishing message types like text, binary, and control frames, along with operations for converting these types to and from their integer representations. The module supports tasks such as validating opcodes during frame parsing or sending specific close codes to indicate connection termination reasons. Example uses include responding to a `Ping` opcode with a `Pong` frame or closing a connection with a `Policy_violation` code.",
+      "description_length": 610,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "httpun-ws",
-      "description": "Provides functions for establishing and managing WebSocket connections, handling message framing, and processing binary or text data. Works with socket descriptors, byte sequences, and protocol-specific state machines. Used to build real-time communication layers in networked applications, such as chat systems or live data feeds.",
-      "description_length": 331,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Httpun_ws",
-      "description": "manages asynchronous data ingestion, WebSocket frame transmission, and HTTP handshake negotiation, operating on opaque stream types, buffers, and WebSocket session data. It supports parsing and serializing custom data types, handling control messages, and managing connection states with fine-grained control. Users can process WebSocket frames, send binary or text data, and validate handshake headers for real-time communication. Examples include streaming data from files, sending ping/pong messages, and constructing protocol-specific error responses.",
-      "description_length": 555,
-      "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "library": "httpun-ws",
+      "description": "This module implements a comprehensive WebSocket library handling connection lifecycle, data transmission, and protocol semantics. It centers around `Bigstringaf.t`, `IOVec.t`, and `Wsd.t` for efficient I/O, with core types like opcodes and close codes managing frame types and termination reasons. Users can establish client/server connections, send fragmented text/binary messages, handle control frames like ping/pong, and manage backpressure via yield operations. Example workflows include streaming real-time data over upgraded HTTP connections, implementing custom WebSocket servers with frame-level control, or building secure messaging clients with explicit close signaling.",
+      "description_length": 682,
+      "index": 9,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 11,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9166666666666666
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 555,
-    "min_description_length": 289,
-    "avg_description_length": 365.45454545454544,
-    "embedding_file_size_mb": 0.04037761688232422
+    "max_description_length": 682,
+    "min_description_length": 326,
+    "avg_description_length": 471.0,
+    "embedding_file_size_mb": 0.03674507141113281
   }
 }

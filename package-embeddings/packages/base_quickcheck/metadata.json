@@ -1,140 +1,189 @@
 {
   "package": "base_quickcheck",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 17,
-  "creation_timestamp": "2025-06-18T16:34:55.882326",
+  "total_modules": 21,
+  "creation_timestamp": "2025-07-15T23:11:31.614849",
   "modules": [
     {
-      "module_path": "Base_quickcheck.Test.Config.Seed",
-      "description": "Provides serialization to S-expression format for internal representations of cryptographic seeds. Operates on opaque byte sequences encapsulated in a custom type. Used to persist and transmit seed values in a structured, human-readable format.",
-      "description_length": 244,
+      "module_path": "Base_quickcheck.Generator.Let_syntax.Let_syntax",
+      "library": "base_quickcheck",
+      "description": "This module enables monadic composition of random value generators using `let` syntax, supporting operations like `bind`, `map`, and `both` to build complex test inputs from simpler components. It allows generating structured data such as variable-length lists, constrained tuples, and custom types for property-based testing. While it provides core generator combinators directly, it also organizes extended functionality into submodules for specialized use cases. For example, you can sequence generators to create dependent random values or combine multiple generators to form composite test data.",
+      "description_length": 600,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Base_quickcheck.Generator.Let_syntax.Let_syntax",
-      "description": "The module provides a set of syntactic extensions for working with monadic computations. It introduces custom syntax for binding and sequencing operations, enhancing readability in complex workflows. Basic operations such as `let%bind` and `let%map` allow for cleaner handling of effectful computations. It is particularly useful for writing concise and expressive code in a monadic style.",
-      "description_length": 389,
+      "module_path": "Base_quickcheck.Test.Config.Seed",
+      "library": "base_quickcheck",
+      "description": "This module defines the configuration seed for randomized testing, supporting both nondeterministic and deterministic test runs using a string-based seed. It provides a way to serialize the seed configuration to an S-expression for logging or reproducibility. Use this module to control test randomness, ensuring reproducible failures in test environments.",
+      "description_length": 356,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Test.Config",
-      "description": "handles the configuration and serialization of cryptographic seeds for property testing, managing random state initialization, test iteration, and value shrinking. it defines types for seeds, test counts, shrink attempts, and size progressions, with operations for serializing seeds to S-expressions. it ensures tests are configured with valid size sequences and allows persistent storage of seeds. examples include saving a seed for later reuse or adjusting test parameters to refine failure analysis.",
-      "description_length": 502,
+      "module_path": "Base_quickcheck.Test.S",
+      "library": "base_quickcheck",
+      "description": "Implements randomized property testing with specific support for generating, shrinking, and validating values of type `t`. Works directly with `t` by providing its generator, shrinker, and S-expression converter. Used to define and run concrete test cases for functions operating on `t`, ensuring correctness under varied and edge-case inputs.",
+      "description_length": 343,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Generator.Applicative_infix",
-      "description": "Applies a function wrapped in a context to a value in the same context, and sequences actions while discarding intermediate results. Operates on monadic types, enabling chaining and transformation of values within effectful computations. Used to combine validation steps and process results in a clean, sequential manner.",
-      "description_length": 321,
+      "module_path": "Base_quickcheck.Generator.Debug",
+      "library": "base_quickcheck",
+      "description": "This module provides tools to analyze and observe generator behavior during testing. It includes `coverage` for tracking frequency of generated keys and `monitor` for inspecting values produced by a generator, such as counting outputs or capturing rejected values. These functions help debug issues in generator distribution and filtering logic.",
+      "description_length": 345,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Generator.Monad_infix",
-      "description": "Sequences monadic computations with bind and transforms their results with map, enabling chained operations on values wrapped in a monadic context. Works with any type constructor that supports the monadic interface, such as option, list, or result. Used to handle side effects or asynchronous operations in a compositional way, like processing a series of optional values or handling errors in a pipeline.",
-      "description_length": 406,
+      "module_path": "Base_quickcheck.Test.Config",
+      "library": "base_quickcheck",
+      "description": "This module defines the configuration for randomized testing, combining global parameters like test iterations, shrink limits, and size scaling with seed management for reproducibility. It supports direct manipulation of integer, sequence, and seed values to control test execution, while its child module handles seed serialization and deterministic test runs. Use it to configure test runs with precise control over randomness, shrinking, and value generation, such as setting a fixed seed for reproducible failures or adjusting iteration counts for thoroughness.",
+      "description_length": 565,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Base_quickcheck.Generator.Let_syntax",
-      "description": "Introduces custom syntax for monadic composition, enabling cleaner handling of effectful operations through constructs like `let%bind` and `let%map`. Supports sequential binding and transformation of values within a monadic context, simplifying complex workflows. Allows for more readable and structured code when working with monads such as option, result, or async. Example: chaining asynchronous operations or safely navigating nested option values.",
-      "description_length": 452,
+      "library": "base_quickcheck",
+      "description": "This module enables monadic composition of random value generators using `let` syntax, supporting operations like `bind`, `map`, and `both` to build complex test inputs from simpler components. It centers around the `'a Base_quickcheck.Generator.t` type, offering direct functions to sequence generator actions, transform their outputs, and create structured data such as variable-length lists, constrained tuples, and custom types. Submodules extend this functionality with specialized combinators and utilities for advanced generator construction, enabling tasks like generating dependent values or combining multiple generators into one. For example, you can use `bind` to generate a list length and then produce a list of that size or use `both` to pair randomly generated values.",
+      "description_length": 784,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Generator.Debug",
-      "description": "Tracks key frequencies in sequences using a comparator, returning a map of counts. Operates on sequences and maps with custom comparators. Useful for analyzing data distribution in streams or logs. Monitors generator outputs by executing a side-effect function for each value, preserving the original sequence. Works with generator types and functions. Helps trace values through transformations like filtering or mapping.",
-      "description_length": 422,
+      "module_path": "Base_quickcheck.Generator.Applicative_infix",
+      "library": "base_quickcheck",
+      "description": "This module provides applicative-style operators for combining generators, enabling the construction of complex random values from simpler ones. It works with `Base_quickcheck.Generator.t`, allowing functions and values to be sequenced or transformed within the generator context. Concrete use cases include composing generators for product types, chaining conditional random values, and mapping functions over generated inputs to produce structured test data.",
+      "description_length": 460,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Generator",
-      "description": "provides monadic operations for sequencing and transforming values within effectful computations, supporting types like option, list, and result. It includes custom syntax for cleaner monadic composition and tracks value frequencies in sequences. It also enables side-effect monitoring during generation, allowing inspection of outputs without altering the sequence. Examples include safely chaining optional values, analyzing data distributions, and tracing generator outputs during processing.",
-      "description_length": 495,
+      "module_path": "Base_quickcheck.Generator.Monad_infix",
+      "library": "base_quickcheck",
+      "description": "This module provides monadic composition operators for combining and transforming generators. It enables chaining random value productions where one generator's output feeds into another, and supports mapping functions over generator results. Use it to create complex test input generators that depend on prior random values, like generating dependent data structures or conditional test cases.",
+      "description_length": 394,
       "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Base_quickcheck.Observer",
-      "description": "This module enables the creation of random functions by combining observers for input types with generators for output types, supporting base types (int, string, bool), composite structures (list, option, array), and complex types (maps, sets, recursive structures). It facilitates tasks like fuzz testing and synthetic data generation through patterns such as random value creation, hashing, and handling nested or recursive data layouts. Specific applications include generating randomized test cases for functional correctness or stress-testing systems with structured input variations.",
-      "description_length": 589,
+      "module_path": "Base_quickcheck.Shrinker",
+      "library": "base_quickcheck",
+      "description": "This module simplifies complex values by generating smaller, structurally similar instances of types like integers, strings, lists, and options, while preserving constraints. It supports structured data (maps, sets, bigarrays, results) and recursive types through transformations, filters, and user-defined shrinking functions. These tools aid property-based testing by isolating minimal failing cases to streamline debugging when tests fail.",
+      "description_length": 442,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Shrinker",
-      "description": "The module provides functions to generate smaller values from larger ones through recursive shrinking, transformation, and filtering, targeting OCaml's core types, standard library structures, and complex data like maps, sets, and matrices. It enables simplifying test cases by reducing structured data while preserving essential properties, useful for debugging and minimizing failure scenarios in property-based testing. Specific use cases include refining failing test inputs to their minimal problematic forms, such as shrinking large lists or nested options to isolate edge cases.",
-      "description_length": 585,
+      "module_path": "Base_quickcheck.Generator",
+      "library": "base_quickcheck",
+      "description": "This module creates and manipulates random value generators for property-based testing, supporting primitives and structured types like lists, maps, and recursive data types. It offers monadic and applicative combinators to build complex generators from simpler ones, enabling operations like binding, mapping, and combining to generate dependent values, variable-length structures, and custom types. Submodules provide tools for analyzing generator behavior, tracking coverage, and inspecting generated values to debug distribution and filtering issues. For example, you can generate a random list length then produce a list of that size, or pair generated values while applying constraints and transformations to validate algorithms against diverse inputs.",
+      "description_length": 758,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Base_quickcheck.Test",
-      "description": "Provides serialization to S-expression format and supports property-based testing through a generator and shrinker for the type `t`. Works with the `t` type to enable automated test case generation and reduction. Used to validate behavior under varied input scenarios in testing frameworks.",
-      "description_length": 290,
+      "library": "base_quickcheck",
+      "description": "This module orchestrates randomized property-based testing by integrating generators, shrinkers, and configurable parameters to validate functions that return results or raise exceptions. It enables defining properties over arbitrary types using associated generators and shrinkers, supporting concrete test cases for functions operating on those types, such as verifying serialization round-trips or algebraic identities. The configuration submodule tunes test execution with control over iterations, shrinking, and seed management, enabling reproducible test runs and deterministic debugging through seed serialization. Together, these components allow testing complex invariants with customizable input generation and failure reduction strategies.",
+      "description_length": 750,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck.Export",
-      "description": "Provides generators, observers, and shrinkers for OCaml's primitive types (e.g., integers, booleans, strings) and common data structures like options, lists, and arrays, enabling systematic test data creation and case reduction. These functions support property-based testing by adhering to ppx_quickcheck conventions, allowing developers to debug and validate complex type behaviors through structured input generation and failure minimization.",
-      "description_length": 445,
+      "module_path": "Base_quickcheck.Observer",
+      "library": "base_quickcheck",
+      "description": "This module enables the creation of random functions by capturing structural information of input values through observers. It supports base types like integers and strings, polymorphic structures such as options and lists, and complex data like maps, sets, and bigarrays (float32/float64), using hash-based observation and combinators to handle recursive, variant, or compound types. Observers are particularly useful in property-based testing scenarios where structured input generation and deterministic function randomization over intricate data models are required.",
+      "description_length": 570,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_quickcheck_runtime.Quickcheckable",
-      "description": "Generates and shrinks values of type `t` using Quickcheck's framework, with a dedicated observer for property testing. It supports custom serialization and deserialization for test case inspection. Used to validate invariants in data structures by automatically producing and reducing test inputs.",
-      "description_length": 297,
+      "module_path": "Base_quickcheck.Export",
+      "library": "base_quickcheck",
+      "description": "This module facilitates property-based testing by generating random values, observing their structure for shrinking, and systematically reducing complex values in basic OCaml types like integers, strings, and floats. It extends to structured types such as options, lists, arrays, and references through recursive combinators that derive shrinkers from element-level functions. These capabilities are crucial for automated test case generation and identifying minimal counterexamples when tests fail.",
+      "description_length": 499,
       "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "base_quickcheck",
-      "description": "Generates random values and properties to test code behavior using a declarative approach. Works with OCaml's built-in types and custom variants through a generator and checker system. Validates invariants in data transformations and algorithm implementations.",
-      "description_length": 260,
+      "module_path": "Base_quickcheck",
+      "library": "base_quickcheck",
+      "description": "This module enables property-based testing by combining random value generation, structured shrinking, and input observation to validate function invariants and isolate minimal failure cases. It provides core data types like generators for producing arbitrary values, shrinkers for simplifying counterexamples, and observers for capturing structural properties, with operations for binding, mapping, and combining these components. You can generate a list of random integers and validate sorting properties, create custom shrinkers for recursive data types to aid debugging, or observe complex data structures for consistent function randomization. Submodules refine these capabilities with tools for generator composition, test configuration, and coverage analysis, supporting robust testing of algorithms, serializers, and stateful logic.",
+      "description_length": 840,
       "index": 13,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Base_quickcheck",
-      "description": "provides monadic sequencing, random function generation, value shrinking, and serialization for property-based testing, supporting OCaml's core and composite types. It includes operations for chaining effectful computations, generating structured test data, reducing failing cases, and serializing values for inspection. Functions enable tasks like safely handling optional values, creating randomized test inputs, and minimizing complex data structures. Examples include generating test cases for recursive types, shrinking lists to edge cases, and tracking value distributions during testing.",
-      "description_length": 594,
+      "module_path": "Ppx_quickcheck_runtime.Quickcheckable.S3",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module defines functions to construct generators, observers, and shrinkers for a three-argument polymorphic type. It combines individual generators, observers, and shrinkers for types `'a`, `'b`, and `'c` into a single composite generator, observer, and shrinker for the tuple-like type `('a, 'b, 'c) t`. It is used to support property-based testing by enabling the generation, observation, and shrinking of complex structured values.",
+      "description_length": 439,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_quickcheck_runtime",
-      "description": "Provides property testing capabilities by generating and shrinking values of type `t` with custom serialization. Includes an observer for integrating with Quickcheck's framework to validate data structure invariants. Supports automated test input creation and reduction for efficient debugging. Example tasks include verifying equality properties or ensuring consistency after transformations.",
-      "description_length": 393,
+      "module_path": "Ppx_quickcheck_runtime.Quickcheckable.S2",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module provides functions to generate, observe, and shrink values of a parametric type `('a, 'b) t` for property-based testing. It combines generators, observers, and shrinkers for two type parameters to construct test cases for data structures that take two arguments, such as pairs or binary trees. Use this when defining custom testable types that hold two distinct values, like key-value pairs or dual-state structures.",
+      "description_length": 428,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_quickcheck_expander",
-      "description": "Generates testable properties for type declarations by expanding syntax tree nodes into QuickCheck-compatible generators, observers, and shrinkers. Processes OCaml type declarations and core types to produce runtime evaluation and property testing code. Inserts custom expressions into parsed code to enable automated property-based testing.",
-      "description_length": 341,
+      "module_path": "Ppx_quickcheck_runtime.Quickcheckable.S",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module defines a type `t` along with functions to generate, observe, and shrink values of that type for property-based testing. It integrates with the Base_quickcheck library to support automated test case generation and minimization. Concrete use cases include defining custom data types for testing parser logic, validating algebraic structures, or verifying invariants in data processing pipelines.",
+      "description_length": 406,
       "index": 16,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_quickcheck_runtime.Quickcheckable.S1",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module defines functions to derive Quickcheck generators, observers, and shrinkers for a custom type `'a t`. It enables property-based testing by allowing the creation of test data and analysis tools specific to the structure of the type. Use this when implementing custom data structures that need to be tested with Quickcheck, such as complex algebraic data types or containers.",
+      "description_length": 385,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_quickcheck_runtime.Quickcheckable",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module enables property-based testing by defining type-specific interfaces for generating, observing, and shrinking values. It supports data type abstractions like `S`, `S1`, `S2`, and `S3`, which allow test generation for functions and data structures with varying arity, from simple values to tuples and custom containers. Child modules provide utilities for combining generators and shrinkers across multiple type parameters, such as building testable instances for three-argument types, key-value pairs, and custom algebraic structures. Use it to define custom testable types for validating parser logic, verifying invariants, or testing complex data structures with automated, minimal test cases.",
+      "description_length": 706,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ppx_quickcheck_runtime",
+      "library": "ppx_quickcheck_runtime",
+      "description": "This module enables property-based testing by defining type-specific interfaces for generating, observing, and shrinking values. It supports data type abstractions like `S`, `S1`, `S2`, and `S3` for test generation across functions and data structures with varying arity. It provides utilities to combine generators and shrinkers for multiple type parameters, allowing testable instances for tuples, key-value pairs, and custom algebraic structures. Use it to define custom testable types for validating parser logic, verifying invariants, or testing complex data structures with automated, minimal test cases.",
+      "description_length": 610,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ppx_quickcheck_expander",
+      "library": "ppx_quickcheck_expander",
+      "description": "This module generates code for type declarations to support quickcheck-style testing, including functions to create signature and structure items for types. It provides extensions to derive generators, observers, and shrinkers for OCaml data types based on their structure. These operations are used to automatically generate test cases and reduce failing test inputs for property-based testing frameworks.",
+      "description_length": 406,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 17,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.8095238095238095
+    "total_modules_in_package": 23,
+    "meaningful_modules": 21,
+    "filtered_empty_modules": 2,
+    "retention_rate": 0.9130434782608695
   },
   "statistics": {
-    "max_description_length": 594,
-    "min_description_length": 244,
-    "avg_description_length": 413.2352941176471,
-    "embedding_file_size_mb": 0.06220054626464844
+    "max_description_length": 840,
+    "min_description_length": 343,
+    "avg_description_length": 527.9047619047619,
+    "embedding_file_size_mb": 0.07672309875488281
   }
 }

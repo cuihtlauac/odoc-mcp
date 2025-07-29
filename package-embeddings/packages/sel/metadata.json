@@ -1,42 +1,47 @@
 {
   "package": "sel",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:40.661667",
+  "creation_timestamp": "2025-07-15T23:05:04.730118",
   "modules": [
     {
       "module_path": "Sel.Event",
-      "description": "Provides functions to transform events using mapping, generate human-readable representations, and manage cancellation through handles. Operates on event types parameterized by arbitrary data and cancellation handles. Used to safely manage event lifecycles, such as interrupting long-running tasks or removing pending actions.",
-      "description_length": 326,
+      "library": "sel",
+      "description": "Handles event manipulation and cancellation within an event loop. Provides functions to map event values, print events, and manage cancellation through handles. Used to schedule and control discrete events with dynamic priorities and clean removal.",
+      "description_length": 248,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Sel.On",
-      "description": "Provides event-based synchronization and data handling for file descriptors, processes, and queues. Handles line-based, byte-based, and HTTP content-length encoded input, process termination, and OCaml value marshaling. Supports queue synchronization for task processing and batch operations.",
-      "description_length": 292,
+      "library": "sel",
+      "description": "This module defines event sources that can be awaited in a main loop, including I/O events on file descriptors (lines, bytes, HTTP content-length encoded data, OCaml values), process death notifications, and queue-based synchronization primitives. It works with file descriptors, queues, and promises to trigger callbacks when specific conditions are met, such as data availability or queue activity. Concrete use cases include waiting for incoming network data, monitoring child processes, and coordinating task execution between workers and queues.",
+      "description_length": 550,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sel.Promise",
+      "library": "sel",
+      "description": "Handles asynchronous value resolution with explicit state management. Works with `'a t` and `'a handler` types to create, fulfill, or reject promises in single-producer, single-consumer contexts. Useful for coordinating event-driven workflows where one thread waits for a result from another without concurrent access guarantees.",
+      "description_length": 329,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Sel.Todo",
-      "description": "Provides operations to manage a set of events, including adding events while preserving order and checking emptiness. Works with a polymorphic type representing a collection of events. Used to track pending actions in a system requiring ordered event processing.",
-      "description_length": 262,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "sel",
-      "description": "Provides functions to manage event-driven computation through an explicit state machine, handling events that generate new events in a controlled flow. Operates on a custom ADT representing events, each carrying necessary context for processing. Used to implement servers that manage multiple asynchronous inputs without relying on threads or Lwt, ensuring deterministic state transitions.",
-      "description_length": 389,
+      "library": "sel",
+      "description": "Handles a collection of events to be processed, maintaining their order and priority. Works with event lists and provides operations to add events, check emptiness, and inspect the set. Used to manage pending events in the main loop, ensuring correct ordering and efficient access during event dispatch.",
+      "description_length": 303,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sel",
-      "description": "manages event lifecycles, synchronization, and ordered processing through a unified interface. It handles event transformation, cancellation, file and process I/O, line-by-byte parsing, and queue management, using types like event handles, file descriptors, and event sets. Operations include mapping events, reading structured data, and maintaining ordered execution of tasks. Examples include safely interrupting tasks, parsing HTTP requests, and managing batched queue operations.",
-      "description_length": 483,
+      "library": "sel",
+      "description": "This module implements a priority-based event loop that integrates asynchronous I/O, promises, and imperative computations, enabling structured handling of events from multiple sources. It supports dynamic event scheduling, cancellation, and ordered processing, with core types like events, event sources, and promises allowing fine-grained control over execution flow. You can, for example, wait for input on a file descriptor while concurrently handling process exits and background tasks, or build interactive tools that interleave user input with computation steps. Submodules extend this by managing event lifetimes, defining I/O triggers, coordinating promise resolution, and maintaining priority-ordered event queues.",
+      "description_length": 724,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     }
@@ -48,9 +53,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 483,
-    "min_description_length": 262,
-    "avg_description_length": 350.4,
+    "max_description_length": 724,
+    "min_description_length": 248,
+    "avg_description_length": 430.8,
     "embedding_file_size_mb": 0.018609046936035156
   }
 }

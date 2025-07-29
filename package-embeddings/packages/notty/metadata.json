@@ -1,112 +1,117 @@
 {
   "package": "notty",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:39.030456",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:08:39.048782",
   "modules": [
     {
       "module_path": "Notty_unix.Term.Winch",
-      "description": "Registers a handler for the SIGWINCH signal on a file descriptor, invoking a provided function with the terminal's current width and height whenever a resize occurs. Works with Unix.file_descr and (int * int) -> unit functions, ensuring compatibility with terminal size changes. Allows direct listening to terminal resize events without interfering with other signal handling mechanisms.",
-      "description_length": 387,
+      "library": "notty.unix",
+      "description": "This module manages SIGWINCH signal handling for terminal resizing, allowing custom callbacks to respond to window size changes. It works with Unix file descriptors and provides a function to register handlers that receive the current terminal dimensions when triggered. Use it to update UI layouts or adjust rendering in interactive terminal applications based on actual screen size.",
+      "description_length": 384,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Notty_lwt.Term",
-      "description": "Creates and manages a terminal session with support for concurrent input and output. Operates on file descriptors and provides methods to render images, track cursor position, and handle terminal resize events. Used to build interactive command-line interfaces that respond to user input and terminal resizing in real time.",
-      "description_length": 323,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.A",
-      "description": "This module offers functions for constructing and combining text attributes, including defining color schemes (16 basic hues, light variants, RGB values, grayscale) and styling options (bold, italic, underline). It works with types like `color`, `style`, and `attr` to enable precise control over text appearance. Use cases include customizing terminal interfaces, generating formatted output, and dynamically adjusting visual hierarchies in applications.",
-      "description_length": 455,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.I",
-      "description": "The module offers functions for constructing and composing images, including overlaying, combining, and resizing operations, working with image data structures and geometric composition techniques. It supports specific use cases like generating text-based visuals, creating grid layouts, and aligning elements for precise image manipulation.",
-      "description_length": 341,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.Infix",
-      "description": "Performs bitwise and logical operations on image data, combining pixels using custom operators. Handles image and attribute data types, enabling pixel-level manipulation and merging. Used to overlay images, blend channels, and aggregate attribute values in image processing pipelines.",
-      "description_length": 284,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.Cap",
-      "description": "Provides functions to configure terminal output with ANSI escape sequences or basic text rendering. Works with terminal capability configurations represented as a type `t`. Used to enable colored output in terminals or fallback to plain text when terminal features are unavailable.",
-      "description_length": 281,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.Render",
-      "description": "Writes to a buffer or formatter the string representation of an image, using a specified capability to interpret the image data. Operates on `Buffer.t`, `Cap.t`, `Format.formatter`, and custom `image` types. Used to generate image data for in-memory storage or debug output during development.",
-      "description_length": 293,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Notty.Unescape",
-      "description": "Processes escape sequences from character streams, converting input bytes into structured events. Handles Unicode and ASCII characters, tracking state for partial or incomplete sequences. Used to interpret terminal input, such as key presses, mouse actions, and special control codes.",
-      "description_length": 284,
-      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Notty_unix.Term",
-      "description": "Handles terminal resize events by registering a SIGWINCH signal handler, enabling real-time updates on terminal dimensions. Accepts a file descriptor and a function that processes width and height changes. Allows applications to respond dynamically to resizing, such as redrawing content or adjusting layouts. Integrates seamlessly with Unix-based I/O for responsive terminal interfaces.",
-      "description_length": 387,
-      "index": 8,
+      "library": "notty.unix",
+      "description": "This module handles terminal input and output for fullscreen, interactive applications, supporting image rendering with `Notty.image`, cursor control, and event handling via Unix file descriptors. It manages terminal resizing through SIGWINCH signal handling, allowing registration of callbacks that receive current terminal dimensions to dynamically adjust UI layouts. You can build responsive terminal interfaces that react to user input, render complex visuals, and resize gracefully based on terminal changes. Direct API functions handle initialization, drawing, and event polling, while the submodule enables adaptive UI behavior on window resize.",
+      "description_length": 652,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "notty",
-      "description": "Provides functions for constructing and rendering terminal images, including text layout, color application, and dimension calculations. Works with custom data types such as `image`, `char`, and `size` to represent terminal content and geometry. Used to build interactive command-line interfaces with precise control over text positioning and visual elements.",
-      "description_length": 359,
-      "index": 9,
+      "module_path": "Notty_unix",
+      "library": "notty.unix",
+      "description": "This module provides terminal input and output capabilities for rendering images and managing cursor behavior in Unix environments. It supports operations such as querying terminal dimensions, outputting images with optional newlines, and controlling cursor visibility and position. The module enables building interactive command-line interfaces that can render visuals, handle user input, and adapt to terminal resizing through signal handling and callbacks. Submodules extend this functionality to fullscreen applications, allowing dynamic layout adjustments and event-driven interaction via Unix file descriptors.",
+      "description_length": 617,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Notty_lwt.Term",
+      "library": "notty.lwt",
+      "description": "This module manages terminal input/output with support for concurrent operations using Lwt. It provides functions to create and release terminal handles, render images, handle events like keyboard and mouse input, and respond to window resizing. Concrete use cases include building interactive terminal applications that require real-time rendering and event handling, such as text editors or terminal-based games.",
+      "description_length": 414,
+      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Notty_lwt",
-      "description": "Manages terminal sessions with concurrent input and output, using file descriptors to render images, track cursor position, and handle resize events. Supports real-time interaction with command-line interfaces by processing user input and terminal changes. Provides operations for rendering, cursor control, and event handling. Examples include building responsive CLIs, dynamic text displays, and terminal-based applications that adapt to resizing.",
-      "description_length": 449,
-      "index": 10,
+      "library": "notty.lwt",
+      "description": "This module enables terminal input and output for Notty using Lwt for asynchronous Unix IO, supporting dynamic screen updates and real-time user interaction. It provides core operations for rendering `Notty.image` values, querying terminal dimensions, and handling input events, all centered around `Lwt_unix.file_descr`. Submodules manage terminal handles, event streams, and concurrent rendering, allowing applications like text editors or interactive dashboards to respond to keyboard, mouse, and resize events seamlessly. Example uses include rendering a UI frame in response to window size changes or capturing key presses to drive application logic.",
+      "description_length": 655,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Notty",
-      "description": "provides a comprehensive system for building, manipulating, and rendering terminal images through a set of specialized modules. it supports text attributes with color and style types, image composition with geometric operations, and pixel-level blending, while also handling terminal escape sequences and output formatting. it enables tasks like creating styled terminal interfaces, generating text-based graphics, and processing input events. key types include color, style, attr, image, and cap, with operations ranging from attribute combination to escape sequence parsing and image rendering.",
-      "description_length": 596,
-      "index": 11,
+      "module_path": "Notty.I",
+      "library": "notty",
+      "description": "The module provides operations for constructing and composing terminal images through text rendering, grid layouts, and spatial transformations like horizontal/vertical concatenation, overlay, cropping, and alignment. It works with immutable image values and attributes for styling, enabling use cases such as building structured terminal interfaces, formatted text displays, and dynamic grid-based layouts for command-line applications. Key features include declarative image composition, dimension-constrained text formatting, and alignment-aware snapping for pixel-precise terminal rendering.",
+      "description_length": 595,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Notty.Cap",
+      "library": "notty",
+      "description": "This module defines terminal capabilities for rendering images, supporting operations like color, text styling, and cursor positioning via ANSI escape sequences. It works with the abstract type `t` representing different terminal types, such as `ansi` and `dumb`. Concrete use cases include selecting appropriate output modes for terminals with varying levels of feature support, ensuring correct display across different environments.",
+      "description_length": 435,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Notty.Infix",
+      "library": "notty",
+      "description": "This module defines infix operators for composing images and attributes. It provides `<->`, `<|>`, and `</>` to combine images horizontally, overlay images, and stack images vertically, along with `++` to merge text attributes. These operations support building complex terminal displays from simpler components.",
+      "description_length": 312,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Notty.A",
+      "library": "notty",
+      "description": "The module provides operations for constructing and composing text styling attributes, including foreground/background color selection, text effects like bold or underline, and attribute combination. It works with terminal image attributes represented as values of type `attr`, supporting color specifications through named constants, RGB triples, grayscale levels, and composable style modifiers. This enables use cases such as rendering multi-colored terminal UI elements, applying dynamic text effects, and layering styling attributes through algebraic combinations.",
+      "description_length": 569,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Notty_unix",
-      "description": "Manages terminal input and output with signal handling for dynamic resizing. Processes file descriptors and executes callback functions when dimensions change. Supports real-time layout adjustments and content redrawing. Enables responsive terminal applications that adapt to user-driven size changes.",
-      "description_length": 301,
-      "index": 12,
+      "module_path": "Notty.Render",
+      "library": "notty",
+      "description": "This module renders images to string buffers or format formatters using a specified terminal capability. It supports operations like `to_buffer` for writing image regions into buffers and `pp` for pretty-printing images. It works with terminal capabilities and image data to generate textual representations suitable for output. Use it to convert images into escape sequences for display in terminals or debugging visual layouts.",
+      "description_length": 429,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Notty.Unescape",
+      "library": "notty",
+      "description": "This module processes raw byte streams to parse terminal escape sequences into structured input events like key presses, mouse actions, and paste operations. It works with low-level data types such as `Uchar.t`, `bytes`, and custom sum types representing input events and modifiers. Use it to decode terminal input into actionable events for building interactive terminal interfaces.",
+      "description_length": 383,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Notty",
+      "library": "notty",
+      "description": "This module centers on constructing and composing terminal images with styled text and colors, supporting layout transformations and rendering through immutable image values and attributes. It enables building rich terminal UIs, rendering colored text, and creating structured layouts like grids or geometric patterns using operations such as horizontal/vertical concatenation, overlay, cropping, and alignment. Key types include `attr` for styling and `image` for displayable content, with terminal capabilities represented by `t` to handle different output modes like ANSI or dumb terminals. Infix operators `<->`, `<|>`, and `</>` combine images horizontally, overlay, and stack vertically, while `pp` and `to_buffer` render images to output streams, and an input parser decodes escape sequences into structured events for interactive interfaces.",
+      "description_length": 849,
+      "index": 11,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 13,
+    "total_modules_in_package": 13,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.9285714285714286
+    "retention_rate": 0.9230769230769231
   },
   "statistics": {
-    "max_description_length": 596,
-    "min_description_length": 281,
-    "avg_description_length": 364.61538461538464,
-    "embedding_file_size_mb": 0.04766654968261719
+    "max_description_length": 849,
+    "min_description_length": 312,
+    "avg_description_length": 524.5,
+    "embedding_file_size_mb": 0.044036865234375
   }
 }

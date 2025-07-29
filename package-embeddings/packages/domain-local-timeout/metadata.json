@@ -1,35 +1,45 @@
 {
   "package": "domain-local-timeout",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 2,
-  "creation_timestamp": "2025-06-18T16:26:11.516306",
+  "total_modules": 3,
+  "creation_timestamp": "2025-07-15T23:04:40.482374",
   "modules": [
     {
-      "module_path": "domain-local-timeout",
-      "description": "Provides functions for scheduling and managing timeouts in a way that integrates with event loops. Operates on integers representing time intervals and callbacks with unit return types. Used to implement asynchronous operations that must yield control to the scheduler after a specified duration.",
-      "description_length": 296,
+      "module_path": "Domain_local_timeout.Unix",
+      "library": "domain-local-timeout",
+      "description": "This module defines operations for working with file descriptors, including reading, writing, closing, and creating pipes. It supports interaction with low-level I/O mechanisms such as select-based multiplexing for managing multiple file descriptors concurrently. Concrete use cases include implementing custom timeout handling and inter-process communication in a scheduler-friendly manner.",
+      "description_length": 391,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Domain_local_timeout",
-      "description": "Provides functions to manage file descriptors, including closing, reading, writing, creating pipes, and performing selective I/O operations with timeouts. Operates on file descriptors and byte buffers for low-level communication. Used to implement timeout mechanisms for domain-local network or process communication.",
-      "description_length": 317,
+      "module_path": "Domain_local_timeout.Thread",
+      "library": "domain-local-timeout",
+      "description": "This module defines thread operations required by the domain-local timeout system, including creating and managing threads, retrieving thread identifiers, and waiting for thread completion. It works with the abstract thread type `t`, representing individual threads of execution. Concrete use cases include coordinating background tasks, implementing thread-based concurrency in libraries, and integrating with scheduler-aware timeout mechanisms.",
+      "description_length": 446,
       "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Domain_local_timeout",
+      "library": "domain-local-timeout",
+      "description": "This module enables scheduler-independent timeout management through functions like `set_timeoutf` for registering timeouts and `using` for integrating scheduler-specific implementations. It coordinates with file descriptor and thread modules to handle low-level I/O multiplexing and thread-based concurrency, supporting precise timeout control in network servers and async frameworks. The system uses domains and threads to store implementation state, allowing applications to select appropriate schedulers or use a default implementation via `set_system`. Specific use cases include implementing cancellation-aware I/O operations and background task coordination with timeout guarantees.",
+      "description_length": 689,
+      "index": 2,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 2,
-    "meaningful_modules": 2,
+    "total_modules_in_package": 3,
+    "meaningful_modules": 3,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 317,
-    "min_description_length": 296,
-    "avg_description_length": 306.5,
-    "embedding_file_size_mb": 0.007693290710449219
+    "max_description_length": 689,
+    "min_description_length": 391,
+    "avg_description_length": 508.6666666666667,
+    "embedding_file_size_mb": 0.011311531066894531
   }
 }

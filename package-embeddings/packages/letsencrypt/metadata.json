@@ -1,98 +1,85 @@
 {
   "package": "letsencrypt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 11,
-  "creation_timestamp": "2025-06-18T16:32:38.187230",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:37.376000",
   "modules": [
     {
-      "module_path": "Letsencrypt.Client.Make.Headers",
-      "description": "Provides functions to manipulate HTTP headers, including adding key-value pairs, retrieving values with support for list headers, and converting headers to a string representation. Operates on a custom type `t` representing a collection of HTTP headers. Used to construct and extract location headers from HTTP responses.",
-      "description_length": 321,
+      "module_path": "Letsencrypt.HTTP_client.S-Response",
+      "library": "letsencrypt",
+      "description": "This module represents an HTTP response from a Let's Encrypt challenge request. It provides access to the HTTP status code and headers of the response. Use it to inspect the outcome of ACME protocol interactions, such as validating challenge responses or checking server errors during certificate issuance.",
+      "description_length": 306,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Letsencrypt.Client.Make.Body",
-      "description": "Converts a string to a body representation and asynchronously retrieves the string content from a body. Works with the `t` type, which encapsulates body data. Used to process HTTP request and response bodies in web applications.",
-      "description_length": 228,
+      "module_path": "Letsencrypt.HTTP_client.S-Body",
+      "library": "letsencrypt",
+      "description": "This module handles the creation and manipulation of HTTP request/response bodies as string-based data structures. It provides functions to convert raw strings into body objects and asynchronously retrieve the full body content as a string. It is used specifically for managing textual payloads during Let's Encrypt challenge interactions, such as handling ACME protocol messages or challenge responses.",
+      "description_length": 403,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Letsencrypt.Client.Make.Response",
-      "description": "Returns the HTTP status code and headers from a response object. Operates on a response type that encapsulates HTTP metadata. Used to inspect server responses in networked applications.",
-      "description_length": 185,
+      "module_path": "Letsencrypt.HTTP_client.S",
+      "library": "letsencrypt",
+      "description": "This module defines the interface for an HTTP client used to interact with Let's Encrypt's ACME protocol. It includes functions for sending HEAD, GET, and POST requests to specified URIs, handling headers, request bodies, and returning parsed responses with optional bodies. It is used to perform the necessary HTTP interactions during the Let's Encrypt challenge process, such as fetching challenges or submitting authorization responses.",
+      "description_length": 439,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Letsencrypt.Client.Make",
-      "description": "manages HTTP interactions by handling headers, bodies, and response metadata through a unified interface. it supports adding and extracting key-value pairs from headers, converting between string and body representations, and retrieving status codes and headers from responses. operations on custom types enable construction of location headers, processing of request/response bodies, and inspection of server responses. examples include setting a redirect location, reading JSON content from a body, and checking for 200 OK status.",
-      "description_length": 532,
+      "library": "letsencrypt",
+      "description": "This module implements core ACME client operations for initializing a client session with a CA server and signing certificates. It works with cryptographic data types like `X509.Private_key.t` and `X509.Signing_request.t`, and uses a solver function to handle challenges during certificate issuance. Concrete use cases include registering a new account, agreeing to terms of service, and obtaining a signed certificate by solving HTTP-01 challenges.",
+      "description_length": 449,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Letsencrypt.HTTP_client.Headers",
-      "description": "Adds headers to a map, retrieves values by key with special handling for list-based headers, and extracts the \"Location\" header as a URI. Operates on an opaque header map type and string-based keys and values. Converts the header map to a formatted string suitable for HTTP requests or responses.",
-      "description_length": 296,
+      "module_path": "Letsencrypt.HTTP_client.S-Headers",
+      "library": "letsencrypt",
+      "description": "This module manages HTTP headers for Let's Encrypt challenges, providing operations to add, retrieve, and format header fields. It works with a custom `t` type representing a collection of HTTP headers, supporting keyed access and list value handling. Concrete use cases include constructing and parsing headers for ACME protocol requests, such as setting content types or extracting challenge response URLs.",
+      "description_length": 408,
       "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Letsencrypt.HTTP_client.Body",
-      "description": "Converts a string to a body representation and asynchronously retrieves the string content from a body. Works with the `t` type, which encapsulates body data. Used to process HTTP request and response bodies in a non-blocking manner.",
-      "description_length": 233,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Letsencrypt.HTTP_client.Response",
-      "description": "Returns the HTTP status code and headers from a response structure. Operates on a custom response type that encapsulates HTTP data. Used to inspect server responses in web application logic.",
-      "description_length": 190,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Letsencrypt.HTTP_client",
-      "description": "Processes HTTP responses by extracting status codes and headers, with specialized handling for header maps and body data. Supports operations on opaque header maps, body representations, and response structures, enabling manipulation of HTTP metadata and content. Allows retrieval of specific headers like \"Location\" as URIs, conversion of body data to strings, and inspection of server responses. Enables non-blocking processing of HTTP interactions, including header modification, body extraction, and response analysis.",
-      "description_length": 522,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Letsencrypt.Client",
-      "description": "handles HTTP interactions by managing headers, bodies, and response metadata through custom types and operations. it enables setting redirect locations, parsing JSON from bodies, and checking response status codes. key data types include headers, bodies, and response metadata, with operations for manipulation and inspection. examples include constructing location headers, extracting JSON content, and verifying 200 OK responses.",
-      "description_length": 431,
-      "index": 8,
+      "library": "letsencrypt",
+      "description": "This module automates ACME client workflows for certificate registration and challenge resolution, coordinating with HTTP servers to validate domain ownership. It centers on domain names, cryptographic keys, and challenge tokens, offering operations to register accounts, generate signing requests, and obtain certificates. The core submodule handles cryptographic interactions and challenge solving, using types like `X509.Private_key.t` and `X509.Signing_request.t` to manage key material and certificate signing. Example usage includes automatically solving HTTP-01 challenges, storing account credentials, and retrieving issued certificates for deployment.",
+      "description_length": 660,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "letsencrypt",
-      "description": "Handles HTTP, DNS, and ALPN challenge interactions for ACME protocol, including request signing and response validation. Operates on cryptographic keys, JSON payloads, and DNS records. Used to automate certificate issuance through domain validation checks.",
-      "description_length": 256,
-      "index": 9,
-      "embedding_norm": 1.0
+      "module_path": "Letsencrypt.HTTP_client",
+      "library": "letsencrypt",
+      "description": "This module implements HTTP client operations required to perform Let's Encrypt ACME challenges, including making HTTP requests to validation endpoints and handling challenge responses. It works with ACME protocol messages and challenge data structures, automating domain validation and certificate issuance workflows. Core data types include representations of HTTP responses, request/response bodies, and headers, with operations to inspect status codes, format header fields, and manage textual payloads. You can send HEAD, GET, and POST requests, construct valid ACME protocol messages, and extract challenge response URLs or server errors during validation.",
+      "description_length": 662,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Letsencrypt",
-      "description": "Processes HTTP responses by extracting and manipulating status codes, headers, and body data, with support for opaque header maps and non-blocking operations. Key data types include headers, bodies, and response metadata, along with operations for modifying headers, parsing JSON, and inspecting status codes. It enables tasks such as retrieving \"Location\" headers as URIs, converting body content to strings, and validating 200 OK responses. Custom types allow for constructing redirect locations and analyzing server interactions efficiently.",
-      "description_length": 544,
-      "index": 10,
-      "embedding_norm": 1.0
+      "library": "letsencrypt",
+      "description": "This module enables interaction with Let's Encrypt certificate authorities by providing predefined URIs, SHA-256 hashing, and base64 encoding for ACME challenges, while coordinating with HTTP servers to validate domains and manage certificate workflows. It supports key operations like account registration, challenge resolution, and certificate retrieval using cryptographic types such as `X509.Private_key.t` and `X509.Signing_request.t`, alongside HTTP request handling for ACME protocol messages. Submodules automate HTTP-01 challenge solving, credential storage, and certificate deployment, while offering utilities to construct requests, parse responses, and extract validation URLs or error details. Example usage includes generating signing requests, solving domain validation challenges, and retrieving and deploying issued certificates programmatically.",
+      "description_length": 863,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 11,
-    "meaningful_modules": 11,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 544,
-    "min_description_length": 185,
-    "avg_description_length": 339.8181818181818,
-    "embedding_file_size_mb": 0.040413856506347656
+    "max_description_length": 863,
+    "min_description_length": 306,
+    "avg_description_length": 523.75,
+    "embedding_file_size_mb": 0.02946758270263672
   }
 }

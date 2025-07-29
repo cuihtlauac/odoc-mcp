@@ -1,91 +1,93 @@
 {
   "package": "charrua-core",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:30:56.772396",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:07.947834",
   "modules": [
     {
-      "module_path": "Dhcp_server.Config",
-      "description": "Converts between host data and S-expressions, and serializes/deserializes configuration data. Works with IP addresses, MAC addresses, and custom host structures. Parses DHCP configuration files to generate server settings based on specified network and host parameters.",
-      "description_length": 269,
+      "module_path": "Dhcp_server.Input",
+      "library": "charrua-core.server",
+      "description": "Handles DHCP input packets by determining if they are destined for the server and processing them to produce replies, lease updates, or error events. It operates on DHCP packets, lease databases, and configuration data, returning actions such as sending a reply or updating leases based on received packets. Used in the server's main loop to process incoming packets and generate appropriate responses without performing IO.",
+      "description_length": 424,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Dhcp_server.Lease",
-      "description": "The module handles DHCP lease lifecycle management, including creating, extending, and checking expiration of lease records. It works with structured data like MAC addresses, IP addresses, durations, and timestamps, alongside a defined `database` type for storage. Use cases include dynamic IP allocation, renewal tracking, and ensuring timely lease expiration in network management systems.",
-      "description_length": 391,
+      "module_path": "Dhcp_server.Config",
+      "library": "charrua-core.server",
+      "description": "This module defines data structures for representing DHCP server configurations, including `host` and `t` types that capture client-specific and global server settings. It provides functions to construct configurations from ISC dhcpd.conf files or directly via field values, supporting concrete operations like parsing, validation, and in-memory creation. Use cases include setting up DHCP server instances with fixed addresses, lease times, and network ranges based on configuration files or runtime parameters.",
+      "description_length": 512,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dhcp_server.Input",
-      "description": "Checks if a DHCP packet is intended for the local system using configuration and packet headers. Processes incoming packets to generate a reply or event, using a lease database and current time in seconds. Handles specific DHCP options and MAC addresses for test scenarios.",
-      "description_length": 273,
+      "module_path": "Dhcp_server.Lease",
+      "library": "charrua-core.server",
+      "description": "This module manages DHCP lease state through operations for creating fixed leases, tracking expiration times, and extending lease lifetimes, while enforcing availability constraints over IPv4 address pools. It provides a lease database with time-aware querying, atomic updates, and garbage collection to handle dynamic address allocation, client-specific reservations, and network range restrictions. Key use cases include assigning non-conflicting IPv4 addresses to DHCP clients, managing temporary vs permanent leases, and maintaining consistent state across server restarts via serialization.",
+      "description_length": 595,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "charrua-core",
-      "description": "Handles parsing and generation of DHCP wire protocol messages, including options and message types. Works with structured data representing DHCP requests, responses, and client state information. Used to build and manage DHCP servers and clients that communicate over network interfaces.",
-      "description_length": 287,
+      "module_path": "Dhcp_server",
+      "library": "charrua-core.server",
+      "description": "This module implements a DHCP server with configuration parsing, packet processing, and lease management. It defines core data types like `host`, `t` for configurations, and lease databases, supporting operations such as parsing config files, handling incoming DHCP packets, and managing IPv4 address allocations. You can use it to set up a DHCP server that assigns fixed or dynamic IP addresses, processes DISCOVER and REQUEST packets, and maintains lease state across reboots. Specific examples include loading a dhcpd.conf file to define network ranges, processing a DHCPREQUEST to issue a lease, or querying active leases for a specific client.",
+      "description_length": 648,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Dhcp_parser",
-      "description": "Parses DHCP protocol messages from a lexing buffer, converting them into an abstract syntax tree (AST) structure. It processes token streams generated by a lexer to construct a typed representation of DHCP options and message fields. This enables detailed analysis and manipulation of DHCP packet data during network configuration tasks.",
-      "description_length": 337,
+      "library": "charrua-core.server",
+      "description": "Parses DHCP configuration files into an abstract syntax tree using a lexer that generates tokens like `IP`, `MACADDR`, and keywords such as `SUBNET` or `RANGE`. It processes structures including subnet declarations, host definitions, and option assignments. This module is used to interpret DHCP server configurations for network management tasks like IP allocation and DNS setup.",
+      "description_length": 380,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Dhcp_wire",
-      "description": "The module provides conversion and parsing functions for DHCP protocol elements, including operations, message types, option codes, and client identifiers, operating on data structures like DHCP option lists, Cstruct.t, and symbolic representations. It extracts network configuration parameters such as IP addresses, DNS servers, lease times, and vendor-specific data from DHCP packets, while handling specialized cases like client IDs, flags, and PXE-related options. Use cases include validating DHCP packet fields, serializing/deserializing protocol data, and retrieving structured network settings from raw option lists.",
-      "description_length": 624,
+      "module_path": "Dhcp_lexer",
+      "library": "charrua-core.server",
+      "description": "This module provides functions for lexing DHCP configuration files, including tokenizing input, handling comments, and parsing strings. It operates on `Lexing.lexbuf` and `Buffer.t` structures, producing tokens consumed by a parser. Concrete use cases include reading and processing DHCP server configurations, extracting tokens from configuration files, and handling quoted strings and comments during lexical analysis.",
+      "description_length": 420,
       "index": 5,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Ast",
-      "description": "Provides functions to construct, inspect, and manipulate network-related data structures, including host and subnet configurations. Works with record types representing network entities and their properties. Used to validate IP address ranges and generate configuration files for network deployment.",
-      "description_length": 299,
+      "library": "charrua-core.server",
+      "description": "This module defines data structures for representing DHCP configuration elements, including hosts, subnets, and global settings. It provides operations to model network entities with associated options, IP address ranges, and lease times. Concrete use cases include parsing and constructing DHCP server configurations, managing host-specific IP assignments, and defining subnet-level policies.",
+      "description_length": 393,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Dhcp_server",
-      "description": "handles packet inspection, configuration parsing, and lease management for DHCP operations. it processes IP and MAC addresses, manages lease databases with timestamps and durations, and converts host data to and from S-expressions. it can validate packets for local processing, generate server responses, and manage dynamic IP allocation. examples include parsing configuration files, extending lease durations, and checking packet validity against defined network settings.",
-      "description_length": 474,
+      "module_path": "Dhcp_wire",
+      "library": "charrua-core.wire",
+      "description": "This module provides operations for parsing, serializing, and manipulating DHCP protocol data, including conversions between integer codes and structured types for operations, message types, and options. It works with DHCP headers, packets (`pkt`), and typed DHCP options (`dhcp_option`), supporting extraction of network configuration parameters like IP addresses, DNS servers, lease times, and routing information. The functionality is used for handling DHCP message serialization, inspecting packet contents, and retrieving typed configuration values during network communication or server provisioning workflows.",
+      "description_length": 616,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Util",
-      "description": "Provides functions to transform and validate list elements, such as mapping with option results and filtering out None values. Handles string operations like checking for null strings and extending them under length constraints. Includes utilities for conditional list construction and error handling with options and results.",
-      "description_length": 326,
+      "library": "charrua-core.wire",
+      "description": "This module combines list transformations, option handling, string manipulation, and conditional logic into a set of focused functions. It provides operations like `find_map` and `filter_map` for working with lists and optional values, utilities for string padding and validation, and controlled list construction with conditions or optional inputs. Specific use cases include safely extracting values with fallbacks, normalizing string lengths, validating IP ranges, and building lists based on dynamic conditions.",
+      "description_length": 515,
       "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Dhcp_lexer",
-      "description": "Processes DHCP configuration text by tokenizing input, handling comments, and parsing strings. Operates on lexing buffers and strings, returning parsed tokens or void for comment processing. Used to extract and classify elements like options, addresses, and keywords from DHCP configuration files.",
-      "description_length": 297,
-      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 624,
-    "min_description_length": 269,
-    "avg_description_length": 357.7,
-    "embedding_file_size_mb": 0.03674888610839844
+    "max_description_length": 648,
+    "min_description_length": 380,
+    "avg_description_length": 500.3333333333333,
+    "embedding_file_size_mb": 0.033111572265625
   }
 }

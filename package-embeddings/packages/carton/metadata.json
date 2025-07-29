@@ -1,203 +1,229 @@
 {
   "package": "carton",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 26,
-  "creation_timestamp": "2025-06-18T16:37:22.319525",
+  "creation_timestamp": "2025-07-15T23:11:32.788094",
   "modules": [
     {
-      "module_path": "Zh.N",
-      "description": "Provides functions to compute remaining destination space, encode data into a bigstring with specific ranges, and manage encoding state. Works with bigstrings, queues, and custom window structures for data compression. Used to process and compress data streams in a controlled, low-level manner.",
-      "description_length": 295,
+      "module_path": "Cartonnage.Encoder",
+      "library": "carton.cartonnage",
+      "description": "This module implements a streaming encoder for Carton values, handling compression and buffer management. It works with `Cartonnage.Encoder.encoder` to process input data in chunks, using `De.bigstring` buffers for efficient memory operations. Concrete use cases include encoding large data streams to disk or network without full in-memory representation, such as writing compressed binary formats or incremental serialization of structured data.",
+      "description_length": 447,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Zh.M",
-      "description": "Provides functions to query and manipulate buffer lengths and remaining space in a decoding context, and to copy data between source and destination buffers. Operates on custom types including `decoder`, `src`, `Zl.bigstring`, and `H.bigstring`. Used to manage data flow in a streaming decoding process, such as transferring and processing binary data in chunks.",
-      "description_length": 362,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Kind",
-      "description": "Represents Git object types with specific values, supporting conversion to integers and comparison operations. Works with an abstract type that encapsulates commit, tree, blob, and tag identifiers. Used to serialize and compare object types in a Git-like system.",
-      "description_length": 262,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Size",
-      "description": "Provides operations to create, compare, and convert size values represented as non-negative integers. Works with a private integer type to ensure valid size values for buffer allocation. Used to accurately track memory requirements when extracting objects from a PACK file.",
-      "description_length": 273,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Carton.Uid",
-      "description": "Provides operations to create, compare, and pretty-print unique identifiers of fixed size, derived from strings. Works with a private string type representing fixed-length references used in pack file decoding. Used to uniquely reference objects in a first-pass parsing context.",
-      "description_length": 278,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.First_pass",
-      "description": "Provides functions to analyze a PACK file stream, extracting metadata such as object count, version, and checksums, while tracking decompression progress. Operates on bigstrings, digests, and custom types representing object entries, kinds, and decompression windows. Used to determine if a PACK file is thin, validate integrity, and prepare for object extraction during Git operations.",
-      "description_length": 386,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Blob",
-      "description": "Creates and manipulates a data structure for managing temporary storage during object reconstruction, supporting operations to initialize from a size or string, access and modify underlying buffers, and flip the buffer state. Works with bigstrings and size values to handle decompressed or patched data efficiently. Used to manage intermediate storage during data patching or decompression processes.",
-      "description_length": 400,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Visited",
-      "description": "Provides functions to check, add, and remove elements from a set of visited items, using a hash table for efficient lookups. Operates on the `t` type, which represents a collection of unique identifiers. Used to track processed URLs in a web crawler to avoid revisiting the same page.",
-      "description_length": 284,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Value",
-      "description": "Provides operations to inspect and manipulate values with a specific kind, source data, and depth. Works with bigstrings, strings, blobs, and nested structures. Used to construct values from strings or blobs, modify source data, and serialize values for output.",
-      "description_length": 261,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton.Path",
-      "description": "Converts a path representation into a list of integers, identifies the type of path, and retrieves its size. Works with an abstract path type and associated domain-specific types for kind and size. Used to process file system paths, analyze navigation structures, and enforce constraints in graph traversal algorithms.",
-      "description_length": 318,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cartonnage.Delta",
-      "description": "Prints a structured representation of a delta object to a formatter. Operates on a custom type representing changes between states. Used to generate human-readable logs of state modifications in a version control system.",
-      "description_length": 220,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Cartonnage.Entry",
-      "description": "Creates and manipulates entries with a specific carton kind, length, and unique identifier, supporting optional preferences and delta values. Operates on a polymorphic type that wraps metadata alongside carton information. Used to construct and inspect structured data units in a system requiring precise carton tracking and metadata association.",
-      "description_length": 346,
-      "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Cartonnage.Source",
-      "description": "Returns the depth of a source entry, its unique identifier, size in bytes, kind, associated bigstring data, and index. Works with a parameterized type that wraps metadata and provides access to low-level storage structures. Used to inspect and process source files during build and indexing phases.",
-      "description_length": 298,
-      "index": 12,
+      "library": "carton.cartonnage",
+      "description": "This module provides access to properties of a source value, including its depth, unique identifier, length, kind, underlying bigstring, and index. It operates on typed source values that carry metadata, exposing their structural and content-related attributes. Useful for inspecting and validating source data in serialization or storage workflows.",
+      "description_length": 349,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cartonnage.Target",
+      "library": "carton.cartonnage",
+      "description": "This module constructs and manipulates target values from entries and optional patches, supporting operations to compare against sources, extract metadata, and derive source representations. It works with target types parameterized by metadata, alongside source values, patch values, and types representing object kinds, uids, and lengths. Concrete use cases include building versioned targets with optional modifications, computing differences between sources and targets, and converting targets back into sources for further processing.",
+      "description_length": 538,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cartonnage.Delta",
+      "library": "carton.cartonnage",
+      "description": "Handles delta encoding operations with versioned data, specifically working with `Cartonnage.Delta.t` type that represents either a base (`Zero`) or a delta from a source (`From`). It includes a function `pp` to format and print delta values for debugging or logging. Useful in scenarios requiring efficient storage or transmission of incremental changes between data versions.",
+      "description_length": 377,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Cartonnage.Entry",
+      "library": "carton.cartonnage",
+      "description": "This module constructs and inspects entries in a pack file, representing individual objects with metadata. It supports creating entries with a specified kind, length, and optional delta information, and provides accessors to retrieve these properties. Concrete use cases include parsing and serializing objects during pack file generation or verification.",
+      "description_length": 355,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cartonnage.Patch",
-      "description": "Provides operations to construct patches from delta hunks or direct data copies, and includes methods to retrieve the source identifier and total length of the patch. Works with unique identifiers, bigstrings, and lists of hunk data. Used to generate and inspect patches for data synchronization or versioning tasks.",
-      "description_length": 316,
-      "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cartonnage.Target",
-      "description": "Provides operations to create and inspect target objects, compute differences against sources, and extract metadata. Works with typed targets, source structures, and carton values, enabling precise manipulation of structured data. Used to generate source representations from targets and compare changes during synchronization.",
-      "description_length": 327,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Cartonnage.Encoder",
-      "description": "Encodes structured data into a binary format using a specified compression level, operating on `Carton.Value.t` and `De.bigstring` types. It manages output buffers and tracks encoding progress through a stateful `encoder` type. Used to serialize protocol buffer messages into a compact byte stream for network transmission.",
-      "description_length": 323,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "H.M",
-      "description": "Provides functions to manage source and destination buffers for data decoding, including reading from and writing to bigstrings, tracking remaining buffer space, and initializing a decoder state. Operates on custom types for source data, decoded output, and decoder state, with specific methods to access buffer lengths and remaining capacity. Used to process streaming data by efficiently managing buffer boundaries during decoding operations.",
-      "description_length": 444,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "H.R",
-      "description": "Provides functions to manage decoding operations, including reading from a source buffer, tracking remaining source data, and calculating destination buffer lengths. Works with custom types representing decoding states, source buffers, and decode operations. Used to process encoded data streams efficiently, such as parsing binary formats or network protocols.",
-      "description_length": 361,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "H.N",
-      "description": "Handles in-place encoding of data using a preallocated buffer, with precise control over output ranges. Operates on `encoder` structures that track encoding state and `bigstring` for efficient byte manipulation. Used to process streaming data where output size is known in advance, such as network packet assembly.",
-      "description_length": 314,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Classeur.Encoder",
-      "description": "Provides functions to initialize an encoding process with a destination buffer, digest, and entry data, and to perform incremental encoding steps. Works with byte buffers, digests, and structured entry records to manage data packing and output. Used to construct and manage data streams for serialization or transmission with precise control over buffer usage.",
-      "description_length": 360,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "carton",
-      "description": "Handles reading and writing of Git PACK files, supporting decompression and random access to individual objects. Operates on binary data structures representing Git objects such as commits, trees, blobs, and tags. Used to efficiently extract specific objects from a compressed archive during Git operations like cloning or fetching.",
-      "description_length": 332,
-      "index": 20,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Zh",
-      "description": "Computes and manages data compression and decoding states using custom window and buffer structures, handling bigstring operations and queue management. Supports encoding by calculating available space, packing data into specified ranges, and tracking progress through encoding states. Enables decoding by querying buffer lengths, copying data between sources and destinations, and maintaining context for streaming operations. Examples include compressing a data stream into a pre-allocated buffer and efficiently transferring binary data between input and output channels.",
-      "description_length": 574,
-      "index": 21,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Carton",
-      "description": "Encapsulates functionality for decoding PACKv2 files by analyzing streams, extracting objects, and validating integrity. It uses abstract types for object kinds, size tracking, and unique identifiers, along with bigstrings and hash tables for efficient processing. Operations include parsing metadata, managing temporary buffers, and tracking visited items. It supports tasks like validating file structure, extracting objects, and handling path-based data in a Git-like system.",
-      "description_length": 478,
-      "index": 22,
+      "library": "carton.cartonnage",
+      "description": "This module constructs and manipulates patch data structures that represent binary differences or copies between objects. It supports creating patches from delta hunks or copy operations, extracting source identifiers, and inspecting patch length and contents. It is used to encode and serialize changes in a version-controlled storage system, specifically for reconstructing object states from patches.",
+      "description_length": 403,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cartonnage",
-      "description": "Encapsulates operations for handling structured data units, including generating human-readable logs of state changes, constructing entries with metadata, inspecting file properties, creating and analyzing patches, and serializing data for transmission. It supports custom types for deltas, cartons, sources, targets, and encoded messages, along with operations to manipulate, compare, and serialize these structures. Users can generate logs from delta objects, build entries with identifiers and preferences, extract file metadata, construct patches from hunks, and encode protocol buffers efficiently. Examples include logging version control changes, tracking carton metadata, inspecting source files during indexing, and serializing data for network transfer.",
-      "description_length": 763,
-      "index": 23,
+      "library": "carton.cartonnage",
+      "description": "This module coordinates data encoding and patching workflows using delta compression and memory buffers, managing streams, positions, and structured data updates. It works with `buffer`, `where`, `source`, `target`, `delta`, `entry`, and `patch` types to support versioned storage and incremental backups. Operations include streaming compression, source inspection, target construction, delta encoding, pack entry management, and binary patch manipulation. Examples include encoding large data to disk in chunks, comparing sources and targets, applying patches to reconstruct object states, and logging delta structures for debugging.",
+      "description_length": 635,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Classeur.Encoder",
+      "library": "carton.classeur",
+      "description": "This module encodes a sequence of entries into a structured binary format, handling CRC checks, offsets, and UIDs specific to a pack file. It processes arrays of entry records and writes the resulting binary data to a destination such as a buffer, channel, or manual output. It is used to serialize pack data efficiently during write operations.",
+      "description_length": 345,
+      "index": 7,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Classeur.UID",
+      "library": "carton.classeur",
+      "description": "This module generates and manages unique identifiers from input data using a context-based accumulation process. It processes byte strings incrementally to build a unique identifier, supporting operations to feed data, retrieve the current identifier, and compare or format identifiers. Concrete use cases include creating stable identifiers from streams of data, such as hashing content for versioning or content-based addressing.",
+      "description_length": 431,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Classeur",
+      "library": "carton.classeur",
+      "description": "This module organizes hierarchical data using a file-backed database with UID-based records, combining in-memory caching and direct file access for efficient retrieval, indexed access, and metadata extraction. It supports structured records in `Classeur.t` and uses the `Encoder` submodule to serialize data into formats like JSON or binary, enabling persistence and network transmission. The pack encoding submodule handles binary serialization with CRCs, offsets, and UIDs for efficient storage writes, while the identifier generation submodule creates unique IDs from byte streams, supporting content-based addressing and versioning workflows. Example uses include version-controlled data storage, content-addressable file systems, and structured network data exchange.",
+      "description_length": 772,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zh.M",
+      "library": "carton",
+      "description": "This module implements a streaming decoder for handling compressed data, managing input and output buffers through low-level operations. It processes sources like strings or manual input, producing decoded output while tracking buffer lengths and remaining data. Use cases include incremental decompression of gzip or zlib streams with external memory management.",
+      "description_length": 363,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Visited",
+      "library": "carton",
+      "description": "This module tracks visited objects during the decoding of a PACK file, providing functions to efficiently mark and check whether specific objects have been processed. It operates on a custom type `t` that represents the state of visited objects, likely implemented as a compact in-memory structure suited for fast lookups. It is used to avoid redundant processing when traversing PACK file contents, such as during incremental decoding or integrity checks.",
+      "description_length": 456,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "H.R",
+      "library": "carton",
+      "description": "This module implements a streaming decoder for handling encoded input data, supporting operations to process source buffers, track decoding progress, and retrieve output results. It works with string inputs and decodes them into structured tokens like headers, copy ranges, or inserted strings. Concrete use cases include parsing compressed or binary formats incrementally, such as decoding a custom wire protocol or processing encoded streams without loading the entire input into memory.",
+      "description_length": 489,
+      "index": 12,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "H.N",
+      "library": "carton",
+      "description": "This module implements a streaming encoder for handling data transformation with support for manual control or buffering. It operates on byte strings (`Bstr.t`) and manages encoding states like awaiting input, copying data, inserting strings, or signaling end-of-stream. Concrete use cases include incremental data compression, network protocol framing, and on-the-fly content generation with controlled output buffering.",
+      "description_length": 421,
+      "index": 13,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Carton.Value",
+      "library": "carton",
+      "description": "This module handles the construction, inspection, and manipulation of decoded Git object values. It operates on a custom `t` type representing Git objects with embedded metadata such as kind, depth, and source buffer. Concrete use cases include extracting raw string content, validating object structure, and wrapping blobs for further processing in a PACK file decoder.",
+      "description_length": 370,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zh.N",
+      "library": "carton",
+      "description": "This module implements a compression encoder for handling bigstring data with support for custom buffer management and queue-based input sources. It provides functions to encode data into a specified destination, manage buffer space, and control compression state through manual flushing or termination. Concrete use cases include streaming compression of large data chunks and incremental encoding into memory buffers or custom output targets.",
+      "description_length": 444,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Path",
+      "library": "carton",
+      "description": "This module provides operations to analyze and extract structured information from a PACK file's path data, specifically supporting traversal and inspection of encoded path components. It works with the `t` type representing a path, alongside `int list` for hierarchical path segments, `Kind.t` for identifying path element types, and `Size.t` for size metadata. Concrete use cases include decoding path structures during PACK file parsing, validating path kinds during integrity checks, and extracting path components for object resolution.",
+      "description_length": 541,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Blob",
+      "library": "carton",
+      "description": "This module manages temporary buffers for storing decompressed or reconstructed Git objects during PACK file decoding. It provides operations to create, inspect, and manipulate blobs, including setting and retrieving source data and payload. Concrete use cases include buffering intermediate object data when applying deltas or reconstructing base objects from patches.",
+      "description_length": 369,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "H.M",
+      "library": "carton",
+      "description": "This module implements a streaming decoder for handling encoded data, supporting operations to manage input and output buffers, track progress, and decode data incrementally. It works with byte strings (`Bstr.t`) and abstract decoder state, handling both manual and string-based input sources. Concrete use cases include parsing binary formats like HTTP headers or compressed data streams where partial input may be available.",
+      "description_length": 426,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Size",
+      "library": "carton",
+      "description": "This module defines a type `t` representing the size of a blob in memory, used to manage buffer sizes when extracting objects from a PACK file. It provides functions to create, compare, and convert these sizes, ensuring correct memory allocation during decoding. Concrete use cases include determining the buffer size needed to decompress or reconstruct objects from a PACK stream.",
+      "description_length": 381,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Kind",
+      "library": "carton",
+      "description": "This module defines a polymorphic variant type representing the four kinds of objects in a PACK file\u2014commits, trees, blobs, and tags\u2014and provides functions to convert values to integers, compare them, test for equality, and format them. It works directly with the `t` type, which is a sum of four labeled cases. Use this module when decoding or inspecting the type of objects stored in a PACKv2 file, particularly during analysis or validation steps.",
+      "description_length": 450,
+      "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Carton.First_pass",
+      "library": "carton",
+      "description": "This module decodes a PACKv2 file in a single pass, analyzing its structure without extracting objects. It processes data from a source such as a string or manual input, producing entries that describe each object's kind, size, and position, along with checksums and consumption metrics. It is used to determine if a PACK file is thin, aggregate object counts, verify versions, and compute hashes, which helps in deciding whether to canonicalize the file before further processing.",
+      "description_length": 481,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Carton.Uid",
+      "library": "carton",
+      "description": "This module defines a unique identifier type for objects in a PACK file, ensuring consistent size for efficient decoding. It provides operations for creating, comparing, and printing these identifiers, which are essential for referencing objects during PACK file analysis and extraction. These identifiers are used when processing PACKv2 streams and when accessing mapped file data through the decoding process.",
+      "description_length": 411,
+      "index": 22,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "H",
-      "description": "manages buffer-based decoding and encoding operations, handling source and destination data through custom types that track state, remaining capacity, and output ranges. It supports reading from and writing to bigstrings, with methods to calculate buffer lengths and manage streaming data efficiently. Functions include initializing decoder states, parsing binary formats, and performing in-place encoding with preallocated buffers. Examples include decoding network protocols and assembling network packets with precise control over data flow.",
-      "description_length": 544,
-      "index": 24,
-      "embedding_norm": 0.9999999403953552
+      "library": "carton",
+      "description": "This module provides streaming encoding and decoding capabilities for handling binary or structured data incrementally. It supports operations to process input buffers, track state transitions, and produce output through manual control or buffering, working with byte strings and string inputs. Key data types include decoder and encoder states that manage progress, input/output buffers, and streaming events like copy ranges or inserted strings. Examples include parsing HTTP headers, compressing data incrementally, or implementing custom wire protocols without loading the entire input into memory.",
+      "description_length": 602,
+      "index": 23,
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Classeur",
-      "description": "Provides operations to build and manipulate a string buffer, including initializing an empty context, feeding data in chunks, and extracting the final string. Works with a context type for incremental processing and a string-like type for stored data. Used to efficiently construct large strings from multiple input sources without intermediate allocations.",
-      "description_length": 357,
+      "module_path": "Carton",
+      "library": "carton",
+      "description": "This module decodes PACKv2 files through memory-mapped access, supporting object extraction by offset or UID and incremental stream analysis during network transmission. It uses abstract blobs and hash algorithms to manage object metadata, resolution status, and patch dependencies, enabling efficient retrieval, integrity checks, and concurrency-safe decoding. Submodules track visited objects to prevent redundancy, decode and validate Git objects, manage path data traversal, and buffer decompressed content using size-tracked temporary storage. Specific capabilities include single-pass structural analysis for object counts and checksums, UID-based object referencing, and path decoding for object resolution during PACK stream processing.",
+      "description_length": 744,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Zh",
+      "library": "carton",
+      "description": "This module provides streaming compression and decompression capabilities with explicit buffer control. It supports decoding from strings or manual input sources and encoding to bigstrings, using custom memory management for both operations. Key data types include input/output buffers and compression state, with operations for incremental processing, manual flushing, and tracking remaining data. You can use it to decompress gzip or zlib streams incrementally or compress large data chunks into memory buffers without full in-memory representation.",
+      "description_length": 551,
       "index": 25,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 28,
+    "total_modules_in_package": 26,
     "meaningful_modules": 26,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.9285714285714286
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 763,
-    "min_description_length": 220,
-    "avg_description_length": 364.46153846153845,
-    "embedding_file_size_mb": 0.09481143951416016
+    "max_description_length": 772,
+    "min_description_length": 345,
+    "avg_description_length": 467.34615384615387,
+    "embedding_file_size_mb": 0.09488487243652344
   }
 }

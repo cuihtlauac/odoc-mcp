@@ -1,70 +1,101 @@
 {
   "package": "levenshtein",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:29:48.655467",
+  "total_modules": 10,
+  "creation_timestamp": "2025-07-15T23:06:38.095830",
   "modules": [
     {
-      "module_path": "Levenshtein.Make",
-      "description": "Provides operations to compare elements, retrieve elements by index, and determine the size of a collection. Works with a custom type `t` representing a structured collection and `elem` as its element type. Used to efficiently access and compare elements in a pre-defined sequence.",
-      "description_length": 281,
+      "module_path": "Levenshtein.MakeWithCache",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for comparing arrays, using a cache to optimize repeated calculations. Works with arrays of any type through the `A` module and uses a cache structure provided by the `C` module. Useful for efficiently comparing large sequences of elements, such as strings or custom data structures, where prior computations can be reused.",
+      "description_length": 369,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Levenshtein.String",
-      "description": "Calculates the Levenshtein distance between two strings, with an optional upper bound to optimize performance for large inputs. Operates directly on string values, returning the minimum number of single-character edits required to transform one into the other. Useful for spell checking, fuzzy matching, or similarity checks where exact matches are not necessary.",
-      "description_length": 363,
+      "module_path": "Levenshtein.S",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for comparing two sequences of elements. Operates directly on values of type `t`, which represent sequences such as strings or arrays. Useful for measuring the difference between two sequences, such as in spell checking or DNA sequence analysis.",
+      "description_length": 291,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Levenshtein.CacheByHashtbl",
-      "description": "Provides operations for hashing and comparing keys to support efficient lookup in a hash table-based cache. Works with arbitrary key types through user-defined equality and hashing functions. Used to implement custom caching strategies where key comparison and hashing need to deviate from default behaviors, such as handling NaN values or physical equality.",
-      "description_length": 358,
+      "module_path": "Levenshtein.Array",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for generic array-like structures. It works with any type that provides element comparison, unsafe element access by index, and size retrieval. Designed for use with types like arrays or strings where efficient, direct access to elements is available and bounds checking is unnecessary.",
+      "description_length": 332,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Levenshtein.MakeWithCache",
-      "description": "Provides operations to compare elements, retrieve elements by index, and determine the size of a collection. Works with a hidden type `t` representing a structured collection and `elem` as its element type. Used to efficiently access and manage precomputed data in scenarios requiring fast lookups and size awareness.",
-      "description_length": 317,
+      "module_path": "Levenshtein.Cache",
+      "library": "levenshtein",
+      "description": "Implements a cache for memoizing intermediate results of the Levenshtein distance computation. Uses a hash table with keys representing positions in the input arrays and values storing computed distances. Useful for optimizing repeated calculations in large array comparisons.",
+      "description_length": 276,
       "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Levenshtein.Make",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for comparing sequences of elements stored in arrays. Operates directly on arrays of any element type, allowing customizable element comparison through the provided module. Useful for measuring similarity between sequences, such as comparing strings represented as character arrays or evaluating differences in token streams.",
+      "description_length": 371,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Levenshtein.WithCache",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for general arrays with caching support to optimize repeated calculations. It provides a `distance` function that computes the edit distance between two sequences, optionally bounded by a given threshold, and uses a `cache` structure to store intermediate results. This module is useful in applications requiring efficient comparison of sequences, such as diff tools, spell checkers, or bioinformatics analysis.",
+      "description_length": 457,
+      "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Levenshtein.StringWithHashtbl",
-      "description": "Provides functions to create a cache using OCaml's Hashtbl and compute string distances with an optional upper bound. Operates on strings and cache structures generated by the create_cache function. Used to efficiently compare strings in applications like spell checking or fuzzy matching.",
-      "description_length": 289,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "levenshtein",
-      "description": "Calculates the minimum number of element insertions, deletions, or substitutions required to transform one array into another. Operates on arrays of any type, including strings and custom typed arrays. Used for spell checking, DNA sequence comparison, and fuzzy string matching.",
-      "description_length": 278,
-      "index": 5,
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm for strings using a hash table\u2013based cache to optimize repeated calculations. Provides `create_cache` to initialize the cache and `distance` to compute the edit distance between two strings, optionally bounded by a maximum value. Useful for applications like fuzzy string matching, spell checking, or similarity search where performance matters across multiple comparisons.",
+      "description_length": 419,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
+      "module_path": "Levenshtein.CacheByHashtbl",
+      "library": "levenshtein",
+      "description": "This module implements a caching mechanism using a hash table to store and retrieve values associated with keys of type `H.t`. It provides operations to create a cache with a specified size and to update or query cached values using a function that transforms optional existing values. Concrete use cases include memoizing intermediate results of the Levenshtein distance algorithm to optimize performance during repeated computations.",
+      "description_length": 435,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Levenshtein.String",
+      "library": "levenshtein",
+      "description": "Implements the Levenshtein distance algorithm specifically for strings. Provides the `distance` function to compute the minimum number of single-character edits (insertions, deletions, substitutions) required to convert one string into another, with an optional upper bound for early termination. Useful for comparing string similarity in applications like spell checking, DNA sequence analysis, or text diffing.",
+      "description_length": 412,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
       "module_path": "Levenshtein",
-      "description": "Calculates the minimum number of single-character edits (insertions, deletions, substitutions) required to transform one string into another. Operates on string-like values represented by the type `t`. Useful for spell checking, fuzzy matching, and similarity checks between short text fragments.",
-      "description_length": 296,
-      "index": 6,
+      "library": "levenshtein",
+      "description": "This module computes the minimum number of insertions, deletions, and substitutions required to transform one sequence into another, supporting both arrays and strings through direct APIs and customizable comparison. It includes submodules optimized for string comparison, generic array-like structures, and cache-assisted computation, enabling efficient similarity checks for spell checking, DNA analysis, and diff tools. The core functionality works with any element type via provided modules, while specialized variants offer bounded distance calculation, unsafe access for performance, and hash-based caching for repeated use. Examples include comparing strings with `distance`, accelerating large array diffs with `create_cache`, and custom sequence analysis using user-defined equality and accessors.",
+      "description_length": 806,
+      "index": 9,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 10,
+    "meaningful_modules": 10,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 363,
-    "min_description_length": 278,
-    "avg_description_length": 311.7142857142857,
-    "embedding_file_size_mb": 0.025873184204101562
+    "max_description_length": 806,
+    "min_description_length": 276,
+    "avg_description_length": 416.8,
+    "embedding_file_size_mb": 0.036739349365234375
   }
 }

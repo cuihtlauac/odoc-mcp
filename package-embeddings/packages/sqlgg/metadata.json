@@ -1,259 +1,381 @@
 {
   "package": "sqlgg",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 34,
-  "creation_timestamp": "2025-06-18T16:39:19.375748",
+  "total_modules": 45,
+  "creation_timestamp": "2025-07-15T23:14:00.523105",
   "modules": [
     {
-      "module_path": "Sqlgg.Parser_utils.Make",
-      "description": "Processes lexical input by parsing tokens using a custom lexer function, then applies a specific rule to generate a result. Operates on lexing buffers and custom token and result types. Used to implement parser logic in language processing workflows.",
-      "description_length": 250,
+      "module_path": "Sqlgg.Sql.Type",
+      "library": "sqlgg.lib",
+      "description": "This module defines a type system for SQL data types, supporting operations like type comparison, subtyping, and supertype calculation. It includes functions to check type compatibility, determine ordering, and represent types as strings. The module also models SQL functions with polymorphic and monomorphic signatures, enabling precise type checking and manipulation in query generation or analysis tasks.",
+      "description_length": 407,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sqlgg.Sql.Type",
-      "description": "Provides pretty-printing and string conversion for type representations, along with comparison and relationship checks between types. Handles operations on type variables, functions, and type hierarchies, including finding common supertypes and subtypes. Supports function identity and grouping detection for type manipulation workflows.",
-      "description_length": 337,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Sqlgg.Sql.Constraint",
-      "description": "Provides pretty-printing, string representation, and comparison functions for conflict resolution algorithms and constraint objects. Works with custom types `conflict_algo` and `t` to enable consistent formatting and ordering. Used to generate human-readable outputs and enforce deterministic comparisons in constraint validation workflows.",
-      "description_length": 340,
-      "index": 2,
+      "library": "sqlgg.lib",
+      "description": "This module defines types and operations for representing SQL constraints, including conflict resolution algorithms like `Ignore`, `Replace`, and `Rollback`, and constraint types such as `PrimaryKey`, `NotNull`, and `Unique`. It provides functions to format, display, and compare these constraint values. These are used to construct and manipulate SQL schema definitions and integrity rules directly in OCaml code.",
+      "description_length": 414,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sqlgg.Sql.Constraints",
-      "description": "This module offers set-like operations for managing collections, including element manipulation, property queries, and transformations, alongside functional programming utilities such as mapping, folding, and filtering. It works with generic and custom types representing collections of elements, supporting conversions between sequences, lists, and constraint-specific structures. Key use cases involve processing constraint sets, iterating over structured data, and efficiently modifying or analyzing collection contents.",
-      "description_length": 523,
+      "module_path": "Sqlgg.Parser.T",
+      "library": "sqlgg.lib",
+      "description": "This module provides functions to parse SQL input from various sources, including buffers, strings, files, and standard input. It processes SQL syntax into structured result values, handling both successful and failed parse outcomes. Concrete use cases include validating SQL queries from user input, configuration files, or network streams.",
+      "description_length": 341,
+      "index": 2,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sqlgg.Parser_utils.Make",
+      "library": "sqlgg.lib",
+      "description": "This module implements parsing operations for converting input sources into structured results using a specified type definition. It provides functions to parse from a lexing buffer, standard input, string, or file, returning either a guaranteed result or an optional value. It is used for processing SQL-like input into typed representations, handling errors and end-of-input conditions explicitly.",
+      "description_length": 399,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sqlgg.Sql.Schema",
-      "description": "The module provides operations for manipulating attributes and schemas, including searching, filtering, renaming, and validating attributes within a schema structure, along with list transformations and positional insertion (e.g., After, First, Default) for attribute management. It supports use cases like ensuring attribute uniqueness, validating schema integrity, and converting schema representations to strings for logging or configuration purposes.",
-      "description_length": 454,
+      "module_path": "Sqlgg.Parser_utils.Parser_type",
+      "library": "sqlgg.lib",
+      "description": "This module defines core parsing primitives for lexing-based input processing. It includes a token type and parsing result type, with `input` driving the parsing process using a token-producing function, and `rule` defining the entry point for parsing logic. It is used to implement custom parsers that consume character streams and produce structured values, such as SQL query components.",
+      "description_length": 389,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sqlgg.Sql.Function",
-      "description": "Provides functions to manage a collection of type-bound functions, including looking up by name and index, adding or excluding entries, and defining monomorphic or polymorphic type constraints. Operates on integers, strings, and custom type representations from the Type module. Used to enforce type discipline during function registration and retrieval in a compiler or type-checking system.",
-      "description_length": 392,
+      "library": "sqlgg.lib",
+      "description": "This module manages SQL function definitions and type constraints through operations like `lookup`, `add`, and `exclude`, which manipulate function mappings by string keys and integer identifiers. It works with SQL types and polymorphic type variables, enforcing monomorphic and polymorphic function signatures. Concrete use cases include defining type-checked SQL functions, restricting function overloads, and handling variadic or polymorphic return types in SQL expressions.",
+      "description_length": 477,
       "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg.Sql.Constraints",
+      "library": "sqlgg.lib",
+      "description": "This module supports combining and analyzing SQL constraint collections through set algebra (union, intersection, difference), ordered list transformations (filtering, mapping, partitioning), and sequence-based construction. It operates on structured collections of SQL constraint definitions, enabling efficient querying of constraint properties, dependency analysis, and conversion between set/list/sequence representations. Typical applications include database schema validation, constraint propagation in query optimization, and generating constraint reports with custom formatting.",
+      "description_length": 587,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Sqlgg.Parser.T_SQL_parser",
-      "description": "Parses SQL statements by consuming a lexing buffer and returning a structured SQL statement representation. It processes tokens generated by a lexer to build an abstract syntax tree for SQL commands. Used to convert raw SQL input into a typed, executable format for further processing.",
-      "description_length": 285,
-      "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg.Parser.T",
-      "description": "Parses SQL input from buffers, strings, files, and standard input, returning a structured result or failure. Processes lexing buffers and raw strings to generate SQL query representations. Used to convert user-provided SQL text into an abstract syntax tree for further analysis or execution.",
-      "description_length": 291,
+      "library": "sqlgg.lib",
+      "description": "Parses SQL statements into an abstract syntax tree using a generated lexer and parser. It processes input through a lexing buffer, converting token streams into structured SQL statements. This module is used to interpret raw SQL queries for analysis, transformation, or execution in a database system.",
+      "description_length": 301,
       "index": 7,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sqlgg.Sql_lexer.Keywords",
-      "description": "This module offers operations for dynamically managing key-value data, including insertion, deletion, merging, and querying, with support for transforming collections through iteration, filtering, and sequence conversion. It works with structured key-value pairs where keys are strings and values are generic, enabling tasks like configuration management or data aggregation. Specific use cases include efficiently modifying large datasets, extracting bindings for processing, and converting between sequential and structured representations for data pipelines.",
-      "description_length": 561,
+      "module_path": "Sqlgg.Prelude",
+      "library": "sqlgg.lib",
+      "description": "This module includes function composition and manipulation utilities, such as function application, identity, and argument flipping. It handles lists, options, and formatted output, with operations for converting options to lists, appending to list references, and formatted printing to stdout or stderr. These functions are useful for data transformation pipelines, error reporting with locations, and logging during parsing or evaluation tasks.",
+      "description_length": 446,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sqlgg_traits.Types.Bool",
-      "description": "Returns \"TRUE\" or \"FALSE\" as strings based on the boolean value. Works with the boolean type t. Used to generate SQL-compatible output for boolean fields.",
-      "description_length": 154,
+      "module_path": "Sqlgg.Syntax",
+      "library": "sqlgg.lib",
+      "description": "This module parses SQL-like query strings into structured representations, extracting the query text, schema, variables, and statement kind. It works with strings as input and produces tuples containing parsed SQL components. Useful for translating embedded SQL queries into executable statements within an OCaml application.",
+      "description_length": 325,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Int",
-      "description": "Converts integer values to their SQL-specific string representations. Works with integer types directly. Used to generate valid SQL literals from numeric data during query construction.",
-      "description_length": 185,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Float",
-      "description": "Converts a floating-point value to its SQL-compatible string representation. Operates on the `t` type, which represents 64-bit floating-point numbers. Used to generate SQL query literals from numeric values.",
-      "description_length": 207,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Text",
-      "description": "Returns the SQL literal form of a value, suitable for embedding in queries. Works with the abstract type t, which represents text data. Used to safely generate SQL strings from internal representations.",
-      "description_length": 202,
-      "index": 12,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Blob",
-      "description": "Returns the SQL literal representation of a value, ensuring proper formatting for database insertion. Works with the `t` type, which encapsulates values intended for SQL serialization. Used to generate safe, correctly formatted SQL strings from structured data.",
-      "description_length": 261,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Decimal",
-      "description": "Converts a decimal value to its SQL-compatible string representation. Works with the internal decimal type used for precise numeric calculations. Used to generate SQL queries with exact numeric literals.",
-      "description_length": 203,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Datetime",
-      "description": "Converts a date-time value into a string formatted according to SQL syntax. Works with the internal date-time type representing timestamps. Used to generate SQL-compatible string literals for database insertion or querying.",
-      "description_length": 223,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types.Any",
-      "description": "Returns the SQL literal representation of a value, suitable for embedding in queries. Works with a generic type `t` that represents SQL values. Used to generate safe, formatted SQL strings from application data.",
-      "description_length": 211,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_io.Blocking",
-      "description": "Provides operations for sequencing and managing asynchronous computations, including binding results between futures and resource management with a bracketing pattern. Works with a single data type representing a future value, which is equivalent to its resolved value. Used to structure code that requires sequential execution of operations with explicit resource cleanup.",
-      "description_length": 373,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Sqlgg.Parser",
-      "description": "Processes SQL input from various sources, converting raw text into structured abstract syntax trees through token analysis. Supports parsing from buffers, strings, files, and standard input, with error handling for malformed queries. Key data types include lexing buffers, SQL statements, and error representations. Examples include parsing a SQL string into an AST, validating input syntax, and extracting query components for execution or analysis.",
-      "description_length": 450,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg.Parser_state",
-      "description": "Tracks and modifies parsing behavior through distinct modes. Supports operations to switch between normal, ignore, and identifier parsing modes. Used to control how input is processed during lexical analysis.",
-      "description_length": 208,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg.Parser_utils",
-      "description": "Parses input using a given tokenization function, returning a structured result. It processes lexing buffers and produces results based on defined token rules. Used to implement custom parsing logic for domain-specific languages.",
-      "description_length": 229,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg.Prelude",
-      "description": "Provides function composition via `$`, identity mapping with `identity`, and argument flipping with `flip`. Operates on functions, lists, options, and formatted strings. Enables concise error reporting with `fail` and `failed`, and formatted output with `printfn` and `eprintfn`.",
-      "description_length": 279,
-      "index": 21,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sqlgg.Sql",
-      "description": "manages type, constraint, and schema operations through a suite of specialized utilities, enabling precise control over type hierarchies, conflict resolution, collection transformations, and attribute manipulation. It supports core data types such as types, constraints, attributes, and function collections, with operations like type comparison, set manipulation, schema validation, and function lookup. Users can find common supertypes, resolve conflicts, process constraint sets, and manage attribute positions within schemas. Examples include validating schema integrity, generating human-readable constraint outputs, and enforcing type discipline during function registration.",
-      "description_length": 681,
-      "index": 22,
+      "library": "sqlgg.lib",
+      "description": "This module provides a comprehensive framework for building and analyzing SQL schemas and queries using richly typed representations of database objects. It combines core functionality for constructing query components like joins and select clauses with advanced type and constraint management through its submodules. Developers can define and manipulate SQL types, constraints, and functions with precise type checking, enabling tasks like schema validation, query optimization, and code generation. Specific capabilities include tracking parameter positions in ASTs, enforcing constraint policies during schema updates, and modeling polymorphic SQL functions with type-safe signatures.",
+      "description_length": 687,
+      "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sqlgg.Sql_lexer",
-      "description": "manages key-value data with insertion, deletion, merging, and querying, supporting transformations through iteration and sequence conversion. It handles structured pairs with string keys and generic values, enabling tasks like configuration updates and data aggregation. Operations include filtering, binding extraction, and converting between sequential and structured formats. Examples include modifying large datasets and preparing data for pipeline processing.",
-      "description_length": 464,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg.Sql_parser",
-      "description": "Parses SQL statements by consuming a lexer buffer and token stream, producing an abstract syntax tree of type Sql.stmt. It processes tokens defined by the token type, which includes keywords, identifiers, and operators. Used to convert raw SQL input into structured query representations for execution or analysis.",
-      "description_length": 314,
-      "index": 24,
+      "module_path": "Sqlgg.Parser",
+      "library": "sqlgg.lib",
+      "description": "This module parses SQL statements from strings and other input sources into structured representations, producing abstract syntax trees for analysis or transformation. It includes functions to parse from buffers, files, and standard input, handling both successful results and error cases. The core parsing logic uses a generated lexer and parser to convert raw SQL into structured statement values. Example uses include validating user-submitted queries, processing SQL from configuration files, and preparing statements for database execution.",
+      "description_length": 545,
+      "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sqlgg.Stmt",
-      "description": "This module offers pretty-printing and string conversion utilities for types such as `insert_kind`, `inferred`, `cardinality`, `kind`, and `category`, along with functions to convert between category values and integers, validate category ranges, and retrieve all categories. It supports use cases like generating human-readable representations of data structures or ensuring valid category constraints in applications. The functionality focuses on textual representation and category management rather than data manipulation.",
-      "description_length": 526,
-      "index": 25,
+      "library": "sqlgg.lib",
+      "description": "This module models SQL statement classifications and categories, enabling operations to determine statement types (e.g., DDL, DML) and their metadata. It works with SQL statement kinds, cardinality, and category enumerations, providing utilities to convert these types into strings, pretty-print them, or map between classifications. These features are useful for SQL analysis, query processing, and generating structured representations of database operations.",
+      "description_length": 461,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg.Sql_lexer",
+      "library": "sqlgg.lib",
+      "description": "This module parses SQL-like syntax elements such as identifiers, quoted strings, multi-line comments, and bracketed content from `Lexing.lexbuf` streams using lexing tables and recursive rules. It employs integer flags and helper functions to manage state during nested or multi-stage lexing operations, supporting SQL query parsing and string literal extraction. Submodules extend this core functionality with specialized lexing rules for SQL dialects, enhanced error recovery mechanisms, and utilities for handling complex lexical structures like nested comments and delimited identifiers. Specific examples include parsing quoted strings with custom delimiters, extracting tokens from multi-line SQL statements, and managing state transitions during recursive lexing of subqueries or function calls.",
+      "description_length": 802,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg.Sql_parser",
+      "library": "sqlgg.lib",
+      "description": "This module defines a token type representing SQL keywords, literals, and operators, and provides an `input` function that parses a stream of tokens into SQL statements. It works with lexing buffers and structured SQL abstract syntax trees. Concrete use cases include building SQL parsers, processing queries, and extracting statement structure from raw SQL input.",
+      "description_length": 364,
+      "index": 14,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sqlgg.Syntax",
-      "description": "Outputs a detailed representation of parsed SQL statements, including schema and variable information. Processes raw SQL strings to extract structured data such as schema definitions and query variables. Used to inspect and validate SQL syntax during development and debugging.",
-      "description_length": 277,
-      "index": 26,
+      "module_path": "Sqlgg.Parser_state",
+      "library": "sqlgg.lib",
+      "description": "This module manages parsing modes for a SQL grammar generator, providing functions to set the current mode to `Normal`, `Ignore`, or `Ident`. It uses a mutable reference to track the active mode, with dedicated functions to switch between states. Concrete use cases include controlling how the parser handles whitespace, identifiers, and tokenization during SQL query processing.",
+      "description_length": 379,
+      "index": 15,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sqlgg.Parser_utils",
+      "library": "sqlgg.lib",
+      "description": "This module combines parser-combinator utilities with lexing infrastructure to build and manipulate SQL query parsers. It provides core types like token and parsing result, along with operations for defining parsing rules, handling input sources, and extracting structured data from SQL fragments. You can use it to create custom SQL parsers that read from strings or files, validate query syntax, and produce typed representations of clauses or expressions. Submodules handle low-level lexing and input processing, while the main module offers higher-level composition and manipulation of parsers.",
+      "description_length": 598,
+      "index": 16,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Sqlgg.Tables",
-      "description": "Provides functions to manage a global collection of database tables, including retrieving, adding, renaming, and altering tables and their schemas. Operates on table names, schemas, and attributes, supporting SQL-like modifications. Used to dynamically update database structures and output table details to channels or files.",
-      "description_length": 326,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.Types",
-      "description": "Encapsulates utilities for converting various data types to SQL-compatible string representations. Handles booleans, integers, floats, text, decimals, date-times, and generic SQL values, each with specific conversion functions. Generates safe, formatted SQL literals for query construction and database interaction. Examples include converting `true` to `\"TRUE\"`, `42` to `\"42\"`, `3.14` to `\"3.14\"`, and a timestamp to a properly formatted SQL string.",
-      "description_length": 451,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_traits.IO",
-      "description": "Handles asynchronous computations with a monadic interface, enabling sequencing of operations through bind and resource management via bracket. Operates on values wrapped in a future type, representing delayed results. Used to manage I/O operations, ensuring proper cleanup after resource acquisition.",
-      "description_length": 301,
-      "index": 29,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "sqlgg",
-      "description": "Parses SQL queries into an abstract syntax tree and generates OCaml code from them. Works with SQL syntax structures and OCaml type representations. Used to embed SQL logic directly into OCaml applications with type-safe code generation.",
-      "description_length": 237,
-      "index": 30,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sqlgg_io",
-      "description": "Provides asynchronous value sequencing and resource management through monadic operations. Works with the `'a future` type to handle delayed computations and I/O operations. Enables safe acquisition and release of database connections during query execution.",
-      "description_length": 258,
-      "index": 31,
+      "library": "sqlgg.lib",
+      "description": "This module manages a global list of SQL tables, providing operations to add, drop, rename, and modify tables and their schemas. It supports data types like `table_name`, `schema`, and `attr` for representing SQL table structures and attributes. Concrete use cases include altering table columns with constraints, renaming tables or columns, checking table existence, and printing table definitions to an output channel.",
+      "description_length": 420,
+      "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sqlgg",
-      "description": "Combines SQL parsing, transformation, and analysis capabilities, enabling structured processing of SQL input into abstract syntax trees and managing database schemas and tables. It handles lexing, mode-based parsing, function composition, type and constraint management, key-value data manipulation, and pretty-printing of SQL elements. Users can parse and validate SQL queries, modify database schemas, manage type hierarchies, and generate human-readable outputs. Examples include converting SQL strings to ASTs, resolving type conflicts, updating table schemas, and printing schema information.",
-      "description_length": 597,
-      "index": 32,
+      "library": "sqlgg.lib",
+      "description": "This module processes SQL queries through parsing, schema modeling, and lexical analysis, enabling translation of raw SQL strings into structured representations for validation, transformation, and execution. It provides core data types for SQL statements, tokens, schemas, and tables, along with operations for parsing input, classifying statements, managing parsing modes, and manipulating table definitions. You can use it to build SQL parsers, extract and analyze query components, enforce schema constraints, or modify database structures programmatically. Examples include parsing a SQL file into an abstract syntax tree, validating query syntax, transforming schema definitions, or extracting metadata from embedded SQL statements.",
+      "description_length": 738,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Bool",
+      "library": "sqlgg.traits",
+      "description": "Handles boolean value serialization into SQL literals. Converts boolean types to their corresponding string representations in a specific SQL dialect. Useful for generating SQL queries where boolean values need to be embedded directly as strings like \"TRUE\" or \"FALSE\".",
+      "description_length": 269,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Float",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of floating-point numbers to their SQL literal representations. Works directly with `Types.Float.t` values. Useful when generating SQL queries dynamically, ensuring correct formatting of numeric literals according to the target SQL dialect.",
+      "description_length": 259,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Decimal",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of decimal values to their literal SQL representations. Works with `Types.Decimal.t` values. Useful when generating SQL queries that require precise decimal formatting, such as financial calculations or schema definitions.",
+      "description_length": 241,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_io.M",
+      "library": "sqlgg.traits",
+      "description": "Handles asynchronous input/output operations for SQL query execution and result processing. Works with SQL statements and database connection handles, managing resource allocation and cleanup. Used to safely run queries, handle transactions, and read result sets without leaking resources.",
+      "description_length": 289,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Blob",
+      "library": "sqlgg.traits",
+      "description": "This module handles conversion of binary large object (BLOB) data to SQL literal representations. It operates on `Types.Blob.t`, typically representing raw binary data, and provides `to_literal` to format it as a string suitable for SQL queries. It is used when serializing binary data, such as file contents or encrypted payloads, into SQL statements.",
+      "description_length": 352,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Datetime",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of datetime values to SQL literals. Works with `Types.Datetime.t` values. Used to generate correctly formatted datetime strings for SQL queries.",
+      "description_length": 163,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Int",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of integer values to their literal SQL representations. Works with `Types.Int.t`, which represents integers in a specific SQL dialect. Useful when generating SQL queries dynamically, ensuring integers are correctly formatted as strings in SQL statements.",
+      "description_length": 273,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Text",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of text values to their literal SQL representations. Works with `Types.Text.t` values. Useful for generating SQL queries where text must be properly escaped or formatted according to the SQL dialect.",
+      "description_length": 218,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M",
+      "library": "sqlgg.traits",
+      "description": "This module enables type-safe extraction of SQL query results by mapping column values (including nullable variants) to precise OCaml types like booleans, integers, and text, while supporting operations to bind parameters and execute queries with explicit cardinality expectations (zero, one, or many results). It works directly with SQL statements, rows, and parameter sets, ensuring safe null handling and type-preserving data conversion. It is particularly suited for applications requiring rigorous type guarantees and robust error handling in database interactions.",
+      "description_length": 570,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-IO",
+      "library": "sqlgg.traits",
+      "description": "Handles asynchronous I/O operations with support for resource management. Works with futures and functions that produce futures. Useful for executing database queries concurrently while ensuring proper cleanup of resources like connections or file handles.",
+      "description_length": 256,
+      "index": 28,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Any",
+      "library": "sqlgg.traits",
+      "description": "This module defines a common interface for handling SQL value representations. It includes the operation `to_literal` which converts a value of type `t` into its SQL literal string form, respecting the target SQL dialect. It works directly with the `Types.Any.t` type, encapsulating diverse SQL data types into a single polymorphic variant. Use this interface when generating SQL queries dynamically from OCaml values, ensuring correct literal formatting for database compatibility.",
+      "description_length": 482,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io",
+      "library": "sqlgg.traits",
+      "description": "This module provides type-safe operations for extracting typed values from SQL query results and binding parameters to database statements. It works with row-based data structures to access columns by index using types like boolean, integer, text, and nullable variants, while integrating with an IO context for database communication. These capabilities are used when querying or modifying relational data, ensuring correct type conversions and handling optional fields during result parsing or parameterized execution.",
+      "description_length": 520,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.Value",
+      "library": "sqlgg.traits",
+      "description": "This module defines a type `t` representing SQL values and provides the `to_literal` function to convert these values into their string representation in a specific SQL dialect. It works directly with SQL data types such as integers, strings, booleans, and null. Use this module when generating SQL queries dynamically to ensure correct value formatting.",
+      "description_length": 354,
+      "index": 31,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sqlgg_traits",
-      "description": "Converts various data types to safe SQL string representations, including booleans, numbers, dates, and custom values, enabling secure query construction. Provides asynchronous operations through a monadic interface, supporting sequential execution and resource management. For example, it can transform `42` into `\"42\"` or a timestamp into a formatted SQL string, while also handling I/O tasks like database connections with proper cleanup. Operations include binding futures and managing side effects in a structured way.",
-      "description_length": 523,
+      "module_path": "Sqlgg_traits.M-Types-Bool",
+      "library": "sqlgg.traits",
+      "description": "This module defines operations for converting boolean values to their literal SQL representations. It works with the abstract type `t` and provides the `to_literal` function to generate SQL-compliant boolean literals. Concrete use cases include serializing OCaml boolean values into SQL strings, such as converting `true` to `'TRUE'` or `false` to `'FALSE'` when constructing queries.",
+      "description_length": 384,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Decimal",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of decimal values to their SQL literal representations. Works directly with `Types.Decimal.t` values. Useful when generating SQL queries to ensure decimal values are correctly formatted according to the target SQL dialect.",
+      "description_length": 241,
       "index": 33,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Blob",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of binary data to SQL literal representations. Works with blob types, specifically `Types.Blob.t`. Useful when serializing binary data for insertion into SQL statements.",
+      "description_length": 188,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types",
+      "library": "sqlgg.traits",
+      "description": "This module defines core data types for representing SQL values, including boolean, integer, float, text, blob, decimal, datetime, and generic any types. It provides functions for encoding, decoding, and manipulating these SQL-related data structures in a type-safe manner. Concrete use cases include mapping database rows to OCaml values, handling SQL NULLs, and serializing/deserializing data for query execution.",
+      "description_length": 415,
+      "index": 35,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Any",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of SQL values to their literal string representations in a specific dialect. Works with the `Types.Any.t` type, which represents SQL values of any type. Useful for generating SQL queries by converting runtime values into properly formatted SQL literals.",
+      "description_length": 272,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_io.Blocking",
+      "library": "sqlgg.traits",
+      "description": "This module implements a blocking IO interface for database operations, providing functions for value sequencing, resource management, and chained execution. It works with futures and handles resource acquisition and release patterns, particularly for database connections or transactions. Concrete use cases include executing SQL queries with guaranteed cleanup, managing connection lifetimes, and composing sequential database actions without concurrency.",
+      "description_length": 457,
+      "index": 37,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Datetime",
+      "library": "sqlgg.traits",
+      "description": "This module defines operations for handling datetime values in SQL, specifically providing the `to_literal` function to convert datetime values into their string representation according to a specific SQL dialect. It works with the abstract datetime type `t` defined in the enclosing module. A concrete use case is generating SQL queries where datetime values need to be correctly formatted as string literals.",
+      "description_length": 410,
+      "index": 38,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Text",
+      "library": "sqlgg.traits",
+      "description": "Handles text values in SQL generation, providing `to_literal` to convert text into its SQL string representation. Works with the abstract type `t` and `Types.Text.t`. Useful for safely embedding text into SQL queries with proper escaping.",
+      "description_length": 238,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types-Int",
+      "library": "sqlgg.traits",
+      "description": "This module defines the interface for handling integer types in an SQL dialect, specifically providing the `to_literal` function to convert integer values into their string representations as SQL literals. It operates on the abstract type `t` representing integers. Concrete use cases include generating SQL queries where integer values need to be correctly formatted as strings within the query syntax.",
+      "description_length": 403,
+      "index": 40,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M_io-Types-Float",
+      "library": "sqlgg.traits",
+      "description": "Handles conversion of floating-point numbers to their string representations in SQL literals. Works directly with the `t` type, which represents float values. Useful for generating SQL queries where float values need to be embedded as strings in a dialect-compatible format.",
+      "description_length": 274,
+      "index": 41,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits.M-Types",
+      "library": "sqlgg.traits",
+      "description": "This module defines a set of standard SQL data types and their associated operations, including boolean, integer, float, text, blob, decimal, datetime, and polymorphic any. Each submodule provides functions for value conversion, comparison, and SQL serialization specific to its type. It is used to map OCaml values to SQL types and handle database interactions with type-specific encoding and decoding logic.",
+      "description_length": 409,
+      "index": 42,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_io",
+      "library": "sqlgg.traits",
+      "description": "This module provides an IO interface for interacting with SQL databases, integrating both synchronous and asynchronous backends to support flexible query execution and resource management. It centers around database connections and SQL statements, offering operations for running queries, handling results, and managing transactions while ensuring safe resource cleanup. The Async submodule enables non-blocking execution of SQL operations and safe composition of asynchronous database actions, while the Blocking submodule delivers a simpler, sequential API for single-threaded contexts with guarantees on resource release. Examples include executing parameterized queries, iterating over result sets, and chaining database operations with automatic transaction handling or connection pooling.",
+      "description_length": 794,
+      "index": 43,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sqlgg_traits",
+      "library": "sqlgg.traits",
+      "description": "This module defines type signatures for type-safe SQL query generation and value serialization, enabling precise mapping between OCaml values and SQL literals. It provides core data types such as boolean, integer, float, text, blob, decimal, and datetime, each with operations to convert values into SQL-compatible string representations using functions like `to_literal`. Submodules handle specific SQL types and their dialect-specific formatting, such as converting booleans to \"TRUE\"/\"FALSE\", decimals for financial data, or datetime values for temporal queries. It also supports result extraction, parameter binding, and asynchronous I/O, allowing robust database interactions with strong type guarantees and safe handling of nullable fields.",
+      "description_length": 746,
+      "index": 44,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 35,
-    "meaningful_modules": 34,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9714285714285714
+    "total_modules_in_package": 47,
+    "meaningful_modules": 45,
+    "filtered_empty_modules": 2,
+    "retention_rate": 0.9574468085106383
   },
   "statistics": {
-    "max_description_length": 681,
-    "min_description_length": 154,
-    "avg_description_length": 340.38235294117646,
-    "embedding_file_size_mb": 0.12396717071533203
+    "max_description_length": 802,
+    "min_description_length": 163,
+    "avg_description_length": 412.3777777777778,
+    "embedding_file_size_mb": 0.16391754150390625
   }
 }

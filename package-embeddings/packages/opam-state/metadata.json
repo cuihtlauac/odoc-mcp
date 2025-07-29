@@ -1,175 +1,189 @@
 {
   "package": "opam-state",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 22,
-  "creation_timestamp": "2025-06-18T16:36:22.192230",
+  "total_modules": 21,
+  "creation_timestamp": "2025-07-15T23:10:22.784025",
   "modules": [
     {
-      "module_path": "OpamSysInteract.Cygwin",
-      "description": "Provides functions to determine and manipulate Cygwin and MSYS2 root directories, analyze installation types, and check system setup. Works with directory paths and package configurations specific to Windows environments. Used to locate binary directories, validate installation sources, and ensure compatibility between Cygwin and MSYS2 setups.",
-      "description_length": 345,
+      "module_path": "OpamStateConfig.E",
+      "library": "opam-state",
+      "description": "This module defines configuration flags and values used to control behavior during package management operations. It includes options for build settings, job concurrency, environment handling, and package constraints. These configurations are used to customize the execution context for commands like installation, dependency resolution, and package switching.",
+      "description_length": 360,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamStateConfig.E",
-      "description": "Returns the current working directory as a string option, and retrieves the name of the active environment as a string option. Operates on system-level process information and environment variables. Used to determine the project root and active configuration during runtime.",
-      "description_length": 274,
+      "module_path": "OpamSysInteract.Cygwin",
+      "library": "opam-state",
+      "description": "This module handles interactions with Cygwin and MSYS2 environments, providing functions to locate installation roots, analyze system paths, and bind directories. It supports operations like installing system packages, determining binary directories, and checking configuration settings. Concrete use cases include setting up OCaml toolchains on Windows using Cygwin or MSYS2, and configuring environment paths for package management.",
+      "description_length": 434,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamStateConfig.Switch",
-      "description": "Loads switch configuration files with optional locking, reads selection data for specific switches, and retrieves configuration data in a safe manner. Works with directory names, switch identifiers, and configuration files represented as OCaml records. Used to access and validate environment-specific package settings in Opam workflows.",
-      "description_length": 337,
+      "module_path": "OpamStateConfig.Repos",
+      "library": "opam-state",
+      "description": "Handles reading and managing repository configurations in a thread-safe manner using locks. Works with `global_state` and `Repos_config.t` to provide consistent access to repository data. Useful for retrieving repository URLs and configuration details during package resolution or repository updates.",
+      "description_length": 300,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamStateConfig.Repos",
-      "description": "Provides functions to safely read repository configurations, including handling locks and global state. Operates on OpamFile.Repos_config.t and related state types. Used to retrieve and validate repository data during package installation or update processes.",
-      "description_length": 259,
+      "module_path": "OpamRepositoryState.Cache",
+      "library": "opam-state",
+      "description": "This module caches the loading of repository state by marshalling parsed opam files. It provides `save` to persist repository state, `load` to retrieve it from a directory, and `remove` to clear the cache. It works with repository state data structures, including maps of repositories to packages and repository metadata. Use cases include speeding up repeated access to repository data and avoiding re-parsing opam files on disk.",
+      "description_length": 430,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamRepositoryState.Cache",
-      "description": "Provides functions to persist and retrieve cached repository data, including opam file mappings. Operates on repository state, directory names, and package maps. Used to speed up repeated repository loading by avoiding re-parsing opam files.",
-      "description_length": 241,
+      "module_path": "OpamStateConfig.Switch",
+      "library": "opam-state",
+      "description": "This module handles loading and reading switch-specific configuration and selection data. It provides functions to safely load switch configurations, read switch selections, and retrieve optional configuration data for a given switch. These operations work with switch names, global state references, and lock types, returning structured configuration or selection information. Use cases include initializing switch environments, querying installed packages, and managing per-switch settings during package operations.",
+      "description_length": 518,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "OpamSwitchState.Installed_cache",
-      "description": "Loads, saves, and removes a cache of installed package metadata, using a map from package names to OPAM file contents. Operates on file paths and a structured cache representation. Used to persist and retrieve package data during installation or upgrade processes.",
-      "description_length": 264,
+      "library": "opam-state",
+      "description": "This module manages a cache of installed package metadata by reading, writing, and removing opam files from disk. It uses a map from package names to their corresponding `OPAM` file data to enable efficient lookups and persistence. Concrete use cases include speeding up access to installed package configurations and ensuring consistency during package installation or removal.",
+      "description_length": 378,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "opam-state",
-      "description": "Provides functions for managing OCaml compiler installations, resolving package dependencies, and executing build commands. Works with data structures such as package specifications, version constraints, and repository configurations. Used to automate the setup of development environments and streamline the installation of OCaml projects.",
-      "description_length": 340,
+      "module_path": "OpamEmbeddedCygwinSetup",
+      "library": "opam-state",
+      "description": "Contains the embedded Cygwin setup binary used for Windows installations. Provides direct access to the binary content of setup-x86_64.exe when included in an opam package. Useful for distributing and installing Cygwin as part of an OCaml package on Windows systems.",
+      "description_length": 266,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamPinned",
-      "description": "Retrieves pinned package versions and associated metadata from an Opam state, including the ability to resolve package names to their pinned versions and locate corresponding opam files in source directories. Operates on package names, versions, and file paths, supporting both direct lookups and recursive scans of source trees. Enables precise access to package definitions and their origins, useful for verifying dependencies and tracking source locations.",
-      "description_length": 459,
+      "module_path": "OpamFileTools",
+      "library": "opam-state",
+      "description": "This module creates OPAM package templates, validates their structure with detailed linting, and handles metadata from related files like `url` and `descr`. It processes opam files from strings, channels, or file paths, reporting errors and warnings with specific identifiers and severity levels. It also transforms and sorts OPAM fields, converts dependency formulas to string format, and integrates metadata from repository directories.",
+      "description_length": 438,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamSwitchAction",
-      "description": "Initializes new switches, manages switch configurations, and updates installed or removed packages in a switch's state. Operates on switch states, package sets, and repository names, with functions to write selections, install or remove metadata, and adjust reinstall or pinned package lists. Used to set the current switch, generate switch configurations, and modify package selections persistently.",
-      "description_length": 400,
+      "module_path": "OpamSwitchState",
+      "library": "opam-state",
+      "description": "This module provides access to the current state of an opam switch, including installed packages and their metadata. It combines direct operations for loading and querying package information with a cache management system that persists `OPAM` file data to disk. The core data type is a map from package names to their metadata, enabling efficient lookups and updates. You can use it to retrieve installed package configurations, track changes during installations or removals, and ensure consistency by leveraging the disk-backed cache.",
+      "description_length": 537,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamSysInteract",
-      "description": "Handles Windows-specific system interactions by identifying and managing Cygwin and MSYS2 root directories, validating installation types, and ensuring compatibility. It processes directory paths, package configurations, and system setups to locate binaries and verify installation integrity. Operations include checking root directories, analyzing installation sources, and resolving path conflicts. Examples include determining the correct binary path for a given package or verifying if a setup is standalone or system-wide.",
-      "description_length": 527,
+      "module_path": "OpamFormatUpgrade",
+      "library": "opam-state",
+      "description": "This module provides functions to upgrade OPAM repository and package configurations from older versions to the current format. It operates on data types like `OpamFile.Config.t`, `OpamFile.OPAM.t`, and `OpamFile.Comp.t`, handling in-place and hard upgrades with support for version-specific transformations. Concrete use cases include converting `.opam` files from version 1.2 to 2.0, rewriting availability conditions into dependencies, and upgrading global state during repository or switch operations.",
+      "description_length": 505,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamScript",
-      "description": "Generates shell configuration scripts for environment setup and command execution. Produces strings containing shell code for completion, prompts, sandboxing, and environment hooks tailored to different shells. Used to embed shell logic directly into OCaml-built tools for interactive and scripted workflows.",
-      "description_length": 308,
+      "module_path": "OpamSwitchAction",
+      "library": "opam-state",
+      "description": "This module manages switch creation, configuration, and state updates in an opam environment. It handles operations like initializing a new switch, writing package selections, updating installed packages, and modifying switch metadata. It works directly with switch states, package sets, and configuration files to support tasks like installing or removing packages, marking packages for reinstallation, and setting the current default switch.",
+      "description_length": 443,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "OpamPackageVar",
-      "description": "Provides functions to resolve and filter opam variables, including global, switch, and package-specific variables, with support for custom local mappings and opam file context. Works with opam variable definitions, switch configurations, and dependency formulas to enable precise dependency resolution. Used to evaluate package dependencies with conditional filters based on build, test, and dev flags, and to determine if a package is in development mode.",
-      "description_length": 456,
+      "library": "opam-state",
+      "description": "This module resolves and filters opam variables used in package metadata, handling global, switch, and package-specific contexts. It operates on variables within dependency formulas, configuration files, and package descriptions, supporting conditional resolution based on build, test, and dev flags. Concrete use cases include evaluating `%{variable}%` placeholders in opam files during installation and filtering dependencies based on current switch settings.",
+      "description_length": 461,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamGlobalState",
-      "description": "Loads and manages the global state of an Opam root, enabling access to installed packages, switch configurations, and repository lists. It provides operations to fold over switches, check switch existence, and manipulate global state with read and write locks. Functions support updating switch lists, writing configuration changes, and handling package version mappings.",
-      "description_length": 371,
+      "module_path": "OpamStateConfig",
+      "library": "opam-state",
+      "description": "This module manages configuration state for OPAM environments through dynamic option updates, switch context resolution, and version compatibility checks, using structured records and directory paths. It supports initializing environment settings, resolving active switches from the current directory, and handling locked configuration loads to maintain repository and switch consistency. Submodules handle configuration flags for package operations, thread-safe repository configuration access, and switch-specific configuration loading. Examples include customizing build settings, retrieving repository URLs, and querying installed packages in a selected switch.",
+      "description_length": 665,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamFileTools",
-      "description": "Creates and validates opam package definitions by generating templates, performing lint checks, and manipulating opam file content. Operates on OpamFile.OPAM.t and related types, including package metadata, dependencies, and file hashes. Used for validating package files before publication, extracting metadata from directories, and generating structured JSON reports of validation results.",
-      "description_length": 391,
+      "module_path": "OpamStateTypes",
+      "library": "opam-state",
+      "description": "This module defines types for managing global, repository, and switch states in a package manager, including phantom types to track locking states (`rw`, `ro`, `unlocked`) and control on-disk operations. It includes structured data for variables, change tracking, provenance sources, and pinned package metadata. Concrete use cases include enforcing state consistency during package updates, tracking configuration origins, and handling pinned packages with optional version constraints and source URLs.",
+      "description_length": 503,
       "index": 13,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamSysPoll",
-      "description": "Provides functions to retrieve and normalize system information such as architecture, OS, distribution, version, and family from a variable map. Processes strings to canonical forms and returns detailed system identifiers. Includes a method to count CPU cores and a string representation of collected system data.",
-      "description_length": 313,
+      "module_path": "OpamEnv",
+      "library": "opam-state",
+      "description": "This module provides functionality to manage environment variables, shell configurations, and path structures for contexts like OPAM switches and roots. It works with directories, shell scripts, and environment state to generate initialization files, handle dynamic configuration updates, and address platform-specific path behaviors such as Cygwin's PATH handling.",
+      "description_length": 365,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamStateConfig",
-      "description": "Retrieves system and environment information, loads switch configurations with safety checks, and reads repository settings while managing locks. It handles directory paths, switch identifiers, and configuration records to support environment-aware operations. Functions include fetching the current directory, active environment, switch-specific data, and repository configurations. This enables precise control over project roots, environment validation, and package repository management during Opam workflows.",
-      "description_length": 513,
+      "module_path": "OpamUpdate",
+      "library": "opam-state",
+      "description": "This module handles repository synchronization, package source updates, and version-controlled package management. It operates on repository states, package sets, and switch states, providing precise control over dev and pinned packages, including source downloading, cache management, and version comparison. Concrete use cases include updating a package from its remote source, synchronizing multiple packages sharing a common URL, and managing local development packages with version control working directories.",
+      "description_length": 515,
       "index": 15,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamUpdate",
-      "description": "Updates repositories from upstream sources and manages their state, returning failure lists. Handles dev and pinned packages by checking for upstream changes, synchronizing local working directories, and updating lock files when enabled. Downloads and synchronizes package sources, ensuring checksum verification and handling shared sources efficiently.",
-      "description_length": 353,
+      "module_path": "OpamSysInteract",
+      "library": "opam-state",
+      "description": "This module manages interactions with system package managers to support OCaml package installation and configuration on Unix-like systems, offering functions to check package statuses, generate installation commands, and update repositories. It operates on system package sets, configuration files, and environment variables, enabling tasks like dependency installation during build setup or repository activation. The Cygwin submodule extends these capabilities to Windows by locating Cygwin or MSYS2 roots, binding directories, and installing packages, allowing for OCaml toolchain setup and environment configuration in Windows environments. Together, the module and its submodule provide a cross-platform solution for managing system-level dependencies required by OCaml projects.",
+      "description_length": 785,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OpamFormatUpgrade",
-      "description": "Converts opam files between versions, rewriting dependencies and conditions, and handles upgrades for repository and switch configurations. Works with opam file formats, package descriptions, and directory structures. Upgrades opam roots, converts legacy opam files to current formats, and integrates auxiliary data from related files.",
-      "description_length": 335,
+      "module_path": "OpamScript",
+      "library": "opam-state",
+      "description": "This module provides shell configuration scripts as OCaml string values, targeting specific shell environments like bash, zsh, csh, and fish. It includes predefined scripts for command completion, environment setup, and sandbox execution. Concrete use cases include integrating with package managers, setting up development environments, and enabling shell-specific customizations directly from OCaml code.",
+      "description_length": 406,
       "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "OpamRepositoryState",
-      "description": "loads and manages repository state by persisting and retrieving cached data, including opam file mappings, to accelerate repeated repository access. It handles repository state objects, directory paths, and package-to-file mappings. Operations include saving parsed data to disk and reloading it without re-parsing opam files. For example, it can store the result of a repository scan and quickly restore it during subsequent builds.",
-      "description_length": 433,
+      "library": "opam-state",
+      "description": "This module manages the loading, locking, and querying of OPAM repository state, handling both temporary and persistent storage of repository contents. It supports precise lookups and updates of package metadata, repository indexes, and package maps, enabling operations like resolving package origins across repositories and maintaining consistency during concurrent access. The child module caches repository state by marshalling parsed opam files, offering `save`, `load`, and `remove` to efficiently persist and retrieve repository data structures such as package and metadata maps. Together, they enable fast, reliable access to repository contents while supporting complex queries and updates to the package database.",
+      "description_length": 723,
       "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OpamPinned",
+      "library": "opam-state",
+      "description": "This module handles queries and operations related to pinned packages, providing direct access to their version and package information. It works with package names, version types, and package sets within a switch state context. Concrete use cases include retrieving the pinned version of a package, checking if a package is pinned, and locating package definition files within source directories.",
+      "description_length": 397,
+      "index": 19,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "OpamSwitchState",
-      "description": "Loads and manages a switch's package metadata through file operations and a structured cache. It supports retrieving, storing, and removing package data using name-based lookups. Operations include reading from and writing to disk, enabling efficient state management during package installations. For example, it can load a saved state to restore package versions or update the cache after a new installation.",
-      "description_length": 410,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "OpamStateTypes",
-      "description": "Provides operations for managing read-write and read-only states, locking mechanisms, and variable tracking in package management. Works with custom types for global, repository, and switch states, along with opam file references and URL mappings. Used to track changes, manage package pinning, and enforce state consistency during package operations.",
-      "description_length": 351,
+      "module_path": "OpamGlobalState",
+      "library": "opam-state",
+      "description": "This module manages the global state of an OPAM root, providing functions to load and lock the state, access installed packages across all switches, list and iterate over switches, check switch existence, and retrieve repository and version information. It operates on global state, switch, and package data types, enabling operations like querying installed package versions per switch or obtaining the list of active repositories. Concrete use cases include ensuring consistent access to global OPAM configuration, managing switch lifecycles, and tracking package installations across multiple switches.",
+      "description_length": 605,
       "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "OpamEnv",
-      "description": "The module manages environment configurations by manipulating environment variables, PATH updates, and shell initialization scripts, operating on switch states, OPAM roots, and directory paths. It facilitates OPAM integration through script generation, environment validation, and consistency checks, addressing use cases like dynamic shell configuration and multi-switch environment management.",
-      "description_length": 395,
-      "index": 21,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 22,
-    "meaningful_modules": 22,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "meaningful_modules": 21,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9545454545454546
   },
   "statistics": {
-    "max_description_length": 527,
-    "min_description_length": 241,
-    "avg_description_length": 367.04545454545456,
-    "embedding_file_size_mb": 0.0803976058959961
+    "max_description_length": 785,
+    "min_description_length": 266,
+    "avg_description_length": 477.8095238095238,
+    "embedding_file_size_mb": 0.07676124572753906
   }
 }

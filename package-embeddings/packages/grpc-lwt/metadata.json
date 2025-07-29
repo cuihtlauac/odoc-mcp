@@ -1,70 +1,69 @@
 {
   "package": "grpc-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:31:18.724218",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:53.316531",
   "modules": [
     {
-      "module_path": "Grpc_lwt.Server.Rpc",
-      "description": "Handles gRPC request processing with distinct interaction models: unary calls, client and server streaming, and bidirectional streaming. Accepts request data from H2.Reqd.t and uses specialized function signatures to process and respond to RPCs. Processes string-based payloads and manages response streams or single responses based on the RPC type.",
+      "module_path": "Grpc_lwt.Server.Service",
+      "library": "grpc-lwt",
+      "description": "This module manages gRPC service definitions and request routing. It provides operations to create a service, register RPC methods by name, and handle incoming HTTP/2 requests by dispatching them to the appropriate RPC handler. It works with service instances, RPC descriptors, and HTTP/2 request objects to implement server-side gRPC routing logic.",
       "description_length": 349,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Grpc_lwt.Server.Service",
-      "description": "Creates a service instance and allows adding named RPC handlers, which can be invoked based on incoming HTTP/2 requests. Operates on a custom type `t` that encapsulates registered RPCs and their routing logic. Used to build interactive server components that respond to specific request paths with predefined behaviors.",
-      "description_length": 319,
+      "module_path": "Grpc_lwt.Server.Rpc",
+      "library": "grpc-lwt",
+      "description": "This module defines and handles the four core gRPC streaming patterns\u2014unary, client streaming, server streaming, and bidirectional streaming\u2014using Lwt for asynchronous processing. It operates on raw string payloads extracted from HTTP/2 requests (`H2.Reqd.t`) and sends responses via Lwt streams or direct callbacks. Concrete use cases include implementing gRPC service handlers that process incoming requests and send back results or stream data incrementally over persistent connections.",
+      "description_length": 489,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Grpc_lwt.Client.Rpc",
-      "description": "Handles HTTP/2 request-response patterns by defining handlers that process incoming data streams, manage message encoding, and execute custom logic. Works with Lwt-based streams and promises, enabling bidirectional, client-streaming, server-streaming, and unary communication. Used to implement real-time data exchange, progressive data delivery, and synchronous request handling in networked applications.",
-      "description_length": 406,
+      "library": "grpc-lwt",
+      "description": "This module implements gRPC client-side RPC handlers for different streaming patterns. It works with Lwt promises, streams, and string-based serialization to manage bidirectional, client-streaming, server-streaming, and unary RPC interactions. Concrete use cases include sending a sequence of messages and receiving incremental responses, or handling request-response pairs with optional payloads over asynchronous channels.",
+      "description_length": 424,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Grpc_lwt.Server",
-      "description": "manages gRPC interactions by processing various RPC types\u2014unary, client streaming, server streaming, and bidirectional\u2014using request data from H2.Reqd.t and handling string payloads. It constructs service instances through a custom type `t` that registers and routes RPC handlers based on request paths. This enables the creation of dynamic, path-aware server components that execute predefined behaviors. Examples include serving real-time updates via streaming or handling form submissions with unary responses.",
-      "description_length": 513,
+      "module_path": "Grpc_lwt.Client",
+      "library": "grpc-lwt",
+      "description": "This module implements gRPC client operations over HTTP/2 using Lwt for asynchronous execution, supporting unary, client-streaming, server-streaming, and bidirectional RPC patterns. It provides the `call` function to invoke remote procedures with custom request and response handlers, working directly with H2 for low-level stream management. The child module extends this functionality by implementing client-side RPC handlers that manage streaming interactions using Lwt promises and streams. Together, they enable concrete use cases such as sending a sequence of messages and receiving incremental responses, or handling request-response pairs with optional payloads and custom headers or trailers.",
+      "description_length": 701,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Grpc_lwt.Client",
-      "description": "Manages HTTP/2 communication through stream-based handlers that process data, encode messages, and execute custom logic using Lwt. Supports bidirectional, client-streaming, server-streaming, and unary interactions, enabling real-time data exchange and progressive delivery. Key data types include streams, messages, and promises, with operations for encoding, decoding, and event handling. Examples include implementing live data feeds, asynchronous request processing, and real-time chat protocols.",
-      "description_length": 499,
+      "module_path": "Grpc_lwt.Server",
+      "library": "grpc-lwt",
+      "description": "This module builds an asynchronous gRPC server using Lwt and H2.Reqd.t to manage HTTP/2 connections, supporting creation and routing of named services to handle remote procedure calls. It provides data types such as service instances and RPC descriptors, and operations to register handlers, dispatch requests, and manage streaming communication. The Service submodule organizes service definitions and routing logic, while Rpc handles the four gRPC streaming patterns\u2014unary, client, server, and bidirectional\u2014using Lwt streams for asynchronous data exchange. Example usage includes defining a service with streaming endpoints and registering handlers that process incoming HTTP/2 requests and return responses or data streams.",
+      "description_length": 727,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "grpc-lwt",
-      "description": "Provides functions for establishing HTTP/2 connections, sending and receiving protocol buffers, and handling various RPC styles including unary, server streaming, client streaming, and bidirectional streaming. Works with byte sequences, protocol buffer messages, and stream handlers. Used to build efficient, low-latency communication between distributed services using the gRPC protocol.",
-      "description_length": 388,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Grpc_lwt",
-      "description": "handles gRPC and HTTP/2 interactions by routing requests to appropriate handlers based on path, supporting unary, streaming, and bidirectional RPCs. It defines custom types for service instances and stream-based communication, with operations for message encoding, decoding, and asynchronous processing. Users can implement real-time data feeds, live updates, and interactive chat systems using stream-based logic. Key data types include request objects, streams, and promises, enabling dynamic, event-driven server behavior.",
-      "description_length": 525,
-      "index": 6,
-      "embedding_norm": 1.0
+      "library": "grpc-lwt",
+      "description": "This module implements gRPC over HTTP/2 using Lwt for asynchronous communication, supporting all four streaming patterns\u2014unary, client-streaming, server-streaming, and bidirectional. It provides client and server components to define RPCs, manage connections, and exchange data using streams and promises, with direct handling of headers, trailers, and payloads. You can define services with streaming endpoints, send sequences of messages, and handle bidirectional communication between clients and servers over HTTP/2. Example use cases include real-time data feeds, request-response interactions with custom metadata, and duplex streaming for interactive APIs.",
+      "description_length": 663,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 7,
-    "meaningful_modules": 7,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 525,
-    "min_description_length": 319,
-    "avg_description_length": 428.42857142857144,
-    "embedding_file_size_mb": 0.025850296020507812
+    "max_description_length": 727,
+    "min_description_length": 349,
+    "avg_description_length": 558.8333333333334,
+    "embedding_file_size_mb": 0.02222728729248047
   }
 }

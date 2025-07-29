@@ -1,112 +1,117 @@
 {
   "package": "bam",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:13.810298",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:43.317683",
   "modules": [
     {
       "module_path": "Bam.Tree.Forest.Syntax",
-      "description": "Provides monadic binding and lifting operations for encapsulated values. Works with type 'a t to sequence computations that carry context. Enables structured handling of effectful or nested operations in a chainable manner.",
-      "description_length": 223,
+      "library": "bam",
+      "description": "This module provides monadic operations `let*` and `return` for composing and sequencing non-empty tree forests. It works with the `Bam.Tree.Forest.t` type, enabling chaining of forest transformations while preserving non-emptiness. Use it to build complex forest structures from simpler ones, ensuring at least one tree is always present.",
+      "description_length": 339,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bam.Tree.Syntax",
-      "description": "Provides monadic binding and lifting operations for handling computations within a context, using a type `t` that encapsulates values. It supports chaining operations where each step depends on the result of the previous one. Used to manage effectful computations in a structured, sequential manner.",
-      "description_length": 299,
+      "module_path": "Bam.Gen.Random",
+      "library": "bam",
+      "description": "This module provides low-level primitives for generating random boolean, integer, floating-point, and character values, along with deterministic splitting of random states into independent streams. It operates on a state type `t` initialized via seeds or system entropy, ensuring reproducibility and isolation between random streams. These capabilities are critical for property-based testing frameworks requiring precise control over randomness, such as generating diverse test cases while maintaining compatibility with OCaml versions prior to 5.0.",
+      "description_length": 550,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bam.Tree.Forest",
-      "description": "Encapsulates a sequence of non-empty trees with monadic operations for chaining effectful computations. Supports type 'a t for context-aware values and provides functions like bind and lift to manage nested operations. Allows sequential processing of tree structures while maintaining non-emptiness guarantees. Enables tasks such as transforming each tree in the sequence or combining results with context-aware functions.",
-      "description_length": 422,
+      "module_path": "Bam.Std.Syntax",
+      "library": "bam",
+      "description": "This module defines syntactic conveniences for working with generator monads, providing `return`, `let*`, and `let*!` for composing generator expressions. It operates on the `'a Bam.Std.t` type, enabling concise construction of complex generators from simpler ones. These constructs are used to sequence generator actions and bind intermediate results when defining custom generators for property-based testing.",
+      "description_length": 411,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bam.Std.Shrinker",
-      "description": "Provides functions to define and apply shrinking strategies for data structures, including skipping elements based on equality checks. Works with lists and custom types wrapped in a monadic structure. Used to reduce test cases during property-based testing by systematically removing elements.",
-      "description_length": 293,
+      "library": "bam",
+      "description": "This module defines shrinking strategies used to simplify counter-examples during property-based testing. It works primarily with lists and custom data types, enabling precise control over how generated test values are reduced to minimal failing cases. A concrete use case is specifying how to shrink a list of integers when testing a function that processes sequences, ensuring the smallest possible list that triggers a failure is identified.",
+      "description_length": 444,
       "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bam.Std.Syntax",
-      "description": "Provides monadic sequencing and lifting operations for composing computations wrapped in a context. Works with a generic type 'a t, enabling structured control flow in embedded domain-specific languages. Used to chain effectful operations in a readable, imperative-like style within parser or compiler implementations.",
-      "description_length": 318,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bam.Gen.Random",
-      "description": "This module offers random number generation and manipulation through a stateful approach, producing values like booleans, integers, floats, bytes, and characters while updating an internal state. It introduces a `split` function to create independent random streams, ensuring compatibility with OCaml versions prior to 5.0, and is suited for applications requiring reproducible or parallel random sequences, such as simulations or randomized algorithms.",
-      "description_length": 453,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bam.Gen.Syntax",
-      "description": "Provides monadic binding and return operations for a computation type 'a t, supporting sequential execution and value lifting. Works with a generic monadic structure, enabling composition of effectful computations. Used to chain operations in a context-aware manner, such as parsing or stateful transformations.",
-      "description_length": 311,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bam.Gen.Merge",
-      "description": "Provides merging strategies for combining values from two generators, including default, left-dropping, right-dropping, and compare-based merging. Operates on values of type 'a t, where 'a represents the elements being merged. Used to control how test cases are combined in property-based testing frameworks, ensuring specific ordering or exclusion of generated values.",
-      "description_length": 369,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "library": "bam",
+      "description": "This module defines strategies for combining generator output trees during binding operations. It provides predefined merging functions like `default`, `drop_left`, `drop_right`, and `of_compare` that control which parts of the left or right generator trees are retained. These functions directly influence how generated and shrunk values are merged, shaping the structure of test cases in property-based testing.",
+      "description_length": 413,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Bam.Std",
-      "description": "Generates and manipulates data structures with customizable shrinking and monadic composition. Supports list and custom type transformations through equality-based pruning and context-aware computation sequencing. Enables test case minimization and structured effectful programming in parsers or compilers. Examples include reducing failing test inputs and building layered processing pipelines.",
-      "description_length": 395,
-      "index": 8,
+      "module_path": "Bam.Gen.Syntax",
+      "library": "bam",
+      "description": "This module provides syntactic utilities for composing generator expressions using monadic bind and root operations. It works with generator types that produce arbitrary values for property-based testing. Concrete use cases include chaining generator steps, such as generating a list after generating its length, or combining multiple generators to produce structured test data.",
+      "description_length": 378,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bam.Tree.Forest",
+      "library": "bam",
+      "description": "A forest represents a non-empty sequence of trees, offering operations like `make`, `map`, and `uncons` to construct, transform, and deconstruct forest values. It supports advanced manipulation through functions like `sequence` and `crunch`, enabling traversal and combination of tree structures while guaranteeing non-emptiness. The module's monadic submodule enhances composition of forest transformations using `let*` and `return`, ensuring at least one tree remains present through chained operations. This allows defining custom shrinking strategies and structured generator outputs, such as mapping over tree values or flattening sequences of forests into single results.",
+      "description_length": 677,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bam.Tree.Syntax",
+      "library": "bam",
+      "description": "This module provides `let*` and `return` for building tree-shaped computations used in shrinking during property-based testing. It works directly with the `Bam.Tree.t` type, enabling monadic composition of generator transformations. These operations allow defining custom shrinking strategies with precise control over how counterexamples are reduced to minimal forms.",
+      "description_length": 368,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bam.Gen",
-      "description": "Generates and manipulates random values through a stateful interface, supporting booleans, integers, floats, and more, with split functionality for independent streams. Offers monadic operations to sequence and compose effectful computations within a generic 'a t structure. Provides merging strategies to combine generator outputs, allowing control over test case composition and ordering. Enables reproducible simulations, complex state transformations, and precise control over property-based testing scenarios.",
-      "description_length": 514,
+      "library": "bam",
+      "description": "This module defines random generators for property-based testing, supporting construction of values with controlled shrinking through operations like `make`, `z_range`, and `float_range`. It works with tree structures and generator sequences to manage complex shrinking strategies, enabling use cases like generating bounded integers or floats with custom shrink targets and defining generator trees for structured data. The module includes low-level primitives for basic value generation and state management, combinators for merging generator trees during binding, and syntactic utilities for monadic composition of generator expressions. Specific capabilities include generating deterministic random streams, combining generators for list length and elements, and shaping test case structures through customizable tree merging.",
+      "description_length": 830,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bam.Std",
+      "library": "bam",
+      "description": "This module provides core generators and combinators for property-based testing, supporting fundamental data types like integers, floats, booleans, characters, strings, lists, and pairs. It offers operations such as `bind`, `return`, `pair`, `list`, and `oneof` to build and manipulate generators, with optional parameters to control shrinking behavior. The included monadic syntax enables concise composition of generators using `let*` and `let*!`, while the shrinking submodule allows fine-grained strategies for simplifying counterexamples, particularly for lists and custom data types. Examples include generating bounded integer lists, strings from a custom alphabet, or weighted random selections, all with customizable shrinking to isolate minimal failure cases.",
+      "description_length": 769,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Bam.Tree",
-      "description": "Provides a framework for handling sequences of non-empty trees with monadic operations, enabling structured, sequential processing of tree-based computations. It defines a type 'a t for context-aware values and includes bind and lift functions to chain effectful operations while preserving non-emptiness. This allows transformations on individual trees or combinations of results using context-sensitive functions. Examples include traversing tree structures, applying transformations, and aggregating results within a monadic context.",
-      "description_length": 536,
+      "library": "bam",
+      "description": "This module represents non-bounded branching trees with lazy value generation via `Seq`, used to model shrinking paths in property-based testing. It provides core operations like `make`, `map`, `bind`, and search functions such as `binary_search` and `linear_search`, enabling the definition of custom shrinking strategies and exploration of input spaces. The forest submodule extends this with non-empty sequences of trees, supporting transformations and combinations through functions like `map`, `sequence`, and `crunch`, while the monadic submodule enables tree-shaped computations using `let*` and `return` for precise control over shrinking processes. Together, they allow constructing, manipulating, and composing complex tree structures for structured test generation and counterexample reduction.",
+      "description_length": 805,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "bam",
-      "description": "Generates random values based on specified types and shrinks them to minimal counterexamples when test failures occur. It supports custom generator creation using a monad-like interface, enabling precise control over value distribution. Used to validate invariants in complex data transformations and algorithm behaviors.",
-      "description_length": 321,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Bam",
-      "description": "combines data generation, manipulation, and shrinking with monadic composition, enabling structured test case creation and minimization. it offers generators for primitive types, custom data structures, and tree sequences, along with operations for sequencing, merging, and context-aware transformations. users can define custom shrinkers, manage stateful random value generation, and process complex data hierarchies. examples include reducing failing inputs, building parser pipelines, and generating minimal counter-examples for debugging.",
-      "description_length": 542,
-      "index": 12,
+      "library": "bam",
+      "description": "This library supports property-based testing by enabling the creation of custom generators with controlled shrinking behavior. It provides data types like generators and trees, with operations such as `bind`, `map`, and `make` to compose and manipulate them, allowing users to generate structured test inputs and define custom shrinking strategies. Users can generate bounded integers, lists of values, or complex data structures while ensuring minimal counterexamples through configurable shrinking. Examples include generating random strings from a custom alphabet, creating weighted selections, or defining tree-based generators for structured input with deterministic reduction paths.",
+      "description_length": 688,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 13,
-    "meaningful_modules": 13,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 542,
-    "min_description_length": 223,
-    "avg_description_length": 384.3076923076923,
-    "embedding_file_size_mb": 0.047684669494628906
+    "max_description_length": 830,
+    "min_description_length": 339,
+    "avg_description_length": 556.0,
+    "embedding_file_size_mb": 0.04403209686279297
   }
 }

@@ -1,77 +1,117 @@
 {
   "package": "sexp_grammar",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:58.733892",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:32.938777",
   "modules": [
     {
-      "module_path": "Sexp_grammar.Field",
-      "description": "Maps elements of a container using a provided function, producing a new container with transformed values. Operates on a parameterized type that represents a structured collection of elements. Used to convert data formats in parsing pipelines or transform input before processing.",
-      "description_length": 280,
+      "module_path": "Sexp_grammar.Eager_copy",
+      "library": "sexp_grammar",
+      "description": "Transforms grammars by replacing lazy nodes with their expanded equivalents, ensuring immediate evaluation. Works with grammar types like `grammar`, `list_grammar`, and typed grammars. Used to prepare grammars for serialization with `sexp_of_t` by eliminating deferred computations.",
+      "description_length": 282,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sexp_grammar.Case_sensitivity",
-      "description": "Handles case sensitivity settings for string comparisons, providing a comparator that respects specified case rules. Works with custom type `t` representing case sensitivity configurations. Used to ensure consistent string ordering in parsing or sorting scenarios where case matters.",
-      "description_length": 283,
+      "module_path": "Sexp_grammar.Fold_recursive",
+      "library": "sexp_grammar",
+      "description": "Processes recursive S-expression grammars by resolving cyclic dependencies and converting them into callback-based representations. It handles typed grammars, raw grammars, and list grammars, producing corresponding callback structures that can be used for parsing or serialization. This module is used when defining recursive data parsers that must be tied to their own grammars during construction.",
+      "description_length": 400,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Sexp_grammar.Fold_nonrecursive",
-      "description": "This module provides operations for constructing and manipulating non-recursive grammar rules, focusing on atomic type creation (e.g., bool, int, string), type combination (union, list, option), and structured data definitions (record, variant). It works with a custom `t` type representing grammar rules and a `list_t` type for non-recursive structures, enabling precise control over parsing S-expressions without recursive elements. Use cases include building type-safe parsers for flat data formats or simplifying recursive grammar handling by isolating non-recursive components.",
-      "description_length": 582,
+      "module_path": "Sexp_grammar.Field",
+      "library": "sexp_grammar",
+      "description": "Maps the value of a field using a provided function, transforming its type. Works with S-expression grammar fields representing structured data. Useful for converting field values during parsing or serialization without changing the field's structure.",
+      "description_length": 251,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sexp_grammar.Fold_recursive",
-      "description": "Provides functions to construct and manipulate grammar structures for parsing S-expressions, including primitives like booleans and integers, and composite types such as lists, options, and records. Works with custom types `t` for grammar rules and `list_t` for list-based structures. Used to define recursive parsing rules by combining elements like unions, records, and variants with controlled evaluation.",
-      "description_length": 408,
+      "module_path": "Sexp_grammar.Unroll_recursion",
+      "library": "sexp_grammar",
+      "description": "Transforms grammars by unrolling recursive, type variable, and type constructor nodes into equivalent structures using lazy evaluation to prevent infinite expansion. Works directly with S-expression grammars, including list grammars and typed grammars. Useful for simplifying grammar representations before serialization or analysis, ensuring they are free of complex type-level constructs.",
+      "description_length": 390,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sexp_grammar.Eager_copy",
-      "description": "Converts S-expression grammars into eager equivalents by replacing lazy constructs. Operates on Sexp_grammar types, including list_grammar and standard grammar structures. Used to prepare grammars for S-expression serialization without deferred evaluation.",
-      "description_length": 256,
+      "module_path": "Sexp_grammar.Callbacks_for_fold_nonrecursive",
+      "library": "sexp_grammar",
+      "description": "The module enables constructing and processing S-expression grammars using primitive types (booleans, integers, characters) and combinators like options, unions, lists, and records, while supporting recursive definitions through explicit lazy references. It operates on grammars represented as parameterized type definitions and S-expressions, allowing nonrecursive traversal and manipulation of nested or recursive data structures. This is particularly applicable for parsing hierarchical data, implementing domain-specific languages, or processing configurations with self-referential components.",
+      "description_length": 598,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sexp_grammar.Unroll_recursion",
-      "description": "Converts typed and untyped grammars into an unfolded format by eliminating recursive, type constructor, and type variable nodes. Operates on Sexp-based grammar structures, replacing them with lazy-evaluated alternatives to prevent infinite expansion. Used to simplify grammar processing in contexts where type tracking is unnecessary or problematic.",
-      "description_length": 349,
+      "module_path": "Sexp_grammar.Callbacks_for_fold_recursive",
+      "library": "sexp_grammar",
+      "description": "This module defines combinators for building recursive grammars to parse S-expressions, supporting operations like `any`, `bool`, `char`, `integer`, `float`, and `string` for atomic values, and `option`, `union`, `list`, `record`, and `variant` for structured data. It works with S-expressions via `Core.Sexp.t`, and provides `lazy_` and `of_lazy_recursive` to handle recursive definitions without immediate evaluation. Concrete use cases include defining custom grammar rules for parsing configuration files, domain-specific languages, or structured data formats represented as S-expressions.",
+      "description_length": 593,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "sexp_grammar",
-      "description": "Provides functions to inspect and manipulate S-expression grammar structures, including extracting constructors, fields, and type information from parsed S-expressions. Works with types generated by the `[@@deriving sexp_grammar]` attribute, such as variant and record representations. Used to validate S-expressions against parser definitions and to generate completion suggestions during interactive sessions.",
-      "description_length": 411,
+      "module_path": "Sexp_grammar.Fold_partial",
+      "library": "sexp_grammar",
+      "description": "This module provides functions to convert various grammar types into foldable representations, specifically handling typed grammars, general grammars, and list grammars. It works with grammar structures defined in the Sexp_grammar module, transforming them into internal types that support folding operations. Use cases include parsing and traversing S-expression-based grammars in a structured, incremental manner.",
+      "description_length": 415,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sexp_grammar",
-      "description": "The module provides functions for constructing and manipulating S-expression grammars, focusing on atomic values (e.g., booleans, characters), composite structures (e.g., options, lists, unions), and structured data (e.g., records, variants). It operates on S-expression types like `t` and `list_t`, with dedicated operations for list-based syntactic forms. Use cases include parsing or generating S-expressions for complex data hierarchies, requiring explicit handling of recursive elements outside its scope.",
-      "description_length": 510,
+      "module_path": "Sexp_grammar.Callbacks_for_fold_common",
+      "library": "sexp_grammar",
+      "description": "This module defines parsers and combinators for constructing S-expression grammars, enabling the creation of structured data types from S-expressions. It supports atomic types like booleans, integers, and strings, as well as complex types like options, unions, lists, records, and variants. It is used to define custom data parsers that map S-expressions to OCaml values with precise structural validation.",
+      "description_length": 406,
       "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sexp_grammar.Fold_nonrecursive",
+      "library": "sexp_grammar",
+      "description": "Implements non-recursive folding over S-expression grammars using callback-driven traversal. Processes typed grammars, raw grammars, and list grammars by reducing them into callback-defined structures. Useful for transforming or analyzing grammar definitions into custom formats without recursion.",
+      "description_length": 297,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sexp_grammar.Case_sensitivity",
+      "library": "sexp_grammar",
+      "description": "This module defines a type `t` representing different modes of case sensitivity for string comparison, including case-insensitive, case-sensitive, and case-sensitive except for the first character. It provides `sexp_of_t` for converting values to S-expressions and `to_string_comparator` for creating string comparators that respect the specified case sensitivity. These features are used to control how string-based identifiers are compared and serialized, particularly in contexts like parsing or data representation where case handling is critical.",
+      "description_length": 551,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sexp_grammar.Fold",
+      "library": "sexp_grammar",
+      "description": "This module provides functions to convert typed and untyped S-expression grammars into foldable structures. It works with S-expression grammars and list grammars, enabling traversal and transformation of grammar definitions. Use it to analyze or process the structure of S-expression-based data definitions directly.",
+      "description_length": 316,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sexp_grammar",
+      "library": "sexp_grammar",
+      "description": "This module enables defining, transforming, and processing S-expression grammars with support for atomic values, structured types, and recursive definitions. It provides core data types like `grammar`, `list_grammar`, and typed grammars, along with operations for parsing, validation, and transformation, including handling recursion via lazy evaluation and callback-based representations. You can build grammars using combinators for options, unions, records, and variants, then manipulate them using modules that unroll recursive structures, map field values, resolve cycles, or convert grammars into foldable forms. Specific applications include parsing configuration files, serializing data with `Bin_prot`, and implementing domain-specific languages with precise structural validation.",
+      "description_length": 790,
+      "index": 11,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 8,
-    "meaningful_modules": 8,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 582,
-    "min_description_length": 256,
-    "avg_description_length": 384.875,
-    "embedding_file_size_mb": 0.02943897247314453
+    "max_description_length": 790,
+    "min_description_length": 251,
+    "avg_description_length": 440.75,
+    "embedding_file_size_mb": 0.044017791748046875
   }
 }

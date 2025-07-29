@@ -1,203 +1,181 @@
 {
   "package": "aws-s3",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 26,
-  "creation_timestamp": "2025-06-18T16:37:56.411612",
+  "total_modules": 20,
+  "creation_timestamp": "2025-07-15T23:09:38.047509",
   "modules": [
     {
-      "module_path": "Aws_s3.Credentials.Make.Deferred.Or_error",
-      "description": "Provides monadic operations for handling computations that may fail with exceptions, including lifting values into the effect, failing with an exception, and chaining operations. Works with a wrapped result type that encapsulates either a value or an exception. Used to manage error propagation in asynchronous or effectful code without explicit exception handling.",
-      "description_length": 365,
+      "module_path": "Aws_s3.S3.Make.Multipart_upload.Stream",
+      "library": "aws-s3",
+      "description": "Handles streaming uploads of large files to S3 by breaking them into parts. Works with `Multipart_upload.t` and uses `Io.Pipe.reader` to process data incrementally. Useful for uploading files that exceed memory limits without loading the entire file at once.",
+      "description_length": 258,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.S3.Make.Multipart_upload.Stream",
-      "description": "Handles streaming of data in fixed-size chunks for large file uploads, with control over data consumption and validation. Operates on string data through a pipe reader, tracking part numbers and expected response codes. Used to efficiently upload large objects to S3 by breaking them into manageable, sequential parts.",
-      "description_length": 318,
+      "module_path": "Aws_s3.Credentials.Make.Local",
+      "library": "aws-s3",
+      "description": "Loads AWS credentials from the `~/.aws/credentials` file, supporting the botocore file format. It provides the `get_credentials` function that reads credentials for a specified AWS profile. Useful for authenticating S3 requests in environments where credentials are stored locally.",
+      "description_length": 281,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.S3.Make.Deferred.Or_error",
-      "description": "Encapsulates computations that may fail, providing a monadic interface for chaining operations. Works with a wrapped result type that holds either a value or an exception. Enables safe error handling by allowing failures to be caught and propagated through a sequence of computations.",
-      "description_length": 284,
+      "module_path": "Aws_s3.Credentials.Make.Iam",
+      "library": "aws-s3",
+      "description": "This module retrieves IAM role information and temporary credentials for a given role. It interacts with the IAM service to obtain the current machine's role and then fetches associated AWS credentials. Concrete use cases include authenticating EC2 instances to access S3 resources securely without hardcoding secrets.",
+      "description_length": 318,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.Credentials.Make.Iam",
-      "description": "Provides functions to fetch a machine's role from an IAM service and retrieve credentials associated with a specific role. Operates with strings and a custom credentials type. Used to dynamically obtain permissions for interacting with cloud services based on assigned roles.",
-      "description_length": 275,
+      "module_path": "Aws_s3.S3.Make.Ls",
+      "library": "aws-s3",
+      "description": "Performs paginated listing of S3 bucket contents, returning object metadata and continuation tokens. It operates on bucket names and optional prefixes, using AWS credentials and region settings to authenticate and target requests. Use to browse large buckets incrementally without loading all entries at once.",
+      "description_length": 309,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.Credentials.Make.Local",
-      "description": "Loads AWS credentials from the local file system, specifically from the ~/.aws/credentials file, and returns a credential structure. It supports optional profile selection and handles I/O operations asynchronously. This is used to authenticate AWS API requests in environments where local configuration is preferred.",
-      "description_length": 316,
+      "module_path": "Aws_s3.S3.Make.Delete_multi",
+      "library": "aws-s3",
+      "description": "Performs multi-object deletions in an S3 bucket, handling both versioned and non-versioned objects. Accepts a list of object keys and optional version IDs, returning results indicating deleted objects, any errors encountered, and whether delete markers were created. Useful for bulk cleanup operations where partial success is acceptable and detailed deletion outcomes are required.",
+      "description_length": 382,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.Credentials.Make.Helper",
-      "description": "Retrieves authentication details either from a local configuration file or via an IAM service, allowing optional specification of a profile section. Operates on a credential structure and returns a result wrapped in a deferred error type. Used to fetch AWS credentials in environments where local or machine-assigned roles are available.",
-      "description_length": 337,
+      "module_path": "Aws_s3.S3.Make.Multipart_upload",
+      "library": "aws-s3",
+      "description": "This module manages multipart uploads to S3, enabling large files to be split into parts for efficient uploading, resuming interrupted transfers, and copying parts from existing objects. It operates on part data as strings, part numbers as integers, and supports optional parameters like content type and ACLs, with core operations including initialization, part upload, part copy, and completion or abortion of the upload. The streaming submodule extends this functionality by processing large files incrementally using `Io.Pipe.reader`, allowing uploads to proceed without loading the entire file into memory. Together, they support use cases such as chunked file transfers, memory-efficient uploads, and partial data copying between S3 objects.",
+      "description_length": 747,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.Credentials.Make.Deferred",
-      "description": "Encapsulates computations that may fail, offering monadic operations to chain and transform results while handling exceptions gracefully. It uses a result type that holds either a value or an exception, enabling safe error propagation. Operations include lifting values, failing with exceptions, and composing sequential steps. For example, it allows combining multiple I/O operations where each step depends on the success of the previous one.",
-      "description_length": 444,
+      "module_path": "Aws_s3.Credentials.Make.Helper",
+      "library": "aws-s3",
+      "description": "Handles credential retrieval for AWS S3 operations, supporting both local configuration files and IAM services. Accepts an optional profile name to select specific credentials from a local file. Returns deferred credentials or an error, suitable for asynchronous authentication in S3 client setups.",
+      "description_length": 298,
       "index": 6,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.Credentials.Make.Pipe",
-      "description": "Provides functions to create and manage bidirectional data streams, including writing, reading, closing, and transferring data between endpoints. Operates on reader and writer types that encapsulate asynchronous data flow. Used to coordinate data processing between asynchronous tasks, such as streaming logs from a source to a sink.",
-      "description_length": 333,
-      "index": 7,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.S3.Make.Ls",
-      "description": "Provides operations to process and traverse directory contents, including listing entries and handling continuation tokens for pagination. Works with a result type containing a list of content items and a continuation value. Used to implement directory enumeration in file system interfaces, supporting large directory structures through iterative retrieval.",
-      "description_length": 358,
-      "index": 8,
+      "module_path": "Aws_s3.S3.Make.Stream",
+      "library": "aws-s3",
+      "description": "This module provides streaming implementations of S3 put and get operations that process data incrementally to reduce memory usage. It works with large objects by reading from or writing to a stream, using named parameters for metadata and configuration such as content type, ACL, and chunk size. Concrete use cases include uploading or downloading large files without loading them entirely into memory, such as log files or backups.",
+      "description_length": 433,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.S3.Make.Delete_multi",
-      "description": "Provides functions to remove multiple objects from a storage system, handling success and error outcomes. Operates on custom types representing objects, errors, and combined results. Used to efficiently delete batches of items while tracking which deletions succeeded or failed.",
-      "description_length": 278,
+      "module_path": "Aws_s3.Types.Io-Deferred",
+      "library": "aws-s3",
+      "description": "This module provides asynchronous I/O operations with support for error handling through deferred values. It includes functions for chaining asynchronous computations, handling errors with `Or_error`, and scheduling tasks with delays. Concrete use cases include managing non-blocking network requests, sequencing asynchronous file operations, and handling delayed execution in event-driven systems.",
+      "description_length": 398,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Aws_s3.Credentials.Make",
+      "library": "aws-s3",
+      "description": "This module combines local AWS credential loading, IAM role-based authentication, and flexible credential retrieval for S3 operations. It supports reading credentials from `~/.aws/credentials`, fetching temporary IAM role credentials, and handling both synchronous and deferred credential resolution. Key data types include credential records and result types for error handling. You can authenticate S3 requests using a named profile, an EC2 instance role, or resolve credentials asynchronously when setting up an S3 client.",
+      "description_length": 525,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.S3.Make.Stream",
-      "description": "Provides streaming operations for uploading and downloading data in controlled chunks, using pipe readers and writers. It handles large data transfers by managing memory efficiently, with `put` streaming data from a reader and `get` sending retrieved data to a writer. Designed for use with S3-like storage systems, ensuring reliable transfer without loading entire objects into memory.",
-      "description_length": 386,
+      "module_path": "Aws_s3.Types.Io",
+      "library": "aws-s3",
+      "description": "This module abstracts asynchronous input/output operations using two core submodules: `Deferred` for single-value asynchronous computations and `Pipe` for streaming data asynchronously. It works with custom types representing asynchronous values and streams, enabling non-blocking data transfer and processing. Concrete use cases include handling S3 object uploads/downloads asynchronously and managing streaming data from S3 responses without blocking the main execution thread.",
+      "description_length": 479,
       "index": 10,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Aws_s3.S3.Make.Multipart_upload",
-      "description": "Manages large file uploads by dividing data into fixed-size chunks, processing each through a pipe reader while tracking part numbers and validating responses. Supports sequential data handling with string-based operations, enabling efficient S3 object uploads. Allows control over data flow, ensuring proper part sequencing and error checking. Example tasks include splitting a 5GB file into 5MB parts and verifying each part's upload status.",
-      "description_length": 443,
+      "module_path": "Aws_s3.Types.Io-Deferred-Or_error",
+      "library": "aws-s3",
+      "description": "This module combines deferred computation with error handling, allowing asynchronous operations that may fail with exceptions. It provides monadic binding via `>>=`, exception catching with `catch`, and utilities to create successful or failed deferred results. It is used for composing asynchronous AWS S3 operations that can fail, such as uploading or downloading objects with error-resilient pipelines.",
+      "description_length": 405,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.S3.Make.Deferred",
-      "description": "Provides a monadic framework for handling computations that may fail, allowing safe error propagation and chaining of operations. It works with a result type that encapsulates either a successful value or an exception. Operations include mapping, binding, and error handling across asynchronous or deferred computations. For example, it can be used to chain API calls where each step depends on the success of the previous one, with errors handled gracefully at each stage.",
-      "description_length": 473,
+      "module_path": "Aws_s3.Types.Io-Pipe",
+      "library": "aws-s3",
+      "description": "This module provides functions for creating and managing asynchronous pipes, enabling data transfer between reader and writer ends. It supports operations like reading, writing, flushing, and closing, with deferred results for asynchronous handling. Concrete use cases include streaming data between components, such as uploading or downloading data in chunks over a network.",
+      "description_length": 375,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Aws_s3.S3.Make.Pipe",
-      "description": "Provides functions to create and manage bidirectional data streams, including writing, reading, closing, and transferring data between endpoints. Operates on reader and writer types that encapsulate asynchronous data flow. Used to coordinate data processing between asynchronous tasks, such as streaming logs from a source to a sink.",
-      "description_length": 333,
-      "index": 13,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Aws_s3.Types.Deferred.Or_error",
-      "description": "Provides monadic operations for handling computations that may fail with exceptions, including lifting values into the effect, failing with an exception, and chaining operations. Works with a wrapped result type that encapsulates either a value or an exception. Used to manage error propagation in asynchronous or effectful code without unwrapping exceptions explicitly.",
-      "description_length": 370,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.Credentials.Make",
-      "description": "Encapsulates computations that may fail with a result type, enabling safe error handling through monadic operations like lifting, failing, and composing steps. Manages bidirectional data streams with reader and writer types, supporting asynchronous data transfer and coordination between tasks. It allows combining I/O operations with error resilience and streaming data between endpoints. For example, it can safely chain file reads and process logs in real time.",
-      "description_length": 464,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Aws_s3.S3.Make",
-      "description": "Encapsulates error-prone and asynchronous computations using a result type, enabling safe chaining of operations and graceful error handling. Supports bidirectional data flow through reader and writer types, facilitating efficient data transfer and coordination between asynchronous processes. It allows for building robust pipelines where computations depend on successful outcomes and data is processed in real time. For instance, it can manage a sequence of API requests with fallbacks or stream log entries from a source to a destination.",
-      "description_length": 542,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.Types.Deferred",
-      "description": "Encapsulates computations that may fail, offering monadic operations to chain effectful actions, lift values, and handle exceptions gracefully. It works with a result type that holds either a success value or an exception, enabling safe error propagation. Operations include binding, mapping, and failing, allowing for structured error handling in asynchronous workflows. For example, it can sequence API calls, recover from failures, or transform error outcomes without explicit exception catching.",
-      "description_length": 499,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Aws_s3.Types.Pipe",
-      "description": "Provides functions to create and manage bidirectional data flow between reader and writer endpoints, with operations to write, read, flush, and close data streams. Works with pipe structures that separate reader and writer roles, allowing asynchronous data transfer and synchronization. Used to coordinate data processing pipelines, such as streaming logs from a source to a sink or handling network data in real time.",
-      "description_length": 418,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.S3",
-      "description": "Encapsulates error-prone and asynchronous computations using a result type, enabling safe chaining of operations and graceful error handling. Supports bidirectional data flow through reader and writer types, facilitating efficient data transfer and coordination between asynchronous processes. It allows for building robust pipelines where computations depend on successful outcomes and data is processed in real time. For instance, it can manage a sequence of API requests with fallbacks or stream log entries from a source to a destination.",
-      "description_length": 542,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.Types",
-      "description": "Encapsulates asynchronous computations with error handling through a result type, supporting monadic operations to chain, transform, and recover from failures in non-blocking code. Manages bidirectional data streams using pipe structures, enabling asynchronous reading, writing, and synchronization of data between endpoints. It allows for sequencing API requests with safe error recovery and building real-time data processing pipelines. Examples include handling network traffic with fault tolerance and streaming log data through asynchronous channels.",
-      "description_length": 555,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Aws_s3.Credentials",
-      "description": "Encapsulates computations that may fail using a result type, enabling safe error handling through monadic operations like lifting and composing steps. Manages bidirectional data streams with reader and writer types, supporting asynchronous data transfer and coordination between tasks. It allows combining I/O operations with error resilience, such as safely chaining file reads and processing logs in real time. Key operations include error propagation, stream composition, and asynchronous task coordination.",
-      "description_length": 510,
-      "index": 21,
+      "library": "aws-s3",
+      "description": "This module provides S3 operations for uploading, downloading, listing, and deleting objects, using strings for content, custom types for errors and storage classes, and metadata handling. It supports direct operations like uploading files with metadata, retrieving byte ranges, and bulk deletions, while submodules enable paginated listing, multipart uploads with streaming, and streaming put/get for large files. Multipart uploads allow splitting, resuming, and copying parts, with streaming extensions for memory-efficient transfers. Paginated listing handles large buckets incrementally, and bulk deletion supports versioned objects with detailed outcome reporting.",
+      "description_length": 669,
+      "index": 13,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Aws_s3.Region",
-      "description": "Provides functions to construct and manipulate region-specific configurations, including vendor-specific initialization, endpoint construction with protocol and IP version, and string conversions. Works with custom types for regions, endpoints, and vendor configurations. Used to generate MinIO, Backblaze, or custom vendor endpoints based on host and port inputs.",
-      "description_length": 364,
-      "index": 22,
+      "library": "aws-s3",
+      "description": "This module defines a type `t` representing AWS S3 regions, including standard regions and custom options like `Other` and `Vendor`. It provides functions to construct region values from strings, hosts, or vendor-specific configurations, and supports creating endpoint values that combine network settings with a region. Concrete use cases include configuring S3 clients with specific regions and building custom endpoints for services like MinIO or Backblaze.",
+      "description_length": 460,
+      "index": 14,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Aws_s3.Types",
+      "library": "aws-s3",
+      "description": "This module defines the core data structures and operations for working with Amazon S3, including types like `object_`, `bucket`, and `list_objects_output`, and supports key operations such as uploading, downloading, and listing objects. It integrates asynchronous I/O through deferred values and pipes, enabling non-blocking S3 interactions and streaming data transfer with support for error handling and delayed execution. Submodules provide monadic composition of asynchronous operations, streaming with backpressure, and utilities for managing concurrent S3 requests. Example uses include paginating through large S3 object lists, uploading files in chunks, and handling S3 API responses with robust error recovery.",
+      "description_length": 719,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3.Authorization",
-      "description": "Generates a signed URL for temporary access to S3 resources, incorporating HTTP method, expiration, and authentication details. It processes credentials, date, region, and request parameters to construct a valid URI. Used to enable time-limited file uploads or downloads via a shared link.",
-      "description_length": 289,
-      "index": 23,
+      "library": "aws-s3",
+      "description": "This module creates presigned URLs for accessing S3 resources with specified credentials, region, and time constraints. It works with AWS credentials, Ptime timestamps, and URI structures to generate URLs that allow temporary GET or PUT access to S3 objects. A concrete use case is enabling unauthenticated users to securely upload or download files directly from S3 for a limited time.",
+      "description_length": 386,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "aws-s3",
-      "description": "Handles S3 object copying between locations, including source and destination bucket and key specifications. Operates on strings for bucket names and object keys, and byte sequences for data transfer. Enables migration of files between S3 buckets and backup of objects to different regions.",
-      "description_length": 290,
-      "index": 24,
+      "module_path": "Aws_s3.S3",
+      "library": "aws-s3",
+      "description": "This module enables comprehensive interaction with S3 by supporting core operations\u2014uploading, downloading, listing, and deleting objects\u2014with rich handling of metadata, custom error types, and storage classes. Key data types include byte ranges, metadata maps, and multipart upload parts, while operations allow streaming large files, resuming uploads, and bulk deletions with versioning support. Examples include uploading a file with custom metadata, listing a bucket's contents page by page, and performing a multipart upload with streamed data. It also supports advanced features like copying uploaded parts and retrieving detailed deletion outcomes.",
+      "description_length": 655,
+      "index": 17,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Aws_s3.Credentials",
+      "library": "aws-s3",
+      "description": "This module handles AWS S3 credential creation using access keys, secret keys, optional tokens, and expiration times, and includes a functor for generating scoped credential modules. It combines local credential loading from `~/.aws/credentials`, IAM role-based authentication, and deferred credential resolution, supporting both synchronous and asynchronous retrieval. Main data types include credential records and result types for error handling, and operations allow constructing credential values or fetching temporary IAM role credentials. You can configure S3 clients with named profiles, EC2 instance roles, or resolve credentials asynchronously during client setup.",
+      "description_length": 674,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Aws_s3",
-      "description": "Encapsulates asynchronous, error-prone computations using a result type, enabling safe chaining and real-time data processing through bidirectional streams. It supports monadic operations for error recovery, stream composition, and task coordination, allowing sequences like API request pipelines or log streaming. Key data types include reader and writer structures, along with region and endpoint configurations. Examples include generating signed URLs for temporary access, handling network traffic with fault tolerance, and securely transferring data between asynchronous endpoints.",
-      "description_length": 586,
-      "index": 25,
-      "embedding_norm": 1.0
+      "library": "aws-s3",
+      "description": "This module provides a comprehensive interface for interacting with Amazon S3, encompassing region configuration, object management, credential handling, and URL signing. It centers around key data types such as `object_`, `bucket`, `list_objects_output`, `credential`, and `t` (for regions), with operations for uploading, downloading, listing, and deleting objects, as well as creating presigned URLs and custom endpoints. The module supports asynchronous I/O, streaming, error recovery, and advanced features like multipart uploads and versioned deletions. Example uses include paginating through object lists, generating time-limited upload URLs, configuring clients with IAM roles, and streaming large files with custom region and metadata settings.",
+      "description_length": 754,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 26,
-    "meaningful_modules": 26,
+    "total_modules_in_package": 20,
+    "meaningful_modules": 20,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 586,
-    "min_description_length": 275,
-    "avg_description_length": 398.9230769230769,
-    "embedding_file_size_mb": 0.08779716491699219
+    "max_description_length": 754,
+    "min_description_length": 258,
+    "avg_description_length": 476.25,
+    "embedding_file_size_mb": 0.07312202453613281
   }
 }

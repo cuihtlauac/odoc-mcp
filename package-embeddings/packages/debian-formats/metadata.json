@@ -1,91 +1,93 @@
 {
   "package": "debian-formats",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:31:02.244079",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:05:48.399337",
   "modules": [
     {
-      "module_path": "DebianFormats.Version",
-      "description": "Parses version strings to extract the upstream identifier and remove epoch prefixes. Determines if a version is native by checking its format. Used to normalize and classify package versions in build systems.",
-      "description_length": 208,
+      "module_path": "DebianFormats.URI",
+      "library": "debian-formats",
+      "description": "This module handles URI construction and file path generation for Debian package sources. It provides functions to build source list URIs and determine file paths within a Debian mirror's pool structure. The module works with URIs, distributions, and package sections like `Main or `NonFree, and is used to generate paths for accessing specific package files in a Debian repository.",
+      "description_length": 382,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "DebianFormats.Release",
-      "description": "Parses an input stream into a structured release representation containing version, date, and changelog entries. Works with a record type that includes strings for version and date, and a list of changelog items. Used to process and validate release notes from text files during deployment workflows.",
-      "description_length": 300,
+      "module_path": "DebianFormats.Source",
+      "library": "debian-formats",
+      "description": "This module parses and represents Debian source package metadata, including fields like name, version, dependencies, and checksums. It processes control files and checksum lists into structured data for source packages, handling complex dependency specifications and file hashes. Use it to analyze or manipulate Debian source entries, such as extracting build dependencies or verifying file integrity from a Sources file.",
+      "description_length": 421,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "DebianFormats.Source",
-      "description": "Parses Debian source package metadata from strings, extracting names, architectures, versions, and binary relationships. Processes checksums, configuration fields, and logical conjunctions, returning structured data with file metadata and checksums. Used to analyze and validate Debian Sources files, extracting detailed information about package components and their integrity.",
-      "description_length": 378,
+      "module_path": "DebianFormats.Binary",
+      "library": "debian-formats",
+      "description": "This module defines a data structure for representing binary Debian packages, including their metadata and dependency relationships. It provides functions to parse package fields and dependency lists from strings, handling version constraints and optional components. Use it to process Debian Packages files, extract package information, and analyze dependencies or conflicts between binary packages.",
+      "description_length": 400,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "DebianFormats.Binary",
-      "description": "Provides functions to parse structured data from strings, including package names, version constraints, logical expressions, and package fields. Works with strings, tuples, lists, and a custom record type representing package metadata. Parses Debian Packages files, extracting fields like names, versions, and dependencies for package management tasks.",
-      "description_length": 352,
+      "module_path": "DebianFormats.Release",
+      "library": "debian-formats",
+      "description": "This module defines a data structure representing metadata from a Debian release file, including fields like origin, suite, version, and checksums. It provides a `parse` function to read this data from an input source, typically used to process Debian repository release files. The parsed data supports verifying repository integrity and extracting version details for package management workflows.",
+      "description_length": 398,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "DebianFormats.Control",
-      "description": "Provides functions to parse and process control file data, including extracting package names, version information, and essential flags. Operates on strings, lists, and custom record types representing source and binary sections. Used to read and structure Debian control files from input streams or default templates.",
-      "description_length": 318,
+      "module_path": "DebianFormats.Version",
+      "library": "debian-formats",
+      "description": "This module processes version strings according to Debian packaging conventions. It provides functions to strip epoch information, extract upstream version components, and determine if a version is native to Debian. These operations are essential when parsing and comparing package versions in package management tools or build systems.",
+      "description_length": 336,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "DebianFormats.URI",
-      "description": "Generates source URLs based on distribution, section, and component, using a specified mirror and filename. Constructs pool filenames by combining a source, a mirror, and a target filename. Operates on strings, mirrors, distributions, and sections to build and manipulate package retrieval paths.",
-      "description_length": 296,
+      "module_path": "DebianFormats.Control",
+      "library": "debian-formats",
+      "description": "This module defines data structures for parsing and representing Debian control files, including source and binary package metadata. It provides functions to parse fields such as package names, versioned dependencies, and relationships, along with essential flags and architecture constraints. Use cases include reading and validating Debian package control information during build or distribution processes.",
+      "description_length": 409,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "debian-formats",
-      "description": "Parses Debian changelog files, source control files, and binary control files into structured data. Extracts version numbers, package names, and dependency lists from text-based configurations. Enables automated processing of package metadata in build and deployment workflows.",
-      "description_length": 277,
+      "module_path": "DebianFormats",
+      "library": "debian-formats",
+      "description": "This module processes Debian package metadata, handling version comparisons, dependency parsing, and control file structures to support tasks like repository analysis and package validation. It provides core types for package versions, dependencies, and control fields, along with operations to parse, compare, and manipulate them, such as checking version constraints or extracting dependency lists. Submodules handle source and binary package metadata, release file parsing, URI and file path generation for mirrors, and version string manipulation, enabling workflows like building repository indexes, validating checksums, or resolving package dependencies. Specific uses include parsing a `Packages` file to extract binary package info, validating source package build dependencies, or generating mirror paths for `.deb` downloads.",
+      "description_length": 836,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "DebianFormats",
-      "description": "Processes and structures Debian package data from various sources, including version strings, release notes, metadata, control files, and URLs. Handles version normalization, release parsing, metadata extraction, and URL generation using custom record types, strings, and structured data. Enables tasks like validating package integrity, analyzing release history, and constructing package retrieval paths. Supports workflows in package management, deployment, and build systems by transforming unstructured text into actionable data.",
-      "description_length": 534,
+      "module_path": "DFWatch",
+      "library": "debian-formats",
+      "description": "Parses input streams into lists of strings, typically used for processing lines from files or standard input. Works directly with `IO.input` sources, splitting content by newlines or other delimiters. Useful for reading and transforming log files or structured text data into manageable string lists.",
+      "description_length": 300,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "DFWatch",
-      "description": "Parses input streams into lists of strings, extracting structured data from raw input. It processes character sequences and splits them based on defined delimiters. Used to convert log files into actionable event lists for real-time monitoring systems.",
-      "description_length": 252,
-      "index": 8,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "DFChangelog",
-      "description": "Provides functions to read and parse changelog entries from input, convert entries to strings, and generate default entries. Works with the `entry` type, which includes fields for version, date, and changes. Used to extract the latest entry from a file or generate a baseline changelog structure.",
-      "description_length": 296,
-      "index": 9,
+      "library": "debian-formats",
+      "description": "This module handles parsing and generating changelog entries in a structured format, primarily working with strings and lists to represent fields like source, version, and changes. It provides functions to read a changelog from input, convert entries to strings, and access predefined default entries. Concrete use cases include generating Debian changelog files and extracting metadata for package builds.",
+      "description_length": 406,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 10,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.8333333333333334
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 534,
-    "min_description_length": 208,
-    "avg_description_length": 321.1,
-    "embedding_file_size_mb": 0.03676128387451172
+    "max_description_length": 836,
+    "min_description_length": 300,
+    "avg_description_length": 432.0,
+    "embedding_file_size_mb": 0.03314685821533203
   }
 }

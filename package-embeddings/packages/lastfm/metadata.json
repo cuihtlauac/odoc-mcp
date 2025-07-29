@@ -1,56 +1,77 @@
 {
   "package": "lastfm",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:01.269046",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:05:57.100628",
   "modules": [
     {
-      "module_path": "Lastfm_generic.Audioscrobbler_generic",
-      "description": "Provides functions to send HTTP requests with customizable timeout, headers, and port, and handles request formatting for a specific API. Works with string-based URLs, host names, and a custom request type encapsulating query parameters. Used to interact with music recommendation services by submitting user listening data.",
-      "description_length": 324,
+      "module_path": "Lastfm_generic.Http_t",
+      "library": "lastfm",
+      "description": "This module defines the HTTP request types (`Get` and `Post of string`) and provides a `request` function to send HTTP requests with customizable timeout, headers, port, host, and URL. It works directly with strings for URLs and request bodies, along with standard OCaml types like `float` and `int`. Concrete use cases include making authenticated API calls to Last.fm endpoints, such as submitting scrobbles via POST or fetching user data via GET.",
+      "description_length": 449,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lastfm_generic.Radio_generic",
-      "description": "Provides functions to send HTTP requests with customizable timeout, headers, and port, and returns the response as a string. Works with the `request` type to structure outgoing HTTP messages and uses a float reference for the default timeout value. Used to fetch data from remote servers with precise control over connection parameters.",
-      "description_length": 336,
+      "module_path": "Lastfm_generic.Audioscrobbler_generic",
+      "library": "lastfm",
+      "description": "This module implements the Audioscrobbler submission protocol, providing functions to authenticate, submit tracks, and report now-playing status. It works with song records containing metadata like artist, track, time, and source, and handles errors such as authentication failure or invalid data. Concrete use cases include submitting listening history to a scrobbling service and notifying the service of currently playing tracks.",
+      "description_length": 432,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "lastfm",
-      "description": "Provides functions to fetch artist information, track scrobbles, and search for music data from Lastfm. Works with JSON-encoded responses and opaque session tokens. Used to integrate music metadata and user activity into OCaml applications.",
-      "description_length": 240,
+      "module_path": "Lastfm_generic.Radio_generic",
+      "library": "lastfm",
+      "description": "This module implements the Last.fm Radio API with functions to handle radio sessions, including initializing sessions, adjusting stations, fetching playlists, and retrieving track metadata. It works with radio URIs, session IDs, and track data structured as lists of metadata pairs and URIs. Concrete use cases include parsing Last.fm radio URIs, maintaining session state, and fetching or adjusting radio station settings programmatically.",
+      "description_length": 440,
       "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lastfm_constants",
-      "description": "Provides the API version string for Last.fm interactions. Works with string data to ensure compatibility with the Last.fm API. Used to construct requests that require a specific API version.",
-      "description_length": 190,
+      "module_path": "Lastfm_generic.Audioscrobbler_t",
+      "library": "lastfm",
+      "description": "This module defines the Audioscrobbler submission protocol API, handling song metadata and interaction with the Audioscrobbler server. It provides functions to create and validate song records, perform now-playing and submission requests, and manage session handshakes for authentication. Key data types include `song`, `error`, and `action`, used for tracking playback data and handling API responses. Concrete use cases include submitting listening history to Last.fm and checking required metadata before sending a now-playing update.",
+      "description_length": 537,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lastfm_generic",
-      "description": "Handles HTTP requests to the Last.fm API with customizable timeout, headers, and port settings. Operates on string-based URLs and request structures to fetch data from specified hosts. Used to retrieve specific API responses like user profiles or track information.",
-      "description_length": 265,
+      "module_path": "Lastfm_generic.Radio_t",
+      "library": "lastfm",
+      "description": "This module implements the Radio API for interacting with Last.fm radio services, handling session management, station adjustment, and playlist retrieval. It works with track metadata as lists of key-value pairs and strings, and uses session IDs to manage state across requests. Concrete operations include initializing sessions, adjusting radio stations, fetching playlists, and retrieving track data from Last.fm URIs.",
+      "description_length": 420,
       "index": 4,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lastfm_generic",
+      "library": "lastfm",
+      "description": "This module provides HTTP clients for interacting with Last.fm's Audioscrobbler and Radio APIs, handling authentication, track submission, and radio stream management. It includes functions to construct and send HTTP requests with custom settings, authenticate users, submit song metadata, manage now-playing status, and initialize or adjust radio sessions using structured track data and session identifiers. Submodules handle protocol-specific operations such as scrobbling tracks, parsing radio URIs, and maintaining session state across API calls. Example uses include submitting played tracks via POST requests, fetching personalized radio playlists, and managing playback status with authenticated sessions.",
+      "description_length": 713,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lastfm_constants",
+      "library": "lastfm",
+      "description": "Contains the API version used for interacting with the Last.fm service. Works with string data types. Used to ensure correct versioning in API requests.",
+      "description_length": 152,
+      "index": 6,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 7,
     "filtered_empty_modules": 1,
-    "retention_rate": 0.8333333333333334
+    "retention_rate": 0.875
   },
   "statistics": {
-    "max_description_length": 336,
-    "min_description_length": 190,
-    "avg_description_length": 271.0,
-    "embedding_file_size_mb": 0.018591880798339844
+    "max_description_length": 713,
+    "min_description_length": 152,
+    "avg_description_length": 449.0,
+    "embedding_file_size_mb": 0.025859832763671875
   }
 }

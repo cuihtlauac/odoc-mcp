@@ -1,49 +1,45 @@
 {
   "package": "tar-mirage",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 4,
-  "creation_timestamp": "2025-06-18T16:28:51.232459",
+  "total_modules": 3,
+  "creation_timestamp": "2025-07-15T23:05:07.876983",
   "modules": [
     {
-      "module_path": "Tar_mirage.Make_KV_RO",
-      "description": "Provides functions to read from and write to block devices, with error handling for I/O operations. Works with sector-based data structures and device-specific information. Used to manage data transfer and device disconnection in storage systems.",
-      "description_length": 246,
+      "module_path": "Tar_mirage.Make_KV_RW",
+      "library": "tar-mirage",
+      "description": "This module supports read-write key-value operations including retrieval, partial reads, allocation, directory listing, and metadata queries (like last modified time or size) on a tar-formatted block device. It works with keys (`Mirage_kv.Key.t`) and string values, enforcing append-only semantics that disallow file removal or renaming, and integrates with MirageOS block storage for use cases requiring immutable tar-based filesystems with incremental writes. Error handling is explicitly structured for storage constraints and unsupported operations, making it suitable for Mirage unikernels needing append-only data persistence.",
+      "description_length": 632,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tar_mirage.Make_KV_RW",
-      "description": "Provides functions to read from and write to block devices, with error handling for I/O operations. Works with Cstruct.t lists for data buffers and tracks device state through a handle of type t. Supports querying device information and disconnecting from the device asynchronously.",
-      "description_length": 282,
+      "module_path": "Tar_mirage.Make_KV_RO",
+      "library": "tar-mirage",
+      "description": "This module constructs a read-only key-value store from a block device containing tar-formatted data. It supports operations such as checking key existence, retrieving full or partial values, listing directory entries, and querying metadata like modification time, digest, and size. The store works directly with tar archives mapped onto block devices, enabling efficient access to individual files or directories within the archive as if they were entries in a key-value store.",
+      "description_length": 478,
       "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "tar-mirage",
-      "description": "Provides functions to stream data in and out of tar archives, including reading headers, extracting files, and writing entries. Works with byte sequences, file descriptors, and custom input/output channels. Used to process large archives incrementally without loading entire files into memory.",
-      "description_length": 293,
-      "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Tar_mirage",
-      "description": "handles block device I/O operations, including reading, writing, and managing device state through a handle type. it works with sector-based data and Cstruct.t lists, supporting asynchronous disconnection and device information queries. it enables reliable data transfer and device management in storage systems. examples include transferring file data, monitoring device status, and safely disconnecting from storage devices.",
-      "description_length": 426,
-      "index": 3,
+      "library": "tar-mirage",
+      "description": "This module provides key-value access to tar-formatted data on block devices, supporting both read-only and append-only use cases. It exposes operations like key existence checks, value retrieval, partial reads, directory listing, and metadata queries (e.g., size, modification time), working with `Mirage_kv.Key.t` and string values. The read-write variant enforces append-only semantics, allowing allocation and incremental writes but disallowing removal or renaming, while the read-only variant enables efficient access to pre-existing tar archives. Example uses include embedding immutable file hierarchies in unikernels or building append-only logging systems over tar-backed storage.",
+      "description_length": 689,
+      "index": 2,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 4,
-    "meaningful_modules": 4,
+    "total_modules_in_package": 3,
+    "meaningful_modules": 3,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 426,
-    "min_description_length": 246,
-    "avg_description_length": 311.75,
-    "embedding_file_size_mb": 0.014945030212402344
+    "max_description_length": 689,
+    "min_description_length": 478,
+    "avg_description_length": 599.6666666666666,
+    "embedding_file_size_mb": 0.011303901672363281
   }
 }

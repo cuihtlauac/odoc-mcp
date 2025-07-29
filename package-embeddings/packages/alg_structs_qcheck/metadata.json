@@ -1,84 +1,125 @@
 {
   "package": "alg_structs_qcheck",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:32:10.668077",
+  "total_modules": 13,
+  "creation_timestamp": "2025-07-15T23:08:21.296039",
   "modules": [
     {
-      "module_path": "Alg_structs_qcheck.Applicative.Let_bind",
-      "description": "Provides binding operators for sequencing computations in a monadic style, with `let+` for mapping over values and `and+` for combining two computations into a tuple. Works with type constructors that support applicative operations, such as option, list, and result. Enables concise handling of nested computations, like binding values from multiple optional or list-based sources.",
-      "description_length": 381,
+      "module_path": "Alg_structs_qcheck.Monoid.S",
+      "library": "alg_structs_qcheck",
+      "description": "This module defines a monoid structure with an associative binary operation `op`, an identity element `unit`, and functions `concat` and `mconcat` to combine non-empty lists and regular lists, respectively. It includes an arbitrary value generator for QCheck testing, enabling property-based validation of monoid laws. It operates on a concrete type `t`, supporting use cases like combining sequences of values under associative operations with identity elements, such as summing numbers or concatenating strings.",
+      "description_length": 513,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Alg_structs_qcheck.Functor",
-      "description": "Provides map operations to transform values within a container type 'a t, supporting both prefix and infix syntax. Generates property-testing values via arbitrary, enabling randomized testing of structures wrapped in 'a t. Used to apply functions to wrapped values and generate test cases for custom data types.",
-      "description_length": 311,
+      "module_path": "Alg_structs_qcheck.Foldable.S",
+      "library": "alg_structs_qcheck",
+      "description": "This module defines operations for folding, querying, and transforming container structures that hold elements of a single type. It supports concrete operations like `fold_left`, `fold_right`, `fold_map`, and `fold` for reducing elements using a function or monoid, along with predicates like `any`, `all`, and `mem` for inspection. Use cases include validating container contents, aggregating values with monoids, and generating test cases for foldable structures using QCheck.",
+      "description_length": 478,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Alg_structs_qcheck.Applicative",
-      "description": "Provides binding operators for sequencing applicative computations, including `let+` for mapping and `and+` for tuple combination. Supports type constructors like option, list, and result, enabling clean handling of nested or multiple value sources. Allows chaining of operations that may fail or produce multiple outcomes. For example, extracting values from nested options or combining results from multiple list computations.",
-      "description_length": 428,
+      "module_path": "Alg_structs_qcheck.Semigroup.S",
+      "library": "alg_structs_qcheck",
+      "description": "This module defines a semigroup with an associative binary operation `op` and provides functionality to concatenate non-empty lists of values using that operation. It includes a named semigroup instance and a generator for arbitrary values satisfying the semigroup laws. It is used to test and validate semigroup properties with QCheck, ensuring correct associative behavior across generated values.",
+      "description_length": 399,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Alg_structs_qcheck.Semigroup",
-      "description": "Provides an associative operation `op` and its infix variant `(*)` for combining values of type `t`, along with `concat` for merging non-empty lists of `t` into a single value. Works with any type `t` that supports these operations, enabling efficient aggregation of structured data. Used to build reliable, composable data transformations in testing and validation workflows.",
-      "description_length": 376,
+      "module_path": "Alg_structs_qcheck.Applicative.S",
+      "library": "alg_structs_qcheck",
+      "description": "This module implements applicative functor operations for generating and combining arbitrary values in a structure that supports QCheck testing. It provides functions like `map`, `apply`, and `map2` to manipulate values within a context, along with operators such as `<@>`, `<*>`, and `|>>` for concise composition. Concrete use cases include building complex test generators by lifting functions over arbitrary data and sequencing effects while verifying applicative laws.",
+      "description_length": 473,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Alg_structs_qcheck.Monoid",
-      "description": "Provides associative binary operations and concatenation functions for combining elements of type t, including an infix operator (*) and a fold-based mconcat that uses a unit element. Works with t and non-empty lists, enabling efficient aggregation of values in a monoidal structure. Used to unify and combine values in contexts like parsing, logging, or data accumulation where associativity and identity are required.",
-      "description_length": 419,
+      "module_path": "Alg_structs_qcheck.Functor.S",
+      "library": "alg_structs_qcheck",
+      "description": "This module extends a functor interface with QCheck arbitrary value generation and includes operations `map`, `<@>`, and `|>>` for applying functions within the functor context. It works with any type `'a t` that forms a functor, along with QCheck arbitrary values. Concrete use cases include defining and testing functor instances with QCheck, such as generating random trees or lists and verifying that `map` preserves structure while transforming elements.",
+      "description_length": 459,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Alg_structs_qcheck.Foldable",
-      "description": "Provides operations to traverse and aggregate elements of a container, including left and right folds, monoid-based folding, and mapping with accumulation. Works with any type 'a t that supports basic collection operations like checking emptiness, counting elements, and querying maximum/minimum values. Used to compute sums, check predicates across elements, and convert containers to lists for further processing.",
-      "description_length": 415,
+      "module_path": "Alg_structs_qcheck.Applicative.S-Let_bind",
+      "library": "alg_structs_qcheck",
+      "description": "This module defines binding operators `let+` and `and+` for applicative functors. These operators enable a monadic-style syntax for composing applicative values, allowing direct application of functions within the applicative context. They are particularly useful for structuring complex applicative expressions in a readable, sequential manner without nested operator chaining.",
+      "description_length": 378,
       "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Alg_structs_qcheck.Monoid",
+      "library": "alg_structs_qcheck",
+      "description": "This module provides property-based tests to verify that a given type and its operations satisfy the monoid laws, including associativity and identity. It works with any type that implements a binary operation and a neutral element, allowing for validation of custom instances such as integer addition or string concatenation. The module includes functions to combine lists of values and integrates with QCheck to generate test cases that ensure correctness under arbitrary inputs. These capabilities support robust verification of monoid structures in both standard and user-defined types.",
+      "description_length": 590,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Alg_structs_qcheck.Foldable",
+      "library": "alg_structs_qcheck",
+      "description": "This module implements QCheck tests to verify that structures conforming to the `Foldable` signature satisfy their algebraic laws, ensuring correctness for operations like `fold`, `fold_left`, and `fold_right`. It works with any container that supports folding, such as lists, trees, or optional values, and includes predicates like `any`, `all`, and `mem` for inspecting contents. The module enables validation of custom data structures against expected foldable behavior and supports test case generation using QCheck. It also provides utilities like `fold_map` for transforming and aggregating values within foldable structures.",
+      "description_length": 631,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Alg_structs_qcheck.Semigroup",
+      "library": "alg_structs_qcheck",
+      "description": "This module provides property-based tests to verify that data structures implementing the Semigroup interface satisfy the associativity law. It includes operations to generate arbitrary values and test compositions using the `op` binary operation, ensuring correct behavior across multiple instances. The child module defines a concrete semigroup with `op`, supporting concatenation of non-empty lists and enabling QCheck-based validation of semigroup properties. Together, they facilitate rigorous testing of custom semigroup implementations and their compositional correctness.",
+      "description_length": 579,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Alg_structs_qcheck.Functor",
+      "library": "alg_structs_qcheck",
+      "description": "This module provides property-based tests to verify that a given type's `map` function obeys the functor laws, ensuring that mapping preserves identity and composition. It integrates with modules that expose an `S` signature, such as custom data structures like trees or lists, and works alongside QCheck to generate arbitrary values for automated testing. The child module adds support for defining functors with QCheck integration, offering operators like `<@>` and `|>>` to lift functions into the functor context, enabling concise property definitions during testing. Together, they allow developers to both define functor instances and rigorously test their correctness using randomly generated inputs and law-based assertions.",
+      "description_length": 732,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Alg_structs_qcheck.Applicative",
+      "library": "alg_structs_qcheck",
+      "description": "This module provides property-based tests for applicative functor laws, ensuring correctness for structures like parsers, optionals, or validation monads. It defines core operations such as `pure`, `<*>`, and `map`, enabling function lifting and effect sequencing over arbitrary values. Submodules introduce applicative binding operators `let+` and `and+`, simplifying composition of complex expressions with monadic-like syntax. Example uses include building and combining QCheck test generators, validating applicative behavior in custom data types, and structuring effectful computations concisely.",
+      "description_length": 601,
+      "index": 10,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Alg_structs_qcheck.Utils",
-      "description": "Generates property-based tests using QCheck, constructs test cases from function outputs, and provides arbitrary values for integer functions and lists. Operates with QCheck's test and arbitrary types, along with functions and lists of integers. Used to validate behavior of integer transformations and ensure consistency under random generation.",
-      "description_length": 346,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "alg_structs_qcheck",
-      "description": "Provides functions to generate and validate properties of algebraic structures using quickcheck, including checks for associativity, identity, and inverse elements. Operates on custom types representing groups, rings, and fields, with support for user-defined binary operations. Used to automatically test the correctness of implementations under random inputs.",
-      "description_length": 361,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "library": "alg_structs_qcheck",
+      "description": "This module provides functions for testing algebraic laws and generating structured test cases. It works with arbitrary values and test structures from QCheck, including functions over integers and lists. Concrete use cases include defining property-based tests for algebraic operations, combining multiple test cases, and generating random functions for integers and lists.",
+      "description_length": 374,
+      "index": 11,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Alg_structs_qcheck",
-      "description": "Combines mapping, sequencing, and combining operations for values wrapped in container types, supporting both functional and infix notations. Offers binding operators for handling multiple value sources, associative operations for aggregation, and folding mechanisms for traversal and accumulation. Enables property-based testing with randomized inputs, allowing validation of transformations, error handling, and data composition. Examples include applying functions to wrapped values, combining results from multiple computations, and generating test cases for integer functions.",
-      "description_length": 581,
-      "index": 8,
+      "library": "alg_structs_qcheck",
+      "description": "This module suite provides property-based testing frameworks for verifying algebraic structures and their laws, including monoids, semigroups, functors, applicatives, and foldables. It supports data types that implement operations like `op`, `map`, `fold`, `pure`, and `<*>`, enabling validation of associativity, identity, composition, and other structural properties. Examples include testing custom monoids like integer addition, verifying functor laws for trees, checking applicative behavior in parsers, and ensuring foldable correctness for user-defined containers using QCheck-generated test cases.",
+      "description_length": 605,
+      "index": 12,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 14,
-    "meaningful_modules": 9,
-    "filtered_empty_modules": 5,
-    "retention_rate": 0.6428571428571429
+    "total_modules_in_package": 13,
+    "meaningful_modules": 13,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 581,
-    "min_description_length": 311,
-    "avg_description_length": 402.0,
-    "embedding_file_size_mb": 0.033123016357421875
+    "max_description_length": 732,
+    "min_description_length": 374,
+    "avg_description_length": 524.0,
+    "embedding_file_size_mb": 0.047707557678222656
   }
 }

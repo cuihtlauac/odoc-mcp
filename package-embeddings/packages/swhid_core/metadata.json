@@ -1,91 +1,93 @@
 {
   "package": "swhid_core",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:32:03.051202",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:56.326110",
   "modules": [
     {
       "module_path": "Swhid_core.Object.Scheme_version",
-      "description": "Converts between string and integer representations of scheme versions, validating inputs and returning errors on failure. Works with an abstract type `t` that encapsulates scheme version data. Provides a pretty-printer for output and a default value for initialization.",
-      "description_length": 270,
+      "library": "swhid_core",
+      "description": "This module defines and manipulates scheme versions used in Software Heritage identifiers. It provides functions to convert between string and integer representations, validate versions, and format them for output. Use cases include parsing version strings from swhids and ensuring correct version encoding in identifier construction.",
+      "description_length": 334,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Swhid_core.Object.Kind",
-      "description": "Provides comparison and equality checks for software artifact kinds, conversion from and to strings, and pretty-printing. Works with a type representing specific artifact categories like \"cnt\", \"dir\", \"rel\", \"rev\", and \"snp\". Used to validate and serialize artifact types in a software heritage system.",
-      "description_length": 302,
+      "module_path": "Swhid_core.Compute.Make",
+      "library": "swhid_core",
+      "description": "This module computes swhids for content, directories, releases, revisions, and snapshots using a SHA1 module and OS module. It supports operations like hashing raw content, building identifiers from directory entries, and constructing release or revision identifiers with metadata. Concrete use cases include generating swhids for version-controlled files, directories with entries, and version control system snapshots.",
+      "description_length": 420,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Swhid_core.Object.Hash",
-      "description": "Provides functions to compare, check equality, and convert between hash values and their string representations. Works with the `t` type, which represents a 40-character hexadecimal hash. Used to validate and format hash strings for use in software heritage identifiers.",
-      "description_length": 270,
+      "library": "swhid_core",
+      "description": "This module defines a type `t` representing a hash in a Software Heritage identifier and provides operations to compare, check equality, convert to and from strings, and format hashes. It works with hexadecimal strings of exactly 40 characters, ensuring validity according to the swhid specification. Use cases include parsing and validating swhid hash components, comparing hashes for ordering, and serializing hashes for storage or display.",
+      "description_length": 442,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Swhid_core.Object.Core_identifier",
-      "description": "Provides functions to create, compare, and inspect core identifiers composed of a scheme version, kind, and hash. Works with types Scheme_version.t, Kind.t, and Hash.t to construct and validate identifiers from strings. Used to parse and manipulate SWHID core components in versioned content tracking systems.",
-      "description_length": 309,
+      "library": "swhid_core",
+      "description": "This module defines a type `t` representing the core component of a Software Heritage identifier, composed of a scheme version, kind, and hash. It provides functions to construct, parse, compare, and convert core identifiers, along with accessors to retrieve their components. Use cases include validating swhid core strings, building identifiers programmatically, and extracting scheme, kind, or hash values for further processing.",
+      "description_length": 432,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Swhid_core.Object.Qualifier",
-      "description": "Converts strings to validated qualifier values, with error handling, and provides string serialization and pretty printing. Works with an opaque type representing qualifiers. Used to parse and display qualifier values in structured data processing.",
-      "description_length": 248,
+      "module_path": "Swhid_core.Object.Kind",
+      "library": "swhid_core",
+      "description": "This module defines and manipulates the different kinds of software artifacts that a swhid can reference, such as content, directories, revisions, releases, and snapshots. It provides operations for converting between string representations and the corresponding type variants, comparing and checking equality between artifact kinds. Concrete use cases include parsing artifact types from strings, serializing them to strings, and printing them for debugging or logging.",
+      "description_length": 470,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Swhid_core.Compute.Make",
-      "description": "Computes SHA1 hashes of strings and returns the results as hexadecimal strings. Operates on raw string inputs and produces fixed-length hexadecimal outputs. Used for generating unique identifiers or checksums for text data.",
-      "description_length": 223,
+      "module_path": "Swhid_core.Object.Qualifier",
+      "library": "swhid_core",
+      "description": "This module defines and manipulates qualifier types that extend a core software heritage identifier with additional context such as origin, path, or fragment details. It provides functions to parse qualifiers from strings, convert them to strings, and format them for output. Concrete use cases include constructing and validating extended identifiers for software artifacts with specific locations or versions.",
+      "description_length": 411,
       "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Swhid_core.Compute",
-      "description": "Generates unique identifiers and checksums by computing SHA1 hashes from string inputs, producing fixed-length hexadecimal outputs. Supports operations on raw text to create compact, deterministic representations. Can be used to validate data integrity or generate stable identifiers for textual content. Processes inputs directly without additional abstractions, focusing on hash generation and conversion.",
-      "description_length": 407,
-      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Swhid_core.Object",
-      "description": "Encapsulates the structure of Software Heritage persistent identifiers by combining scheme versions, artifact kinds, hashes, and qualifiers into core identifiers. It supports parsing, validation, and conversion between string and typed representations for each component, enabling precise manipulation of SWHID elements. Operations include comparing identifiers, serializing components, and handling errors during input validation. Examples include constructing a core identifier from a string, converting a hash to its hexadecimal form, and validating a qualifier's format.",
-      "description_length": 574,
+      "library": "swhid_core",
+      "description": "This module structures and manipulates Software Heritage persistent identifiers (SWHIDs), combining core identifiers with optional qualifiers to form complete swhids. It supports creating, parsing, and accessing components such as scheme version, artifact kind, hash, and qualifiers, with operations for validation, conversion, and comparison. For example, it can construct a swhid from a version, kind, hash, and origin qualifier, or parse and validate a full swhid string into its components. Submodules handle specific aspects like hash validation, core identifier construction, and qualifier manipulation, enabling precise control over identifier composition and interpretation.",
+      "description_length": 682,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Swhid_core.Compute",
+      "library": "swhid_core",
+      "description": "This module computes SWHIDs for software artifacts, handling directories and files by generating identifiers based on object type. It includes submodules that extend this functionality to content, releases, revisions, and snapshots, using SHA1 and OS modules for hashing and directory traversal. Main data types include `File` and `Dir` for distinguishing object kinds, with operations to hash raw content, build directory-based identifiers, and construct version control identifiers with metadata. Examples include generating persistent identifiers for files in a repository or building snapshot SWHIDs from directory entries.",
+      "description_length": 627,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "swhid_core",
-      "description": "Handles parsing, serialization, and validation of Software Heritage identifiers, supporting operations like version extraction and namespace resolution. Works with custom data types representing swhid components, including revision, directory, and content identifiers. Used to process and verify swhids in archival workflows and data integrity checks.",
-      "description_length": 351,
+      "module_path": "Swhid_core",
+      "library": "swhid_core",
+      "description": "This module handles the creation, parsing, and computation of Software Heritage persistent identifiers (SWHIDs) for various software artifacts. It defines core data types like SWHID components (version, kind, hash, qualifiers) and artifact types such as `File` and `Dir`, supporting operations including validation, conversion, directory traversal, and SHA1-based hashing. Users can construct identifiers for files, directories, releases, and snapshots, or parse and manipulate existing SWHIDs. Example uses include generating a SWHID for a source file based on its content hash or building a snapshot identifier from a directory structure.",
+      "description_length": 640,
       "index": 8,
       "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Swhid_core",
-      "description": "Computes SHA1 hashes from strings to generate compact, deterministic identifiers and validates structured Software Heritage identifiers by combining scheme versions, artifact kinds, hashes, and qualifiers. Provides direct hash generation, conversion between string and typed representations, and error handling during parsing. Supports tasks like constructing identifiers from raw inputs, converting hash values to hexadecimal, and verifying qualifier formats. Enables data integrity checks and precise manipulation of SWHID components.",
-      "description_length": 536,
-      "index": 9,
-      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 574,
-    "min_description_length": 223,
-    "avg_description_length": 349.0,
-    "embedding_file_size_mb": 0.0367431640625
+    "max_description_length": 682,
+    "min_description_length": 334,
+    "avg_description_length": 495.3333333333333,
+    "embedding_file_size_mb": 0.033141136169433594
   }
 }

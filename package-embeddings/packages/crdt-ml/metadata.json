@@ -1,196 +1,309 @@
 {
   "package": "crdt-ml",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 25,
-  "creation_timestamp": "2025-06-18T16:37:21.269979",
+  "total_modules": 36,
+  "creation_timestamp": "2025-07-15T23:12:54.163336",
   "modules": [
     {
-      "module_path": "Crdt.Mutable",
-      "description": "provides a framework for managing mutable conflict-free replicated data types, offering basic structures and operations for collaborative editing. It includes shared data types such as registers, counters, and sets, along with methods for updating and merging states across distributed systems. Users can perform actions like incrementing values, appending elements, or resolving concurrent modifications. Examples include maintaining synchronized counters in real-time applications or managing shared text documents with concurrent edits.",
-      "description_length": 539,
+      "module_path": "M_USet.Make",
+      "library": "crdt_mutable",
+      "description": "This module implements an add-once, remove-once set where removed elements cannot be re-added. It uses two internal maps to track additions and removals, operating on their set difference. The module supports creating, merging, adding, removing, and checking membership of elements, with the result of the set operations returned as a list via the `value` function. It is useful in scenarios like tracking unique state changes across distributed systems or managing irreversible operations such as revocation lists.",
+      "description_length": 515,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Crdt.Immutable",
-      "description": "Provides a set of immutable CRDT implementations for collaborative data structures. Includes core types such as counters, sets, and maps with operations for merging, updating, and querying state. Supports safe concurrent modifications without side effects. Enables building consistent, distributed data structures with deterministic outcomes.",
-      "description_length": 342,
+      "module_path": "Mutable_types.GSet",
+      "library": "crdt_mutable",
+      "description": "Implements a grow-only set with in-place addition, merging, and membership checks. Works with elements of type `elt` and maintains internal state in a mergeable, mutable structure. Useful for distributed systems where sets must converge monotonically, such as tracking unique identifiers or accumulating permissions across nodes.",
+      "description_length": 329,
       "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "I_GSet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It operates on individual values of the t type, not collections. Used to determine precedence in sorted data structures or when enforcing order in custom types.",
-      "description_length": 266,
-      "index": 2,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "I_ORSet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It operates on individual values of the t type, not collections. This function is used to sort or order elements in a consistent manner, such as when implementing custom sorting logic for a specific data structure.",
-      "description_length": 320,
+      "module_path": "Mutable_types.Mergeable",
+      "library": "crdt_mutable",
+      "description": "This module defines types that support merging operations, essential for conflict-free replicated data types (CRDTs). It provides functions to create new mergeable elements and to merge two elements, updating the first with the state of the second. Useful in distributed systems for combining local and remote states efficiently.",
+      "description_length": 329,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mutable_types.DCounter",
+      "library": "crdt_mutable",
+      "description": "Implements a mutable counter that supports bounded integer ranges, incrementing, and decrementing operations. Uses an internal `elt` type from `IVector` to represent state and merges counter states by updating the left operand. Useful for distributed systems where concurrent counter updates must converge, such as tracking shared resource usage within a fixed range.",
+      "description_length": 367,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "I_USet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. Works with any data type that supports structural comparison. Used to sort lists of t values or determine equality in custom data structures.",
-      "description_length": 247,
+      "module_path": "M_GSet.Make",
+      "library": "crdt_mutable",
+      "description": "Implements a grow-only set with in-place addition, merging, and membership testing. Works with elements of type `O.t` and maintains a list representation internally. Useful for CRDT implementations where concurrent set updates must be merged without conflict.",
+      "description_length": 259,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "M_ORSet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It operates on individual values of the t type, not collections. This function is used to sort elements or determine equality in custom data types.",
-      "description_length": 253,
+      "library": "crdt_mutable",
+      "description": "This module implements an observed-remove set with operations to add, remove, and lookup elements based on a unique token system. It maintains two internal maps for additions and removals, ensuring that elements are only removed if they were previously added. The module is useful for concurrent data structures where independent mutations must be merged deterministically, such as in CRDTs (Conflict-Free Replicated Data Types).",
+      "description_length": 429,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "M_USet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. It operates on values of the abstract type t, enabling sorted list construction and priority queue implementations. This function is essential for tasks like merging sorted data streams or enforcing order in custom data structures.",
-      "description_length": 337,
+      "module_path": "Mutable_types.RSet",
+      "library": "crdt_mutable",
+      "description": "Implements a mutable set type with merge, add, remove, and lookup operations. Works with elements of type `elt` and maintains state internally as a list. Useful for collaborative applications where concurrent set modifications must be synchronized, such as tracking active users or shared document edits.",
+      "description_length": 304,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "M_GSet.Make",
-      "description": "Compares elements of type t using a total ordering, returning -1, 0, or 1 based on their relative values. Works with any data type that supports structural comparison. Used to sort lists of t values or determine equality in custom data structures.",
-      "description_length": 247,
+      "module_path": "Mutable_types.IVector",
+      "library": "crdt_mutable",
+      "description": "Implements a mutable vector clock and increment-only counter with operations to create, merge, and increment. Works with a user-supplied element type to track version vectors and causal relationships. Useful for conflict-free replicated data types where partial order tracking and monotonic updates are required.",
+      "description_length": 312,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "crdt-ml",
-      "description": "Provides operations for merging and updating conflict-free replicated data types, including lattice joins, versioned updates, and causal consistency checks. Works with structured data like sets, maps, and counters, using version vectors and timestamps for synchronization. Enables real-time collaborative editing in distributed systems by resolving conflicts without centralized coordination.",
-      "description_length": 392,
+      "module_path": "Mutable_types.Comparable",
+      "library": "crdt_mutable",
+      "description": "This module defines a type `t` and a `compare` function that establishes a total ordering between values of type `t`. It is used to determine equality and ordering of elements, particularly for types that need to be stored in structures requiring comparison, such as sets. The `compare` function is essential for maintaining correct element relationships in CRDTs where mutable state must be consistently ordered.",
+      "description_length": 413,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "M_GCounter",
-      "description": "Provides operations to create and merge increment-only counters that store integer values. Works with `t` representing a mutable vector and `elt` as the integer value returned by querying the counter. Used to track and combine distributed increments, such as counting events across multiple nodes where merges resolve conflicts by summing values.",
-      "description_length": 346,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "IList",
-      "description": "Provides operations to manipulate lists of integers with dynamic padding, including incrementing a specific element, mapping a function over two lists with zero-padding, and folding two lists with zero-padding. Works with lists of integers and ensures consistent length during operations. Used for processing unevenly sized data sets in numerical computations and transformations.",
-      "description_length": 380,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Crdt",
-      "description": "offers a unified interface for working with both mutable and immutable conflict-free replicated data types, enabling consistent state management across distributed systems. It includes mutable structures like registers, counters, and sets with update and merge operations, as well as immutable equivalents for safe, side-effect-free computations. Users can increment counters, append to sets, or merge document states while maintaining consistency. Examples include real-time collaborative editing and synchronized distributed counters.",
-      "description_length": 536,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "I_PNCounter",
-      "description": "Provides operations to increment, decrement, and merge counters using two internal integer vectors for tracking additions and subtractions. Works with a type `t` representing a mergeable counter and `elt` as an integer value for querying state. Used to manage concurrent updates in distributed systems where merging counter states ensures consistency.",
-      "description_length": 351,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "M_PNCounter",
-      "description": "Provides operations to manage a mergeable counter using two integer vectors for increments and decrements. Works with `t` type representing the counter state and `elt` type for integer values. Supports merging counter states, incrementing or decrementing specific positions, and querying the raw difference between the two vectors.",
-      "description_length": 331,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "I_GSet",
-      "description": "Provides ordered operations for elements of type t, enabling comparisons that dictate sorting and precedence. Supports add, lookup, and merge operations for managing grow-only sets. Can be used to maintain ordered collections where element relationships are critical, such as in priority queues or sorted logs. Examples include merging sets while preserving order or determining the relative position of elements in a sorted structure.",
-      "description_length": 435,
-      "index": 14,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "I_GCounter",
-      "description": "Provides operations to create and merge increment-only counters, with support for querying their internal state and incrementing specific positions. Works with a type `t` representing the counter and `elt` as an integer value. Used to manage distributed counters where merges combine increments and expand size as needed.",
-      "description_length": 321,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "I_IntVector",
-      "description": "Creates and merges integer vectors where each element represents a replica's increment count, with operations limited to the replica's assigned index. Works with lists of integers to track distributed state, supporting merging of vectors of different sizes by padding smaller ones with zeros. Used to manage consistent updates in distributed systems where each node has a unique index for increments.",
-      "description_length": 400,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "I_ORSet",
-      "description": "Provides a set data structure with observed-remove semantics, maintaining two maps for tracking additions and removals. Elements are compared using a total ordering function, enabling consistent sorting and comparison operations. Operations like add, remove, lookup, and merge allow manipulation of set contents while preserving uniqueness and consistency. For example, adding an element generates a unique identifier, and merging combines addition and removal maps from two sets.",
-      "description_length": 480,
-      "index": 17,
-      "embedding_norm": 1.0000001192092896
-    },
-    {
-      "module_path": "I_USet",
-      "description": "creates a set where elements can be added or removed once, with removals permanently preventing re-addition. it uses two maps to track additions and removals, and computes the effective set as the difference between them. operations include adding, removing, looking up, and merging sets, with comparisons enabling sorting and equality checks. for example, you can merge two sets, check if an element is present, or sort a list of elements based on their defined order.",
-      "description_length": 469,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Immutable_types",
-      "description": "Provides operations to create, merge, increment, and decrement counter-like structures, with support for range constraints. Works with `t` and `elt` types, where `elt` is derived from IVector. Used to manage distributed state updates in collaborative systems, ensuring consistent merging of counter values across different nodes.",
-      "description_length": 329,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "M_ORSet",
-      "description": "Provides a set data structure with add, remove, lookup, and merge operations, maintaining two maps for tracking additions and removals. Elements are compared using a total ordering function, enabling sorting and equality checks for custom types. Operations like adding unique elements, removing all occurrences, and merging sets are supported. For example, you can add elements with unique identifiers, remove them globally, and combine sets while preserving membership differences.",
-      "description_length": 482,
-      "index": 20,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mutable_types",
-      "description": "Provides operations to create, merge, and modify counter-like structures with support for incrementing and decrementing. Works with `t` and `elt` types, where `elt` is an integer vector element. Used to manage distributed state updates in collaborative systems, such as synchronizing counters across multiple nodes.",
-      "description_length": 315,
-      "index": 21,
+      "library": "crdt_mutable",
+      "description": "This module provides core CRDT interfaces and mutable structures for distributed state synchronization, defining operations for merging, comparing, and managing vector clocks, counters, and sets. It includes data types like `elt` for element representation and `t` for ordered values, supporting operations such as merge, compare, add, remove, increment, and membership checks. Concrete implementations enable collaborative editing through mutable sets, track shared resource usage with bounded counters, and manage causal relationships using vector clocks. Submodules extend this functionality with specialized types like grow-only sets, mergeable elements, and ordered structures, enabling use cases such as real-time collaboration, distributed caches, and versioned data synchronization.",
+      "description_length": 790,
+      "index": 9,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "M_ORSet",
+      "library": "crdt_mutable",
+      "description": "This module implements an observed-remove set using two maps to track additions and removals independently. Elements are added with unique tokens, and removals target all tokens associated with an element in the add map. The set exposes operations to add, remove, check membership, and merge concurrent instances by combining their add and remove maps. For example, adding \"x\" generates a unique token in the add map, and removing \"x\" copies all its tokens to the remove map, ensuring future lookups reflect the deletion.",
+      "description_length": 521,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "M_PNCounter",
+      "library": "crdt_mutable",
+      "description": "This module implements a mergeable counter that supports independent increment and decrement operations using two `M_IntVector` instances. It provides functions to create, merge, and query counters, as well as to increment or decrement the counter at the current site. The counter is useful in distributed systems where nodes track both additions and subtractions, such as tracking available resources or balances across multiple sites.",
+      "description_length": 436,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "M_GSet",
+      "library": "crdt_mutable",
+      "description": "This module provides a grow-only set implementation supporting add, lookup, and merge operations. It uses a list-based internal representation for elements of type `O.t`, ensuring efficient in-place updates and conflict-free merges. You can add elements, check membership, and merge concurrent sets while preserving all additions. For example, two sets `s1` and `s2` can independently add elements and later merge into a single set containing all unique elements from both.",
+      "description_length": 473,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "M_IntVector",
-      "description": "Creates and manages integer vectors used in vector clocks, where each element corresponds to a replica's incrementable index. Operates on lists of integers and supports merging, incrementing, and querying states. Used to synchronize and track versioning across distributed systems with unique replica identifiers.",
-      "description_length": 313,
+      "library": "crdt_mutable",
+      "description": "This module implements vector clocks as integer vectors where each replica can only increment its own unique index, assigned at creation. It supports operations to create fixed-size vectors, increment the local index, merge states between replicas, and query the current vector state. Use cases include distributed systems for tracking causal relationships and conflict-free replicated data types where each site maintains its own counter.",
+      "description_length": 439,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "M_GCounter",
+      "library": "crdt_mutable",
+      "description": "This module implements increment-only counters backed by integer vectors, supporting creation, merging, and incrementing operations. It works with a mutable counter type `t` and integer elements, where each counter maintains a vector of site-specific values. Use cases include tracking distributed increments across sites, merging partial states, and querying the total count as the sum of all elements.",
+      "description_length": 403,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "M_USet",
+      "library": "crdt_mutable",
+      "description": "This module implements an add-once, remove-once set where elements, once removed, cannot be re-added. It maintains two internal maps\u2014one for additions and one for removals\u2014computing the effective set as their difference. Main operations include adding, removing, checking membership, and merging sets, with the resulting elements accessible as a list via `value`. For example, merging two sets combines their additions and removals, and `value` returns the current active elements after applying all operations.",
+      "description_length": 511,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Crdt.Mutable",
+      "library": "crdt",
+      "description": "This module provides mutable implementations of conflict-free replicated data types (CRDTs), including operations for updating and merging state in concurrent environments. It supports data structures like ORSets, GCounters, and LWWRegisters, enabling direct mutation through in-place updates. Concrete use cases include building distributed systems where local state must be modified and synchronized efficiently across replicas without coordination.",
+      "description_length": 451,
+      "index": 16,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Crdt.Immutable",
+      "library": "crdt",
+      "description": "This module implements immutable Conflict-Free Replicated Data Types (CRDTs) such as OR-sets, G-counters, and LWW-elements. It provides operations for merging, updating, and querying these data structures while ensuring consistency across distributed systems. Use cases include collaborative editing, real-time data synchronization, and decentralized state management where immutability and merge correctness are critical.",
+      "description_length": 422,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Crdt",
+      "library": "crdt",
+      "description": "This module combines mutable and immutable CRDT implementations to support concurrent state management in distributed systems. It offers data types like ORSets, GCounters, and LWWRegisters, with operations for merging, updating, and querying state across replicas. Mutable variants allow in-place modifications, while immutable variants ensure consistency through pure transformations. Examples include synchronizing real-time edits in collaborative applications or maintaining decentralized counters without coordination.",
+      "description_length": 522,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_USet.Make",
+      "library": "crdt_immutable",
+      "description": "This module implements an add-once, remove-once set where elements can be added or removed exactly once. It maintains two internal maps to track additions and removals, and computes the active set as the difference between them. It is useful for conflict-free replicated data types where elements can be inserted or deleted without overwriting prior state.",
+      "description_length": 356,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Immutable_types.RSet",
+      "library": "crdt_immutable",
+      "description": "This module implements a mergeable set type that supports concurrent updates across replicas by providing operations to add, remove, and lookup elements. It works with a generic element type `elt` and maintains a list of elements as its internal state. Concrete use cases include tracking membership in distributed systems, such as managing sets of active users or shared resources across multiple nodes.",
+      "description_length": 404,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Immutable_types.DCounter",
+      "library": "crdt_immutable",
+      "description": "Implements a mergeable counter with increment and decrement operations, backed by an immutable integer vector. Each counter instance tracks a value at a specific position determined by its numsite. Useful for distributed systems where concurrent updates must be resolved without coordination, such as real-time collaborative editing or replicated state synchronization.",
+      "description_length": 369,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Immutable_types.GSet",
+      "library": "crdt_immutable",
+      "description": "This module implements a grow-only set with operations to create, merge, add elements, and query membership. It works with an abstract element type `elt` and maintains a list of elements as its internal state. Use this type to track sets that can only accumulate elements, such as in distributed systems where concurrent additions must be safely merged without conflict.",
+      "description_length": 370,
       "index": 22,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "M_USet",
-      "description": "Provides a set implementation where elements can be added or removed once, with removals permanently preventing re-addition. It maintains two maps for tracking additions and removals, supporting operations like add, remove, lookup, and merge. Elements are compared using a total ordering function, enabling sorted operations and priority queue behavior. This allows for efficient set difference calculations, merging of sets, and ordered data management.",
-      "description_length": 454,
+      "module_path": "Immutable_types.IVector",
+      "library": "crdt_immutable",
+      "description": "Implements vector clocks and increment-only counters with merge and increment operations. Works with a user-supplied element type to track and combine states across distributed nodes. Useful for conflict-free replicated data types in distributed systems where partial order of events must be preserved.",
+      "description_length": 302,
       "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "M_GSet",
-      "description": "Provides operations for managing grow-only sets with efficient merging, element lookup, and ordered comparisons. Supports sorting and equality checks through a total ordering function, enabling custom data structure integration. Allows adding elements, checking membership, and combining sets while preserving insertion order. Can be used to merge multiple sets into a single collection or maintain ordered unique values across different data sources.",
-      "description_length": 451,
+      "module_path": "Immutable_types.Comparable",
+      "library": "crdt_immutable",
+      "description": "This module defines a type `t` and a `compare` function that establishes a total ordering between values of type `t`. It is used to determine equality and ordering of elements, particularly for types that need to be stored in structures requiring comparison, such as sets. The `compare` function follows standard comparison semantics, returning zero for equal values, a negative value if the first is less than the second, and a positive value otherwise.",
+      "description_length": 454,
       "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_ORSet.Make",
+      "library": "crdt_immutable",
+      "description": "Implements a mergeable set structure with add and remove operations, using unique tokens to track element insertion. Operates on elements of a comparable type, maintaining internal maps for additions and removals. Useful for CRDT implementations where concurrent updates must be merged without coordination.",
+      "description_length": 307,
+      "index": 25,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "I_GSet.Make",
+      "library": "crdt_immutable",
+      "description": "Implements a grow-only set with operations to add elements, merge sets, and query membership. Works with elements that support comparison, storing them in a structure that allows merging two sets into a new one. Useful for CRDT implementations where concurrent additions must be merged without loss.",
+      "description_length": 299,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Immutable_types.Mergeable",
+      "library": "crdt_immutable",
+      "description": "This module defines types that can be merged, with operations to create new mergeable elements and combine their states. It works with immutable data types that represent conflict-free replicated data structures. Concrete use cases include merging distributed counter values or combining replicated map entries without conflicts.",
+      "description_length": 329,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Immutable_types",
+      "library": "crdt_immutable",
+      "description": "This module provides algebraic structures and operations for implementing conflict-free replicated data types (CRDTs) in an immutable way. It defines core abstractions such as comparable values, mergeable states, and vector clocks, which are essential for managing concurrent updates in distributed systems. The grow-only set allows safe merging of element additions, the remove-tracking set supports concurrent membership updates, and the delta-based counter enables distributed increment and decrement operations. Vector clocks track causal relationships between updates, while mergeable types combine replicated states without coordination, enabling use cases like collaborative editing and distributed resource tracking.",
+      "description_length": 724,
+      "index": 28,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "I_USet",
+      "library": "crdt_immutable",
+      "description": "This module implements an add-once, remove-once set using two internal maps to track additions and removals, computing the active set as the difference between them. The main operations include `add`, `remove`, `lookup`, and `merge`, which manipulate and combine sets while ensuring elements can only be added or removed once. For example, adding an element inserts it into the addition map, and removing it marks it as removed, preventing reinsertion. Merging combines two sets by unioning their respective addition and removal maps.",
+      "description_length": 534,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_IntVector",
+      "library": "crdt_immutable",
+      "description": "Implements vector clocks using an immutable integer vector where each replica increments only its assigned index. The module provides functions to create vectors, merge states, and query or increment values at specific indices. Used to track causal relationships in distributed systems by maintaining per-replica counters.",
+      "description_length": 322,
+      "index": 30,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_ORSet",
+      "library": "crdt_immutable",
+      "description": "This module implements a mergeable set using unique tokens to track element insertion, supporting concurrent updates and conflict-free merges. It maintains two maps: one for additions and one for removals, with elements of a comparable type. Operations include adding an element with a unique token, removing all instances of an element, checking membership, and merging two sets by combining their respective maps. For example, adding \"x\" generates a unique token paired with \"x\" in the add map, and merging combines both add and remove maps from two sets.",
+      "description_length": 557,
+      "index": 31,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_GCounter",
+      "library": "crdt_immutable",
+      "description": "This module implements increment-only counters based on an integer vector structure, where each counter can be incremented at a specific position determined by its numsite. It supports creating counters, merging two counters by taking the element-wise maximum, and querying the total sum of all elements. Use cases include tracking distributed increments across different nodes or processes, where merging preserves the highest increments from each source.",
+      "description_length": 456,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "I_GSet",
+      "library": "crdt_immutable",
+      "description": "This module implements a grow-only set designed for concurrent environments, allowing elements to be added, merged, and queried. It supports elements that can be compared, storing them in a mergeable structure that ensures all additions are preserved during merges. Operations include adding elements, checking membership, and combining sets into new ones. For example, two sets with overlapping elements can be merged into a single set containing all unique elements from both.",
+      "description_length": 478,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "I_PNCounter",
+      "library": "crdt_immutable",
+      "description": "This module implements a mergeable counter that supports both increment and decrement operations across distributed nodes. It maintains two internal vectors to track additive and subtractive changes, allowing reconciliation of divergent states while preserving monotonicity. The module is useful for coordinating bidirectional state changes in distributed systems, such as tracking inventory adjustments or concurrent user edits.",
+      "description_length": 429,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "IList",
+      "library": "crdt_util",
+      "description": "This module provides operations to manipulate integer lists with dynamic padding. It includes functions to increment a specific element, map a binary function over two lists with zero padding, and fold over two lists with zero padding. Use cases include numerical list processing where list lengths may differ, such as vector arithmetic or histogram updates.",
+      "description_length": 358,
+      "index": 35,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 37,
-    "meaningful_modules": 25,
-    "filtered_empty_modules": 12,
-    "retention_rate": 0.6756756756756757
+    "total_modules_in_package": 36,
+    "meaningful_modules": 36,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 539,
-    "min_description_length": 247,
-    "avg_description_length": 373.44,
-    "embedding_file_size_mb": 0.08760261535644531
+    "max_description_length": 790,
+    "min_description_length": 259,
+    "avg_description_length": 424.25,
+    "embedding_file_size_mb": 0.1312122344970703
   }
 }

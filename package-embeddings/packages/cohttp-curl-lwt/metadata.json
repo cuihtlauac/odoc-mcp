@@ -1,91 +1,93 @@
 {
   "package": "cohttp-curl-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:30:57.033225",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:23.742462",
   "modules": [
     {
-      "module_path": "Cohttp_curl_lwt.Response.Expert",
-      "description": "Provides a function to convert a custom type into a Curl.t value, enabling integration with HTTP client operations. Works with a specific opaque type representing expert configurations. Used to prepare expert-defined settings for use in network requests.",
-      "description_length": 254,
+      "module_path": "Cohttp_curl_lwt.Request.Expert",
+      "library": "cohttp-curl-lwt",
+      "description": "This module directly handles HTTP request execution using the Curl library, providing low-level access to request configuration and response handling. It operates on `Curl.t` handles and `Cohttp_curl_lwt.Request.t` request values, enabling precise control over HTTP methods, headers, and body transmission. Concrete use cases include custom HTTP client implementations, fine-grained request tuning, and integration with external systems requiring direct Curl handle manipulation.",
+      "description_length": 479,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cohttp_curl_lwt.Request.Expert",
-      "description": "Provides a function to convert a value of type `_ t` into a `Curl.t` object. Works with custom data types that represent configuration or request parameters. Used to generate HTTP request objects for external API interactions.",
-      "description_length": 226,
+      "module_path": "Cohttp_curl_lwt.Response.Expert",
+      "library": "cohttp-curl-lwt",
+      "description": "This module provides low-level access to the raw Curl handle from an HTTP response, allowing direct manipulation of the underlying connection state. It works with the response type from the `Cohttp_curl_lwt` client module, exposing the Curl handle used during the request. Concrete use cases include inspecting Curl-specific metadata, reusing connections, or applying Curl options post-request.",
+      "description_length": 394,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cohttp_curl_lwt.Sink",
-      "description": "Produces a writable handle for outputting strings or discarding data. Operates with a polymorphic type 'a t to represent different sink behaviors. Used to direct HTTP response bodies to a string buffer or suppress output entirely.",
-      "description_length": 230,
+      "module_path": "Cohttp_curl_lwt.Response",
+      "library": "cohttp-curl-lwt",
+      "description": "This module handles HTTP responses from Curl-based requests, providing access to status codes, headers, and the response body. It allows inspection and processing of request outcomes, such as error checking or data extraction. The child module exposes the underlying Curl handle for low-level operations, enabling tasks like connection reuse or post-request option adjustments. Together, they support both high-level response handling and fine-grained control over the HTTP client's behavior.",
+      "description_length": 492,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Cohttp_curl_lwt.Source",
-      "description": "Provides operations to create and manipulate request body sources. Works with the `t` type, representing a source of data, and includes functions to generate an empty source or a source from a string. Used to handle input data in web frameworks or HTTP processing pipelines.",
-      "description_length": 274,
+      "library": "cohttp-curl-lwt",
+      "description": "This module provides values to define the source of an HTTP request body, specifically supporting empty and string-based sources. It works with the `t` type to represent request body sources, enabling construction of requests with no content or with a fixed string payload. Concrete use cases include sending empty GET requests or embedding JSON/XML payloads in POST requests.",
+      "description_length": 376,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Cohttp_curl_lwt.Context",
-      "description": "Provides functions to manage and coordinate curl event handling across multiple requests. Operates on a custom type representing a context object that encapsulates shared state. Used to ensure consistent event processing in networked applications involving multiple curl operations.",
-      "description_length": 282,
+      "module_path": "Cohttp_curl_lwt.Sink",
+      "library": "cohttp-curl-lwt",
+      "description": "This module provides two concrete sinks for handling HTTP response bodies: `string`, which accumulates the response into a string, and `discard`, which ignores the response data. It works with the `Cohttp_curl_lwt.Sink.t` type, representing a writer for response content. Use `string` when capturing response data is needed, and `discard` when only the response metadata matters, such as in health checks or when streaming to another destination.",
+      "description_length": 446,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cohttp_curl_lwt.Error",
-      "description": "Returns a human-readable string representation of an error and checks if the error corresponds to a timeout. Works with the abstract type `t` to encapsulate various error conditions. Used to handle network request failures and task cancellation scenarios.",
-      "description_length": 255,
+      "module_path": "Cohttp_curl_lwt.Context",
+      "library": "cohttp-curl-lwt",
+      "description": "Manages shared Curl event handling logic for multiple HTTP requests. Provides a `create` function to initialize a context instance, enabling efficient coordination of asynchronous Curl operations. Useful for batching or managing concurrent HTTP requests with consistent event handling.",
+      "description_length": 285,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Cohttp_curl_lwt.Response",
-      "description": "Encapsulates logic for generating HTTP responses from custom types, enabling seamless interaction with network clients. Supports operations on an opaque expert configuration type, allowing transformation into a Curl-compatible structure. Enables precise control over request setup by leveraging expert-defined parameters. Examples include constructing authenticated requests and customizing headers based on predefined settings.",
-      "description_length": 428,
+      "module_path": "Cohttp_curl_lwt.Request",
+      "library": "cohttp-curl-lwt",
+      "description": "This module orchestrates HTTP request creation and management through a Curl-backed client, supporting configurable methods, headers, URIs, input sources, and output sinks. It enables asynchronous I/O with Lwt, allowing operations like streaming large payloads or handling responses in non-blocking workflows. Direct API features include setting timeouts and routing data through custom sources and sinks, while the child module exposes low-level Curl handles and Cohttp request types for advanced manipulation. Examples include building tailored HTTP clients, uploading from in-memory buffers, or streaming server responses directly to disk.",
+      "description_length": 642,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Cohttp_curl_lwt.Request",
-      "description": "Encapsulates HTTP request handling by transforming custom request types into Curl-compatible objects. Supports structured data representing configuration or parameters, enabling seamless API communication. Allows for dynamic request generation based on defined types. Example: converting a request record into a Curl object to send a POST request with custom headers.",
-      "description_length": 367,
+      "module_path": "Cohttp_curl_lwt.Error",
+      "library": "cohttp-curl-lwt",
+      "description": "This module defines error types and operations for handling HTTP client errors in asynchronous curl-based requests. It provides functions to retrieve error messages and check for timeout conditions. Concrete use cases include inspecting failed HTTP responses or connection issues when making non-blocking web service calls.",
+      "description_length": 323,
       "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "cohttp-curl-lwt",
-      "description": "Provides HTTP request and response parsing, handling, and transmission with support for HTTPS through TLS. Works with message structures, headers, and body streams. Used to build scalable HTTP servers that manage encrypted and unencrypted traffic efficiently.",
-      "description_length": 259,
-      "index": 8,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Cohttp_curl_lwt",
-      "description": "Manages HTTP communication using Curl with support for request and response handling, error management, and event coordination. Provides types for request bodies, response sinks, and error states, along with functions to construct requests, direct output, and process errors. Enables tasks such as sending POST requests with custom headers, discarding response bodies, and detecting timeout errors. Offers control over network interactions through configurable structures and event-driven processing.",
-      "description_length": 500,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "library": "cohttp-curl-lwt",
+      "description": "This module implements asynchronous HTTP client operations using Curl and Lwt, enabling non-blocking I/O for requests like GET and POST with custom headers and streaming bodies. It supports constructing requests with sources such as empty or string payloads, handling responses via sinks that capture or discard body data, and managing shared contexts for efficient concurrency. Direct APIs allow timeout settings and routing data through custom sources and sinks, while submodules expose low-level Curl handles for connection reuse and fine-grained control. Use cases include uploading JSON payloads, streaming server responses to disk, and handling errors like timeouts or failed connections with precise inspection tools.",
+      "description_length": 724,
+      "index": 8,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 500,
-    "min_description_length": 226,
-    "avg_description_length": 307.5,
-    "embedding_file_size_mb": 0.03677177429199219
+    "max_description_length": 724,
+    "min_description_length": 285,
+    "avg_description_length": 462.3333333333333,
+    "embedding_file_size_mb": 0.03314208984375
   }
 }

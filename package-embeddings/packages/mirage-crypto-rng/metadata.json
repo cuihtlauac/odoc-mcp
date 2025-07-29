@@ -1,65 +1,73 @@
 {
   "package": "mirage-crypto-rng",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:31:33.464132",
+  "creation_timestamp": "2025-07-15T23:06:40.585336",
   "modules": [
     {
-      "module_path": "Mirage_crypto_rng.Entropy",
-      "description": "Provides functions to manage entropy sources, collect random data from CPU instructions like `rdrand` and `rdseed`, and bootstrap random number generators using hardware-based methods. Works with source identifiers, random data strings, and optional pool managers. Used to initialize secure random number generators in environments where hardware entropy is available or to fall back to CPU-level data race techniques when necessary.",
-      "description_length": 433,
+      "module_path": "Mirage_crypto_rng.Generator",
+      "library": "mirage-crypto-rng",
+      "description": "This module implements a single pseudo-random number generator (PRNG) algorithm with state management. It provides operations to generate random bytes into a buffer, reseed the generator, and accumulate external entropy, working with a generator state type `g`. It is used to produce cryptographically secure random data where reproducibility and controlled seeding are required, such as key generation or nonce creation in cryptographic protocols.",
+      "description_length": 448,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_rng.Fortuna",
-      "description": "Generates cryptographically secure random bytes using a block size defined by `block`, and manages state through `generate_into` and `reseed`. It processes entropy from external sources via `accumulate` and tracks seeding status with `seeded`. Designed for systems requiring deterministic reseeding and incremental entropy injection.",
-      "description_length": 333,
+      "library": "mirage-crypto-rng",
+      "description": "This module implements Fortuna, a cryptographically secure pseudorandom number generator (CSPRNG), providing functions to create and manage generator states (`g`), generate random bytes, reseed, and accumulate entropy. It operates on byte buffers and strings for entropy input, with a focus on secure random data generation for cryptographic operations such as key generation and nonce creation. Concrete use cases include securely generating cryptographic keys, initialization vectors, and random tokens in applications requiring high entropy.",
+      "description_length": 544,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_rng.Hmac_drbg",
-      "description": "The module offers HMAC-based cryptographic operations for generating and verifying message authentication codes, supporting incremental data processing and direct digest computation across byte sequences like `Bytes.t`, `String.t`, and `Digestif.bigstring`. It includes utilities for handling cryptographic state management via `ctx` and `t` types, enabling deterministic random bit generation and secure authentication workflows. Specific use cases involve secure key derivation, authenticated encryption, and generating cryptographically strong random numbers.",
-      "description_length": 562,
+      "library": "mirage-crypto-rng",
+      "description": "This module implements a cryptographically secure random number generator based on the HMAC-based Deterministic Random Bit Generator (HMAC_DRBG) algorithm specified by NIST. It uses a user-provided hash function to generate and reseed random values, maintaining internal state that can be incrementally updated with external entropy sources. It is suitable for generating secure random bytes in contexts such as key generation and nonce creation where strong randomness is critical.",
+      "description_length": 482,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mirage_crypto_rng_unix.Urandom",
-      "description": "Generates random bytes from /dev/urandom, using a stateful generator that can be reseeded with external entropy. It operates on byte buffers and maintains internal state for continuous random data production. Reseeding updates the generator's state directly, and it supports incremental entropy accumulation from external sources.",
-      "description_length": 330,
+      "module_path": "Mirage_crypto_rng.Entropy",
+      "library": "mirage-crypto-rng",
+      "description": "This module manages entropy collection from hardware and software sources for cryptographic randomness. It provides functions to register and query entropy sources, bootstrap randomness using CPU-level features like RdRand or Whirlwind, and periodically feed entropy pools from sources like timer interrupts. Concrete use cases include initializing cryptographic generators with high-quality entropy and maintaining entropy levels in long-running systems using CPU RNGs or interrupt timing variability.",
+      "description_length": 502,
       "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Mirage_crypto_rng",
+      "library": "mirage-crypto-rng",
+      "description": "This module combines deterministic random number generation with entropy management to provide cryptographically secure randomness. It supports creating and managing generator states (`g`) using algorithms like Fortuna and HMAC_DRBG, allowing operations such as byte generation, reseeding, and entropy accumulation. Users can generate cryptographic keys, nonces, and deterministic random streams, with direct control over the default generator or custom instances. Entropy collection from hardware and software sources ensures robust seeding, enabling secure initialization and continuous randomness in long-running applications.",
+      "description_length": 629,
+      "index": 4,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mirage_crypto_rng_unix.Getentropy",
-      "description": "Generates random bytes using platform-specific entropy sources like getrandom, getentropy, and BCryptGenRandom. Operates on a stateful `g` type and consumes entropy from external sources via `accumulate` or direct reseeding. Used to inject entropy into cryptographic systems, such as seeding a random number generator for secure key generation.",
-      "description_length": 344,
-      "index": 4,
-      "embedding_norm": 0.9999998807907104
-    },
-    {
-      "module_path": "mirage-crypto-rng",
-      "description": "Provides AES, RSA, and elliptic curve operations with built-in support for secure random number generation and protection against timing attacks. Works with byte sequences, keys, and cryptographic contexts. Used for implementing secure communication protocols and data encryption in MirageOS-based systems.",
-      "description_length": 306,
+      "library": "mirage-crypto-rng.unix",
+      "description": "This module implements a random number generator using system calls like `getrandom`, `getentropy`, or `BCryptGenRandom` depending on the platform. It provides functions to create and manage a generator state, generate random bytes, reseed, and accumulate entropy from external sources. Use cases include cryptographic operations requiring high-quality randomness, such as key generation or nonce creation.",
+      "description_length": 406,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Mirage_crypto_rng",
-      "description": "Provides functions to generate random bytes, reseed, and accumulate entropy into a pseudo-random number generator. Operates on a stateful `g` type and byte buffers. Used to inject entropy from environmental sources into cryptographic random number generation pipelines.",
-      "description_length": 269,
+      "module_path": "Mirage_crypto_rng_unix.Urandom",
+      "library": "mirage-crypto-rng.unix",
+      "description": "This module provides direct access to system entropy sources via `/dev/urandom`, supporting random byte generation and reseeding operations. It works with a generator type `g` and handles entropy accumulation, state management, and deterministic output via `generate_into`. Concrete use cases include seeding cryptographic keys, generating nonces, and providing secure randomness for protocol implementations.",
+      "description_length": 409,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
       "module_path": "Mirage_crypto_rng_unix",
-      "description": "provides a platform-aware random number generator that initializes with system-specific entropy sources, such as getrandom, getentropy, or BCryptGenRandom. It manages a stateful `g` type, allowing for entropy accumulation and reseeding to maintain cryptographic strength. Operations include generating byte buffers and injecting external entropy to refresh the generator. This enables secure key generation and other cryptographic tasks requiring high-quality randomness.",
-      "description_length": 471,
+      "library": "mirage-crypto-rng.unix",
+      "description": "This module initializes and manages cryptographic random number generators on Unix-like systems using platform-specific entropy sources such as `getrandom`, `getentropy`, or `/dev/urandom`. It supports seeding a Fortuna RNG and provides functions to generate random bytes, reseed, and accumulate entropy from external sources, with platform-specific backends for Linux, BSD, and Windows 10+. Main data types include generator states (`g`) and entropy sources, while operations cover byte generation, reseeding, and entropy injection. Example uses include secure key generation, nonce creation, and providing randomness for cryptographic protocols.",
+      "description_length": 647,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
@@ -69,9 +77,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 562,
-    "min_description_length": 269,
-    "avg_description_length": 381.0,
-    "embedding_file_size_mb": 0.029488563537597656
+    "max_description_length": 647,
+    "min_description_length": 406,
+    "avg_description_length": 508.375,
+    "embedding_file_size_mb": 0.02948760986328125
   }
 }

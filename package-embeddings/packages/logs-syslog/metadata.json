@@ -1,42 +1,53 @@
 {
   "package": "logs-syslog",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:28:03.579134",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:05:57.509767",
   "modules": [
     {
-      "module_path": "logs-syslog",
-      "description": "Handles syslog message encoding and transport over UDP, TCP, and TLS using effectful layers like Unix, Lwt, and MirageOS. Processes log events from the Logs library and serializes them into RFC 3164-compliant messages. Enables real-time log forwarding in networked applications, embedded systems, and cloud environments with secure logging capabilities.",
-      "description_length": 353,
+      "module_path": "Logs_syslog_lwt_tls",
+      "library": "logs_syslog_lwt_tls",
+      "description": "This module provides a function `tcp_tls_reporter` to create a secure syslog reporter over TLS using Lwt. It establishes a TLS connection to a remote syslog server, authenticates the server using a CA certificate, and sends log messages with optional truncation and framing. The function requires client credentials (certificate and private key) and handles automatic reconnection, making it suitable for reliable, encrypted logging in asynchronous applications.",
+      "description_length": 462,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_syslog",
-      "description": "Provides functions to construct and frame syslog messages with specified facilities, hosts, sources, and timestamps. Works with syslog message structures, log levels, and custom framing options for TCP, TLS, and UDP transports. Used to generate structured log entries for remote syslog servers with configurable transport and message formatting.",
-      "description_length": 345,
+      "module_path": "Logs_syslog_lwt",
+      "library": "logs-syslog.lwt",
+      "description": "This module creates syslog reporters over Lwt for sending log messages via UDP, TCP, or Unix domain sockets. It handles connection setup, message truncation, and framing for reliable transmission to syslog servers. Use it to forward application logs to a remote syslog server over UDP, a secure TLS-enabled syslog endpoint over TCP, or a local Unix socket like `/dev/log`.",
+      "description_length": 372,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Logs_syslog_unix",
-      "description": "Provides functions to send log messages via UDP, TCP, or Unix domain sockets to a syslog server. Operates on syslog message structures, inet addresses, and Unix socket paths, with options to control message truncation, framing, and facility codes. Used to forward application logs to remote or local syslog services for centralized monitoring and storage.",
-      "description_length": 355,
+      "module_path": "Logs_syslog",
+      "library": "logs-syslog",
+      "description": "This module provides functions to format and send log messages via the syslog protocol using various transport mechanisms like UDP, TCP, and TLS. It works with log messages as strings, timestamps using `Ptime.t`, and structured syslog message types, supporting message framing for stream transports using line feed, null bytes, octet counting, or custom delimiters. Concrete use cases include sending structured logs to remote syslog servers over TCP with null-byte framing or via TLS with octet-counted message framing.",
+      "description_length": 520,
       "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Logs_syslog_unix",
+      "library": "logs-syslog.unix",
+      "description": "This module provides functions to create syslog reporters over UDP, TCP, or Unix domain sockets. It works with IP addresses, Unix sockets, and syslog message structures, allowing logs to be sent to remote or local syslog servers. Concrete use cases include sending structured log messages to a centralized logging server via UDP or TCP, or logging locally through a Unix socket like `/dev/log`, with options to control message truncation, framing, and syslog facility.",
+      "description_length": 468,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 3,
-    "meaningful_modules": 3,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 355,
-    "min_description_length": 345,
-    "avg_description_length": 351.0,
-    "embedding_file_size_mb": 0.011310577392578125
+    "max_description_length": 520,
+    "min_description_length": 372,
+    "avg_description_length": 455.5,
+    "embedding_file_size_mb": 0.014929771423339844
   }
 }

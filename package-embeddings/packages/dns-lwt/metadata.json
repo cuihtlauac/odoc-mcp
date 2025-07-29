@@ -1,56 +1,69 @@
 {
   "package": "dns-lwt",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:27:34.465766",
+  "total_modules": 6,
+  "creation_timestamp": "2025-07-15T23:05:48.632905",
   "modules": [
     {
       "module_path": "Mdns_responder.Make",
-      "description": "Allocates a new Cstruct buffer, sends data over an IP endpoint asynchronously, and suspends execution for a specified duration. Works with Cstruct.t for data manipulation and ip_endpoint for network communication. Used to manage network I/O and control timing in asynchronous network applications.",
-      "description_length": 297,
+      "library": "dns-lwt",
+      "description": "This module parses DNS zone files into an mDNS responder state and manages multicast DNS responses. It handles shared and unique resource records, supporting operations like probing for hostname uniqueness, announcing records, and processing incoming packets. Use cases include service discovery on local networks, such as advertising a web server's A record or handling DNS-based service registration with conflict resolution.",
+      "description_length": 427,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "dns-lwt",
-      "description": "Handles DNS message encoding, decoding, and validation using structured data types like `dns_message` and `dns_record`. Provides functions for parsing wire-format packets, constructing queries, and inspecting response data. Used to implement DNS clients and servers that require precise control over query construction and response analysis.",
-      "description_length": 341,
+      "module_path": "Dns_server.PROCESSOR",
+      "library": "dns-lwt",
+      "description": "This module defines the interface for handling DNS requests by parsing raw packets into a context, processing queries, and marshaling responses back into wire format. It works with `Cstruct.t` buffers for packet input/output and `context` values that encapsulate per-request state. Concrete use cases include implementing custom DNS responders, supporting DNS extensions like DNSCurve, and integrating with network stacks for handling DNS traffic.",
+      "description_length": 447,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Mdns_responder",
-      "description": "Handles low-level network I/O for multicast DNS responses, including buffer allocation, sending packets to specific endpoints, and introducing delays. Operates with Cstruct.t for packet data and ip_endpoint for network addresses. Used to manage timed message transmission and ensure proper packet formatting during DNS discovery protocols.",
-      "description_length": 339,
+      "module_path": "Mdns_responder.TRANSPORT",
+      "library": "dns-lwt",
+      "description": "This module defines the transport layer operations required by the mDNS responder for handling network I/O. It includes functions to allocate buffer space, send DNS packets to a specified endpoint, and introduce delays during probing or announcement phases. It works directly with DNS packets represented as `Cstruct.t` and endpoint information via `Mdns_responder.ip_endpoint`. Use cases include sending unicast and multicast DNS responses, managing buffer allocation for outgoing packets, and implementing timing control during hostname probing.",
+      "description_length": 547,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Dns_server",
-      "description": "Processes DNS requests by parsing wire-format messages into structured queries, marshalling responses back to wire format, and handling asynchronous resolution. Operates on context objects and DNS packets represented as Cstruct buffers. Used to build custom DNS responders that handle incoming queries and generate appropriate answers.",
-      "description_length": 335,
+      "library": "dns-lwt",
+      "description": "This module implements a DNS server that processes incoming packets using zone file data, supporting query handling and customizable packet parsing. It works with DNS packets, IP endpoints, and zone file strings, providing functions to chain processing logic and handle fallback behavior. The server can be configured to serve DNS records from preloaded zone files, implement DNS extensions like DNSCurve, or route queries between multiple zone configurations. By defining how raw packets are parsed into a context, how queries are processed, and how responses are marshaled back into wire format, it enables custom DNS responders and integration with network stacks.",
+      "description_length": 667,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Dns_resolver",
-      "description": "Provides functions to resolve DNS queries using custom communication logic, handling packet transmission, reception, and timeouts. Works with DNS packet structures, query classes, types, and domain names to perform lookups. Specifically supports host name to IP address resolution and reverse lookups via asynchronous Lwt operations.",
-      "description_length": 333,
+      "library": "dns-lwt",
+      "description": "This module implements DNS resolution using customizable communication primitives. It provides functions to send and receive DNS packets, handle timeouts, and manage resource cleanup during DNS queries. The module works with DNS packets, domain names, IP addresses, and query types, supporting operations like hostname-to-IP lookups (`gethostbyname`) and IP-to-hostname lookups (`gethostbyaddr`). It is used to perform DNS resolution over arbitrary transports by plugging in the appropriate communication functions.",
+      "description_length": 515,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Mdns_responder",
+      "library": "dns-lwt",
+      "description": "This module implements a Multicast DNS responder that processes incoming queries and replies with matching records from a zone file, supporting both shared and unique resource records. It provides operations to announce records, probe for hostname uniqueness, handle conflicts, and process packets, working with IP endpoints and requiring a transport implementation for network communication. Child modules handle zone parsing and DNS response management, enabling use cases like advertising services on local networks, while the transport module manages buffer allocation, packet sending, and timing control during probing. Example usage includes creating a responder from a zone buffer, probing and announcing a unique A record, and processing incoming mDNS packets to generate appropriate responses.",
+      "description_length": 802,
+      "index": 5,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 6,
+    "meaningful_modules": 6,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 341,
-    "min_description_length": 297,
-    "avg_description_length": 329.0,
-    "embedding_file_size_mb": 0.018602371215820312
+    "max_description_length": 802,
+    "min_description_length": 427,
+    "avg_description_length": 567.5,
+    "embedding_file_size_mb": 0.022208213806152344
   }
 }

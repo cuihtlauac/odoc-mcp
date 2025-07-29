@@ -1,63 +1,77 @@
 {
   "package": "sendmail",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 6,
-  "creation_timestamp": "2025-06-18T16:30:26.310762",
+  "total_modules": 7,
+  "creation_timestamp": "2025-07-15T23:06:09.537217",
   "modules": [
     {
-      "module_path": "Sendmail_with_starttls.Context_with_tls",
-      "description": "Provides functions to create and manipulate a context object that includes encoder and decoder functions for byte stream processing, along with a TLS flag. Works with custom types `t`, `encoder`, and `decoder` to handle data serialization and deserialization. Used to configure and manage data flow in network protocols requiring byte-level control and TLS awareness.",
-      "description_length": 367,
+      "module_path": "Sendmail_with_starttls.Make_with_tls",
+      "library": "sendmail.starttls",
+      "description": "This module implements STARTTLS protocol negotiation for secure SMTP communication, handling client and server TLS handshakes using provided TLS configurations. It works with `encoder` and `decoder` types to manage encrypted SMTP message streams, supporting operations like initiating TLS sessions, sending/receiving data, and closing connections. Concrete use cases include securing email transmission channels and implementing authenticated SMTP relays.",
+      "description_length": 455,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Sendmail_with_starttls.Value",
-      "description": "Provides functions to construct, inspect, and manipulate values representing integers, strings, and lists, with specific operations for type checking, conversion, and error handling. Works with a sum type that includes variants for numeric, textual, and structured data. Used to validate input data during parsing and to generate error messages for invalid value formats.",
-      "description_length": 371,
+      "module_path": "Sendmail_with_starttls.Context_with_tls",
+      "library": "sendmail.starttls",
+      "description": "This module manages TLS-secured communication contexts for sending email, handling data encoding and decoding during transmission. It works with byte sequences and ring buffers for efficient data processing, supporting custom encoder and decoder functions. Concrete use cases include initializing TLS sessions, managing secure data transfer streams, and inspecting TLS state in SMTP transactions.",
+      "description_length": 396,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sendmail_with_starttls.Make_with_tls",
-      "description": "Provides functions to encode and decode data using specified encoder and decoder types, with error handling through a dedicated error type. Operates on send and receive types that encapsulate data transmission channels. Used to process data streams in scenarios where TLS is not required, such as plain text communication or testing environments.",
-      "description_length": 346,
+      "module_path": "Sendmail_with_starttls.VALUE",
+      "library": "sendmail.starttls",
+      "description": "This module handles the encoding and decoding of email messages without TLS encryption, using the Colombe library's encoder and decoder structures. It defines an error type for handling failures in these operations and provides pretty-printing for those errors. Concrete use cases include sending and receiving raw email data over plain TCP connections, such as when communicating with an SMTP server that does not require encryption.",
+      "description_length": 434,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "sendmail",
-      "description": "Handles SMTP protocol operations including sending mail, initiating TLS, and managing asynchronous connections. Works with email message structures, SMTP commands, and network streams. Used to build custom SMTP clients or servers with low-level control over email transmission.",
-      "description_length": 277,
+      "module_path": "Sendmail_with_starttls.S",
+      "library": "sendmail.starttls",
+      "description": "This module implements STARTTLS protocol negotiation for secure communication, handling transitions from plaintext to TLS-encrypted channels. It provides functions to initiate and finalize TLS sessions as client or server, encode and decode data streams, and manage connection closure with error handling. Concrete use cases include securing SMTP or IMAP connections where plaintext negotiation is followed by encrypted data transfer.",
+      "description_length": 434,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sendmail_with_starttls",
-      "description": "Handles TLS-enabled email transmission by initiating STARTTLS on client or server side, closing the connection, and encoding/decoding structured data over a secure channel. Operates with custom types for sending and receiving data, along with encoder and decoder objects that manage the communication state. Used to securely send and receive email messages with explicit error handling for protocol violations and network issues.",
-      "description_length": 429,
+      "module_path": "Sendmail_with_starttls.Value",
+      "library": "sendmail.starttls",
+      "description": "This module defines error types for handling SMTP communication failures, including base64 decoding issues, login challenges, and unexpected server responses. It works with string values and structured SMTP request/response types. Concrete use cases include validating server replies during TLS negotiation and authenticating email sessions.",
+      "description_length": 341,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sendmail_with_starttls",
+      "library": "sendmail.starttls",
+      "description": "This module enables secure email transmission by implementing SMTP client functionality with STARTTLS support, handling domain validation, authentication, and TLS encryption. It provides core data types such as `encoder`, `decoder`, and error types for managing secure SMTP transactions, with operations for initiating TLS sessions, sending and receiving encrypted data, and handling temporary delivery errors. Submodules handle protocol negotiation, TLS context management, plaintext email encoding, and error handling, supporting use cases like authenticated SMTP relays and secure message transfer over upgraded connections. Specific examples include initializing TLS sessions with custom encoder/decoder pairs, inspecting TLS state during transmission, and sending raw email data over plaintext or encrypted channels.",
+      "description_length": 821,
+      "index": 5,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Sendmail",
-      "description": "Handles SMTP mail transmission using RFC4409, accepting a stream of mail data and sending it through a network flow with optional authentication. Operates on domain, reverse_path, forward_path, and stream types to manage email delivery contexts. Used in secure email systems requiring direct SMTP control, such as custom mail servers or transactional email pipelines.",
-      "description_length": 367,
-      "index": 5,
-      "embedding_norm": 1.0
+      "library": "sendmail",
+      "description": "This module implements SMTP client functionality for sending email messages, handling authentication via PLAIN or LOGIN mechanisms and managing connections with a provided IO implementation. It works with email domains, reverse and forward paths, and authentication credentials, using a stream to represent message data. Concrete use cases include sending emails through an SMTP server with authenticated delivery and handling transient or protocol-level errors during transmission.",
+      "description_length": 482,
+      "index": 6,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 6,
-    "meaningful_modules": 6,
+    "total_modules_in_package": 7,
+    "meaningful_modules": 7,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 429,
-    "min_description_length": 277,
-    "avg_description_length": 359.5,
-    "embedding_file_size_mb": 0.022205352783203125
+    "max_description_length": 821,
+    "min_description_length": 341,
+    "avg_description_length": 480.42857142857144,
+    "embedding_file_size_mb": 0.025842666625976562
   }
 }

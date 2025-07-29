@@ -1,42 +1,53 @@
 {
   "package": "terminus",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:28:51.076230",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:05:39.623786",
   "modules": [
     {
-      "module_path": "Terminus.Mock",
-      "description": "Provides functions to construct and chain I/O operations, including lifting values into the I/O monad, mapping over results, binding functions that return I/O, and signaling failures. Works with a monadic type `'a io` and HTTP request operations that simulate network calls. Used to simulate HTTP GET, POST, PUT, and DELETE requests in testing environments.",
-      "description_length": 357,
+      "module_path": "Terminus.Mock.Mock_backend",
+      "library": "terminus",
+      "description": "This module implements mock versions of HTTP client operations for testing, providing `get`, `post`, `put`, and `delete` functions that simulate server requests and return string results within an `io` monad. It works with string-based URLs, header lists, and request/response bodies. Concrete use cases include stubbing external API calls during unit tests and simulating network errors with `fail` or successful responses with `return`.",
+      "description_length": 438,
       "index": 0,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "terminus",
-      "description": "Provides functions to construct and send HTTP requests, parse JSON responses, and handle error cases during API interactions. Works with request configurations, JSON values, and HTTP client backends. Used to integrate OCaml applications with external web services, such as fetching user data from an API or submitting form information.",
-      "description_length": 335,
+      "module_path": "Terminus.S",
+      "library": "terminus",
+      "description": "This module implements a monadic interface for handling I/O operations, providing functions to create, transform, and chain I/O actions. It works with the `'a io` type, representing asynchronous or effectful computations that may fail with a message. It supports concrete operations like making HTTP GET, POST, PUT, and DELETE requests with custom headers and URLs, returning responses in the I/O monad for error handling and composition.",
+      "description_length": 438,
       "index": 1,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Terminus.Mock",
+      "library": "terminus",
+      "description": "This module represents HTTP requests with a query type and provides tools to format, display, and validate them against expected headers and responses. It includes a functor to build mock backends that verify incoming requests and return predefined outputs, enabling precise control over test scenarios. The child module extends this by offering mock implementations of HTTP client operations like `get`, `post`, `put`, and `delete`, which simulate server interactions using strings for URLs, headers, and bodies. Together, they allow developers to test client code by defining expected requests and crafting specific server behaviors, including success, failure, or error conditions.",
+      "description_length": 684,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Terminus",
-      "description": "Provides operations to sequence I/O actions, transform results, and handle failures within a monadic context. Works with the `'a io` type to represent asynchronous or side-effecting computations. Executes HTTP requests (GET, POST, PUT, DELETE) with custom headers and processes responses as strings.",
-      "description_length": 299,
-      "index": 2,
+      "library": "terminus",
+      "description": "This module provides an interface for managing terminal states and transitions in systems, working with abstract state representations and rules to control state evolution. It supports modeling game endstates, validating termination criteria, and managing workflow completion, with operations to query and update state conditions. The first child module adds a monadic system for handling I/O, using the `'a io` type to chain and transform effectful computations, including HTTP methods like GET, POST, PUT, and DELETE with custom headers and URLs. The second child module focuses on HTTP request modeling and testing, offering tools to format, validate, and simulate requests, along with mock backends that return predefined responses for testing client code under controlled success or failure scenarios.",
+      "description_length": 806,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 3,
-    "meaningful_modules": 3,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 357,
-    "min_description_length": 299,
-    "avg_description_length": 330.3333333333333,
-    "embedding_file_size_mb": 0.011313438415527344
+    "max_description_length": 806,
+    "min_description_length": 438,
+    "avg_description_length": 591.5,
+    "embedding_file_size_mb": 0.014943122863769531
   }
 }

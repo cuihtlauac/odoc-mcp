@@ -1,56 +1,53 @@
 {
   "package": "otr",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:30:07.296229",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:05:32.875391",
   "modules": [
     {
-      "module_path": "Otr.State",
-      "description": "The module provides serialization, deserialization, and string conversion functionalities for policy, version, config, and session data, along with retrieval mechanisms for session and policy information. It operates on internally defined types for these entities, enabling structured data management and state persistence. Use cases include configuration storage, version control, and session tracking in applications requiring structured data handling.",
-      "description_length": 454,
+      "module_path": "Otr.Engine",
+      "library": "otr",
+      "description": "This module processes OTR session messages for encryption, decryption, and session lifecycle management, including initiation, termination, and SMP (socialist millionaire problem) interactions. It operates on `Otr.State.session` values, handling string-based input and output data, and produces session updates alongside optional outgoing messages and user-facing results. Concrete use cases include encrypting messages before sending, decrypting received messages, initiating and ending secure sessions, and performing zero-knowledge key verification via SMP challenges and responses.",
+      "description_length": 585,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Otr.Engine",
-      "description": "Initiates, manages, and terminates OTR encrypted sessions, handling message encryption, decryption, and SMP protocol interactions. Operates on session state objects and processes raw string data to generate encrypted outputs, warnings, or handshake messages. Used to securely exchange messages, manage session lifecycles, and perform secure authentication checks between communication partners.",
-      "description_length": 394,
+      "module_path": "Otr.State",
+      "library": "otr",
+      "description": "This module provides configuration management and session metadata handling for cryptographic protocols, focusing on encryption status checks, session creation, and policy updates. It operates on OTR sessions, DSA public keys, protocol versions, and cryptographic policies, enabling use cases like negotiating encryption settings, authenticating peers via key exchange, and managing session state transitions during secure messaging. Key operations include inspecting active protocol versions, retrieving remote keys, and updating session parameters dynamically.",
+      "description_length": 562,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Otr.Utils",
-      "description": "Calculates cryptographic fingerprints from a session state or a DSA private key, returning string representations of these values. It handles session-based peer identification and key-based local identity verification. Used to generate and retrieve unique identifiers for secure communication endpoints.",
-      "description_length": 303,
+      "library": "otr",
+      "description": "This module computes OTR fingerprints using SHA1 hashes of public keys prepended with key type. It provides `their_fingerprint` to retrieve the partner's fingerprint from an established session and `own_fingerprint` to generate a fingerprint from a private DSA key. These functions support identity verification in OTR messaging sessions.",
+      "description_length": 338,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "otr",
-      "description": "Calculates shared secrets using the Socialist Millionaires Protocol to authenticate communication partners over an encrypted channel. Performs elliptic curve operations and cryptographic key exchanges for secure messaging. Handles Diffie-Hellman parameters and ensures forward secrecy in encrypted conversations.",
-      "description_length": 312,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Otr",
-      "description": "Handles OTR protocol operations including session management, message encryption/decryption, and secure key verification. It works with session states, DSA keys, and cryptographic fingerprints to enable secure instant messaging. Functions include generating encrypted messages, managing handshake exchanges, and verifying peer identities through zero-knowledge proofs. Examples include establishing secure channels, encrypting payloads, and generating fingerprint strings for identity confirmation.",
-      "description_length": 498,
-      "index": 4,
+      "library": "otr",
+      "description": "This module implements the Off-the-Record messaging protocol, providing encryption, authentication, and zero-knowledge key verification through the socialist millionaire problem. It centers around `Otr.State.session` for managing secure sessions, supporting operations like message encryption and decryption, session initiation and termination, and SMP-based identity verification. The module handles cryptographic configuration, protocol version negotiation, and session metadata, allowing dynamic policy updates and peer authentication via DSA keys and Diffie-Hellman exchange. Specific operations include encrypting outgoing messages, decrypting received ones, initiating SMP challenges, and retrieving SHA1-based fingerprints for identity verification.",
+      "description_length": 756,
+      "index": 3,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 498,
-    "min_description_length": 303,
-    "avg_description_length": 392.2,
-    "embedding_file_size_mb": 0.018610000610351562
+    "max_description_length": 756,
+    "min_description_length": 338,
+    "avg_description_length": 560.25,
+    "embedding_file_size_mb": 0.014942169189453125
   }
 }

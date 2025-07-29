@@ -1,70 +1,133 @@
 {
   "package": "olmi",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:31:38.472557",
+  "total_modules": 14,
+  "creation_timestamp": "2025-07-15T23:08:01.203629",
   "modules": [
     {
-      "module_path": "OlmiMake.WithJoin",
-      "description": "Provides operations to lift values into a monadic context, flatten nested monadic structures, and apply functions within that context. Works with a parameterized type 'a t representing a monadic value. Enables composition of operations that chain through monadic layers, such as unwrapping nested option or list structures.",
-      "description_length": 323,
+      "module_path": "OlmiInterfaces.INFIX",
+      "library": "olmi",
+      "description": "This module defines a set of infix operators for working with monadic values, including function application, value replacement, sequencing, and Kleisli composition. It operates on a parametrized type `'a t` representing monadic structures, supporting operations like `>>=`, `<*>`, and `<$>`. Concrete use cases include chaining effectful computations, transforming and combining wrapped values, and composing functions that return monadic results.",
+      "description_length": 448,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "OlmiMake.WithBind",
-      "description": "Provides operations to lift values into a monadic context and chain computations that produce monadic results. Works with a parameterized type 'a t representing a monadic value. Enables sequential processing of computations that may involve side effects or optional values.",
-      "description_length": 273,
+      "module_path": "OlmiMake.Monad",
+      "library": "olmi",
+      "description": "This interface provides monadic primitives like `bind`, `fmap`, and `return` to sequence computations and transform values within a `'a t` monadic context. It includes combinators for lifting multi-argument functions (`liftM4`, `liftM5`), discarding results (`void`), and composing Kleisli arrows, enabling workflows that chain dependent operations or manage intermediate effects. These abstractions are suited for scenarios like parsing, stateful computations, or effect",
+      "description_length": 471,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "OlmiMake.Monad",
-      "description": "Perform operations to sequence computations within a monadic context, including embedding values, flattening nested structures, and chaining transformations. Works with parameterized types wrapped in a monadic structure to handle side effects or asynchronous operations. Enables chaining of I/O actions, error handling, or stateful computations in a structured way.",
-      "description_length": 365,
+      "module_path": "OlmiInterfaces.LIFT",
+      "library": "olmi",
+      "description": "This module defines lift operations that promote functions of varying arities to work within a monadic context. It operates on a parametrized type `'a t`, representing a monadic structure, and supports functions taking 1 to 5 arguments. These functions enable applying pure functions to values wrapped in monadic actions, preserving left-to-right evaluation order for multiple arguments.",
+      "description_length": 387,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "OlmiMake.Plus",
-      "description": "Provides operations to combine and represent neutral elements of a monoid structure. Works with type `'a t` which wraps a monoid instance `M.t`. Used to merge computational contexts like lists, options, or parsers in a structured way.",
-      "description_length": 234,
-      "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "olmi",
-      "description": "Provides functions for parsing and validating JSON data, including decoding nested objects and arrays, and extracting values with type-safe accessors. Works with OCaml's native `string`, `list`, and `array` types, as well as custom record types via a schema-based approach. Used to process configuration files and API responses with strict type checking and error reporting.",
-      "description_length": 374,
+      "module_path": "OlmiMake.WithJoin",
+      "library": "olmi",
+      "description": "This module implements monadic operations for flattening nested structures and chaining computations. It provides `return`, `join`, `bind`, and `fmap` functions that operate on a type `'a t` with a monadic structure. It is useful for handling layered data like optional values, lists, or asynchronous results, allowing seamless composition of operations across these structures.",
+      "description_length": 378,
+      "index": 3,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "OlmiInterfaces.BIND",
+      "library": "olmi",
+      "description": "This module defines the core operations `return` and `bind` for constructing monadic computations. It works with parametrized types `'a t`, enabling sequencing of actions where the output of one action feeds into the next. Concrete use cases include building custom monads for effectful computations like error handling, state management, or asynchronous operations.",
+      "description_length": 366,
       "index": 4,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "OlmiInterfaces.BASIC_INTERFACE",
+      "library": "olmi",
+      "description": "This module defines core monadic operations including `return`, `bind`, `join`, and `fmap`, which manipulate values within a parametrized monadic type `'a t`. These functions enable composing and flattening monadic computations, such as chaining operations that produce wrapped values or collapsing nested monadic structures. Concrete use cases include handling effectful computations like state transitions, error propagation, or asynchronous operations through a unified interface.",
+      "description_length": 483,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OlmiInterfaces.JOIN",
+      "library": "olmi",
+      "description": "This module defines the core operations for a monad interface using `return`, `join`, and `fmap`. It works with parametrized monadic types `'a t`, allowing composition of nested monadic structures by flattening them with `join`. It is used to build monadic implementations where the join operator is more natural than bind, such as in transformer stacks or custom monad constructions.",
+      "description_length": 384,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OlmiInterfaces.COMMON",
+      "library": "olmi",
+      "description": "This module defines the core operations for constructing a monad, including `return` to wrap values in a monadic context. It works with parametrized types representing monadic values, supporting composition through monadic sequencing. Concrete use cases include building custom monads for effect handling, such as error propagation or state management.",
+      "description_length": 352,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OlmiInterfaces.PLUS",
+      "library": "olmi",
+      "description": "This module defines the minimal interface for a monad that supports monoidal operations, providing `mempty` as the neutral element and `mplus` to combine two values. It works with parametrized types representing monadic structures that support choice or summation. Concrete use cases include handling backtracking computations and combining parser alternatives.",
+      "description_length": 361,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "OlmiMake.WithBind",
+      "library": "olmi",
+      "description": "This module implements monadic operations for sequencing computations and handling nested monadic structures. It provides `bind` for chaining actions, `join` to flatten layered monads, and `fmap` for applying functions within a monadic context. It works with any type `'a t` that represents a monadic value, allowing concrete use cases like composing asynchronous operations or handling optional values with behavior similar to `Option.bind` or `Lwt.bind`.",
+      "description_length": 456,
+      "index": 9,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OlmiInterfaces.PLUS_INTERFACE",
+      "library": "olmi",
+      "description": "This module provides monadic operations for composing and transforming computations with embedded effects, including value injection (`return`), chaining (`bind`, `join`), function application (`<*>`, `fmap`), and sequencing with Kleisli composition. It also supports monoidal combinations of monadic values via `mplus` (alternation) and filtering with `keep_if`, operating on parametrized monadic types `'a t`. These capabilities are particularly useful for scenarios like parser combinator libraries, handling optional values with fallback strategies, or managing effectful computations with associative merging.",
+      "description_length": 614,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "OlmiInterfaces.INTERFACE",
+      "library": "olmi",
+      "description": "This module provides a comprehensive set of monadic operations for composing and sequencing computations, including `bind`, `return`, `join`, `fmap`, and Kleisli composition operators. It works with parametrized monadic types `'a t`, enabling lifting of multi-argument functions (e.g., `liftM5`) and discarding intermediate results via `void`. Specific use cases include structuring complex monadic pipelines, transforming values within monadic contexts, and combining effectful computations while preserving type safety.",
+      "description_length": 521,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "OlmiInterfaces",
+      "library": "olmi",
+      "description": "This module defines interfaces for constructing and composing monadic structures using parametrized types, with core operations like `return`, `bind`, `join`, and `fmap`. It supports multiple formulations of monads, enabling precise control over effect handling and value transformation through both direct APIs and submodules. The infix operators module enables chaining and composing monadic actions using familiar symbols like `>>=` and `<$>`, while the lift module promotes functions of varying arities to work within monadic contexts. Additional submodules provide monoidal capabilities via `mempty` and `mplus`, and utilities like `void` and `keep_if` for filtering and result manipulation.",
+      "description_length": 696,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "OlmiMake",
-      "description": "Combines monadic operations for lifting, sequencing, and flattening values within parameterized types 'a t, enabling structured handling of side effects, errors, and asynchronous actions. Supports chaining computations, embedding values, and merging monoid-based contexts like lists, options, or parsers. Allows unwrapping nested structures, applying functions within monadic layers, and composing I/O or stateful operations. Examples include flattening option-of-option values, sequencing list transformations, and combining parser results.",
-      "description_length": 541,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "OlmiInterfaces",
-      "description": "This module offers monadic operations for sequencing, transforming, and combining values within a monadic context, including binding, lifting, applying, and composing actions on values encapsulated in a 'a t type. It supports advanced use cases like managing side effects, chaining multi-argument function applications, and discarding computation results while maintaining compositional clarity. The design emphasizes flexible manipulation of monadic workflows, enabling structured handling of complex computational patterns.",
-      "description_length": 525,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "library": "olmi",
+      "description": "This module provides core utilities for function manipulation, including identity and argument flipping, while its submodules define monadic structures for sequencing and transforming computations. It supports generic types and pipeline-style data flow with operations like `bind`, `fmap`, and `join`, enabling the composition of functions with custom chaining logic. Submodules offer combinators for lifting multi-argument functions, discarding results, and flattening nested monadic structures such as optional values or asynchronous results. Concrete uses include reordering function arguments for pipeline compatibility, chaining stateful parsers, or flattening layers of `Lwt` or `Option` values.",
+      "description_length": 701,
+      "index": 13,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 7,
-    "filtered_empty_modules": 3,
-    "retention_rate": 0.7
+    "total_modules_in_package": 16,
+    "meaningful_modules": 14,
+    "filtered_empty_modules": 2,
+    "retention_rate": 0.875
   },
   "statistics": {
-    "max_description_length": 541,
-    "min_description_length": 234,
-    "avg_description_length": 376.42857142857144,
-    "embedding_file_size_mb": 0.02581787109375
+    "max_description_length": 701,
+    "min_description_length": 352,
+    "avg_description_length": 472.7142857142857,
+    "embedding_file_size_mb": 0.05128955841064453
   }
 }

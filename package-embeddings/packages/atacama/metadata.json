@@ -1,77 +1,93 @@
 {
   "package": "atacama",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 8,
-  "creation_timestamp": "2025-06-18T16:30:51.435643",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:06:20.707380",
   "modules": [
     {
-      "module_path": "Atacama.Transport.Tcp",
-      "description": "type config = { host: string; port: int; timeout: float } Provides functions to establish TCP connections, send raw byte sequences, and receive data with specified timeouts. Operates on socket descriptors and byte arrays, supporting asynchronous read/write operations. Used to implement network protocols, handle client-server communication, and manage data streaming over TCP.",
-      "description_length": 377,
+      "module_path": "Atacama.Transport.Ssl",
+      "library": "atacama",
+      "description": "This module implements secure network communication by combining TCP and TLS protocols. It provides functions to configure and establish encrypted connections using TCP as the underlying transport and TLS for encryption. The `config` type holds both TCP and TLS settings, enabling servers to manage secure client interactions with specific encryption parameters. Use this module to set up HTTPS services or any encrypted TCP-based communication requiring TLS authentication and encryption.",
+      "description_length": 489,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Atacama.Transport.Ssl",
-      "description": "type config = { cert_file: string; key_file: string; ca_file: string; verify: bool } Provides functions to load SSL certificates, configure secure connections, and validate peer certificates. Operates on file paths and boolean flags to establish trusted SSL sessions. Used to secure network communications in server and client applications requiring TLS encryption.",
-      "description_length": 365,
+      "module_path": "Atacama.Handler.Default",
+      "library": "atacama",
+      "description": "This module provides default implementations for connection lifecycle and data handling hooks, including handling of incoming data, errors, connection setup, and shutdown events. It operates on connection state, byte strings, and error values, returning standardized handler results. Concrete use cases include serving as a base for custom handlers that process network data incrementally or manage connection state transitions.",
+      "description_length": 428,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Atacama.Handler.Default",
-      "description": "Provides handler functions for managing connection lifecycle events, including closing, data reception, message processing, and error handling. Operates on connection objects and state values, returning results that may include errors. Used to implement basic handler behavior in network protocols, allowing incremental customization of event responses.",
-      "description_length": 353,
+      "module_path": "Atacama.Transport.Tcp",
+      "library": "atacama",
+      "description": "This module implements TCP client and server communication with configurable timeouts for sending and receiving data. It provides functions to establish connections, send and receive messages, and manage socket behavior using the `config` type, which specifies timeouts in nanoseconds. Concrete use cases include building networked services that require precise control over transmission delays, such as real-time data streaming or low-latency messaging systems.",
+      "description_length": 462,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atacama.Connection",
-      "description": "Provides functions to send and receive byte strings over a connection, with options for timeouts, message limits, and read sizes. Operates on a connection type `t` and related data like addresses and timestamps. Used to manage network communication, check negotiated protocols, and track connection establishment times.",
-      "description_length": 319,
+      "module_path": "Atacama.Handler.Intf",
+      "library": "atacama",
+      "description": "This module defines the interface for connection handlers in Atacama, specifying hooks to manage connection lifecycle events and data processing. It works with connection state, byte strings, and custom error types, enabling precise control over how connections are initialized, errors are handled, and data is processed. Concrete use cases include implementing custom protocols, managing session state, and handling incoming messages or timeouts in networked applications.",
+      "description_length": 473,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atacama.Handler",
-      "description": "Provides functions to process connection events, including handling data, messages, errors, and timeouts, with state management. Works with connection objects, byte strings, messages, and custom error types. Used to manage real-time communication protocols by defining behavior for each interaction phase.",
-      "description_length": 305,
+      "module_path": "Atacama.Transport",
+      "library": "atacama",
+      "description": "This module creates and configures network transport layers for TCP and SSL connections, supporting both secure and non-secure communication channels. It provides a unified interface for initializing transports with custom configurations, using types like `config` to encapsulate settings for timeouts and encryption. The first child module enhances TCP with TLS encryption, enabling secure services like HTTPS with authenticated, encrypted data transfer. The second child module focuses on TCP with timeout controls, allowing precise management of send and receive operations for applications like real-time streaming or low-latency messaging.",
+      "description_length": 644,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atacama.Transport",
-      "description": "Manages network communication through TCP and SSL protocols, offering configuration-based setup for both standard and secure connections. Supports sending and receiving byte data over sockets, with options for timeouts and certificate validation. Provides low-level control for implementing custom protocols or securing data transmission. Examples include establishing encrypted chat servers, streaming data with timeout handling, and validating SSL certificates during client handshakes.",
-      "description_length": 488,
+      "module_path": "Atacama.Handler",
+      "library": "atacama",
+      "description": "This module defines how network connections behave by specifying handlers for key events like connection setup, data reception, errors, and closure. It centers on a handler type that bundles logic and state, enabling custom connection state machines, lifecycle logging, and data processing. Default implementations in submodules simplify common tasks like incremental data handling and state transitions, while the interface module formalizes hooks for custom protocol implementation and session management. Examples include building connection routers, implementing protocol parsers, and managing timeouts or message exchanges in network services.",
+      "description_length": 648,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "atacama",
-      "description": "Provides asynchronous socket management with connection pooling, handling read and write operations on TCP streams. Works with ports, socket descriptors, and custom handler modules that define message processing logic. Used to build scalable network servers, such as an echo service that responds to incoming data with the same payload.",
-      "description_length": 336,
+      "module_path": "Atacama.Telemetry",
+      "library": "atacama",
+      "description": "Handles telemetry events related to network connections, including accepting connections, connection start, and listening socket setup. Works with network address and socket types from the Riot.Net module. Useful for monitoring and logging network activity in server applications.",
+      "description_length": 280,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Atacama",
-      "description": "handles network communication by enabling byte string transmission, event processing, and protocol management over TCP and SSL. it defines a connection type `t` and supports operations like sending, receiving, and tracking connection states, along with custom error handling and protocol negotiation. it allows for building secure, real-time applications such as encrypted chat servers or data streams with timeout controls. examples include validating SSL certificates during handshakes and managing message boundaries in custom protocols.",
-      "description_length": 540,
+      "module_path": "Atacama.Connection",
+      "library": "atacama",
+      "description": "This module handles bidirectional communication over network connections using the `t` type to represent active connections. It provides operations to send and receive byte strings with optional timeouts and size limits, retrieve peer addresses, check connection timestamps, and close connections. Concrete use cases include implementing network clients and servers that require precise control over data transmission and connection metadata.",
+      "description_length": 442,
       "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Atacama",
+      "library": "atacama",
+      "description": "Starts a network server with configurable transport, concurrency, and connection handling, using a custom handler and initial state to manage client interactions. It supports secure and non-secure TCP communication through transport modules that handle TLS and timeouts, while handler modules define behavior for connection events and state transitions. The module enables precise control over bidirectional communication with operations to send, receive, and inspect connection metadata, and includes telemetry for monitoring network activity. Use cases include high-performance TCP/UDP servers with custom protocols, secure services with TLS, and real-time applications requiring low-latency messaging or streaming.",
+      "description_length": 717,
+      "index": 8,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
     "total_modules_in_package": 9,
-    "meaningful_modules": 8,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.8888888888888888
+    "meaningful_modules": 9,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 540,
-    "min_description_length": 305,
-    "avg_description_length": 385.375,
-    "embedding_file_size_mb": 0.029450416564941406
+    "max_description_length": 717,
+    "min_description_length": 280,
+    "avg_description_length": 509.22222222222223,
+    "embedding_file_size_mb": 0.03314495086669922
   }
 }

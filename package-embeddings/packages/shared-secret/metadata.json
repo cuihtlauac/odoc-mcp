@@ -1,161 +1,205 @@
 {
   "package": "shared-secret",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 20,
-  "creation_timestamp": "2025-06-18T16:34:44.936885",
+  "total_modules": 23,
+  "creation_timestamp": "2025-07-15T23:09:55.296922",
   "modules": [
     {
       "module_path": "Shared_secret.Message.Encoder",
-      "description": "Encodes type information into a structured representation suitable for serialization. It operates on type descriptors and produces a compact binary format. This is used to generate consistent byte sequences for data exchange between systems.",
-      "description_length": 241,
+      "library": "shared-secret",
+      "description": "Converts a structured value of type `Type.t` into a serialized format suitable for transmission or storage. Works directly with the `Type.t` and `t` data types, where `t` typically represents a byte-oriented or encoded representation. Useful for preparing cryptographic messages to be sent over a network or written to a file.",
+      "description_length": 326,
       "index": 0,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Shared_secret.Message.Decoder",
-      "description": "Decodes a binary representation into a structured type using a specific decoding function. It operates on a custom type `t` and produces values of type `Type.t`. This is used to parse serialized data from a network protocol into an internal representation.",
-      "description_length": 256,
-      "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
+      "module_path": "Shared_secret.Exception.Handler",
+      "library": "shared-secret",
+      "description": "Handles exceptions during the execution of a function that produces a value of type `'a`. It works with a custom exception type defined in `Type.t` and provides a way to recover or map exceptions to a result type. This is useful for safely executing operations that may fail, such as cryptographic key exchanges or file parsing, where errors must be explicitly handled.",
+      "description_length": 369,
+      "index": 1,
+      "embedding_norm": 1.0
+    },
+    {
       "module_path": "Shared_secret.Exception.Raiser",
-      "description": "Raises a value of a given type, allowing for type-safe exceptions with custom error messages. It operates on type representations from the Type module and arbitrary values. Used to signal errors in parsing or validation workflows where type information is critical.",
-      "description_length": 265,
+      "library": "shared-secret",
+      "description": "Handles the raising of exceptions based on a predefined type, allowing for consistent error signaling across different parts of an application. Works directly with the `Type.t` variant to map specific error conditions to corresponding exceptions. Useful in scenarios where centralized exception handling is required, such as in shared libraries or system-wide error propagation.",
+      "description_length": 378,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Exception.Handler",
-      "description": "Handles a function that may fail by wrapping it in a context that allows for error recovery. It takes a default computation and a function that may raise an exception, returning the result of the safe computation if an error occurs. Works with unit-returning functions and values of type 'a, enabling controlled error propagation.",
-      "description_length": 330,
+      "module_path": "Shared_secret.Box.Unsealer",
+      "library": "shared-secret",
+      "description": "Handles the decryption and validation of sealed values using a shared secret token. It works with boxed values of any type that have been encrypted using the corresponding sealer module. Useful for securely exchanging sensitive data between services that share a secret key.",
+      "description_length": 274,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Shared_secret.Box.Sealer",
-      "description": "Sealer wraps values in a protected container using a token to enforce access control. It operates on tokens and arbitrary values, producing a sealed value type. This is used to securely encapsulate data that should only be modified or accessed under specific authorization.",
-      "description_length": 273,
+      "library": "shared-secret",
+      "description": "Seals values using a shared token, producing a boxed value that can only be unsealed with the same token. Works with any value type and the shared secret token type. Useful for securely encapsulating sensitive data in distributed systems where access must be controlled via a pre-shared secret.",
+      "description_length": 294,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Box.Unsealer",
-      "description": "Unsealer decrypts and reconstructs values from tokens using a specific decoding algorithm. It operates on custom token types and value containers, ensuring secure data retrieval. This is used to restore serialized data in authentication and session management contexts.",
-      "description_length": 269,
+      "module_path": "Shared_secret.Message.Decoder",
+      "library": "shared-secret",
+      "description": "Converts a message value into its corresponding type representation. Works with message and type data structures to facilitate decoding operations. Useful for transforming encoded messages into structured types during protocol execution.",
+      "description_length": 237,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shared_secret.Message",
-      "description": "Provides functions to parse, serialize, and validate message payloads using a structured format. Operates on a custom type `t` representing message content with headers and body. Used to ensure consistent message handling in network communication and logging systems.",
-      "description_length": 267,
+      "module_path": "Shared_secret.IBox-Unsealer",
+      "library": "shared-secret",
+      "description": "This module provides the `unseal` function, which takes a token and a sealed value, then returns the original value if the token matches. It works with `Shared_secret.Token.t` and a generic sealed value type `'value t`. Use it to securely unseal values that were previously sealed with a shared secret token.",
+      "description_length": 308,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "Shared_secret.Token",
-      "description": "Provides operations to generate and manage token revocation, including creating tokens with associated revokers, revoking tokens, and checking their revocation status. Works with custom types `t` for tokens and `revoker` for revocation handles. Used to enforce temporary access control, such as invalidating API keys or session identifiers after a specific event.",
-      "description_length": 363,
+      "module_path": "Shared_secret.IBox",
+      "library": "shared-secret",
+      "description": "This module implements cryptographic operations for securely sealing and unsealing data using public-key encryption. It works with data types representing encrypted payloads and cryptographic keys. Concrete use cases include secure inter-process communication, data encryption for storage, and authenticated message exchange.",
+      "description_length": 325,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Box",
-      "description": "Sealer and Unsealer handle secure data encapsulation and retrieval by binding values to tokens and reversing the process with decryption. Sealer generates sealed values from tokens and data, while Unsealer extracts original values using token-specific decoding. These components enable controlled access to sensitive information, such as restoring user sessions or validating encrypted payloads. They support arbitrary data types and custom token structures for flexible security implementations.",
-      "description_length": 496,
+      "module_path": "Shared_secret.IBox-Sealer",
+      "library": "shared-secret",
+      "description": "Seals values using a shared secret token, producing a boxed value that can only be unsealed with the same token. Works with any value type `'value` and the `Shared_secret.Token.t` type. Useful for securely encapsulating sensitive data in distributed systems where access must be restricted to parties holding the correct token.",
+      "description_length": 327,
       "index": 8,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shared_secret.Exception",
-      "description": "Provides functions to create, handle, and inspect exception values, including raising and matching on specific exception types. Works with the `t` type to represent and propagate errors within a program. Used to define custom error conditions and manage control flow in response to exceptional states.",
-      "description_length": 301,
+      "module_path": "Shared_secret.IException",
+      "library": "shared-secret",
+      "description": "This module defines an interface for handling exceptions in shared secret operations. It includes a type `t` representing exception values, along with `Raiser` and `Handler` submodules for raising and catching exceptions in a structured way. Concrete use cases include managing errors during cryptographic key exchanges and secure data handling where exceptional conditions must be explicitly handled.",
+      "description_length": 401,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Shared_secret.Revocable",
-      "description": "Provides a mechanism to execute a function and later invalidate its result. Operates with functions that take a single argument and return a value, and maintains internal state to track whether the result is valid. Used to manage temporary computations that should cease to be trusted after a specific point, such as in session-based or time-sensitive operations.",
-      "description_length": 363,
+      "library": "shared-secret",
+      "description": "This module implements a revocation mechanism for function calls, allowing a function to be executed until explicitly revoked. It works with any function type `'a -> 'b`, tracking and controlling access dynamically. Use it to manage temporary permissions or cancellable operations, such as expiring API keys or abortable computations.",
+      "description_length": 334,
       "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Shared_secret.Pair",
-      "description": "Provides functions to create and manipulate sealed values, where one function wraps a value in a box and another extracts it. Works with boxed types and higher-order functions that transform or inspect wrapped values. Used to encapsulate state or behavior within a controlled interface.",
-      "description_length": 286,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Shared_secret.Sealer",
-      "description": "Sealer wraps values in a tagged structure using a token to enforce encapsulation. It operates on tokens and arbitrary values, producing a sealed value type. This is used to protect sensitive data from unintended modification during serialization or transmission.",
-      "description_length": 262,
-      "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shared_secret.Unsealer",
-      "description": "Unsealer decrypts and reconstructs values from a token, using a specific decoding algorithm. It operates on custom token types and value containers defined within the module. This is used to safely restore serialized data in secure communication protocols.",
-      "description_length": 256,
-      "index": 13,
+      "module_path": "Shared_secret.Box",
+      "library": "shared-secret",
+      "description": "This module provides secure sealing and unsealing of values using a shared secret token. It supports any value type and ensures that only parties with the correct token can decrypt sealed data. Sealing encapsulates sensitive data for controlled access, while unsealing validates and decrypts it. For example, a service can seal a user's private settings before transmission, and another service can unseal them upon receipt using the same token.",
+      "description_length": 445,
+      "index": 11,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Shared_secret.IToken",
+      "library": "shared-secret",
+      "description": "This module implements a mechanism for creating and managing revocable tokens, where each token is paired with a revoker that can invalidate it. It provides functions to create a new token-revoker pair, revoke a token using its revoker, and check if a token has been revoked. The token type `t` supports equality comparison, making it suitable for use in access control systems or session management where dynamic revocation is required.",
+      "description_length": 437,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Raiser",
-      "description": "Raises a value of type t to a polymorphic variant, enabling pattern matching across different exception types. It operates on the t type, which represents exception constructors. This is used to convert specific exception cases into a unified form for error handling.",
-      "description_length": 267,
+      "module_path": "Shared_secret.Token",
+      "library": "shared-secret",
+      "description": "This module implements a token-based revocation system using opaque types `t` and `revoker`. It supports creating token-revoker pairs, revoking tokens explicitly, and checking whether a token has been revoked. Concrete use cases include managing temporary credentials or access tokens that need to be invalidated before expiration.",
+      "description_length": 331,
+      "index": 13,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Shared_secret.Exception",
+      "library": "shared-secret",
+      "description": "This module manages exception handling using a custom error type `Type.t`, enabling both the capture and transformation of exceptions into result values. It supports operations to safely execute functions that may fail and to raise exceptions based on specific error conditions. For example, it can handle errors during cryptographic operations or file parsing, and ensure consistent error signaling across shared libraries.",
+      "description_length": 424,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Handler",
-      "description": "Handles a function that may fail by wrapping it in a context that allows for error recovery. Operates on a custom type `t` representing a processing state. Used to safely execute potentially failing operations within a controlled execution flow.",
-      "description_length": 245,
+      "module_path": "Shared_secret.Pair",
+      "library": "shared-secret",
+      "description": "This module implements a capability-based access control pattern using sealed values. It provides functions to create and unseal opaque tokens that encapsulate values of any type, ensuring that only code with access to the corresponding unsealing function can retrieve the original value. The primary use case is implementing secure, capability-based APIs where values must be protected from unauthorized access while allowing controlled disclosure.",
+      "description_length": 449,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret.Encoder",
-      "description": "Encodes values of type 'a into a structured representation of type t using a fixed transformation. It operates on arbitrary data types through a provided encoding function. This is used to convert domain-specific data into a format suitable for serialization or transmission.",
-      "description_length": 275,
+      "module_path": "Shared_secret.IException-Raiser",
+      "library": "shared-secret",
+      "description": "This module defines a function `raise` that takes a value of type `t` and aborts execution by raising an exception. It works with a single abstract type `t`, which represents exception values. Use this module to signal exceptional conditions where recovery is not intended, such as invalid inputs or unrecoverable errors.",
+      "description_length": 321,
       "index": 16,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Shared_secret.Decoder",
-      "description": "Decodes a binary representation into a structured value using a custom parsing logic. It operates on a specific type `t` and returns a value of type `a` based on predefined encoding rules. This is used to reconstruct protocol buffers from serialized byte streams.",
-      "description_length": 263,
+      "module_path": "Shared_secret.IMessage",
+      "library": "shared-secret",
+      "description": "This module defines the core types and structures for handling shared secret messages, including the primary type `t` for messages and `a` for associated data. It includes submodules `Encoder` and `Decoder` which provide functions for serializing and deserializing message data to and from binary formats. Concrete use cases include securely encoding shared secrets for transmission and decoding received messages to verify and extract secret values.",
+      "description_length": 450,
       "index": 17,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "shared-secret",
-      "description": "Encapsulates messages and exceptions within a module, exposing only necessary interfaces for handling errors and communication. It uses abstract types to hide implementation details, allowing controlled access to error states. This enables safe propagation and handling of exceptional conditions in a modular, deterministic manner.",
-      "description_length": 331,
+      "module_path": "Shared_secret.IMessage-Decoder",
+      "library": "shared-secret",
+      "description": "Decodes shared secret messages from a serialized format into structured data. Works with custom message types implementing the `t` type, which typically represent cryptographic payloads. Useful for securely interpreting encrypted data streams in distributed systems.",
+      "description_length": 266,
       "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_secret",
-      "description": "Provides operations to generate and manage shared secrets, including revocation and checking revocation status. Works with abstract types `t` for secrets and `revoker` for revoking access. Used to control access to sensitive data by ensuring only unrevoked secrets can be used.",
-      "description_length": 277,
+      "module_path": "Shared_secret.IException-Handler",
+      "library": "shared-secret",
+      "description": "Handles exceptions in functions that take no arguments and return a value of any type. It works with functions and exceptions defined by the `t` type. Use it to safely execute operations that might raise specific exceptions, recovering with a default value or alternative computation.",
+      "description_length": 284,
       "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Shared_secret.Message",
+      "library": "shared-secret",
+      "description": "This module manages the structured exchange of messages in a shared secret protocol, enabling encoding and decoding of typed values for transmission or storage. It operates on `Type.t` and `t` data types, where the former defines message structure and the latter represents the encoded form, typically as bytes. The module supports concrete operations such as serializing cryptographic payloads for network transmission and deserializing received data into structured types. Submodules handle direct conversion between structured and encoded forms, facilitating both message preparation and interpretation during protocol execution.",
+      "description_length": 632,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Shared_secret.IMessage-Encoder",
+      "library": "shared-secret",
+      "description": "Encodes values of type `a` into a structured message format suitable for secure transmission or storage. Works directly with custom data types implementing the `a` type, transforming them into a canonical representation. Useful for serializing cryptographic payloads, network messages, or persistent data structures.",
+      "description_length": 316,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Shared_secret",
+      "library": "shared-secret",
+      "description": "This module enables secure cryptographic operations for key exchange, message sealing, and exception handling, centered around shared secrets and public-key encryption. It provides core data types like `Token.t` for authentication, `'value t` for sealed data, and message types for structured encoding and decoding of cryptographic payloads. Operations include sealing and unsealing values with tokens, generating and revoking cryptographic tokens, and handling exceptions during secure data exchange. For example, a service can seal sensitive data before transmission, another can decode and unseal it using the same token, while revocation mechanisms allow dynamic control over access to temporary credentials or expiring keys.",
+      "description_length": 729,
+      "index": 22,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 20,
-    "meaningful_modules": 20,
+    "total_modules_in_package": 23,
+    "meaningful_modules": 23,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 496,
-    "min_description_length": 241,
-    "avg_description_length": 294.3,
-    "embedding_file_size_mb": 0.07309341430664062
+    "max_description_length": 729,
+    "min_description_length": 237,
+    "avg_description_length": 376.39130434782606,
+    "embedding_file_size_mb": 0.08399105072021484
   }
 }

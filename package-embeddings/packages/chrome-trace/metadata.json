@@ -1,84 +1,85 @@
 {
   "package": "chrome-trace",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:30:56.405347",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:05:47.031566",
   "modules": [
     {
       "module_path": "Chrome_trace.Stack_frame.Raw",
-      "description": "Creates a raw representation from a list of strings, suitable for low-level processing. Operates on a custom type `t` that encapsulates string-based data. Used to generate input for parsing or serialization routines that require direct string manipulation.",
-      "description_length": 256,
+      "library": "chrome-trace",
+      "description": "Handles raw stack frame data for trace events by converting a list of strings into a structured format suitable for Chrome's trace viewer. It works directly with string lists and the internal `t` type representing a stack frame. This module is used to construct stack traces in trace events, enabling visualization of call stacks in performance profiling tools like Chrome Tracing.",
+      "description_length": 381,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Chrome_trace.Event.Timestamp",
-      "description": "Converts between a custom timestamp type and floating-point seconds, enabling precise time representation and manipulation. Works with the abstract type `t` to encapsulate time values. Used to serialize time data for logging or network transmission and to parse incoming time values from external sources.",
-      "description_length": 305,
+      "library": "chrome-trace",
+      "description": "This module defines a timestamp type and conversions to and from floating-point seconds. It supports precise time measurements for trace events, enabling accurate timing data to be recorded and exported in Chrome's trace_event format. Use cases include logging event start and end times for performance analysis in tracing tools.",
+      "description_length": 329,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Chrome_trace.Json",
-      "description": "Provides functions to parse JSON strings into a structured representation, serialize structured data into JSON format, and extract values using path-based access. Works with nested data types including objects, arrays, strings, numbers, and booleans. Used to validate and transform API responses into a format suitable for further processing or display.",
-      "description_length": 353,
+      "module_path": "Chrome_trace.Event",
+      "library": "chrome-trace",
+      "description": "This module creates and manipulates trace events in Chrome's trace_event format, supporting counters, async events with start/instant/end phases, and complete events with duration. It works with timestamps, process/thread identifiers, stack frames, and JSON-formatted arguments, enabling detailed performance tracing of systems with hierarchical and asynchronous operations. The timestamp submodule provides precise time measurements, converting to and from floating-point seconds for accurate timing data in trace logs. Use cases include logging event start and end times, tracking asynchronous operations across threads, and analyzing performance in tracing tools.",
+      "description_length": 666,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Chrome_trace.Id",
-      "description": "Generates unique identifiers from string or integer inputs, supporting distinct creation paths. Represents identifiers as opaque values with no public constructors. Used to ensure uniqueness in distributed systems or session management.",
-      "description_length": 236,
+      "module_path": "Chrome_trace.Output_object",
+      "library": "chrome-trace",
+      "description": "This module constructs trace data objects in the Chrome trace_event format, supporting the creation of structured traces with events, stack frames, and custom metadata. It works with trace events, identifier-to-stack-frame mappings, and JSON values to represent trace data. Concrete use cases include generating performance traces for visualization in Chrome's tracing tool, such as profiling application execution or analyzing asynchronous workflows.",
+      "description_length": 451,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Chrome_trace.Stack_frame",
-      "description": "Encapsulates string-based data into a structured format for low-level operations, supporting creation from lists of strings. Provides direct access to underlying string representations for parsing or serialization tasks. Allows manipulation and inspection of raw data through custom type `t`. Example uses include generating input for lexers or preparing data for binary encoding.",
-      "description_length": 380,
+      "library": "chrome-trace",
+      "description": "This module organizes stack frame records for trace events, using identifiers and descriptive fields like name and category to represent execution contexts. It supports hierarchical call stack construction for performance profiling, particularly in tools like Chrome Tracing. The core `t` type holds frame data, while operations convert string lists into structured frames and build traces. For example, it can transform a list like `[\"main\"; \"parse\"; \"tokenize\"]` into a sequence of linked stack frames for visualization.",
+      "description_length": 522,
       "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Chrome_trace.Event",
-      "description": "Encapsulates time values using an abstract type `t`, providing conversion between this type and floating-point seconds for precise time handling. Supports serialization and parsing of time data, enabling consistent time representation across systems. Operations include converting to and from seconds, ensuring accurate time tracking in logging, networking, and data exchange. Example uses include storing timestamps in logs or synchronizing time across distributed components.",
-      "description_length": 477,
-      "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Chrome_trace.Output_object",
-      "description": "Creates a structured output object containing trace events, optional time unit display, extra fields, and stack frames. Operates on event lists, ID-stack frame pairs, and key-value field pairs. Used to generate JSON representations of debugging or profiling data for analysis or logging.",
-      "description_length": 287,
+      "module_path": "Chrome_trace.Json",
+      "library": "chrome-trace",
+      "description": "This module defines a JSON AST type and functions to construct and serialize values in the Chrome trace event format. It supports basic types like integers, floats, strings, booleans, and nested lists and associations. Use this module to build structured trace events with timestamps, durations, and metadata for visualization in Chrome's tracing tool.",
+      "description_length": 352,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Chrome_trace.Id",
+      "library": "chrome-trace",
+      "description": "This module generates unique identifiers for trace events using either string or integer values. It provides the `create` function to construct an identifier from a string or integer, ensuring compatibility with the Chrome trace event format. Use this module to assign distinct IDs to asynchronous operations or concurrent tasks when producing traces for visualization in tools like Chrome's tracing viewer.",
+      "description_length": 407,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "chrome-trace",
-      "description": "Handles project configuration and build automation for OCaml projects by parsing and executing build rules, managing dependencies, and generating necessary artifacts. It operates on OCaml source files, libraries, and metadata to construct executable and library targets. Used to streamline the compilation process, ensuring consistent builds across different environments.",
-      "description_length": 372,
-      "index": 7,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Chrome_trace",
-      "description": "Encapsulates trace data into a structured format, supporting event logging, time tracking, and identifier generation. Provides operations to manipulate time values, generate unique IDs, and serialize structured data into JSON. Enables creation of trace events with timestamps, stack frames, and custom fields for detailed analysis. Examples include logging program execution flow, capturing timing data for performance analysis, and generating debug traces for distributed systems.",
-      "description_length": 481,
-      "index": 8,
+      "library": "chrome-trace",
+      "description": "This module generates performance traces in Chrome's trace_event format, supporting detailed logging of synchronous and asynchronous operations with timestamps, durations, and hierarchical stack frames. It provides data types for trace events, stack frames, JSON values, and unique identifiers, along with operations to construct and link them into structured traces. Use it to profile application execution, visualize asynchronous workflows, or analyze performance bottlenecks in Chrome's tracing tool by building traces with nested call stacks, counter events, or async event sequences. Example: track a multi-threaded operation by creating async events with start/instant/end phases, associate them with stack frames, and output the result to a JSON file for analysis.",
+      "description_length": 771,
+      "index": 7,
       "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 481,
-    "min_description_length": 236,
-    "avg_description_length": 349.6666666666667,
-    "embedding_file_size_mb": 0.03317070007324219
+    "max_description_length": 771,
+    "min_description_length": 329,
+    "avg_description_length": 484.875,
+    "embedding_file_size_mb": 0.029476165771484375
   }
 }

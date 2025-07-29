@@ -1,70 +1,85 @@
 {
   "package": "coqide-server",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 7,
-  "creation_timestamp": "2025-06-18T16:30:57.517145",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:06:24.404188",
   "modules": [
     {
-      "module_path": "coqide-server",
-      "description": "Provides functions to parse, manipulate, and validate logical proofs written in a formal language, along with tools to check the correctness of theorem statements and proof scripts. Works with abstract syntax trees of mathematical expressions, proof goals, and tactic applications. Used to verify the soundness of algorithms, construct formal proofs, and ensure consistency in mathematical theories.",
-      "description_length": 399,
+      "module_path": "Document",
+      "library": "coqide-server.core",
+      "description": "This module offers stack-based editing operations like push, pop, and focus, alongside contextual navigation and search capabilities for structured document manipulation. It works with a generic document type that includes identifiers, error tracking, and optional focus states, organized as a stack of sentences. These tools are ideal for document editing workflows requiring structured transformations, debug visualization via custom printers, or integration with external signal systems for event-driven updates.",
+      "description_length": 515,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Interface",
-      "description": "The module provides operations for modeling Coq's internal state, managing structured data types like state transitions and goal tracking, and facilitating communication between RocqIDE and Coq through request-response patterns. It works with data structures such as Coq's internal state representations, type aliases for domain-specific data, and state IDs, enabling tasks like interactive debugging, proof state management, and configuration adjustments. Specific use cases include tracking proof goals, inspecting stacks, and handling exceptions during development.",
-      "description_length": 568,
+      "module_path": "Xml_parser",
+      "library": "coqide-server.protocol",
+      "description": "This module provides functions to configure and run an XML parser, handling input from channels, strings, or lex buffers. It supports parsing XML documents into structured data, with detailed error reporting including line numbers and character ranges for issues like malformed tags or unterminated entities. Concrete use cases include reading XML configuration files, validating XML input streams, and extracting structured data from XML payloads.",
+      "description_length": 448,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Xml_parser",
-      "description": "Provides functions to extract detailed error information from XML parsing, including line numbers, character ranges, and error messages. Works with XML data structures, error positions, and sources, enabling precise control over parsing behavior. Configures parsers to enforce end-of-file checks and canonicalize XML content during parsing.",
-      "description_length": 340,
+      "module_path": "Richpp",
+      "library": "coqide-server.protocol",
+      "description": "This module converts formatted text into semi-structured documents with positional annotations, supporting the extraction of styled text as XML. It operates on `Pp.t` values and produces structured XML with location data, enabling precise annotation tracking. Use it to generate XML representations of formatted output with embedded styling or semantic metadata.",
+      "description_length": 362,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xmlprotocol",
-      "description": "This module provides command operations for interacting with a proof assistant, including proof management, query, editing, and debugger functionalities like breakpoint updates and stack information retrieval. It works with structured data types from Interface, XML nodes, strings, and pretty-printing objects, enabling serialization/deserialization of messages and debugger outputs. Specific use cases involve system control, subgoal management, and formatted communication between RocqIDE and Rocq.",
-      "description_length": 500,
+      "module_path": "Xml_printer",
+      "library": "coqide-server.protocol",
+      "description": "This module provides functions to serialize XML data structures into strings or output channels, with options for compact or formatted output. It works with the `xml` type from `Xml_datatype` and handles escaping of special characters in PCDATA. Use it to generate valid XML strings for transmission or storage, or to produce human-readable XML for debugging or display.",
+      "description_length": 370,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
       "module_path": "Xml_lexer",
-      "description": "Initializes a lexical buffer for parsing XML, processes tokens, and tracks position within the input. Operates on lexing buffers, custom token types, and position tuples representing file, line, and column indices. Used to parse XML content incrementally, detect syntax errors, and manage parsing state during validation.",
-      "description_length": 321,
+      "library": "coqide-server.protocol",
+      "description": "This module tokenizes XML input by parsing raw text into structured tokens such as tags, PCData, and end tags while tracking positional information. It handles malformed input by raising specific error types like unterminated comments or missing attributes. Use it to build XML parsers or validators that require precise lexical analysis and error reporting.",
+      "description_length": 358,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Richpp",
-      "description": "Provides functions to interpret and manipulate semi-structured documents with annotations, including converting formatted text to structured XML, extracting annotation positions, and mapping annotations to string representations. Operates on located annotations and XML data structures derived from pretty-printing commands. Used to generate XML outputs from styled text and track annotation locations within source strings.",
-      "description_length": 424,
+      "module_path": "Xmlprotocol",
+      "library": "coqide-server.protocol",
+      "description": "This module provides functions mapping IDE operations\u2014like proof state manipulation (goals, hints, evars), code interpretation, and worker process control\u2014to structured XML protocol calls, operating on typed input and output representations. It includes facilities for encoding and decoding XML-based messages, handling protocol-specific data (e.g., feedback, debugging structures, and version metadata) and converting them to and from XML for transmission. These capabilities enable precise interaction between development tools and backend systems, supporting tasks like dynamic proof state updates, option configuration, and real-time feedback serialization.",
+      "description_length": 661,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xml_printer",
-      "description": "Produces compact XML strings from an XML data structure for output to a target, and generates human-readable formatted XML. Handles XML nodes and PCDATA, converting them to properly escaped strings. Used to serialize XML data for transmission or storage, and to generate debug-friendly representations.",
-      "description_length": 302,
+      "module_path": "Interface",
+      "library": "coqide-server.protocol",
+      "description": "This interface enables structured communication between a proof assistant IDE and Coq's kernel through operations for proof state manipulation, option handling, search query construction, and debugging workflows. It operates on data structures representing goals, evars, proof states, breakpoint configurations, and process control signals, alongside state identifiers and Coq-specific metadata. These components support use cases like interactive theorem proving, breakpoint management during proof execution, and formal verification workflows requiring precise state synchronization.",
+      "description_length": 585,
       "index": 6,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Serialize",
+      "library": "coqide-server.protocol",
+      "description": "This module enables bidirectional conversion between OCaml values and XML representations, focusing on primitive types (integers, strings, booleans) and composite structures (lists, options, pairs, unions) via `Xml_datatype.xml`. It supports specialized data like edit identifiers, source locations, and associative mappings, ensuring structured XML encoding/decoding through predefined type-to-tag mappings. Typical applications include persisting OCaml data to XML files, transmitting structured data across systems using XML as an interchange format, and parsing XML configurations into typed OCaml values.",
+      "description_length": 609,
+      "index": 7,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
     "total_modules_in_package": 9,
-    "meaningful_modules": 7,
-    "filtered_empty_modules": 2,
-    "retention_rate": 0.7777777777777778
+    "meaningful_modules": 8,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.8888888888888888
   },
   "statistics": {
-    "max_description_length": 568,
-    "min_description_length": 302,
-    "avg_description_length": 407.7142857142857,
-    "embedding_file_size_mb": 0.025823593139648438
+    "max_description_length": 661,
+    "min_description_length": 358,
+    "avg_description_length": 488.5,
+    "embedding_file_size_mb": 0.02944469451904297
   }
 }

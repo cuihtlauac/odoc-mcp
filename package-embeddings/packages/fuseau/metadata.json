@@ -1,224 +1,245 @@
 {
   "package": "fuseau",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 29,
-  "creation_timestamp": "2025-06-18T16:38:50.965869",
+  "total_modules": 28,
+  "creation_timestamp": "2025-07-15T23:11:58.941138",
   "modules": [
     {
       "module_path": "Fuseau_unix.IO_unix.In",
-      "description": "Processes byte streams from various sources such as strings, file descriptors, and compressed data. Supports reading, seeking, and wrapping operations on input data. Used to handle raw or compressed network data, file content, and in-memory byte sequences.",
-      "description_length": 256,
+      "library": "fuseau.unix",
+      "description": "This module implements low-level input stream abstractions for reading from Unix file descriptors, strings, and byte buffers. It provides functions for reading exact amounts of data, consuming entire streams, and chaining or copying input sources. Concrete use cases include parsing network data from sockets, reading from files, or handling in-memory byte buffers.",
+      "description_length": 365,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fuseau_unix.IO_unix.Out",
-      "description": "Writes bytes to various output destinations such as buffers, output channels, and file descriptors. Supports operations like writing single bytes, byte sequences, and formatted strings. Used to direct program output to files, network sockets, or in-memory buffers.",
-      "description_length": 264,
+      "module_path": "Fuseau_unix.Net.TCP_server",
+      "library": "fuseau.unix",
+      "description": "Implements a TCP server that accepts connections and handles clients using fibers. It provides `with_serve` to start a server bound to an address, handling incoming connections with a user-defined function, and `stop`/`join` to control lifecycle. Designed for simple network services like small HTTP servers or custom protocol handlers.",
+      "description_length": 336,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Fuseau_unix.Net.Inet_addr",
-      "description": "Provides functions to create and manipulate internet addresses, including retrieving the loopback and any address, converting to and from strings with error handling, and formatting for display. Works with the Unix.inet_addr type to represent IPv4 addresses. Used to configure network interfaces and validate user-provided IP addresses.",
-      "description_length": 336,
+      "module_path": "Fuseau_unix.IO_unix.Out",
+      "library": "fuseau.unix",
+      "description": "This module implements output streams with support for writing characters, strings, integers, and byte slices to buffers, file descriptors, or custom backends. It provides operations like `output_char`, `output_string`, `output_line`, and `flush`, along with utilities for chaining outputs via `tee` or creating dummy outputs. Concrete use cases include logging to memory buffers, writing to Unix sockets via `of_unix_fd`, and capturing output in tests with `of_buffer`.",
+      "description_length": 470,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fuseau_unix.Net.Sockaddr",
-      "description": "Provides functions to create and manipulate socket addresses, including converting between string representations and structured formats. Works with Unix socket addresses and Internet protocol addresses, supporting both local and any-address bindings. Enables precise control over network communication endpoints through direct construction and parsing of address structures.",
-      "description_length": 375,
+      "library": "fuseau.unix",
+      "description": "This module provides functions to construct and manipulate socket addresses for both Unix domain and IPv4 sockets. It supports creating addresses from strings, parsing network addresses, and generating standard addresses for local or any interfaces. Concrete use cases include setting up server sockets bound to specific ports or Unix paths, and parsing command-line address arguments for client connections.",
+      "description_length": 408,
       "index": 3,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fuseau_unix.Net.TCP_server",
-      "description": "Handles TCP server lifecycle with start, stop, and join operations. Accepts connections on a specified address, providing raw file descriptors or I/O streams to custom handlers. Used to implement long-running network services with controlled shutdown and connection management.",
-      "description_length": 277,
+      "module_path": "Fuseau_unix.Net.Inet_addr",
+      "library": "fuseau.unix",
+      "description": "This module provides functions to work with IPv4 and IPv6 addresses, including parsing from strings, converting to strings, and accessing predefined addresses like loopback and any. It directly manipulates values of type `Unix.inet_addr`, offering `of_string`, `of_string_exn`, and `show` for string conversion, along with constants for common addresses. Concrete use cases include configuring network sockets with specific bind addresses or validating user-provided IP strings in network applications.",
+      "description_length": 502,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Fuseau_unix.Net.TCP_client",
-      "description": "Establishes a TCP connection to a specified address and provides a file descriptor for low-level I/O or separate input/output streams for higher-level communication. Operates with Unix socket addresses and I/O streams from the Fuseau library. Used to manage persistent connections for network protocols requiring bidirectional data exchange.",
-      "description_length": 341,
+      "library": "fuseau.unix",
+      "description": "This module implements TCP client connections using the event loop from `Fuseau_unix`. It provides the `with_connect` function, which establishes a connection to a given socket address and supplies input/output streams to a callback for communication. It is used for simple network clients that need to send and receive data over TCP without managing the connection lifecycle manually.",
+      "description_length": 385,
       "index": 5,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fuseau.Iostream.Out",
-      "description": "Writes bytes to various output destinations such as buffers, output channels, and file descriptors. Supports operations like writing single bytes, byte sequences, and formatted strings. Used to direct program output to files, network sockets, or in-memory buffers.",
-      "description_length": 264,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fuseau.Iostream.In",
-      "description": "Processes byte streams from various sources such as strings, file descriptors, and compressed data. Supports reading, seeking, and wrapping operations to handle input efficiently. Used to decode binary data, read from network sockets, and process compressed files.",
-      "description_length": 264,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fuseau.Fiber_handle.Set",
-      "description": "This module provides set operations such as union, intersection, and difference, along with element insertion, deletion, and membership checks, all optimized for ordered data structures. It supports transformations like mapping and filtering, predicate-based queries, and sequence-to-set conversions, enabling efficient manipulation of sorted collections. Use cases include dynamic data management, data processing pipelines, and scenarios requiring ordered traversal or efficient set comparisons.",
-      "description_length": 497,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fuseau.Fiber_handle.Map",
-      "description": "The module offers key-based operations for managing ordered maps with specific key types and generic values, including adding, updating, removing, and querying bindings, as well as searching (e.g., find_last), traversing (iter, fold), transforming (map, filter_map), and comparing. It supports sequence-based manipulation for constructing and iterating over maps, enabling efficient data processing and transformations in key order, suitable for applications requiring ordered key-value management and structured data operations.",
-      "description_length": 529,
-      "index": 9,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fuseau_unix.IO_unix",
-      "description": "Reads and manipulates byte streams from diverse sources, including files, networks, and compressed data, with support for seeking and wrapping. Writes bytes to outputs like buffers, files, and sockets, enabling precise control over data emission through individual bytes, sequences, or formatted strings. Operations include reading from and writing to file descriptors, handling compressed data, and managing in-memory byte sequences. Examples include parsing network packets, compressing output before writing, and streaming data between processes.",
-      "description_length": 549,
-      "index": 10,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Fuseau_unix.Net",
-      "description": "Manages network communication through address manipulation, socket configuration, and TCP connection handling. Supports Unix.inet_addr for IP validation and conversion, socket address construction for endpoint control, and TCP server/client operations with file descriptors or streams. Enables configuration of network interfaces, establishment of persistent connections, and management of long-running services. Examples include validating user IP input, binding to specific addresses, and handling bidirectional data exchange in network protocols.",
-      "description_length": 549,
-      "index": 11,
+      "library": "fuseau.unix",
+      "description": "This module provides a comprehensive interface for building TCP-based network applications, combining server and client functionality with tools for address manipulation. It supports creating TCP servers that handle connections asynchronously using fibers, establishing TCP client connections with stream-based I/O, and working with both IPv4 and IPv6 addresses through parsing, formatting, and predefined constants. You can build a simple HTTP server, connect to remote services like APIs or databases, bind to specific network interfaces, or validate and manipulate IP addresses programmatically. Key operations include starting and stopping servers, connecting to addresses, converting IP strings, and constructing socket addresses for Unix or network communication.",
+      "description_length": 769,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fuseau_unix.Timer",
-      "description": "Tracks and manages timed events, offering precise control over one-time and recurring task execution. Operates with a timer state and a result type indicating the outcome of each tick. Used to schedule actions after a delay or at regular intervals, such as triggering periodic data updates or delayed notifications.",
-      "description_length": 315,
+      "library": "fuseau.unix",
+      "description": "This module manages timed events using a simple event loop based on `Unix.select`. It allows scheduling functions to run once after a delay or repeatedly at intervals, and provides control over active tasks through cancellation handles. It works with timers and task management structures to enable precise timing control in portable, lightweight applications.",
+      "description_length": 360,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau_unix.IO_unix",
+      "library": "fuseau.unix",
+      "description": "This module provides low-level Unix I/O operations for working directly with file descriptors, including `read`, `write`, and readiness waiting mechanisms for non-blocking communication. Its `In` submodule handles input streams from sources like sockets and files, supporting precise data consumption and stream chaining, while the `Out` submodule manages output to buffers and file descriptors with functions like `output_string` and `flush`. You can read exact byte amounts from a socket, write formatted data to a pipe, or tee output to multiple destinations. Use cases include network protocol parsing, low-level logging, and testable I/O with in-memory buffers.",
+      "description_length": 666,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau_unix",
+      "library": "fuseau.unix",
+      "description": "This module implements an event loop using `Unix.select` to manage I/O operations and fiber scheduling, enabling concurrent execution of tasks with support for cancellation, timeouts, and deadline-based events. It provides core operations for sleeping, yielding, and scheduling microtasks, while integrating submodules for network communication, timer management, and low-level Unix I/O. With the network module, you can build TCP servers and clients that handle connections asynchronously using fibers, manipulate IP addresses, and communicate over IPv4 or IPv6. The timer module allows scheduling one-time or recurring tasks with precise timing control, and the Unix I/O module supports direct interaction with file descriptors for reading, writing, and non-blocking communication, including input and output stream manipulation.",
+      "description_length": 831,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fuseau.Iostream.Out",
+      "library": "fuseau",
+      "description": "This module implements output streams for writing bytes to various destinations, supporting operations like character, string, integer, and line-based output. It works with byte sequences, strings, and buffers, enabling concrete use cases such as logging to memory buffers, writing to network sockets, or duplicating output across multiple streams using `tee`. Functions like `output_line`, `output_int`, and `flush` provide direct control over formatted output and synchronization with underlying devices.",
+      "description_length": 506,
+      "index": 10,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau.Fiber_handle.Map",
+      "library": "fuseau",
+      "description": "This module implements an ordered, immutable map structure optimized for associating values with cooperative concurrency primitives, supporting key-based operations like insertion, lookup, and transformation alongside ordered traversal and sequence conversion. It works with keys representing fiber identifiers and arbitrary value types, enabling efficient management of per-fiber state in structured concurrency patterns. Typical applications include tracking fiber-specific metadata, coordinating task dependencies, or aggregating results in parallel computations while preserving execution order guarantees.",
+      "description_length": 610,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau.Iostream.In",
+      "library": "fuseau",
+      "description": "This module implements input stream abstractions with operations to read bytes from various sources such as strings, byte buffers, or custom input functions. It supports reading partial or complete content, exact byte amounts, and stream composition through concatenation. Concrete use cases include parsing network data, processing file contents, and handling in-memory byte streams.",
+      "description_length": 384,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fuseau.Fiber_handle",
-      "description": "Manages ordered collections and key-value mappings through set and map operations, enabling efficient data manipulation and transformation. It supports ordered set operations like union, intersection, and difference, as well as key-based map operations such as insertion, lookup, and traversal. Users can perform element filtering, mapping, and sequence conversions to process structured data. Examples include maintaining sorted user lists, managing configuration settings with ordered keys, and building data pipelines with predictable traversal order.",
-      "description_length": 554,
+      "module_path": "Fuseau.Fiber_handle.Set",
+      "library": "fuseau",
+      "description": "This module implements an immutable set abstraction for managing collections of fiber handles, supporting standard operations like union, intersection, and element queries, as well as ordered traversal and transformation via mapping and filtering. It works with sets containing fiber handle elements and provides conversions to and from sequences for iterative processing. Typical use cases include tracking active fibers in a scheduler, maintaining unique groups of fibers for coordination, and performing ordered set manipulations where safe and unsafe search variants ensure controlled access to elements.",
+      "description_length": 608,
       "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau.Event",
-      "description": "Provides functions to manage and coordinate atomic events, including selecting the first ready event from a list and triggering associated handlers. Operates on event types that encapsulate asynchronous actions and their outcomes. Used to implement non-blocking I/O operations and concurrency control in event-driven systems.",
-      "description_length": 325,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau.Chan",
-      "description": "Provides operations to manage asynchronous communication between fibers, including sending and receiving values, checking channel status, and handling closure. Works with a parameterized channel type that holds values of any type and supports blocking or non-blocking behavior based on configuration. Used to coordinate data flow in concurrent programs, such as passing results between worker fibers or managing task queues.",
-      "description_length": 424,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau.Exn_bt",
-      "description": "Provides functions to create and manipulate exceptions with associated backtraces, including capturing call stacks at specific depths. Works with exception values and custom backtrace data to enhance error reporting. Used to raise wrapped exceptions with detailed context for debugging and logging purposes.",
-      "description_length": 307,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau.Time",
-      "description": "Measures elapsed time using monotonic counters, returning values in nanoseconds and seconds. Operates with integer and floating-point representations of time intervals. Useful for benchmarking code execution and measuring performance deltas.",
-      "description_length": 241,
-      "index": 17,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Fuseau.Fiber",
-      "description": "Provides functions to manage asynchronous computations, including returning values, handling failures, checking completion status, and registering callbacks for results. Operates on a custom `t` type representing asynchronous tasks and uses exception-backed results for error handling. Used to coordinate non-blocking I/O operations and manage task dependencies within a scheduler.",
-      "description_length": 381,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Fuseau.FLS",
-      "description": "Provides functions to create, retrieve, and modify fiber-local values, with a focus on managing state specific to the current execution context. Operates on keys of type 'a key and values of arbitrary type 'a. Used to maintain per-fiber state such as request-specific data in concurrent applications.",
-      "description_length": 300,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau.Scheduler",
-      "description": "Manages the execution of fibers, tracking active state, task counts, and providing a way to dispose of the scheduler cleanly. Operates on a custom `t` type representing the scheduler instance. Used to control fiber execution flow and resource cleanup within a thread's fiber context.",
-      "description_length": 283,
-      "index": 20,
+      "library": "fuseau",
+      "description": "This module implements lightweight cooperative threads (fibers) that interface with the scheduler for structured concurrency. It supports operations like yielding control, awaiting completion, and handling cancellation through callbacks. Fibers are used to manage concurrent tasks such as handling multiple I/O operations or background computations without preemptive threading.",
+      "description_length": 378,
+      "index": 14,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fuseau.Event_loop",
-      "description": "Handles asynchronous event processing with non-blocking I/O, supporting timers, file descriptor monitoring, and callback scheduling. Operates on channels, sockets, and time-based triggers to manage concurrent operations. Used to implement network servers, real-time data processing pipelines, and interactive command-line interfaces.",
-      "description_length": 333,
-      "index": 21,
+      "library": "fuseau",
+      "description": "This module implements the event loop abstraction for the scheduler, providing functions to run loop iterations with or without blocking, schedule timer-based callbacks, and interrupt blocking operations. It works with the scheduler's event loop type and integrates with cancellation handles for managing asynchronous tasks. Concrete use cases include driving fiber execution, handling timeouts, and coordinating I/O events within the cooperative concurrency model.",
+      "description_length": 465,
+      "index": 15,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fuseau.Time",
+      "library": "fuseau",
+      "description": "This module provides functions to retrieve monotonic time measurements in nanoseconds and seconds. It works with basic numeric types, specifically `int64` and `float`. Concrete use cases include measuring execution durations and implementing timeouts in concurrent operations.",
+      "description_length": 276,
+      "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fuseau.Resource_pool",
-      "description": "Provides functions to create, acquire, recycle, and use resources within a bounded pool. Operates on arbitrary data types wrapped in a pool structure, allowing reuse of items without blocking. Useful for managing temporary buffers or similar resources where creation cost is low and immediate availability is not critical.",
-      "description_length": 322,
-      "index": 22,
+      "module_path": "Fuseau.Chan",
+      "library": "fuseau",
+      "description": "This module implements synchronous and asynchronous communication between fibers using channels. It supports creating bounded or unbounded channels, sending and receiving values with blocking behavior, and checking channel state. Use cases include coordinating data flow between concurrent tasks, implementing pipelines, and managing resource availability across fibers.",
+      "description_length": 370,
+      "index": 17,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fuseau.Event",
+      "library": "fuseau",
+      "description": "Handles atomic event selection in a concurrent setting. Provides the `select` function to choose between multiple event branches, returning the result of the first ready event. Works with lists of event branches, each producing a value when triggered. Useful for implementing non-deterministic event-driven logic, such as waiting for the earliest of multiple timeouts or I/O completions.",
+      "description_length": 387,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau.Cancel_handle",
+      "library": "fuseau",
+      "description": "This module defines a cancellation mechanism with explicit control over cancelation actions. It provides a handle type that encapsulates a cancellation function, allowing deferred or controlled cancellation of operations. It is used to manage cancellation in structured concurrency contexts, such as interrupting fibers or releasing resources tied to a computation.",
+      "description_length": 365,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Fuseau.Scheduler",
+      "library": "fuseau",
+      "description": "Manages the execution of fibers within a cooperative concurrency system. It tracks active fibers, provides statistics on task execution, and allows safe cleanup of resources. Useful for coordinating background tasks and monitoring concurrency in real-time applications.",
+      "description_length": 269,
+      "index": 20,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Fuseau.Buf_pool",
-      "description": "Provides functions to manage a reusable collection of byte buffers. Acquires a buffer for use, recycles it back to the pool after use, and offers a scoped operation to automatically handle buffer acquisition and recycling. Designed for efficient memory usage in I/O or data processing tasks requiring frequent buffer allocation.",
-      "description_length": 328,
-      "index": 23,
+      "library": "fuseau",
+      "description": "This module manages a reusable pool of byte buffers, allowing efficient allocation and release of buffers for temporary use. It provides operations to create a pool with configurable buffer size and maximum capacity, acquire and recycle individual buffers, and safely use a buffer within a scoped function. Typical use cases include handling network I/O or batch processing where frequent buffer allocation would otherwise cause memory pressure or fragmentation.",
+      "description_length": 462,
+      "index": 21,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Fuseau.Cancel_handle",
-      "description": "Provides a mechanism to trigger a cancellation action, with a function to execute upon cancellation and a dummy handle for no-op behavior. Operates with a record type containing a cancellation function. Used to manage resource cleanup or operation termination in asynchronous or long-running processes.",
-      "description_length": 302,
+      "module_path": "Fuseau.FLS",
+      "library": "fuseau",
+      "description": "This module implements fiber-local storage, providing operations to create keys with initialization functions, retrieve and set values specific to the current fiber, and temporarily bind values within a dynamic scope. It works with arbitrary OCaml values, associating them with fiber-specific keys. Concrete use cases include tracking per-fiber state such as request-specific data in a web server or transaction contexts in a database system.",
+      "description_length": 442,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau.Fiber_handle",
+      "library": "fuseau",
+      "description": "This module provides a unique identifier type for fibers, based on a private integer, supporting equality, comparison, and hashing. It includes set and map modules for organizing and querying fiber identifiers, enabling efficient tracking and association of per-fiber state or metadata. The map module supports key-based operations and ordered traversal, ideal for managing fiber-specific data in structured concurrency. The set module offers immutable collections of fiber identifiers with standard set operations and sequence conversions, useful for tracking active fibers or coordinating groups.",
+      "description_length": 598,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Fuseau.Exn_bt",
+      "library": "fuseau",
+      "description": "This module defines a structured representation of exceptions paired with backtraces, enabling precise error tracking and propagation in concurrent contexts. It provides operations to construct, retrieve, and raise exceptions with backtraces, along with utilities to extract callstack information. Concrete use cases include debugging fiber-based concurrency errors and inspecting exception origins in scheduler-managed tasks.",
+      "description_length": 426,
       "index": 24,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Fuseau.Iostream",
-      "description": "Reads and writes byte streams from diverse sources and destinations, supporting low-level I/O operations. It handles byte sequences, formatted output, and input processing, with capabilities for seeking, wrapping, and decompression. Operations include writing single bytes, strings, and formatted data, as well as reading from files, sockets, and compressed streams. Examples include logging to a file, parsing binary data, and transmitting data over a network.",
-      "description_length": 461,
+      "library": "fuseau",
+      "description": "This module provides input and output stream abstractions for handling byte-oriented data transfer between sources and destinations such as memory buffers, sockets, and custom functions. It supports reading exact amounts of data, partial reads, and stream composition through concatenation, along with writing formatted data using functions like `output_line`, `output_int`, and `flush`. Use cases include network communication, in-memory data processing, and logging. The module enables stream duplication with `tee` and works seamlessly with byte sequences, strings, and buffers.",
+      "description_length": 581,
       "index": 25,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "fuseau",
-      "description": "Provides functions for spawning and managing concurrent tasks, including looping and waiting for completion. Operates on threads, file descriptors, and asynchronous events. Enables building simple concurrent I/O-bound applications, such as handling multiple network connections or periodic background tasks.",
-      "description_length": 307,
+      "module_path": "Fuseau.Resource_pool",
+      "library": "fuseau",
+      "description": "This module provides a resource pooling mechanism optimized for lightweight, transient resources like buffers. It supports creating a pool with a custom allocator, acquiring and recycling resources, and safely using resources within a scoped computation. Use it to reduce allocation overhead in scenarios like network packet buffering or temporary data structures where resources are frequently reused.",
+      "description_length": 402,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Fuseau_unix",
-      "description": "Provides a simple event loop for IO operations using Unix.select, integrating with fibers for asynchronous control flow. Manages byte streams, network communication, and timed events with precise control over data handling, socket operations, and scheduling. Supports reading and writing byte sequences, validating IP addresses, and scheduling recurring tasks. Examples include parsing network data, compressing output, and managing timed service checks.",
-      "description_length": 454,
+      "module_path": "Fuseau",
+      "library": "fuseau",
+      "description": "This module provides cooperative concurrency primitives for managing fibers, events, and time-based operations within a structured scheduling framework. It enables fiber spawning with hierarchical relationships, event-driven synchronization via channels, deadline-aware sleeping, and resource-safe cancellation through callback registration. You can build concurrent applications with deterministic resource management, implement asynchronous workflows with precise cancellation semantics, and coordinate time-sensitive operations using monotonic time measurements and timer-based callbacks. Fibers handle background computations and I/O, channels coordinate data flow, and cancellation handles ensure safe resource release across concurrent tasks.",
+      "description_length": 748,
       "index": 27,
       "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Fuseau",
-      "description": "The module offers a comprehensive set of tools for managing concurrency, data structures, and I/O operations. It includes ordered collections and maps for structured data manipulation, event coordination for asynchronous actions, and channels for fiber communication. It supports exception handling with backtraces, time measurement, and fiber-local state management. Examples include building efficient data pipelines, implementing non-blocking I/O, and managing resource pools for reusable buffers.",
-      "description_length": 500,
-      "index": 28,
-      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 42,
-    "meaningful_modules": 29,
-    "filtered_empty_modules": 13,
-    "retention_rate": 0.6904761904761905
+    "total_modules_in_package": 33,
+    "meaningful_modules": 28,
+    "filtered_empty_modules": 5,
+    "retention_rate": 0.8484848484848485
   },
   "statistics": {
-    "max_description_length": 554,
-    "min_description_length": 241,
-    "avg_description_length": 366.82758620689657,
-    "embedding_file_size_mb": 0.10222625732421875
+    "max_description_length": 831,
+    "min_description_length": 269,
+    "avg_description_length": 477.4642857142857,
+    "embedding_file_size_mb": 0.10212326049804688
   }
 }

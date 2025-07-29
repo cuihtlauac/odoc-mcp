@@ -1,259 +1,317 @@
 {
   "package": "vhd-format",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 34,
-  "creation_timestamp": "2025-06-18T16:39:26.721836",
+  "total_modules": 37,
+  "creation_timestamp": "2025-07-15T23:12:50.371370",
   "modules": [
     {
-      "module_path": "Vhd_format.F.From_file.Vhd_IO",
-      "description": "Opens and manages virtual hard disk files, supporting dynamic and differencing VHDs. Operates on file descriptors and sector-based data, enabling sector-level read/write operations and path traversal for chained VHDs. Used to locate physical sectors, create new VHDs, and manage disk metadata in virtualization contexts.",
-      "description_length": 320,
+      "module_path": "Vhd_format.F.From_file.Hybrid_raw_input",
+      "library": "vhd-format",
+      "description": "Reads and processes VHD files from a raw input stream, providing a function to generate block lists based on specified block counts and sizes. Works with file descriptors and streams in the `F` monadic context, handling raw VHD data structures. Useful for converting raw disk images into structured block representations during virtual disk import operations.",
+      "description_length": 359,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.From_file.Raw_IO",
-      "description": "Opens a raw-format file, closes an open file descriptor, and creates a new raw file with a specified size and name. Works with file descriptors and raw file data. Used for low-level file management in storage systems or disk image handling.",
-      "description_length": 240,
+      "module_path": "Vhd_format.F.From_file.Hybrid_input",
+      "library": "vhd-format",
+      "description": "This module provides functions to generate formatted streams representing virtual disk data. It works with VHD disk structures and file descriptors, producing either raw or VHD-formatted streams that capture the differences between two disk states. These streams are used to efficiently transfer or apply incremental changes between virtual disks.",
+      "description_length": 347,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vhd_format.F.From_file.Vhd_input",
-      "description": "Creates a stream representing the consolidated data of a virtual disk, supporting both raw and VHD formats. Accepts a base disk to generate a differencing stream and optionally includes a BATmap in VHD outputs. Used for disk image serialization and delta generation in virtualization workflows.",
-      "description_length": 294,
+      "library": "vhd-format",
+      "description": "This module provides functions to generate formatted streams from VHD disk data. It supports creating raw or VHD-formatted streams, with optional differencing disk generation and BATmap metadata inclusion. Use it to produce disk images for export, backup, or incremental updates.",
+      "description_length": 279,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.F.From_file.Hybrid_input",
-      "description": "Creates streams that represent data from virtual disks in either raw or VHD format, consolidating changes between two disk states. Accepts file descriptors for source and target disks, with optional transformation data to generate update streams. Used to generate delta streams for disk image synchronization or migration.",
-      "description_length": 322,
+      "module_path": "Vhd_format.F.From_file.Raw_IO",
+      "library": "vhd-format",
+      "description": "This module provides low-level operations for managing raw-format virtual disk files, including opening, closing, and creating files with a specified size. It works directly with file descriptors and raw disk images, enabling precise control over disk storage operations. Concrete use cases include initializing empty virtual disks for virtualization environments and handling direct file-based storage backends for disk emulation.",
+      "description_length": 431,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.F.From_file.Raw_input",
-      "description": "Provides functions to convert raw file descriptors into stream representations, supporting both standard and VHD formats. Operates on file descriptor types and stream structures specific to the F module. Used to enable streaming access to disk images and raw device data in low-level I/O operations.",
-      "description_length": 299,
+      "module_path": "Vhd_format.F.Vhd.Field",
+      "library": "vhd-format",
+      "description": "This module defines operations for accessing and listing fields within a VHD file structure. It provides a list of field names and a function to retrieve the value of a specific field from a VHD object. These operations are used when inspecting or modifying metadata such as disk size, parent pointers, or creation timestamps in VHD files.",
+      "description_length": 339,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.From_file.Hybrid_raw_input",
-      "description": "Provides a function to read block indices from a VHD file, given a file descriptor, block count, and block size, and returns a stream of block indices. Works with file descriptors, integers, and 64-bit integers to represent block data. Used to process virtual hard disk images by extracting block mapping information for further analysis or manipulation.",
-      "description_length": 354,
+      "module_path": "Vhd_format.F.From_file.Vhd_IO",
+      "library": "vhd-format",
+      "description": "This module implements low-level VHD file operations for managing virtual disk chains, including opening, closing, creating, and manipulating VHD files. It supports reading and writing sectors, creating dynamic and differencing disks, and resolving sector locations across parent-child chains. Concrete use cases include virtual machine disk management, disk image creation, and handling layered storage in virtualization environments.",
+      "description_length": 435,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Vhd.Field",
-      "description": "Provides functions to retrieve a string value from a structured data type and to list all available keys. Operates on a custom type representing field data, where each field has a name and an associated value. Used to extract specific configuration values or enumerate available settings in a structured format.",
-      "description_length": 311,
+      "module_path": "Vhd_format.F.From_file.Raw_input",
+      "library": "vhd-format",
+      "description": "This module provides functions to read and process VHD (Virtual Hard Disk) files from a file descriptor stream. It includes operations to parse both raw disk images and VHD-formatted data, enabling direct access to disk contents and metadata. Concrete use cases include virtualization tools and disk image analyzers that require low-level access to VHD files.",
+      "description_length": 359,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.UTF16",
-      "description": "Converts a UTF-16 encoded array of integers to a UTF-8 string, assuming valid input. Operates on arrays of 32-bit integers representing code units. Used to encode text for systems requiring UTF-8 output, such as web protocols or file I/O.",
-      "description_length": 238,
+      "module_path": "Vhd_format.S.RW",
+      "library": "vhd-format",
+      "description": "This module defines monadic operations for handling asynchronous I/O actions on virtual hard disk files. It provides functions to read from and write to specific offsets in a disk image using a handle, with support for error handling through exceptions. Concrete use cases include implementing disk image manipulation tools or virtualization components that require precise control over storage operations.",
+      "description_length": 406,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Feature",
-      "description": "Provides operations to convert a feature representation into a string and manage disk-based feature data. Works with a custom type representing temporary disk states. Used to generate human-readable logs and track deletable disk resources during system shutdown.",
-      "description_length": 262,
+      "module_path": "Vhd_format.F.Bitmap",
+      "library": "vhd-format",
+      "description": "This module implements a bitmap structure for tracking sector presence in a disk image. It provides operations to check if a sector is allocated (`get`) and to mark a sector as allocated (`set`), returning the offset and data needed to persist the change. It works directly with `int64` sector identifiers and `Cstruct.t` for binary representation.",
+      "description_length": 348,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Disk_type",
-      "description": "Converts disk representation to a human-readable string. Works with a compact internal structure that tracks changes relative to a parent disk. Used to serialize disk configurations for logging or debugging purposes.",
-      "description_length": 216,
+      "module_path": "Vhd_format.F.Batmap_header",
+      "library": "vhd-format",
+      "description": "This module defines the structure and operations for parsing and manipulating VHD bitmap headers, which store metadata about disk image bitmaps. It works with raw binary data representing VHD files, specifically handling fields like offset, size in sectors, version numbers, checksum, and marker values. Concrete use cases include validating VHD bitmap headers during disk image parsing and preparing bitmap metadata for serialization.",
+      "description_length": 435,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Host_OS",
-      "description": "Converts platform-specific identifiers to human-readable strings. Operates on an opaque type representing operating system variants. Used to generate logs and error messages that reflect the actual runtime environment.",
-      "description_length": 218,
+      "module_path": "Vhd_format.F.Footer",
+      "library": "vhd-format",
+      "description": "This module defines the structure and operations for manipulating VHD footer metadata, including creating footers with customizable fields, computing checksums, and serializing to and from binary formats. It works with fixed-size binary blocks and structured types like UUIDs, timestamps, and disk geometry. Concrete use cases include constructing valid VHD footers for dynamic disks, validating footer integrity via checksums, and parsing existing VHD files for inspection or modification.",
+      "description_length": 490,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Geometry",
-      "description": "Represents geometric shapes with methods to convert instances to strings and construct them from sector counts. Works with a structured type containing shape-specific attributes. Used to generate human-readable representations and initialize shapes from numerical sector data.",
-      "description_length": 276,
+      "module_path": "Vhd_format.F.Platform_code",
+      "library": "vhd-format",
+      "description": "This module defines a variant type representing platform-specific encoding formats for virtual hard disk paths. It includes constructors for Windows, Mac, and URL-style paths, along with a deprecated set of legacy Windows codes. The `to_string` function maps each variant to its corresponding string identifier, enabling serialization or logging of platform-specific path formats.",
+      "description_length": 380,
       "index": 11,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Footer",
-      "description": "Provides functions to create, compute checksums, and serialize/deserialize a footer structure containing metadata for virtual disk images. Works with types like int64, int32, string, and custom types for disk type, host OS, and UUID. Used to validate and reconstruct footer data during disk image parsing and verification.",
-      "description_length": 322,
+      "module_path": "Vhd_format.F.Disk_type",
+      "library": "vhd-format",
+      "description": "This module defines the possible types of virtual hard disks, including fixed, dynamic, and differencing disks. It provides a conversion function `to_string` for representing disk types as strings. Use this module when handling virtual disk metadata or implementing disk image management logic.",
+      "description_length": 294,
       "index": 12,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.F.Platform_code",
-      "description": "Converts platform-specific path representations to UTF-8 strings, handling Windows UTF-16 paths, absolute Windows paths, Mac OS aliases, and RFC2396 file URLs. Operates on opaque path types encapsulating platform-specific encoding and structure. Used to standardize path display and logging across different operating systems and URL formats.",
-      "description_length": 342,
+      "module_path": "Vhd_format.S.INPUT",
+      "library": "vhd-format",
+      "description": "This module defines monadic operations for handling input in a virtual hard disk (VHD) parsing context. It works with a custom monadic type `'a t` and a file descriptor type `fd`, providing functions to read data into buffers, skip to specific positions, and handle errors. Concrete use cases include sequentially parsing VHD headers, reading sector data, and seeking to specific offsets during disk image analysis.",
+      "description_length": 415,
       "index": 13,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vhd_format.F.Parent_locator",
-      "description": "Provides operations to create, compare, and serialize parent locator data, including converting to a string, extracting a filename, and calculating size. Works with a structured type containing sector counts, offsets, and data lengths. Used to parse and represent disk layout information in low-level storage systems.",
-      "description_length": 317,
+      "library": "vhd-format",
+      "description": "This module defines a structured format for storing and manipulating parent locator metadata in VHD files, including operations to serialize and deserialize the data to and from Cstruct buffers. It works with fixed-size records containing platform-specific codes, offsets, and raw data fields, along with helper functions to compare, display, and extract filename information from the platform data. Concrete use cases include reading and writing parent locator information in VHD headers and extracting embedded filenames from raw disk images.",
+      "description_length": 544,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Header",
-      "description": "Provides functions to create and manipulate a disk header structure, including setting parent references, computing checksums, and determining size-related values. Works with types such as UUIDs, byte offsets, sector counts, and Cstruct buffers. Used to initialize and validate disk headers in virtual machine storage management.",
-      "description_length": 329,
+      "module_path": "Vhd_format.F.BAT",
+      "library": "vhd-format",
+      "description": "This module implements a flat array-like structure for storing and manipulating fixed-size sequences of 32-bit integers. It supports direct access and mutation via index, equality checking, folding over indexed entries, and conversion to a string representation. It is used for managing block allocation tables in VHD file handling where precise index-based updates and traversals are required.",
+      "description_length": 394,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.BAT",
-      "description": "Provides operations to compare, access, and modify entries in a fixed-size table of 32-bit integers. Works with a custom type `t` representing a table structure, supporting indexed retrieval and updates. Used to efficiently iterate over entries, check equality between tables, and generate debug information.",
-      "description_length": 308,
+      "module_path": "Vhd_format.F.From_input",
+      "library": "vhd-format",
+      "description": "Reads a VHD file stream into a sequence of fragments, processing in constant space. Works with file descriptors and 64-bit integers to manage stream offsets and sizes. Useful for parsing large VHD files without loading the entire contents into memory.",
+      "description_length": 251,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Batmap_header",
-      "description": "type t = { magic : string; version : int; num_entries : int; offset : int } Provides functions to parse, validate, and extract metadata from binary file headers, including checking the magic string, retrieving version numbers, and determining entry counts and data offsets. Works with raw byte sequences and structured header records to support low-level file format analysis. Used to initialize custom binary file parsers and verify file integrity during loading.",
-      "description_length": 464,
+      "module_path": "Vhd_format.F.Header",
+      "library": "vhd-format",
+      "description": "This module defines the structure and operations for manipulating VHD header metadata, including fields like block size, parent disk references, and checksums. It provides functions to create, compare, serialize, and update headers, along with computing bitmaps and checksums. Use cases include constructing new VHD headers, validating existing ones, and modifying parent disk relationships in differencing disks.",
+      "description_length": 413,
       "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Vhd_format.F.Batmap",
-      "description": "Provides functions for creating, updating, and querying maps with key-value pairs, including insertion, deletion, and lookup operations. Works with the `t` type, which represents a map structure optimized for efficient access and modification. Used to manage dynamic associations between unique keys and associated values in applications like configuration settings or symbol tables.",
-      "description_length": 383,
-      "index": 18,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Bitmap",
-      "description": "Provides operations to check and modify bits in a compact binary representation. Works with 64-bit integers to represent sectors and returns data chunks for disk updates. Used to track allocated disk sectors and generate write operations for storage systems.",
-      "description_length": 258,
+      "module_path": "Vhd_format.S.TIME",
+      "library": "vhd-format",
+      "description": "This module provides a function to retrieve the current time as a 32-bit integer. It works with basic integer types to represent time values. A concrete use case is timestamping events or measuring durations in applications requiring simple time tracking.",
+      "description_length": 255,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vhd_format.S.FILE",
+      "library": "vhd-format",
+      "description": "This module handles low-level file operations for virtual hard disk (VHD) files, including opening, reading, writing, and querying file metadata. It works with file descriptors (`fd`), timestamps (`int32`), and byte buffers (`Cstruct.t`). Concrete use cases include reading and writing raw disk data, checking file existence, and managing file offsets for sparse file handling.",
+      "description_length": 377,
       "index": 19,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Bitmap_cache",
-      "description": "type t = { width : int; height : int; data : bytes } Provides functions to create, update, and query pixel data in a compact binary format. Operates on 2D grids of pixels stored as byte arrays, supporting direct memory access and bitwise manipulation. Used to efficiently manage and render graphical elements in real-time applications like game sprites or image processing pipelines.",
-      "description_length": 383,
+      "module_path": "Vhd_format.F.Geometry",
+      "library": "vhd-format",
+      "description": "This module defines a data structure representing disk geometry with specific fields for cylinders, heads, and sectors. It provides functions to convert this structure to a string and to compute geometry from a total sector count. It is used to model physical disk layouts when working with virtual hard disk images.",
+      "description_length": 316,
       "index": 20,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vhd_format.F.Batmap",
+      "library": "vhd-format",
+      "description": "The module implements operations for managing a block allocation map in a virtual hard disk (VHD) format, specifically handling sparse tracking of allocated and free blocks. It works with a bit-based representation stored in a `t` type, which typically wraps a byte array or similar structure for compact storage. This module is used to efficiently mark and query the allocation status of individual blocks within a VHD, supporting operations like allocation, release, and consistency checks during disk image manipulation.",
+      "description_length": 523,
+      "index": 21,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.Sector",
-      "description": "Handles low-level byte buffer manipulation, providing a direct interface for inspecting and outputting raw data. Operates on Cstruct.t, a flexible and efficient structure for managing contiguous memory blocks. Used to debug network packet contents by printing their binary representation.",
-      "description_length": 288,
-      "index": 21,
+      "module_path": "Vhd_format.F.From_file",
+      "library": "vhd-format",
+      "description": "This module processes low-level disk image streams, supporting iteration and stateful transformations across virtual disk formats like VHD and raw. It provides core operations to fold over disk elements, expand copy and empty operations into explicit writes, and manage file descriptors and custom streams in a functional way. Submodules handle specific tasks such as parsing VHD files into block lists, generating formatted output streams, applying incremental changes, and managing both raw and VHD file structures with support for differencing disks and sector-level access. Examples include converting raw images to structured VHD blocks, exporting disk differences as streams, initializing virtual disks, and analyzing disk metadata directly from file descriptors.",
+      "description_length": 769,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vhd_format.F.Stream",
+      "library": "vhd-format",
+      "description": "This module provides streaming operations for processing sequences of values in a memory-efficient manner. It supports iteration with `iter` and left folding with `fold_left`, both of which consume elements from a stream and apply monadic functions to them. It works with the `'a ll` stream type, where each element is processed sequentially, and the result is computed within the monadic context of the parameter module `A`.",
+      "description_length": 425,
+      "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vhd_format.F.Vhd",
-      "description": "Retrieves and lists field data from a structured custom type, enabling access to specific values or full key enumeration. The core data type represents fields with named values, supporting operations like value extraction and key listing. Users can fetch individual configuration parameters or inspect all available settings. For example, it can retrieve a hostname from a configuration or list all available network parameters.",
-      "description_length": 428,
-      "index": 22,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Vhd_format.F.Raw",
-      "description": "type 'a t = { data : 'a array; offset : int; length : int } Provides functions to create, slice, and manipulate contiguous memory blocks, including reading from and writing to underlying arrays. Operates on raw byte sequences and typed data structures, supporting direct memory access and transformation. Used for low-level data processing, network packet handling, and binary file parsing.",
-      "description_length": 390,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Vhd_format.F.Stream",
-      "description": "Provides monadic operations for sequencing computations, including binding a value to a function that returns a new stream and injecting a failed computation. Works with a generic stream type that represents values or computations yielding values. Used to chain asynchronous or lazy operations, such as processing a sequence of events or handling error-prone data transformations.",
-      "description_length": 380,
+      "library": "vhd-format",
+      "description": "This module handles virtual disk metadata and block allocations, offering operations to resize VHD images and validate block structures. It includes functions to adjust virtual disk sizes and ensure consistency during disk operations, working directly with VHD data structures. A child module provides access to individual VHD fields, allowing retrieval of metadata such as disk size, parent pointers, and timestamps. These tools together enable inspection, modification, and structural validation of VHD files.",
+      "description_length": 511,
       "index": 24,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Vhd_format.F.Fragment",
-      "description": "Handles sector-based data extraction and manipulation from VHD-formatted streams, operating on raw byte sequences and sector offsets. Provides functions to calculate fragment boundaries, validate data alignment, and retrieve specific data blocks within a disk image. Used to process virtual hard drive fragments during disk imaging or data recovery tasks.",
-      "description_length": 355,
+      "library": "vhd-format",
+      "description": "This module represents fragments of a VHD file, including headers, footers, block allocation tables, batmaps, and raw data blocks. It provides constructors and accessors for these fragment types, enabling precise manipulation and inspection of VHD file components. Use this module when parsing, modifying, or constructing VHD files at a granular level, such as reading metadata or writing disk blocks.",
+      "description_length": 401,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F.From_input",
-      "description": "Provides monadic operations for handling input streams, including binding, failure, and return. Works with file descriptors and asynchronous I/O operations. Used to read data from a file descriptor or skip to a specific position in the stream.",
-      "description_length": 243,
+      "module_path": "Vhd_format.F.Sector",
+      "library": "vhd-format",
+      "description": "Represents and manipulates raw sector data in virtual hard disk (VHD) images using Cstruct buffers. Provides the `dump` function to print sector contents for debugging or analysis. Useful when inspecting or validating disk image structures at a low level, such as during parsing or corruption checks.",
+      "description_length": 300,
       "index": 26,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.F.From_file",
-      "description": "Provides asynchronous I/O operations for file handling, including reading, writing, and seeking, using a monadic interface for sequencing actions. Works with file descriptors, byte buffers, and file metadata such as size and modification time. Enables low-level file manipulation in network or event-driven applications, like handling large data streams or implementing custom file protocols.",
-      "description_length": 392,
+      "module_path": "Vhd_format.F.Feature",
+      "library": "vhd-format",
+      "description": "This module defines a single feature flag type `t` with the `Temporary` variant, indicating disks that can be deleted on shutdown. It provides the `to_string` function to convert feature flags to string representations. This type is used to annotate virtual disk headers with metadata about their lifecycle and usage.",
+      "description_length": 317,
       "index": 27,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.Element",
-      "description": "Copies a specified number of sectors from a given offset in a file into a new sector, useful for duplicating metadata or specific data regions. Operates on a polymorphic type representing file sectors, with a focus on sector-level manipulation. Returns a string representation of the file structure and provides the total length in sectors for validation or tracking.",
-      "description_length": 367,
+      "module_path": "Vhd_format.S.ASYNC",
+      "library": "vhd-format",
+      "description": "This module defines asynchronous computation primitives for handling I/O-bound operations in a non-blocking manner. It provides monadic bind (`>>=`), exception handling (`fail`), and value wrapping (`return`) functions that work with a deferred result type `'a t`. These operations are used to sequence asynchronous tasks, such as reading from or writing to virtual disk files, while managing errors and concurrency efficiently.",
+      "description_length": 428,
       "index": 28,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Vhd_format.F",
-      "description": "Combines utilities for disk and data manipulation, including UTF-16 to UTF-8 conversion, disk state serialization, path normalization, and sector-based operations. Core types include arrays, custom structures for disk headers, bitmasks, and memory buffers, with operations for encoding, parsing, and modifying data. It enables tasks like generating human-readable logs, validating disk images, and handling low-level I/O, such as extracting sector data or serializing feature states. Examples include converting platform paths to UTF-8, tracking disk changes, and managing bitmasks for sector allocation.",
-      "description_length": 604,
+      "module_path": "Vhd_format.F.Host_OS",
+      "library": "vhd-format",
+      "description": "This module defines an enumerated type representing supported host operating systems, including Windows, Macintosh, and a catch-all case for other systems with a 32-bit integer identifier. It provides the `to_string` function to convert these OS values into human-readable string representations. This is used primarily when handling VHD format metadata to identify the host system that created or last modified a virtual disk image.",
+      "description_length": 433,
       "index": 29,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Vhd_format.Patterns",
-      "description": "Provides functions to generate test labels and listings from program structures, and to retrieve predefined virtual disk sizes. Works with custom types representing choices, positions, operations, and programs. Used to create descriptive test cases and validate VHD implementation behavior.",
-      "description_length": 290,
+      "module_path": "Vhd_format.F.Bitmap_cache",
+      "library": "vhd-format",
+      "description": "This module manages a cache for VHD bitmap data, providing operations to retrieve, update, and invalidate cached bitmaps. It works with `Cstruct.t` buffers representing disk sectors and uses a reference to an optional tuple of an integer and a bitmap. It is used during VHD file operations to optimize repeated access to sector allocation bitmaps.",
+      "description_length": 347,
       "index": 30,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vhd_format.F.UTF16",
+      "library": "vhd-format",
+      "description": "This module handles UTF-16 encoded integer arrays, converting them to UTF-8 strings. It provides the `to_utf8_exn` function for direct decoding. Use it when processing UTF-16 data from sources like file metadata or network protocols.",
+      "description_length": 233,
+      "index": 31,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Vhd_format.F",
+      "library": "vhd-format",
+      "description": "This module parses and manipulates VHD data structures with sector-level precision, supporting disk image analysis, format conversion, and metadata validation. It provides types for tracking disk sizes, managing block allocation tables with bitmaps, and handling structured metadata like footers, headers, and parent locators. Operations include validating VHD footers via checksums, marking sectors as allocated in bitmaps, and extracting platform-specific path encodings from parent locators. Submodules enable granular access to VHD fragments, efficient block allocation tracking, and streaming processing of large disk images without full in-memory loading.",
+      "description_length": 661,
+      "index": 32,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vhd_format.Element",
+      "library": "vhd-format",
+      "description": "This module provides functions to convert a typed element to a string representation and to determine its length in sectors. It operates on elements parameterized by type `'a`, typically representing structured data stored in VHD format. These functions are used when serializing elements for storage or transmission, and when calculating storage requirements based on sector size.",
+      "description_length": 381,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Vhd_format.Patterns",
+      "library": "vhd-format",
+      "description": "This module defines a set of I/O operation patterns for testing VHD implementations, working with virtual disk sizes, block and sector positions, and operations like create, snapshot, and write. It structures test scenarios using a program type composed of operations, each targeting specific disk locations using positional choices. These patterns are used to generate test cases that validate VHD behavior under various structured I/O sequences.",
+      "description_length": 447,
+      "index": 34,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Vhd_format.S",
-      "description": "Provides bind operation for sequencing computations, failure handling with exceptions, and lifting values into the monadic context. Works with a parameterized type 'a t representing computations. Used to chain error-prone operations and manage exceptional cases in a structured way.",
-      "description_length": 282,
-      "index": 31,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "vhd-format",
-      "description": "Reads and writes VHD format data, including parsing headers, managing disk images, and handling sector-level I/O. Operates on raw byte sequences, VHD headers, and disk metadata structures. Enables direct access to virtual disk contents for tasks like converting between VHD variants, extracting specific sectors, or transferring data over networks.",
-      "description_length": 348,
-      "index": 32,
+      "library": "vhd-format",
+      "description": "This module provides core abstractions for working with virtual hard disks, combining low-level file operations, time management, and asynchronous I/O handling. It defines key data types such as file descriptors (`fd`), byte buffers (`Cstruct.t`), and monadic types for asynchronous computation (`'a t`), enabling precise control over disk image manipulation. Operations include reading and writing sectors, seeking to specific offsets, timestamping events, and managing deferred I/O actions. Use cases range from parsing VHD headers and handling sparse files to building virtualization tools that require asynchronous disk access and time tracking.",
+      "description_length": 649,
+      "index": 35,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Vhd_format",
-      "description": "Combines sector-level copying, data conversion, disk state management, and test generation, with support for polymorphic sector types, UTF-16 to UTF-8 encoding, bitmask manipulation, and monadic error handling. Core operations include duplicating sectors, normalizing paths, serializing disk states, and generating test scenarios. It enables tasks such as extracting sector data, converting file paths, and validating disk structures. Examples include creating test labels, tracking disk changes, and handling I/O errors through structured exception propagation.",
-      "description_length": 562,
-      "index": 33,
-      "embedding_norm": 1.0
+      "library": "vhd-format",
+      "description": "This module works with virtual hard disk images at a structural and storage level, enabling precise manipulation of disk layouts, metadata, and I/O behavior. It defines core types like disk sizes, block allocation bitmaps, file descriptors, and structured data representations, supporting operations such as checksum validation, sector allocation, and metadata extraction. Functions allow serialization of typed data to disk sectors, I/O pattern testing, and asynchronous handling of disk images without full in-memory loading. Examples include validating VHD footers, converting structured elements to sector-aligned byte representations, and simulating disk operations to test VHD consistency.",
+      "description_length": 695,
+      "index": 36,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 34,
-    "meaningful_modules": 34,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 38,
+    "meaningful_modules": 37,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9736842105263158
   },
   "statistics": {
-    "max_description_length": 604,
-    "min_description_length": 216,
-    "avg_description_length": 334.8529411764706,
-    "embedding_file_size_mb": 0.12398052215576172
+    "max_description_length": 769,
+    "min_description_length": 233,
+    "avg_description_length": 415.86486486486484,
+    "embedding_file_size_mb": 0.13495349884033203
   }
 }

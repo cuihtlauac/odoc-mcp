@@ -1,112 +1,117 @@
 {
   "package": "sihl-facade",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 13,
-  "creation_timestamp": "2025-06-18T16:33:04.324119",
+  "total_modules": 12,
+  "creation_timestamp": "2025-07-15T23:07:32.834812",
   "modules": [
     {
-      "module_path": "Sihl_facade.Email",
-      "description": "Converts email data to Sexp and Yojson formats, parses from Yojson, and pretty-prints email structures. Manages email creation with text, HTML, and headers, and supports in-memory email interception for testing. Sends individual or bulk emails through an asynchronous transport.",
-      "description_length": 278,
+      "module_path": "Sihl_facade.Random",
+      "library": "sihl-facade",
+      "description": "This module generates random byte sequences and base64-encoded strings of specified lengths. It provides direct access to random data generation and encoding operations. Typical use cases include creating secure tokens, random identifiers, or initializing cryptographic operations with random input.",
+      "description_length": 299,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Sihl_facade.Email_template",
-      "description": "Converts email templates to and from Sexp and JSON formats, and supports rendering with dynamic content. Operates on email template records containing labels, text, and optional HTML content. Enables dynamic email generation by replacing placeholders and fetching templates by identifier or label.",
-      "description_length": 297,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Sihl_facade.Migration",
-      "description": "Converts migration data to S-expression and pretty-prints it. Handles creation and registration of migration steps, executes registered migrations, and manages lifecycle integration. Supports batch registration and execution of migration sequences for database schema updates.",
-      "description_length": 276,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sihl_facade.Password_reset",
-      "description": "Generates and validates password reset tokens for user authentication. Operates on email addresses and tokens to facilitate password changes. Used to securely update a user's password after verifying a time-sensitive token.",
-      "description_length": 223,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sihl_facade.Queue",
-      "description": "Converts queue instances to S-expressions and pretty-prints them. Manages queue configuration such as maximum retry attempts and delay between retries. Dispatches queued jobs with optional delays, registers jobs for execution, and integrates with a service lifecycle for managed operation.",
-      "description_length": 289,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sihl_facade.Random",
-      "description": "Generates random byte sequences and encodes them as base64 strings, with options to create lifecycle-aware random value providers. Operates on integers to define size and returns character lists or strings. Integrates with service containers to register random value generators.",
-      "description_length": 278,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Sihl_facade.Schedule",
-      "description": "Handles scheduling and lifecycle management for services, allowing execution of timed tasks and registration of schedule implementations. Operates with schedule definitions and container lifecycle structures. Used to start background tasks and integrate service logic into application workflows.",
-      "description_length": 295,
-      "index": 6,
+      "library": "sihl-facade",
+      "description": "This module manages database schema migrations through structured steps. It allows creating, registering, and executing migrations with support for labeling steps, handling foreign key constraints, and formatting migration data. Concrete use cases include defining versioned database schemas, applying incremental changes to databases, and ensuring migration consistency across environments.",
+      "description_length": 391,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_facade.Session",
-      "description": "Converts session data to S-expression and pretty-prints session objects. Operates on session records containing expiration timestamps, keys, and key-value pairs. Enables asynchronous retrieval and modification of session values, session creation, and lifecycle management for session storage.",
-      "description_length": 292,
-      "index": 7,
-      "embedding_norm": 0.9999999403953552
+      "library": "sihl-facade",
+      "description": "This module handles session management with operations to create, retrieve, and manipulate session data, including setting and finding key-value pairs. It works with session types defined in `Sihl_contract.Session`, along with time values using `Ptime.t`, and provides serialization via `to_sexp` and pretty-printing via `pp`. Concrete use cases include managing user sessions with expiration checks, storing session-specific data, and integrating session handling into a service container lifecycle.",
+      "description_length": 500,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_facade.Queue",
+      "library": "sihl-facade",
+      "description": "This module defines queues for asynchronous job processing with support for job serialization, retries, and delayed execution. It works with job handlers that process inputs of a specific type, converting them to and from strings for storage. Concrete use cases include dispatching background tasks like sending emails or processing uploads with configurable retry policies and delays.",
+      "description_length": 385,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_facade.Password_reset",
+      "library": "sihl-facade",
+      "description": "This module handles password reset operations by creating and validating reset tokens tied to user emails and updating passwords securely. It works with strings for email, tokens, and passwords, and returns optional or result types for safe error handling. Concrete use cases include initiating a password reset flow and applying new passwords after token verification.",
+      "description_length": 369,
+      "index": 4,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_facade.Storage",
-      "description": "Converts storage file and stored data to and from S-expression formats, with pretty-printing capabilities. Provides mutation functions to update MIME type, filename, and size for both file and stored records. Enables asynchronous storage operations such as uploading, downloading, retrieving, and deleting files by ID.",
-      "description_length": 318,
-      "index": 8,
+      "library": "sihl-facade",
+      "description": "This module handles file metadata manipulation and storage operations, providing functions to upload, download, update, and delete files using base64 encoding. It works with `file` and `stored` data types representing file metadata and persisted files. Concrete use cases include managing file attachments in a web application, modifying metadata like MIME type or filename, and persisting or retrieving file content from storage.",
+      "description_length": 430,
+      "index": 5,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_facade.Email_template",
+      "library": "sihl-facade",
+      "description": "This module handles email template serialization, modification, and rendering. It provides functions to convert templates to and from JSON and S-expressions, update template fields like label, text, and HTML, and render templates with variable substitutions. It supports creating, retrieving, and updating email templates, as well as integrating them into an email sending workflow.",
+      "description_length": 382,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_facade.Token",
-      "description": "Creates and manages signed tokens with expiration and activation states, supporting key-value data storage. Reads, verifies, and deactivates tokens using a secret key, with options to bypass expiration or validation checks. Handles token lifecycle management and integrates with service containers.",
-      "description_length": 298,
+      "library": "sihl-facade",
+      "description": "This module creates, validates, and manages signed tokens with expiration and activation state. It operates on string-based key-value pairs stored within tokens, allowing reading individual or all values, verifying signatures, checking expiration, and deactivating or reactivating tokens. Concrete use cases include handling authentication tokens, password reset tokens, and session management with fine-grained control over token validity and security.",
+      "description_length": 453,
+      "index": 7,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_facade.Schedule",
+      "library": "sihl-facade",
+      "description": "This module schedules and manages the execution of background tasks at specified intervals. It provides functions to register scheduled tasks, start their execution, and manage their lifecycle as part of a service container. It works with schedule definitions and service implementations conforming to the schedule contract.",
+      "description_length": 324,
+      "index": 8,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Sihl_facade.Email",
+      "library": "sihl-facade",
+      "description": "This module handles email creation, modification, and delivery, providing functions to set text and HTML content, send emails individually or in bulk, and manage a development in-memory mailbox for testing. It works with a custom email type that includes sender, recipient, subject, and content fields, and supports serialization to S-expressions and JSON. Concrete use cases include sending transactional emails, verifying sent emails during tests, and clearing intercepted emails between test runs.",
+      "description_length": 500,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_facade.User",
-      "description": "The module handles serialization, pretty-printing, and validation of user data, along with password management, confirmation, and role checks, operating on `Sihl_contract.User.t`. It supports user authentication, creation, and lifecycle management, including admin-driven password resets and registration with policy enforcement. Specific use cases involve securing user credentials, validating email-based logins, and managing role-based access through structured data workflows.",
-      "description_length": 480,
+      "library": "sihl-facade",
+      "description": "This component offers utilities for managing user data with operations spanning authentication, role enforcement, and structured data manipulation. It centers on user records containing email, password, and role attributes, supporting tasks like secure password updates, role-based access checks, and filtered user searches with sorting capabilities. Key scenarios include enforcing password complexity policies, validating user permissions during registration, and transforming user data between storage formats (e.g., Sexp, Yojson).",
+      "description_length": 534,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "sihl-facade",
-      "description": "Provides functions for routing HTTP requests, parsing query parameters, and generating JSON responses. Works with request objects, response builders, and associative lists for query data. Handles endpoint definitions and structured data serialization in web service implementations.",
-      "description_length": 282,
-      "index": 11,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Sihl_facade",
-      "description": "Provides email, migration, queue, session, storage, and user management capabilities through structured data conversion, validation, and operation. Handles email creation, template rendering, migration execution, job scheduling, token generation, and user authentication using specialized data types like email records, migration steps, queues, sessions, storage files, and user objects. Enables dynamic content replacement, asynchronous task execution, secure password handling, and lifecycle-aware operations across multiple domains. Examples include sending templated emails, executing database migrations, scheduling background jobs, generating password reset tokens, and managing user authentication workflows.",
-      "description_length": 715,
-      "index": 12,
+      "library": "sihl-facade",
+      "description": "This module provides a comprehensive set of tools for handling security, data persistence, background processing, and communication in web applications. It includes primitives for generating secure tokens and random data, managing database schemas, handling user sessions, and scheduling background tasks. Key data types include sessions, jobs, files, emails, and users, with operations for serialization, storage, and transformation. Examples include creating password reset tokens, applying database migrations, queuing email delivery, and managing user roles with access control.",
+      "description_length": 582,
+      "index": 11,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 13,
-    "meaningful_modules": 13,
+    "total_modules_in_package": 12,
+    "meaningful_modules": 12,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 715,
-    "min_description_length": 223,
-    "avg_description_length": 332.38461538461536,
-    "embedding_file_size_mb": 0.04767131805419922
+    "max_description_length": 582,
+    "min_description_length": 299,
+    "avg_description_length": 429.0833333333333,
+    "embedding_file_size_mb": 0.044005393981933594
   }
 }

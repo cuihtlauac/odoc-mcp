@@ -1,44 +1,49 @@
 {
   "package": "ppx_inline_test",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:28:31.391700",
+  "creation_timestamp": "2025-07-15T23:06:05.234424",
   "modules": [
     {
-      "module_path": "ppx_inline_test",
-      "description": "Provides in-line test writing capabilities with support for anonymous tests using `_` and dynamically named tests via `[%name <string expr>]`. Operates on OCaml syntax trees to inject test definitions during compilation. Enables concise test scaffolding within source files without external setup.",
-      "description_length": 297,
+      "module_path": "Inline_test_config.S",
+      "library": "ppx_inline_test.config",
+      "description": "This module defines configuration hooks for setting up inline test execution environments. It includes a function `pre_test_hook` that runs setup logic before each test starts. Use it to initialize resources or modify runtime behavior consistently across tests.",
+      "description_length": 261,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_inline_test_lib",
-      "description": "Provides functions to detect and control test execution context, including whether code is running inline tests or within a test runner process. Works with boolean flags, environment variables, and test configuration lists to manage test execution flow. Used to initialize test runners with custom arguments or check if help was requested during test setup.",
-      "description_length": 357,
+      "module_path": "Inline_test_config",
+      "library": "ppx_inline_test.config",
+      "description": "This module configures inline test execution by defining setup actions through the `pre_test_hook` function, which runs before each test to initialize state or modify behavior. It supports unit-based configurations and integrates with submodules that provide additional hooks for environment setup. Use it to reset counters, seed random generators, or prepare test-specific resources consistently across test runs.",
+      "description_length": 414,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Inline_test_config",
-      "description": "Provides a mechanism to execute a predefined function before each test run, ensuring consistent setup. Operates with unit-returning functions and integrates directly into the testing workflow. Used to initialize environment variables or mock dependencies prior to test execution.",
-      "description_length": 279,
+      "module_path": "Ppx_inline_test_libname",
+      "library": "ppx_inline_test.libname",
+      "description": "This module provides a function `get` that retrieves the name of a library specified via the `-inline-test-lib` command-line argument or through a ppxlib cookie. It works with string values representing library names and optional annotations. Use cases include configuring test execution in ppx-based tools like ppx_bench and ppx_inline_test to target specific libraries.",
+      "description_length": 371,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ppx_inline_test_libname",
-      "description": "Retrieves the name and optional override of an inline test library from command-line arguments. Operates on unit input and returns a tuple of strings. Used to configure test libraries during compilation with ppx_bench or ppx_inline_test.",
-      "description_length": 237,
+      "module_path": "Ppx_inline_test",
+      "library": "ppx_inline_test",
+      "description": "Handles the expansion and validation of inline test constructs during OCaml compilation. It works with abstract syntax trees (ASTs) and source locations to conditionally drop or retain test code based on command-line flags. Used internally by PPX rewriters to enforce test tagging rules and control test inclusion at compile time.",
+      "description_length": 330,
       "index": 3,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ppx_inline_test",
-      "description": "Provides functions to control test expansion based on command line flags, validate ppx extension points with location and tags, and process parsetree expressions into structures. Works with ppxlib's location, parsetree, and custom maybe_drop type. Used to conditionally skip test code during ppx processing and enforce tag constraints on inline test extensions.",
-      "description_length": 361,
+      "module_path": "Ppx_inline_test_lib",
+      "library": "ppx_inline_test.runtime-lib",
+      "description": "This module controls the execution environment for inline tests, determining whether code is running within a test context. It provides access to the current testing mode, including whether the code is a test runner or a child process, and allows reconfiguring test execution via command-line arguments. It is used to manage test discovery and execution behavior in test libraries and dynamically loaded modules.",
+      "description_length": 412,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
@@ -48,9 +53,9 @@
     "retention_rate": 0.625
   },
   "statistics": {
-    "max_description_length": 361,
-    "min_description_length": 237,
-    "avg_description_length": 306.2,
-    "embedding_file_size_mb": 0.018599510192871094
+    "max_description_length": 414,
+    "min_description_length": 261,
+    "avg_description_length": 357.6,
+    "embedding_file_size_mb": 0.01862049102783203
   }
 }

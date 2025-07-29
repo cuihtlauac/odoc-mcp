@@ -1,84 +1,85 @@
 {
   "package": "biniou",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 9,
-  "creation_timestamp": "2025-06-18T16:30:53.919376",
+  "total_modules": 8,
+  "creation_timestamp": "2025-07-15T23:05:45.520198",
   "modules": [
     {
-      "module_path": "biniou",
-      "description": "Encodes and decodes binary data using a compact format optimized for performance and backward compatibility. Works with OCaml types, translating them into hashed field and variant names for efficient serialization. Used to generate efficient serializers and deserializers from type definitions, enabling fast data processing in applications requiring high throughput.",
-      "description_length": 367,
+      "module_path": "Bi_dump",
+      "library": "biniou",
+      "description": "This module handles string manipulation, file I/O, and dictionary management. It provides operations to split strings, load and save dictionary files, and write unique entries to an output channel. Use cases include processing word lists, managing lookup dictionaries, and ensuring unique output entries during file writes.",
+      "description_length": 323,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bi_vint",
-      "description": "Converts signed and unsigned integers to and from variable-length byte sequences, using compact encoding. Operates on raw strings and buffers, supporting both in-place encoding and decoding. Efficiently writes and reads integers to/from binary buffers, suitable for network protocols or file formats requiring space-efficient integer serialization.",
-      "description_length": 348,
+      "module_path": "Bi_inbuf",
+      "library": "biniou",
+      "description": "This module implements an input buffer with operations to efficiently manage and read binary data from strings, bytes, or input channels. It supports reading fixed numbers of bytes, peeking, and character-level access, while maintaining internal state to track position and available data. Concrete use cases include parsing binary file formats, handling network protocols, and streaming data processing where controlled input consumption is critical.",
+      "description_length": 451,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bi_io",
-      "description": "This module provides serialization and deserialization operations for the Biniou format, handling primitive types like integers, booleans, and strings, as well as complex structures such as trees, arrays, and records. It works with binary buffers (`Bi_outbuf.t`, `Bi_inbuf.t`), hash-based tags, and tree nodes, enabling low-level binary I/O and structured data conversion. Specific use cases include efficient binary data storage, network transmission of OCaml values, and manipulation of tagged tree structures with human-readable debugging utilities.",
-      "description_length": 552,
-      "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Bi_outbuf",
-      "description": "The module offers buffer management operations for handling byte data, including appending, extending, and flushing, working with a buffer type that stores bytes and supports string and bytes manipulation. It enables efficient data accumulation and low-level output control, ideal for scenarios like network communication or file I/O where precise data transmission is critical.",
-      "description_length": 378,
-      "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Bi_share",
-      "description": "Provides functions for merging and diffing bidirectional data streams, including `merge_with_conflict`, `apply_patch`, and `generate_patch`. Operates on custom tree structures representing synchronized state and patch logs. Used to resolve conflicts in real-time collaborative editing systems and apply incremental updates to distributed data models.",
-      "description_length": 350,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Bi_dump",
-      "description": "Splits a string into a list of substrings using a custom delimiter logic. Processes line-based data from a list of strings, loads content from an input channel, and constructs paths for dictionary files. Handles unique string writing to output channels and manages dictionary loading and saving with optional file paths.",
-      "description_length": 320,
-      "index": 5,
+      "library": "biniou",
+      "description": "This module provides operations for accumulating and serializing byte data, including appending bytes, strings, and characters, dynamic buffer resizing, and flushing to output channels or custom output objects. It utilizes a buffer structure that tracks shared objects for serialization purposes and includes a reset function to clear data and revert the buffer's state, making it suitable for scenarios requiring efficient in-memory data assembly and controlled output, such as network communication or structured data serialization workflows.",
+      "description_length": 544,
+      "index": 2,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bi_util",
-      "description": "Provides functions for error construction and handling, including a custom error message generator that raises an exception with a given string. Works with exception types and string literals to signal and manage exceptional conditions. Used to create explicit error signals in parsing and validation workflows.",
-      "description_length": 311,
-      "index": 6,
+      "library": "biniou",
+      "description": "This module provides a function `error` that raises an exception with a given error message, used for terminating execution with a descriptive error. It works with string messages and can be used in any context where an exception is needed to signal failure. A concrete use case is validating input conditions and immediately failing with a custom message when expectations are not met.",
+      "description_length": 386,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bi_share",
+      "library": "biniou",
+      "description": "This module implements efficient sharing of immutable values through reference counting and structural comparison. It provides functions to intern values, retrieve shared instances, and manage the underlying storage using hash tables. Concrete use cases include optimizing memory usage for repeated strings, trees, or algebraic data structures in compilers and data-processing pipelines.",
+      "description_length": 387,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Bi_vint",
+      "library": "biniou",
+      "description": "This module encodes and decodes signed and unsigned integers to and from variable-length byte strings (vints), supporting efficient serialization and deserialization of integer values. It operates directly on `int` and `uint` types, and interacts with `Bi_outbuf.t` and `Bi_inbuf.t` for buffered I/O operations. Use this module when compact integer representation is needed for binary protocols or storage formats, such as encoding message lengths or numeric fields in a binary file.",
+      "description_length": 483,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bi_stream",
-      "description": "Reads input channels into streams by converting string chunks into arrays using a provided function, and writes streams to output channels by aggregating array elements into strings, splitting data into fixed-size segments. Operates on input and output channels, transforming data between string and array representations. Efficiently handles large data transfers by processing information in manageable, configurable chunks.",
-      "description_length": 425,
-      "index": 7,
+      "library": "biniou",
+      "description": "Handles streaming of large datasets that exceed memory capacity by serializing and deserializing elements in chunks. Works with OCaml streams and standard input/output channels, using custom serialization functions for specific data types. Useful for processing large binary files or network data where elements are read or written incrementally in fixed-size batches.",
+      "description_length": 368,
+      "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bi_inbuf",
-      "description": "Provides methods to manage and access input data, including reading bytes, peeking at the next byte, and positioning within the buffer. Works with string, byte, and channel-based input sources, allowing efficient traversal and inspection of data. Used to preprocess input streams, ensuring sufficient data is available for parsing or processing tasks.",
-      "description_length": 351,
-      "index": 8,
+      "module_path": "Bi_io",
+      "library": "biniou",
+      "description": "This module provides serialization and deserialization operations for the Biniou format, focusing on low-level tag handling, primitive value conversion, and structured data tree manipulation. It works with buffers (`Bi_inbuf.t`/`Bi_outbuf.t`) to encode/decode basic types (integers, floats, strings) and tagged constructs, while supporting tree-based representations for hierarchical data. Use cases include converting values to compact binary encodings, parsing nested Biniou structures, and validating unsafe serialization logic through internal safety checks.",
+      "description_length": 562,
+      "index": 7,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 9,
-    "meaningful_modules": 9,
+    "total_modules_in_package": 8,
+    "meaningful_modules": 8,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 552,
-    "min_description_length": 311,
-    "avg_description_length": 378.0,
-    "embedding_file_size_mb": 0.03314208984375
+    "max_description_length": 562,
+    "min_description_length": 323,
+    "avg_description_length": 438.0,
+    "embedding_file_size_mb": 0.029476165771484375
   }
 }

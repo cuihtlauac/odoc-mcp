@@ -1,105 +1,109 @@
 {
   "package": "utop",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 12,
-  "creation_timestamp": "2025-06-18T16:33:06.750926",
+  "total_modules": 11,
+  "creation_timestamp": "2025-07-15T23:07:00.057992",
   "modules": [
     {
       "module_path": "UTop_private.Default_paths",
-      "description": "Provides path concatenation using the `/` operator, access to XDG directory structures via `xdg`, and resolution of configuration and history file paths with `resolve`, `config_file_name`, and `history_file_name`. Works with strings and Xdg.t to construct and locate system-specific files. Used to generate absolute paths for application configuration and data storage in a platform-aware manner.",
-      "description_length": 396,
+      "library": "utop",
+      "description": "This module defines default file paths and path manipulation utilities. It provides a path resolution function that selects between legacy and modern file locations, along with standard file names for configuration and history. The module works with strings and an Xdg environment type to construct paths for storing user-specific data.",
+      "description_length": 336,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "UTop_compat.Exp",
-      "description": "Provides a function to construct expression nodes with a given location, pattern, and expression. Operates on AST elements such as patterns and expressions. Used to dynamically build code structures during parsing or transformation.",
-      "description_length": 232,
+      "library": "utop",
+      "description": "Constructs lambda expressions with a specified pattern and body. Works with OCaml's `Parsetree` module to build abstract syntax trees for lambda functions. Useful for generating function expressions programmatically in AST manipulations.",
+      "description_length": 237,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "utop",
-      "description": "Provides line editing, history navigation, and context-sensitive completion for OCaml code execution. Works with OCaml expressions, values, and modules during interactive sessions. Enables efficient exploration of code and debugging in terminal or Emacs environments.",
-      "description_length": 267,
+      "module_path": "UTop_token",
+      "library": "utop",
+      "description": "This module represents and manipulates lexical tokens with detailed positional information. It defines a token type that includes symbols, identifiers, constants, strings, comments, and structured elements like quotations, each annotated with location data tracking their position in the input. It is used to build precise, nested token structures during parsing, particularly for handling OCaml syntax with support for error recovery and custom syntax extensions.",
+      "description_length": 464,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "UTop_main",
-      "description": "Provides functions to start an interactive OCaml session and handle evaluation of expressions with location and value tracking. Works with unit types, string lists, and a custom value type for representing evaluated results. Used to initialize the UTop environment and process code input with detailed error reporting.",
-      "description_length": 318,
+      "module_path": "UTop_styles",
+      "library": "utop",
+      "description": "This module manages terminal text styling for OCaml interactive sessions by defining mutable style attributes for syntax elements like keywords, strings, and comments. It works with `LTerm_style.t` values and token-location pairs to apply visual formatting during code display. Concrete use cases include customizing syntax highlighting and setting cursor or background colors in the terminal interface.",
+      "description_length": 403,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "UTop_complete",
-      "description": "Provides functions to compute code completions based on input text and a phrase terminator, returning the position of the completion and a list of possible completions with their suffixes. Works with strings representing input lines and phrase terminators. Used to implement interactive OCaml REPL completion features, such as suggesting module names or function arguments during input.",
-      "description_length": 386,
+      "module_path": "UTop_lexer",
+      "library": "utop",
+      "description": "Lexes input strings into a list of tokens with their locations. Works with strings and produces token-location pairs. Useful for parsing user input in a REPL or script processor.",
+      "description_length": 178,
       "index": 4,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "UTop_token",
-      "description": "Handles tokenization and parsing of OCaml code with support for nested structures like parentheses and quotations. Operates on custom types representing locations, tokens, comments, and antiquotations. Used to analyze and manipulate OCaml source code during interactive sessions or syntax processing.",
-      "description_length": 300,
+      "module_path": "UTop_history",
+      "library": "utop",
+      "description": "This module manages a history of interactions in a REPL-like environment, tracking entries such as inputs, outputs, errors, and warnings. It provides functions to add specific entry types and retrieve the full history as a list. Use it to maintain and inspect a session's command and response log, such as in an interactive OCaml toplevel.",
+      "description_length": 339,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "UTop",
-      "description": "This module manages runtime configuration and user interface customization for an OCaml REPL, handling tasks like command execution tracking, output formatting, and terminal input parsing. It operates on structured data such as terminal geometry, OCaml parse trees, and React signals, enabling fine-grained control over execution workflows and interactive experiences. Specific use cases include optimizing package loading, customizing color profiles, and enhancing error reporting through terminal-specific formatting.",
-      "description_length": 519,
+      "module_path": "UTop_main",
+      "library": "utop",
+      "description": "This module starts a UTop REPL session and provides a function to interact with it, allowing dynamic evaluation of OCaml code. It works with a custom `value` type representing named values in the REPL, and supports configuration through search paths, build directories, and source location tracking. Concrete use cases include embedding an interactive OCaml environment in applications or scripting dynamic code evaluation with context tracking.",
+      "description_length": 445,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "UTop_styles",
-      "description": "Provides functions to load and apply terminal styles based on token locations, working with `UTop_token` and `LTerm_style` types. Loads styles from a configuration file and applies them to token lists for colored or formatted output. Used to enhance the visual representation of OCaml code in the UTop interactive environment.",
-      "description_length": 326,
+      "module_path": "UTop",
+      "library": "utop",
+      "description": "This module manages configuration and runtime behavior for an OCaml toplevel environment, focusing on UI customization, session state control, and input/output handling. It operates on terminal geometry, lexical buffers, compiler exceptions, and structured state like keyword sets or history records, with patterns addressing syntax parsing, color profiles, and interactive evaluation workflows. Specific applications include customizing prompt layouts, enabling Lwt/Async execution, managing include paths, and configuring terminal interactions through dynamic flags or external editor integrations.",
+      "description_length": 600,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "UTop_history",
-      "description": "Maintains a record of user inputs, outputs, errors, and warnings in a structured format. Each entry captures specific interaction details, including command inputs and their corresponding results. Used to track and review session activity in an interactive OCaml environment.",
-      "description_length": 275,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "UTop_private",
-      "description": "Handles path construction and resolution for system-specific files, combining string manipulation with Xdg.t to locate configuration and history files. Offers operations like `resolve`, `config_file_name`, and `history_file_name` to generate absolute paths. Supports XDG directory access through `xdg` and enables platform-aware file management. For example, it can determine the correct location for a user's configuration file based on their operating system.",
-      "description_length": 461,
-      "index": 9,
+      "library": "utop",
+      "description": "This module manages terminal UI state and configuration for an interactive environment, handling dynamic values like window size, key sequences, and display margins through reactive signals. It supports operations to update and set these values, along with references for error styling and autoload settings, enabling tasks like adjusting console layout on window resize or switching UI input modes. The module also includes path management utilities that resolve file locations based on Xdg environment standards, supporting legacy and modern path conventions for configuration and history files. Together, these components allow responsive UI behavior and consistent file path handling in interactive console applications.",
+      "description_length": 724,
+      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "UTop_lexer",
-      "description": "Lexes OCaml source strings into a list of tokens along with their positions, extracting syntactic elements for analysis. It processes raw input sequences and maps them to structured token representations. Used to parse and inspect user input in interactive OCaml environments.",
-      "description_length": 276,
-      "index": 10,
-      "embedding_norm": 1.0
+      "module_path": "UTop_complete",
+      "library": "utop",
+      "description": "This module provides completion logic for OCaml code input, handling partial expressions and returning possible completions with their suffixes. It works with strings representing input lines and maintains a global cache for efficient lookups. Use it in interactive environments to implement tab-completion for identifiers, module names, or language constructs.",
+      "description_length": 361,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "UTop_compat",
-      "description": "Constructs and manipulates AST elements by embedding locations, patterns, and expressions into expression nodes. Supports dynamic code structure building through operations on parsed or transformed syntax. Allows creation of custom nodes for use in rewriting or analyzing code. For example, it can generate a new function call node with a specified source location and argument pattern.",
-      "description_length": 386,
-      "index": 11,
-      "embedding_norm": 1.0
+      "library": "utop",
+      "description": "This module integrates type system interactions with AST construction capabilities from its submodules, enabling dynamic manipulation of OCaml's top-level environment and lambda expression generation. Key data types include type descriptors, module paths, and Parsetree-based AST nodes, with operations to load files, set compiler paths, and construct lambda functions programmatically. You can use it to extend the OCaml toplevel with custom behavior, generate function expressions during AST transformations, or inspect and modify type information at runtime. The combination of environment control and AST utilities supports advanced tooling like custom preprocessors, interactive debuggers, and metaprogramming utilities.",
+      "description_length": 725,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 12,
-    "meaningful_modules": 12,
+    "total_modules_in_package": 11,
+    "meaningful_modules": 11,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 519,
-    "min_description_length": 232,
-    "avg_description_length": 345.1666666666667,
-    "embedding_file_size_mb": 0.04399585723876953
+    "max_description_length": 725,
+    "min_description_length": 178,
+    "avg_description_length": 437.45454545454544,
+    "embedding_file_size_mb": 0.040416717529296875
   }
 }

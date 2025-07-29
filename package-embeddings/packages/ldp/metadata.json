@@ -1,133 +1,229 @@
 {
   "package": "ldp",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 16,
-  "creation_timestamp": "2025-06-18T16:34:19.469865",
+  "total_modules": 26,
+  "creation_timestamp": "2025-07-15T23:11:13.056016",
   "modules": [
     {
-      "module_path": "Ldp.Containers.Make",
-      "description": "This module provides HTTP operations such as GET, POST, PUT, PATCH, and DELETE for interacting with LDP resources, supporting both RDF and non-RDF content while enabling SPARQL patches. It works with IRIs, RDF graphs, HTTP headers, and content types, emphasizing query execution, data serialization, and resource management. Specific use cases include handling redirects, managing container resources, and enforcing format-specific responses through headers and accept parameters.",
-      "description_length": 480,
+      "module_path": "Ldp.Http.Http.Requests",
+      "library": "ldp",
+      "description": "This module provides direct access to the underlying HTTP request handling functionality, exposing operations for making HTTP calls with customizable methods, headers, and request bodies. It works with IRI values as targets for HTTP requests and returns responses paired with response bodies. Concrete use cases include sending GET, POST, or other HTTP method requests to specific IRIs, and injecting custom headers or payloads into those requests.",
+      "description_length": 448,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Http.Make_cache",
-      "description": "Provides operations to manage a cache by clearing it, generating keys from HTTP headers and IRIs, storing responses and bodies under those keys, and retrieving cached data. Works with HTTP headers, IRIs, and custom key types derived from them. Used to cache HTTP responses for specific domains or routes, enabling efficient retrieval of previously fetched data.",
-      "description_length": 361,
+      "module_path": "Ldp.Http.Cached_http.Requests",
+      "library": "ldp",
+      "description": "This module provides direct access to HTTP request operations, including the ability to perform arbitrary HTTP method calls with customizable headers, request bodies, and debug logging. It works with IRI (Internationalized Resource Identifier) values to specify endpoints and uses Cohttp types for responses, headers, and bodies. Concrete use cases include making GET, POST, or other HTTP requests to REST APIs, handling authentication headers, and debugging network interactions in web service clients.",
+      "description_length": 503,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Http.No_cache",
-      "description": "Provides functions to retrieve and manage HTTP responses without caching, using Iri.t and Cohttp.Header.t to determine cache keys. The get function fetches resources, strips the cookie header, and stores responses only if the status is 2XX. The clear function asynchronously resets all stored data.",
-      "description_length": 298,
+      "module_path": "Ldp.Http.Cached_http.Cache",
+      "library": "ldp",
+      "description": "This module provides caching for HTTP responses based on IRI and request headers, storing results of successful (2XX) requests and returning cached responses when available. It works with `Iri.t`, `Cohttp.Header.t`, and wraps HTTP calls that return `Cohttp.Response.t` and body streams. Concrete use cases include reducing redundant HTTP requests to external resources and improving performance for repeated queries to the same IRI with identical headers.",
+      "description_length": 455,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Http.Cached_http",
-      "description": "Provides functions to retrieve and cache HTTP responses, using Iri.t as a key and filtering out cookie headers during cache operations. It returns responses as tuples of Cohttp.Response.t and string, with caching logic triggered by GET requests. Supports clearing the cache and ensures cached data is only stored for successful HTTP responses.",
-      "description_length": 343,
+      "module_path": "Ldp.Http.Http.Cache",
+      "library": "ldp",
+      "description": "This module provides caching for HTTP responses based on IRI and request headers, storing results of successful (2XX) requests. It supports cache lookup with `get`, which either returns a cached response or fetches and stores a new one, and `clear` to remove all cached entries. Concrete use cases include reducing redundant HTTP requests to the same resource and improving performance when repeatedly accessing static or infrequently changing web content.",
+      "description_length": 456,
       "index": 3,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ldp.Http.Http",
-      "description": "Provides functions for performing HTTP requests and logging debug messages. Operates with HTTP methods, IRIs, request bodies, and headers. Used to send HTTP queries with customizable headers and body content, and to output debug information during network operations.",
-      "description_length": 267,
-      "index": 4,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ldp.Http.Http_ct",
-      "description": "Provides functions to convert between a content type value and its string representation. Works with the `t` type, which encapsulates HTTP content type information. Used to serialize and deserialize content type headers in HTTP requests and responses.",
-      "description_length": 251,
-      "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Cookies.Make",
-      "description": "Removes expired cookies based on system time and adds cookies to a store indexed by IRI. Retrieves cookie lists for specific IRIs and clears the entire cookie collection. Operates on Iri.t and Cohttp.Cookie structures to manage web session data.",
-      "description_length": 245,
+      "module_path": "Ldp.Http.Cached_http",
+      "library": "ldp",
+      "description": "This module enables HTTP interactions with LDP resources using a configurable cache, supporting standard methods like GET, POST, PUT, PATCH, and DELETE for both RDF and non-RDF data. It operates on IRIs and RDF graphs, integrating authentication, redirection handling, and iterative data aggregation through Cohttp and Rdf.Graph libraries. The request module allows direct HTTP calls with custom headers, bodies, and debug logging, while the cache module stores responses based on IRI and headers to reduce redundant requests. Use cases include efficient traversal of linked RDF datasets, authenticated management of versioned resources, and cached querying of LDP containers with reduced network overhead.",
+      "description_length": 706,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Http.Requests",
+      "library": "ldp",
+      "description": "This module implements functions for constructing and sending HTTP requests, including operations to set request methods, headers, and bodies. It works with data types such as `Cohttp_lwt.Body.t`, `Cohttp.Header.t`, `Cohttp.Code.meth`, and `Iri.t`. Concrete use cases include making GET, POST, and DELETE requests to RESTful APIs, and attaching custom headers or JSON payloads to outgoing requests.",
+      "description_length": 398,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ldp.Http.Make_cache",
+      "library": "ldp",
+      "description": "This module provides a caching mechanism for HTTP requests that stores responses based on IRI and request headers, excluding cookies. It supports retrieval and storage of cached responses only when the HTTP status is 2XX, and allows clearing the entire cache. Concrete use cases include reducing redundant network requests for frequently accessed resources and improving performance in repeated queries to REST APIs or static content.",
+      "description_length": 434,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Cache",
-      "description": "Creates a cache instance from a directory, ensuring the directory exists. Operates on file system paths and HTTP cache data structures. Used to persist and retrieve HTTP responses efficiently during network requests.",
-      "description_length": 216,
+      "module_path": "Ldp.Http.Cache",
+      "library": "ldp",
+      "description": "This module caches HTTP responses based on IRI and request headers, excluding cookies. It provides `clear` to empty the cache and `get` to retrieve or fetch and store responses only if the HTTP status is 2XX. It is useful for reducing redundant HTTP requests to the same resource with identical headers.",
+      "description_length": 303,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ldp.Containers",
-      "description": "Provides a function to recursively retrieve and structure content from a given IRI into a tree of containers. Operates on Iri.t values and returns a tree structure with Lwt.t for asynchronous processing. Used to navigate and organize hierarchical data sources in a distributed system.",
-      "description_length": 284,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Cookies",
-      "description": "manages cookie storage and retrieval, automatically removing expired entries and organizing cookies by their IRI. It works with Iri.t and Cohttp.Cookie types to store, fetch, and clear session data. Users can retrieve cookies for a specific domain or remove all cookies at once. Operations include adding new cookies, checking expiration, and querying stored data by URL.",
-      "description_length": 371,
+      "module_path": "Ldp.Http.Http-Cache",
+      "library": "ldp",
+      "description": "This module provides caching for HTTP requests by intercepting calls and storing responses based on the request IRI and headers. It works with `Iri.t` identifiers and `Cohttp` response structures, stripping cookie headers during cache operations. It is used to reduce redundant network requests by returning cached responses when available, and automatically caches successful (2XX) responses from the network.",
+      "description_length": 410,
+      "index": 8,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ldp.Cookies.Make",
+      "library": "ldp",
+      "description": "This module provides operations to manage an in-memory cookie store, including adding cookies for specific IRIs, retrieving cookies by IRI, clearing all cookies, and removing expired cookies using the current system time. It works with Iri.t for identifying cookie origins and Cohttp.Cookie types for representing cookie data. Concrete use cases include tracking session cookies during HTTP client interactions and managing per-domain cookie state across requests.",
+      "description_length": 464,
       "index": 9,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Ct",
-      "description": "The module provides functions for parsing, printing, and manipulating MIME content-type values, focusing on structured operations like parameter extraction and default value handling. It works with types such as `ty`, `subty`, `parameter`, and `mime` to represent and convert between different MIME type formats. Specific use cases include processing defined MIME types like application/rdf+xml and text/plain, ensuring compliance with RFC 2045 standards for content-type representations.",
-      "description_length": 488,
+      "module_path": "Ldp.Http.Http",
+      "library": "ldp",
+      "description": "This module enables HTTP client interactions with Linked Data Platform resources, supporting standard methods like GET, POST, PUT, PATCH, and DELETE for managing RDF and non-RDF data. It handles IRIs, RDF graphs, and content negotiation, with utilities to fold results across endpoints, merge graphs, and manage redirects and authentication. The core API allows custom HTTP requests with headers and bodies, while the caching submodule optimizes performance by storing and reusing responses based on IRI and headers. Examples include querying a semantic web server, synchronizing distributed RDF datasets, or injecting custom payloads into POST requests with cached authentication tokens.",
+      "description_length": 688,
       "index": 10,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Http",
-      "description": "The module offers HTTP operations such as GET, POST, PUT, and DELETE, tailored for handling RDF graphs, SPARQL queries, and non-RDF content, with support for header customization, content-type negotiation, and redirection management. It works with IRIs, HTTP headers, and structured data formats, enabling tasks like querying LDP resources, managing container hierarchies, and parsing responses based on accepted formats. Specific use cases include fetching RDF triples, updating linked data endpoints, and processing SPARQL results through standardized HTTP interactions.",
-      "description_length": 572,
+      "module_path": "Ldp.Containers.S",
+      "library": "ldp",
+      "description": "This module recursively retrieves and structures container data from a given IRI into a tree format. It operates on IRI identifiers and produces asynchronous tree structures representing container contents. Useful for building hierarchical views of containerized resources from a root IRI.",
+      "description_length": 289,
       "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ldp.Log",
-      "description": "Provides logging functions for different severity levels, including error, warning, info, and debug, with both synchronous and Lwt-based variants. Operates on log sources, levels, and formatted messages using the Logs and Logs_lwt modules. Enables configuration of log levels through string parsing and option wrappers for runtime control.",
-      "description_length": 339,
+      "module_path": "Ldp.Http.Ct_wrapper",
+      "library": "ldp",
+      "description": "This module maps values of a specific content type to and from strings. It defines a type `t` representing the values, along with functions `to_string` and `of_string` for bidirectional conversion. It is used to handle content-type-specific data serialization and parsing in HTTP requests and responses.",
+      "description_length": 303,
       "index": 12,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ldp.Types",
-      "description": "Provides functions to create and manipulate metadata structures, extract container children from RDF graphs, and handle error and content-type conversions. Works with IRIs, HTTP methods, RDF graphs, and custom error types. Used to construct metadata responses, parse HTTP content types, and split strings based on character delimiters.",
-      "description_length": 335,
+      "module_path": "Ldp.Http.Http_ct",
+      "library": "ldp",
+      "description": "This module performs specialized HTTP queries for handling typed resources, supporting operations like `get`, `post`, `put`, and batch `fold_get`. It works with data types such as `Iri.t`, `Cohttp.Header.t`, and custom resource types from `Ldp.Types`. Concrete use cases include fetching and modifying RDF resources with metadata, handling redirects, and processing lists of IRIs with custom accumulation logic.",
+      "description_length": 411,
       "index": 13,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "ldp",
-      "description": "Handles HTTP methods such as GET, POST, PUT, and DELETE tailored for Linked Data Platform compliance, with support for RDF graph manipulation. Operates on HTTP clients, RDF triples, and resource representations in various serialization formats. Enables building web resources that adhere to LDP standards, such as managing semantic data stores or implementing LDP containers.",
-      "description_length": 375,
+      "module_path": "Ldp.Http.Http-Requests",
+      "library": "ldp",
+      "description": "This module provides direct access to the underlying HTTP request handling functionality, exposing a `call` function to perform HTTP queries with customizable methods, headers, and request bodies. It works with IRI values as targets for HTTP requests and returns responses paired with response bodies. Concrete use cases include making custom HTTP requests to REST APIs, handling authentication flows, or interacting with web services that require specific headers or methods.",
+      "description_length": 476,
       "index": 14,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Http.Cache_impl",
+      "library": "ldp",
+      "description": "Implements a caching mechanism for HTTP responses based on keys derived from headers and IRIs. It supports operations to clear the cache, generate optional keys, store response-body pairs, and retrieve cached entries with usage instructions. This module is used to optimize repeated HTTP requests by storing and reusing responses for specific domains or endpoints.",
+      "description_length": 364,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Containers.Make",
+      "library": "ldp",
+      "description": "This module recursively retrieves and constructs a tree of containers from a given IRI using an HTTP implementation. It operates on IRI identifiers and produces a structured tree representation of containers asynchronously. A typical use case involves building a hierarchical view of nested containers by fetching and organizing their contents from a remote source.",
+      "description_length": 365,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Http.No_cache",
+      "library": "ldp",
+      "description": "This module implements a cache that never stores or returns cached values, ensuring every request fetches a fresh response. It works with HTTP headers, IRIs, and response bodies, providing `clear` and `get` operations that interface with Lwt for asynchronous handling. Concrete use cases include bypassing cached responses during testing or ensuring up-to-date resource retrieval in environments where stale data is unacceptable.",
+      "description_length": 429,
+      "index": 17,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Ldp.Log",
+      "library": "ldp",
+      "description": "This module provides direct logging operations at various severity levels\u2014error, warning, info, and debug\u2014both synchronously and asynchronously via Lwt. It works with log sources, log levels, and configuration wrappers to control and emit structured logs. Concrete use cases include logging application events, debugging network requests, and configuring log verbosity through environment variables or runtime settings.",
+      "description_length": 419,
+      "index": 18,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Containers",
+      "library": "ldp",
+      "description": "This module models hierarchical LDP container structures using a tree representation that supports non-RDF resources, RDF resources, and nested containers. It provides the `node_text` function to generate a string representation of individual nodes, enabling inspection of node contents directly. The first child module builds tree structures from IRIs by recursively retrieving container data asynchronously, allowing traversal and structured representation of container contents starting from a root IRI. The second child module extends this functionality by using HTTP to fetch and construct nested container trees, supporting remote hierarchical views of containerized resources through asynchronous operations.",
+      "description_length": 715,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Types",
+      "library": "ldp",
+      "description": "This module defines core data structures for representing resources, including metadata, RDF and non-RDF resource types, and container relationships. It provides functions to construct metadata from HTTP responses, extract container children from RDF graphs, and handle content types and parsing errors. Concrete use cases include modeling Linked Data Platform resources, managing access control and metadata IRIs, and parsing HTTP method strings for resource permissions.",
+      "description_length": 472,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Http",
+      "library": "ldp",
+      "description": "This module provides high-level HTTP operations for interacting with Linked Data Platform resources, handling container types, parsing RDF graphs from responses, and generating metadata. It supports key data types like Iri.t, Rdf.Graph.graph, Cohttp responses, and query_error, enabling tasks such as determining container types, parsing RDF content based on MIME types, and extracting metadata from HTTP responses. The module integrates configurable caching through submodules that store responses based on IRI and headers, reducing redundant requests while supporting authenticated interactions, content negotiation, and iterative data aggregation. Direct HTTP interactions are supported via functions for custom methods, headers, and bodies, allowing operations like GET, POST, and DELETE against RESTful and semantic web APIs.",
+      "description_length": 830,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Cache",
+      "library": "ldp",
+      "description": "This module creates and manages an HTTP cache backed by a specified directory. It provides the `of_dir` function to initialize a cache from a directory path, ensuring the directory exists or creating it if necessary. Use this module to persist HTTP responses to disk, enabling efficient resource retrieval and reducing network requests.",
+      "description_length": 336,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Cookies",
+      "library": "ldp",
+      "description": "This module manages an in-memory cookie store, enabling operations such as adding cookies for specific IRIs, retrieving them by IRI, clearing all cookies, and removing expired entries using the system time. It uses `Iri.t` to represent cookie origins and `Cohttp.Cookie` to handle cookie data. You can track session cookies during HTTP client interactions or manage per-domain cookie state across requests. For example, you might add a session cookie after logging into a service and retrieve it automatically for subsequent requests to the same domain.",
+      "description_length": 553,
+      "index": 23,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ldp.Ct",
+      "library": "ldp",
+      "description": "Provides functions for parsing, creating, converting, and querying MIME content types according to RFC 2045, including support for parameters like charset. Defines custom types `ty`, `subty`, and `t` to represent MIME type components and parameter collections, alongside predefined constants for common formats such as text/turtle and application/rdf+xml. Useful for applications requiring precise MIME type handling, such as HTTP content negotiation or semantic web data processing workflows.",
+      "description_length": 493,
+      "index": 24,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Ldp",
-      "description": "manages HTTP caching, content retrieval, cookie storage, MIME parsing, and RDF operations within a distributed system. It handles Iri.t, Cohttp.Cookie, MIME types, and RDF graphs, enabling tasks like persisting HTTP responses, building hierarchical data trees, and performing SPARQL queries. It supports asynchronous processing, content-type negotiation, and metadata manipulation, with logging and error handling integrated throughout. Examples include retrieving structured data from IRIs, managing session cookies, and parsing MIME parameters for content negotiation.",
-      "description_length": 570,
-      "index": 15,
+      "library": "ldp",
+      "description": "This module suite enables structured logging, hierarchical data modeling, and HTTP interaction for Linked Data Platform resources. It provides data structures for RDF and non-RDF resources, container trees, MIME type handling, and HTTP operations with caching and cookie management. You can log events at different severity levels, build and inspect nested container structures from remote IRIs, parse and generate RDF content, and perform authenticated HTTP requests with cached responses. Specific workflows include traversing LDP containers over HTTP, managing session cookies, negotiating content types, and extracting metadata from semantic web resources.",
+      "description_length": 660,
+      "index": 25,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 17,
-    "meaningful_modules": 16,
-    "filtered_empty_modules": 1,
-    "retention_rate": 0.9411764705882353
+    "total_modules_in_package": 26,
+    "meaningful_modules": 26,
+    "filtered_empty_modules": 0,
+    "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 572,
-    "min_description_length": 216,
-    "avg_description_length": 362.1875,
-    "embedding_file_size_mb": 0.058539390563964844
+    "max_description_length": 830,
+    "min_description_length": 289,
+    "avg_description_length": 476.15384615384613,
+    "embedding_file_size_mb": 0.09490299224853516
   }
 }

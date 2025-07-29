@@ -1,30 +1,33 @@
 {
   "package": "bpf",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
   "total_modules": 3,
-  "creation_timestamp": "2025-06-18T16:27:21.804354",
+  "creation_timestamp": "2025-07-15T23:04:35.867373",
   "modules": [
     {
       "module_path": "EBPF.I32",
-      "description": "This module offers arithmetic operations (addition, multiplication, division) and bitwise manipulations (XOR, shift, AND) on 32-bit integers, along with register-move functions like `mov` for low-level data handling. It supports both register-to-register and register-to-immediate variants, enabling precise control over integer values in virtual machine or assembly-like environments. Specific use cases include optimizing numerical computations and managing register states in compiled or interpreted execution contexts.",
-      "description_length": 522,
+      "library": "bpf",
+      "description": "This module provides low-level 32-bit arithmetic, bitwise, and shift operations for eBPF programs, including addition, logical shifts, XOR, and arithmetic shifts with both register-register and register-immediate variants. It operates on 32-bit eBPF registers via `EBPF.reg` references embedded in `EBPF.insn` instruction structures, generating raw eBPF bytecode for efficient value manipulation. These operations are essential for implementing packet filtering logic, network monitoring tools, and system tracing workflows where precise 32-bit register handling is required.",
+      "description_length": 575,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "bpf",
-      "description": "Checks if the packet data pointed to by register R1 is an ARP packet by inspecting the Ethernet header. Operates on raw byte sequences and network protocol headers. Used to filter or process network traffic in eBPF programs running in the kernel.",
-      "description_length": 246,
+      "module_path": "EBPF.ALU",
+      "library": "bpf",
+      "description": "This module supports arithmetic, bitwise, and logical operations on eBPF registers, including addition, shifts, logical negation, and register-to-immediate comparisons, with variants accepting either register or integer operands. It directly manipulates `EBPF.reg` values to generate low-level ALU instructions used in eBPF program assembly, enabling precise control over register states and immediate constants. Typical use cases include implementing arithmetic computations, bitmask operations, and data alignment in eBPF programs.",
+      "description_length": 533,
       "index": 1,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
       "module_path": "EBPF",
-      "description": "This module offers arithmetic and bitwise operations such as addition, multiplication, XOR, and shifts, supporting both register-to-register and register-integer interactions. It manipulates register values and integer literals, enabling precise control over low-level data transformations. Use cases include optimizing compiler intermediate representations or implementing virtual machine instructions requiring bit-level manipulation.",
-      "description_length": 436,
+      "library": "bpf",
+      "description": "This module assembles eBPF instructions for memory access, control flow, arithmetic, and byte-order conversion, operating on registers and immediates to produce string-encoded bytecode with configurable safety. It includes submodules for 32-bit and 64-bit ALU operations, supporting addition, shifts, bitwise logic, and comparisons, which enable precise register manipulation for packet filtering and system tracing. You can generate efficient eBPF programs for kernel-space networking or monitoring by combining load/store operations with arithmetic and control-flow instructions. Examples include aligning data with shifts, filtering packets using bitwise masks, and implementing loops with conditional jumps.",
+      "description_length": 711,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
@@ -34,9 +37,9 @@
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 522,
-    "min_description_length": 246,
-    "avg_description_length": 401.3333333333333,
-    "embedding_file_size_mb": 0.011298179626464844
+    "max_description_length": 711,
+    "min_description_length": 533,
+    "avg_description_length": 606.3333333333334,
+    "embedding_file_size_mb": 0.011310577392578125
   }
 }

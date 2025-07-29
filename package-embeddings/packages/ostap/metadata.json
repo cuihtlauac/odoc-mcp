@@ -1,252 +1,309 @@
 {
   "package": "ostap",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 33,
-  "creation_timestamp": "2025-06-18T16:39:41.526020",
+  "total_modules": 36,
+  "creation_timestamp": "2025-07-15T23:13:39.524071",
   "modules": [
     {
-      "module_path": "Ostap.Combinators.HashCons",
-      "description": "Provides operations to intern objects, generate string representations, and reset internal state. Works with a custom type `t` to manage unique instances of values. Used to optimize memory usage by ensuring identical values share the same reference during parsing or symbolic computation.",
-      "description_length": 288,
+      "module_path": "Ostap.Combinators.Mem",
+      "library": "ostap",
+      "description": "This module implements a memoization mechanism for functions, storing previously computed results to optimize repeated applications. It works with functions of type `'a -> 'b` by wrapping them into a specialized arrow type `marrow` that tracks and reuses computations. Concrete use cases include optimizing recursive parsers or expensive function calls with overlapping inputs, such as in combinator-based parsing or dynamic programming scenarios.",
+      "description_length": 447,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Combinators.Mem",
-      "description": "Provides a mechanism to apply a function to a value using a `marrow` type, and to convert a function into a memoized version that returns a `marrow`. Operates on custom function-like structures represented by `marrow` and individual values of type `'a`. Used to optimize repeated function calls by caching results, such as in recursive algorithms or frequent lookups.",
-      "description_length": 367,
+      "module_path": "Ostap.Matcher.Token",
+      "library": "ostap",
+      "description": "This module handles token manipulation with operations to convert tokens to strings, extract locations, and retrieve the first element of a pair. It works with tokens represented as string-coordinate pairs and locators. It is used for parsing and error reporting tasks where token positions and representations are needed.",
+      "description_length": 322,
       "index": 1,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ostap.Msg.Coord",
-      "description": "Provides line and column accessors for text coordinates, and supports shifting a coordinate based on text content changes. Operates on pairs of integers representing (line, column) positions. Used to adjust cursor positions when text is modified within a specific range.",
-      "description_length": 270,
+      "library": "ostap",
+      "description": "This module represents text coordinates as line and column positions, providing operations to retrieve line and column numbers, convert to strings, and update coordinates based on text traversal. It supports efficient coordinate shifting when processing substrings, handling newlines correctly. Useful for tracking positions in source code during parsing or text analysis.",
+      "description_length": 372,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Msg.MC",
-      "description": "The module offers operations for creating, modifying, and querying ordered maps with key-value pairs, including adding, removing, updating, folding, filtering, and comparing entries. It works with structured data using `Coord.t` as keys and a polymorphic variant type `'a t`, enabling generic container functionality. Use cases include spatial data management, coordinate-based indexing, and transformations requiring key-based traversal or split operations.",
-      "description_length": 458,
+      "module_path": "Ostap.Trap.Default",
+      "library": "ostap",
+      "description": "This module provides a hashing function for values of type `X.t` using `Hashtbl.hash`. It wraps any type to maintain a mapping between parsed items and their locator information. Use this module to associate and retrieve parsed elements with their source locations efficiently.",
+      "description_length": 277,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Msg.Locator",
-      "description": "Provides operations to create intervals from location points, extract minimum and maximum coordinates, and convert locations to strings. Works with a custom type representing source text positions, including file-based coordinates. Used to track and manipulate ranges in code parsing and error reporting.",
-      "description_length": 304,
+      "module_path": "Ostap.Msg.FileLoc",
+      "library": "ostap",
+      "description": "This module manages file location tracking and manipulation for parsing messages, providing operations to create, combine, and transform location data with support for line and column indexing. It works with tuples of strings and locator objects to represent positions in source files, enabling precise error reporting and context tracking during parsing. Concrete use cases include merging adjacent file regions, converting locations to human-readable strings, and adjusting positions when processing multi-line input.",
+      "description_length": 519,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Msg.FileLoc",
-      "description": "Provides operations to create and manipulate location intervals, convert locations to text, and manage relocatable coordinates. Works with tuples of strings and Locator.t, and lists of integer-coordinate pairs wrapped in MC.t. Used to process and format source code locations, track line-based references, and handle relocatable data during parsing or transformation.",
-      "description_length": 367,
-      "index": 5,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
       "module_path": "Ostap.Errors.Errors",
-      "description": "Displays error messages and manages a list of errors, allowing retrieval of the last error, addition of new errors, and checking the number of errors. It works with error records and lists of errors, providing methods to inspect and manipulate error collections. Used to track and report errors during parsing or processing tasks.",
-      "description_length": 330,
-      "index": 6,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ostap.Matcher.Token",
-      "description": "Converts a token and its coordinate information into a string representation. Constructs a locator object from a string and position tuple. Extracts the first component of a tuple. Used to generate human-readable token outputs, create position-aware token structures, and isolate raw values from paired data.",
-      "description_length": 308,
-      "index": 7,
+      "library": "ostap",
+      "description": "This module manages a list of parsing error events, where each error is either a character deletion or replacement at a specific position. It provides operations to construct and manipulate error lists, including adding errors, retrieving the last error, and comparing or displaying error lists. Concrete use cases include tracking and reporting syntax errors during parsing, such as unexpected character deletions or substitutions.",
+      "description_length": 432,
+      "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ostap.Matcher.Skip",
-      "description": "Processes and evaluates comments and whitespace in source code, returning skipped line counts or failure messages. Operates on strings and integers, tracking position and coordinate information. Used to parse and skip over inline, nested, and whitespace-only sections during tokenization.",
-      "description_length": 288,
-      "index": 8,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ostap.Types_.K",
-      "description": "Creates and manipulates a stream processing state, handling transformations on a stream with side effects and accumulated results. Operates on a function type that takes an input and stream, returning a result with updated stream and state. Used to build and process pipelines where each step modifies the stream and captures intermediate outputs.",
-      "description_length": 347,
-      "index": 9,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ostap.PrioReorderer.Make",
-      "description": "Discovers whether an expression is an infix operation with a priority and two sub-expressions or another type of expression. Replaces the arguments of an infix expression with new sub-expressions. Applies a function to all sub-expressions in a recursive manner.",
-      "description_length": 261,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ostap.Trap.Default",
-      "description": "Provides functions to create a default instance of a type, retrieve a default value, and check if a value is the default. Works with the abstract type `t` to ensure consistent handling of default states. Used to initialize configurations and reset objects to their default settings.",
-      "description_length": 282,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Ostap.Trap.Make",
-      "description": "Generates a unique integer representation for values of type `t` using a custom hashing algorithm. Works with arbitrary data types that can be converted to a hashable form. Used to quickly compare and index complex data structures in hash tables.",
-      "description_length": 246,
-      "index": 12,
+      "library": "ostap",
+      "description": "This module provides functions for skipping over specific parts of a string during parsing, such as comments, line comments, nested comments, and whitespace. It works with string inputs and position indices, returning whether the skip was successful or failed along with updated positions or error messages. Concrete use cases include preprocessing source code by ignoring irrelevant sections like comments or formatting whitespace during lexical analysis.",
+      "description_length": 456,
+      "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ostap.Trap.String",
-      "description": "Attaches a locator to a string and retrieves the associated location. It provides a mechanism to copy strings while preserving trap information and includes a global cleanup function for releasing trapped data. The core data type is a string, with operations focused on managing external references.",
-      "description_length": 299,
-      "index": 13,
+      "library": "ostap",
+      "description": "This module tracks and manages the association between string values and their source code locations using locator information. It provides functions to explicitly attach a location to a string, retrieve the location for a string, and copy strings while preserving their associated location data. It is useful when handling lexed or parsed string literals where precise source position tracking is required for error reporting or debugging.",
+      "description_length": 440,
+      "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pa_ostap.Extension.Args",
-      "description": "Provides functions to manage a global hash table for storing string key-value pairs, register keys for tracking, and convert strings into BNF expression structures. Operates on hashtables, strings, and BNF expressions. Used to parse and validate command-line arguments by mapping flags to expressions.",
-      "description_length": 301,
+      "module_path": "Ostap.Util.Lexers",
+      "library": "ostap",
+      "description": "Checks if a given string is a keyword, using a list of keyword strings for comparison. Works with standard OCaml strings and lists. Useful in parsers or lexers to distinguish keywords from identifiers.",
+      "description_length": 201,
+      "index": 8,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Ostap.Trap.Make",
+      "library": "ostap",
+      "description": "This module attaches location information to parsed items and provides operations to retrieve and manage that data. It works with any type `t` derived from the parameter module `X`, and maintains a mapping between values of type `t` and their corresponding `Ostap.Msg.Locator.t` locations. Use it when building parsers that need to track source positions for error reporting or AST node annotations.",
+      "description_length": 399,
+      "index": 9,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ostap.Trap.Trapped",
+      "library": "ostap",
+      "description": "Defines a type `t` representing items with associated location information and provides a `hash` function to compute hash values for these items. Works with parsed data structures that require tracking source positions. Useful for implementing memoization or equality checks based on both content and origin.",
+      "description_length": 308,
+      "index": 10,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ostap.Trap.Sig",
+      "library": "ostap",
+      "description": "This module defines operations for attaching and retrieving source location information to parsed items. It provides functions to associate a locator with an item, copy trapping data between items, and clean up all stored location mappings. Concrete use cases include tracking the origin of syntax tree nodes during parsing for error reporting or source-to-source transformations.",
+      "description_length": 380,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ostap.Msg.MC",
+      "library": "ostap",
+      "description": "This module implements a functional map abstraction with ordered keys of type `Ostap.Msg.Coord.t`, supporting efficient insertion, deletion, merging, and conditional updates while preserving key ordering. It provides ordered traversal operations (ascending/descending iteration, min/max selection), value transformations (mapping, filtering, partitioning), and sequence-based construction from key-value pairs. Designed for applications requiring precise key ordering guarantees, such as parsing message streams with positional constraints or maintaining hierarchical data structures where key monotonicity ensures consistent traversal.",
+      "description_length": 636,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Ostap.Types.K",
+      "library": "ostap",
+      "description": "This module implements a collection of continuation functions used to manage parsing results in a stream processing context. It provides operations to construct, combine, and apply continuation chains over parsed values, specifically working with the `ks` type representing a list of continuation functions. Use cases include composing complex parser combinators and handling backtracking in recursive descent parsers.",
+      "description_length": 418,
+      "index": 13,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Ostap.PrioReorderer.Make",
+      "library": "ostap",
+      "description": "This module implements a reordering function that sorts expressions based on operator priorities. It operates on expressions represented by the `E.t` data type, which is provided by the parameter module `E`. A typical use case involves transforming a parsed expression tree to respect operator precedence before further processing or evaluation.",
+      "description_length": 345,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pa_ostap.Extension.Uses",
-      "description": "Tracks registered strings using a hash table, allowing checks for existence and clearing all entries. It supports adding new strings to the collection and verifying their presence. This is useful for managing a set of named resources or identifiers within a program.",
-      "description_length": 266,
+      "module_path": "Ostap.Msg.Locator",
+      "library": "ostap",
+      "description": "This module represents and manipulates source code locations using points, intervals, and sets of coordinates. It supports operations to construct intervals, retrieve boundary coordinates, convert locations to strings, and compare location values. It is used to track and report precise positions in source text during parsing and error reporting tasks.",
+      "description_length": 353,
       "index": 15,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pa_ostap.Extension.Cache",
-      "description": "Stores and retrieves parsed BNF expressions using a hash table. Compresses strings to optimize storage and lookup. Used to avoid re-parsing identical input strings during grammar processing.",
-      "description_length": 190,
+      "module_path": "Ostap.PrioReorderer.Expression",
+      "library": "ostap",
+      "description": "This module defines an abstract expression type and operations to analyze and transform expressions based on operator priority. It supports discovery of infix operators with their priority and operands, replacement of operands in infix expressions, and recursive mapping over expressions. It is used to implement priority-based reordering of expression trees in concrete syntax manipulations.",
+      "description_length": 392,
       "index": 16,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Combinators",
-      "description": "manages unique instances of values through interned storage, string conversion, and state resetting, using a custom type `t` for efficient memory management. It supports applying functions via `marrow` and memoizing results to avoid redundant computations, working with both `marrow` and arbitrary values of type `'a`. For example, it can ensure consistent representation of parsed expressions or cache intermediate results in recursive traversals. This enables optimized symbolic processing and efficient function execution in complex data structures.",
-      "description_length": 552,
+      "module_path": "Ostap.Combinators.HashCons",
+      "library": "ostap",
+      "description": "This module implements hash-consing to ensure structural sharing of values, primarily working with arbitrary OCaml values. It provides `lookup_obj` to retrieve or intern a value, `dump` to generate a string representation, and `clear` to reset the internal table. Concrete use cases include optimizing memory usage in symbolic computation and ensuring canonical forms of expressions in compilers or theorem provers.",
+      "description_length": 415,
       "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ostap.Errors",
-      "description": "Manages error tracking and reporting through error records and lists, supporting addition, retrieval, and inspection of errors. Provides operations to access the last error, count errors, and manipulate error collections. Can be used to log errors during parsing or processing, and to check for error presence or severity. Examples include capturing syntax errors during compilation or validating input data.",
-      "description_length": 408,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Ostap.Matcher",
-      "description": "Matches text against predefined regular expressions, extracts coordinates from messages, and skips processing based on specific conditions. It operates on strings, regular expressions, and message coordinates. Used to filter and navigate through structured message data efficiently.",
-      "description_length": 282,
-      "index": 19,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ostap.Msg",
-      "description": "manages text coordinates, intervals, and location data through coordinated operations. it handles (line, column) positions, ordered maps with `Coord.t` keys, and custom location types for tracking ranges and formatting. it enables adjusting cursor positions, querying spatial data, and converting locations to strings or relocatable formats. examples include updating coordinates after text edits, managing indexed data by position, and generating human-readable location reports.",
-      "description_length": 480,
-      "index": 20,
-      "embedding_norm": 1.0
+      "library": "ostap",
+      "description": "This module provides structured parsing messages with parameter substitution and location tracking, centered around the `t` type that encapsulates format strings, arguments, and locators. It supports message construction, phrase extension, and location augmentation, enabling precise error generation and diagnostic output during parsing. Submodules handle coordinate tracking, file location manipulation, ordered mapping with positional constraints, and source code location representation, allowing operations like line/column updates, region merging, ordered traversal, and interval comparison. Examples include generating contextual parsing errors, formatting diagnostics with interpolated values, and tracking multi-line source positions efficiently.",
+      "description_length": 755,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ostap.Pretty",
-      "description": "This module provides combinators for constructing and combining printers to format basic types (strings, integers, booleans, floats) and control layout through boxes, breaks, and newlines, operating on `printer` values that emit formatted output via `Format.formatter`. It includes tools for pretty-printing collections like lists and arrays with customizable delimiters and line breaks, enabling consistent structuring of elements. Specific use cases include formatting code blocks, JSON-like structures, or nested data with encapsulated delimiters and controlled whitespace.",
-      "description_length": 576,
+      "module_path": "Ostap.Reason",
+      "library": "ostap",
+      "description": "This module defines a `reason` type to represent parsing errors with location and message details, along with a `retrieved` type that pairs locators with messages or comments. It provides functions to construct error reasons and convert them to strings with options to control output depth and format. Use this module to handle and display detailed parsing error information, such as reporting the first few errors or all accumulated errors in a structured way.",
+      "description_length": 461,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Ostap.Matcher",
+      "library": "ostap",
+      "description": "This module enables efficient string and character sequence matching with support for prefix validation and selective token skipping, making it ideal for lexical analysis and input parsing tasks. It provides core operations for checking matches, advancing through input streams, and handling custom token types, while integrating token manipulation and skipping behaviors through its submodules. The first submodule processes tokens as string-coordinate pairs, allowing extraction of token values, positions, and first elements, which is essential for error reporting and parser construction. The second submodule enhances parsing by skipping over comments, whitespace, and other non-essential input segments, returning success or failure alongside updated positions or diagnostic messages.",
+      "description_length": 790,
+      "index": 20,
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Ostap.Trap",
+      "library": "ostap",
+      "description": "This module maintains the association between parsed values and their source locations, enabling precise tracking of input origins through traps. It supports creating and manipulating trapped values that pair data with positional information, while submodules enhance functionality by providing hashing, explicit location attachment, and efficient mapping management. For example, string literals can be paired with locators for accurate error reporting, or AST nodes can retain source positions for debugging and transformations. Additional utilities include copying trapped data, cleaning mappings, and hashing trapped items for memoization or equality checks.",
+      "description_length": 662,
       "index": 21,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Ostap.PrioReorderer",
-      "description": "Discovers and manipulates expression structures, identifying infix operations with priority and replacing their components. Operates on a recursive expression type representing various syntactic forms. Enables restructuring of expressions by mapping over subterms or substituting arguments in infix constructs.",
-      "description_length": 310,
+      "library": "ostap",
+      "description": "This module reorders expressions based on operator priorities, ensuring correct evaluation order in expression trees composed of operators and operands. It operates on expressions of type `E.t`, provided by a parameter module, and includes functions to analyze, transform, and reorder infix expressions based on operator precedence. Child modules implement the core reordering logic and provide utilities for manipulating expression trees, such as replacing operands and mapping over expressions. Use it to transform parsed arithmetic or logical expressions into an evaluation-ready form.",
+      "description_length": 588,
       "index": 22,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap.Reason",
-      "description": "Tracks error reasons and associated comments, allowing retrieval and modification of these elements. Operates on strings and custom error records containing message and comment fields. Used to construct detailed error responses in logging and validation workflows.",
-      "description_length": 264,
+      "module_path": "Ostap.Types",
+      "library": "ostap",
+      "description": "This module defines core types and operations for handling parsing results with explicit success and failure states, using tagged tuples and continuations. It provides key functions like `emptyResult`, `failWith`, and `bind` to create and chain parsing operations, while the `ks` type manages continuation chains for stream processing and backtracking. Together with its child module, it supports building complex parser combinators and recursive descent parsers with precise error handling. Examples include composing parsers that track failure tags or applying continuation-based transformations to parsed values.",
+      "description_length": 615,
       "index": 23,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ostap.Trap",
-      "description": "Attaches a message locator to an item and retrieves the associated location. It provides a mechanism to copy trap information between items and ensures proper cleanup of all trapped data. Works with opaque `t` type and `Msg.Locator.t` to track and manage message positions.",
-      "description_length": 273,
+      "module_path": "Ostap.Combinators",
+      "library": "ostap",
+      "description": "This module combines parser construction with memoization and structural sharing to build efficient, stateful parsing workflows. It provides core combinators for sequencing, alternation, and repetition over streams, while managing parser state and error propagation through tagged results. The memoization submodule optimizes recursive parsers by caching results based on input position and user data, and the hash-consing submodule reduces memory usage by ensuring canonical representations of parsed structures. Examples include implementing complex grammars with efficient backtracking and constructing optimized, shared representations of abstract syntax trees.",
+      "description_length": 665,
       "index": 24,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Ostap.Types_",
-      "description": "Processes streams by applying transformation functions that modify both the stream and an associated state, enabling pipeline-based data processing with side effects. Key operations include applying functions to update the stream and state, and accumulating results across steps. Data types include the stream itself, the state, and a result type containing updated values. Examples include parsing input incrementally, logging intermediate outputs, or aggregating data as it flows through stages.",
-      "description_length": 497,
+      "module_path": "Ostap.Errors",
+      "library": "ostap",
+      "description": "This module tracks parsing errors as a sequence of character deletions or replacements at specific positions. It supports operations to add errors, retrieve the last error, and compare or display error lists. Main data types include error events with position and kind. For example, it can record an unexpected character deletion at position 5 or a substitution at position 12 during syntax analysis.",
+      "description_length": 400,
       "index": 25,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "BNF3.Expr",
-      "description": "Provides operations to construct and manipulate grammar expressions, including terminals, nonterminals, repetition, alternation, and sequencing. Works with a custom type representing parsed grammar rules and supports text formatting with TeX and tree output. Used to generate and visualize formal language structures from string-based definitions.",
-      "description_length": 347,
+      "module_path": "Ostap.Util",
+      "library": "ostap",
+      "description": "This module provides parsing combinators for building recursive descent parsers that process token streams and handle operator precedence with associativity rules. It introduces abstract parser types and result tags for tracking positions, reporting errors, and encapsulating success or failure states. The module supports constructing custom language parsers, implementing expression evaluators, and defining syntax recognizers, with a keyword-checking submodule that compares strings against a list of keyword literals. While one submodule enables keyword recognition in parsers, the other remains empty and unused.",
+      "description_length": 617,
       "index": 26,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "BNF3.Def",
-      "description": "Represents rule definitions with constructors for simple and parameterized rules, using a name, arguments, and an expression body. Outputs TeX representation of the defined rules. Works with strings, lists of strings, and expression objects. Used to generate formatted rule definitions for documentation or typesetting.",
-      "description_length": 319,
+      "module_path": "Ostap",
+      "library": "ostap",
+      "description": "This library provides a comprehensive parsing framework with structured error handling, input tracking, and expression transformation. Core data types include `t` for formatted parsing messages, `reason` for error diagnostics, token streams with positional data, and tagged results for parser state management. It supports operations like message interpolation with location tracking, error reporting with context, token skipping, expression reordering by precedence, and memoized parser combinators. Examples include building recursive descent parsers with precise error diagnostics, transforming infix expressions into evaluation-ready trees, and efficiently tracking source positions through lexical and syntactic analysis.",
+      "description_length": 726,
       "index": 27,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999998807907104
     },
     {
-      "module_path": "Pa_ostap.Extension",
-      "description": "manages a global registry for string keys, BNF expressions, and parsed grammar structures, enabling efficient storage, retrieval, and validation of command-line arguments and grammar rules. It supports hash table operations for adding, checking, and clearing keys, as well as compressing strings to reduce redundancy. Functions include converting strings to BNF, tracking registered identifiers, and reusing parsed expressions. This allows for streamlined argument parsing, resource management, and optimized grammar processing.",
-      "description_length": 528,
+      "module_path": "Pa_ostap.Extension.Args",
+      "library": "ostap.syntax",
+      "description": "This module manages a collection of named string arguments, providing direct access to their values through a hash table. It allows registering new arguments, wrapping them into structured expressions, and clearing all stored values. Concrete use cases include handling command-line parameters or configuration settings where named values must be dynamically stored and transformed.",
+      "description_length": 382,
       "index": 28,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "ostap",
-      "description": "Provides functions for parsing and manipulating time intervals, including duration calculations, interval intersections, and time range validation. Works with custom types such as `time_span` and `interval` to represent temporal data. Used to schedule events based on overlapping time windows and compute elapsed time between timestamps.",
-      "description_length": 337,
+      "module_path": "Pa_ostap.Extension.Uses",
+      "library": "ostap.syntax",
+      "description": "Tracks string identifiers using a hash table. Provides operations to register identifiers, check their existence, and clear the table. Useful for managing unique string keys in contexts like symbol tables or name registries.",
+      "description_length": 224,
       "index": 29,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Ostap",
-      "description": "combines interned value management, error handling, text matching, coordinate tracking, pretty-printing, expression manipulation, error annotation, message localization, stream processing, and a placeholder module into a unified system. it defines types such as `t`, `Coord.t`, `printer`, and error records, and provides operations for memoization, error inspection, regex extraction, location adjustment, formatting, expression rewriting, and stream transformation. it enables tasks like parsing with consistent value representation, formatting structured data, tracking errors during processing, and managing text positions for accurate reporting. examples include caching parsed expressions, generating human-readable error messages, and formatting nested data with controlled layout.",
-      "description_length": 787,
+      "module_path": "Pa_ostap.Extension.Cache",
+      "library": "ostap.syntax",
+      "description": "This module provides a caching mechanism for BNF3 expressions using a hash table. It maps string keys to compressed string identifiers and stores or retrieves corresponding BNF3.Expr.t values. Use it to efficiently reuse previously parsed or generated BNF3 expressions without recomputation.",
+      "description_length": 291,
       "index": 30,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "BNF3",
-      "description": "Constructs and manipulates grammar expressions using terminals, nonterminals, and structural operations like repetition and alternation, with support for TeX and tree visualization. Represents rules through named structures that may include arguments and expression bodies, enabling formatted output for documentation. Operations work with strings, lists, and custom expression types to build and render formal language definitions. Examples include generating tree diagrams from grammar strings and producing TeX code for rule documentation.",
-      "description_length": 542,
+      "module_path": "Pa_ostap.Extension",
+      "library": "ostap.syntax",
+      "description": "This module extends OCaml syntax tree manipulation with parsing and pretty-printing capabilities, using functions like `printExpr` and `texDef` to convert AST nodes and BNF definitions into readable strings. It integrates identifier tracking, argument management, and BNF3 expression caching through submodules that handle symbol registries, named value transformations, and efficient reuse of parsed expressions. Direct APIs process OCaml AST elements like `MLast.expr`, while child modules support tasks like command-line argument handling, identifier validation, and compressed BNF3 storage. Example uses include generating documentation from syntax trees and optimizing BNF3-based parsers with cached intermediate results.",
+      "description_length": 726,
       "index": 31,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Pa_ostap",
-      "description": "manages a global registry for string keys, BNF expressions, and parsed grammar structures, enabling efficient storage, retrieval, and validation of command-line arguments and grammar rules. It provides hash table operations for adding, checking, and clearing keys, along with string compression to reduce redundancy. Functions include converting strings to BNF, tracking registered identifiers, and reusing parsed expressions. This supports streamlined argument parsing, resource management, and optimized grammar processing.",
-      "description_length": 525,
+      "library": "ostap.syntax",
+      "description": "This module enhances OCaml AST manipulation by adding parsing and pretty-printing features, centered around data types like `MLast.expr` and operations such as `printExpr` and `texDef`. It supports tasks including converting AST nodes to readable strings, validating identifiers, managing named value transformations, and caching BNF3 expressions for efficient reuse. You can use it to generate documentation from syntax trees or optimize parsers using intermediate result caching.",
+      "description_length": 481,
       "index": 32,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "BNF3.Def",
+      "library": "ostap.BNF3",
+      "description": "This module defines data structures and operations for representing BNF rule definitions, including both simple and parameterized forms. It provides constructors for creating definitions with or without parameters and a function to convert definitions into TeX format. Use cases include building and formatting BNF rules for documentation or further processing.",
+      "description_length": 361,
+      "index": 33,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "BNF3.Expr",
+      "library": "ostap.BNF3",
+      "description": "This module represents and manipulates BNF expressions using a variant type that includes terminals, nonterminals, rule applications, iterations, alternations, and groupings. It provides constructors for building BNF expressions and printers for generating TeX or tree representations. Concrete use cases include constructing grammars, transforming expression structures, and exporting BNF rules for documentation or analysis.",
+      "description_length": 426,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "BNF3",
+      "library": "ostap.BNF3",
+      "description": "This module implements a BNF tree structure with support for both simple and parameterized rule definitions. It provides data types for BNF expressions, including terminals, nonterminals, iterations, alternations, and groupings, along with constructors and printers for building and formatting these expressions. Operations allow conversion to TeX, tree visualization, and grammar transformation. Example uses include constructing formal grammars, generating documentation, and analyzing rule structures.",
+      "description_length": 504,
+      "index": 35,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 37,
-    "meaningful_modules": 33,
-    "filtered_empty_modules": 4,
-    "retention_rate": 0.8918918918918919
+    "total_modules_in_package": 50,
+    "meaningful_modules": 36,
+    "filtered_empty_modules": 14,
+    "retention_rate": 0.72
   },
   "statistics": {
-    "max_description_length": 787,
-    "min_description_length": 190,
-    "avg_description_length": 369.6666666666667,
-    "embedding_file_size_mb": 0.12032794952392578
+    "max_description_length": 790,
+    "min_description_length": 201,
+    "avg_description_length": 466.27777777777777,
+    "embedding_file_size_mb": 0.1311788558959961
   }
 }

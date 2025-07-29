@@ -1,56 +1,53 @@
 {
   "package": "ppx_mysql_identity",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 5,
-  "creation_timestamp": "2025-06-18T16:30:15.286124",
+  "total_modules": 4,
+  "creation_timestamp": "2025-07-15T23:05:01.585757",
   "modules": [
     {
-      "module_path": "Mysql_with_identity.IO",
-      "description": "Handles asynchronous value sequencing and lifting, enabling structured composition of operations that produce single values. Works with a monadic type that wraps individual values, allowing chaining of computations. Used to manage sequential I/O operations where each step depends on the result of the previous one.",
-      "description_length": 315,
+      "module_path": "Mysql_with_identity.Prepared",
+      "library": "ppx_mysql_identity",
+      "description": "This module provides functions for executing and fetching results from prepared SQL statements, handling both cached and uncached statement execution. It works with database handles, prepared statements, and result sets, supporting operations like parameterized queries and reading rows. Concrete use cases include efficiently running repeated queries with varying parameters and streaming result rows from a MySQL database.",
+      "description_length": 424,
       "index": 0,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0000001192092896
+    },
+    {
+      "module_path": "Mysql_with_identity.IO",
+      "library": "ppx_mysql_identity",
+      "description": "This module implements a monadic interface for sequencing database operations, specifically supporting values wrapped in a type `t` that represents computations in a context with identity and MySQL-related effects. It provides `return` to wrap pure values, `bind` (and its infix operator `>>=`) to chain computations that depend on prior results. Concrete use cases include composing database queries and identity management tasks where each step relies on the outcome of the previous.",
+      "description_length": 485,
+      "index": 1,
+      "embedding_norm": 1.0
     },
     {
       "module_path": "Mysql_with_identity.IO_result",
-      "description": "Provides monadic operations for chaining I/O actions that may fail, including lifting values into the effectful result context and binding subsequent actions based on successful outcomes. Works with a type representing I/O operations that return either a value or an error. Used to handle file reading with error propagation and sequential I/O tasks that depend on prior successful results.",
-      "description_length": 390,
-      "index": 1,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Mysql_with_identity.Prepared",
-      "description": "Handles database connection initialization and statement execution with error handling. Processes SQL statements, retrieves results, and manages prepared statements with caching options. Works with database handles, SQL statements, and result sets to perform structured database interactions.",
-      "description_length": 292,
+      "library": "ppx_mysql_identity",
+      "description": "This module implements monadic operations for handling IO results in a MySQL context, specifically providing `return`, `bind`, and the `>>=` operator. It works with the `('a, 'e) t` type, representing successful or failed IO outcomes. It is used to sequence database operations while handling errors such as connection or query failures.",
+      "description_length": 337,
       "index": 2,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "ppx_mysql_identity",
-      "description": "Provides functions to map SQL tables to OCaml records, execute parameterized queries, and handle result sets. Works with MySQL connections, SQL queries, and OCaml record types that mirror database schemas. Enables direct insertion, selection, and updating of employee data using typed operations.",
-      "description_length": 296,
-      "index": 3,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Mysql_with_identity",
-      "description": "Combines asynchronous value sequencing, error-handled I/O, and database operations into a unified flow for building reliable, step-dependent applications. It supports monadic types for chaining computations, handling failures, and managing database interactions through structured execution and result retrieval. Users can perform sequential I/O, manage database connections, and execute SQL queries with error-aware composition. Examples include reading files with error recovery, executing parameterized SQL statements, and building pipelines that depend on prior successful steps.",
-      "description_length": 583,
-      "index": 4,
+      "library": "ppx_mysql_identity",
+      "description": "This module combines database interaction with identity management, enabling efficient execution of prepared SQL statements and composition of effectful computations. It supports key data types like database handles, prepared statements, and monadic wrappers for sequencing operations with error handling. You can run parameterized queries, chain database actions using `bind`, and handle success or failure outcomes in MySQL operations. Example uses include authenticated database queries, transaction pipelines, and robust error recovery during data retrieval.",
+      "description_length": 562,
+      "index": 3,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 5,
-    "meaningful_modules": 5,
+    "total_modules_in_package": 4,
+    "meaningful_modules": 4,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 583,
-    "min_description_length": 292,
-    "avg_description_length": 375.2,
-    "embedding_file_size_mb": 0.01860523223876953
+    "max_description_length": 562,
+    "min_description_length": 337,
+    "avg_description_length": 452.0,
+    "embedding_file_size_mb": 0.01495361328125
   }
 }

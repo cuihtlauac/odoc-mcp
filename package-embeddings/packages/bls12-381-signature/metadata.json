@@ -1,91 +1,93 @@
 {
   "package": "bls12-381-signature",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 10,
-  "creation_timestamp": "2025-06-18T16:32:14.454519",
+  "total_modules": 9,
+  "creation_timestamp": "2025-07-15T23:07:07.805759",
   "modules": [
     {
-      "module_path": "Bls12_381_signature.MinPk.Basic",
-      "description": "Provides signing and verification functions for individual messages using a secret and public key pair, along with an aggregate verification function that ensures all messages in a list are unique before validating a combined signature. Operates on secret keys, public keys, byte sequences, and signatures. Used to enforce uniqueness of messages in aggregate signatures to prevent rogue key attacks.",
-      "description_length": 399,
+      "module_path": "Bls12_381_signature.MinSig.Basic",
+      "library": "bls12-381-signature",
+      "description": "This module implements the core operations for BLS signatures with minimal signature size (48 bytes) and longer public keys (96 bytes). It provides functions for signing a message with a secret key, verifying a signature against a public key and message, and validating an aggregate signature over multiple distinct messages. The aggregate verification ensures that all messages are unique, preventing rogue key attacks as described in the specification.",
+      "description_length": 454,
       "index": 0,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Bls12_381_signature.MinPk.Aug",
-      "description": "Signs and verifies messages using a scheme where signatures are generated over the concatenation of a public key and message, ensuring uniqueness across different keys. Processes raw byte sequences and cryptographic signatures, validating individual and aggregated signatures. Used to confirm the authenticity of messages in a multi-key environment, ensuring that aggregated signatures correctly represent multiple distinct signers.",
-      "description_length": 432,
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS signature augmentation for minimizing public key size (48 bytes) while using longer signatures (96 bytes). It provides `sign`, `verify`, and `aggregate_verify` operations, where signatures are computed over the concatenation of the public key and message. It works with secret keys, public keys, and byte strings, enabling secure multi-signature verification across distinct public keys.",
+      "description_length": 414,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Bls12_381_signature.MinPk.Pop",
-      "description": "Generates and verifies cryptographic proofs of possession using a secret key, and validates aggregated signatures over a shared message. Operates on secret and public keys, byte strings, and proof values derived from cryptographic operations. Enables efficient verification of multiple signatures on the same message in a single step.",
-      "description_length": 334,
+      "module_path": "Bls12_381_signature.MinSig.Pop",
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS proof-of-possession signatures for verifying and aggregating signatures on the same message. It provides functions to sign and verify individual signatures, generate and validate proof-of-possession data, and efficiently verify aggregated signatures from multiple public keys. The module works with secret keys, public keys, messages, and signature data, all represented as byte sequences. It is used in scenarios requiring compact signatures and efficient batch verification, such as blockchain consensus protocols.",
+      "description_length": 543,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bls12_381_signature.MinSig.Basic",
-      "description": "Provides signing and verification functions for individual messages using a secret and public key pair, along with an aggregate verification function that checks a set of message-signature pairs against a single aggregated signature. Operates on secret keys, public keys, byte sequences, and signatures. Ensures security in scenarios where multiple distinct messages must be validated under a single aggregate signature.",
-      "description_length": 420,
+      "module_path": "Bls12_381_signature.MinSig.Aug",
+      "library": "bls12-381-signature",
+      "description": "This module implements the message augmentation scheme for BLS signatures, where signatures are computed over the concatenation of the public key and the message. It provides signing, individual verification, and fast aggregate verification operations tailored for the MinSig configuration with 48-byte signatures and 96-byte public keys. Concrete use cases include secure message authentication and efficient validation of multiple signatures in blockchain or distributed systems where public key binding is critical.",
+      "description_length": 518,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Bls12_381_signature.MinSig.Aug",
-      "description": "Signs and verifies messages using a scheme where signatures are generated over the concatenation of a public key and message, ensuring uniqueness across different keys. Processes raw byte sequences and cryptographic signatures, validating individual and aggregated signatures. Used to confirm the authenticity of messages in a multi-key environment, ensuring that aggregated signatures are valid across multiple public keys and a single message.",
-      "description_length": 445,
+      "module_path": "Bls12_381_signature.MinPk.Basic",
+      "library": "bls12-381-signature",
+      "description": "This module implements the BLS signature scheme with minimal public key size (48 bytes) and larger signatures (96 bytes), following the basic aggregate verification approach from the CFRG draft. It provides functions to sign messages, verify individual signatures, and verify aggregate signatures under the constraint that all signed messages must be distinct. The aggregate verification function enforces message uniqueness to prevent rogue key attacks, making it suitable for multi-signature scenarios like blockchain transactions or distributed consensus protocols.",
+      "description_length": 568,
       "index": 4,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Bls12_381_signature.MinSig.Pop",
-      "description": "Generates and verifies digital signatures using a specific key pair, and validates proof of possession to prevent rogue key attacks. Processes byte sequences as inputs and outputs, and supports aggregate verification of multiple proofs on a single message. Implements cryptographic operations for secure authentication and batch validation in protocols requiring key authenticity.",
-      "description_length": 380,
+      "module_path": "Bls12_381_signature.MinPk.Pop",
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS signature operations with proof of possession for public key validation, working with secret keys, 48-byte public keys, and 96-byte signatures. It provides functions to sign and verify signatures, generate and validate proof of possession, and perform optimized aggregate signature verification for multiple keys on the same message. Concrete use cases include securing consensus protocols and batch validating signatures in blockchain systems.",
+      "description_length": 471,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bls12_381_signature.MinPk",
-      "description": "combines signing, verification, and proof-of-possession mechanisms for BLS signatures, focusing on compact public keys and extended signatures. It handles secret and public keys, byte sequences, and signatures, supporting individual and aggregate validation with message uniqueness checks. It ensures authenticity across multiple keys, prevents duplicate message attacks, and enables efficient batch verification of signatures on shared messages. Examples include verifying a single message with a key, validating an aggregate signature with unique messages, and confirming possession of a key through cryptographic proofs.",
-      "description_length": 623,
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS signatures with 48-byte public keys and 96-byte signatures, focusing on secure aggregation and efficient serialization for blockchain and distributed systems. It provides core operations for signing, verifying, and aggregating signatures, along with conversions between cryptographic points and byte representations. Child modules extend functionality to support aggregate verification with distinct messages, proof of possession for key validation, and optimized multi-signature verification. Specific applications include securing consensus protocols, batch validating blockchain transactions, and minimizing public key storage overhead.",
+      "description_length": 666,
       "index": 6,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bls12_381_signature.MinSig",
-      "description": "provides signing and verification for individual and aggregated messages using secret and public keys, with support for verifying multiple proofs on a single message. It handles byte sequences, signatures, and public keys, ensuring secure authentication and batch validation. Operations include generating signatures over key-message concatenations and validating aggregate signatures across multiple keys. Examples include verifying a single message signed by multiple parties or confirming a batch of proofs with a single check.",
-      "description_length": 530,
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS signature operations optimized for minimal signature size (48 bytes) and longer public keys (96 bytes), supporting signing, verification, and secure aggregation. It includes submodules for core signature operations, proof-of-possession signatures, and message-augmented signatures, each handling byte-based secret keys, public keys, messages, and signatures. Operations include signing messages, verifying individual and aggregate signatures, and generating proofs-of-possession to prevent key-related attacks. Example uses include blockchain consensus protocols requiring compact signatures, secure message authentication, and efficient batch validation across distributed systems.",
+      "description_length": 709,
       "index": 7,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "bls12-381-signature",
-      "description": "Provides operations for generating and verifying BLS signatures, including key generation, signing, and aggregation. Works with elliptic curve points, private keys, and signature structures defined by the BLS specification. Used to implement cryptographic protocols requiring compact signatures or public keys.",
-      "description_length": 310,
-      "index": 8,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Bls12_381_signature",
-      "description": "Handles signing, verification, and proof-of-possession for BLS signatures, supporting compact public keys, extended signatures, and aggregate validation. It manages secret and public keys, byte sequences, and signatures, enabling secure authentication and batch processing. Operations include verifying individual or aggregate signatures, ensuring message uniqueness, and validating multiple proofs on a single message. Examples include confirming a single signature, validating an aggregate with distinct messages, and checking batch proofs efficiently.",
-      "description_length": 554,
-      "index": 9,
+      "library": "bls12-381-signature",
+      "description": "This module implements BLS signature operations following the CFRG draft specification, handling secret key management through serialization, deserialization, and generation using little-endian scalar values from the BLS12-381 curve. It supports two child modules: one focused on standard 48-byte signatures and 96-byte public keys for secure aggregation and blockchain use, and another optimized for compact 48-byte signatures with extended public key sizes, both enabling signing, verification, and aggregation with byte-based inputs. Core operations include generating keys from input material, signing and verifying messages, and efficiently validating aggregate signatures across distributed systems. Example applications include securing consensus protocols, batch validating transactions, and minimizing storage overhead with proof-of-possession mechanisms.",
+      "description_length": 864,
+      "index": 8,
       "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 10,
-    "meaningful_modules": 10,
+    "total_modules_in_package": 9,
+    "meaningful_modules": 9,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 623,
-    "min_description_length": 310,
-    "avg_description_length": 442.7,
-    "embedding_file_size_mb": 0.03677082061767578
+    "max_description_length": 864,
+    "min_description_length": 414,
+    "avg_description_length": 578.5555555555555,
+    "embedding_file_size_mb": 0.03311443328857422
   }
 }

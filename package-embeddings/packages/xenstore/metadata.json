@@ -1,315 +1,389 @@
 {
   "package": "xenstore",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 42,
-  "creation_timestamp": "2025-06-18T16:41:11.200908",
+  "total_modules": 46,
+  "creation_timestamp": "2025-07-15T23:15:24.356097",
   "modules": [
     {
-      "module_path": "Xenstore_server.Xs_server.Server.PS",
-      "description": "Handles bidirectional communication over a channel using packet-based messaging. Processes and transmits protocol-specific data structures through receive and send operations. Initializes and manages a stream for exchanging structured data packets.",
-      "description_length": 248,
+      "module_path": "Xs_protocol.IO",
+      "library": "xenstore",
+      "description": "This module implements low-level input/output operations for the XenStore protocol, handling communication over a channel using raw bytes. It provides functions to read from and write to a channel, with control over buffer offsets and lengths. These operations are essential for implementing protocol message exchange with precise data handling.",
+      "description_length": 345,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore_server.Connection.Interface",
-      "description": "Creates and manages directory structures with permission controls, reads and writes data to specific paths, and handles connection-based operations for storing and retrieving strings. Operates on transaction objects, permission sets, and path identifiers within a store. Used to build interactive data interfaces, manage user-specific data access, and implement custom storage workflows.",
-      "description_length": 387,
+      "module_path": "Xs_protocol.Unmarshal",
+      "library": "xenstore",
+      "description": "This module defines functions to extract specific values from a XenStore protocol message, converting them into OCaml values such as strings, integers, lists, and ACLs. It operates directly on the `Xs_protocol.t` type, attempting to interpret its contents according to expected formats. Use cases include parsing responses from XenStore daemons, such as reading configuration values, checking permissions, or decoding numeric identifiers.",
+      "description_length": 438,
       "index": 1,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Xenstore_server.Junk.String",
-      "description": "This module offers string manipulation through operations like slicing, concatenation, and character-by-character processing, along with byte sequence handling. It includes character search, case conversion, and delimiter-based splitting, supporting tasks such as text parsing and data transformation. Specific functions enable bounded searches, sequence iteration, and pattern matching for efficient string analysis.",
-      "description_length": 417,
+      "module_path": "Xs_protocol.Token",
+      "library": "xenstore",
+      "description": "This module handles token serialization and deserialization for the XenStore protocol. It provides functions to convert tokens to and from string representations, supporting both debug output and user-facing formats. Use cases include parsing incoming token strings from clients and generating string tokens for transmission.",
+      "description_length": 325,
       "index": 2,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore_server.Namespace.Unsupported",
-      "description": "Checks for the existence of a file or directory, creates directories with optional monitoring, reads and writes data to files, lists directory contents, removes files or directories, retrieves and modifies access permissions for file system objects. Operates on file paths, file descriptors, and permission flags. Used for managing file system operations in a low-level I/O context.",
-      "description_length": 382,
+      "module_path": "Xs_protocol.Response",
+      "library": "xenstore",
+      "description": "This module handles response payload construction and serialization for the XenStore protocol. It provides functions to convert payloads to string representations, map payloads to operation types, and serialize responses with transaction IDs and request identifiers. It works directly with `payload` variants, `Xs_protocol.Op.t`, and `Xs_protocol.t` for marshaling response data.",
+      "description_length": 379,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore_server.Store.Node",
-      "description": "Creates a node with a specified name, creator ID, permissions, and value; retrieves the permissions associated with a node. Operates on strings, integers, ACL structures, and node instances. Used to manage access control and data storage within the Xenstore hierarchy.",
-      "description_length": 268,
+      "module_path": "Xs_protocol.Parser",
+      "library": "xenstore",
+      "description": "This module parses XenStore protocol packets incrementally from a byte stream. It maintains parser state across input chunks and handles partial or malformed data, returning either a successfully decoded packet or the reason for failure. Concrete use cases include processing XenStore messages from a network socket or file descriptor where data may arrive in fragments.",
+      "description_length": 370,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore_server.Store.Name",
-      "description": "Introduce and manage domain-specific path contexts with operations to create, convert, and manipulate path representations. Works with a custom type `t` that encapsulates path information, supporting relative and absolute path transformations. Used to generate trie-compatible keys and resolve paths based on a given base directory.",
-      "description_length": 332,
+      "module_path": "Xs_protocol.Request",
+      "library": "xenstore",
+      "description": "This module defines operations for constructing and parsing XenStore protocol requests, including path operations like read, write, and directory listing, as well as transaction and watch management. It works with string paths, access control lists, and domain identifiers to model interactions with the XenStore service. Concrete use cases include initiating transactions, setting permissions, querying domain paths, and handling watch events in virtualization control stacks.",
+      "description_length": 477,
       "index": 5,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore_server.Store.Path",
-      "description": "Provides operations to manipulate and analyze path structures, including creating absolute paths, extracting hierarchy, finding common prefixes, and converting between string representations and name-based formats. Works with a custom path type `t` and associated `Name.t` values for system-level path handling. Used to construct relative paths from base directories and resolve hierarchical relationships in file or namespace structures.",
-      "description_length": 438,
+      "module_path": "Xs_handle.StringSet",
+      "library": "xenstore",
+      "description": "This module offers operations for constructing and manipulating ordered string sets, supporting creation (e.g., `empty`, `singleton`), modification (e.g., `add`, `union`, `diff`), and queries (e.g., `cardinal`, `min_elt`, `subset`). It provides functional transformations like `map`, `fold`, and `filter_map`, along with safe access via optional variants, and facilitates conversions between sets, lists, and sequences (`Stdlib.Seq`). The data structure (`Xs_handle.StringSet.t`) ensures ordered storage, enabling use cases like maintaining unique string collections with lexicographic processing or aggregating results from iterative algorithms.",
+      "description_length": 646,
       "index": 6,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Xenstore_server.Xs_server.Server",
-      "description": "Provides asynchronous operations for handling network communication, including reading from and writing to channels, managing connections, and accepting incoming requests. Works with Lwt-based asynchronous values, server endpoints, and network channels. Used to build non-blocking network servers that process data streams and manage client connections.",
-      "description_length": 353,
+      "module_path": "Xs_protocol.ACL",
+      "library": "xenstore",
+      "description": "This module defines access control lists for XenStore resources, including permissions mapping to characters and domain identifiers. It provides operations to convert between permission values and characters, and to serialize/deserialize ACLs to strings. Concrete use cases include managing access rights for Xen domains to specific XenStore nodes.",
+      "description_length": 348,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xs_client_lwt.Client",
-      "description": "Provides monadic operations for asynchronous channel handling, including binding, lifting values, and managing channel lifecycle. Works with Lwt-based asynchronous values, channel objects, and backend-specific implementations. Used to create, read from, write to, and destroy network or file-based channels in a non-blocking manner.",
-      "description_length": 332,
+      "module_path": "Xs_protocol.PacketStream",
+      "library": "xenstore",
+      "description": "Handles bidirectional communication over a channel using the XenStore protocol. It provides functions to send and receive protocol messages, maintaining stream state for asynchronous I/O operations. Useful for implementing clients or servers that exchange structured data with XenStore.",
+      "description_length": 286,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xs_client_unix.Task",
-      "description": "Provides functions to create, signal, and wait for asynchronous tasks, with cancellation support. Operates on the `'a u` type, representing a task that may produce a value of type `'a`. Used to coordinate task completion and handle cleanup when tasks are canceled.",
-      "description_length": 264,
+      "module_path": "Xs_protocol.Op",
+      "library": "xenstore",
+      "description": "This module defines the set of operations used in the XenStore protocol, including actions like reading, writing, watching, and managing transactions. It works with the `t` variant type representing each operation, along with conversions to and from strings and 32-bit integers. Concrete use cases include handling XenStore communication, processing watch events, and managing domain state transitions.",
+      "description_length": 402,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xs_client_unix.Client",
-      "description": "Provides monadic operations for sequencing asynchronous actions, including lifting values into the effect type, binding subsequent actions, and managing channel resources. Works with channel handles and byte buffers for input/output operations. Used to construct safe, composable I/O workflows with explicit resource management.",
-      "description_length": 328,
-      "index": 10,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_handle.StringSet",
-      "description": "This module provides functional set operations such as membership checks, unions, intersections, and element transformations, along with construction from sequences of strings. It works with abstract set structures and iterable string collections, enabling efficient manipulation of unique elements. Use cases include merging datasets, filtering unique entries, or analyzing set relationships in data processing pipelines.",
-      "description_length": 422,
-      "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Call",
-      "description": "Handles communication between a client and a store by processing Xs_protocol messages, updating the store state based on incoming requests, and generating appropriate responses. Operates on Store.t for state management and Connection.t for handling client interactions. Used to manage session data and configuration changes in a distributed system.",
-      "description_length": 348,
-      "index": 12,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Connection",
-      "description": "Manages directory structures, permissions, and data storage through transactional operations, enabling controlled access and retrieval of strings based on path identifiers. Supports creating, modifying, and navigating hierarchical data stores with fine-grained permission settings. Allows for interactive data manipulation, user-specific data isolation, and custom storage logic. Examples include storing user configurations, enforcing access policies, and building dynamic data interfaces.",
-      "description_length": 490,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Heap_debug_interface",
-      "description": "Provides operations for managing and inspecting a file system-like structure within a store, including creating directories, writing and reading data, removing entries, and checking permissions. Works with path representations, permission sets, and string-based data. Used to debug and manipulate stored content in a structured, permission-aware manner.",
-      "description_length": 353,
-      "index": 14,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Introduce",
-      "description": "Provides functions to handle address introduction and manage a stream of introduced addresses. Operates on an address type containing metadata for tracked entities. Used to process incoming introduction messages and propagate address availability to subscribers.",
-      "description_length": 262,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Junk",
-      "description": "manages text and byte sequences with functions for slicing, concatenation, and transformation, including case conversion, splitting, and pattern matching. it supports character and byte-level iteration, bounded searches, and delimiter-based parsing. operations like string analysis and data extraction are streamlined through targeted functions. examples include splitting log entries by delimiters or extracting substrings based on patterns.",
-      "description_length": 442,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Logging",
-      "description": "This module offers logging functionalities centered on configuring loggers, managing log levels, and formatting/emitting messages, alongside handling access control for tracking connections, transactions, and protocol interactions with data sanitization. It works with loggers, log levels, thread IDs, connection identifiers, transaction IDs, and protocol payloads, enabling precise event-driven logging and level-based filtering. Specific use cases include monitoring system activity, debugging, and ensuring compliance through structured log analysis.",
-      "description_length": 553,
-      "index": 17,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server.Logging_interface",
-      "description": "Provides operations for managing file system entities with permission checks, including creating directories, reading and writing data, listing contents, and removing items. Works with path structures, permission records, and string-based data. Used to enforce access control during file operations in a storage system.",
-      "description_length": 319,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server.Namespace",
-      "description": "Manages file-like operations within a hierarchical store, including creating, reading, writing, and deleting entries with permission checks. Operates on transaction objects, permission sets, and path strings to enforce access control. Supports directory traversal, content retrieval, and metadata manipulation for structured data storage.",
-      "description_length": 338,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Perms",
-      "description": "Provides functions to check and enforce permissions, restrict roles to specific domains, and modify access control settings. Operates on a role type `t` and a permission type, supporting domain-specific access control and privilege management. Used to validate domain access, enforce ACLs, and manage permissions for system operations and inter-domain interactions.",
-      "description_length": 365,
-      "index": 20,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Quota",
-      "description": "The module provides operations to set, retrieve, and list quota overrides for domain-specific limits such as maximum entries, size, and transaction counts, alongside tracking and modifying entry counts through a structured type. It works with domain IDs and a count-tracking data structure to enforce resource constraints. Use cases include managing resource allocation in multi-domain systems and monitoring usage thresholds in real-time applications.",
-      "description_length": 452,
-      "index": 21,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server.Quota_interface",
-      "description": "Provides operations for managing file system-like structures within a transactional context, including creating directories, reading and writing data, checking existence, listing contents, and removing entries. Works with transaction objects, permission sets, and path representations to enforce access control. Used to implement controlled data manipulation in a secure, structured storage system.",
-      "description_length": 398,
-      "index": 22,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server.Store",
-      "description": "Manages node access control and data storage with operations to create and inspect nodes, handling strings, integers, ACLs, and node instances. Supports path manipulation through a custom type `t`, enabling creation, conversion, and transformation of absolute and relative paths for hierarchical structures. Provides functions to build absolute paths, extract directory hierarchies, and find common prefixes, using path types and name-based representations. Enables efficient key generation for trie structures and path resolution within complex namespace layouts.",
-      "description_length": 564,
-      "index": 23,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server.Symbol",
-      "description": "Provides operations to manage symbolic identifiers, including generating unique integers, mapping between integers and strings, and tracking usage statistics. Works with hash tables for bidirectional lookups and references to track creation and usage counts. Used to manage symbolic names in compilers or interpreters, ensuring unique identifiers and efficient memory management.",
-      "description_length": 379,
-      "index": 24,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Transaction",
-      "description": "The module provides transactional operations for managing permissions, path manipulations, and read/write interactions with a store, utilizing types such as Store.Node.t, Store.Path.t, and Xs_protocol. It enables tasks like permission retrieval, modification, and store metadata handling, tailored for scenarios involving persistent data management and access control. Specific use cases include enforcing access policies and maintaining consistent state during transactional operations.",
-      "description_length": 487,
-      "index": 25,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Trie",
-      "description": "Provides operations to manage key-value associations where keys are lists of elements of type 'a and values are of type 'b. Supports inserting, retrieving, and removing entries, as well as iterating over nodes and sub-tries. Enables efficient prefix-based lookups and traversal, useful for applications like autocompletion or IP routing.",
-      "description_length": 337,
-      "index": 26,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xenstore_server.Xs_server",
-      "description": "Provides asynchronous operations for handling network channels and servers, including reading from and writing to channels, managing connections, and accepting incoming requests. Works with Lwt-based asynchronous values, server and channel handles, and Xs_protocol addresses. Used to build non-blocking network services that process data streams and maintain persistent connections.",
-      "description_length": 382,
-      "index": 27,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.Op",
-      "description": "Handles conversion between operation identifiers and their string representations. Works with the `t` type, which encapsulates xenstore operation codes, and provides safe conversion from 32-bit integers. Used to serialize and deserialize operation values in low-level system interactions.",
-      "description_length": 288,
-      "index": 28,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.ACL",
-      "description": "Provides functions to convert between permission representations and characters, and to serialize and deserialize access control lists from and to strings. Works with custom types for permissions, domain IDs, and the ACL structure itself. Used to parse and generate ACL strings in system-level access control mechanisms.",
-      "description_length": 320,
-      "index": 29,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.Parser",
-      "description": "Provides functions to create and manage a packet parsing state, including inputting byte strings and querying the current state. Operates on custom types `state` and `parse` to track parsing progress and configuration. Used to process network data incrementally, handling partial inputs and controlling oversize packet acceptance.",
-      "description_length": 330,
-      "index": 30,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.PacketStream",
-      "description": "Handles asynchronous reading from and writing to network channels using a monadic interface. Performs byte-level data transfer with precise control over buffer offsets and lengths. Enables non-blocking I/O operations in networked applications.",
-      "description_length": 243,
-      "index": 31,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xs_protocol.Token",
-      "description": "Provides functions to convert a token to its debug string, user string, and marshalled string representation, as well as a constructor from a string. Works with the opaque type `t` representing a token. Used to serialize and deserialize tokens during parsing and debugging.",
-      "description_length": 273,
-      "index": 32,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xs_protocol.Response",
-      "description": "Handles conversion of payload data to operation types and generates human-readable representations. Processes payload structures to produce formatted output and constructs response objects with specific integer parameters. Designed for message serialization and logging within protocol-specific workflows.",
-      "description_length": 305,
-      "index": 33,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.Request",
-      "description": "Processes and serializes request data, converting payloads to operation types and generating human-readable representations. Operates on custom path operations and payload structures, supporting parsing and formatted output. Used to construct and inspect request objects for network communication.",
-      "description_length": 297,
-      "index": 34,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Xs_protocol.Unmarshal",
-      "description": "Parses values of various types from a structured input, including strings, lists, integers, and custom ACL data. It extracts optional values, allowing safe handling of missing or malformed data. Used to validate and convert input in network protocols or configuration parsing.",
-      "description_length": 276,
-      "index": 35,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "xenstore",
-      "description": "Provides functions for interacting with XenStore, including reading, writing, and monitoring keys. Works with string-based paths and values, and supports event-driven notifications. Used to manage configuration and state in Xen-based virtualization environments.",
-      "description_length": 262,
-      "index": 36,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xs_client_lwt",
-      "description": "This module facilitates low-level interaction with a XenStore, offering operations for managing client connections, executing atomic transactions, and manipulating data through read/write actions, directory management, and watch mechanisms. It works with XenStore paths, session handles, and domain identifiers to enable precise control over virtualized environments. Use cases include real-time configuration updates for virtual machines and ensuring consistent state management during concurrent access.",
-      "description_length": 505,
-      "index": 37,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xs_client_unix",
-      "description": "Provides monadic operations for sequencing asynchronous actions, including binding and lifting values into a computation context. Works with channel objects and byte buffers to perform I/O operations. Enables non-blocking read and write operations on network or file descriptors.",
-      "description_length": 279,
-      "index": 38,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Xs_handle",
-      "description": "manages abstract sets of strings with operations for union, intersection, and membership, while supporting transformations and sequence-based construction; it handles unique element collections through iterable interfaces, enabling efficient data merging and filtering; examples include combining multiple data sources into a single set or extracting distinct values from a stream; it facilitates set-theoretic analysis and preprocessing in data workflows.",
-      "description_length": 456,
-      "index": 39,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Xenstore_server",
-      "description": "Manages distributed system state through message processing, transactional data manipulation, and access control, with support for hierarchical storage, permissions, and logging. Operates on types like Store.t, Connection.t, Path.t, and Permission.t, enabling tasks such as session management, configuration storage, and secure data access. Provides functions for file-like operations, address tracking, string processing, and quota management, allowing structured data manipulation, policy enforcement, and real-time resource monitoring. Examples include enforcing access policies, debugging stored content, and handling asynchronous network interactions.",
-      "description_length": 656,
-      "index": 40,
+      "library": "xenstore",
+      "description": "This module manages client handles for interacting with a transactional key-value store, tracking transaction IDs, watched paths, and accessed paths. It supports creating handles for immediate, transactional, or watch contexts and provides set-based queries over path access using the `StringSet` data structure. Operations include registering watches, coordinating transactions, and debugging access patterns through set operations like union, difference, and subset checks. With `StringSet.t`, it enables ordered storage and manipulation of unique paths, supporting transformations, folds, and conversions for efficient path tracking and analysis.",
+      "description_length": 649,
+      "index": 10,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Xs_protocol",
-      "description": "Provides monadic operations for sequencing asynchronous I/O tasks, including binding and lifting values into a computation context. Works with channel handles and byte buffers to perform read and write operations on network or file streams. Enables structured handling of socket communication and data serialization in networked applications.",
-      "description_length": 342,
+      "library": "xenstore",
+      "description": "This module implements the XenStore protocol for structured communication in virtualization environments, handling packet serialization, parsing, and response management. It operates on packets (`t`), raw byte channels, and XenStore addresses, supporting operations like path manipulation, transactions, watches, and access control. The module provides low-level I/O, message parsing, token handling, and payload construction, enabling precise interaction with XenStore daemons over sockets or domain channels. Concrete uses include decoding fragmented packets, constructing ACLs, managing watch events, and serializing responses with transaction context.",
+      "description_length": 655,
+      "index": 11,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_lwt.S",
+      "library": "xenstore.client",
+      "description": "This module implements asynchronous XenStore client operations over Lwt, supporting imperative and transactional access to the XenStore hierarchical database. It works with client connections, handles for scoped operations, and XenStore paths, enabling creation, deletion, reading, writing, and permission management of nodes. Concrete use cases include managing virtual machine configurations, coordinating domain lifecycle events, and setting up shared memory interfaces between domains.",
+      "description_length": 489,
+      "index": 12,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_lwt.IO",
+      "library": "xenstore.client",
+      "description": "This module implements Lwt-based asynchronous I/O operations for communicating over a XenStore channel. It provides functions to create and destroy channels, read from and write to channels using raw bytes and offsets, with support for both Xen and Unix backends. It is used to handle non-blocking communication with XenStore in virtualization management applications.",
+      "description_length": 368,
+      "index": 13,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_lwt.Client",
+      "library": "xenstore.client",
+      "description": "This module offers asynchronous operations for managing XenStore client sessions, atomic transactions, and handle-based interactions with hierarchical path data. It manipulates XenStore state through client lifecycle operations (`make`, `suspend`, `resume`), transactional access (`transaction`, `wait`), and handle-targeted actions like directory traversal, permission updates, and domain management. A key use case involves toolstacks delegating domain permissions via handle re-targeting, enabling stub domains to act under another domain's authority using asynchronous Lwt-driven operations.",
+      "description_length": 595,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_lwt",
+      "library": "xenstore.client",
+      "description": "This module implements the XenStore protocol for asynchronous communication over a byte-level transport using Lwt, multiplexing multiple requests over a single connection. It supports imperative and transactional access to the XenStore hierarchical database through client connections, scoped handles, and path operations, enabling creation, deletion, reading, writing, and permission management of nodes. The module handles non-blocking I/O with raw byte-level channel operations over Xen or Unix backends, and manages client sessions with support for atomic transactions, suspension/resumption, and domain authority delegation. Use cases include virtual machine configuration, domain lifecycle coordination, and shared memory interface setup in Xen-based virtualization environments.",
+      "description_length": 785,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_unix.Client",
+      "library": "xenstore.unix",
+      "description": "This module implements XenStore protocol operations over Unix for hierarchical key-value storage, offering atomic transactions with retry policies, permission controls, and event watches. It manages hierarchical nodes, domain-specific handles with memory references, and transactional state to support use cases like virtual domain permission management, configuration synchronization, and event-driven monitoring of node changes.",
+      "description_length": 430,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_unix.Task",
+      "library": "xenstore.unix",
+      "description": "This module manages asynchronous tasks for a XenStore client using Unix I/O. It supports task creation, cancellation, and result waiting, with callbacks for handling cancellation events. Concrete use cases include coordinating concurrent XenStore operations and managing I/O-bound tasks in a Unix environment.",
+      "description_length": 309,
+      "index": 17,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xs_client_unix.IO",
+      "library": "xenstore.unix",
+      "description": "This module implements low-level I/O operations for a XenStore protocol client over Unix byte streams. It provides functions to create and destroy communication channels, read from and write to channels using raw byte buffers, and handle asynchronous operations via a monadic interface. Concrete use cases include interacting with XenStore to exchange data in virtualization management tasks, such as reading domain configuration values or writing watch notifications.",
+      "description_length": 468,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xs_client_unix",
+      "library": "xenstore.unix",
+      "description": "This module implements a XenStore protocol client for Unix byte streams with asynchronous I/O and task management, enabling interaction with Xen hypervisor stores over Unix sockets or pipes. It provides core operations for reading and writing XenStore messages, handling watches via `watch_callback`, and managing client connections, while supporting hierarchical key-value storage with atomic transactions, permission controls, and event monitoring. Submodules handle low-level I/O operations, asynchronous task coordination, and transactional state management, enabling concrete use cases such as virtual domain configuration, event-driven node monitoring, and concurrent XenStore access in I/O-bound environments.",
+      "description_length": 716,
+      "index": 19,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Xs_server.Server.PS",
+      "library": "xenstore.server",
+      "description": "This module implements a stream-based communication layer for handling Xenstore protocol packets over a channel. It provides functions to create a stream from a channel, receive protocol messages with error handling, and send responses. It is used to manage bidirectional communication between a Xenstore client and server using the `Xs_protocol.t` message format.",
+      "description_length": 364,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Namespace.Unsupported",
+      "library": "xenstore.server",
+      "description": "This module implements low-level namespace operations for a hierarchical key-value store, including path existence checks, directory creation, reading and writing values, listing entries, removing nodes, and managing permissions. It operates on abstract store contexts and string-based paths, supporting operations typically used in configuration and state management for virtualization environments. These functions are used to interact with a tree-structured namespace, enabling persistent storage and retrieval of typed data.",
+      "description_length": 528,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Connection.Interface",
+      "library": "xenstore.server",
+      "description": "This module implements operations for managing a hierarchical key-value store with permissions and transactions. It supports creating and removing nodes, setting and retrieving permissions, reading and writing values, and listing child nodes. Use cases include implementing a transactional configuration store with access control for virtual machine management.",
+      "description_length": 361,
+      "index": 22,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Namespace.IO",
+      "library": "xenstore.server",
+      "description": "This module implements low-level namespace operations for a Xenstore server, handling paths with permissions and transactions. It supports creating directories, reading and writing values, listing entries, removing nodes, and managing access control lists. Use cases include maintaining hierarchical configuration data and enforcing access policies in virtualization environments.",
+      "description_length": 380,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Store.Node",
+      "library": "xenstore.server",
+      "description": "This module represents a node in the Xenstore hierarchical tree, storing key attributes like name, creator, permissions, and value. It provides operations to create a node with specified properties and retrieve its access control list. Concrete use cases include managing virtual machine configuration entries and enforcing access policies in the Xen hypervisor's store.",
+      "description_length": 370,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Xs_server.Server",
+      "library": "xenstore.server",
+      "description": "This module sets up a persistent Xenstore service that handles client connections over a channel, using the `PS` module to process incoming requests. It provides `handle_connection` to manage per-client interactions and `serve_forever` to run the server indefinitely, coordinating with a stream-based communication layer to exchange `Xs_protocol.t` messages. The communication layer supports bidirectional packet transmission, with functions to create a stream from a channel, receive messages with error handling, and send responses. Example usage includes starting a server that listens for client requests, processes them with custom logic, and maintains consistent communication using the protocol stream.",
+      "description_length": 709,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Junk.String",
+      "library": "xenstore.server",
+      "description": "This module offers low-level string operations for creation, transformation, and binary data parsing, including functions for character-level manipulation, encoding/decoding UTF-8/UTF-16, and extracting integers (8-bit to 64-bit) with configurable endianness. It primarily works with OCaml's built-in `string` type, augmented by utilities for byte conversion, substring analysis, and hash generation. Typical use cases involve parsing structured binary data, implementing custom text processing logic, and handling low-level string traversal with precise index control or encoding conversions.",
+      "description_length": 593,
+      "index": 26,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Xs_server.TRANSPORT",
+      "library": "xenstore.server",
+      "description": "This module implements asynchronous communication over channels using Lwt, handling low-level I/O operations such as reading from and writing to channels, accepting connections, and retrieving channel metadata. It works with server and channel types to manage network endpoints and data transfer. Concrete use cases include building event-driven network servers, processing incoming requests over Unix domain sockets, and managing per-connection state in a non-blocking manner.",
+      "description_length": 477,
+      "index": 27,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Store.Name",
+      "library": "xenstore.server",
+      "description": "This module represents and manipulates Xenstore path names, handling both absolute and relative paths. It provides operations to convert between strings and path names, resolve relative paths with respect to a base, and generate trie-compatible key lists. Use cases include tracking domain creation and shutdown paths, and managing Xenstore path hierarchies in a virtualization context.",
+      "description_length": 386,
+      "index": 28,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Store.Path",
+      "library": "xenstore.server",
+      "description": "This module manipulates hierarchical Xenstore paths using operations like resolution, conversion, and traversal. It supports path construction, parent/child relationships, common prefix detection, and relative path generation. Use cases include managing Xenstore directory hierarchies, resolving relative paths against domain-specific roots, and tracking path-based watches.",
+      "description_length": 374,
+      "index": 29,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Xs_server",
+      "library": "xenstore.server",
+      "description": "This module implements a server for handling Xenstore protocol requests, managing communication between clients and a hierarchical key-value store. It coordinates request routing, error handling, and debug logging, operating on store paths and transaction identifiers to serve virtual machine configuration and state data. The module uses a persistent service to manage client connections over channels, leveraging a stream-based communication layer to exchange `Xs_protocol.t` messages, with functions to create streams, receive and send packets, and run indefinitely via `serve_forever`. Asynchronous I/O operations are handled through Lwt, supporting non-blocking network communication, Unix domain sockets, and per-connection state management for event-driven server implementations.",
+      "description_length": 787,
+      "index": 30,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Quota_interface",
+      "library": "xenstore.server",
+      "description": "This module implements operations for managing a hierarchical key-value store with permissions and transactions, including creating directories, reading and writing values, listing and removing keys, and checking existence. It works with concrete types like `Xenstore_server.Transaction.t` for atomic operations, `Xenstore_server.Perms.t` for access control, and `Xenstore_server.Store.Path.t` for representing hierarchical paths. It is used to enforce quotas and access control in a Xenstore server, handling concurrent access and permission checks for virtual machine configuration data.",
+      "description_length": 589,
+      "index": 31,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Connection",
+      "library": "xenstore.server",
+      "description": "This module manages client sessions and state changes in a hierarchical key-value store, coordinating watches, transactions, and access control. It uses hashtables for tracking active connections, a trie for organizing hierarchical data, and reference counters for managing metadata, supporting operations like node creation, permission setting, and transactional updates. With its submodules, it enables building a secure, transactional configuration system for virtual machine environments, allowing actions such as setting a node value with access restrictions or listing child nodes under a transaction. The combined functionality supports introspection, event notification, and consistent state management across concurrent sessions.",
+      "description_length": 738,
+      "index": 32,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Junk",
+      "library": "xenstore.server",
+      "description": "This module combines resource management, string processing, and list manipulation with its child module's low-level string and binary data handling. It supports operations like safely managing resources with cleanup handlers, transforming and filtering lists, normalizing paths, and parsing or encoding binary data with configurable endianness. You can process Xenstore paths, extract integers from strings, or convert between UTF-8 and UTF-16 encodings while ensuring exception-safe execution. The integration of direct APIs with byte-level parsing enables both high-level data transformation and precise control over binary formats.",
+      "description_length": 635,
+      "index": 33,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Namespace",
+      "library": "xenstore.server",
+      "description": "This module coordinates hierarchical key-value namespaces with transactional support for read, write, and watch operations, enabling synchronized access to shared configuration and runtime state. It provides core types such as paths, values, and transactions, with operations for atomic updates, event watching, and permission management, all centered around string-based hierarchical data. Submodules implement low-level store interactions and Xenstore-specific functionality, allowing tasks like creating secured directories, managing access control lists, and performing atomic configuration updates in virtualization environments. Example uses include tracking virtual machine state and enforcing policy-driven access to shared resources.",
+      "description_length": 742,
+      "index": 34,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Logging_interface",
+      "library": "xenstore.server",
+      "description": "This module implements operations for managing a hierarchical key-value store with permission controls, including creating directories, reading and writing values, listing and removing entries, and setting permissions. It works with paths represented as structured types and enforces access control through the `Perms` module. Concrete use cases include managing virtual machine configuration data and runtime state in a virtualization environment.",
+      "description_length": 448,
+      "index": 35,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Perms",
+      "library": "xenstore.server",
+      "description": "This module manages access control and permissions for domains in a Xenstore server. It provides operations to create and manipulate permission roles, including checking and enforcing permissions such as read, write, and domain introduction against access control lists. Functions like `restrict` and `set_target` allow scoping permissions to specific domains, while `check` and `has` validate whether a role holds a required permission.",
+      "description_length": 437,
+      "index": 36,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Call",
+      "library": "xenstore.server",
+      "description": "Implements request handling logic for a Xenstore server, processing incoming client requests and modifying the store state accordingly. Works with the Xenstore store, client connections, and Xenstore protocol messages. Used to process client operations like directory creation, value writes, and transaction management in a Xenstore server implementation.",
+      "description_length": 355,
+      "index": 37,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Quota",
+      "library": "xenstore.server",
+      "description": "This module enforces resource limits for domains in a Xenstore server, tracking usage of entries, value sizes, watches, and transactions against configurable quotas. It operates on a domain-specific quota structure (`t`) indexed by domain identifiers (`domid`), supporting operations to merge quota sets, adjust usage counters, and validate limits during runtime. Use cases include preventing resource exhaustion by restricting per-domain entry counts and ensuring compliance with predefined storage constraints during Xenstore operations.",
+      "description_length": 539,
+      "index": 38,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Symbol",
+      "library": "xenstore.server",
+      "description": "This module manages a symbol table mapping integers to strings and vice versa, with support for generating fresh integer identifiers and tracking symbol usage. It provides functions to convert between strings and integers, create records associated with symbols, and perform garbage collection based on usage. Concrete use cases include managing unique identifiers for Xenstore paths and efficiently tracking active or unused symbols in a virtualization context.",
+      "description_length": 462,
+      "index": 39,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Transaction",
+      "library": "xenstore.server",
+      "description": "This module provides transactional management for a hierarchical key-value store, supporting operations like atomic commits, path manipulation (mkdir, rm, list), and permission enforcement (setperms, getperms). It operates on transaction objects (`t`) tied to store paths (`Store.Path.t`) and enforces access control through permission (`Perms.t`) and ACL (`ACL.t`) structures. It ensures transactional integrity and quota tracking during concurrent modifications to Xenstore nodes.",
+      "description_length": 482,
+      "index": 40,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Xenstore_server.Trie",
+      "library": "xenstore.server",
+      "description": "This module implements a polymorphic trie (prefix tree) data structure with operations to insert, remove, and query values associated with key paths. It supports keys as lists of any type `'a` and stores values of any type `'b` at trie nodes, allowing for hierarchical data organization and traversal. Concrete use cases include managing hierarchical configuration data or routing tables where keys represent paths in a structured namespace.",
+      "description_length": 441,
       "index": 41,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Introduce",
+      "library": "xenstore.server",
+      "description": "This module tracks and provides access to addresses introduced by the toolstack. It allows registering new addresses through the `introduce` function and exposes a stream of all introduced addresses. The module is used to manage communication endpoints for virtual machines, enabling dynamic connection handling in virtualization environments.",
+      "description_length": 343,
+      "index": 42,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server.Store",
+      "library": "xenstore.server",
+      "description": "This module implements a hierarchical key-value store with transactions, permissions, and quotas, organizing data as nodes in a tree structure accessible via paths. It supports creating, reading, updating, and deleting nodes with atomic operations, while enforcing access control and resource limits. Nodes carry metadata such as permissions and ownership, and paths\u2014represented as absolute or relative\u2014are resolved and manipulated to navigate the hierarchy, supporting operations like path resolution, common prefix detection, and traversal. Examples include managing virtual machine configurations with secure access, enforcing quotas on resource usage, and tracking domain-specific path hierarchies with watches.",
+      "description_length": 715,
+      "index": 43,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Xenstore_server.Heap_debug_interface",
+      "library": "xenstore.server",
+      "description": "This module implements low-level operations for interacting with a debug heap interface in a Xenstore server. It supports creating directories, reading and writing values, removing nodes, managing permissions, and listing entries, all with respect to a specific path and permission model. Concrete use cases include inspecting and modifying heap state during debugging, enforcing access control, and traversing stored paths.",
+      "description_length": 424,
+      "index": 44,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore_server",
+      "library": "xenstore.server",
+      "description": "This module implements a transactional hierarchical key-value store with access control, quotas, and event notification for managing virtual machine configuration and state data. It provides core data types such as `Store.Path.t` for hierarchical paths, `Transaction.t` for atomic updates, and `Perms.t` for permission enforcement, along with operations to create, read, write, list, and delete nodes under transactional and secured contexts. The system supports concurrent access through client session tracking, watch management, and asynchronous I/O via Lwt, enabling actions like setting a node value with access restrictions, listing child nodes under a transaction, or enforcing per-domain quotas. Additional components handle symbol mapping, trie-based data organization, debug heap interaction, and resource cleanup, allowing advanced use cases such as secure configuration namespaces, dynamic virtual machine introspection, and policy-driven access control.",
+      "description_length": 966,
+      "index": 45,
+      "embedding_norm": 0.9999999403953552
     }
   ],
   "filtering": {
-    "total_modules_in_package": 42,
-    "meaningful_modules": 42,
-    "filtered_empty_modules": 0,
-    "retention_rate": 1.0
+    "total_modules_in_package": 47,
+    "meaningful_modules": 46,
+    "filtered_empty_modules": 1,
+    "retention_rate": 0.9787234042553191
   },
   "statistics": {
-    "max_description_length": 656,
-    "min_description_length": 243,
-    "avg_description_length": 368.3809523809524,
-    "embedding_file_size_mb": 0.15300655364990234
+    "max_description_length": 966,
+    "min_description_length": 286,
+    "avg_description_length": 502.7173913043478,
+    "embedding_file_size_mb": 0.16760540008544922
   }
 }

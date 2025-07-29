@@ -1,945 +1,1085 @@
 {
   "package": "lambdapi",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 132,
-  "creation_timestamp": "2025-06-18T16:54:35.967971",
+  "total_modules": 133,
+  "creation_timestamp": "2025-07-15T23:33:15.303302",
   "modules": [
     {
-      "module_path": "Core.Tree.CP.PSet",
-      "description": "This module offers functional operations for managing sets of integer pairs, including set-theoretic operations like union, intersection, and difference, along with element manipulation and membership checks. It supports sequence-based transformations, such as converting sets to reversed sequences or building sets from sequences, while handling data of type `int * int`. Use cases include efficiently querying and modifying relational data or geometric coordinates where pairwise relationships are critical.",
-      "description_length": 509,
-      "index": 0,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lplib.RangeMap.Make.Range",
-      "description": "Provides operations to create and manipulate intervals and points, including checking if a point lies within an interval, comparing intervals based on their endpoints, and translating intervals by specified deltas. Works with custom types `point` and `t` representing positions and intervals, respectively. Used to determine positional relationships in structured data, such as analyzing text ranges in a source file.",
-      "description_length": 417,
-      "index": 1,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Export.Hrs.V",
-      "description": "Compares pairs of integers representing pattern variable arities. Operates on tuples of integers to determine ordering. Used to sort or order pattern variables during parsing or analysis.",
-      "description_length": 187,
-      "index": 2,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Export.Hrs.VMap",
-      "description": "This module offers operations for manipulating key-value stores, including adding, removing, and merging entries, with support for strict and optional behaviors, as well as list-valued entries. It works with maps parameterized by keys of type V.t and arbitrary values, enabling functional transformations, filtering, and conversions between sequences and lists. Use cases include dynamic data management, stream processing, and integrating with functional programming patterns like folding and mapping.",
-      "description_length": 502,
-      "index": 3,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Export.Coq.Qid",
-      "description": "Compares two values of type Core.Term.qident based on their lexical and syntactic structure. Operates on qualified identifiers used in parsing and representing terms. Used to enforce ordering in sorted data structures containing term references.",
-      "description_length": 245,
-      "index": 4,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Export.Coq.QidMap",
-      "description": "The module provides operations for managing key-value maps with Qid.t keys, including adding, removing, updating, and merging entries, along with traversal, transformation, and filtering functions. It works with maps parameterized by Qid.t keys and arbitrary values, enabling use cases like data processing pipelines or configuration management by converting between maps and sequences of key-value pairs. Specific functions support sequence-based transformations and predicate-based filtering for efficient data manipulation.",
-      "description_length": 526,
-      "index": 5,
-      "embedding_norm": 1.0
-    },
-    {
       "module_path": "Handle.Compile.PureUpToSign",
-      "description": "Provides functions to compile code with optional custom library mappings and console states, ensuring the original settings are restored after execution. Operates on file paths, sign structures, and console state objects. Used to safely compile individual files or paths while preserving environment integrity.",
-      "description_length": 310,
-      "index": 6,
+      "library": "lambdapi.handle",
+      "description": "This module provides `compile` and `compile_file` functions that perform compilation tasks while preserving and restoring the initial console state and library mappings. It operates on file paths and console state data types, returning a signature value as the result of compilation. These functions are used when compiling code units in a way that isolates and resets environmental state after execution.",
+      "description_length": 405,
+      "index": 0,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Handle.Proof.Goal",
-      "description": "Returns the typing context and scoping environment of a goal, and constructs a goal from a meta term. Applies a custom simplification function to modify the goal's term. Prints the goal and its hypotheses using a pretty-printer, and generates a Bindlib context from the goal.",
-      "description_length": 275,
-      "index": 7,
+      "library": "lambdapi.handle",
+      "description": "This module provides operations to manipulate and inspect proof goals, including retrieving typing contexts, simplifying goals, and converting goals into Bindlib contexts. It works directly with `Handle.Proof.goal` values, which represent individual proof obligations in a tactic system. Concrete use cases include printing goal hypotheses, applying simplification functions to goals, and extracting environments for further term processing.",
+      "description_length": 441,
+      "index": 1,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Parsing.DkBasic.WS",
-      "description": "Provides operations to manage a collection of identifiers, including creating, merging, adding, removing, and querying elements. Works with a custom `t` type and `data` type, which is an alias for `ident`. Used to track and manipulate sets of identifiers with efficient lookups, iterations, and statistical reporting.",
-      "description_length": 317,
+      "module_path": "Handle.Proof",
+      "library": "lambdapi.handle",
+      "description": "This module orchestrates proof construction by managing goals and proof states, enabling operations like inspecting typing and unification goals, retrieving constraints, and updating proof states. It works with `Handle.Proof.goal` values to support concrete tasks such as tracking unsolved goals, focusing on specific goals interactively, and extracting metavariables by key. The child module extends this by allowing manipulation of individual goals, including simplification, context extraction, and hypothesis inspection. Together, they enable precise control over proof development, from high-level state management to detailed goal transformation.",
+      "description_length": 652,
+      "index": 2,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Handle.Inductive",
+      "library": "lambdapi.handle",
+      "description": "This module generates induction principles for first-order dependent inductive types, handling both single and mutually defined types through individual and combined induction schemes. It operates on symbolic representations of inductive types and their constructors, using environments and term structures to build induction predicates, conclusions, and recursor types. Concrete use cases include automatically deriving induction principles for inductive data types in a proof assistant or type-checking system, where each constructor's structure informs the shape of the induction hypothesis and recursive arguments.",
+      "description_length": 618,
+      "index": 3,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Handle.Query",
+      "library": "lambdapi.handle",
+      "description": "This module processes type inference and checking operations for terms within a logical context, refining terms and determining their types under constraint problems. It works with terms, contexts, and constraint problems from the Core module, handling queries related to type correctness and sort validation. Concrete use cases include verifying term typing in a given context, inferring types for untyped terms, and checking that terms inhabit specific sorts like Type or Kind.",
+      "description_length": 479,
+      "index": 4,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Handle.Compile",
+      "library": "lambdapi.handle",
+      "description": "This module orchestrates high-level compilation workflows, handling module and file compilation with support for recompilation flags and signature generation. It operates on file paths and module paths, offering functions like `compile` and `compile_file` that execute compilation tasks while managing console state and library mappings. Its core data types include signatures, file paths, and compilation options, enabling use cases such as compiling source files into signatures or recompiling modules with forced updates. The module integrates state management and file-level operations, balancing direct API calls with structured submodules for focused compilation control.",
+      "description_length": 677,
+      "index": 5,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Handle.Rewrite",
+      "library": "lambdapi.handle",
+      "description": "This module implements the rewrite tactic, providing operations for matching terms against patterns, generating substitutions, and manipulating equality proofs. It works with terms, binders, and equality configurations involving symbols for propositions, types, and equality. Concrete use cases include rewriting goal types using equational lemmas, swapping equality sides, and matching subterms to apply substitutions during proof refinement.",
+      "description_length": 443,
+      "index": 6,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Handle.Command",
+      "library": "lambdapi.handle",
+      "description": "This module processes commands in a proof assistant, handling transitions into proof mode and managing proof execution. It works with signature states, proof states, syntax trees for commands and proofs, and compiler functions that load external modules. Concrete operations include extracting proof data from commands, applying tactics, and updating the global state after command execution.",
+      "description_length": 392,
+      "index": 7,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Handle.Tactic",
+      "library": "lambdapi.handle",
+      "description": "This module implements core proof manipulation operations including tactic application, goal refinement, and axiom handling. It works with proof states, metavariables, inductive data, and term structures to manage logical reasoning steps. Concrete use cases include refining proof goals with terms, applying induction, solving unification constraints, and admitting axioms to handle unsolved goals.",
+      "description_length": 398,
       "index": 8,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Parsing.Parser.Lp",
-      "description": "Parses input sources into streams of abstract syntax trees, terms, or search queries, supporting files, channels, and strings. Processes data from various origins while maintaining lazy evaluation and resource management. Handles specific data types such as `Syntax.ast`, `Syntax.p_term`, and `SearchQuerySyntax.query` for structured command and term extraction.",
-      "description_length": 362,
+      "module_path": "Handle.Why3_tactic",
+      "library": "lambdapi.handle",
+      "description": "This module executes Why3 provers to validate proof goals within a specified time limit. It supports setting and retrieving the active prover and timeout value, and directly invokes the prover on a given goal type. It is used to verify logical assertions during proof checking by running external provers like Alt-Ergo or Z3.",
+      "description_length": 325,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Parsing.Parser.Dk",
-      "description": "Parses DK syntax from input channels, files, or strings into an abstract syntax tree. Processes commands lazily, allowing efficient handling of large or streaming input. Accepts file names and raw strings as input sources, preserving context about the originating file.",
-      "description_length": 269,
+      "module_path": "Handle.Fol",
+      "library": "lambdapi.handle",
+      "description": "This module defines a configuration structure for first-order logic tactics, specifying symbols for logical connectives, quantifiers, and type encodings. It works with terms and symbols from the Core library to represent logical expressions. Use this module to set up and retrieve first-order logic configurations during tactic execution.",
+      "description_length": 338,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Parsing.Pratt.Pratt",
-      "description": "Processes and rewrites terms by resolving operator precedence and associativity, using a signature state and environment to identify and expand infix and prefix operators. Operates on syntax terms representing expressions, handling operator symbols based on their declared precedence. Used to transform raw parsed expressions into structured, correctly ordered terms for further analysis or execution.",
-      "description_length": 401,
+      "module_path": "Handle",
+      "library": "lambdapi.handle",
+      "description": "This module coordinates proof development, type inference, and compilation workflows, integrating goal management, tactic execution, and external prover validation. It supports data types such as goals, proof states, terms, constraints, and compilation units, with operations for goal refinement, induction generation, type checking, and tactic-based term rewriting. You can use it to construct and manipulate proofs interactively, derive induction principles for inductive types, verify term typing in logical contexts, and compile modules with controlled recompilation. Specific tasks include focusing and solving proof goals, rewriting with equational lemmas, running external provers on logical assertions, and configuring first-order logic tactics with custom symbol mappings.",
+      "description_length": 781,
       "index": 11,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Parsing.Syntax.P",
-      "description": "Creates terms and patterns for a syntax representation without positional information. Operates on strings, term variables, arrays of terms, and optional identifiers to construct abstract syntax nodes like identifiers, patterns, applications, and abstractions. Used to build term structures for parsing or transformation pipelines.",
-      "description_length": 331,
+      "module_path": "Pure.Tactic",
+      "library": "lambdapi.pure",
+      "description": "This module defines an abstract representation of a tactic, primarily used for handling proof items in the context of the LSP interface. It provides operations to compare tactics for equality, retrieve their source positions, and format them as strings. Concrete use cases include managing and manipulating proof steps during interactive theorem proving and error reporting in the language server protocol.",
+      "description_length": 406,
       "index": 12,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Core.Tree.CP",
-      "description": "manages collections of integer pairs with set operations and sequence transformations, enabling efficient manipulation of relational or geometric data. It supports operations like union, intersection, and membership checks, along with conversions between sets and sequences. Users can reverse set elements, build sets from sequences, or filter pairs based on specific criteria. This allows for precise control over structured data in applications requiring pairwise relationships.",
-      "description_length": 480,
+      "module_path": "Pure.Command",
+      "library": "lambdapi.pure",
+      "description": "Represents top-level commands in an LSP interface, providing equality checks, position retrieval, and pretty-printing. Works with command data structures and source positions. Used for managing and displaying individual commands in a language server protocol implementation.",
+      "description_length": 274,
       "index": 13,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Core.Tree.CM",
-      "description": "This module handles operations on clause matrices, which encode pattern matching rules by pairing patterns with corresponding right-hand side (RHS) terms, enabling tasks like transforming rules into structured formats, analyzing column dependencies, and scoring clauses for optimization. It works with terms, variables, binders, and structured patterns, supporting substitutions and conditional filtering to refine matching processes. Use cases include compiler optimizations, term rewriting systems, and logic-based transformations where efficient pattern matching is critical.",
-      "description_length": 578,
+      "module_path": "Pure.ProofTree",
+      "library": "lambdapi.pure",
+      "description": "Represents and manipulates proof trees with operations to compare trees for equality and to fold over tactics at each node. Works with abstract proof tree structures containing tactics and their nested subgoals. Useful for analyzing proof progress, extracting tactic sequences, or building proof visualizations.",
+      "description_length": 311,
       "index": 14,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Core.Term.Raw",
-      "description": "Prints term representations using base pretty-printing functions. Operates on term data structures, producing human-readable output. Used to inspect internal state during debugging sessions.",
-      "description_length": 190,
+      "module_path": "Pure",
+      "library": "lambdapi.pure",
+      "description": "This module processes formal proof commands and tactics through an LSP interface, managing proof state transitions while supporting parsing, type checking, and tactic execution. It defines core data types like command lists, proof trees, goals, and symbols, with key operations including `handle_command`, `handle_tactic`, `current_goals`, and `get_symbols`. The module\u2019s submodules provide structured representations of tactics, top-level commands, and proof trees, enabling precise manipulation of proof steps, command metadata, and hierarchical proof structures. Specific use cases include evaluating proof scripts, tracking unresolved goals, comparing tactics and commands for equality, and generating formatted output for LSP clients.",
+      "description_length": 739,
       "index": 15,
-      "embedding_norm": 1.0
+      "embedding_norm": 1.0000001192092896
     },
     {
-      "module_path": "Core.Term.Var",
-      "description": "Provides operations for comparing term variables using a total ordering, enabling sorted collections and efficient lookups. Works with the `t` type, representing term variables, and supports ordered data structures like sets and maps. Used to manage variable bindings in symbolic computation systems, such as during term normalization or substitution.",
-      "description_length": 351,
+      "module_path": "Core.Tree.CP.PSet",
+      "library": "lambdapi.core",
+      "description": "This module provides persistent set operations for managing collections of integer pairs (`int * int`), supporting efficient union, intersection, difference, and transformations via functions like `map`, `filter`, and `fold`. It works with functional sets represented by `Core.Tree.CP.PSet.t`, enabling safe membership checks, ordered traversal, and conversions to/from sequences. These operations are used in the compilation of rewriting rules to decision trees, where sets of integer pairs represent condition coverage or partitioning during rule analysis.",
+      "description_length": 558,
       "index": 16,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Term.VarSet",
-      "description": "This module provides operations for managing sorted sets of elements, including addition, removal, and set-theoretic operations like union and intersection, alongside traversal and transformation functions such as mapping, filtering, and splitting. It works with ordered collections of generic elements, specifically tailored for types like `tvar`, enabling efficient querying and sequence-based manipulations. Use cases include handling ordered data structures, optimizing predicate-based searches, and processing elements in reverse order through sequence operations.",
-      "description_length": 569,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Term.VarMap",
-      "description": "This module provides operations for managing ordered maps with keys of type `tvar`, enabling structured manipulation of key-value pairs through additions, deletions, transformations, and ordered iterations. It supports use cases like compiler variable tracking or symbolic computation, where maintaining sorted key sequences and efficient querying (e.g., min/max access, predicate-based filtering) is critical. Functions also facilitate conversions between maps and lists/sequences while preserving order.",
-      "description_length": 505,
-      "index": 18,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Term.Sym",
-      "description": "Provides operations for comparing symbols, creating sets, and managing maps based on symbol keys. Works with symbol types and leverages a total ordering function for consistent comparisons. Used to efficiently manage symbol-based data structures in parsing and code analysis tasks.",
-      "description_length": 281,
-      "index": 19,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Term.SymSet",
-      "description": "This module provides operations for managing ordered sets, including adding, removing, and querying elements, as well as set-theoretic operations like union, intersection, and difference, leveraging ordering for efficiency. It supports iteration, transformation, and filtering of elements while maintaining ordered processing, and works with sequences of symbols and set structures to enable symbolic computation tasks. Specific use cases include optimizing membership checks, constructing symbolic representations, and performing ordered set manipulations in applications requiring structured data handling.",
-      "description_length": 608,
-      "index": 20,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Term.SymMap",
-      "description": "This module offers operations for constructing, modifying, and querying ordered key-value maps, with a focus on symbol-based keys and generic values, enabling tasks like merging, filtering, and transforming data. It supports sequence-based manipulations, such as building maps from iterables and iterating from specific keys, while providing functions for strict or optional result handling. Use cases include symbolic computation, configuration management, and structured data processing where ordered key access and transformation are critical.",
-      "description_length": 546,
-      "index": 21,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Core.Term.Meta",
-      "description": "Compares metavariables using a structural ordering, enabling sorted operations and equality checks. Works with the `meta` type, representing symbolic placeholders in abstract syntax structures. Used to manage and compare bindings in type inference or parsing contexts.",
-      "description_length": 268,
-      "index": 22,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Term.MetaSet",
-      "description": "This module supports standard set operations like insertion, deletion, and membership checks, along with set algebra (union, intersection, difference), and provides traversal, transformation, and predicate-based querying capabilities. It works with generic set types parameterized by element types, including specialized handling for `Meta.t` elements through sequence-based construction and reverse iteration. Use cases include efficient data aggregation, symbolic computation tasks, and structured data processing where ordered set manipulations and safe optional returns are critical.",
-      "description_length": 587,
-      "index": 23,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Term.MetaMap",
-      "description": "The module offers operations for creating, modifying, and querying ordered maps with key-value bindings, including adding, removing, updating, and merging entries, as well as retrieving structural properties like cardinality and extreme keys. It works with ordered key-value pairs and sequences, enabling tasks such as sorted data management, subset iteration, and key-based transformations. Specific use cases include efficiently handling dynamic datasets requiring ordered traversal or incremental updates.",
-      "description_length": 508,
-      "index": 24,
+      "library": "lambdapi.core",
+      "description": "This module defines types and operations for working with sets and maps of metavariables, using the internal term representation. It provides comparison functionality to enable ordered collections, specifically using the `Core.Term.meta` type. Concrete use cases include managing metavariable environments in term manipulation and substitution systems.",
+      "description_length": 352,
+      "index": 17,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Core.Tree_type.TC",
-      "description": "Prints and compares tree constructors, with `pp` formatting them for output and `compare` establishing a total order. Works with the `t` type, representing atomic pattern constructors. Used to serialize and order constructor instances in parsing or transformation workflows.",
-      "description_length": 274,
-      "index": 25,
+      "library": "lambdapi.core",
+      "description": "This module represents atomic pattern constructors for decision trees, with support for symbols, bound variables, and type placeholders. It defines operations for printing and comparing these constructors, enabling precise manipulation and analysis of tree patterns. Concrete use cases include pattern matching compilation and environment building in higher-order term processing.",
+      "description_length": 380,
+      "index": 18,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Core.Tree_type.TCMap",
-      "description": "The module offers operations for managing key-value structures with atomic pattern keys, including insertion, modification, and traversal, while handling optional bindings and sequence-based transformations. It supports list and sequence conversions, filtering, and folding, making it suitable for tasks like dynamic configuration management or structured data processing where keys require precise pattern matching.",
-      "description_length": 416,
+      "library": "lambdapi.core",
+      "description": "This structure implements a polymorphic map using atomic pattern constructors as ordered keys, supporting associative operations like insertion, deletion, and lookup, along with ordered traversal, transformation, and filtering. It organizes key-value pairs where keys are atomic patterns and values are arbitrary types, enabling operations like merging, partitioning, and comparison based on key ordering. It is particularly useful for managing hierarchical data in decision trees, where atomic patterns act as discriminators for organizing and manipulating structured values.",
+      "description_length": 576,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Core.Tree.CP",
+      "library": "lambdapi.core",
+      "description": "This module represents and manages constraints for pattern matching compilation, using integer maps and arrays to track variables and store conditions. It coordinates with its child module for persistent set operations on integer pairs, which supports union, intersection, and transformation to analyze condition coverage during rule compilation. Main data types include constraint pools and functional sets of integer pairs, with operations for adding, checking, and transforming conditions. For example, it enables compiling rewriting rules into decision trees by tracking free variables and ensuring correct term matching through set operations on condition partitions.",
+      "description_length": 672,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Core.Term.VarSet",
+      "library": "lambdapi.core",
+      "description": "This module provides ordered set operations for managing term variables, including union, intersection, difference, and transformations like mapping or filtering elements. It works with ordered collections of variables, supporting efficient iteration, membership checks, and conversions to and from sequences. These capabilities are used for analyzing variable dependencies or tracking occurrences in term manipulation tasks.",
+      "description_length": 425,
+      "index": 21,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Core.Term.SymSet",
+      "library": "lambdapi.core",
+      "description": "This module provides ordered set operations for managing collections of symbolic terms (`sym`), supporting efficient insertion, deletion, union, intersection, and membership checks. It works with ordered sets (`SymSet.t`) that maintain element ordering and enable transformations like mapping, filtering, and partitioning, along with sequence-based iteration and conversion to/from lists or ordered sequences. Designed for scenarios requiring precise symbol tracking in term representations, it optimizes performance through physical equality checks during immutable updates and integrates with binder abstractions for handling variable bindings in formal terms.",
+      "description_length": 662,
+      "index": 22,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Core.Term.Sym",
+      "library": "lambdapi.core",
+      "description": "This module implements sets and maps keyed by symbols, using the internal symbol type from Core.Term. It provides standard collection operations like adding, removing, and comparing elements, specifically tailored for symbol-based keys. Useful for managing symbol tables or tracking unique identifiers in term manipulations.",
+      "description_length": 324,
+      "index": 23,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Core.Term.Var",
+      "library": "lambdapi.core",
+      "description": "This module implements sets and maps for term variables, using the `Core.Term.tvar` type as keys. It provides standard set and map operations such as membership testing, insertion, and lookup, along with a total ordering function for comparing term variables. These structures are used to manage variable bindings and track variable usage in term manipulations.",
+      "description_length": 361,
+      "index": 24,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Core.Term.MetaSet",
+      "library": "lambdapi.core",
+      "description": "This module provides operations for manipulating ordered sets of term metavariables (Core.Term.Meta.t) with a focus on ordered iteration, set algebra, and sequence-based construction. It supports standard set operations (union, intersection, filtering) alongside ordered decomposition, element search using total ordering, and bidirectional conversion between sets and ordered sequences. Typical use cases include tracking metavariable dependencies, ordered term traversal, and constructing sets from sequential data while preserving ordering guarantees.",
+      "description_length": 554,
+      "index": 25,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Core.Tree.CM",
+      "library": "lambdapi.core",
+      "description": "This module enables compiling pattern matching into decision trees by constructing and transforming clause matrices, selecting optimal columns for specialization, and evaluating conditions to determine term rewriting. It handles data structures including terms, clauses with substitutions and constraints, and matrices that pair patterns with right-hand sides, supporting operations like constructor-based specialization, exhaustiveness checks, and filtering through wildcards or binders. It is used in functional language compilers to optimize pattern matching by systematically analyzing and resolving complex patterns during term reduction.",
+      "description_length": 643,
       "index": 26,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Common.Debug.D",
-      "description": "Provides functions for formatting and printing values with customizable output, including logging behaviors and structured representation of data types. Works with primitives like booleans, integers, and strings, as well as complex structures such as lists, arrays, options, and maps. Enables detailed logging of function calls, exceptions, and nested data with controlled formatting and separation.",
-      "description_length": 399,
+      "module_path": "Core.Term.Raw",
+      "library": "lambdapi.core",
+      "description": "This module provides a low-level printer for internal term representations, specifically using the `Core.Term.term` type. It leverages the `Lplib.Base.pp` pretty-printing facility to format terms for debugging purposes. Direct use cases include inspecting term structures during development or logging terms in error messages.",
+      "description_length": 326,
       "index": 27,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Common.Path.Path",
-      "description": "Prints and compares path representations as lists of strings, using standard formatting and comparison conventions. Operates on string lists to represent hierarchical path structures. Useful for generating human-readable path outputs and performing ordered comparisons in parsing or serialization contexts.",
-      "description_length": 306,
+      "module_path": "Core.Term.SymMap",
+      "library": "lambdapi.core",
+      "description": "This module implements symbol-keyed maps with efficient operations for inserting, modifying, and querying associations between symbolic terms (`Core.Term.sym`) and arbitrary values. It emphasizes ordered traversal, bulk updates via sequences, and transformations like filtering or partitioning, while supporting extremal key access and conversion to ordered structures like lists or sequences. Designed for managing term symbols in compiler internals, it enables use cases like variable binding tracking, hierarchical term manipulation, and ordered symbol processing in formal systems.",
+      "description_length": 585,
       "index": 28,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Common.Path.Set",
-      "description": "The module provides set operations such as addition, removal, union, and intersection, along with element querying and membership checks, working with generic set types and specialized `Path.t` structures. It enables element-wise processing via iteration, mapping, and folding, and includes sequence conversion utilities for integrating set data with sequential workflows. Use cases include managing dynamic collections, analyzing path-based data, and performing efficient set-theoretic computations.",
-      "description_length": 500,
+      "module_path": "Core.Term.VarMap",
+      "library": "lambdapi.core",
+      "description": "This module provides a collection of ordered map operations for managing key-value associations where keys are term variables (`Core.Term.tvar`) from the Bindlib-based term representation. It supports standard map manipulations (insertion, deletion, union, filtering) alongside ordered traversal, folding, and conversion to/from sequences or lists, with specialized utilities for key-range iteration and list-based accumulation. Such functionality is particularly useful for implementing substitution environments, variable binding tracking, or ordered term variable metadata management in compiler or proof assistant workflows.",
+      "description_length": 628,
       "index": 29,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Common.Path.Map",
-      "description": "This module provides operations for managing key-value maps, including insertion, deletion, lookup, and traversal, with support for custom merging and sequence-based transformations. It works with maps featuring keys of type `Path.t` and handles conversions between maps, lists, and sequences, enabling functional programming patterns like folding and filtering. Use cases include processing hierarchical data structures, configuration management, and efficient data transformation workflows.",
-      "description_length": 492,
+      "module_path": "Core.Term.MetaMap",
+      "library": "lambdapi.core",
+      "description": "This module implements a map structure for associating `Meta.t` keys with arbitrary data, offering standard operations like insertion, removal, and lookup, alongside ordered traversal and sequence-based construction. It optimizes for physical equality of keys and supports efficient range queries, ordered processing, and bulk transformations, making it suitable for managing metadata in term representations where key ordering and iterative updates are critical.",
+      "description_length": 463,
       "index": 30,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Common.Library.LibMap",
-      "description": "Provides operations to manage a mapping between module paths and file paths, including setting a root directory, adding bindings, retrieving file paths, and iterating over entries. Works with module paths of type Path.t and string-based file paths. Used to track how module names correspond to physical files in a project's directory structure.",
-      "description_length": 344,
+      "module_path": "Core.LibTerm",
+      "library": "lambdapi.core",
+      "description": "This module provides operations for inspecting and manipulating terms, including checking term kinds, extracting variables, removing implicit arguments, and traversing term structures. It works with term data types, binders, contexts, and variable mappings. Concrete use cases include analyzing term structure for type checking, managing bound variables during substitution, and preparing terms for further processing by stripping or transforming specific components.",
+      "description_length": 467,
       "index": 31,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Common.Console.State",
-      "description": "Provides functions to save, restore, and manage state configurations containing verbosity settings, loggers, and boolean flags. Operates on a type `t` that encapsulates these settings and a reference list for tracking saved states. Used to revert to previous configurations during complex state transitions in the typechecker.",
-      "description_length": 326,
+      "module_path": "Core.Sig_state",
+      "library": "lambdapi.core",
+      "description": "This module manages the state of a signature during term processing, providing operations to manipulate scope and visibility of symbols, notations, and builtins. It works with signature states that track symbols, paths, and open modules, enabling structured symbol resolution and scoped additions. Concrete use cases include resolving qualified identifiers during term printing and maintaining context when extending or opening signatures.",
+      "description_length": 439,
       "index": 32,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Extra.IntMap",
-      "description": "This module offers immutable map operations for integer-keyed structures, enabling creation, modification, and querying through functions like adding, removing, and merging entries. It supports transformations, iteration, and conversion between maps and sequences, working with key-value pairs and optional values. Use cases include efficient configuration management or data processing where integer identifiers require structured, functional manipulation.",
-      "description_length": 457,
+      "module_path": "Core.Tree_type",
+      "library": "lambdapi.core",
+      "description": "This module provides data structures and operations for decision trees used in term rewriting systems, centered around types like `tree_cond` for conditions on term convertibility and free variables, and `rhs_substit` for tracking substitutions. It supports operations such as tree construction with pattern-based branching and computing tree storage capacity, enabling precise control over decision paths and rewrite rule application. The first child module introduces atomic pattern constructors\u2014symbols, bound variables, and type placeholders\u2014with comparison and printing operations that support pattern matching compilation and environment building. The second extends this with a polymorphic map keyed on atomic patterns, enabling associative and ordered manipulation of hierarchical data, such as rule sets or decision branches, based on pattern keys.",
+      "description_length": 857,
       "index": 33,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lplib.Extra.IntSet",
-      "description": "This module offers functional set operations for integers, including union, intersection, difference, and membership checks, alongside transformations like iteration and sequence conversions. It manipulates immutable integer sets and sequences, enabling tasks such as filtering elements or building sets from iterable data sources. Specific use cases involve processing structured data with set logic or converting between sequential and set representations for efficient querying.",
-      "description_length": 481,
+      "module_path": "Core.Inverse",
+      "library": "lambdapi.core",
+      "description": "This module computes the inverse image of a term with respect to an injective function, primarily working with symbolic representations of terms and their transformation rules. It provides operations to retrieve inverse mappings for constant and product terms, leveraging cached rule graphs to efficiently determine original inputs from transformed outputs. Concrete use cases include reversing term reductions in a rewriting system and reconstructing source terms from their normalized forms.",
+      "description_length": 493,
       "index": 34,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lplib.Extra.StrMap",
-      "description": "This module offers functional operations for managing immutable string-keyed maps, including adding, removing, and merging entries, as well as querying bindings, cardinality, and extremal key-value pairs. It supports transformations, filtering, and conversions between maps and sequences, enabling efficient data processing and configuration management. Use cases include handling structured data, optimizing lookups in dynamic environments, and integrating with functional pipelines for data manipulation.",
-      "description_length": 506,
+      "module_path": "Core.Version",
+      "library": "lambdapi.core",
+      "description": "This module provides a single value `version` that returns a string containing version information. It works with string data to expose the current version of the library or application. A concrete use case is displaying the version number in command-line interfaces or logs for debugging and identification purposes.",
+      "description_length": 317,
       "index": 35,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lplib.Extra.StrSet",
-      "description": "This module offers functional set operations for handling collections of strings, including insertion, deletion, combination, and querying with immutable, pure functions. It works with persistent sets and sequences, enabling transformations like folding, mapping, and splitting while maintaining efficiency. Use cases include managing unique string identifiers, processing filtered data streams, or converting between set and sequence representations.",
-      "description_length": 451,
+      "module_path": "Core.Term",
+      "library": "lambdapi.core",
+      "description": "This module represents terms in a typed lambda calculus with support for binders, metavariables, and patterns, using Bindlib-based structures like `tbox` and `tbinder` for safe substitution and variable management. It enables operations such as term construction, unification, normalization, and inspection, with direct use in proof assistants and term rewriting systems. Submodules provide ordered sets and maps for variables, symbols, and metavariables, supporting efficient set algebra, ordered traversal, and environment management. Specific capabilities include tracking variable dependencies, managing symbol tables, and printing terms for debugging.",
+      "description_length": 656,
       "index": 36,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.RangeMap.Make",
-      "description": "Creates and manipulates intervals and points with line and column coordinates. Provides operations to compare intervals based on their endpoints, translate intervals horizontally, and determine the relative position of a point within an interval. Converts points and intervals to strings for debugging or logging.",
-      "description_length": 313,
+      "module_path": "Core.Ctxt",
+      "library": "lambdapi.core",
+      "description": "This module manages typing contexts, providing operations to query variable types, definitions, and existence within a context. It supports term manipulation by abstracting over contexts, unfolding definitions, and decomposing terms with context substitutions. Use cases include type checking, term normalization, and context-based term transformations in a lambda calculus or proof assistant setting.",
+      "description_length": 401,
       "index": 37,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Base.Int",
-      "description": "Compares two integers using standard lexicographical ordering. Performs arithmetic operations such as addition, subtraction, and multiplication with integer values. Used to implement ordered comparisons in data structures like sets and maps.",
-      "description_length": 241,
+      "module_path": "Core.Sign",
+      "library": "lambdapi.core",
+      "description": "This component provides operations to manage symbol definitions, including adding and resolving notations, built-in constructs, and inductive types within a formal system. It manipulates signature structures that track symbol metadata like constructors, induction rules, and module dependencies, supporting serialization and dependency traversal. Key use cases involve maintaining consistent symbol mappings during theorem proving tasks and ensuring referential integrity across logical expressions.",
+      "description_length": 499,
       "index": 38,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Option.Monad",
-      "description": "Provides binding operations for sequencing computations in a context, using a function that transforms values into new contexts. Works with option types and custom monadic structures. Enables safe chaining of operations that may fail or require context propagation.",
-      "description_length": 265,
+      "module_path": "Core.Infer",
+      "library": "lambdapi.core",
+      "description": "This module performs type inference and checking for terms in a given context, refining terms and determining their types or checking against expected types. It works with terms and contexts from the Core.Term module, handling metavariables and constraints during inference. Concrete use cases include validating term correctness in a typed logic system and supporting interactive proof assistants by resolving implicit type information.",
+      "description_length": 437,
       "index": 39,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Option.Applicative",
-      "description": "Provides operations to lift values into a context and apply functions within that context. Works with the option data type to handle computations that may fail. Enables safe composition of functions that operate on optional values, such as parsing or retrieving data that might be missing.",
-      "description_length": 289,
+      "module_path": "Core.Ghost",
+      "library": "lambdapi.core",
+      "description": "This module defines a ghost signature used by the kernel, including operations to check membership and iterate over ghost symbols. It works with symbolic terms and paths, providing direct access to the signature's structure. Concrete use cases include managing internal symbols that are not user-defined, such as those generated during type checking or compilation.",
+      "description_length": 365,
       "index": 40,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.RangeMap_intf.Range",
-      "description": "Provides operations to create and manipulate intervals and points, including checking if a point lies within an interval, comparing intervals based on their endpoints, and translating intervals by specified deltas. Works with custom types `point` and `t` representing positions and intervals, respectively. Used to determine positional relationships in structured data, such as tracking code ranges in a text editor or validating spatial overlaps.",
+      "module_path": "Core.Eval",
+      "library": "lambdapi.core",
+      "description": "This module evaluates and converts terms according to various reduction strategies, including weak head-normal form, head-normal form, and strong normal form. It supports operations like beta-reduction, eta-equality, and unfolding of symbol definitions, working with terms in a given context. Use cases include normalizing lambda calculus expressions, checking term convertibility, and simplifying terms during type checking or proof construction.",
       "description_length": 447,
       "index": 41,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Export.Coq",
-      "description": "Translates parser-level ASTs into Coq representations using either raw lambda-calculus semantics or simple type theory encoding, with customizable identifier renaming and encoding specifications. It handles qualified identifiers and provides map operations for managing key-value pairs with Qid.t keys, enabling efficient data manipulation through transformations, filtering, and merging. Functions like qid_compare ensure consistent ordering for term references in sorted structures, while map operations support complex data processing workflows. Examples include renaming symbols in translated Coq code and transforming term representations into structured data formats.",
-      "description_length": 673,
+      "module_path": "Core.LibMeta",
+      "library": "lambdapi.core",
+      "description": "This module provides functions to create, manage, and manipulate metavariables within a term problem. It supports operations such as generating fresh metavariables, setting their values, and checking their occurrence in terms, working directly with term contexts, boxed terms, and metavariable binders. Use cases include constructing and modifying terms with unresolved metavariables during type checking or rewriting, particularly when managing dependencies between terms and their typing contexts.",
+      "description_length": 499,
       "index": 42,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Export.Dk",
-      "description": "The module provides operations for translating Lambdapi signatures into Dedukti, including pretty-printing, analysis, and conversion of signature elements like identifiers, terms, and declarations. It manages module dependencies through path-based requirements and processes signature data to track logical constructs and structural relationships. These functions are critical for ensuring accurate representation and dependency resolution in formal verification workflows.",
-      "description_length": 473,
+      "module_path": "Core.Print",
+      "library": "lambdapi.core",
+      "description": "This module provides pretty-printing operations for terms, symbols, variables, and notations in the Core AST, along with dynamic configuration options to control output behavior for domains, implicits, and metavariables. It operates on terms, contexts, constraints, and type-checking states to support debugging and logging during term type-checking, error analysis, and convertibility testing. The functionality is specifically used for generating human-readable feedback in success or failure scenarios and for inspecting term structures during development.",
+      "description_length": 559,
       "index": 43,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Export.Hrs",
-      "description": "translates lambda terms into HRS format by encoding applications, lambdas, let bindings, and \u03a0 expressions into a structured term algebra, with variables and function symbols properly renamed to avoid conflicts. it uses integer pairs to compare and order pattern variables, and manages symbolic mappings through key-value operations for dynamic data handling. it supports sorting pattern variables, merging symbol tables, and generating clean HRS output by eliminating unused symbols. examples include translating \u03bbx.x into a term with a bound variable, and managing multiple pattern variables with distinct arities across rules.",
-      "description_length": 629,
+      "module_path": "Core.Tree",
+      "library": "lambdapi.core",
+      "description": "This module compiles rewriting rules into decision trees using Maranget's method, transforming rule sets into executable logic for efficient pattern matching. It organizes terms and rules into clause matrices, selecting optimal patterns for specialization while managing constraints through integer maps and arrays to track variables and conditions. The system supports operations like exhaustiveness checks, wildcard filtering, and substitution application, enabling concrete use cases such as optimizing term rewriting in functional language compilers. Constraint submodules handle persistent set operations on integer pairs, ensuring correct condition coverage and partitioning during compilation.",
+      "description_length": 700,
       "index": 44,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Export.Rawdk",
-      "description": "<think> Okay, let's tackle this query. The user wants a 2-3 sentence description of the Rawdk module based on the provided summaries. They specified to identify main operations, data structures, and mention use cases without generic phrases or repeating the module name. First, I need to parse the function/type summaries. The first chunk talks about translating parser-level AST nodes into Dedukti, working with identifiers, terms, parameters, logical assertions. The functions take AST types and return processed versions. The second chunk mentions translating AST to Dedukti, operations like removing term wraps, parsing rules, extracting modifiers, constructing AC types. They operate on parser terms, rules, modifiers, AST structures, focusing on syntactic transformation and annotation extraction. So the main operations are translating AST nodes into Dedukti format, syntactic transformations, and annotation extraction. The data structures include AST nodes, parser terms, rules, modifiers, AC types. Use cases would be converting parser ASTs to Dedukti, handling term wraps, parsing rules, extracting modifiers for logical assertions. Need to avoid generic terms. Instead of \"translation\", maybe \"converting\" or \"transforming\". Mention specific operations like removing term wraps, parsing rules, extracting modifiers. Data structures: AST nodes, parser terms, rules, modifiers, AC types. Use cases: preparing ASTs for Dedukti, handling syntactic elements, extracting annotations for logical assertions. Now structure into 2-3 sentences. First sentence: main operations and data structures. Second: specific operations and use cases. Maybe combine if possible. Let me check the example response. It mentions translating AST nodes, handling syntactic transformations, and specific operations like removing term wraps. Data structures: AST nodes, parser terms, rules, modifiers, AC types. Use cases: converting parser ASTs, parsing rules, extracting modifiers for logical assertions. I need to make sure not to repeat the module name. Also, avoid phrases like \"module provides\" since the user said not to repeat the module name. So start with \"This module...\" but the user said not to use the module name. Wait, the instruction says \"Do NOT use generic phrases or repeat the module name.\" So the module name is \"Rawdk\", so I shouldn't mention it. So start with \"The module...\" but the user says not to repeat the module name. Wait, the user says \"Do NOT use generic phrases or repeat the module name.\" So the module name is \"Rawdk\", so I shouldn't use that. So the description should not mention \"Rawdk\" again. So the description should start with something like \"This module...\" but the user says not to repeat the module name. Wait, the original instruction says \"based on the chunk summaries below, write a 2-3 sentence description that: ... specifies what data structures... mentions specific use cases...\" So the user wants the description to not repeat the module name. So the module name is \"Rawdk\", but the description shouldn't mention it. So the description should start with \"The module...\" but the user says not to repeat the module name. Wait, maybe the user means not to repeat the module name in the description. So the description should not include \"Rawdk\" again. So the description should start with \"This module...\" but the user says not to repeat the module name. Wait, maybe the user means that the description shouldn't use the module name again. So the original module is called \"Rawdk\", but the description should not mention that name. So the description should start with \"The module...\" but the user says not to repeat the module name. Hmm, maybe the user wants the description to not include the module name. So the answer should not have \"Rawdk\" in it. So the first sentence would be something like \"The module translates parser-level AST nodes into Dedukti representations, handling identifiers, terms, parameters, and logical assertions through syntactic transformations and annotation extraction.\" Then mention data structures and use cases. Let me check the example response. The example starts with \"This module...\" but the user's instruction says not to repeat the module name. Wait, maybe the user's instruction is that the description should not use the module name. So the answer should not have \"Rawdk\" in it. So the example response given by the user (the one they provided) starts with \"This module...\" which is acceptable because the module name is not repeated. So the user's instruction is to not repeat the module name, so the answer should not include \"Rawdk\". So the answer should start with \"This module...\" or \"The module...\" but the user's instruction says not to repeat the module name. Wait, the user says \"Do NOT use generic phrases or repeat the module name.\" So the module name is \"Rawdk\", so the description should not include that name. So the answer should not mention \"Rawdk\" at all. So the first sentence should start with \"The module...\" but the user says not to repeat the module",
-      "description_length": 5048,
+      "module_path": "Core.Builtin",
+      "library": "lambdapi.core",
+      "description": "This module manages built-in symbols by providing operations to register and retrieve them, along with associated type-checking functions. It works with signature states, symbol tables, and terms to enforce correct usage of built-in names during type checking. Concrete use cases include validating that a built-in symbol has the correct type when loaded and registering custom type checks for specific built-in identifiers.",
+      "description_length": 424,
       "index": 45,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Export.Xtc",
-      "description": "This module specializes in translating Lambdapi terms, rewrite rules, and signatures into the XTC format, focusing on symbol tracking, type handling, and pattern variable serialization. It operates on Core.Sign.t structures, symbols, variables, and terms, enabling compatibility with termination analysis tools like SizeChangeTool. Specific use cases include generating XTC representations for dependency rules and extending type systems with lambda and application constructs.",
-      "description_length": 477,
+      "module_path": "Core.Env",
+      "library": "lambdapi.core",
+      "description": "This module manages variable scoping environments as associative lists mapping variable names to tuples of variables, types, and optional definitions. It supports operations to construct and deconstruct dependent product terms, abstract terms, and applications using environment-bound variables, and to convert environments to contexts or arrays. Concrete use cases include unbinding nested products in terms, building lambda abstractions from environments, and applying terms to sequences of variables.",
+      "description_length": 503,
       "index": 46,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Handle.Command",
-      "description": "Handles command execution and proof management by compiling with a given compiler, checking subject-reduction, and tracking long-running commands. Processes commands to generate updated signature states and proof data, including tactic lists and initial proof states. Manages proof validation separately after command execution.",
-      "description_length": 328,
+      "module_path": "Core.Coercion",
+      "library": "lambdapi.core",
+      "description": "This module implements term coercion logic using a symbolic representation for coercion rules. It provides operations to define coercion functions via `coerce` and apply them to terms with `apply`, transforming values between types. Direct use cases include implementing type conversions in term rewriting systems or proof assistants where explicit coercion steps are required.",
+      "description_length": 377,
       "index": 47,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Handle.Compile",
-      "description": "Compiles code with customizable library mappings and console states, restoring original settings after execution. Processes file paths, signature structures, and console state objects to manage compilation environments. Supports safe compilation of individual files or directories without altering global settings. Example uses include compiling a specific module with custom dependencies or isolating console output during builds.",
-      "description_length": 431,
+      "module_path": "Core.Unif_rule",
+      "library": "lambdapi.core",
+      "description": "This module defines symbols and operations for handling unification rules in a ghost signature. It provides the `equiv` and `cons` symbols to represent equality and rule composition, along with functions to unpack and check membership of terms. It is used to manipulate lists of equivalence constraints in unification problems.",
+      "description_length": 327,
       "index": 48,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Handle.Fol",
-      "description": "Provides functions to construct and manipulate first-order logic-based tactic configurations, including retrieving settings from a signature state and position data. Works with signature states, position options, and a config record containing logical parameters. Used to customize theorem proving strategies during automated reasoning tasks.",
-      "description_length": 342,
-      "index": 49,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Handle.Inductive",
-      "description": "Generates induction principles for first-order dependent types, handling polymorphism through encoded types and mutual inductive definitions. It operates on inductive type symbols, term environments, and variable arrays, producing terms that encode inductive proofs and recursive rules. Specific use cases include constructing induction hypotheses for recursive data structures and generating proof terms for inductive predicates.",
-      "description_length": 430,
-      "index": 50,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Handle.Proof",
-      "description": "manages the environment and structure of logical goals, enabling manipulation and inspection of terms and hypotheses. It supports creating goals from meta terms, applying simplifications, and generating context structures. Operations include retrieving typing contexts, printing goals, and modifying terms. Users can inspect and transform proof states with precise control over their structure and representation.",
-      "description_length": 413,
-      "index": 51,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Handle.Query",
-      "description": "Infers and checks types of terms within a logical context, refining terms based on type constraints and problem state. Processes terms with associated positions, problems, and contexts, ensuring well-sortedness and type correctness. Validates terms against specific sorts like Type or Kind and integrates with proof states to execute query operations.",
-      "description_length": 351,
-      "index": 52,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Handle.Rewrite",
-      "description": "Provides functions for matching and substituting terms, rewriting equations, and handling substitution patterns in a logical context. Operates on terms, type variables, and equation configurations derived from a signature state. Enables precise control over equational reasoning, such as replacing subterms based on a lemma or transforming equality proofs.",
-      "description_length": 356,
-      "index": 53,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Handle.Tactic",
-      "description": "Handles proof state manipulation and tactic execution, including axiom admission, goal refinement, and induction. Operates on signature states, proof states, terms, and metavariables. Used to apply tactics like solving unification constraints, refining goals with terms, and generating unique identifiers for metavariables.",
-      "description_length": 323,
-      "index": 54,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Handle.Why3_tactic",
-      "description": "Provides functions to configure and execute a prover through Why3, including setting the default prover and timeout. Operates on signature states, positions, and goal types to apply proof attempts. Used to automate proof validation within a verification framework by invoking specified provers on specific goals.",
-      "description_length": 312,
-      "index": 55,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.DkBasic",
-      "description": "manages identifier collections with operations for creation, modification, and querying, using a custom `t` type and `ident`-based `data`. It supports efficient set operations like merging, adding, and removing elements, along with iteration and statistical analysis. For example, it can track used variables in a term or aggregate unique identifiers from multiple sources. Key operations include `add`, `remove`, `mem`, and `stats`.",
-      "description_length": 433,
-      "index": 56,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.DkLexer",
-      "description": "Provides functions to tokenize Dedukti source files, including parsing identifiers, strings, and comments while tracking lexical positions. Operates on `Lexing.lexbuf`, `Buffer.t`, and custom token types from `DkTokens`. Used to extract and validate syntactic elements like symbols, keywords, and whitespace-aware identifiers during parsing.",
-      "description_length": 341,
-      "index": 57,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Parsing.DkParser",
-      "description": "Parses a line of input by consuming a lexing buffer and returning a parsed command structure. It processes tokens generated by a lexer, using a custom token type derived from DkTokens. This is used to convert raw input into an abstract syntax tree for command execution.",
-      "description_length": 270,
-      "index": 58,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.DkRule",
-      "description": "Extracts and constructs term applications, separating head terms from their arguments along with source positions. Operates on parsed terms and rule structures, converting between internal and logical programming representations. Used to manipulate term application structures during parsing and transformation phases.",
-      "description_length": 318,
-      "index": 59,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.DkTokens",
-      "description": "Handles lexical analysis of Dedukti source files, providing functions to tokenize input streams and track source positions. Operates on `loc` for position tracking and `token` for representing language elements like identifiers, keywords, and operators. Used to parse and process Dedukti terms and declarations during compilation.",
-      "description_length": 330,
-      "index": 60,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.LpLexer",
-      "description": "The module provides tokenization for Lambdapi syntax, focusing on parsing and normalizing identifiers, including handling escaped identifiers that denote filenames by unescaping them and ensuring they don't conflict with regular identifiers. It operates on UTF-8 strings, using state transitions and internal tables to manage lexical analysis, with applications in processing paths and avoiding identifier clashes. Specific use cases include safely interpreting filenames with spaces and maintaining consistent identifier representation during syntax parsing.",
-      "description_length": 559,
-      "index": 61,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Parsing.LpParser",
-      "description": "Parses logical terms, search queries, and qualified identifiers from lexical input, converting them into structured syntax representations. Processes input using a custom tokenization function and returns values of types such as `Syntax.p_term`, `SearchQuerySyntax.query`, and `Syntax.p_qident`. Designed for handling specific syntax elements in a logical query language.",
-      "description_length": 371,
-      "index": 62,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.Package",
-      "description": "Provides functions to locate and load configuration data from lambdapi.pkg files. Operates on file paths and a config_data record containing parsed configuration information. Used to automatically apply build settings when processing source or object files.",
-      "description_length": 257,
-      "index": 63,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.Parser",
-      "description": "Processes input streams, files, and strings into abstract syntax trees by parsing commands lazily. Accepts input channels, filenames, and raw strings as sources. Used to convert source code snippets or file contents into structured command representations for further analysis or execution.",
-      "description_length": 290,
-      "index": 64,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Parsing.Pratt",
-      "description": "Processes and rewrites expressions by resolving operator precedence and associativity, using a signature state and environment to identify and expand infix and prefix operators. It operates on syntax terms, restructuring them based on declared operator priorities. This enables accurate transformation of raw input into semantically correct expressions. For example, it can convert \"a + b * c\" into a structured term representing addition of a and the product of b and c.",
-      "description_length": 471,
-      "index": 65,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.Pretty",
-      "description": "The module provides pretty-printing operations for parser-level AST elements, including identifiers, terms, rules, and commands, utilizing custom types from the Syntax and Common modules. It transforms these structures into human-readable formats, such as generating Lambdapi syntax output from Dedukti-parsed ASTs, with specific focus on formatting proofs, tactics, and complex syntactic constructs. The functions emphasize structured representation while preserving semantic clarity during AST node conversion.",
-      "description_length": 512,
-      "index": 66,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Parsing.Scope",
-      "description": "Converts parsed terms and rules into scoped core terms, resolving identifiers against a signature state and environment. Operates on syntax trees, type terms, and rewrite patterns, incorporating bound variables and symbol resolution. Used to process rewrite rules, search patterns, and tactic specifications in formal verification contexts.",
-      "description_length": 340,
-      "index": 67,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Parsing.SearchQuerySyntax",
-      "description": "Provides operations to parse and construct search queries with structured filtering, including conjunctions, disjunctions, and field-specific constraints. Works with custom types representing query components, such as `base_query`, `filter`, and `constr`, enabling precise query manipulation. Used to generate executable search expressions from user input or to transform query representations for different backends.",
-      "description_length": 417,
-      "index": 68,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Parsing.Syntax",
-      "description": "Constructs abstract syntax nodes from strings, variables, and term arrays, supporting identifiers, patterns, applications, and abstractions. Operates on term variables and optional identifiers to build structured representations for parsing or transformation. Enables creation of term hierarchies and pattern matching constructs. Examples include generating lambda abstractions from variable names and applying functions to argument terms.",
-      "description_length": 439,
-      "index": 69,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lsp.Lp_lsp",
-      "description": "Provides functions for logging and executing a main process, operating on boolean flags and file paths. Handles configuration through a default log file string and initiates execution with a specified input. Used to start a language server protocol instance with custom logging behavior.",
-      "description_length": 287,
-      "index": 70,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lsp.Lsp_io",
-      "description": "provides a foundation for input/output operations in a language server protocol context, offering basic type definitions and utility functions for handling data streams. It includes types such as channel and buffer, along with operations for reading and writing data. Functions like read_line and write_string enable interaction with external processes. This module supports the construction of reliable communication channels between the server and clients.",
-      "description_length": 458,
-      "index": 71,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Pure.Command",
-      "description": "Provides operations to compare commands for equality, extract positional information, and pretty-print commands. Works with the `t` type, representing abstract command structures. Used to validate command equivalence in parsing logic and to generate human-readable command representations for debugging.",
-      "description_length": 303,
-      "index": 72,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Pure.Tactic",
-      "description": "Provides operations to compare tactics for equality, extract positional information, and generate pretty-printed representations. Works with the `t` type, which encapsulates proof-related data. Used to analyze and display tactic structures during proof verification processes.",
-      "description_length": 276,
-      "index": 73,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Pure.ProofTree",
-      "description": "Compares proof structures for equality and traverses them to accumulate results using a given function. Operates on an abstract proof type representing logical derivations. Used to verify identical proof structures and apply transformations during automated theorem proving.",
-      "description_length": 274,
-      "index": 74,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Builtin",
-      "description": "Provides functions to retrieve and validate built-in symbols using a state and position context. Operates on symbol mappings, hash tables of check functions, and term types. Registers type-checking logic for symbols and enforces type constraints during validation.",
-      "description_length": 264,
-      "index": 75,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Coercion",
-      "description": "Provides functions to define and apply type coercions between terms. Operates on symbolic representations of terms and type annotations. Enables explicit conversion of a term from one type to another during type inference or rewriting processes.",
-      "description_length": 245,
-      "index": 76,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Ctxt",
-      "description": "Provides operations to retrieve variable types, definitions, and presence in a context. Works with term variables, contexts, and boxed variants, enabling term manipulation through abstraction, substitution, and unfolding. Supports transforming contexts into maps and decomposing terms with variable resolution.",
-      "description_length": 310,
-      "index": 77,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Env",
-      "description": "Manages variable scoping by mapping names to variables and their types, supporting operations to add, retrieve, and check variables. It constructs term structures like products and abstractions from environments, and extracts variable contexts for further processing. Used to transform and analyze terms with dependent types by unwrapping and binding variables in a structured way.",
-      "description_length": 381,
-      "index": 78,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Eval",
-      "description": "Computes weak, head, and strong normal forms of terms using specified reduction strategies, and checks term convertibility under context constraints. Operates on term structures, contexts, and symbols, supporting beta-reduction and eta-equality. Used for verifying term equivalence, normalizing expressions, and unfolding symbolic definitions during evaluation.",
-      "description_length": 361,
-      "index": 79,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Ghost",
-      "description": "Provides operations to manage ghost symbols used in the kernel, including checking membership, iterating over symbols, and accessing the signature and path. Works with `Term.sym`, `Sign.t`, and `Common.Path.t` types. Used to verify if a symbol is part of the ghost signature and to process all ghost symbols during analysis.",
-      "description_length": 324,
-      "index": 80,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Infer",
-      "description": "Infer performs type inference and checking by refining terms according to given contexts and types, returning refined terms and their inferred types or errors. It operates on terms, contexts, and problem states, handling metavariables and constraints during inference. It is used to validate term consistency with specified types and to derive types for untyped terms.",
-      "description_length": 368,
-      "index": 81,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Inverse",
-      "description": "Computes inverse images of terms under injective functions using cached rule lookups. It processes symbolic terms and returns transformed terms based on predefined production and constant rules. Specific operations include resolving inverse mappings for product and constant constructs, and caching results to avoid redundant computations.",
-      "description_length": 339,
-      "index": 82,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.LibMeta",
-      "description": "Provides operations to generate and manage metavariables in logical terms, including creating fresh metavariables with specific types and arities, setting their values, and checking for occurrences. Works with problem contexts, term boxes, and binder structures to track and manipulate metavariables during term construction. Used to handle metavariable scoping in rewriting rules and to manage term environments with dynamic variable bindings.",
-      "description_length": 444,
-      "index": 83,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.LibTerm",
-      "description": "Checks if a term is a dependent product, extracts type variables, and manages binder contexts. Operates on terms, type variables, and symbol lists. Used to process term structures in type inference and variable substitution scenarios.",
-      "description_length": 234,
-      "index": 84,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Print",
-      "description": "The module offers pretty-printing utilities for core abstract syntax tree (AST) elements, including terms, types, contexts, and rules, with customizable formatting options for details like implicit arguments and metavariables. It processes structured data from the Term module, enabling type-specific serialization and extraction for diagnostic outputs. These functions are critical for generating human-readable logs, error messages, and feedback during type-checking or conversion tests.",
-      "description_length": 489,
-      "index": 85,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Sig_state",
-      "description": "Provides functions to manage a signature state, including adding symbols, notations, and builtins, and opening external signatures. Works with types like `Term.sym`, `Term.qident`, and `Sign.t` to track scoped terms and their properties. Used to construct and query a symbol table during term processing and printing.",
-      "description_length": 317,
-      "index": 86,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Sign",
-      "description": "This module provides operations for managing symbolic signatures, including creation, querying, modification, and persistence, along with handling symbols, rules, notations, and builtins. It works with signature records, symbols, and hierarchical data structures, enabling tasks like dependency analysis, traversal of complex relationships, and module-level tracking. Specific use cases include resolving dependencies in structured systems and analyzing graph-like signature interconnections.",
-      "description_length": 492,
-      "index": 87,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Term",
-      "description": "Provides a comprehensive framework for handling symbolic terms through structured data management. It includes ordered sets and maps for variables, symbols, and metavariables, supporting operations like insertion, deletion, union, intersection, and traversal. Functions enable efficient symbolic computation, variable binding management, and ordered data manipulation, with applications in parsing, type inference, and term normalization. Examples include comparing term variables, building symbol-based maps, and maintaining sorted collections for optimized lookups.",
-      "description_length": 567,
-      "index": 88,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Core.Tree",
-      "description": "Combines set operations on integer pairs with clause matrix manipulations to support rule-based transformations and pattern matching. It manages structured data through set-theoretic operations and clause analysis, enabling tasks like rule compilation, dependency tracking, and optimization. Users can filter, transform, and analyze relational or logical structures with precise control over elements and their relationships. Examples include building decision trees from rewriting rules, optimizing clause order based on dependencies, and performing efficient pattern matching with structured terms.",
-      "description_length": 600,
-      "index": 89,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Core.Tree_type",
-      "description": "Provides utilities for working with decision tree structures, including formatting and comparing atomic pattern constructors, and managing key-value mappings with pattern-based keys. The `t` type represents atomic patterns, while operations like insertion, traversal, and folding enable manipulation of structured data. It supports serialization, ordering, and transformation of tree elements, useful for parsing, configuration management, and data processing tasks. Examples include formatting tree nodes for output, comparing constructor instances, and building dynamic mappings with pattern keys.",
-      "description_length": 599,
-      "index": 90,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Core.Unif",
-      "description": "Solves unification constraints by simplifying terms in a problem structure, returning success or failure based on constraint satisfaction. It handles term-based problems involving metavariables and applies type checking when enabled. Used to validate and resolve type constraints in symbolic computation contexts.",
-      "description_length": 313,
-      "index": 91,
+      "library": "lambdapi.core",
+      "description": "Simplifies unification constraints in a given problem, returning whether all constraints are satisfiable. It operates on `Core.Term.problem` structures, modifying their `to_solve` and `unsolved` fields based on the simplification results. Useful in type inference systems where metavariables need to be resolved while optionally enforcing type correctness during instantiation.",
+      "description_length": 377,
+      "index": 49,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Core.Unif_rule",
-      "description": "Provides functions to handle symbolic representations of unification rules, including checking symbol membership, creating equivalence and cons symbols, and decomposing nested equivalence terms into a list of pairs. Works with symbols, terms, and lists of term pairs. Used to process and analyze unification constraints in logical expressions.",
-      "description_length": 343,
-      "index": 92,
+      "module_path": "Core",
+      "library": "lambdapi.core",
+      "description": "This module provides a comprehensive framework for term manipulation, type checking, and rewriting within a typed lambda calculus. It centers on terms, contexts, metavariables, and symbols, offering operations for term traversal, substitution, unification, normalization, and pretty-printing, along with support for decision trees, coercion, and inverse term mapping. Users can perform tasks such as analyzing and rewriting lambda terms, inferring and checking types in a context-aware environment, compiling pattern-matching rules into efficient decision structures, and managing symbol definitions and scoping during theorem proving or compilation. Specific examples include normalizing terms using beta-reduction, reconstructing source expressions from transformed outputs, and resolving qualified identifiers during term printing.",
+      "description_length": 834,
+      "index": 50,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Core.Version",
-      "description": "Provides a function to retrieve a version string, useful for embedding build or release information. Works with the string data type to represent version identifiers. Used to dynamically access version details in logging, CLI output, or system reports.",
-      "description_length": 252,
-      "index": 93,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tool.External",
-      "description": "Handles execution of external verification tools via Unix commands, processing signatures through a formatter and interpreting output. Operates on signature data and command strings, returning boolean results based on tool responses. Used to validate properties by interfacing with external checkers that output \"YES\", \"NO\", or \"MAYBE\".",
-      "description_length": 336,
-      "index": 94,
+      "module_path": "Lsp.Lsp_base",
+      "library": "lambdapi.lsp",
+      "description": "This module constructs and manipulates JSON objects for communication in a language server protocol. It converts positions, goals, and diagnostics into JSON format, supporting responses to client requests. It works with positions, goals, and diagnostic data to generate structured JSON replies for features like error reporting and goal display.",
+      "description_length": 345,
+      "index": 51,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tool.Indexing",
-      "description": "Provides functions to manage and query an index, including adding signs to the index, dumping its contents, and searching for commands in text or HTML formats. Operates on strings, sign data, and command records. Used to populate an index from rule sets and retrieve command information in structured formats.",
-      "description_length": 309,
-      "index": 95,
-      "embedding_norm": 1.0
+      "module_path": "Lsp.Lp_lsp",
+      "library": "lambdapi.lsp",
+      "description": "Implements a command-line interface for launching a language server, accepting a boolean flag to enable verbose logging and a string argument for the log file path. Works directly with string values and boolean flags to configure runtime behavior. Used to start a language server process with customizable log output destination and level of detail.",
+      "description_length": 349,
+      "index": 52,
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Tool.Lcr",
-      "description": "This module focuses on generating and verifying critical pairs for local confluence in rewrite systems, employing unification of subterms, substitution, and incremental checks to detect joinability issues. It operates on terms, rewrite rules, subterm positions, and pattern variables, with mechanisms for renaming variables to prevent conflicts during unification. Key use cases include verifying confluence during incremental rule additions and analyzing interactions between rules, particularly in higher-order or AC symbol contexts.",
-      "description_length": 535,
-      "index": 96,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tool.Sr",
-      "description": "Checks a pre-rule against a signature state to ensure it preserves typing, raising a fatal error if invalid. Operates on parsed rule structures and position-annotated data. Used to validate transformation rules in a type-checking context during program analysis.",
-      "description_length": 262,
-      "index": 97,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Tool.Tree_graphviz",
-      "description": "Generates Graphviz DOT language output from Core.Term.dtree structures, mapping each node to a pattern matrix and labeling edges with matching terms. Operates on symbolic tree structures where nodes represent decision points based on column indices. Used to visually represent decision trees for debugging or analysis in machine learning workflows.",
+      "module_path": "Lsp.Lsp_io",
+      "library": "lambdapi.lsp",
+      "description": "This module handles input/output operations for LSP (Language Server Protocol) communication. It provides functions to read JSON requests from an input channel, send formatted JSON responses, and log errors or JSON objects with descriptive messages. It works directly with JSON values (`J.t`), formatters (`F.formatter`), and standard I/O channels.",
       "description_length": 348,
-      "index": 98,
+      "index": 53,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tool.Websearch",
-      "description": "Initiates a web search server on the specified port, handling incoming queries and returning results. Operates with HTTP request and response types, parsing query parameters and formatting JSON output. Used to integrate search capabilities into web applications or APIs.",
-      "description_length": 270,
-      "index": 99,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Console",
-      "description": "manages a state `t` that tracks verbosity levels, loggers, and boolean flags, with operations to save, restore, and track configurations. It supports reverting to prior states during typechecker operations, ensuring consistent logging behavior. Functions include `save`, `restore`, and `track`, enabling precise control over logging during complex workflows. For example, it can reset logging settings after a series of diagnostic outputs.",
-      "description_length": 439,
-      "index": 100,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Debug",
-      "description": "Formats and prints values with customizable output, supporting primitives and complex data structures like lists, options, and maps. Offers logging capabilities for function calls, exceptions, and nested data, with controlled formatting and separation. Allows detailed inspection of values through structured representations. Examples include printing debug logs with color coding, inspecting option types, and formatting nested maps for readability.",
-      "description_length": 450,
-      "index": 101,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Error",
-      "description": "Provides functions to manage warnings and errors, including printing colored warnings with position information, suppressing warnings temporarily, building and raising fatal errors with or without positions, and handling exceptions with error messages. Works with format strings, position data, and output buffers. Used to display warnings during parsing, handle critical errors in command-line tools, and ensure proper error reporting in application workflows.",
-      "description_length": 461,
-      "index": 102,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Escape",
-      "description": "Handles string manipulation for escaped identifiers, including escaping, checking for escape status, unescaping, and adding prefixes or suffixes while preserving escape integrity. Operates on strings representing identifiers, ensuring proper formatting around special syntax \"{|\" and \"|}\". Used to safely construct and deconstruct identifiers in code generation or parsing contexts.",
-      "description_length": 382,
-      "index": 103,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Library",
-      "description": "Manages the association between module paths and file locations, enabling navigation and lookup within a project's structure. Supports operations like setting a root, adding mappings, and retrieving file paths based on module names. Path.t values are central to defining and resolving module locations. For example, it can locate the file for a given module or list all registered module-file pairs.",
-      "description_length": 399,
-      "index": 104,
+      "module_path": "Lsp.Lp_doc",
+      "library": "lambdapi.lsp",
+      "description": "This module manages document state and proof processing for a logical editor, handling operations like command execution, goal tracking, and error reporting. It works with document nodes containing commands, proof states, and associated metadata, along with log entries and position mappings. Concrete use cases include parsing and evaluating proof scripts, maintaining document versions, and generating error responses tied to specific positions in the document.",
+      "description_length": 463,
+      "index": 54,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Common.Logger",
-      "description": "Provides functions to create and manage loggers with customizable debug levels, including enabling/disabling loggers by key, retrieving activated loggers, and generating summaries of logging options. Operates on character keys, strings for logger names and descriptions, and a logger_pp type for formatting log messages. Used to conditionally execute logging operations based on enabled flags and to dynamically adjust logging behavior at runtime.",
-      "description_length": 447,
-      "index": 105,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Common.Path",
-      "description": "manages hierarchical path structures through list-based representations, set operations, and key-value maps, enabling efficient data manipulation and transformation. It supports path comparison, set-theoretic operations, and map-based lookups, with specialized handling for `Path.t` types and generic data structures. Users can generate formatted paths, perform union and intersection on path sets, and manage nested configurations through map operations. Examples include parsing hierarchical data, merging configuration maps, and comparing path sequences for consistency.",
-      "description_length": 573,
-      "index": 106,
+      "module_path": "Lsp",
+      "library": "lambdapi.lsp",
+      "description": "This module facilitates communication and state management for a language server, handling JSON serialization, document processing, and input/output operations. It defines core data types like JSON values (`J.t`), document nodes, and position mappings, with operations to serialize goals and diagnostics, read and respond to LSP requests, and manage proof script evaluation. You can use it to launch a language server with logging, process document changes and commands, and exchange structured data with a client over standard I/O channels.",
+      "description_length": 541,
+      "index": 55,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Common.Pos",
-      "description": "The module provides operations for manipulating source code positions, including comparisons, transformations, and formatting, working with types like `pos`, `popt`, `'a loc`, and `strloc`. It enables precise tracking of locations in code for purposes such as error reporting and debugging, offering structured location data with associated information. Specific use cases include analyzing and representing file positions during parsing or highlighting code segments.",
-      "description_length": 468,
-      "index": 107,
+      "module_path": "Export.Coq.QidMap",
+      "library": "lambdapi.export",
+      "description": "This module implements a polymorphic key-value map with `Qid.t` identifiers as keys, supporting operations like insertion, deletion, traversal, and transformation with both functional and list-based value manipulations. It provides sequence-based conversion, reverse iteration, and filtering capabilities, emphasizing safe access through optional return types and conditional updates. Designed for managing identifier mappings during AST translation, it facilitates tasks like renaming, merging, and encoding structured data in Coq's type system.",
+      "description_length": 546,
+      "index": 56,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Array",
-      "description": "provides low-level array manipulation with attention to concurrent access patterns, focusing on atomicity and data race prevention. it includes operations for iterating, scanning, sorting, and modifying array elements, with specific considerations for float arrays and 32-bit architectures. for example, it allows safe modification of disjoint array sections but warns against unsynchronized writes to the same element. it also highlights potential issues like tearing during blit operations on float arrays.",
-      "description_length": 508,
-      "index": 108,
+      "module_path": "Export.Hrs.VMap",
+      "library": "lambdapi.export",
+      "description": "This module provides a map structure for managing variable bindings with operations to transform, filter, and traverse key-value pairs, along with sequence-based construction and ordered iteration. It works with keys representing HRS-translated variables (positive integers for bound variables, \"$\"-prefixed identifiers for pattern variables) and arbitrary typed values, supporting use cases like tracking variable arities during lambda term translation, ensuring name uniqueness in HRS output, and optimizing symbol usage by filtering unused bindings before serialization. The sequence conversion functions enable incremental map updates and ordered traversal required for deterministic HRS term generation.",
+      "description_length": 708,
+      "index": 57,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Base",
-      "description": "Provides integer comparison and arithmetic operations, enabling ordered data structure implementations. Supports addition, subtraction, and multiplication on integers, with lexicographical ordering for comparisons. Used to define ordering in abstract data types like sets and maps. Examples include sorting integer lists and building ordered collections.",
-      "description_length": 354,
-      "index": 109,
+      "module_path": "Export.Coq.Qid",
+      "library": "lambdapi.export",
+      "description": "Translates qualified identifiers from the parser-level AST to Coq, supporting both raw Coq and simple type theory encodings. It handles identifier renaming via a provided map and is used during AST translation to ensure correct name resolution in the target Coq output. This module is essential for mapping source identifiers to their corresponding Coq representations in either translation mode.",
+      "description_length": 396,
+      "index": 58,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Bytes",
-      "description": "Provides low-level, unsafe conversion between bytes and strings, along with binary encoding and decoding of integers. Supports 8-bit, 16-bit, 32-bit, and 64-bit integers in little-endian, big-endian, and native-endian formats. Allows direct manipulation of byte sequences without copying, enabling efficient but risky operations. For example, it can encode an int32 into a byte sequence or decode a 64-bit integer from a specific offset.",
-      "description_length": 437,
-      "index": 110,
+      "module_path": "Export.Hrs.V",
+      "library": "lambdapi.export",
+      "description": "This module manages pattern variable naming and arity tracking for HRS format translation. It uses a map to associate pattern variable names with their arities, ensuring correct prefixing and uniqueness across rules. It supports operations to add, look up, and compare pattern variables based on rule-specific naming conventions.",
+      "description_length": 329,
+      "index": 59,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Color",
-      "description": "Handles color configuration and formatting for terminal output. Converts color values to strings, applies color codes to format strings, and provides functions to conditionally color text based on boolean flags. Works with custom color types and format strings, enabling styled logging and terminal rendering.",
-      "description_length": 309,
-      "index": 111,
+      "module_path": "Export.Rawdk",
+      "library": "lambdapi.export",
+      "description": "This module provides translation and transformation operations for converting abstract syntax trees (ASTs) into Dedukti terms, focusing on removing syntactic layers, processing term modifiers, and mapping annotated types. It works with parser-level ASTs, identifiers, terms, parameters, and assertions, employing structured patterns to handle constructs like let-bindings, abstractions, and products. The functionality supports use cases such as flattening complex syntax trees into Dedukti representations and extracting type information from annotated expressions.",
+      "description_length": 566,
+      "index": 60,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Extra",
-      "description": "Provides immutable, functional operations for managing integer and string-keyed maps and sets, supporting creation, modification, querying, and conversion between data structures. Key types include integer and string maps with optional values, and integer and string sets with pure, persistent operations. Users can perform tasks like merging configurations, filtering data, or transforming between sequences and collections. Examples include efficiently handling dynamic lookups, processing structured data, and maintaining immutable state in functional pipelines.",
-      "description_length": 565,
-      "index": 112,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lplib.Filename",
-      "description": "This module offers functions for manipulating file paths through string operations, including constructing, splitting, and normalizing filenames, as well as handling platform-specific conventions like separators and case insensitivity. It supports tasks such as generating temporary files, quoting filenames for command-line use, and resolving absolute paths. Key use cases include cross-platform path management, secure temporary file creation, and preparing filenames for shell interactions.",
-      "description_length": 493,
-      "index": 113,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lplib.List",
-      "description": "is a foundational module that defines basic list operations and structures. It includes types such as 'list' and operations like 'cons', 'hd', 'tl', and 'length'. Users can construct, deconstruct, and analyze lists using these primitives. It serves as the basis for more complex list manipulations in other modules.",
-      "description_length": 315,
-      "index": 114,
+      "module_path": "Export.Hrs",
+      "library": "lambdapi.export",
+      "description": "The module translates Lambdapi signatures into the HRS term algebra, using specific symbols for application, lambda abstraction, let, and \u03a0 types, while managing naming constraints such as distinct variable and function symbol namespaces, arity-based encoding of pattern variables, and rule-specific prefixes. It coordinates with a variable binding map to track and transform variable names and arities during translation, ensuring deterministic output and optimized symbol usage. The pattern variable module enforces unique naming and arity tracking across rules, enabling correct HRS serialization. Example usage includes converting a LambdaPi term with pattern variables and nested lambdas into a Unicode-free HRS term with numbered bound variables and rule-prefixed pattern identifiers.",
+      "description_length": 790,
+      "index": 61,
       "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "Lplib.Option",
-      "description": "Combines monadic sequencing and lifting operations to manage computations that may fail or require context. Supports option types by allowing functions to be applied to wrapped values and chaining operations that propagate absence of values. Enables safe parsing, data retrieval, and function composition where results may be undefined. For example, it can chain multiple parsing steps or safely access nested optional fields.",
-      "description_length": 426,
-      "index": 115,
+      "module_path": "Export.Dk",
+      "library": "lambdapi.export",
+      "description": "This module translates terms and declarations between Lambdapi and Dedukti syntax, focusing on identifier escaping to avoid Dedukti keywords, path normalization, and syntactic formatting. It operates on terms, declarations, and signatures while managing dependencies through require statements, ensuring compatibility between the two systems. Key applications include converting Lambdapi signatures into valid Dedukti files and programmatically resolving identifier conflicts during cross-language interoperability tasks.",
+      "description_length": 521,
+      "index": 62,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.Range",
-      "description": "Provides operations to create and manipulate intervals and points, including checking if a point lies within an interval, comparing intervals based on their endpoints, and translating intervals. Works with custom types `point` and `t` representing positions and intervals. Used to determine the positional relationship between a cursor and a code range, or to adjust ranges in a text editor.",
-      "description_length": 391,
-      "index": 116,
+      "module_path": "Export.Coq",
+      "library": "lambdapi.export",
+      "description": "This module translates parser-level ASTs into Coq syntax using two modes: raw translation, which directly maps lambda calculus constructs to Coq, and STT encoding, which embeds the AST into simple type theory using an external specification. It processes structured terms and identifiers, applying renaming maps to transform symbols during translation, ensuring compatibility with Coq's naming and type system. The module relies on a key-value map for managing identifier transformations and a dedicated identifier translator that applies renaming rules in both raw and STT modes. These components together enable precise Coq output generation, supporting use cases such as formal verification and lambda calculus embedding.",
+      "description_length": 724,
+      "index": 63,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lplib.RangeMap",
-      "description": "Manages intervals and points with line and column coordinates, supporting comparisons, translations, and position checks. Offers string conversion for intervals and points to aid in debugging. Can determine if a point lies within an interval or calculate the distance between intervals. Provides tools to adjust intervals along the x-axis and assess their spatial relationships.",
-      "description_length": 378,
-      "index": 117,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lplib.RangeMap_intf",
-      "description": "Manages intervals and points with operations for creation, comparison, and transformation, using custom types `point` and `t`. Supports checks for point inclusion in intervals, interval ordering, and interval translation. Enables precise control over spatial or positional relationships, such as validating code range overlaps or adjusting intervals in a coordinate system. Examples include determining if a cursor position falls within a highlighted text segment or shifting a range by a fixed offset.",
-      "description_length": 502,
-      "index": 118,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Lplib.Range_intf",
-      "description": "Provides operations to create and manipulate points and intervals, including checking if a point lies within an interval, comparing intervals based on their endpoints, and translating intervals by specified offsets. Works with point and interval data types, where points represent line and column positions, and intervals define ranges between two points. Used to track cursor positions within token ranges in text processing, such as determining if a cursor is inside a specific syntactic element.",
-      "description_length": 498,
-      "index": 119,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lplib.String",
-      "description": "Provides functions to decode 32-bit, 64-bit, 8-bit, and 16-bit integers from strings using little-endian, big-endian, or native-endian formats. Main data types include int32, int64, and int, with operations for decoding signed or unsigned values. Examples include extracting a 32-bit big-endian integer from a string or parsing a 16-bit little-endian value. Decoding operations raise Invalid_argument when insufficient data is available at the specified index.",
-      "description_length": 460,
-      "index": 120,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Lplib.Uchar",
-      "description": "This module handles low-level Unicode operations, including encoding/decoding between code points and byte sequences (UTF-8/UTF-16), validation of character representations, and bit-level manipulations. It works with integers for code points and byte arrays, enabling tasks like ensuring valid character encodings or processing raw Unicode data. Specific use cases involve validating input streams, normalizing Unicode formats, and converting between numeric representations and textual forms.",
-      "description_length": 493,
-      "index": 121,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "lambdapi",
-      "description": "Provides functions for parsing and generating JSON data, including encoding OCaml values to JSON and decoding JSON into OCaml types. Works with OCaml's native data structures such as lists, variants, and records. Used to serialize configuration settings and exchange data between client and server in web applications.",
-      "description_length": 318,
-      "index": 122,
+      "module_path": "Export.Xtc",
+      "library": "lambdapi.export",
+      "description": "This module translates simply typed LambdaPi terms and signatures into the XTC format used for termination analysis competitions, handling symbols, bound variables, pattern variables, and rewrite rules. It supports extended XTC features like lambda and application in types, generating output for tools such as SizeChangeTool that consume type-level rules and termination certificates. Key use cases include exporting formalized type theories and rewrite systems to standardized XML-based formats for automated termination checking.",
+      "description_length": 532,
+      "index": 64,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Export",
-      "description": "This module translates parser-level AST nodes into Dedukti representations, handling identifiers, terms, parameters, and logical assertions through syntactic transformations and annotation extraction. It operates on AST nodes, parser terms, rules, modifiers, and AC types, enabling tasks like removing term wraps, parsing rules, and extracting modifiers for logical assertions. Specific use cases include preparing ASTs for Dedukti processing and managing syntactic elements in formal verification workflows.",
-      "description_length": 508,
-      "index": 123,
+      "library": "lambdapi.export",
+      "description": "This collection translates and transforms abstract syntax trees into various target formats, including Dedukti, HRS, Coq, and XTC, by processing identifiers, terms, types, and declarations through structured mappings and renaming strategies. It supports operations such as flattening complex syntax, encoding pattern variables with arity tracking, escaping reserved keywords, and embedding lambda terms into type theories. Specific applications include converting LambdaPi terms into Unicode-free HRS representations, generating valid Coq files from signatures, and exporting rewrite systems to XTC for termination analysis. The system ensures deterministic output through binding maps, renaming rules, and structured pattern handling across multiple translation modes.",
+      "description_length": 769,
+      "index": 65,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Handle",
-      "description": "combines command execution, compilation, tactic configuration, induction generation, goal management, type checking, term rewriting, and proof automation into a unified system for logical reasoning. It handles signature states, proof states, terms, and tactic configurations, enabling tasks like compiling code with custom libraries, generating induction principles, and applying automated proofs. Users can manipulate logical goals, refine proof states with tactics, and manage type constraints during verification. Specific applications include customizing theorem proving strategies, isolating build environments, and automating proof validation with external provers.",
-      "description_length": 671,
-      "index": 124,
+      "module_path": "Lplib.RangeMap.Make.Range",
+      "library": "lambdapi.lplib",
+      "description": "This module represents and manipulates source code positions and intervals using line and column numbers. It provides operations to create and compare intervals, check if a point lies within an interval, and translate interval boundaries. Concrete use cases include tracking token positions in a parser or managing source code spans for error reporting.",
+      "description_length": 353,
+      "index": 66,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Parsing",
-      "description": "This module integrates identifier management, lexical analysis, tokenization, and parsing to process and structure Dedukti and Lambdapi source code. It handles custom data types like `t`, `loc`, `token`, and `Syntax.p_term`, supporting operations such as `add`, `parse`, `tokenize`, and `rewrite`. It enables tasks like tracking variables, converting input into ASTs, resolving operator precedence, and generating human-readable syntax. Examples include parsing commands, extracting term applications, and formatting proof structures for execution or display.",
-      "description_length": 559,
-      "index": 125,
+      "module_path": "Lplib.Option.Monad",
+      "library": "lambdapi.lplib",
+      "description": "This module provides monadic operations for working with `option` values, specifically enabling sequential composition of functions that may fail using `let*` and wrapping values in `option` context with `return`. It supports chaining optional computations without explicit pattern matching, improving readability and reducing boilerplate. Use it to handle sequences of operations where any step may fail, such as parsing nested data or querying optional fields.",
+      "description_length": 462,
+      "index": 67,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.RangeMap.Make",
+      "library": "lambdapi.lplib",
+      "description": "This module implements a map from intervals to values with efficient point lookup, supporting operations to add intervals with associated values and query which intervals contain a given point. It combines core functionality for managing overlapping or nested regions with submodules that provide concrete representations of source code positions and intervals using line and column numbers. You can use it to track token ranges in a parser, manage source code spans for error reporting, or model dynamic memory or text regions where intervals may change over time. The API allows creating, comparing, and translating intervals, as well as checking containment and querying active intervals at specific points.",
+      "description_length": 710,
+      "index": 68,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Lsp",
-      "description": "provides a framework for building and managing language server protocol interactions, combining logging, execution, and I/O capabilities. it includes types like channel and buffer, along with operations for reading, writing, and managing data streams. users can configure logging behavior, execute processes, and establish communication channels between servers and clients. examples include starting a server with custom logs, reading input from a buffer, and writing responses to a client.",
-      "description_length": 491,
-      "index": 126,
+      "module_path": "Lplib.Option.Applicative",
+      "library": "lambdapi.lplib",
+      "description": "This module implements applicative functors for the `option` type, enabling function application within the context of optional values. It provides `pure` to wrap values in an `option` and `<*>` to apply an optional function to an optional argument, propagating absence. Use it to compose operations that depend on the presence of values without explicit pattern matching, such as combining optional configuration parameters or chaining safe arithmetic operations.",
+      "description_length": 464,
+      "index": 69,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Pure",
-      "description": "manages command, tactic, and proof structures through equality checks, positional extraction, and pretty-printing. It supports operations on abstract types representing commands, tactics, and proofs, enabling validation, analysis, and transformation. Users can compare command equivalence, inspect tactic details, and traverse proof trees to accumulate results. Examples include debugging command parsing, displaying tactic steps, and verifying proof consistency.",
-      "description_length": 463,
-      "index": 127,
+      "module_path": "Lplib.Extra.IntSet",
+      "library": "lambdapi.lplib",
+      "description": "This module implements integer set operations for membership testing, set algebra, and element manipulation, offering functions like union, intersection, and difference alongside safe accessors for minimum/maximum elements. It works with abstract integer sets and supports conversions to and from lists and sequences, enabling efficient iteration, filtering, and transformation workflows. Typical use cases include deduplicating integer collections, analyzing set relationships, and processing integer ranges with ordered traversal.",
+      "description_length": 532,
+      "index": 70,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Core",
-      "description": "manages symbolic terms, types, and contexts through a suite of operations for validation, coercion, normalization, and transformation. it handles term structures, variable bindings, and type annotations, enabling tasks like type inference, term rewriting, and dependency analysis. it supports operations such as computing normal forms, managing metavariables, and generating human-readable outputs. examples include normalizing expressions, resolving variable scoping, and pretty-printing AST elements.",
-      "description_length": 502,
-      "index": 128,
+      "module_path": "Lplib.Extra.StrSet",
+      "library": "lambdapi.lplib",
+      "description": "This module implements set algebra operations (union, intersection, difference) and element management (insertion, removal, membership checks) for string collections, along with transformations like mapping, filtering, and partitioning. It operates on immutable string sets and supports conversions to and from lists and sequences, enabling use cases such as data aggregation, unique element extraction, and iterative processing in pipelines.",
+      "description_length": 442,
+      "index": 71,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Tool",
-      "description": "Processes external tool outputs, manages command indexes, verifies confluence via critical pairs, enforces typing rules, generates visualizations, and serves web searches. Operates on signatures, commands, terms, rules, and HTTP requests, supporting validation, indexing, analysis, and visualization tasks. Can check if a rule preserves types, generate DOT diagrams for decision trees, or search an index for command patterns. Executes external verifiers, detects joinability issues, and provides web-based search interfaces.",
-      "description_length": 525,
-      "index": 129,
+      "module_path": "Lplib.RangeMap_intf.S-Range",
+      "library": "lambdapi.lplib",
+      "description": "This module represents and manipulates source code intervals defined by start and end positions. It provides operations to create intervals from line and column points, check point inclusion within intervals, translate interval bounds, and compare intervals. Concrete use cases include tracking source code spans in compilers or static analysis tools, and managing text buffer selections with precise line and column offsets.",
+      "description_length": 425,
+      "index": 72,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.Base.Int",
+      "library": "lambdapi.lplib",
+      "description": "This module provides arithmetic operations, bitwise manipulations, and numeric comparisons for 32-bit and 64-bit integers. It includes functions for addition, subtraction, multiplication, division, modulus, shifting, and bitwise AND/OR/XOR. Concrete use cases include low-level numeric computations, bitmask handling, and integer-based state transitions in performance-sensitive code.",
+      "description_length": 384,
+      "index": 73,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Common",
-      "description": "manages state, logging, and positioning with precise control over verbosity, formatting, and module resolution. It defines types like `t`, `Path.t`, `pos`, and `logger_pp`, supporting operations to save and restore configurations, format complex values, handle errors and warnings, and manipulate paths and identifiers. It enables tasks such as resetting log settings, printing debug information with color, resolving module files, and tracking code positions for error reporting. Examples include safely escaping identifiers, merging configuration maps, and generating structured log outputs.",
-      "description_length": 593,
-      "index": 130,
+      "module_path": "Lplib.Range_intf.S",
+      "library": "lambdapi.lplib",
+      "description": "This module defines operations for creating and manipulating points and intervals, primarily used to determine whether a cursor position lies within a specific token range. It provides functions to construct points from line and column numbers, create intervals with start and end points, and check the relative position of a point to an interval. Additional operations include interval comparison, string representation, and translation of interval bounds by specified deltas.",
+      "description_length": 477,
+      "index": 74,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.RangeMap_intf.S",
+      "library": "lambdapi.lplib",
+      "description": "Implements a map from intervals to values, where each interval is non-overlapping and uniquely identifies a value. Supports operations to add a mapping, look up a value by point, and convert the structure to a string. Useful for tracking source code positions with tokens or associating values with non-overlapping numeric ranges.",
+      "description_length": 330,
+      "index": 75,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Array",
+      "library": "lambdapi.lplib",
+      "description": "This module offers a comprehensive suite of operations for array and matrix manipulation, including creation (e.g., `make`, `init`), indexed transformations (`map_inplace`, `mapi`), functional reductions (`fold_left`, `find_opt`), and structural adaptations (`append`, `split`). It operates on polymorphic arrays and matrices, supporting both in-place mutations and pure functional transformations, with utilities for sorting, shuffling, and equality checks. These capabilities are particularly useful for numerical computations, data processing pipelines, and algorithms requiring precise control over array elements or their indices.",
+      "description_length": 635,
+      "index": 76,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Range",
+      "library": "lambdapi.lplib",
+      "description": "This module represents and manipulates source code positions and intervals. It defines points as line and column pairs, and intervals as start and end points, providing operations to create, compare, and translate them. It is used to track and query the location of code elements in a text buffer, such as during parsing or analysis.",
+      "description_length": 333,
+      "index": 77,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Base",
+      "library": "lambdapi.lplib",
+      "description": "This module extends the standard library with tools for creating custom pretty-printers and comparison functions, allowing developers to compose formatters with prefixes, suffixes, or conditional elements, and to define orderings lexicographically or through mapped values. It also includes a child module for efficient 32-bit and 64-bit integer arithmetic, bitwise operations, and numeric comparisons, enabling low-level numeric processing and bitmask manipulations. Together, they support tasks like generating structured output for complex data types while handling integer-based computations with precision and performance. Example uses include formatting nested data structures with consistent syntax and implementing custom sorting logic over composite keys or bitmasked values.",
+      "description_length": 784,
+      "index": 78,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Color",
+      "library": "lambdapi.lplib",
+      "description": "This module defines operations for handling colored output in formatted strings, supporting ANSI color codes through a variant type representing basic colors. It provides functions to convert colors to strings and codes, apply color tags to format strings, and dynamically update formatters to include color. Specific use cases include coloring terminal output based on type or status, such as highlighting errors in red or success messages in green.",
+      "description_length": 450,
+      "index": 79,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.RangeMap_intf",
+      "library": "lambdapi.lplib",
+      "description": "This module defines an interface for mapping intervals to values, enabling efficient insertion, deletion, and lookup over ordered ranges such as integers or timestamps. It supports core operations like querying overlapping ranges, inserting non-overlapping intervals, and associating values with precise spans. The first child module specializes in source code intervals, offering creation, comparison, and inclusion checks for line and column-based ranges, while the second implements a concrete interval-to-value map for non-overlapping ranges, supporting point-based lookups and string representation. Together, they enable use cases like tracking memory regions, managing text selections, and associating metadata with source code spans.",
+      "description_length": 741,
+      "index": 80,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Bytes",
+      "library": "lambdapi.lplib",
+      "description": "This module enables low-level byte sequence manipulation through operations like slicing, concatenation, and in-place updates, while supporting character-level transformations such as case conversion, predicate checks, and whitespace trimming. It handles binary data parsing/serialization with endianness-aware integer encoding, UTF-8/UTF-16 validation, and Unicode character manipulation, making it suitable for tasks like protocol implementation, file format parsing, and encoding conversion. The core `bytes` type serves as the foundation for both ASCII and Unicode-aware operations, with utilities for safe/unsafe memory access and sequence traversal.",
+      "description_length": 655,
+      "index": 81,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.Option",
+      "library": "lambdapi.lplib",
+      "description": "This module provides a comprehensive set of tools for working with optional values, combining direct functions for creation, transformation, and inspection with monadic and applicative submodules for composing computations that may fail. The core functionality includes operations like `map`, `bind`, and `get`, while the monadic submodule enables sequential chaining with `let*` and the applicative submodule supports function application with `<*>`. It allows tasks such as safely processing nested data structures, combining optional configuration values, or handling missing input without repetitive pattern matching. The integration with pretty-printing and conversions to other types like `result` or sequences further supports robust error handling and data flow in parsing, configuration, and general application logic.",
+      "description_length": 827,
+      "index": 82,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.RangeMap",
+      "library": "lambdapi.lplib",
+      "description": "This module manages a collection of non-overlapping intervals mapped to values, enabling efficient point-based lookups and interval insertions. It supports core operations like adding intervals, querying values at specific points, and converting the structure to a string, while its submodules enhance functionality with concrete representations of source code positions and interval manipulations. You can use it to track token ranges during parsing, associate metadata with file regions, or manage dynamic memory or text segments. The API also includes utilities for interval comparison, translation, and containment checks, enabling precise handling of nested or overlapping regions.",
+      "description_length": 686,
+      "index": 83,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.Filename",
+      "library": "lambdapi.lplib",
+      "description": "This module provides path concatenation, extension stripping, and temporary file creation with customizable prefixes, suffixes, and permissions, alongside utilities for resolving implicit paths, normalizing hierarchies, and safely quoting command-line arguments. It operates on file paths and directory structures, emphasizing cross-platform safety and precision in handling absolute/relative paths, base names, and directory components. Typical applications include cross-platform file management tools, secure temporary resource handling, and scripts requiring reliable path manipulation or directory traversal.",
+      "description_length": 613,
+      "index": 84,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.Extra",
+      "library": "lambdapi.lplib",
+      "description": "This module provides high-performance map and set implementations for integers and strings, along with utilities for file handling, time measurement, and path traversal. It supports operations like union, intersection, and difference on integer and string sets, with safe accessors and conversions to lists and sequences for efficient iteration and transformation. Functions such as `get_safe_prefix`, `with_timeout`, and `more_recent` enable tasks like generating unique strings, enforcing time limits, and tracking file dependencies. These capabilities are useful for managing temporary files, implementing build systems, and processing integer or string collections with set algebra.",
+      "description_length": 686,
+      "index": 85,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.Range_intf",
+      "library": "lambdapi.lplib",
+      "description": "This module provides core operations for working with integer ranges, enabling iteration, mapping, and folding over bounded intervals, along with efficient traversal and transformation of range-based sequences. It includes a child module for handling points and intervals, allowing construction from line and column numbers, interval comparison, and checking point inclusion. Together, they support tasks like generating indexed data structures, performing calculations over discrete intervals, and managing cursor positions within token ranges. For example, you can iterate over a range to build an array of values or determine if a cursor lies within a specific source code token.",
+      "description_length": 682,
+      "index": 86,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Lplib.List",
+      "library": "lambdapi.lplib",
+      "description": "This module implements comprehensive list manipulation capabilities centered on traversal, transformation, filtering, and structural comparison operations. It operates on generic OCaml lists, associative lists (key-value pairs), sequences, and array combinations, supporting indexed processing, accumulator threading, and predicate-driven computations. Specific applications include data processing pipelines with `filter_map` and `fold_left_map`, associative key-value lookups with custom equality, sorted list maintenance with `insert_sorted`, and efficient list merging or deduplication while preserving order or uniqueness constraints.",
+      "description_length": 639,
+      "index": 87,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Lplib.Uchar",
+      "library": "lambdapi.lplib",
+      "description": "This module provides operations for validating, converting, and manipulating Unicode scalar values represented as integers, including handling special constants like BOM and replacement characters. It supports working with UTF-8 and UTF-16 encoded byte sequences through decoding, validation, and measurement functions, while offering safe and unsafe conversion utilities with explicit error handling. These capabilities are useful for low-level Unicode processing, encoding-aware text validation, and handling invalid or malformed character sequences in structured data.",
+      "description_length": 571,
+      "index": 88,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Lplib",
-      "description": "Provides low-level array manipulation, integer operations, byte-string conversions, terminal coloring, immutable maps and sets, file path handling, list operations, monadic computation, and interval/point management. Key data types include arrays, integers, bytes, strings, maps, sets, intervals, and points, with operations for iteration, sorting, encoding, formatting, transformation, and comparison. It enables tasks like safely modifying array sections, encoding integers to bytes, building ordered collections, managing file paths, and tracking cursor positions within text ranges. Examples include decoding 64-bit integers from byte sequences, applying color formatting to terminal output, and checking if a point lies within an interval.",
-      "description_length": 744,
+      "library": "lambdapi.lplib",
+      "description": "This module provides a rich set of utilities for data structure manipulation, source code tracking, numeric computation, and text processing. Core data types include arrays, matrices, intervals, bytes, optional values, and Unicode scalars, with operations spanning functional transformations, in-place mutations, and structured formatting. It supports tasks like numerical computations with matrices, source code analysis using intervals and positions, low-level byte and Unicode handling, and robust error handling with optional values. Specific examples include formatting structured data with colored output, tracking memory or text regions using interval maps, and implementing custom pretty-printers or comparison logic for complex types.",
+      "description_length": 743,
+      "index": 89,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Debug.D",
+      "library": "lambdapi.common",
+      "description": "This module provides functions for logging values and control flow during debugging, including utilities to print primitive types, collections, and custom data structures. It supports operations like logging and returning a value, logging and raising exceptions, and formatting complex types such as lists, arrays, maps, and pairs. Concrete use cases include tracing function inputs/outputs, inspecting data structures during execution, and debugging error paths with contextual information.",
+      "description_length": 491,
+      "index": 90,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Path.Path",
+      "library": "lambdapi.common",
+      "description": "This module represents and manipulates module paths as string lists. It provides `pp` for printing paths to a formatter and `compare` for ordering paths lexicographically. These operations are used internally within the Common module to handle path identifiers without escaping special characters.",
+      "description_length": 297,
+      "index": 91,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Path.Map",
+      "library": "lambdapi.common",
+      "description": "This module implements a specialized ordered map structure for associating file paths with arbitrary data, supporting both functional and imperative manipulation. It provides operations for precise path-based lookups (including first/last selection), ordered traversal, bulk updates from sequences, and structural transformations like merging or filtering. Typical applications include managing hierarchical path-based configurations, tracking file dependencies, or organizing path-indexed metadata with efficient ordered access.",
+      "description_length": 529,
+      "index": 92,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Library.LibMap",
+      "library": "lambdapi.common",
+      "description": "This module manages mappings between module paths and file paths, supporting operations to add, retrieve, and iterate over bindings. It works with module paths (`Common.Path.t`) and string file paths, maintaining a mapping structure internally. It is used to track which files correspond to specific module paths within a library, enabling resolution of modules to their source files during compilation or debugging.",
+      "description_length": 416,
+      "index": 93,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Path.Set",
+      "library": "lambdapi.common",
+      "description": "This module provides a functional set interface for managing collections of file or directory paths, supporting operations like union, intersection, filtering, and ordered traversal. It works with sets of `Common.Path.Path.t` values, enabling efficient membership checks, conditional transformations, and conversions to/from lists or sequences. Typical use cases include path deduplication, hierarchical directory traversal analysis, and batch operations on file system entities.",
+      "description_length": 479,
+      "index": 94,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Console.State",
+      "library": "lambdapi.common",
+      "description": "This module manages the imperative state of the typechecker, including verbosity levels, enabled loggers, and boolean flags. It provides operations to save, restore, and apply specific states, enabling precise control during typechecking phases. Concrete use cases include temporarily changing logging behavior or flag settings during type inference and reverting them afterward.",
+      "description_length": 379,
+      "index": 95,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Library",
+      "library": "lambdapi.common",
+      "description": "This module organizes library paths and mappings between module paths and file paths, enabling conversion, validation, and resolution of source and object files. It supports operations like adding validated module-to-file bindings, iterating over existing mappings, and determining correct file paths from module paths with proper extensions. The internal mapping structure tracks associations using `Common.Path.t` for modules and strings for files, facilitating tasks like setting up a library root, linking module names to source files, and locating files during compilation. It integrates direct management of library roots and file extensions with submodules that handle binding storage and lookup.",
+      "description_length": 703,
+      "index": 96,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Common.Pos",
+      "library": "lambdapi.common",
+      "description": "This module enables comparing, merging, and adjusting source code positions, along with mapping over located values and converting Lexing positions. It operates on `pos` records that store file names and UTF-8 line/column ranges, paired with `loc` values to associate elements to their positions. These utilities are used in compiler toolchains to track source locations, report errors with contextual code snippets, and sanitize output through custom delimiters and escape functions.",
+      "description_length": 484,
+      "index": 97,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Console",
+      "library": "lambdapi.common",
+      "description": "This module manages logging output and verbosity settings, providing functions to control message display based on severity levels and to register and manipulate boolean flags. It supports operations to save, restore, and apply specific states, enabling precise control during typechecking phases. Main data types include integers for verbosity levels, formatter objects for output handling, and string-indexed boolean flags with timed references. Concrete use cases include conditionally printing log messages, setting up configurable debug switches, temporarily changing logging behavior during type inference, and resetting state to defaults during initialization or testing.",
+      "description_length": 678,
+      "index": 98,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Logger",
+      "library": "lambdapi.common",
+      "description": "This module manages configurable logging with per-key enable/disable controls and output formatting. It provides functions to create and register loggers with associated keys, names, and descriptions, and to conditionally execute logging based on runtime debug settings. Use cases include selectively enabling debug logs during development and generating summaries of available logging options for user documentation.",
+      "description_length": 417,
+      "index": 99,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Common.Error",
+      "library": "lambdapi.common",
+      "description": "This module handles warning and error reporting with formatted output, including position information and color coding. It supports operations for printing warnings, building fatal error messages, and raising exceptions with structured formatting. Use cases include reporting parse errors with source positions, displaying user warnings during compilation, and handling unrecoverable errors in the main program loop.",
+      "description_length": 416,
+      "index": 100,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Path",
+      "library": "lambdapi.common",
+      "description": "This module represents module paths as string lists, offering core operations like pretty-printing with `pp` and lexicographic ordering via `compare`, while supporting ghost path creation for internal use in path identifier management. It includes a map submodule for associating file paths with data, enabling functional and imperative updates, ordered traversal, and structural transformations like merging, alongside a set submodule for managing path collections with union, intersection, and efficient membership checks. These components work together to manage hierarchical configurations, track dependencies, and perform batch file system operations. Example uses include organizing path-based metadata, deduplicating directory paths, and maintaining ordered file dependency graphs.",
+      "description_length": 788,
+      "index": 101,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Escape",
+      "library": "lambdapi.common",
+      "description": "This module handles string manipulation for identifiers that may be escaped using the \"{|...|}\" syntax. It provides functions to escape a string, check if it is already escaped, and remove escape markers, along with utilities to safely prepend or append to identifiers while preserving escape semantics. It is used when generating or transforming identifiers in contexts where name mangling or escaping is required, such as in code generation or parsing.",
+      "description_length": 454,
+      "index": 102,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common.Debug",
+      "library": "lambdapi.common",
+      "description": "This module combines time measurement and logging capabilities to help analyze and debug programs. It allows timing specific stages of a process and logging values, control flow, and errors with detailed formatting. You can, for example, track the duration of a parsing phase while logging intermediate data structures like lists or pairs at each step. The module also supports custom log handlers and integrates stream processing with time tracking for debugging performance-critical pipelines.",
+      "description_length": 495,
+      "index": 103,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Common",
+      "library": "lambdapi.common",
+      "description": "This module provides utilities for path management, source location tracking, logging control, and string manipulation in a compiler or toolchain environment. Key data types include module paths, source positions, verbosity levels, and escaped identifiers, with operations for mapping modules to files, comparing code locations, configuring log output, and handling warnings with color-coded formatting. It enables tasks like resolving source file paths from module names, logging debug information with dynamic filtering, measuring performance of compilation stages, and escaping identifiers during code generation. Example uses include tracking dependencies in a build system, reporting syntax errors with precise source positions, and selectively enabling verbose output during typechecking.",
+      "description_length": 794,
+      "index": 104,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tool.Tree_graphviz",
+      "library": "lambdapi.tool",
+      "description": "This module converts decision trees represented as `Core.Term.dtree` into Graphviz's DOT format for visualization. It defines the `dot_term` type to model node labels and supports rendering trees where nodes represent pattern matrices and edges represent matched terms. Use it to generate visual representations of decision trees for debugging or documentation purposes.",
+      "description_length": 370,
+      "index": 105,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tool.External",
+      "library": "lambdapi.tool",
+      "description": "This module runs external checkers via Unix commands to validate signatures, using a provided formatter to process input and parsing the checker's output for results. It supports string-based commands, custom output formatting, and returns tri-state outcomes (true, false, or inconclusive). Concrete use cases include integrating third-party signature verification tools into a build or validation pipeline.",
+      "description_length": 407,
+      "index": 106,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tool.Lcr",
+      "library": "lambdapi.tool",
+      "description": "This module handles operations for incremental local confluence verification by analyzing critical pairs between rewrite rules. It works with rewrite systems, substitutions, and higher-order patterns, employing unification and subterm traversal to detect joinability while avoiding variable name clashes through shifting. It is particularly used in scenarios where new rules are added incrementally to an existing system, ensuring only necessary critical pairs are checked without revalidating previously verified ones.",
+      "description_length": 519,
+      "index": 107,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tool.Indexing",
+      "library": "lambdapi.tool",
+      "description": "This module manages indexing operations for a command search feature, supporting both plain text and HTML output formats. It provides functions to initialize an empty index, index a sign with specific rules, and dump the index for debugging or persistence. The module works directly with `Core.Sign.t` and string-based search queries, producing formatted command search results.",
+      "description_length": 378,
+      "index": 108,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tool.Websearch",
+      "library": "lambdapi.tool",
+      "description": "Starts a web search service on the specified port, listening for incoming HTTP requests. It handles query parameters to perform searches and returns results in a structured format. This function is typically used to deploy a standalone search API endpoint.",
+      "description_length": 256,
+      "index": 109,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Tool.Sr",
+      "library": "lambdapi.tool",
+      "description": "Implements type preservation checks for formal rewriting rules. Processes `pre_rule` structures annotated with source positions, verifying their type correctness within a given signature state and converting them into fully typed rules. Used during the validation of transformation rules in a type-safe rewriting system.",
+      "description_length": 320,
+      "index": 110,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Tool",
+      "library": "lambdapi.tool",
+      "description": "This module provides tools for visualizing decision trees, validating signatures with external checkers, verifying confluence in rewrite systems, indexing commands for search, running a web search service, and checking type preservation in rewriting rules. It centers around data types like `Core.Term.dtree`, `Core.Sign.t`, and `pre_rule`, offering operations for rendering graphs, executing commands, unifying terms, formatting search results, serving HTTP queries, and ensuring type correctness. You can generate DOT visualizations of decision trees, run signature checks with custom tools, verify rewrite rule confluence incrementally, index and search commands in text or HTML, expose a search API over HTTP, and validate typed rewriting rules from annotated sources.",
+      "description_length": 772,
+      "index": 111,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.DkBasic.WS",
+      "library": "lambdapi.parsing",
+      "description": "This module implements a data structure for managing a collection of `Parsing.DkBasic.ident` values with operations for adding, removing, merging, and querying elements. It supports efficient lookups, membership checks, and traversal via iterators and folds, while maintaining internal state for performance statistics. Typical use cases include symbol table management and tracking identifiers during parsing or type-checking phases in Dedukti.",
+      "description_length": 445,
+      "index": 112,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.Parser.Lp",
+      "library": "lambdapi.parsing",
+      "description": "This module provides functions to parse Lambdapi syntax from various input sources, including files, strings, and input channels, producing streams of commands, terms, or search queries. It operates on input channels, strings, and file paths, returning structured data such as `Parsing.Syntax.ast`, `p_term`, `query`, and `qident`. These functions support incremental parsing of formal logic content, enabling use cases like reading proof scripts or querying structured term data from external sources.",
+      "description_length": 502,
+      "index": 113,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Syntax.P",
+      "library": "lambdapi.parsing",
+      "description": "This module constructs `p_term` values representing syntactic elements of parsed terms, using identifiers, patterns, applications, abstractions, and wildcards. It supports building terms from paths, strings, and variables, and allows forming patterns, applying terms to other terms or wildcards, and creating abstraction rules. Concrete use cases include generating lambda expressions, pattern matches, and term transformations during parsing.",
+      "description_length": 443,
+      "index": 114,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Parser.PARSER",
+      "library": "lambdapi.parsing",
+      "description": "This module defines the interface for parsing input into abstract syntax trees. It provides functions to parse commands from a file, a string, or an input channel, all returning a lazy stream of syntax trees. It is used to process both Lambdapi and Dedukti source code representations.",
+      "description_length": 285,
+      "index": 115,
+      "embedding_norm": 0.9999998807907104
+    },
+    {
+      "module_path": "Parsing.Pratt.Pratt",
+      "library": "lambdapi.parsing",
+      "description": "This module implements Pratt parsing for infix and prefix operators, transforming parsed terms based on operator precedence and associativity. It operates on `Parsing.Syntax.p_term` values, using a `Core.Sig_state.t` and `Core.Env.t` to resolve symbols and construct new terms during parsing. It is used to desugar operator applications in a term according to the declared operator precedences and fixities.",
+      "description_length": 407,
+      "index": 116,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Parser.Dk",
+      "library": "lambdapi.parsing",
+      "description": "Parses Dedukti syntax from input channels, files, or strings into abstract syntax trees. Works with input streams and string-based sources, producing streams of commands lazily. Used to process Dedukti source code during compilation or interactive sessions.",
+      "description_length": 257,
+      "index": 117,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Scope",
+      "library": "lambdapi.parsing",
+      "description": "This module processes parsed terms and patterns, resolving identifiers into bound variables or symbols within a signature state and environment. It supports operations for scoping terms, search patterns, and rewrite rules, ensuring correct handling of metavariables and symbol resolution. Concrete use cases include converting parser-level rewrite rules into core terms and validating term structure during type checking or rewriting in a proof assistant.",
+      "description_length": 455,
+      "index": 118,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Syntax",
+      "library": "lambdapi.parsing",
+      "description": "This module organizes and manipulates the abstract syntax of logical expressions, combining core validation and traversal operations with term construction capabilities from its child module. It centers on data types like `p_term`, representing identifiers, patterns, abstractions, and applications, and supports operations such as term building, structural comparison, and normalization. With it, developers can generate lambda expressions, extract parameters from inductive definitions, or validate proof script syntax during parsing. The integration of direct APIs for syntax checking and submodules for term manipulation enables both analysis and transformation of logical structures in proof assistants.",
+      "description_length": 708,
+      "index": 119,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.DkLexer",
+      "library": "lambdapi.parsing",
+      "description": "This module implements lexical analysis for Dedukti source files, converting character streams into structured tokens. It processes input using standard OCaml lexing facilities, handling identifiers, strings, comments, and other syntactic elements specific to Dedukti. Key operations include token recognition, position tracking, and error reporting during lexing.",
+      "description_length": 364,
+      "index": 120,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.Pratt",
+      "library": "lambdapi.parsing",
+      "description": "This module implements Pratt parsing to resolve infix and prefix operators in `p_term` values, using `Sig_state` and `Env` to determine operator scope and structure during parsing. It transforms complex operator expressions into explicit syntactic forms based on precedence and associativity rules. Submodules handle the core parsing logic, symbol resolution, and term transformation, enabling desugaring of operator applications as they are parsed. Example uses include parsing arithmetic or logical expressions where operator fixity and precedence must be respected to produce correctly structured terms.",
+      "description_length": 606,
+      "index": 121,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.Package",
+      "library": "lambdapi.parsing",
+      "description": "This module handles reading and applying package configuration data from `.pkg` files, which define a package's name and root path. It provides functions to locate configuration files relative to a given path, parse their contents, and apply the configuration. Use cases include determining module paths during package installation and resolving package roots from source or object files.",
+      "description_length": 388,
+      "index": 122,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.DkParser",
+      "library": "lambdapi.parsing",
+      "description": "Parses a sequence of tokens into a structured command representation using a specified lexical buffer. It operates on `token` values defined in `Parsing.DkTokens` and constructs abstract syntax trees of type `Syntax.p_command`. This module is used to translate raw lexical input into executable command structures in a defined grammar.",
+      "description_length": 335,
+      "index": 123,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.DkBasic",
+      "library": "lambdapi.parsing",
+      "description": "This module provides core types and operations for handling identifiers and module identifiers as strings, with support for equality checks, hashing, and whitespace-sensitive manipulation through the WS submodule. It enables the creation and structured management of identifiers used in parsing and symbol resolution, particularly for variable and module names in Dedukti source files. The child module extends this functionality by offering efficient collection operations\u2014such as insertion, membership testing, and traversal\u2014over sets of identifiers, supporting use cases like symbol table construction and static analysis. Together, they form a foundation for managing lexical entities with performance-conscious data structures and utility functions.",
+      "description_length": 754,
+      "index": 124,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.Pretty",
+      "library": "lambdapi.parsing",
+      "description": "This module provides pretty-printing functions for parser-level abstract syntax trees, handling elements like identifiers, terms, rules, and inductive definitions. It operates on structured types such as `p_ident`, `p_term`, and `p_rule`, using a keyword table to manage language-specific keywords and enforce correct precedence during formatting. These utilities are used to transform Dedukti parser outputs into human-readable Lambdapi syntax, leveraging `Lplib.Base.pp` for consistent textual representation of complex syntax nodes.",
+      "description_length": 535,
+      "index": 125,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.LpLexer",
+      "library": "lambdapi.parsing",
+      "description": "This module implements a Unicode-aware lexer for tokenizing LP input streams, using SEDLex-generated character classification tables and finite automata transitions. It processes UTF-8 encoded text into structured tokens (keywords, identifiers, literals) through integer-based state transitions and partitioned character code analysis. Key use cases include parsing LP models with complex identifier escaping rules, handling numeric/string literals, and maintaining lexing state with positional error reporting.",
+      "description_length": 511,
+      "index": 126,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.SearchQuerySyntax",
+      "library": "lambdapi.parsing",
+      "description": "This module defines a structured query language for parsing and filtering symbolic data, supporting operations like intersection, union, and path-based filtering. It works with abstract syntax trees representing search queries, including named entities, term patterns, and constraints on structure or location. Concrete use cases include querying codebases for specific syntactic patterns, filtering results by file path, and composing complex search expressions from simpler components.",
+      "description_length": 487,
+      "index": 127,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.DkRule",
+      "library": "lambdapi.parsing",
+      "description": "Decomposes and reconstructs parser-level terms into function-application spines, handling positional metadata for arguments. Operates on `p_term` and `p_dk_rule` structures, which represent terms and rewrite rules with source positions. Used to transform dk-style rules into lp-style rules while preserving argument positions.",
+      "description_length": 326,
+      "index": 128,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.DkTokens",
+      "library": "lambdapi.parsing",
+      "description": "This module defines token types and location tracking for parsing Dedukti source files. It includes specific tokens for keywords, identifiers, operators, and structural symbols used in Dedukti syntax. Concrete use cases include lexing input files into structured tokens and tracking source positions for error reporting during parsing.",
+      "description_length": 335,
+      "index": 129,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Parsing.LpParser",
+      "library": "lambdapi.parsing",
+      "description": "This module provides functions to parse individual terms, search queries, qualified identifiers, and commands from lexing buffers using a specified token stream. It operates on lexbuf inputs and produces structured syntax trees for logical terms, queries, and commands. Concrete use cases include parsing user input for theorem proving commands or query expressions in a logic programming environment.",
+      "description_length": 401,
+      "index": 130,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing.Parser",
+      "library": "lambdapi.parsing",
+      "description": "This module parses Lambdapi and Dedukti syntax from files, strings, or input channels into abstract syntax trees, commands, or term streams. It supports both direct parsing and incremental processing, producing structured data like `ast`, `p_term`, and `query`, with utilities for identifier and path conversion. The Lp submodule handles Lambdapi-specific parsing for commands, terms, and search queries, while the Dk submodule focuses on Dedukti syntax, returning lazy streams of syntax trees for compilation or interactive use. Examples include loading proof scripts, evaluating input expressions, or streaming terms from external sources.",
+      "description_length": 641,
       "index": 131,
       "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Parsing",
+      "library": "lambdapi.parsing",
+      "description": "This module processes input streams into structured logical representations, handling lexical analysis, parsing, and term manipulation for languages like Dedukti and Lambdapi. It centers on data types such as `p_term`, `p_command`, and `token`, with operations for identifier resolution, operator precedence parsing, term normalization, and pretty-printing. Developers can use it to parse and validate proof scripts, transform rewrite rules, query symbolic data, and manage package configurations, all while maintaining source position tracking for error reporting and term reconstruction. Specific applications include converting arithmetic expressions into core terms, extracting inductive definitions, and streaming syntax trees from files for theorem proving.",
+      "description_length": 763,
+      "index": 132,
+      "embedding_norm": 0.9999998807907104
     }
   ],
   "filtering": {
-    "total_modules_in_package": 144,
-    "meaningful_modules": 132,
-    "filtered_empty_modules": 12,
-    "retention_rate": 0.9166666666666666
+    "total_modules_in_package": 136,
+    "meaningful_modules": 133,
+    "filtered_empty_modules": 3,
+    "retention_rate": 0.9779411764705882
   },
   "statistics": {
-    "max_description_length": 5048,
-    "min_description_length": 187,
-    "avg_description_length": 443.82575757575756,
-    "embedding_file_size_mb": 0.4799222946166992
+    "max_description_length": 857,
+    "min_description_length": 256,
+    "avg_description_length": 507.57142857142856,
+    "embedding_file_size_mb": 0.4836091995239258
   }
 }

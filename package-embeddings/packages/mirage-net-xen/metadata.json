@@ -1,168 +1,197 @@
 {
   "package": "mirage-net-xen",
-  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
   "embedding_dimension": 1024,
-  "total_modules": 21,
-  "creation_timestamp": "2025-06-18T16:36:13.442832",
+  "total_modules": 22,
+  "creation_timestamp": "2025-07-15T23:10:19.357197",
   "modules": [
     {
-      "module_path": "Xenstore.Make",
-      "description": "This module facilitates interaction with a XenStore client, offering operations for initializing, suspending, and resuming connections, as well as reading, writing, and managing data through transactional or immediate access. It works with XenStore paths, nodes, and handles, enabling directory listings, permission adjustments, and event-driven monitoring via watches. Specific use cases include configuring virtual machine parameters, enforcing domain-specific access controls, and maintaining consistent state during dynamic system changes.",
-      "description_length": 543,
+      "module_path": "TX.Response",
+      "library": "mirage-net-xen",
+      "description": "Handles serialization and deserialization of response messages with status codes and numeric identifiers. Operates on `Cstruct.t` buffers, using a structured format with `id` and `status` fields. Used to encode and decode network or system responses for communication protocols or RPC systems.",
+      "description_length": 293,
       "index": 0,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Backend.Make",
-      "description": "Provides asynchronous operations to read and write MAC addresses, MTU, and configuration data for frontend and backend interfaces. Manages device connection states, backend initialization, and waits for specific lifecycle events like frontend or backend closure. Works with identifiers, MAC addresses, MTU values, and configuration records to control network device interactions.",
-      "description_length": 379,
+      "module_path": "RX.Request",
+      "library": "mirage-net-xen",
+      "description": "This module handles serialization and deserialization of request data structures. It works with `Cstruct.t` buffers to read and write request records containing integer identifiers and 32-bit global references. Typical use cases involve network communication where request objects must be encoded to or decoded from binary formats for transmission.",
+      "description_length": 348,
       "index": 1,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "TX.Request",
-      "description": "Writes a request to a buffer using a Cstruct, reads a request from a Cstruct, retrieves flags associated with the request, and returns the size of the request or an error. Operates on Cstruct.t for data manipulation and uses a custom error type for failure cases. Used to serialize and deserialize network protocol messages, and to inspect request metadata during processing.",
-      "description_length": 375,
+      "module_path": "Frontend.Make",
+      "library": "mirage-net-xen",
+      "description": "This module implements the network frontend for Ethernet I/O, providing functions to connect to and disconnect from a network device, send and receive packets, and access interface metadata. It operates on types such as `t` for network interfaces, `Cstruct.t` for packet buffers, and `Macaddr.t` for MAC addresses, with error handling via a private error type. Concrete use cases include writing custom network protocols, capturing and processing incoming packets, and monitoring or resetting interface statistics during runtime.",
+      "description_length": 529,
       "index": 2,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "TX.Response",
-      "description": "Writes a response structure to a Cstruct buffer, and parses a response from a Cstruct buffer. Operates on a status type and a structured response type containing headers and body. Used to encode and decode HTTP-like responses in network protocol implementations.",
-      "description_length": 262,
+      "module_path": "Assemble.FRAME_MSG",
+      "library": "mirage-net-xen",
+      "description": "Processes Xen network messages into complete frames, handling fragmentation and reassembly. Works with Xen message buffers and frame descriptors, validating sizes and extracting payload data. Useful for network stack implementations dealing with Xen virtualization.",
+      "description_length": 265,
       "index": 3,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Frontend.Make",
-      "description": "Provides asynchronous operations to read and write MAC addresses, MTU, and configuration data for frontend and backend device interfaces. Manages device connection states, backend initialization, and waits for state transitions like frontend or backend closure. Supports enumerating devices and waiting for specific backend connection events.",
-      "description_length": 342,
+      "module_path": "Assemble.Make",
+      "library": "mirage-net-xen",
+      "description": "Assembles network frames from fragmented Xen messages, handling errors in individual fragments. It processes lists of message fragments, grouping them into complete frames based on size metadata, and returns either successfully assembled frames or error results that include all messages in the affected frame. This module is used when reconstructing full network packets from potentially erroneous or incomplete message fragments.",
+      "description_length": 431,
       "index": 4,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Assemble.Make",
-      "description": "Returns the flags associated with a build configuration and retrieves the size of a build artifact, returning an error if the size cannot be determined. Works with build configuration objects and error types to handle build-related data. Used to inspect build settings and validate artifact dimensions during automated builds.",
-      "description_length": 326,
+      "module_path": "Xenstore.Make",
+      "library": "mirage-net-xen",
+      "description": "This module implements device configuration management for virtualized networking interfaces, providing operations to read and write MAC addresses, MTU settings, and frontend/backend state transitions. It works with identifiers for network devices and abstract configurations, handling asynchronous interactions with the Xenstore database. Concrete use cases include initializing backend configurations, waiting for frontend connections, and synchronizing state changes during device lifecycle events.",
+      "description_length": 501,
       "index": 5,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "RX.Request",
-      "description": "Writes a request structure into a Cstruct buffer, and parses a request from a Cstruct buffer. It operates on a request type containing headers, method, and body. Used to serialize HTTP requests for network transmission and deserialize incoming request data.",
-      "description_length": 257,
+      "module_path": "S.CONFIGURATION",
+      "library": "mirage-net-xen",
+      "description": "This module manages network device configurations, providing operations to read and write MAC addresses, MTU settings, and frontend/backend states. It supports asynchronous interactions with device identifiers (`S.id`) and configuration types (`S.frontend_configuration`, `S.backend_configuration`), enabling dynamic device setup and teardown. Concrete use cases include initializing backend configurations, synchronizing frontend state changes, and enumerating available network devices.",
+      "description_length": 488,
       "index": 6,
-      "embedding_norm": 1.0
+      "embedding_norm": 0.9999999403953552
     },
     {
-      "module_path": "RX.Response",
-      "description": "Reads a structured response from a buffer, writes a response to a buffer, and retrieves flags and size information. Works with Cstruct.t for binary data and a custom response type containing headers and payload. Used to parse incoming network messages and prepare outgoing responses in protocol implementations.",
-      "description_length": 311,
+      "module_path": "TX.Request",
+      "library": "mirage-net-xen",
+      "description": "This module defines a request structure with fields for global reference, offset, flags, identifier, and size, along with operations to read from and write to a Cstruct buffer. It provides functions to extract flags and validate or retrieve the size of a request. Concrete use cases include parsing and serializing network or storage transaction requests with strict format requirements.",
+      "description_length": 387,
       "index": 7,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "mirage-net-xen",
-      "description": "Provides functions to construct, parse, and transmit Ethernet frames over the Netfront/netback interface. Operates on raw byte sequences and structured data representing Ethernet headers, VLAN tags, and payload data. Used to implement network communication in MirageOS unikernels, enabling direct access to low-level network operations.",
-      "description_length": 336,
+      "module_path": "RX.Response",
+      "library": "mirage-net-xen",
+      "description": "This module handles the serialization and deserialization of response messages in a network protocol. It operates on a structured response type containing an identifier, offset, flags, and an optional size, which may result in an error. Concrete use cases include parsing incoming response buffers into typed structures and writing response headers to output buffers.",
+      "description_length": 367,
       "index": 8,
-      "embedding_norm": 0.9999999403953552
+      "embedding_norm": 1.0
     },
     {
-      "module_path": "Shared_page_pool",
-      "description": "Manages shared memory blocks for efficient reuse, providing allocation, access, and cleanup operations. It works with Xen grant references and Cstruct-based memory blocks, supporting network packet handling. It enables asynchronous data processing by reserving blocks and tracking their lifecycle through unique IDs and completion signals.",
-      "description_length": 339,
+      "module_path": "Backend.Make",
+      "library": "mirage-net-xen",
+      "description": "This module implements network communication primitives for a backend system, providing functions to send and receive Ethernet packets with precise buffer management. It works with `Cstruct.t` buffers for packet data, `Macaddr.t` for MAC addresses, and Mirage-compatible error and statistics types. Concrete operations include `write` for transmitting packets, `listen` for asynchronous packet reception, and `make` for initializing a backend connection to a specific domain and device.",
+      "description_length": 486,
       "index": 9,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Netif",
-      "description": "Provides functions to manage network interfaces, including disconnecting, writing data, and listening for incoming packets. Operates on a custom type representing network interface handles and error types specific to Xen-based networking. Used to establish connections, monitor traffic, and retrieve or reset interface statistics.",
-      "description_length": 330,
+      "module_path": "Flags",
+      "library": "mirage-net-xen",
+      "description": "This module represents and manipulates bit flags for network packet handling, particularly for virtualized network interfaces. It supports operations like union, difference, and subset checks on flag sets, and provides specific flags indicating packet properties such as incomplete checksums, data validation status, and fragment presence. It is used to manage metadata for network packets in low-level networking stacks, such as those in Xen virtualization environments.",
+      "description_length": 471,
       "index": 10,
       "embedding_norm": 1.0
     },
     {
-      "module_path": "Xenstore",
-      "description": "handles XenStore client interactions through connection management, data manipulation, and event monitoring, using paths, nodes, and handles to access and modify system state. it supports transactional and immediate read/write operations, directory listings, and permission adjustments, enabling dynamic configuration of virtual machines and secure access control. examples include updating guest OS parameters, tracking changes via watches, and ensuring consistency during live migrations. operations include initializing connections, setting watches, and managing node permissions.",
-      "description_length": 583,
+      "module_path": "Frontend",
+      "library": "mirage-net-xen",
+      "description": "This module provides network interface management and packet I/O for Ethernet devices. It supports connecting to and disconnecting from network interfaces, sending and receiving packets using `Cstruct.t`, and retrieving or modifying interface metadata such as MAC addresses. Key operations include `connect`, `disconnect`, `send`, `recv`, and `get_stats`. Example uses include implementing custom network protocols, capturing and analyzing packets, and runtime interface monitoring or statistic resets.",
+      "description_length": 502,
       "index": 11,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Backend",
-      "description": "handles asynchronous reading and writing of network interface data, including MAC addresses, MTU, and configuration records, while tracking device states and lifecycle events. it operates on identifiers, MAC addresses, MTU values, and configuration structures to manage interface interactions. it supports tasks such as initializing backend connections, monitoring interface status, and responding to closure events. examples include updating interface configurations, retrieving device states, and synchronizing with frontend or backend lifecycle transitions.",
-      "description_length": 560,
-      "index": 12,
       "embedding_norm": 0.9999999403953552
     },
     {
       "module_path": "Stats",
-      "description": "Tracks packet reception and transmission sizes, updating internal counters for each event. Operates on a Mirage_net.stats structure, maintaining cumulative totals for received and transmitted data. Used to monitor network activity by logging packet sizes in real-time applications.",
-      "description_length": 281,
-      "index": 13,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "S",
-      "description": "Provides asynchronous operations to read and write MAC addresses, MTU, and configuration data for frontend and backend device interfaces. Works with identifiers, MAC addresses, MTU values, and configuration records. Used to manage device lifecycle events, such as connecting, disconnecting, and waiting for state transitions in networked or virtualized environments.",
-      "description_length": 366,
-      "index": 14,
+      "library": "mirage-net-xen",
+      "description": "Tracks network packet statistics with counters for received and transmitted packets. Provides functions to record packet sizes, reset counters, and initialize statistics structures. Used to monitor network traffic volume and packet size distribution in networked applications.",
+      "description_length": 276,
+      "index": 12,
       "embedding_norm": 1.0
     },
     {
       "module_path": "Features",
-      "description": "Provides operations to check and manage a set of features defined by a record type containing a bitmask. Works with the `t` type, which represents feature configurations through bitwise flags. Used to determine compatibility and enable specific hardware capabilities at runtime.",
-      "description_length": 278,
-      "index": 15,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "TX",
-      "description": "Handles serialization and deserialization of network protocol messages by operating on Cstruct.t buffers. Provides operations to extract request metadata, such as flags and size, and to encode and decode structured responses with status, headers, and body. Supports low-level message processing by enabling direct manipulation of binary data and protocol-specific structures. Examples include parsing incoming requests, inspecting their properties, and generating appropriate responses for network communication.",
-      "description_length": 512,
-      "index": 16,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Frontend",
-      "description": "handles asynchronous reading and writing of device interface parameters such as MAC addresses and MTU, while managing connection states and initialization processes. it supports enumerating devices, waiting for backend events, and tracking state changes like closure or initialization. operations include fetching configuration data, monitoring device status, and triggering actions based on connection events. examples include updating interface settings, detecting backend disconnections, and synchronizing state transitions.",
-      "description_length": 527,
-      "index": 17,
-      "embedding_norm": 1.0
-    },
-    {
-      "module_path": "Assemble",
-      "description": "Returns the flags associated with a compiled object, extracts its size as a result type, and handles errors during retrieval. Works with compiled object representations and error-specific types. Used to inspect compiled binaries for metadata and validate their structure.",
-      "description_length": 271,
-      "index": 18,
-      "embedding_norm": 0.9999999403953552
-    },
-    {
-      "module_path": "Flags",
-      "description": "Provides bitwise operations for managing packet flags, including combining, subtracting, and checking subsets of flags. Works with an integer-based type representing network packet metadata. Used to handle TCP/UDP checksum validation, fragment tracking, and packet validation states in network communication.",
-      "description_length": 308,
-      "index": 19,
+      "library": "mirage-net-xen",
+      "description": "This module defines a set of boolean flags representing optional features supported by a network driver. It includes a predefined value `supported` that indicates which features are available in the current driver version. Use this module to check for feature availability at runtime, such as enabling TCP segmentation offload or smart polling, based on the driver's capabilities.",
+      "description_length": 380,
+      "index": 13,
       "embedding_norm": 1.0
     },
     {
       "module_path": "RX",
-      "description": "Encodes and decodes HTTP requests and responses between Cstruct buffers and structured types, handling headers, methods, bodies, and payloads. Provides serialization and parsing operations for network protocol interactions, including flag extraction and size reporting. Supports sending and receiving structured data over binary streams with precise control over message formatting. Examples include transmitting HTTP requests over a socket and parsing incoming response data for processing.",
-      "description_length": 491,
-      "index": 20,
+      "library": "mirage-net-xen",
+      "description": "This module processes HTTP requests and responses, managing headers as key-value pairs and tracking data size with `total_size`. It supports parsing, modifying, and serializing HTTP content using string buffers and structured headers. The first child module encodes and decodes request records with integer IDs and 32-bit references using `Cstruct.t`, enabling binary transmission over networks. The second child module serializes response messages with identifiers, flags, and optional sizes, handling both successful and error states during network I/O.",
+      "description_length": 555,
+      "index": 14,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "S",
+      "library": "mirage-net-xen",
+      "description": "This module defines identifiers for clients and servers, along with frontend and backend configurations that include references, channels, and feature sets. It provides direct operations to convert identifiers to strings for logging and debugging, and supports managing network connections and feature negotiation. The child module extends this by enabling asynchronous reading and writing of network device configurations, including MAC addresses, MTU, and frontend/backend states, using the core types. Together, they allow initializing backends, synchronizing frontend changes, and dynamically managing network devices based on identifiers and configuration types.",
+      "description_length": 667,
+      "index": 15,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Xenstore",
+      "library": "mirage-net-xen",
+      "description": "This module manages device configurations for virtualized networking interfaces, handling asynchronous interactions with the Xenstore database. It provides data types for network device identifiers and abstract configurations, along with operations to read and write MAC addresses, MTU settings, and frontend/backend state transitions. Specific use cases include initializing backend configurations, waiting for frontend connections, and synchronizing state changes during device lifecycle events.",
+      "description_length": 497,
+      "index": 16,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Backend",
+      "library": "mirage-net-xen",
+      "description": "This module enables low-level network communication for a backend system, handling transmission and reception of Ethernet packets with precise buffer management. It operates on `Cstruct.t` buffers for packet data, `Macaddr.t` for MAC addresses, and uses Mirage-compatible error and statistics types. Key operations include `write` to send packets, `listen` for asynchronous packet handling, and `make` to initialize connections to specific domains and devices. For example, it can transmit a constructed Ethernet frame using `write` or capture incoming packets asynchronously using `listen`.",
+      "description_length": 591,
+      "index": 17,
       "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Netif",
+      "library": "mirage-net-xen",
+      "description": "This module implements network interface operations for Xen frontends, handling packet transmission, reception, and interface configuration. It works with `Cstruct.t` for packet buffers, `Macaddr.t` for MAC addresses, and `Mirage_net.stats` for statistics. Concrete use cases include connecting to a virtual network interface, sending and receiving Ethernet frames, retrieving and resetting network statistics, and disconnecting gracefully.",
+      "description_length": 440,
+      "index": 18,
+      "embedding_norm": 0.9999999403953552
+    },
+    {
+      "module_path": "Assemble",
+      "library": "mirage-net-xen",
+      "description": "This module assembles complete network frames from Xen message fragments, maintaining a stateful buffer to track partial data across incremental inputs. It processes Xen network messages, validates sizes, and extracts payloads to reconstruct full Ethernet frames or TCP packets, particularly in virtualized environments. The child modules handle fragmentation, grouping fragments into frames and reporting errors in affected messages. Together, they enable reliable frame reassembly from split or corrupted Xen message streams, supporting network stacks in virtualization scenarios.",
+      "description_length": 582,
+      "index": 19,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "TX",
+      "library": "mirage-net-xen",
+      "description": "This module processes HTTP requests and responses, enabling manipulation of headers, bodies, and status codes using string buffers and custom types for methods and statuses. It includes submodules for handling structured message serialization with `Cstruct.t` buffers, supporting encoding and decoding of network responses with `id` and `status` fields. Another submodule defines transaction request formats with support for reading, writing, and validating fields like flags and size. Together, these components allow building, inspecting, and serializing HTTP and binary messages for network services, API clients, and RPC systems.",
+      "description_length": 633,
+      "index": 20,
+      "embedding_norm": 1.0
+    },
+    {
+      "module_path": "Shared_page_pool",
+      "library": "mirage-net-xen",
+      "description": "This module manages a pool of shared memory blocks, each half a page in size, for efficient reuse without repeated allocation and sharing. It provides operations to allocate and use blocks with associated identifiers and grant references, and to shut down the pool after all pending operations complete. It is used to handle network packet buffers efficiently by avoiding frequent memory allocation and sharing overhead.",
+      "description_length": 420,
+      "index": 21,
+      "embedding_norm": 1.0
     }
   ],
   "filtering": {
-    "total_modules_in_package": 21,
-    "meaningful_modules": 21,
+    "total_modules_in_package": 22,
+    "meaningful_modules": 22,
     "filtered_empty_modules": 0,
     "retention_rate": 1.0
   },
   "statistics": {
-    "max_description_length": 583,
-    "min_description_length": 257,
-    "avg_description_length": 379.85714285714283,
-    "embedding_file_size_mb": 0.0767364501953125
+    "max_description_length": 667,
+    "min_description_length": 265,
+    "avg_description_length": 459.5,
+    "embedding_file_size_mb": 0.08037185668945312
   }
 }
