@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-MCP Server for OCaml Documentation
+MCP server for OCaml package documentation.
 
-Provides tools for browsing and searching OCaml package documentation
-by querying sage.ci.dev (the OCaml docs backend) and Sherlodoc directly.
-No local files or embedding server required.
+Queries sage.ci.dev and Sherlodoc for any published package.
+Can also browse locally-built odoc output.
 """
 
 import json
