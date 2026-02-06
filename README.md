@@ -27,8 +27,13 @@ odoc output for packages under development.
 This project started as a fork of
 [sadiqj/odoc-llm](https://github.com/sadiqj/odoc-llm), which used local LLMs
 to generate module descriptions, embeddings, and semantic search indexes from
-a downloaded copy of the odoc dataset. That approach was replaced by querying
-sage.ci.dev and Sherlodoc directly, removing all LLM dependencies.
+a downloaded copy of the odoc dataset. It ran as an HTTP server backed by
+gigabytes of precomputed data and a local embedding model.
+
+That was replaced by querying sage.ci.dev and Sherlodoc directly, and the
+transport was switched from SSE to stdio so Claude Code can launch it as a
+local tool. The result is less capable — no semantic search, no embeddings —
+but much easier to set up and use: just `claude mcp add` and go.
 
 ## Using with Claude Code
 
