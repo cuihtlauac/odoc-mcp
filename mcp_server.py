@@ -10,6 +10,7 @@ No local files or embedding server required.
 import json
 import logging
 import time
+from contextlib import asynccontextmanager
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote
 
@@ -24,8 +25,6 @@ logger = logging.getLogger(__name__)
 
 SAGE_BASE = "https://sage.ci.dev/current/p"
 
-mcp = FastMCP("ocaml-docs", host="0.0.0.0", port=8007)
-
 # ---------------------------------------------------------------------------
 # Shared HTTP session
 # ---------------------------------------------------------------------------
@@ -38,6 +37,18 @@ async def get_session() -> aiohttp.ClientSession:
     if _session is None or _session.closed:
         _session = aiohttp.ClientSession()
     return _session
+
+
+@asynccontextmanager
+async def lifespan(server: FastMCP):
+    yield
+    global _session
+    if _session and not _session.closed:
+        await _session.close()
+        logger.info("HTTP session closed")
+
+
+mcp = FastMCP("ocaml-docs", lifespan=lifespan)
 
 
 # ---------------------------------------------------------------------------
@@ -565,7 +576,7 @@ def main():
 
         asyncio.run(run_test())
     else:
-        mcp.run(transport="sse")
+        mcp.run(transport="sse", host="0.0.0.0", port=8007)
 
 
 if __name__ == "__main__":
