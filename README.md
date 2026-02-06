@@ -10,21 +10,6 @@ LLMs don't know the OCaml ecosystem well. This server lets them look up
 module signatures, read preambles, and search packages by name or type
 signature — so they can write better OCaml code.
 
-## Running the server
-
-```bash
-# Install dependencies
-uv sync
-
-# Start with remote docs only
-uv run python mcp_server.py
-
-# Start with local docs too
-uv run python mcp_server.py --local-docs _build/default/_doc/_html
-```
-
-The server listens on `http://localhost:8007/sse` using MCP over SSE.
-
 ## Using with Claude Code
 
 ```bash
