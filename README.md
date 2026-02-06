@@ -25,10 +25,21 @@ uv run python mcp_server.py --local-docs _build/default/_doc/_html
 
 The server listens on `http://localhost:8007/sse` using MCP over SSE.
 
-## Using with Claude
+## Using with Claude Code
 
-Add this to your Claude Desktop config (`claude_desktop_config.json`) or
-Claude Code settings (`.claude/settings.json` under `mcpServers`):
+```bash
+claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py
+```
+
+To include local docs:
+
+```bash
+claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py --local-docs /path/to/_build/default/_doc/_html
+```
+
+## Using with Claude Desktop
+
+Add this to `claude_desktop_config.json`:
 
 ```json
 {
