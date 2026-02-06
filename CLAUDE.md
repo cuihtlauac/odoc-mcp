@@ -399,7 +399,7 @@ Add to your Claude Desktop configuration:
     "ocaml-search": {
       "command": "uv",
       "args": ["run", "python", "mcp_server.py"],
-      "cwd": "/path/to/odoc-llm"
+      "cwd": "/path/to/odoc-mcp"
     }
   }
 }

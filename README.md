@@ -1,4 +1,4 @@
-# odoc-llm
+# odoc-mcp
 
 MCP server that gives LLMs access to OCaml package documentation. It can query
 [sage.ci.dev](https://sage.ci.dev) for any published package and also browse
@@ -36,7 +36,7 @@ Claude Code settings (`.claude/settings.json` under `mcpServers`):
     "ocaml-docs": {
       "command": "uv",
       "args": ["run", "python", "mcp_server.py"],
-      "cwd": "/path/to/odoc-llm"
+      "cwd": "/path/to/odoc-mcp"
     }
   }
 }
