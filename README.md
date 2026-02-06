@@ -10,6 +10,26 @@ LLMs don't know the OCaml ecosystem well. This server lets them look up
 module signatures, read preambles, and search packages by name or type
 signature — so they can write better OCaml code.
 
+## How it works
+
+The server queries two backends:
+
+- [sage.ci.dev](https://sage.ci.dev) — hosts odoc-generated documentation
+  for all published opam packages (package info, module signatures, preambles)
+- [doc.sherlocode.com](https://doc.sherlocode.com) — Sherlodoc search engine
+  for name and type-directed search across the ecosystem
+
+No local data or models needed. Optionally, it can also browse locally-built
+odoc output for packages under development.
+
+## History
+
+This project started as a fork of
+[sadiqj/odoc-llm](https://github.com/sadiqj/odoc-llm), which used local LLMs
+to generate module descriptions, embeddings, and semantic search indexes from
+a downloaded copy of the odoc dataset. That approach was replaced by querying
+sage.ci.dev and Sherlodoc directly, removing all LLM dependencies.
+
 ## Using with Claude Code
 
 ```bash
