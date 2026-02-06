@@ -51,7 +51,7 @@ async def lifespan(server: FastMCP):
         logger.info("HTTP session closed")
 
 
-mcp = FastMCP("ocaml-docs", lifespan=lifespan, host="0.0.0.0", port=8007)
+mcp = FastMCP("ocaml-docs", lifespan=lifespan)
 
 
 # ---------------------------------------------------------------------------
@@ -698,7 +698,7 @@ def main():
 
         asyncio.run(run_test())
     else:
-        mcp.run(transport="sse")
+        mcp.run(transport="stdio")
 
 
 if __name__ == "__main__":
