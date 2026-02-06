@@ -11,6 +11,7 @@ import json
 import logging
 import time
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote
 
@@ -24,6 +25,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 SAGE_BASE = "https://sage.ci.dev/current/p"
+
+_local_docs_root: Optional[Path] = None
 
 # ---------------------------------------------------------------------------
 # Shared HTTP session
@@ -529,6 +532,103 @@ async def get_module_doc(
 
 
 # ---------------------------------------------------------------------------
+# Local odoc tools
+# ---------------------------------------------------------------------------
+
+_SKIP_DIRS = {"odoc.support"}
+
+
+def _scan_local_modules(root: Path) -> List[Dict[str, str]]:
+    """Walk the local docs directory and return {library, module_path} entries."""
+    results = []
+    for lib_dir in sorted(root.iterdir()):
+        if not lib_dir.is_dir() or lib_dir.name in _SKIP_DIRS:
+            continue
+        library = lib_dir.name
+        for json_file in sorted(lib_dir.rglob("index.html.json")):
+            rel = json_file.relative_to(lib_dir)
+            # rel looks like Module/Sub/index.html.json or just index.html.json
+            parts = list(rel.parts[:-1])  # drop "index.html.json"
+            if not parts:
+                # library-level page, not a module
+                continue
+            module_path = ".".join(parts)
+            results.append({"library": library, "module_path": module_path})
+    return results
+
+
+@mcp.tool()
+async def list_local_modules() -> Dict[str, Any]:
+    """List all modules available in the local odoc documentation.
+
+    Walks the local docs directory (set via --local-docs) and returns
+    every module grouped by library.
+
+    Returns:
+        List of {library, module_path} entries
+    """
+    if _local_docs_root is None:
+        return {"error": "Local docs not configured. Start the server with --local-docs <path>."}
+
+    cached = cache_get("local_modules")
+    if cached is not None:
+        return cached
+
+    if not _local_docs_root.is_dir():
+        return {"error": f"Local docs path does not exist: {_local_docs_root}"}
+
+    modules = _scan_local_modules(_local_docs_root)
+    result = {"modules": modules, "total": len(modules)}
+    cache_set("local_modules", result, 300)  # 5 min TTL
+    return result
+
+
+@mcp.tool()
+async def get_local_module_doc(module_path: str) -> Dict[str, Any]:
+    """Get documentation for a module from the local odoc output.
+
+    Looks up a dot-separated module path (e.g. "Irmin.Store") in the local
+    docs directory and returns its preamble and spec items.
+
+    Args:
+        module_path: Dot-separated module path, e.g. "Irmin", "Irmin.Store"
+
+    Returns:
+        Library name, module path, preamble, and items
+    """
+    if _local_docs_root is None:
+        return {"error": "Local docs not configured. Start the server with --local-docs <path>."}
+
+    if not _local_docs_root.is_dir():
+        return {"error": f"Local docs path does not exist: {_local_docs_root}"}
+
+    parts = module_path.split(".")
+    suffix = Path(*parts) / "index.html.json"
+
+    # Search across library directories
+    for lib_dir in sorted(_local_docs_root.iterdir()):
+        if not lib_dir.is_dir() or lib_dir.name in _SKIP_DIRS:
+            continue
+        candidate = lib_dir / suffix
+        if candidate.is_file():
+            doc = json.loads(candidate.read_text())
+            preamble = extract_preamble_text(doc.get("preamble", ""))
+            specs, truncated = extract_specs(doc.get("content", ""), limit=100)
+            result: Dict[str, Any] = {
+                "library": lib_dir.name,
+                "module": module_path,
+                "preamble": preamble,
+                "items": specs,
+            }
+            if truncated:
+                result["truncated"] = True
+                result["note"] = "Output truncated at 100 items. The module has more entries."
+            return result
+
+    return {"error": f"Module '{module_path}' not found in local docs"}
+
+
+# ---------------------------------------------------------------------------
 # CLI test harness
 # ---------------------------------------------------------------------------
 
@@ -536,34 +636,56 @@ def main():
     import sys
     import asyncio
 
-    if len(sys.argv) > 1 and sys.argv[1] == "--test":
+    global _local_docs_root
+
+    # Parse --local-docs flag from anywhere in argv
+    args = sys.argv[1:]
+    if "--local-docs" in args:
+        idx = args.index("--local-docs")
+        if idx + 1 < len(args):
+            _local_docs_root = Path(args[idx + 1])
+            args = args[:idx] + args[idx + 2:]
+        else:
+            print("Error: --local-docs requires a path argument", file=sys.stderr)
+            sys.exit(1)
+
+    if args and args[0] == "--test":
+        test_args = args[1:]
+
         async def run_test():
-            if len(sys.argv) < 3:
-                print("Usage: mcp_server.py --test <command> [args...]")
+            if not test_args:
+                print("Usage: mcp_server.py [--local-docs <path>] --test <command> [args...]")
                 print("Commands:")
                 print("  sherlodoc <query>")
                 print("  search-packages <query>")
                 print("  package-info <package> [version]")
                 print("  module-doc <package> <module_path> [version]")
+                print("  list-local")
+                print("  local-module-doc <module_path>")
                 return
 
-            cmd = sys.argv[2]
+            cmd = test_args[0]
 
             if cmd == "sherlodoc":
-                query = sys.argv[3] if len(sys.argv) > 3 else "int -> string"
+                query = test_args[1] if len(test_args) > 1 else "int -> string"
                 result = await sherlodoc(query)
             elif cmd == "search-packages":
-                query = sys.argv[3] if len(sys.argv) > 3 else "http"
+                query = test_args[1] if len(test_args) > 1 else "http"
                 result = await search_package_names(query)
             elif cmd == "package-info":
-                pkg = sys.argv[3] if len(sys.argv) > 3 else "lwt"
-                ver = sys.argv[4] if len(sys.argv) > 4 else None
+                pkg = test_args[1] if len(test_args) > 1 else "lwt"
+                ver = test_args[2] if len(test_args) > 2 else None
                 result = await get_package_info(pkg, ver)
             elif cmd == "module-doc":
-                pkg = sys.argv[3] if len(sys.argv) > 3 else "lwt"
-                mod = sys.argv[4] if len(sys.argv) > 4 else "Lwt"
-                ver = sys.argv[5] if len(sys.argv) > 5 else None
+                pkg = test_args[1] if len(test_args) > 1 else "lwt"
+                mod = test_args[2] if len(test_args) > 2 else "Lwt"
+                ver = test_args[3] if len(test_args) > 3 else None
                 result = await get_module_doc(pkg, mod, ver)
+            elif cmd == "list-local":
+                result = await list_local_modules()
+            elif cmd == "local-module-doc":
+                mod = test_args[1] if len(test_args) > 1 else "Stdlib"
+                result = await get_local_module_doc(mod)
             else:
                 result = {"error": f"Unknown command: {cmd}"}
 
