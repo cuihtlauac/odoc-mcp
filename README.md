@@ -13,10 +13,13 @@ signature — so they can write better OCaml code.
 ## Using with Claude Code
 
 ```bash
-claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py
+claude mcp add --scope user ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py
 ```
 
-To include local docs:
+This makes the server available in all projects. To restrict it to the
+current project, drop `--scope user`.
+
+To include local docs (project-scoped, since the path is project-specific):
 
 ```bash
 claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py --local-docs /path/to/_build/default/_doc/_html
