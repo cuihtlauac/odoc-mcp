@@ -1,385 +1,570 @@
 #!/usr/bin/env python3
 """
-FastMCP Server for OCaml Documentation Search
+MCP Server for OCaml Documentation
 
-This server exposes tools for searching and interacting with the OCaml
-documentation dataset through the Model Context Protocol (MCP) using HTTP SSE.
+Provides tools for browsing and searching OCaml package documentation
+by querying sage.ci.dev (the OCaml docs backend) and Sherlodoc directly.
+No local files or embedding server required.
 """
 
 import json
 import logging
-from pathlib import Path
-from typing import Dict, Any, Optional, List
-import aiohttp
-from bs4 import BeautifulSoup
+import time
+from typing import Any, Dict, List, Optional
 from urllib.parse import quote
 
+import aiohttp
+from bs4 import BeautifulSoup
 from mcp.server.fastmcp import FastMCP
 
-# Import semantic search components
-from semantic_search_fixed import SemanticSearchEngine
-from unified_search_all import UnifiedSearchEngine
+from version_utils import find_latest_version
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize FastMCP server
-mcp = FastMCP("ocaml-search", host="0.0.0.0")
+SAGE_BASE = "https://sage.ci.dev/current/p"
 
-# Global search engine instances (lazy loaded)
-search_engine: Optional[SemanticSearchEngine] = None
-unified_engine: Optional[UnifiedSearchEngine] = None
-embeddings_dir = Path("package-embeddings")
-package_descriptions_dir = Path("package-descriptions")
-indexes_dir = Path("module-indexes")
-module_descriptions_dir = Path("module-descriptions")
+mcp = FastMCP("ocaml-docs", host="0.0.0.0", port=8007)
 
-@mcp.tool()
-async def find_ocaml_packages(functionality: str, popularity_weight: float = 0.3) -> Dict[str, Any]:
+# ---------------------------------------------------------------------------
+# Shared HTTP session
+# ---------------------------------------------------------------------------
+
+_session: Optional[aiohttp.ClientSession] = None
+
+
+async def get_session() -> aiohttp.ClientSession:
+    global _session
+    if _session is None or _session.closed:
+        _session = aiohttp.ClientSession()
+    return _session
+
+
+# ---------------------------------------------------------------------------
+# Simple TTL cache
+# ---------------------------------------------------------------------------
+
+_cache: Dict[str, tuple] = {}  # key -> (value, expiry_time)
+
+
+def cache_get(key: str):
+    entry = _cache.get(key)
+    if entry and entry[1] > time.time():
+        return entry[0]
+    return None
+
+
+def cache_set(key: str, value, ttl: float):
+    _cache[key] = (value, time.time() + ttl)
+
+
+# ---------------------------------------------------------------------------
+# Fetching helpers
+# ---------------------------------------------------------------------------
+
+async def fetch_text(url: str) -> Optional[str]:
+    session = await get_session()
+    async with session.get(url) as resp:
+        if resp.status != 200:
+            return None
+        return await resp.text()
+
+
+async def fetch_json(url: str) -> Optional[Any]:
+    session = await get_session()
+    async with session.get(url) as resp:
+        if resp.status != 200:
+            return None
+        return await resp.json(content_type=None)
+
+
+# ---------------------------------------------------------------------------
+# Directory listing parser (Apache-style auto-index)
+# ---------------------------------------------------------------------------
+
+def parse_directory_listing(html: str) -> List[str]:
+    """Extract directory names from an Apache auto-index page."""
+    soup = BeautifulSoup(html, "html.parser")
+    names = []
+    for a in soup.find_all("a"):
+        href = a.get("href", "")
+        # Skip parent directory and non-directory links
+        if href.startswith("?") or href.startswith("/") or href == "../":
+            continue
+        if href.endswith("/"):
+            names.append(href.rstrip("/"))
+    return names
+
+
+# ---------------------------------------------------------------------------
+# Package list (cached 1 hour)
+# ---------------------------------------------------------------------------
+
+async def get_all_packages() -> List[str]:
+    cached = cache_get("all_packages")
+    if cached is not None:
+        return cached
+    html = await fetch_text(f"{SAGE_BASE}/")
+    if html is None:
+        return []
+    packages = parse_directory_listing(html)
+    cache_set("all_packages", packages, 3600)
+    return packages
+
+
+# ---------------------------------------------------------------------------
+# Version resolution (cached 30 min)
+# ---------------------------------------------------------------------------
+
+async def resolve_version(package: str, version: Optional[str] = None) -> Optional[str]:
+    if version:
+        return version
+    cache_key = f"versions:{package}"
+    versions = cache_get(cache_key)
+    if versions is None:
+        html = await fetch_text(f"{SAGE_BASE}/{package}/")
+        if html is None:
+            return None
+        versions = parse_directory_listing(html)
+        cache_set(cache_key, versions, 1800)
+    if not versions:
+        return None
+    latest, _ = find_latest_version(versions)
+    return latest
+
+
+# ---------------------------------------------------------------------------
+# status.json (cached 30 min)
+# ---------------------------------------------------------------------------
+
+async def get_status(package: str, version: str) -> Optional[Dict]:
+    cache_key = f"status:{package}/{version}"
+    cached = cache_get(cache_key)
+    if cached is not None:
+        return cached
+    data = await fetch_json(f"{SAGE_BASE}/{package}/{version}/status.json")
+    if data is not None:
+        cache_set(cache_key, data, 1800)
+    return data
+
+
+# ---------------------------------------------------------------------------
+# Doc JSON (cached 10 min)
+# ---------------------------------------------------------------------------
+
+async def get_doc_json(package: str, version: str, path: str) -> Optional[Dict]:
+    cache_key = f"doc:{package}/{version}/{path}"
+    cached = cache_get(cache_key)
+    if cached is not None:
+        return cached
+    data = await fetch_json(f"{SAGE_BASE}/{package}/{version}/{path}")
+    if data is not None:
+        cache_set(cache_key, data, 600)
+    return data
+
+
+# ---------------------------------------------------------------------------
+# HTML-to-text extraction for odoc content
+# ---------------------------------------------------------------------------
+
+def extract_preamble_text(html: str) -> str:
+    """Extract plain text from an odoc preamble HTML fragment."""
+    if not html:
+        return ""
+    soup = BeautifulSoup(html, "html.parser")
+    parts = []
+    for p in soup.find_all("p"):
+        parts.append(p.get_text(strip=True))
+    return " ".join(parts).strip()
+
+
+def extract_specs(html: str, limit: int = 100) -> tuple:
+    """Extract spec items (values, types, modules, etc.) from odoc content HTML.
+
+    Returns (items, truncated) where truncated is True if limit was hit.
     """
-    Discover OCaml packages across the entire ecosystem for specific functionality.
-    
-    Use this when you don't know which packages might contain what you need.
-    This searches across all available packages to find the most relevant ones.
-    
-    Args:
-        functionality: Describe what you're looking for. Be specific:
-                      - "WebSocket client implementation"
-                      - "Machine learning matrix operations" 
-                      - "CSV file parsing and writing"
-                      - "OAuth2 authentication flow"
-                      - "Image processing and filtering"
-        popularity_weight: Weight for popularity in ranking (0.0-1.0, default: 0.3)
-    
-    Returns:
-        List of packages ranked by relevance, each with:
-        - package: Package name
-        - module: Primary module providing the functionality  
-        - description: What the module does
+    if not html:
+        return [], False
+    soup = BeautifulSoup(html, "html.parser")
+    items = []
+    truncated = False
+
+    for spec_div in soup.find_all("div", class_="spec"):
+        if len(items) >= limit:
+            truncated = True
+            break
+
+        anchor = spec_div.get("id", "")
+        code = spec_div.find("code")
+        signature = code.get_text(strip=True) if code else ""
+
+        # Get doc from next sibling
+        doc = ""
+        doc_div = spec_div.find_next_sibling("div", class_="spec-doc")
+        if doc_div:
+            doc_parts = []
+            for p in doc_div.find_all("p"):
+                doc_parts.append(p.get_text(strip=True))
+            doc = " ".join(doc_parts).strip()
+
+        # Categorize by anchor prefix
+        kind = "other"
+        name = anchor
+        if anchor.startswith("val-"):
+            kind, name = "val", anchor[4:]
+        elif anchor.startswith("type-"):
+            kind, name = "type", anchor[5:]
+        elif anchor.startswith("module-type-"):
+            kind, name = "module type", anchor[12:]
+        elif anchor.startswith("module-"):
+            kind, name = "module", anchor[7:]
+        elif anchor.startswith("exception-"):
+            kind, name = "exception", anchor[10:]
+        elif anchor.startswith("class-"):
+            kind, name = "class", anchor[6:]
+
+        items.append({"kind": kind, "name": name, "signature": signature, "doc": doc})
+
+    return items, truncated
+
+
+def extract_package_libraries(html: str) -> List[Dict[str, Any]]:
+    """Extract library and module listings from a package doc page.
+
+    The package index page lists libraries as h2 headings, each followed by
+    a list of modules. Some simpler packages just have a flat module list.
     """
-    global search_engine
-    
-    # Initialize search engine on first use (lazy loading)
-    if search_engine is None:
-        logger.info("Initializing semantic search engine...")
-        try:
-            search_engine = SemanticSearchEngine(
-                module_embeddings_dir=embeddings_dir,
-                package_embeddings_dir=Path("package-description-embeddings"),
-                api_url="http://localhost:8080"
-            )
-        except Exception as e:
-            error_msg = f"Failed to initialize search engine: {str(e)}"
-            logger.error(error_msg)
-            return {"error": error_msg}
-    
-    try:
-        # Perform semantic search with popularity
-        results = search_engine.search(functionality, top_k=5, 
-                                     popularity_weight=popularity_weight)
-        
-        # Format results for MCP response
-        return {
-            "query": functionality,
-            "packages": [
-                {
-                    "package": result["package"],
-                    "library": result.get("library"),
-                    "module": result["module_path"],
-                    "description": result["description"]
-                }
-                for result in results
-            ]
-        }
-        
-    except Exception as e:
-        error_msg = f"Search failed: {str(e)}"
-        logger.error(error_msg)
-        return {"error": error_msg}
+    if not html:
+        return []
+    soup = BeautifulSoup(html, "html.parser")
+
+    libraries = []
+    current_lib = None
+
+    for element in soup.children:
+        if not hasattr(element, "name") or element.name is None:
+            continue
+
+        # A h2 typically starts a library section
+        if element.name == "h2":
+            text = element.get_text(strip=True)
+            # Library headings usually contain "Library <name>"
+            if current_lib:
+                libraries.append(current_lib)
+            current_lib = {"name": text, "modules": []}
+
+        # Module listings come in <ul> or <dl> after the heading
+        if element.name in ("ul", "dl"):
+            modules = []
+            for li in element.find_all("li"):
+                link = li.find("a")
+                if link:
+                    mod_name = link.get_text(strip=True)
+                    # Synopsis is any text after the link
+                    full_text = li.get_text(strip=True)
+                    synopsis = full_text[len(mod_name):].strip().lstrip(":").strip()
+                    modules.append({"name": mod_name, "synopsis": synopsis})
+            if modules:
+                if current_lib is None:
+                    current_lib = {"name": "default", "modules": []}
+                current_lib["modules"].extend(modules)
+
+    if current_lib:
+        libraries.append(current_lib)
+
+    return libraries
 
 
-@mcp.tool()
-async def get_package_summary(package_name: str) -> Dict[str, Any]:
-    """
-    Get a concise overview of what an OCaml package does.
-    
-    Provides a 3-4 sentence summary explaining the package's purpose, main features,
-    and typical use cases. Helpful for understanding a package before using it.
-    
-    Args:
-        package_name: The OCaml package name you want to learn about:
-                     - 'lwt' (asynchronous programming)
-                     - 'base' (alternative standard library)  
-                     - 'cohttp' (HTTP client/server)
-                     - 'cmdliner' (command-line interfaces)
-                     - 'yojson' (JSON processing)
-    
-    Returns:
-        Package name, version, and description explaining what it does
-    """
-    try:
-        description_file = package_descriptions_dir / f"{package_name}.json"
-        
-        if not description_file.exists():
-            return {
-                "error": f"No description found for package '{package_name}'. Package may not exist or description not yet generated."
-            }
-        
-        with open(description_file, 'r', encoding='utf-8') as f:
-            package_data = json.load(f)
-        
-        return {
-            "package": package_data["package"],
-            "version": package_data["version"],
-            "description": package_data["description"]
-        }
-        
-    except Exception as e:
-        error_msg = f"Failed to get package summary: {str(e)}"
-        logger.error(error_msg)
-        return {"error": error_msg}
-
-
-
-
-@mcp.tool()
-async def search_ocaml_modules(query: str, packages: Optional[List[str]] = None, top_k: int = 8, 
-                              popularity_weight: float = 0.3) -> Dict[str, Any]:
-    """
-    Find OCaml modules that provide specific functionality across the OCaml ecosystem.
-    
-    Provide a clear description of the functionality you need. The tool will search across
-    all OCaml packages by default, or within specific packages if you specify them.
-    Uses both conceptual understanding and exact keyword matching.
-    
-    Args:
-        query: Specific functionality you're looking for. Be precise about what you need:
-               - "MD5 hash function" 
-               - "HTTP client for making requests"
-               - "JSON parsing and serialization"
-               - "list sorting operations"
-               - "TCP socket server"
-               - "date time parsing and formatting"
-        packages: Optional list of specific packages to search within. If not provided,
-                 searches all available packages. Common packages include:
-                 ['base', 'core', 'lwt', 'async', 'cohttp', 'yojson', 'cmdliner']
-        top_k: Maximum number of results to return (default: 8)
-        popularity_weight: Weight for popularity in ranking (0.0-1.0, default: 0.3)
-    
-    Returns:
-        Two lists of matching modules:
-        - semantic_results: Modules with conceptually similar functionality (includes descriptions)
-        - keyword_results: Modules containing your exact keywords in their documentation
-        
-        Each result includes the package name, module name, and module path.
-    """
-    global unified_engine
-    
-    # Initialize unified search engine on first use (lazy loading)
-    if unified_engine is None:
-        logger.info("Initializing unified search engine...")
-        try:
-            unified_engine = UnifiedSearchEngine(
-                embedding_dir=embeddings_dir,
-                index_dir=indexes_dir,
-                api_url="http://localhost:8080"
-            )
-        except Exception as e:
-            error_msg = f"Failed to initialize unified search engine: {str(e)}"
-            logger.error(error_msg)
-            return {"error": error_msg}
-    
-    try:
-        # Load specified packages and perform search
-        if packages:
-            unified_engine.load_package_data(packages)
-        else:
-            unified_engine.load_package_data(None)  # Load all packages
-            
-        results = unified_engine.search(query, top_k)
-        
-        # Format results for MCP response
-        return {
-            "query": query,
-            "packages_searched": packages if packages else "all",
-            "semantic_results": [
-                {
-                    "package": r["package"],
-                    "library": r.get("library", ""),
-                    "module": r["module_path"],
-                    "description": r["description"],
-                    "score": r["score"]
-                }
-                for r in results["semantic"]
-            ],
-            "keyword_results": [
-                {
-                    "package": r["package"],
-                    "library": r.get("library", ""),
-                    "module": r["module_path"],
-                    "description": r["description"],
-                    "score": r["score"]
-                }
-                for r in results["keyword"]
-            ],
-            "total_results": len(results["semantic"]) + len(results["keyword"])
-        }
-        
-    except Exception as e:
-        error_msg = f"Unified search failed: {str(e)}"
-        logger.error(error_msg)
-        return {"error": error_msg}
-
+# ---------------------------------------------------------------------------
+# Tool 1: sherlodoc
+# ---------------------------------------------------------------------------
 
 @mcp.tool()
 async def sherlodoc(query: str) -> Dict[str, Any]:
-    """
-    Search OCaml documentation using Sherlodoc - particularly effective for type searches.
-    
-    Sherlodoc is specialized for finding types, functions, and modules across all OCaml packages.
-    It excels at type-based queries and can find exact matches for complex type signatures.
-    
+    """Search OCaml names and type signatures across all packages using Sherlodoc.
+
+    Good for finding functions by type signature or name.
+
     Args:
-        query: Your search query. Can be:
-               - Type signatures: "int -> string -> bool"
-               - Module paths: "Base.List.t"
-               - Function names: "List.map"
-               - Type definitions: "result"
-               - Complex types: "('a -> 'b) -> 'a list -> 'b list"
-    
+        query: A type signature like "int -> string", a name like "List.map",
+               or a type like "'a list -> ('a -> 'b) -> 'b list"
+
     Returns:
-        Search results including type definitions, functions, and their documentation
+        Matching entries with signatures and documentation
     """
     try:
-        # URL encode the query
-        encoded_query = quote(query)
-        url = f"http://localhost:1234/api?q={encoded_query}"
-        
-        # Make async HTTP request
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                if response.status != 200:
-                    return {"error": f"Sherlodoc API returned status {response.status}"}
-                
-                html_content = await response.text()
-        
-        # Parse HTML response
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        # Extract query info
-        query_div = soup.find('div', class_='query')
-        query_text = query_div.get_text(strip=True) if query_div else f"Results for {query}"
-        
-        # Extract search results
+        encoded = quote(query)
+        url = f"https://doc.sherlocode.com/api?q={encoded}"
+        session = await get_session()
+        async with session.get(url) as resp:
+            if resp.status != 200:
+                return {"error": f"Sherlodoc returned status {resp.status}"}
+            html = await resp.text()
+
+        soup = BeautifulSoup(html, "html.parser")
         results = []
-        found_items = soup.find_all('li')
-        
-        for item in found_items[:20]:  # Limit to first 20 results
+        for item in soup.find_all("li")[:20]:
             result = {}
-            
-            # Extract package info
-            pkg_div = item.find('div', class_='pkg')
-            if pkg_div and pkg_div.find('a'):
-                # Note: The HTML seems to have empty package info, we'll work with what we have
-                result['package'] = 'Unknown'  # Package info not provided in the HTML
-            
-            # Extract the main code/signature
-            pre_tag = item.find('pre')
-            if pre_tag:
-                # Get the full text including emphasized parts
-                signature_parts = []
-                for elem in pre_tag.descendants:
-                    if elem.name is None:  # Text node
-                        signature_parts.append(str(elem))
-                    elif elem.name == 'em':
-                        signature_parts.append(elem.get_text())
-                
-                result['signature'] = ''.join(signature_parts).strip()
-                
-                # Extract the link if available
-                link_tag = pre_tag.find('a')
-                if link_tag and link_tag.get('href'):
-                    result['url'] = link_tag['href']
-                    # Extract module path from the link text
-                    em_tag = link_tag.find('em')
-                    if em_tag:
-                        result['module_path'] = em_tag.get_text()
-            
-            # Extract documentation/comment
-            comment_div = item.find('div', class_='comment')
-            if comment_div:
-                # Extract text from all paragraphs
-                doc_parts = []
-                for p in comment_div.find_all('p'):
-                    doc_parts.append(p.get_text(strip=True))
+            pre = item.find("pre")
+            if pre:
+                result["signature"] = pre.get_text(strip=True)
+                link = pre.find("a")
+                if link and link.get("href"):
+                    result["url"] = link["href"]
+                    em = link.find("em")
+                    if em:
+                        result["module_path"] = em.get_text()
+
+            comment = item.find("div", class_="comment")
+            if comment:
+                doc_parts = [p.get_text(strip=True) for p in comment.find_all("p")]
                 if doc_parts:
-                    result['documentation'] = ' '.join(doc_parts)
-            
-            if result and 'signature' in result:
+                    result["documentation"] = " ".join(doc_parts)
+
+            if result.get("signature"):
                 results.append(result)
-        
+
+        return {"query": query, "results": results, "total_results": len(results)}
+
+    except aiohttp.ClientError as e:
+        return {"error": f"Failed to connect to Sherlodoc: {e}"}
+    except Exception as e:
+        return {"error": f"Sherlodoc search failed: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# Tool 2: search_package_names
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def search_package_names(query: str) -> Dict[str, Any]:
+    """Find OCaml packages by name.
+
+    Searches the full package list on sage.ci.dev for case-insensitive
+    substring matches.
+
+    Args:
+        query: Substring to search for in package names, e.g. "lwt", "http", "json"
+
+    Returns:
+        List of matching package names (up to 50)
+    """
+    try:
+        packages = await get_all_packages()
+        q = query.lower()
+        matches = [p for p in packages if q in p.lower()]
         return {
             "query": query,
-            "query_info": query_text,
-            "results": results,
-            "total_results": len(results)
+            "matches": matches[:50],
+            "total_matches": len(matches),
         }
-        
-    except aiohttp.ClientError as e:
-        error_msg = f"Failed to connect to Sherlodoc API: {str(e)}"
-        logger.error(error_msg)
-        return {"error": error_msg}
     except Exception as e:
-        error_msg = f"Sherlodoc search failed: {str(e)}"
-        logger.error(error_msg)
-        return {"error": error_msg}
+        return {"error": f"Package search failed: {e}"}
 
+
+# ---------------------------------------------------------------------------
+# Tool 3: get_package_info
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def get_package_info(package_name: str, version: Optional[str] = None) -> Dict[str, Any]:
+    """Get an overview of an OCaml package: description, libraries, and modules.
+
+    Fetches the package's documentation page from sage.ci.dev and extracts
+    the README/preamble text plus the list of libraries and their modules.
+
+    Args:
+        package_name: Package name, e.g. "lwt", "base", "cohttp"
+        version: Optional specific version. Defaults to latest.
+
+    Returns:
+        Package name, version, build status, description, and library/module listing
+    """
+    try:
+        ver = await resolve_version(package_name, version)
+        if ver is None:
+            return {"error": f"Package '{package_name}' not found on sage.ci.dev"}
+
+        status = await get_status(package_name, ver)
+        if status is None:
+            return {"error": f"Could not fetch status for {package_name}/{ver}"}
+
+        failed = status.get("failed", True)
+
+        # Fetch package doc page
+        doc = await get_doc_json(package_name, ver, "doc/index.html.json")
+
+        description = ""
+        libraries = []
+        if doc:
+            preamble = doc.get("preamble", "")
+            content = doc.get("content", "")
+            # Description comes from preamble first, or first paragraphs of content
+            description = extract_preamble_text(preamble)
+            if not description:
+                description = extract_preamble_text(content)
+            libraries = extract_package_libraries(content)
+
+        return {
+            "package": package_name,
+            "version": ver,
+            "failed": failed,
+            "description": description,
+            "libraries": libraries,
+        }
+    except Exception as e:
+        return {"error": f"Failed to get package info: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# Tool 4: get_module_doc
+# ---------------------------------------------------------------------------
+
+def find_module_file(files: List[str], module_path: str) -> Optional[str]:
+    """Find the doc file for a module path like 'Base.List' in the files list.
+
+    Tries several matching strategies:
+    1. Exact suffix match: Base/List/index.html
+    2. Case-insensitive match
+    """
+    # Convert dot path to directory path
+    parts = module_path.split(".")
+    suffix = "/".join(parts) + "/index.html"
+
+    # Try exact match
+    for f in files:
+        if f.endswith(suffix):
+            return f
+
+    # Try case-insensitive
+    suffix_lower = suffix.lower()
+    for f in files:
+        if f.lower().endswith(suffix_lower):
+            return f
+
+    return None
+
+
+@mcp.tool()
+async def get_module_doc(
+    package_name: str, module_path: str, version: Optional[str] = None
+) -> Dict[str, Any]:
+    """Get documentation for a specific OCaml module.
+
+    Fetches and parses the module's documentation page from sage.ci.dev.
+    Returns the preamble, type definitions, values/functions, and submodules
+    as structured text.
+
+    Args:
+        package_name: Package name, e.g. "lwt", "base"
+        module_path: Dot-separated module path, e.g. "Lwt", "Base.List", "Lwt_unix.LargeFile"
+        version: Optional specific version. Defaults to latest.
+
+    Returns:
+        Module documentation with preamble, types, values, and submodules
+    """
+    try:
+        ver = await resolve_version(package_name, version)
+        if ver is None:
+            return {"error": f"Package '{package_name}' not found on sage.ci.dev"}
+
+        status = await get_status(package_name, ver)
+        if status is None:
+            return {"error": f"Could not fetch status for {package_name}/{ver}"}
+
+        files = status.get("files", [])
+        matched_file = find_module_file(files, module_path)
+        if matched_file is None:
+            # List available modules to help the user
+            top_modules = set()
+            for f in files:
+                if f.startswith("doc/") and f.endswith("/index.html"):
+                    parts = f[4:].split("/")  # strip "doc/"
+                    # parts: [library, Module, ..., "index.html"]
+                    # Show the immediate module name (second element)
+                    if len(parts) >= 3:
+                        top_modules.add(parts[1])
+            hint = sorted(top_modules)[:30]
+            return {
+                "error": f"Module '{module_path}' not found in {package_name}/{ver}",
+                "available_top_level": hint,
+            }
+
+        # Fetch the JSON doc — the file list has .html paths, we need .html.json
+        json_path = matched_file + ".json"
+        doc = await get_doc_json(package_name, ver, json_path)
+        if doc is None:
+            return {"error": f"Could not fetch documentation for {module_path}"}
+
+        preamble = extract_preamble_text(doc.get("preamble", ""))
+        content_html = doc.get("content", "")
+        specs, truncated = extract_specs(content_html, limit=100)
+
+        result: Dict[str, Any] = {
+            "package": package_name,
+            "version": ver,
+            "module": module_path,
+            "preamble": preamble,
+            "items": specs,
+        }
+        if truncated:
+            result["truncated"] = True
+            result["note"] = "Output truncated at 100 items. The module has more entries."
+
+        return result
+
+    except Exception as e:
+        return {"error": f"Failed to get module doc: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# CLI test harness
+# ---------------------------------------------------------------------------
 
 def main():
-    """Main entry point for the FastMCP server."""
     import sys
     import asyncio
-    
-    # Check for --test flag for direct testing
+
     if len(sys.argv) > 1 and sys.argv[1] == "--test":
-        # Run a simple test
-        async def test():
-            if len(sys.argv) > 2 and sys.argv[2] == "--summary":
-                # Test package summary functionality
-                package = sys.argv[3] if len(sys.argv) > 3 else "lwt"
-                print(f"Testing package summary for: {package}\n")
-                result = await get_package_summary(package)
-                print(json.dumps(result, indent=2))
-            elif "--packages" in sys.argv:
-                # Test unified search functionality
-                query_idx = sys.argv.index("--test") + 1
-                packages_idx = sys.argv.index("--packages") + 1
-                query = sys.argv[query_idx] if query_idx < len(sys.argv) else "HTTP server"
-                packages = sys.argv[packages_idx:] if packages_idx < len(sys.argv) else ["base", "lwt", "cohttp"]
-                print(f"Testing unified search query: {query}")
-                print(f"Packages: {packages}\n")
-                result = await search_ocaml_modules(query, packages)
-                print(json.dumps(result, indent=2))
-            elif "--sherlodoc" in sys.argv:
-                # Test sherlodoc functionality
-                sherlodoc_idx = sys.argv.index("--sherlodoc")
-                query = sys.argv[sherlodoc_idx + 1] if sherlodoc_idx + 1 < len(sys.argv) else "Base.List.t"
-                print(f"Testing sherlodoc query: {query}\n")
+        async def run_test():
+            if len(sys.argv) < 3:
+                print("Usage: mcp_server.py --test <command> [args...]")
+                print("Commands:")
+                print("  sherlodoc <query>")
+                print("  search-packages <query>")
+                print("  package-info <package> [version]")
+                print("  module-doc <package> <module_path> [version]")
+                return
+
+            cmd = sys.argv[2]
+
+            if cmd == "sherlodoc":
+                query = sys.argv[3] if len(sys.argv) > 3 else "int -> string"
                 result = await sherlodoc(query)
-                print(json.dumps(result, indent=2))
+            elif cmd == "search-packages":
+                query = sys.argv[3] if len(sys.argv) > 3 else "http"
+                result = await search_package_names(query)
+            elif cmd == "package-info":
+                pkg = sys.argv[3] if len(sys.argv) > 3 else "lwt"
+                ver = sys.argv[4] if len(sys.argv) > 4 else None
+                result = await get_package_info(pkg, ver)
+            elif cmd == "module-doc":
+                pkg = sys.argv[3] if len(sys.argv) > 3 else "lwt"
+                mod = sys.argv[4] if len(sys.argv) > 4 else "Lwt"
+                ver = sys.argv[5] if len(sys.argv) > 5 else None
+                result = await get_module_doc(pkg, mod, ver)
             else:
-                # Test search functionality
-                query = sys.argv[2] if len(sys.argv) > 2 else "HTTP server"
-                print(f"Testing search query: {query}\n")
-                result = await find_ocaml_packages(query)
-                print(json.dumps(result, indent=2))
-        
-        asyncio.run(test())
+                result = {"error": f"Unknown command: {cmd}"}
+
+            print(json.dumps(result, indent=2))
+
+            # Clean up session
+            global _session
+            if _session and not _session.closed:
+                await _session.close()
+
+        asyncio.run(run_test())
     else:
-        # Run FastMCP server with HTTP SSE transport
-        # Default SSE endpoint will be available at /sse
-        # Using default port (probably 8000), may conflict with embedding server
         mcp.run(transport="sse")
 
 
