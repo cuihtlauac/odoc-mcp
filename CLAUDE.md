@@ -4,9 +4,12 @@ When responding keep the language accessible. It is offensive to use too complic
 
 ## Overview
 
-MCP server that gives LLMs access to OCaml package documentation. It queries
-[sage.ci.dev](https://sage.ci.dev) for any published package and can also
-browse locally-built odoc output (from `dune build @doc`).
+MCP server that gives LLMs access to OCaml package documentation and
+dependency information. Documentation tools query
+[sage.ci.dev](https://sage.ci.dev) and Sherlodoc. Dependency tools use the
+local environment (opam CLI, `.opam` files, `dune-project`, `dune-workspace`,
+dune build files) to show what's pinned, installed, vendored, and which
+repositories are active.
 
 ## Development Environment
 
