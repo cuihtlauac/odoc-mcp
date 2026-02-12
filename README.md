@@ -1,23 +1,30 @@
 # odoc-mcp
 
-MCP server that gives LLMs access to OCaml package documentation. It can query
-[sage.ci.dev](https://sage.ci.dev) for any published package and also browse
-locally-built odoc output (from `dune build @doc`).
+MCP server that gives LLMs access to OCaml package documentation and
+dependency information. It can look up module signatures, search by type,
+inspect opam metadata, and show what's pinned, installed, or vendored in
+a project.
 
 ## Why
 
-LLMs don't know the OCaml ecosystem well. This server lets them look up
-module signatures, read preambles, and search packages by name or type
-signature — so they can write better OCaml code.
+LLMs don't know the OCaml ecosystem well. They can't read module signatures,
+they don't understand opam constraints, and they have no visibility into pins,
+custom repositories, or vendored code. This server fills that gap so they can
+write better OCaml and answer dependency questions.
 
 ## How it works
 
-The server queries two backends:
+Documentation tools query two backends:
 
-- [sage.ci.dev](https://sage.ci.dev) — hosts odoc-generated documentation
-  for all published opam packages (package info, module signatures, preambles)
+- [sage.ci.dev](https://sage.ci.dev) — odoc-generated documentation for all
+  published opam packages (package info, module signatures, preambles)
 - [doc.sherlocode.com](https://doc.sherlocode.com) — Sherlodoc search engine
   for name and type-directed search across the ecosystem
+
+Dependency tools use the local environment: `opam` CLI, `.opam` files,
+`dune-project`, `dune-workspace`, and `dune` build files. They can detect
+which dependency managers are active, list pins from multiple sources, show
+repository priority, and find vendored directories.
 
 No local data or models needed. Optionally, it can also browse locally-built
 odoc output for packages under development.
