@@ -73,6 +73,50 @@ def _parse_dependency(dep_str: str) -> Dict[str, Optional[str]]:
     return {"package": dep_str, "constraint": None}
 
 
+_KNOWN_FLAGS = {"build", "with-test", "with-doc", "with-dev-setup"}
+
+
+def _parse_constraint(raw: str) -> dict:
+    """Split a raw constraint string into version constraint and flags.
+
+    Takes the brace content after quote removal (e.g. "build & >= 1.1.0")
+    and returns {"constraint": "...", "flags": [...]}.
+    """
+    if not raw:
+        return {"constraint": None, "flags": []}
+
+    # Split on '&' at top level (skip '&' inside parentheses)
+    parts = []
+    current = []
+    depth = 0
+    for ch in raw:
+        if ch == '(':
+            depth += 1
+            current.append(ch)
+        elif ch == ')':
+            depth -= 1
+            current.append(ch)
+        elif ch == '&' and depth == 0:
+            parts.append(''.join(current).strip())
+            current = []
+        else:
+            current.append(ch)
+    parts.append(''.join(current).strip())
+
+    flags = []
+    version_parts = []
+    for part in parts:
+        if not part:
+            continue
+        if part in _KNOWN_FLAGS:
+            flags.append(part)
+        else:
+            version_parts.append(part)
+
+    constraint = " & ".join(version_parts) if version_parts else None
+    return {"constraint": constraint, "flags": flags}
+
+
 def _parse_dependency_list(text: str, pos: int) -> tuple:
     """Parse a dependency list starting at '['.
 
@@ -110,14 +154,12 @@ def _parse_dependency_list(text: str, pos: int) -> tuple:
                     j += 1
                 constraint_raw = text[i + 1:j - 1].strip()
                 # Clean up: remove quotes around version numbers
-                constraint = constraint_raw.replace('"', '')
-                if constraint:
-                    deps.append({"package": name, "constraint": constraint})
-                else:
-                    deps.append({"package": name, "constraint": None})
+                constraint_str = constraint_raw.replace('"', '')
+                parsed = _parse_constraint(constraint_str) if constraint_str else {"constraint": None, "flags": []}
+                deps.append({"package": name, **parsed})
                 i = j
             else:
-                deps.append({"package": name, "constraint": None})
+                deps.append({"package": name, "constraint": None, "flags": []})
         elif c in ' \t\n\r':
             i += 1
         else:
