@@ -21,6 +21,7 @@ uv run python mcp_server.py
 
 ```
 ├── mcp_server.py       # MCP server (the main entry point)
+├── opam_parser.py      # Parser for opam package files
 ├── version_utils.py    # OCaml version string handling
 ├── pyproject.toml      # Project configuration and dependencies
 ├── uv.lock             # Dependency lock file
@@ -46,6 +47,12 @@ can launch it directly.
 | `get_module_doc` | Get a module's preamble and signatures from sage.ci.dev |
 | `list_local_modules` | List modules in local odoc output |
 | `get_local_module_doc` | Get a module's preamble and signatures from local docs |
+| `opam_repo_search` | Search opam package names by substring across repos |
+| `opam_list_versions` | List all versions of an opam package |
+| `opam_show_package` | Show opam package details (deps, description, etc.) |
+| `detect_dependency_managers` | Detect active dependency managers (opam, dune-pkg) |
+| `dependency_environment_status` | Report dependency environment details |
+| `list_installed_packages` | List installed packages from opam switch, dune-pkg, or system |
 
 ### Testing
 
@@ -56,6 +63,13 @@ uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
+uv run python mcp_server.py --test opam-repo-search lwt
+uv run python mcp_server.py --test opam-versions lwt
+uv run python mcp_server.py --test opam-show lwt
+uv run python mcp_server.py --test opam-show lwt 5.9.0
+uv run python mcp_server.py --test detect-dep-managers
+uv run python mcp_server.py --test dep-env-status
+uv run python mcp_server.py --test opam-installed
 ```
 
 ### Using with Claude Code

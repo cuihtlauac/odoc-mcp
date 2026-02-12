@@ -6,10 +6,15 @@ Queries sage.ci.dev and Sherlodoc for any published package.
 Can also browse locally-built odoc output.
 """
 
+import asyncio
 import json
 import logging
+import os
+import re
+import shutil
 import time
 from contextlib import asynccontextmanager
+from functools import cmp_to_key
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote
@@ -18,14 +23,25 @@ import aiohttp
 from bs4 import BeautifulSoup
 from mcp.server.fastmcp import FastMCP
 
-from version_utils import find_latest_version
+from opam_parser import parse_opam_file
+from version_utils import compare_versions, find_latest_version
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 SAGE_BASE = "https://sage.ci.dev/current/p"
 
+OPAM_REPO_OWNER = "ocaml"
+OPAM_REPO_NAME = "opam-repository"
 _local_docs_root: Optional[Path] = None
+
+
+def _github_headers() -> Dict[str, str]:
+    """Return GitHub auth headers if GITHUB_TOKEN is set."""
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        return {"Authorization": f"token {token}"}
+    return {}
 
 # ---------------------------------------------------------------------------
 # Shared HTTP session
@@ -75,17 +91,17 @@ def cache_set(key: str, value, ttl: float):
 # Fetching helpers
 # ---------------------------------------------------------------------------
 
-async def fetch_text(url: str) -> Optional[str]:
+async def fetch_text(url: str, headers: Optional[Dict[str, str]] = None) -> Optional[str]:
     session = await get_session()
-    async with session.get(url) as resp:
+    async with session.get(url, headers=headers) as resp:
         if resp.status != 200:
             return None
         return await resp.text()
 
 
-async def fetch_json(url: str) -> Optional[Any]:
+async def fetch_json(url: str, headers: Optional[Dict[str, str]] = None) -> Optional[Any]:
     session = await get_session()
-    async with session.get(url) as resp:
+    async with session.get(url, headers=headers) as resp:
         if resp.status != 200:
             return None
         return await resp.json(content_type=None)
@@ -628,6 +644,526 @@ async def get_local_module_doc(module_path: str) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
+# opam repository helpers (GitHub)
+# ---------------------------------------------------------------------------
+
+def _parse_github_url(repo_url: str) -> Optional[tuple]:
+    """Parse owner and repo name from a GitHub URL.
+
+    Accepts URLs like https://github.com/owner/repo or
+    https://github.com/owner/repo.git. Returns (owner, repo) or None.
+    """
+    m = re.match(r'https?://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$', repo_url)
+    if not m:
+        return None
+    return m.group(1), m.group(2)
+
+
+def _github_api_url(repo_url: str) -> Optional[str]:
+    """Return the GitHub API base URL for a repository URL, or None."""
+    parsed = _parse_github_url(repo_url)
+    if not parsed:
+        return None
+    return f"https://api.github.com/repos/{parsed[0]}/{parsed[1]}"
+
+
+def _github_raw_url(repo_url: str) -> Optional[str]:
+    """Return the raw.githubusercontent.com base URL for a repository, or None."""
+    parsed = _parse_github_url(repo_url)
+    if not parsed:
+        return None
+    return f"https://raw.githubusercontent.com/{parsed[0]}/{parsed[1]}"
+
+
+async def get_opam_all_packages(repo_url: str) -> List[str]:
+    """Fetch all package names from an opam repository via GitHub Trees API.
+
+    Cached for 1 hour per repo URL.
+    """
+    cache_key = f"opam_all_packages:{repo_url}"
+    cached = cache_get(cache_key)
+    if cached is not None:
+        return cached
+
+    api_base = _github_api_url(repo_url)
+    if api_base is None:
+        return []
+
+    url = f"{api_base}/git/trees/master?recursive=0"
+    data = await fetch_json(url, headers=_github_headers())
+    if data is None:
+        return []
+
+    # Find the "packages" tree sha
+    packages_sha = None
+    for item in data.get("tree", []):
+        if item.get("path") == "packages" and item.get("type") == "tree":
+            packages_sha = item["sha"]
+            break
+
+    if packages_sha is None:
+        return []
+
+    # Fetch the packages tree (just one level deep)
+    pkg_url = f"{api_base}/git/trees/{packages_sha}"
+    pkg_data = await fetch_json(pkg_url, headers=_github_headers())
+    if pkg_data is None:
+        return []
+
+    names = sorted(
+        item["path"]
+        for item in pkg_data.get("tree", [])
+        if item.get("type") == "tree"
+    )
+    cache_set(cache_key, names, 3600)
+    return names
+
+
+async def opam_resolve_version(
+    repo_url: str, package: str, version: Optional[str] = None
+) -> Optional[str]:
+    """Resolve a version for a package from an opam repository on GitHub.
+
+    If version is given, return it as-is.
+    Otherwise, list all versions via the GitHub Contents API and pick the latest.
+    """
+    if version:
+        return version
+
+    api_base = _github_api_url(repo_url)
+    if api_base is None:
+        return None
+
+    url = f"{api_base}/contents/packages/{package}"
+    data = await fetch_json(url, headers=_github_headers())
+    if data is None or not isinstance(data, list):
+        return None
+
+    prefix = f"{package}."
+    versions = [
+        item["name"][len(prefix):]
+        for item in data
+        if item.get("type") == "dir" and item["name"].startswith(prefix)
+    ]
+    if not versions:
+        return None
+
+    latest, _ = find_latest_version(versions)
+    return latest
+
+
+# ---------------------------------------------------------------------------
+# Tool: opam_repo_search
+# ---------------------------------------------------------------------------
+
+OPAM_REPO_URL = f"https://github.com/{OPAM_REPO_OWNER}/{OPAM_REPO_NAME}"
+
+
+@mcp.tool()
+async def opam_repo_search(query: str, repos: List[str]) -> Dict[str, Any]:
+    """Search opam package names by substring across one or more repositories.
+
+    Searches package names in the given opam repositories (GitHub URLs) for
+    case-insensitive substring matches.
+
+    Args:
+        query: Substring to search for, e.g. "lwt", "http", "json"
+        repos: List of GitHub repository URLs to search, e.g.
+               ["https://github.com/ocaml/opam-repository"]. Must not be empty.
+
+    Returns:
+        Matching package names (up to 50) with their source repo
+    """
+    if not repos:
+        return {"error": "repos must not be empty."}
+
+    try:
+        all_matches: List[Dict[str, str]] = []
+        q = query.lower()
+
+        for repo_url in repos:
+            if _github_api_url(repo_url) is None:
+                return {"error": f"Not a valid GitHub repository URL: {repo_url!r}"}
+            packages = await get_opam_all_packages(repo_url)
+            for p in packages:
+                if q in p.lower():
+                    all_matches.append({"package": p, "repo": repo_url})
+
+        return {
+            "query": query,
+            "matches": all_matches[:50],
+            "total_matches": len(all_matches),
+        }
+    except Exception as e:
+        return {"error": f"opam package search failed: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# Tool: opam_list_versions
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def opam_list_versions(package_name: str, repo: str) -> Dict[str, Any]:
+    """List all versions of an opam package, newest first.
+
+    Fetches version directories from the given opam repository on GitHub.
+
+    Args:
+        package_name: Package name, e.g. "lwt", "dune"
+        repo: GitHub repository URL, e.g. "https://github.com/ocaml/opam-repository"
+
+    Returns:
+        List of versions sorted newest-first
+    """
+    try:
+        api_base = _github_api_url(repo)
+        if api_base is None:
+            return {"error": f"Not a valid GitHub repository URL: {repo!r}"}
+
+        url = f"{api_base}/contents/packages/{package_name}"
+        data = await fetch_json(url, headers=_github_headers())
+        if data is None:
+            return {"error": f"Package '{package_name}' not found in {repo}"}
+        if not isinstance(data, list):
+            return {"error": f"Unexpected response for '{package_name}'"}
+
+        prefix = f"{package_name}."
+        versions = [
+            item["name"][len(prefix):]
+            for item in data
+            if item.get("type") == "dir" and item["name"].startswith(prefix)
+        ]
+        versions.sort(key=cmp_to_key(compare_versions), reverse=True)
+        return {
+            "package": package_name,
+            "versions": versions,
+            "total": len(versions),
+        }
+    except Exception as e:
+        return {"error": f"Failed to list versions: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# Tool: opam_show_package
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def opam_show_package(
+    package_name: str, repo: str, version: Optional[str] = None
+) -> Dict[str, Any]:
+    """Show details of an opam package by parsing its opam file.
+
+    Fetches the opam file from the given opam repository on GitHub. If no
+    version is given, uses the latest.
+
+    Args:
+        package_name: Package name, e.g. "lwt"
+        repo: GitHub repository URL, e.g. "https://github.com/ocaml/opam-repository"
+        version: Optional version string. Defaults to latest.
+
+    Returns:
+        Synopsis, description, dependencies with constraints, optional deps,
+        authors, license, homepage
+    """
+    try:
+        raw_base = _github_raw_url(repo)
+        if raw_base is None:
+            return {"error": f"Not a valid GitHub repository URL: {repo!r}"}
+
+        ver = await opam_resolve_version(repo, package_name, version)
+        if ver is None:
+            return {"error": f"Package '{package_name}' not found in {repo}"}
+
+        url = (
+            f"{raw_base}/master/packages/"
+            f"{package_name}/{package_name}.{ver}/opam"
+        )
+        text = await fetch_text(url, headers=_github_headers())
+        if text is None:
+            return {
+                "error": f"Could not fetch opam file for {package_name}.{ver}"
+            }
+
+        parsed = parse_opam_file(text)
+        return {"package": package_name, "version": ver, **parsed}
+
+    except Exception as e:
+        return {"error": f"Failed to show package: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# opam CLI helper
+# ---------------------------------------------------------------------------
+
+async def _run_opam(*args: str, timeout: float = 15.0) -> Optional[str]:
+    """Run an opam command and return its stdout, or None on failure."""
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            "opam", *args,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=timeout)
+        if proc.returncode != 0:
+            return None
+        return stdout.decode().strip()
+    except (FileNotFoundError, asyncio.TimeoutError, OSError):
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Tool: detect_dependency_managers
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def detect_dependency_managers() -> Dict[str, Any]:
+    """Detect which OCaml dependency managers are active for the current project.
+
+    Checks for dune-pkg and opam setups. Returns a list of detected managers
+    with details about each.
+
+    Returns:
+        List of detected managers ("opam", "dune-pkg") with details
+    """
+    cwd = Path.cwd()
+    managers = []
+
+    # --- dune-pkg detection ---
+    dune_pkg_info: Dict[str, Any] = {"manager": "dune-pkg"}
+    dune_pkg_detected = False
+
+    lock_dir = cwd / "dune.lock"
+    if lock_dir.is_dir():
+        dune_pkg_detected = True
+        dune_pkg_info["lock_dir"] = str(lock_dir)
+
+    workspace = cwd / "dune-workspace"
+    if workspace.is_file():
+        try:
+            ws_text = workspace.read_text()
+            if "(pkg" in ws_text:
+                dune_pkg_detected = True
+                dune_pkg_info["workspace_pkg_enabled"] = True
+        except OSError:
+            pass
+
+    if dune_pkg_detected:
+        managers.append(dune_pkg_info)
+
+    # --- opam detection ---
+    opam_info: Dict[str, Any] = {"manager": "opam"}
+    opam_detected = False
+
+    # Local switch
+    local_opam = cwd / "_opam"
+    if local_opam.is_dir():
+        opam_detected = True
+        opam_info["local_switch"] = str(local_opam)
+
+    # Global opam root
+    opam_root = os.environ.get("OPAMROOT", os.path.expanduser("~/.opam"))
+    if Path(opam_root).is_dir():
+        opam_detected = True
+        opam_info["opam_root"] = opam_root
+
+    # OPAMSWITCH env var
+    opam_switch_env = os.environ.get("OPAMSWITCH")
+    if opam_switch_env:
+        opam_detected = True
+        opam_info["opam_switch_env"] = opam_switch_env
+
+    # System OCaml (outside opam)
+    if not opam_detected:
+        for tool in ("ocamlfind", "ocamlc"):
+            if shutil.which(tool):
+                opam_detected = True
+                opam_info["system_ocaml"] = tool
+                break
+
+    if opam_detected:
+        managers.append(opam_info)
+
+    result: Dict[str, Any] = {
+        "managers": [m["manager"] for m in managers],
+        "details": managers,
+    }
+    if len(managers) > 1:
+        result["warning"] = (
+            "Both opam and dune-pkg detected. Having both active risks "
+            "inconsistent dependency sets."
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Tool: dependency_environment_status
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def dependency_environment_status() -> Dict[str, Any]:
+    """Report the current dependency environment status.
+
+    Calls detect_dependency_managers() and adds details: opam switch info,
+    env consistency, dune lock status.
+
+    Returns:
+        Dependency manager details, switch info, and any warnings
+    """
+    dm = await detect_dependency_managers()
+    result: Dict[str, Any] = dict(dm)
+    active = dm.get("managers", [])
+
+    if "opam" in active:
+        opam_details: Dict[str, Any] = {}
+
+        # Current switch
+        switch = await _run_opam("var", "switch")
+        if switch:
+            opam_details["current_switch"] = switch
+
+        # Switch kind
+        cwd = Path.cwd()
+        if (cwd / "_opam").is_dir():
+            opam_details["switch_kind"] = "local"
+        else:
+            opam_details["switch_kind"] = "global"
+
+        # Env consistency
+        env_prefix = os.environ.get("OPAM_SWITCH_PREFIX")
+        if switch and env_prefix:
+            opam_var_prefix = await _run_opam("var", "prefix")
+            if opam_var_prefix and env_prefix != opam_var_prefix:
+                opam_details["env_mismatch"] = {
+                    "OPAM_SWITCH_PREFIX": env_prefix,
+                    "opam_var_prefix": opam_var_prefix,
+                    "fix": "Run: eval $(opam env)",
+                }
+
+        # Available switches
+        switches_raw = await _run_opam("switch", "list", "--short")
+        if switches_raw:
+            opam_details["available_switches"] = switches_raw.splitlines()
+
+        result["opam"] = opam_details
+
+    if "dune-pkg" in active:
+        dune_details: Dict[str, Any] = {}
+        lock_dir = Path.cwd() / "dune.lock"
+        if lock_dir.is_dir():
+            dune_details["locked"] = True
+        else:
+            dune_details["locked"] = False
+            dune_details["note"] = "Run `dune pkg lock` to create a lock directory."
+        result["dune_pkg"] = dune_details
+
+    if not active:
+        result["note"] = "No dependency manager detected for this project."
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Tool: list_installed_packages
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def list_installed_packages(
+    source: str, switch: Optional[str] = None
+) -> Dict[str, Any]:
+    """List packages available in the current project.
+
+    Args:
+        source: One of "dune-pkg", "opam-switch", or "opam-system".
+        switch: Optional opam switch name (only used with "opam-switch").
+
+    Returns:
+        List of installed packages with names and versions
+    """
+    if source == "dune-pkg":
+        lock_dir = Path.cwd() / "dune.lock"
+        if not lock_dir.is_dir():
+            return {"error": "No dune.lock/ directory found in the current project."}
+
+        packages = []
+        for pkg_file in sorted(lock_dir.iterdir()):
+            if pkg_file.suffix == ".pkg":
+                name = pkg_file.stem
+                # Try to extract version from the lock file
+                version = None
+                try:
+                    content = pkg_file.read_text()
+                    for line in content.splitlines():
+                        line = line.strip()
+                        if line.startswith("(version"):
+                            # (version 1.2.3)
+                            version = line.split()[1].rstrip(")")
+                            break
+                except OSError:
+                    pass
+                packages.append({"name": name, "version": version})
+
+        return {"source": "dune-pkg", "packages": packages, "total": len(packages)}
+
+    elif source == "opam-switch":
+        args = ["list", "--installed",
+                "--columns=name,version,synopsis", "--separator=\t"]
+        if switch:
+            args = ["--switch", switch] + args
+        raw = await _run_opam(*args)
+        if raw is None:
+            return {"error": "Failed to run opam list. Is opam installed?"}
+
+        packages = []
+        for line in raw.splitlines():
+            # Skip header lines (contain "# " prefix or are dashes)
+            if line.startswith("#") or set(line.strip()) <= {"-", " ", "\t"}:
+                continue
+            parts = line.split("\t", 2)
+            if len(parts) >= 2:
+                pkg: Dict[str, Any] = {"name": parts[0].strip(), "version": parts[1].strip()}
+                if len(parts) >= 3:
+                    pkg["synopsis"] = parts[2].strip()
+                packages.append(pkg)
+
+        return {
+            "source": "opam-switch",
+            "switch": switch,
+            "packages": packages,
+            "total": len(packages),
+        }
+
+    elif source == "opam-system":
+        ocamlfind = shutil.which("ocamlfind")
+        if not ocamlfind:
+            return {"error": "ocamlfind not found on PATH."}
+
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                ocamlfind, "list",
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=15.0)
+            raw = stdout.decode().strip()
+        except (asyncio.TimeoutError, OSError) as e:
+            return {"error": f"Failed to run ocamlfind list: {e}"}
+
+        packages = []
+        for line in raw.splitlines():
+            # Format: "package_name  (version: x.y.z)"
+            match = re.match(r'^(\S+)\s+\(version:\s*([^)]*)\)', line)
+            if match:
+                packages.append({"name": match.group(1), "version": match.group(2)})
+            elif line.strip():
+                packages.append({"name": line.strip().split()[0], "version": None})
+
+        return {"source": "opam-system", "packages": packages, "total": len(packages)}
+
+    else:
+        return {"error": f"Unknown source: {source!r}. Use 'dune-pkg', 'opam-switch', or 'opam-system'."}
+
+
+# ---------------------------------------------------------------------------
 # CLI test harness
 # ---------------------------------------------------------------------------
 
@@ -661,6 +1197,12 @@ def main():
                 print("  module-doc <package> <module_path> [version]")
                 print("  list-local")
                 print("  local-module-doc <module_path>")
+                print("  opam-repo-search <query>")
+                print("  opam-versions <package>")
+                print("  opam-show <package> [version]")
+                print("  detect-dep-managers")
+                print("  dep-env-status")
+                print("  opam-installed")
                 return
 
             cmd = test_args[0]
@@ -685,6 +1227,24 @@ def main():
             elif cmd == "local-module-doc":
                 mod = test_args[1] if len(test_args) > 1 else "Stdlib"
                 result = await get_local_module_doc(mod)
+            elif cmd == "opam-repo-search":
+                query = test_args[1] if len(test_args) > 1 else "lwt"
+                result = await opam_repo_search(query, [OPAM_REPO_URL])
+            elif cmd == "opam-versions":
+                pkg = test_args[1] if len(test_args) > 1 else "lwt"
+                result = await opam_list_versions(pkg, OPAM_REPO_URL)
+            elif cmd == "opam-show":
+                pkg = test_args[1] if len(test_args) > 1 else "lwt"
+                ver = test_args[2] if len(test_args) > 2 else None
+                result = await opam_show_package(pkg, OPAM_REPO_URL, ver)
+            elif cmd == "detect-dep-managers":
+                result = await detect_dependency_managers()
+            elif cmd == "dep-env-status":
+                result = await dependency_environment_status()
+            elif cmd == "opam-installed":
+                source = test_args[1] if len(test_args) > 1 else "opam-switch"
+                sw = test_args[2] if len(test_args) > 2 else None
+                result = await list_installed_packages(source, sw)
             else:
                 result = {"error": f"Unknown command: {cmd}"}
 
