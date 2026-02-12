@@ -125,6 +125,73 @@ def _parse_dependency_list(text: str, pos: int) -> tuple:
     return deps, i
 
 
+def _find_matching_bracket(text: str, pos: int) -> int:
+    """Find the matching ']' for a '[' at pos, handling nesting.
+
+    Returns the index of the matching ']', or -1 if not found.
+    """
+    depth = 0
+    i = pos
+    in_string = False
+    while i < len(text):
+        c = text[i]
+        if in_string:
+            if c == '\\' and i + 1 < len(text):
+                i += 2
+                continue
+            if c == '"':
+                in_string = False
+        else:
+            if c == '"':
+                in_string = True
+            elif c == '[':
+                depth += 1
+            elif c == ']':
+                depth -= 1
+                if depth == 0:
+                    return i
+        i += 1
+    return -1
+
+
+def _parse_pin_depends_list(text: str, pos: int) -> tuple:
+    """Parse a pin-depends list starting at '['.
+
+    pin-depends has nested brackets:
+      [ ["pkg.version" "url"]
+        ["pkg2.version" "url2"]
+      ]
+
+    Returns (list_of_pin_dicts, new_pos).
+    """
+    pins = []
+    i = pos + 1  # skip outer '['
+    while i < len(text):
+        c = text[i]
+        if c == ']':
+            return pins, i + 1
+        elif c == '[':
+            # Inner pair
+            inner, i = _parse_list(text, i)
+            if len(inner) >= 2:
+                name_version = inner[0]
+                url = inner[1]
+                # Split "name.version" on the last '.'
+                dot = name_version.rfind('.')
+                if dot > 0:
+                    name = name_version[:dot]
+                    version = name_version[dot + 1:]
+                else:
+                    name = name_version
+                    version = "dev"
+                pins.append({"package": name, "version": version, "url": url})
+        elif c in ' \t\n\r':
+            i += 1
+        else:
+            i += 1
+    return pins, i
+
+
 def parse_opam_file(text: str) -> Dict[str, Any]:
     """Parse an opam file into a JSON-friendly dict.
 
@@ -139,6 +206,7 @@ def parse_opam_file(text: str) -> Dict[str, Any]:
         "authors": [],
         "license": "",
         "homepage": "",
+        "pin_depends": [],
     }
 
     lines = text.split('\n')
@@ -247,6 +315,37 @@ def parse_opam_file(text: str) -> Dict[str, Any]:
             if rest.startswith('"'):
                 result["homepage"], _ = _parse_string(rest, 0)
             i += 1
+            continue
+
+        # pin-depends
+        if line.startswith('pin-depends:'):
+            rest = line[len('pin-depends:'):].strip()
+            if '[' in rest:
+                full = '\n'.join(lines[i:])
+                bracket_pos = full.index('[')
+                pins, _ = _parse_pin_depends_list(full, bracket_pos)
+                result["pin_depends"] = pins
+                end_bracket = _find_matching_bracket(full, bracket_pos)
+                if end_bracket != -1:
+                    consumed = full[:end_bracket + 1].count('\n')
+                    i += consumed + 1
+                else:
+                    i = len(lines)
+            else:
+                i += 1
+                if i < len(lines) and '[' in lines[i]:
+                    full = '\n'.join(lines[i:])
+                    bracket_pos = full.index('[')
+                    pins, _ = _parse_pin_depends_list(full, bracket_pos)
+                    result["pin_depends"] = pins
+                    end_bracket = _find_matching_bracket(full, bracket_pos)
+                    if end_bracket != -1:
+                        consumed = full[:end_bracket + 1].count('\n')
+                        i += consumed + 1
+                    else:
+                        i = len(lines)
+                else:
+                    i += 1
             continue
 
         i += 1

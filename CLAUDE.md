@@ -22,6 +22,7 @@ uv run python mcp_server.py
 ```
 ├── mcp_server.py       # MCP server (the main entry point)
 ├── opam_parser.py      # Parser for opam package files
+├── sexp_parser.py      # Minimal S-expression parser for dune files
 ├── version_utils.py    # OCaml version string handling
 ├── pyproject.toml      # Project configuration and dependencies
 ├── uv.lock             # Dependency lock file
@@ -53,6 +54,9 @@ can launch it directly.
 | `detect_dependency_managers` | Detect active dependency managers (opam, dune-pkg) |
 | `dependency_environment_status` | Report dependency environment details |
 | `list_installed_packages` | List installed packages from opam switch, dune-pkg, or system |
+| `list_pins` | List pinned packages from opam, .opam files, and dune-project |
+| `list_repositories` | List configured repos from opam and dune-workspace |
+| `list_vendored_dirs` | Find vendored directories declared in dune files |
 
 ### Testing
 
@@ -70,6 +74,9 @@ uv run python mcp_server.py --test opam-show lwt 5.9.0
 uv run python mcp_server.py --test detect-dep-managers
 uv run python mcp_server.py --test dep-env-status
 uv run python mcp_server.py --test opam-installed
+uv run python mcp_server.py --test list-pins
+uv run python mcp_server.py --test list-repos
+uv run python mcp_server.py --test list-vendored
 ```
 
 ### Using with Claude Code

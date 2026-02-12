@@ -24,6 +24,7 @@ from bs4 import BeautifulSoup
 from mcp.server.fastmcp import FastMCP
 
 from opam_parser import parse_opam_file
+from sexp_parser import find_stanzas, parse_sexp
 from version_utils import compare_versions, find_latest_version
 
 logging.basicConfig(level=logging.INFO)
@@ -1164,6 +1165,313 @@ async def list_installed_packages(
 
 
 # ---------------------------------------------------------------------------
+# Tool: list_pins
+# ---------------------------------------------------------------------------
+
+def _parse_opam_pin_list(raw: str) -> List[Dict[str, Any]]:
+    """Parse output of 'opam pin list'.
+
+    Format: name.version  [(uninstalled)]  kind  url  [(at hash)]
+    """
+    pins = []
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split()
+        if not parts:
+            continue
+        name_version = parts[0]
+        # Package names don't contain dots, so split on the first one
+        dot = name_version.find(".")
+        if dot > 0:
+            name = name_version[:dot]
+            version = name_version[dot + 1:]
+        else:
+            name = name_version
+            version = "dev"
+        # Skip flags like (uninstalled) and (at hash) to find kind and url
+        rest = [p for p in parts[1:] if not p.startswith("(") and not p.endswith(")")]
+        kind = rest[0] if len(rest) > 0 else None
+        url = rest[1] if len(rest) > 1 else None
+        pin: Dict[str, Any] = {
+            "package": name,
+            "version": version,
+            "origin": "opam-switch",
+        }
+        if kind:
+            pin["kind"] = kind
+        if url:
+            pin["url"] = url
+        pins.append(pin)
+    return pins
+
+
+def _pins_from_opam_files(cwd: Path) -> List[Dict[str, Any]]:
+    """Extract pin-depends from .opam files in cwd."""
+    pins = []
+    for opam_file in sorted(cwd.glob("*.opam")):
+        try:
+            text = opam_file.read_text()
+        except OSError:
+            continue
+        parsed = parse_opam_file(text)
+        for pd in parsed.get("pin_depends", []):
+            pins.append({
+                "package": pd["package"],
+                "version": pd["version"],
+                "url": pd["url"],
+                "origin": "opam-file",
+                "declared_in": opam_file.name,
+            })
+    return pins
+
+
+def _pins_from_dune_project(cwd: Path) -> List[Dict[str, Any]]:
+    """Extract (pin ...) stanzas from dune-project in cwd."""
+    dune_project = cwd / "dune-project"
+    if not dune_project.is_file():
+        return []
+    try:
+        text = dune_project.read_text()
+    except OSError:
+        return []
+    tree = parse_sexp(text)
+    pin_stanzas = find_stanzas(tree, "pin")
+    pins = []
+    for stanza in pin_stanzas:
+        # (pin (url ...) (package (name ...)) ...)
+        # or simpler forms; extract what we can
+        pin: Dict[str, Any] = {"origin": "dune-project"}
+        for item in stanza[1:]:
+            if isinstance(item, list) and len(item) >= 2:
+                key = item[0]
+                if key == "url":
+                    pin["url"] = item[1] if isinstance(item[1], str) else str(item[1])
+                elif key == "package":
+                    # (package (name foo)) or (package (name foo) (version x))
+                    for sub in item[1:]:
+                        if isinstance(sub, list) and len(sub) >= 2:
+                            if sub[0] == "name":
+                                pin["package"] = sub[1]
+                            elif sub[0] == "version":
+                                pin["version"] = sub[1]
+            elif isinstance(item, str) and "package" not in pin:
+                # Some simple forms: (pin name url)
+                if "package" not in pin:
+                    pin["package"] = item
+        pin.setdefault("package", "unknown")
+        pin.setdefault("version", "dev")
+        pins.append(pin)
+    return pins
+
+
+@mcp.tool()
+async def list_pins(switch: Optional[str] = None) -> Dict[str, Any]:
+    """List all pinned packages from opam, .opam files, and dune-project.
+
+    Checks multiple sources and tags each pin with its origin.
+
+    Args:
+        switch: Optional opam switch name.
+
+    Returns:
+        List of pins with package, version, url, and origin fields
+    """
+    all_pins: List[Dict[str, Any]] = []
+    cwd = Path.cwd()
+
+    # opam pin list
+    args = ["pin", "list"]
+    if switch:
+        args = ["--switch", switch] + args
+    raw = await _run_opam(*args)
+    if raw is not None:
+        all_pins.extend(_parse_opam_pin_list(raw))
+
+    # .opam files in cwd
+    all_pins.extend(_pins_from_opam_files(cwd))
+
+    # dune-project
+    all_pins.extend(_pins_from_dune_project(cwd))
+
+    return {"pins": all_pins, "total": len(all_pins)}
+
+
+# ---------------------------------------------------------------------------
+# Tool: list_repositories
+# ---------------------------------------------------------------------------
+
+def _parse_opam_repo_list(raw: str) -> List[Dict[str, Any]]:
+    """Parse output of 'opam repository list'."""
+    repos = []
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        # Format: RANK NAME URL
+        parts = line.split(None, 2)
+        if len(parts) < 2:
+            continue
+        try:
+            rank = int(parts[0])
+        except ValueError:
+            continue
+        name = parts[1]
+        url = parts[2] if len(parts) > 2 else None
+        repo: Dict[str, Any] = {"rank": rank, "name": name}
+        if url:
+            repo["url"] = url
+        repos.append(repo)
+    return repos
+
+
+def _repos_from_dune_workspace(cwd: Path) -> tuple:
+    """Extract repository definitions and ordering from dune-workspace.
+
+    Returns (repo_list, repo_order) where repo_list has name/url dicts
+    and repo_order is the list from (lock_dir (repositories ...)).
+    """
+    ws_file = cwd / "dune-workspace"
+    if not ws_file.is_file():
+        return [], []
+    try:
+        text = ws_file.read_text()
+    except OSError:
+        return [], []
+    tree = parse_sexp(text)
+
+    # Repository definitions: (repository (name x) (url y))
+    repo_stanzas = find_stanzas(tree, "repository")
+    repos = []
+    for stanza in repo_stanzas:
+        repo: Dict[str, Any] = {}
+        for item in stanza[1:]:
+            if isinstance(item, list) and len(item) >= 2:
+                if item[0] == "name":
+                    repo["name"] = item[1]
+                elif item[0] == "url":
+                    repo["url"] = item[1]
+            elif isinstance(item, str) and "name" not in repo:
+                repo["name"] = item
+        if "name" in repo:
+            repo.setdefault("url", None)
+            repos.append(repo)
+
+    # lock_dir ordering: (lock_dir (repositories repo1 repo2 ...))
+    order = []
+    lock_dir_stanzas = find_stanzas(tree, "lock_dir")
+    for stanza in lock_dir_stanzas:
+        for item in stanza[1:]:
+            if isinstance(item, list) and len(item) >= 1 and item[0] == "repositories":
+                order = [r for r in item[1:] if isinstance(r, str)]
+                break
+        if order:
+            break
+
+    return repos, order
+
+
+@mcp.tool()
+async def list_repositories(switch: Optional[str] = None) -> Dict[str, Any]:
+    """List configured package repositories from opam and dune-workspace.
+
+    Shows repository priority order so you can see which repos override others.
+
+    Args:
+        switch: Optional opam switch name.
+
+    Returns:
+        opam repositories (ranked) and dune-workspace repositories with ordering
+    """
+    result: Dict[str, Any] = {}
+    cwd = Path.cwd()
+
+    # opam repository list
+    args = ["repository", "list"]
+    if switch:
+        args = ["--switch", switch] + args
+    raw = await _run_opam(*args)
+    if raw is not None:
+        result["opam_repositories"] = _parse_opam_repo_list(raw)
+
+    # dune-workspace
+    dune_repos, dune_order = _repos_from_dune_workspace(cwd)
+    if dune_repos:
+        result["dune_repositories"] = dune_repos
+    if dune_order:
+        result["dune_repository_order"] = dune_order
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Tool: list_vendored_dirs
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+async def list_vendored_dirs(path: Optional[str] = None) -> Dict[str, Any]:
+    """Find vendored directories declared in dune files.
+
+    Searches dune files for vendored_dirs stanzas and checks for conventional
+    vendor/ and duniverse/ directories.
+
+    Args:
+        path: Directory to search from. Defaults to current directory.
+
+    Returns:
+        Declared vendored dirs and any undeclared project directories
+    """
+    root = Path(path) if path else Path.cwd()
+    if not root.is_dir():
+        return {"error": f"Path does not exist: {root}"}
+
+    vendored = []
+    declared_abs = set()
+
+    # Find vendored_dirs stanzas in dune files
+    for dune_file in root.rglob("dune"):
+        if not dune_file.is_file():
+            continue
+        try:
+            text = dune_file.read_text()
+        except OSError:
+            continue
+        tree = parse_sexp(text)
+        stanzas = find_stanzas(tree, "vendored_dirs")
+        for stanza in stanzas:
+            for dir_name in stanza[1:]:
+                if isinstance(dir_name, str):
+                    abs_dir = (dune_file.parent / dir_name).resolve()
+                    declared_abs.add(abs_dir)
+                    vendored.append({
+                        "dir": str(abs_dir),
+                        "declared_in": str(dune_file),
+                        "exists": abs_dir.is_dir(),
+                    })
+
+    # Check conventional directories
+    undeclared = []
+    for conventional in ("vendor", "duniverse"):
+        conv_dir = (root / conventional).resolve()
+        if conv_dir.is_dir() and conv_dir not in declared_abs:
+            has_dune_project = (conv_dir / "dune-project").is_file()
+            if has_dune_project:
+                undeclared.append({
+                    "dir": str(conv_dir),
+                    "note": (
+                        "Contains dune-project but not declared in vendored_dirs. "
+                        "Dune will build it but won't suppress warnings."
+                    ),
+                })
+
+    return {
+        "vendored_dirs": vendored,
+        "undeclared_project_dirs": undeclared,
+    }
+
+
+# ---------------------------------------------------------------------------
 # CLI test harness
 # ---------------------------------------------------------------------------
 
@@ -1203,6 +1511,9 @@ def main():
                 print("  detect-dep-managers")
                 print("  dep-env-status")
                 print("  opam-installed")
+                print("  list-pins")
+                print("  list-repos")
+                print("  list-vendored")
                 return
 
             cmd = test_args[0]
@@ -1245,6 +1556,15 @@ def main():
                 source = test_args[1] if len(test_args) > 1 else "opam-switch"
                 sw = test_args[2] if len(test_args) > 2 else None
                 result = await list_installed_packages(source, sw)
+            elif cmd == "list-pins":
+                sw = test_args[1] if len(test_args) > 1 else None
+                result = await list_pins(sw)
+            elif cmd == "list-repos":
+                sw = test_args[1] if len(test_args) > 1 else None
+                result = await list_repositories(sw)
+            elif cmd == "list-vendored":
+                p = test_args[1] if len(test_args) > 1 else None
+                result = await list_vendored_dirs(p)
             else:
                 result = {"error": f"Unknown command: {cmd}"}
 
