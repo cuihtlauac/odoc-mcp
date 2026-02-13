@@ -575,7 +575,7 @@ def _scan_local_modules(root: Path) -> List[Dict[str, str]]:
 
 @mcp.tool()
 async def list_local_modules() -> Dict[str, Any]:
-    """List all modules available in the local odoc documentation.
+    """List all modules available in the local OCaml odoc documentation.
 
     Walks the local docs directory (set via --local-docs) and returns
     every module grouped by library.
@@ -601,7 +601,7 @@ async def list_local_modules() -> Dict[str, Any]:
 
 @mcp.tool()
 async def get_local_module_doc(module_path: str) -> Dict[str, Any]:
-    """Get documentation for a module from the local odoc output.
+    """Get documentation for an OCaml module from the local odoc output.
 
     Looks up a dot-separated module path (e.g. "Irmin.Store") in the local
     docs directory and returns its preamble and spec items.
@@ -918,7 +918,7 @@ async def _run_opam(*args: str, timeout: float = 15.0) -> Optional[str]:
 
 @mcp.tool()
 async def detect_dependency_managers() -> Dict[str, Any]:
-    """Detect which OCaml dependency managers are active for the current project.
+    """Detect which OCaml dependency managers (opam, dune-pkg) are active for the current project.
 
     Checks for dune-pkg and opam setups. Returns a list of detected managers
     with details about each.
@@ -1002,7 +1002,7 @@ async def detect_dependency_managers() -> Dict[str, Any]:
 
 @mcp.tool()
 async def dependency_environment_status() -> Dict[str, Any]:
-    """Report the current dependency environment status.
+    """Report the current OCaml dependency environment status.
 
     Calls detect_dependency_managers() and adds details: opam switch info,
     env consistency, dune lock status.
@@ -1071,7 +1071,7 @@ async def dependency_environment_status() -> Dict[str, Any]:
 async def list_installed_packages(
     source: str, switch: Optional[str] = None
 ) -> Dict[str, Any]:
-    """List packages available in the current project.
+    """List OCaml packages available in the current project (via opam or dune-pkg).
 
     Args:
         source: One of "dune-pkg", "opam-switch", or "opam-system".
@@ -1268,7 +1268,7 @@ def _pins_from_dune_project(cwd: Path) -> List[Dict[str, Any]]:
 
 @mcp.tool()
 async def list_pins(switch: Optional[str] = None) -> Dict[str, Any]:
-    """List all pinned packages from opam, .opam files, and dune-project.
+    """List all pinned OCaml packages from opam, .opam files, and dune-project.
 
     Checks multiple sources and tags each pin with its origin.
 
@@ -1374,7 +1374,7 @@ def _repos_from_dune_workspace(cwd: Path) -> tuple:
 
 @mcp.tool()
 async def list_repositories(switch: Optional[str] = None) -> Dict[str, Any]:
-    """List configured package repositories from opam and dune-workspace.
+    """List configured OCaml package repositories from opam and dune-workspace.
 
     Shows repository priority order so you can see which repos override others.
 
@@ -1411,7 +1411,7 @@ async def list_repositories(switch: Optional[str] = None) -> Dict[str, Any]:
 
 @mcp.tool()
 async def list_vendored_dirs(path: Optional[str] = None) -> Dict[str, Any]:
-    """Find vendored directories declared in dune files.
+    """Find vendored directories declared in OCaml dune files.
 
     Searches dune files for vendored_dirs stanzas and checks for conventional
     vendor/ and duniverse/ directories.
