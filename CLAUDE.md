@@ -45,32 +45,31 @@ can launch it directly.
 
 | Tool | Description |
 |------|-------------|
-| `sherlodoc` | Search by name or type signature across all packages |
-| `search_package_names` | Find packages by substring match |
-| `get_package_info` | Get package description, libraries, and module list |
-| `get_module_doc` | Get a module's preamble and signatures from sage.ci.dev |
-| `list_local_modules` | List modules in local odoc output |
-| `get_local_module_doc` | Get a module's preamble and signatures from local docs |
-| `opam_repo_search` | Search opam package names by substring across repos |
-| `opam_list_versions` | List all versions of an opam package |
-| `opam_show_package` | Show opam package details (deps, description, etc.) |
-| `detect_dependency_managers` | Detect active dependency managers (opam, dune-pkg) |
-| `dependency_environment_status` | Report dependency environment details |
-| `list_installed_packages` | List installed packages from opam switch, dune-pkg, or system |
-| `list_pins` | List pinned packages from opam, .opam files, and dune-project |
-| `list_repositories` | List configured repos from opam and dune-workspace |
-| `list_vendored_dirs` | Find vendored directories declared in dune files |
+| `ocaml_search` | Search by name or type signature across all packages |
+| `ocaml_package_search` | Find packages by substring match (sage.ci.dev + opam repos) |
+| `ocaml_package_doc` | Get package doc overview: description, libraries, and modules |
+| `ocaml_module_doc` | Get a module's preamble and signatures from sage.ci.dev |
+| `ocaml_module_list_local` | List modules in local odoc output |
+| `ocaml_module_doc_local` | Get a module's preamble and signatures from local docs |
+| `ocaml_package_versions` | List all versions of a package |
+| `ocaml_package_meta` | Show package metadata (deps, license, authors, etc.) |
+| `ocaml_deps_managers` | List active dependency managers (opam, dune-pkg) |
+| `ocaml_deps_status` | Report dependency environment details |
+| `ocaml_deps_installed` | List installed packages from opam switch, dune-pkg, or system |
+| `ocaml_deps_pins` | List pinned packages from opam, .opam files, and dune-project |
+| `ocaml_deps_repos` | List configured repos from opam and dune-workspace |
+| `ocaml_deps_vendored` | Find vendored directories declared in dune files |
 
 ### Testing
 
 ```bash
 uv run python mcp_server.py --test sherlodoc "List.map"
 uv run python mcp_server.py --test search-packages lwt
+uv run python mcp_server.py --test search-packages lwt https://github.com/ocaml/opam-repository
 uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
-uv run python mcp_server.py --test opam-repo-search lwt
 uv run python mcp_server.py --test opam-versions lwt
 uv run python mcp_server.py --test opam-show lwt
 uv run python mcp_server.py --test opam-show lwt 5.9.0

@@ -306,12 +306,14 @@ def extract_package_libraries(html: str) -> List[Dict[str, Any]]:
 
 
 # ---------------------------------------------------------------------------
-# Tool 1: sherlodoc
+# Tool: ocaml_search
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_search")
 async def sherlodoc(query: str) -> Dict[str, Any]:
-    """Search OCaml names and type signatures across all packages using Sherlodoc.
+    """Search OCaml names and type signatures across all packages.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Good for finding functions by type signature or name.
 
@@ -363,48 +365,79 @@ async def sherlodoc(query: str) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool 2: search_package_names
+# Tool: ocaml_package_search
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
-async def search_package_names(query: str) -> Dict[str, Any]:
+@mcp.tool(name="ocaml_package_search")
+async def search_package_names(
+    query: str, repos: Optional[List[str]] = None
+) -> Dict[str, Any]:
     """Find OCaml packages by name.
 
-    Searches the full package list on sage.ci.dev for case-insensitive
-    substring matches.
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
+
+    Searches both sage.ci.dev (documentation site) and opam repositories
+    (GitHub) for case-insensitive substring matches, returning consolidated
+    results with their sources.
 
     Args:
-        query: Substring to search for in package names, e.g. "lwt", "http", "json"
+        query: Substring to search for in OCaml package names, e.g. "lwt", "http", "json"
+        repos: Optional list of opam GitHub repository URLs to search.
+               Defaults to the main opam-repository.
 
     Returns:
-        List of matching package names (up to 50)
+        Matching packages (up to 50) with their sources
     """
+    if repos is None:
+        repos = [OPAM_REPO_URL]
+
     try:
-        packages = await get_all_packages()
         q = query.lower()
-        matches = [p for p in packages if q in p.lower()]
+        merged: Dict[str, List[str]] = {}
+
+        # Search sage.ci.dev
+        sage_packages = await get_all_packages()
+        for p in sage_packages:
+            if q in p.lower():
+                merged.setdefault(p, []).append("sage")
+
+        # Search opam repos
+        for repo_url in repos:
+            if _github_api_url(repo_url) is None:
+                return {"error": f"Not a valid GitHub repository URL: {repo_url!r}"}
+            opam_packages = await get_opam_all_packages(repo_url)
+            for p in opam_packages:
+                if q in p.lower():
+                    merged.setdefault(p, []).append(repo_url)
+
+        matches = [
+            {"package": name, "sources": sources}
+            for name, sources in sorted(merged.items())
+        ]
         return {
             "query": query,
             "matches": matches[:50],
-            "total_matches": len(matches),
+            "total_matches": len(merged),
         }
     except Exception as e:
         return {"error": f"Package search failed: {e}"}
 
 
 # ---------------------------------------------------------------------------
-# Tool 3: get_package_info
+# Tool: ocaml_package_doc
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_package_doc")
 async def get_package_info(package_name: str, version: Optional[str] = None) -> Dict[str, Any]:
     """Get an overview of an OCaml package: description, libraries, and modules.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Fetches the package's documentation page from sage.ci.dev and extracts
     the README/preamble text plus the list of libraries and their modules.
 
     Args:
-        package_name: Package name, e.g. "lwt", "base", "cohttp"
+        package_name: OCaml package name, e.g. "lwt", "base", "cohttp"
         version: Optional specific version. Defaults to latest.
 
     Returns:
@@ -447,7 +480,7 @@ async def get_package_info(package_name: str, version: Optional[str] = None) -> 
 
 
 # ---------------------------------------------------------------------------
-# Tool 4: get_module_doc
+# Tool: ocaml_module_doc
 # ---------------------------------------------------------------------------
 
 def find_module_file(files: List[str], module_path: str) -> Optional[str]:
@@ -475,19 +508,21 @@ def find_module_file(files: List[str], module_path: str) -> Optional[str]:
     return None
 
 
-@mcp.tool()
+@mcp.tool(name="ocaml_module_doc")
 async def get_module_doc(
     package_name: str, module_path: str, version: Optional[str] = None
 ) -> Dict[str, Any]:
     """Get documentation for a specific OCaml module.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Fetches and parses the module's documentation page from sage.ci.dev.
     Returns the preamble, type definitions, values/functions, and submodules
     as structured text.
 
     Args:
-        package_name: Package name, e.g. "lwt", "base"
-        module_path: Dot-separated module path, e.g. "Lwt", "Base.List", "Lwt_unix.LargeFile"
+        package_name: OCaml package name, e.g. "lwt", "base"
+        module_path: Dot-separated OCaml module path, e.g. "Lwt", "Base.List", "Lwt_unix.LargeFile"
         version: Optional specific version. Defaults to latest.
 
     Returns:
@@ -548,7 +583,7 @@ async def get_module_doc(
 
 
 # ---------------------------------------------------------------------------
-# Local odoc tools
+# Local odoc helpers
 # ---------------------------------------------------------------------------
 
 _SKIP_DIRS = {"odoc.support"}
@@ -573,9 +608,15 @@ def _scan_local_modules(root: Path) -> List[Dict[str, str]]:
     return results
 
 
-@mcp.tool()
+# ---------------------------------------------------------------------------
+# Tool: ocaml_module_list_local
+# ---------------------------------------------------------------------------
+
+@mcp.tool(name="ocaml_module_list_local")
 async def list_local_modules() -> Dict[str, Any]:
     """List all modules available in the local OCaml odoc documentation.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Walks the local docs directory (set via --local-docs) and returns
     every module grouped by library.
@@ -599,15 +640,21 @@ async def list_local_modules() -> Dict[str, Any]:
     return result
 
 
-@mcp.tool()
+# ---------------------------------------------------------------------------
+# Tool: ocaml_module_doc_local
+# ---------------------------------------------------------------------------
+
+@mcp.tool(name="ocaml_module_doc_local")
 async def get_local_module_doc(module_path: str) -> Dict[str, Any]:
     """Get documentation for an OCaml module from the local odoc output.
 
-    Looks up a dot-separated module path (e.g. "Irmin.Store") in the local
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
+
+    Looks up a dot-separated OCaml module path (e.g. "Irmin.Store") in the local
     docs directory and returns its preamble and spec items.
 
     Args:
-        module_path: Dot-separated module path, e.g. "Irmin", "Irmin.Store"
+        module_path: Dot-separated OCaml module path, e.g. "Irmin", "Irmin.Store"
 
     Returns:
         Library name, module path, preamble, and items
@@ -753,64 +800,23 @@ async def opam_resolve_version(
     return latest
 
 
-# ---------------------------------------------------------------------------
-# Tool: opam_repo_search
-# ---------------------------------------------------------------------------
-
 OPAM_REPO_URL = f"https://github.com/{OPAM_REPO_OWNER}/{OPAM_REPO_NAME}"
 
 
-@mcp.tool()
-async def opam_repo_search(query: str, repos: List[str]) -> Dict[str, Any]:
-    """Search opam package names by substring across one or more repositories.
-
-    Searches package names in the given opam repositories (GitHub URLs) for
-    case-insensitive substring matches.
-
-    Args:
-        query: Substring to search for, e.g. "lwt", "http", "json"
-        repos: List of GitHub repository URLs to search, e.g.
-               ["https://github.com/ocaml/opam-repository"]. Must not be empty.
-
-    Returns:
-        Matching package names (up to 50) with their source repo
-    """
-    if not repos:
-        return {"error": "repos must not be empty."}
-
-    try:
-        all_matches: List[Dict[str, str]] = []
-        q = query.lower()
-
-        for repo_url in repos:
-            if _github_api_url(repo_url) is None:
-                return {"error": f"Not a valid GitHub repository URL: {repo_url!r}"}
-            packages = await get_opam_all_packages(repo_url)
-            for p in packages:
-                if q in p.lower():
-                    all_matches.append({"package": p, "repo": repo_url})
-
-        return {
-            "query": query,
-            "matches": all_matches[:50],
-            "total_matches": len(all_matches),
-        }
-    except Exception as e:
-        return {"error": f"opam package search failed: {e}"}
-
-
 # ---------------------------------------------------------------------------
-# Tool: opam_list_versions
+# Tool: ocaml_package_versions
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_package_versions")
 async def opam_list_versions(package_name: str, repo: str) -> Dict[str, Any]:
-    """List all versions of an opam package, newest first.
+    """List all versions of an OCaml opam package, newest first.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Fetches version directories from the given opam repository on GitHub.
 
     Args:
-        package_name: Package name, e.g. "lwt", "dune"
+        package_name: OCaml package name, e.g. "lwt", "dune"
         repo: GitHub repository URL, e.g. "https://github.com/ocaml/opam-repository"
 
     Returns:
@@ -845,20 +851,22 @@ async def opam_list_versions(package_name: str, repo: str) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: opam_show_package
+# Tool: ocaml_package_meta
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_package_meta")
 async def opam_show_package(
     package_name: str, repo: str, version: Optional[str] = None
 ) -> Dict[str, Any]:
-    """Show details of an opam package by parsing its opam file.
+    """Show details of an OCaml opam package by parsing its opam file.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Fetches the opam file from the given opam repository on GitHub. If no
     version is given, uses the latest.
 
     Args:
-        package_name: Package name, e.g. "lwt"
+        package_name: OCaml package name, e.g. "lwt"
         repo: GitHub repository URL, e.g. "https://github.com/ocaml/opam-repository"
         version: Optional version string. Defaults to latest.
 
@@ -913,12 +921,14 @@ async def _run_opam(*args: str, timeout: float = 15.0) -> Optional[str]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: detect_dependency_managers
+# Tool: ocaml_deps_managers
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_managers")
 async def detect_dependency_managers() -> Dict[str, Any]:
     """Detect which OCaml dependency managers (opam, dune-pkg) are active for the current project.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Checks for dune-pkg and opam setups. Returns a list of detected managers
     with details about each.
@@ -997,12 +1007,14 @@ async def detect_dependency_managers() -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: dependency_environment_status
+# Tool: ocaml_deps_status
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_status")
 async def dependency_environment_status() -> Dict[str, Any]:
     """Report the current OCaml dependency environment status.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Calls detect_dependency_managers() and adds details: opam switch info,
     env consistency, dune lock status.
@@ -1064,21 +1076,23 @@ async def dependency_environment_status() -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: list_installed_packages
+# Tool: ocaml_deps_installed
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_installed")
 async def list_installed_packages(
     source: str, switch: Optional[str] = None
 ) -> Dict[str, Any]:
-    """List OCaml packages available in the current project (via opam or dune-pkg).
+    """List OCaml packages installed in the current project (via opam or dune-pkg).
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Args:
         source: One of "dune-pkg", "opam-switch", or "opam-system".
         switch: Optional opam switch name (only used with "opam-switch").
 
     Returns:
-        List of installed packages with names and versions
+        List of installed OCaml packages with names and versions
     """
     if source == "dune-pkg":
         lock_dir = Path.cwd() / "dune.lock"
@@ -1165,7 +1179,7 @@ async def list_installed_packages(
 
 
 # ---------------------------------------------------------------------------
-# Tool: list_pins
+# Tool: ocaml_deps_pins
 # ---------------------------------------------------------------------------
 
 def _parse_opam_pin_list(raw: str) -> List[Dict[str, Any]]:
@@ -1266,9 +1280,11 @@ def _pins_from_dune_project(cwd: Path) -> List[Dict[str, Any]]:
     return pins
 
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_pins")
 async def list_pins(switch: Optional[str] = None) -> Dict[str, Any]:
     """List all pinned OCaml packages from opam, .opam files, and dune-project.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Checks multiple sources and tags each pin with its origin.
 
@@ -1299,7 +1315,7 @@ async def list_pins(switch: Optional[str] = None) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: list_repositories
+# Tool: ocaml_deps_repos
 # ---------------------------------------------------------------------------
 
 def _parse_opam_repo_list(raw: str) -> List[Dict[str, Any]]:
@@ -1372,9 +1388,11 @@ def _repos_from_dune_workspace(cwd: Path) -> tuple:
     return repos, order
 
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_repos")
 async def list_repositories(switch: Optional[str] = None) -> Dict[str, Any]:
     """List configured OCaml package repositories from opam and dune-workspace.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Shows repository priority order so you can see which repos override others.
 
@@ -1406,12 +1424,14 @@ async def list_repositories(switch: Optional[str] = None) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: list_vendored_dirs
+# Tool: ocaml_deps_vendored
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(name="ocaml_deps_vendored")
 async def list_vendored_dirs(path: Optional[str] = None) -> Dict[str, Any]:
     """Find vendored directories declared in OCaml dune files.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
     Searches dune files for vendored_dirs stanzas and checks for conventional
     vendor/ and duniverse/ directories.
@@ -1500,12 +1520,11 @@ def main():
                 print("Usage: mcp_server.py [--local-docs <path>] --test <command> [args...]")
                 print("Commands:")
                 print("  sherlodoc <query>")
-                print("  search-packages <query>")
+                print("  search-packages <query> [repo_url]")
                 print("  package-info <package> [version]")
                 print("  module-doc <package> <module_path> [version]")
                 print("  list-local")
                 print("  local-module-doc <module_path>")
-                print("  opam-repo-search <query>")
                 print("  opam-versions <package>")
                 print("  opam-show <package> [version]")
                 print("  detect-dep-managers")
@@ -1523,7 +1542,8 @@ def main():
                 result = await sherlodoc(query)
             elif cmd == "search-packages":
                 query = test_args[1] if len(test_args) > 1 else "http"
-                result = await search_package_names(query)
+                repos = [test_args[2]] if len(test_args) > 2 else None
+                result = await search_package_names(query, repos)
             elif cmd == "package-info":
                 pkg = test_args[1] if len(test_args) > 1 else "lwt"
                 ver = test_args[2] if len(test_args) > 2 else None
@@ -1538,9 +1558,6 @@ def main():
             elif cmd == "local-module-doc":
                 mod = test_args[1] if len(test_args) > 1 else "Stdlib"
                 result = await get_local_module_doc(mod)
-            elif cmd == "opam-repo-search":
-                query = test_args[1] if len(test_args) > 1 else "lwt"
-                result = await opam_repo_search(query, [OPAM_REPO_URL])
             elif cmd == "opam-versions":
                 pkg = test_args[1] if len(test_args) > 1 else "lwt"
                 result = await opam_list_versions(pkg, OPAM_REPO_URL)
