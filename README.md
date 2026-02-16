@@ -83,9 +83,8 @@ to the `args` array.
 | `sherlodoc` | Search by name or type signature across all packages |
 | `search_package_names` | Find packages by substring match |
 | `get_package_info` | Get package description, libraries, and module list |
-| `get_module_doc` | Get a module's preamble and signatures from sage.ci.dev |
+| `get_module_doc` | Get a module's preamble and signatures (tries local, then sage.ci.dev) |
 | `list_local_modules` | List modules in local odoc output |
-| `get_local_module_doc` | Get a module's preamble and signatures from local docs |
 | `opam_repo_search` | Search opam package names by substring across repos |
 | `opam_list_versions` | List all versions of an opam package |
 | `opam_show_package` | Show opam package details (deps, description, etc.) |
@@ -119,6 +118,8 @@ uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
+uv run python mcp_server.py --test list-sources
+uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-sources
 uv run python mcp_server.py --test opam-repo-search lwt
 uv run python mcp_server.py --test opam-versions lwt
 uv run python mcp_server.py --test opam-show lwt

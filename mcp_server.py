@@ -16,12 +16,13 @@ import time
 from contextlib import asynccontextmanager
 from functools import cmp_to_key
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Protocol
 from urllib.parse import quote
 
 import aiohttp
 from bs4 import BeautifulSoup
 from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.resources import FunctionResource
 
 from opam_parser import parse_opam_file
 from sexp_parser import find_stanzas, parse_sexp
@@ -68,6 +69,44 @@ async def lifespan(server: FastMCP):
 
 
 mcp = FastMCP("ocaml-docs", lifespan=lifespan)
+
+
+# ---------------------------------------------------------------------------
+# Documentation source protocol and registry
+# ---------------------------------------------------------------------------
+
+class DocSource(Protocol):
+    name: str
+    description: str
+    priority: int  # lower = tried first
+
+    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
+        """Return doc dict if found, None if this source doesn't have it."""
+        ...
+
+
+_doc_sources: Dict[str, "DocSource"] = {}
+
+
+def register_doc_source(name: str, handler: "DocSource"):
+    """Register a documentation source and expose it as an MCP resource."""
+    _doc_sources[name] = handler
+
+    async def read_meta() -> str:
+        return json.dumps({
+            "name": handler.name,
+            "description": handler.description,
+            "priority": handler.priority,
+        })
+
+    resource = FunctionResource.from_function(
+        fn=read_meta,
+        uri=f"ocaml-docs://{name}",
+        name=f"ocaml-docs-{name}",
+        description=handler.description,
+        mime_type="application/json",
+    )
+    mcp.add_resource(resource)
 
 
 # ---------------------------------------------------------------------------
@@ -480,7 +519,7 @@ async def get_package_info(package_name: str, version: Optional[str] = None) -> 
 
 
 # ---------------------------------------------------------------------------
-# Tool: ocaml_module_doc
+# Module doc helpers
 # ---------------------------------------------------------------------------
 
 def find_module_file(files: List[str], module_path: str) -> Optional[str]:
@@ -508,78 +547,54 @@ def find_module_file(files: List[str], module_path: str) -> Optional[str]:
     return None
 
 
-@mcp.tool(name="ocaml_module_doc")
-async def get_module_doc(
-    package_name: str, module_path: str, version: Optional[str] = None
-) -> Dict[str, Any]:
-    """Get documentation for a specific OCaml module.
+# ---------------------------------------------------------------------------
+# SageDocSource
+# ---------------------------------------------------------------------------
 
-    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
+class SageDocSource:
+    name = "sage"
+    description = "OCaml module docs from sage.ci.dev"
+    priority = 10
 
-    Fetches and parses the module's documentation page from sage.ci.dev.
-    Returns the preamble, type definitions, values/functions, and submodules
-    as structured text.
-
-    Args:
-        package_name: OCaml package name, e.g. "lwt", "base"
-        module_path: Dot-separated OCaml module path, e.g. "Lwt", "Base.List", "Lwt_unix.LargeFile"
-        version: Optional specific version. Defaults to latest.
-
-    Returns:
-        Module documentation with preamble, types, values, and submodules
-    """
-    try:
-        ver = await resolve_version(package_name, version)
-        if ver is None:
-            return {"error": f"Package '{package_name}' not found on sage.ci.dev"}
-
-        status = await get_status(package_name, ver)
-        if status is None:
-            return {"error": f"Could not fetch status for {package_name}/{ver}"}
-
-        files = status.get("files", [])
-        matched_file = find_module_file(files, module_path)
-        if matched_file is None:
-            # List available modules to help the user
-            top_modules = set()
-            for f in files:
-                if f.startswith("doc/") and f.endswith("/index.html"):
-                    parts = f[4:].split("/")  # strip "doc/"
-                    # parts: [library, Module, ..., "index.html"]
-                    # Show the immediate module name (second element)
-                    if len(parts) >= 3:
-                        top_modules.add(parts[1])
-            hint = sorted(top_modules)[:30]
-            return {
-                "error": f"Module '{module_path}' not found in {package_name}/{ver}",
-                "available_top_level": hint,
+    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
+        package_name = kwargs.get("package_name")
+        version = kwargs.get("version")
+        if not package_name:
+            return None
+        try:
+            ver = await resolve_version(package_name, version)
+            if ver is None:
+                return None
+            status = await get_status(package_name, ver)
+            if status is None:
+                return None
+            files = status.get("files", [])
+            matched_file = find_module_file(files, module_path)
+            if matched_file is None:
+                return None
+            json_path = matched_file + ".json"
+            doc = await get_doc_json(package_name, ver, json_path)
+            if doc is None:
+                return {"error": f"Could not fetch documentation for {module_path}"}
+            preamble = extract_preamble_text(doc.get("preamble", ""))
+            content_html = doc.get("content", "")
+            specs, truncated = extract_specs(content_html, limit=100)
+            result: Dict[str, Any] = {
+                "package": package_name,
+                "version": ver,
+                "module": module_path,
+                "preamble": preamble,
+                "items": specs,
             }
+            if truncated:
+                result["truncated"] = True
+                result["note"] = "Output truncated at 100 items."
+            return result
+        except Exception as e:
+            return {"error": f"Failed to get module doc from sage: {e}"}
 
-        # Fetch the JSON doc — the file list has .html paths, we need .html.json
-        json_path = matched_file + ".json"
-        doc = await get_doc_json(package_name, ver, json_path)
-        if doc is None:
-            return {"error": f"Could not fetch documentation for {module_path}"}
 
-        preamble = extract_preamble_text(doc.get("preamble", ""))
-        content_html = doc.get("content", "")
-        specs, truncated = extract_specs(content_html, limit=100)
-
-        result: Dict[str, Any] = {
-            "package": package_name,
-            "version": ver,
-            "module": module_path,
-            "preamble": preamble,
-            "items": specs,
-        }
-        if truncated:
-            result["truncated"] = True
-            result["note"] = "Output truncated at 100 items. The module has more entries."
-
-        return result
-
-    except Exception as e:
-        return {"error": f"Failed to get module doc: {e}"}
+register_doc_source("sage", SageDocSource())
 
 
 # ---------------------------------------------------------------------------
@@ -641,54 +656,96 @@ async def list_local_modules() -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: ocaml_module_doc_local
+# LocalDocSource
 # ---------------------------------------------------------------------------
 
-@mcp.tool(name="ocaml_module_doc_local")
-async def get_local_module_doc(module_path: str) -> Dict[str, Any]:
-    """Get documentation for an OCaml module from the local odoc output.
+class LocalDocSource:
+    name = "local"
+    description = "OCaml module docs from local odoc output"
+    priority = 0
+
+    def __init__(self, root: Path):
+        self.root = root
+
+    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
+        if not self.root.is_dir():
+            return None
+        parts = module_path.split(".")
+        suffix = Path(*parts) / "index.html.json"
+        for lib_dir in sorted(self.root.iterdir()):
+            if not lib_dir.is_dir() or lib_dir.name in _SKIP_DIRS:
+                continue
+            candidate = lib_dir / suffix
+            if candidate.is_file():
+                doc = json.loads(candidate.read_text())
+                preamble = extract_preamble_text(doc.get("preamble", ""))
+                specs, truncated = extract_specs(doc.get("content", ""), limit=100)
+                result: Dict[str, Any] = {
+                    "library": lib_dir.name,
+                    "module": module_path,
+                    "preamble": preamble,
+                    "items": specs,
+                }
+                if truncated:
+                    result["truncated"] = True
+                    result["note"] = "Output truncated at 100 items."
+                return result
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Tool: ocaml_module_doc
+# ---------------------------------------------------------------------------
+
+@mcp.tool(name="ocaml_module_doc")
+async def get_module_doc(
+    module_path: str,
+    package_name: Optional[str] = None,
+    version: Optional[str] = None,
+    source: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Get documentation for a specific OCaml module.
 
     ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
-    Looks up a dot-separated OCaml module path (e.g. "Irmin.Store") in the local
-    docs directory and returns its preamble and spec items.
+    Fetches and parses the module's documentation page from sage.ci.dev.
+    Returns the preamble, type definitions, values/functions, and submodules
+    as structured text.
 
     Args:
-        module_path: Dot-separated OCaml module path, e.g. "Irmin", "Irmin.Store"
+        module_path: Dot-separated OCaml module path, e.g. "Lwt", "Base.List", "Lwt_unix.LargeFile"
+        package_name: OCaml package name, e.g. "lwt", "base". Required for sage.ci.dev lookups.
+        version: Optional specific version. Defaults to latest.
+        source: Optional source name (e.g. "sage", "local"). If omitted, tries all sources in priority order.
 
     Returns:
-        Library name, module path, preamble, and items
+        Module documentation with preamble, types, values, and submodules
     """
-    if _local_docs_root is None:
-        return {"error": "Local docs not configured. Start the server with --local-docs <path>."}
+    if source is not None:
+        handler = _doc_sources.get(source)
+        if handler is None:
+            available = sorted(_doc_sources.keys())
+            return {"error": f"Unknown source: {source!r}. Available: {available}"}
+        result = await handler.get_module_doc(
+            module_path, package_name=package_name, version=version
+        )
+        if result is None:
+            return {"error": f"Module '{module_path}' not found in source '{source}'"}
+        result["source"] = handler.name
+        return result
 
-    if not _local_docs_root.is_dir():
-        return {"error": f"Local docs path does not exist: {_local_docs_root}"}
-
-    parts = module_path.split(".")
-    suffix = Path(*parts) / "index.html.json"
-
-    # Search across library directories
-    for lib_dir in sorted(_local_docs_root.iterdir()):
-        if not lib_dir.is_dir() or lib_dir.name in _SKIP_DIRS:
-            continue
-        candidate = lib_dir / suffix
-        if candidate.is_file():
-            doc = json.loads(candidate.read_text())
-            preamble = extract_preamble_text(doc.get("preamble", ""))
-            specs, truncated = extract_specs(doc.get("content", ""), limit=100)
-            result: Dict[str, Any] = {
-                "library": lib_dir.name,
-                "module": module_path,
-                "preamble": preamble,
-                "items": specs,
-            }
-            if truncated:
-                result["truncated"] = True
-                result["note"] = "Output truncated at 100 items. The module has more entries."
+    # Try all sources in priority order (lowest number first)
+    for handler in sorted(_doc_sources.values(), key=lambda s: s.priority):
+        result = await handler.get_module_doc(
+            module_path, package_name=package_name, version=version
+        )
+        if result is not None:
+            if "error" in result:
+                return result
+            result["source"] = handler.name
             return result
 
-    return {"error": f"Module '{module_path}' not found in local docs"}
+    return {"error": f"Module '{module_path}' not found in any source"}
 
 
 # ---------------------------------------------------------------------------
@@ -1507,6 +1564,7 @@ def main():
         idx = args.index("--local-docs")
         if idx + 1 < len(args):
             _local_docs_root = Path(args[idx + 1])
+            register_doc_source("local", LocalDocSource(_local_docs_root))
             args = args[:idx] + args[idx + 2:]
         else:
             print("Error: --local-docs requires a path argument", file=sys.stderr)
@@ -1525,6 +1583,7 @@ def main():
                 print("  module-doc <package> <module_path> [version]")
                 print("  list-local")
                 print("  local-module-doc <module_path>")
+                print("  list-sources")
                 print("  opam-versions <package>")
                 print("  opam-show <package> [version]")
                 print("  detect-dep-managers")
@@ -1552,12 +1611,12 @@ def main():
                 pkg = test_args[1] if len(test_args) > 1 else "lwt"
                 mod = test_args[2] if len(test_args) > 2 else "Lwt"
                 ver = test_args[3] if len(test_args) > 3 else None
-                result = await get_module_doc(pkg, mod, ver)
+                result = await get_module_doc(mod, package_name=pkg, version=ver)
             elif cmd == "list-local":
                 result = await list_local_modules()
             elif cmd == "local-module-doc":
                 mod = test_args[1] if len(test_args) > 1 else "Stdlib"
-                result = await get_local_module_doc(mod)
+                result = await get_module_doc(mod, source="local")
             elif cmd == "opam-versions":
                 pkg = test_args[1] if len(test_args) > 1 else "lwt"
                 result = await opam_list_versions(pkg, OPAM_REPO_URL)
@@ -1582,6 +1641,12 @@ def main():
             elif cmd == "list-vendored":
                 p = test_args[1] if len(test_args) > 1 else None
                 result = await list_vendored_dirs(p)
+            elif cmd == "list-sources":
+                sources = [
+                    {"name": s.name, "description": s.description, "priority": s.priority}
+                    for s in sorted(_doc_sources.values(), key=lambda s: s.priority)
+                ]
+                result = {"sources": sources}
             else:
                 result = {"error": f"Unknown command: {cmd}"}
 

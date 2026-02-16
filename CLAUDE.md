@@ -48,9 +48,8 @@ can launch it directly.
 | `ocaml_search` | Search by name or type signature across all packages |
 | `ocaml_package_search` | Find packages by substring match (sage.ci.dev + opam repos) |
 | `ocaml_package_doc` | Get package doc overview: description, libraries, and modules |
-| `ocaml_module_doc` | Get a module's preamble and signatures from sage.ci.dev |
+| `ocaml_module_doc` | Get a module's preamble and signatures (tries local, then sage.ci.dev) |
 | `ocaml_module_list_local` | List modules in local odoc output |
-| `ocaml_module_doc_local` | Get a module's preamble and signatures from local docs |
 | `ocaml_package_versions` | List all versions of a package |
 | `ocaml_package_meta` | Show package metadata (deps, license, authors, etc.) |
 | `ocaml_deps_managers` | List active dependency managers (opam, dune-pkg) |
@@ -59,6 +58,17 @@ can launch it directly.
 | `ocaml_deps_pins` | List pinned packages from opam, .opam files, and dune-project |
 | `ocaml_deps_repos` | List configured repos from opam and dune-workspace |
 | `ocaml_deps_vendored` | Find vendored directories declared in dune files |
+
+### MCP Resources
+
+| Resource | Description |
+|----------|-------------|
+| `ocaml-docs://sage` | Metadata for the sage.ci.dev documentation source (always available) |
+| `ocaml-docs://local` | Metadata for the local odoc documentation source (when `--local-docs` is set) |
+
+Clients discover available documentation sources via `resources/list`.
+Each resource returns JSON with `name`, `description`, and `priority`
+(lower priority number = tried first by `ocaml_module_doc`).
 
 ### Testing
 
@@ -70,6 +80,8 @@ uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
 uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
+uv run python mcp_server.py --test list-sources
+uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-sources
 uv run python mcp_server.py --test opam-versions lwt
 uv run python mcp_server.py --test opam-show lwt
 uv run python mcp_server.py --test opam-show lwt 5.9.0
