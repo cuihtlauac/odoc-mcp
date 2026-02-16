@@ -731,8 +731,30 @@ class FileDocSource:
 # HttpDocSource
 # ---------------------------------------------------------------------------
 
+def _parse_odoc_html(html: str) -> Optional[Dict[str, str]]:
+    """Extract preamble and content HTML from a full odoc HTML page.
+
+    Returns {"preamble": ..., "content": ...} with the inner HTML of each
+    section, or None if the page doesn't look like odoc output.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    preamble_el = soup.find("header", class_="odoc-preamble")
+    content_el = soup.find("div", class_="odoc-content")
+    if preamble_el is None and content_el is None:
+        return None
+    return {
+        "preamble": str(preamble_el) if preamble_el else "",
+        "content": str(content_el) if content_el else "",
+    }
+
+
 class HttpDocSource:
-    """Documentation source backed by an HTTP URL serving odoc output."""
+    """Documentation source backed by an HTTP URL serving odoc output.
+
+    Tries JSON files first (index.html.json), then falls back to parsing
+    the rendered HTML page (index.html). Works with both library-prefixed
+    layouts ({base}/{lib}/{Module}/...) and flat layouts ({base}/{Module}/...).
+    """
 
     def __init__(self, name: str, base_url: str, description: str = "", priority: int = 0):
         self.name = name
@@ -740,54 +762,96 @@ class HttpDocSource:
         self.description = description or f"OCaml module docs from {base_url}"
         self.priority = priority
 
-    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
-        parts = module_path.split(".")
-        # Try each library directory — we don't know which library the module
-        # belongs to, so we try the module path directly under the base URL
-        # with a few path patterns that odoc produces.
-        suffix = "/".join(parts) + "/index.html.json"
-
-        # First, try fetching the page listing to discover libraries
+    async def _try_json(self, url: str) -> Optional[Dict[str, Any]]:
+        """Try fetching an odoc JSON file. Returns parsed doc or None."""
         session = await get_session()
+        try:
+            async with session.get(url) as resp:
+                if resp.status != 200:
+                    return None
+                return await resp.json(content_type=None)
+        except (aiohttp.ClientError, json.JSONDecodeError):
+            return None
 
-        # Attempt direct fetch: {base_url}/{library}/{Module}/index.html.json
-        # Since we don't know the library, try fetching the base listing first
+    async def _try_html(self, url: str) -> Optional[Dict[str, str]]:
+        """Try fetching an odoc HTML page. Returns preamble/content or None."""
+        session = await get_session()
+        try:
+            async with session.get(url) as resp:
+                if resp.status != 200:
+                    return None
+                html = await resp.text()
+                return _parse_odoc_html(html)
+        except aiohttp.ClientError:
+            return None
+
+    def _build_result(
+        self, module_path: str, preamble_html: str, content_html: str,
+        library: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        preamble = extract_preamble_text(preamble_html)
+        specs, truncated = extract_specs(content_html, limit=100)
+        result: Dict[str, Any] = {
+            "module": module_path,
+            "preamble": preamble,
+            "items": specs,
+        }
+        if library:
+            result["library"] = library
+        if truncated:
+            result["truncated"] = True
+            result["note"] = "Output truncated at 100 items."
+        return result
+
+    async def _discover_libs(self) -> List[str]:
+        """Try to get library subdirectories from the base URL."""
         cache_key = f"http_libs:{self.base_url}"
         libs = cache_get(cache_key)
-        if libs is None:
-            try:
-                async with session.get(self.base_url + "/") as resp:
-                    if resp.status == 200:
-                        html = await resp.text()
-                        libs = parse_directory_listing(html)
-                        cache_set(cache_key, libs, 300)
-                    else:
-                        libs = []
-            except aiohttp.ClientError:
-                libs = []
+        if libs is not None:
+            return libs
+        session = await get_session()
+        try:
+            async with session.get(self.base_url + "/") as resp:
+                if resp.status == 200:
+                    html = await resp.text()
+                    libs = parse_directory_listing(html)
+                    cache_set(cache_key, libs, 300)
+                    return libs
+        except aiohttp.ClientError:
+            pass
+        cache_set(cache_key, [], 300)
+        return []
 
-        for lib in libs:
-            url = f"{self.base_url}/{lib}/{suffix}"
-            try:
-                async with session.get(url) as resp:
-                    if resp.status != 200:
-                        continue
-                    doc = await resp.json(content_type=None)
-            except (aiohttp.ClientError, json.JSONDecodeError):
-                continue
+    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
+        parts = module_path.split(".")
+        module_suffix = "/".join(parts)
 
-            preamble = extract_preamble_text(doc.get("preamble", ""))
-            specs, truncated = extract_specs(doc.get("content", ""), limit=100)
-            result: Dict[str, Any] = {
-                "library": lib,
-                "module": module_path,
-                "preamble": preamble,
-                "items": specs,
-            }
-            if truncated:
-                result["truncated"] = True
-                result["note"] = "Output truncated at 100 items."
-            return result
+        libs = await self._discover_libs()
+
+        # Build list of (url_prefix, library_name) candidates.
+        # Try library-prefixed paths first, then the direct path.
+        candidates = [(f"{self.base_url}/{lib}", lib) for lib in libs]
+        candidates.append((self.base_url, None))
+
+        for prefix, lib in candidates:
+            # Try JSON first
+            json_url = f"{prefix}/{module_suffix}/index.html.json"
+            doc = await self._try_json(json_url)
+            if doc is not None:
+                return self._build_result(
+                    module_path, doc.get("preamble", ""),
+                    doc.get("content", ""), library=lib,
+                )
+
+            # Fall back to HTML
+            html_url = f"{prefix}/{module_suffix}/index.html"
+            doc = await self._try_html(html_url)
+            if doc is not None:
+                return self._build_result(
+                    module_path, doc["preamble"],
+                    doc["content"], library=lib,
+                )
+
         return None
 
 
