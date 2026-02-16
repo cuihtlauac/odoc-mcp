@@ -26,8 +26,9 @@ Dependency tools use the local environment: `opam` CLI, `.opam` files,
 which dependency managers are active, list pins from multiple sources, show
 repository priority, and find vendored directories.
 
-No local data or models needed. Optionally, it can also browse locally-built
-odoc output for packages under development.
+No local data or models needed. During a conversation, the LLM can register
+additional documentation sources (filesystem paths or HTTP URLs) to cover
+packages under development or third-party odoc sites.
 
 ## History
 
@@ -51,11 +52,9 @@ claude mcp add --scope user ocaml-docs -- uv run --directory /path/to/odoc-mcp p
 This makes the server available in all projects. To restrict it to the
 current project, drop `--scope user`.
 
-To include local docs (project-scoped, since the path is project-specific):
-
-```bash
-claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py --local-docs /path/to/_build/default/_doc/_html
-```
+Once running, tell the LLM where your docs are and it will call
+`ocaml_add_doc_source` to register them. For example: "the odoc output is in
+_build/default/_doc/_html" or "use https://erratique.ch/software/ptime/doc".
 
 ## Using with Claude Desktop
 
@@ -73,9 +72,6 @@ Add this to `claude_desktop_config.json`:
 }
 ```
 
-To include local docs, add `"--local-docs", "/path/to/_build/default/_doc/_html"`
-to the `args` array.
-
 ### Available tools
 
 | Tool | Description |
@@ -83,8 +79,10 @@ to the `args` array.
 | `sherlodoc` | Search by name or type signature across all packages |
 | `search_package_names` | Find packages by substring match |
 | `get_package_info` | Get package description, libraries, and module list |
-| `get_module_doc` | Get a module's preamble and signatures (tries local, then sage.ci.dev) |
-| `list_local_modules` | List modules in local odoc output |
+| `get_module_doc` | Get a module's preamble and signatures (tries registered sources, then sage.ci.dev) |
+| `list_modules` | List modules from file-based documentation sources |
+| `add_doc_source` | Register a filesystem path or HTTP URL as a documentation source |
+| `remove_doc_source` | Remove a previously added documentation source |
 | `opam_repo_search` | Search opam package names by substring across repos |
 | `opam_list_versions` | List all versions of an opam package |
 | `opam_show_package` | Show opam package details (deps, description, etc.) |
@@ -116,11 +114,10 @@ uv run python mcp_server.py --test sherlodoc "List.map"
 uv run python mcp_server.py --test search-packages lwt
 uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
+uv run python mcp_server.py --test add-source mylib /path/to/odoc/output
+uv run python mcp_server.py --test remove-source mylib
+uv run python mcp_server.py --test list-modules
 uv run python mcp_server.py --test list-sources
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-sources
-uv run python mcp_server.py --test opam-repo-search lwt
 uv run python mcp_server.py --test opam-versions lwt
 uv run python mcp_server.py --test opam-show lwt
 uv run python mcp_server.py --test detect-dep-managers

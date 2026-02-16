@@ -3,7 +3,8 @@
 MCP server for OCaml package documentation.
 
 Queries sage.ci.dev and Sherlodoc for any published package.
-Can also browse locally-built odoc output.
+Additional documentation sources (filesystem paths or HTTP URLs)
+can be registered at runtime via the ocaml_add_doc_source tool.
 """
 
 import asyncio
@@ -35,8 +36,6 @@ SAGE_BASE = "https://sage.ci.dev/current/p"
 
 OPAM_REPO_OWNER = "ocaml"
 OPAM_REPO_NAME = "opam-repository"
-_local_docs_root: Optional[Path] = None
-
 
 def _github_headers() -> Dict[str, str]:
     """Return GitHub auth headers if GITHUB_TOKEN is set."""
@@ -107,6 +106,13 @@ def register_doc_source(name: str, handler: "DocSource"):
         mime_type="application/json",
     )
     mcp.add_resource(resource)
+
+
+def unregister_doc_source(name: str):
+    """Remove a documentation source and its MCP resource."""
+    _doc_sources.pop(name, None)
+    uri = f"ocaml-docs://{name}"
+    mcp._resource_manager._resources.pop(uri, None)
 
 
 # ---------------------------------------------------------------------------
@@ -598,14 +604,14 @@ register_doc_source("sage", SageDocSource())
 
 
 # ---------------------------------------------------------------------------
-# Local odoc helpers
+# File-based odoc helpers
 # ---------------------------------------------------------------------------
 
 _SKIP_DIRS = {"odoc.support"}
 
 
-def _scan_local_modules(root: Path) -> List[Dict[str, str]]:
-    """Walk the local docs directory and return {library, module_path} entries."""
+def _scan_file_modules(root: Path) -> List[Dict[str, str]]:
+    """Walk an odoc docs directory and return {library, module_path} entries."""
     results = []
     for lib_dir in sorted(root.iterdir()):
         if not lib_dir.is_dir() or lib_dir.name in _SKIP_DIRS:
@@ -624,47 +630,75 @@ def _scan_local_modules(root: Path) -> List[Dict[str, str]]:
 
 
 # ---------------------------------------------------------------------------
-# Tool: ocaml_module_list_local
+# Tool: ocaml_module_list
 # ---------------------------------------------------------------------------
 
-@mcp.tool(name="ocaml_module_list_local")
-async def list_local_modules() -> Dict[str, Any]:
-    """List all modules available in the local OCaml odoc documentation.
+@mcp.tool(name="ocaml_module_list")
+async def list_modules(source: Optional[str] = None) -> Dict[str, Any]:
+    """List all modules available in registered file-based OCaml documentation sources.
 
     ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
 
-    Walks the local docs directory (set via --local-docs) and returns
-    every module grouped by library.
+    Walks odoc output directories from registered file-based sources and
+    returns every module grouped by library. Use ocaml_add_doc_source to
+    register sources first.
+
+    Args:
+        source: Optional source name to list from. If omitted, lists
+                modules from all file-based sources.
 
     Returns:
         List of {library, module_path} entries
     """
-    if _local_docs_root is None:
-        return {"error": "Local docs not configured. Start the server with --local-docs <path>."}
+    file_sources = {
+        name: s for name, s in _doc_sources.items()
+        if isinstance(s, FileDocSource)
+    }
 
-    cached = cache_get("local_modules")
-    if cached is not None:
-        return cached
+    if source is not None:
+        handler = _doc_sources.get(source)
+        if handler is None:
+            available = sorted(_doc_sources.keys())
+            return {"error": f"Unknown source: {source!r}. Available: {available}"}
+        if isinstance(handler, HttpDocSource):
+            return {"error": f"Source {source!r} is HTTP-based; module listing is not supported."}
+        if not isinstance(handler, FileDocSource):
+            return {"error": f"Source {source!r} does not support module listing."}
+        file_sources = {source: handler}
 
-    if not _local_docs_root.is_dir():
-        return {"error": f"Local docs path does not exist: {_local_docs_root}"}
+    if not file_sources:
+        return {"error": "No file-based documentation sources registered. Use ocaml_add_doc_source to add one."}
 
-    modules = _scan_local_modules(_local_docs_root)
-    result = {"modules": modules, "total": len(modules)}
-    cache_set("local_modules", result, 300)  # 5 min TTL
-    return result
+    all_modules = []
+    for name, src in sorted(file_sources.items()):
+        cache_key = f"file_modules:{name}"
+        cached = cache_get(cache_key)
+        if cached is not None:
+            modules = cached
+        else:
+            if not src.root.is_dir():
+                continue
+            modules = _scan_file_modules(src.root)
+            cache_set(cache_key, modules, 300)
+        for m in modules:
+            m_copy = dict(m)
+            m_copy["source"] = name
+            all_modules.append(m_copy)
+
+    return {"modules": all_modules, "total": len(all_modules)}
 
 
 # ---------------------------------------------------------------------------
-# LocalDocSource
+# FileDocSource
 # ---------------------------------------------------------------------------
 
-class LocalDocSource:
-    name = "local"
-    description = "OCaml module docs from local odoc output"
-    priority = 0
+class FileDocSource:
+    """Documentation source backed by a filesystem path containing odoc output."""
 
-    def __init__(self, root: Path):
+    def __init__(self, name: str, root: Path, description: str = "", priority: int = 0):
+        self.name = name
+        self.description = description or f"OCaml module docs from {root}"
+        self.priority = priority
         self.root = root
 
     async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
@@ -694,6 +728,142 @@ class LocalDocSource:
 
 
 # ---------------------------------------------------------------------------
+# HttpDocSource
+# ---------------------------------------------------------------------------
+
+class HttpDocSource:
+    """Documentation source backed by an HTTP URL serving odoc output."""
+
+    def __init__(self, name: str, base_url: str, description: str = "", priority: int = 0):
+        self.name = name
+        self.base_url = base_url.rstrip("/")
+        self.description = description or f"OCaml module docs from {base_url}"
+        self.priority = priority
+
+    async def get_module_doc(self, module_path: str, **kwargs) -> Optional[Dict[str, Any]]:
+        parts = module_path.split(".")
+        # Try each library directory — we don't know which library the module
+        # belongs to, so we try the module path directly under the base URL
+        # with a few path patterns that odoc produces.
+        suffix = "/".join(parts) + "/index.html.json"
+
+        # First, try fetching the page listing to discover libraries
+        session = await get_session()
+
+        # Attempt direct fetch: {base_url}/{library}/{Module}/index.html.json
+        # Since we don't know the library, try fetching the base listing first
+        cache_key = f"http_libs:{self.base_url}"
+        libs = cache_get(cache_key)
+        if libs is None:
+            try:
+                async with session.get(self.base_url + "/") as resp:
+                    if resp.status == 200:
+                        html = await resp.text()
+                        libs = parse_directory_listing(html)
+                        cache_set(cache_key, libs, 300)
+                    else:
+                        libs = []
+            except aiohttp.ClientError:
+                libs = []
+
+        for lib in libs:
+            url = f"{self.base_url}/{lib}/{suffix}"
+            try:
+                async with session.get(url) as resp:
+                    if resp.status != 200:
+                        continue
+                    doc = await resp.json(content_type=None)
+            except (aiohttp.ClientError, json.JSONDecodeError):
+                continue
+
+            preamble = extract_preamble_text(doc.get("preamble", ""))
+            specs, truncated = extract_specs(doc.get("content", ""), limit=100)
+            result: Dict[str, Any] = {
+                "library": lib,
+                "module": module_path,
+                "preamble": preamble,
+                "items": specs,
+            }
+            if truncated:
+                result["truncated"] = True
+                result["note"] = "Output truncated at 100 items."
+            return result
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Tool: ocaml_add_doc_source
+# ---------------------------------------------------------------------------
+
+@mcp.tool(name="ocaml_add_doc_source")
+async def add_doc_source(
+    name: str,
+    uri: str,
+    description: str = "",
+) -> Dict[str, Any]:
+    """Register an additional OCaml documentation source.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
+
+    Add a filesystem path or HTTP URL as a documentation source. Once added,
+    ocaml_module_doc will search it (before sage.ci.dev) and ocaml_module_list
+    can list its modules (filesystem sources only).
+
+    Args:
+        name: Identifier for this source, e.g. "project", "erratique"
+        uri: Filesystem path or HTTP(S) URL pointing to odoc output
+        description: Optional human-readable label
+
+    Returns:
+        Confirmation with source metadata
+    """
+    if name in _doc_sources:
+        return {"error": f"Source {name!r} already exists. Remove it first or choose a different name."}
+
+    if uri.startswith("http://") or uri.startswith("https://"):
+        source = HttpDocSource(name=name, base_url=uri, description=description)
+    else:
+        path = Path(uri)
+        if not path.is_dir():
+            return {"error": f"Path does not exist or is not a directory: {uri}"}
+        source = FileDocSource(name=name, root=path, description=description)
+
+    register_doc_source(name, source)
+    return {
+        "added": name,
+        "type": "http" if isinstance(source, HttpDocSource) else "file",
+        "description": source.description,
+        "priority": source.priority,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Tool: ocaml_remove_doc_source
+# ---------------------------------------------------------------------------
+
+@mcp.tool(name="ocaml_remove_doc_source")
+async def remove_doc_source(name: str) -> Dict[str, Any]:
+    """Remove a previously added OCaml documentation source.
+
+    ONLY for OCaml. Not useful for Rust, Python, JavaScript, or any other language.
+
+    Args:
+        name: Identifier of the source to remove
+
+    Returns:
+        Confirmation of removal
+    """
+    if name == "sage":
+        return {"error": "Cannot remove the built-in 'sage' source."}
+    if name not in _doc_sources:
+        available = sorted(_doc_sources.keys())
+        return {"error": f"Source {name!r} not found. Available: {available}"}
+
+    unregister_doc_source(name)
+    return {"removed": name}
+
+
+# ---------------------------------------------------------------------------
 # Tool: ocaml_module_doc
 # ---------------------------------------------------------------------------
 
@@ -717,6 +887,7 @@ async def get_module_doc(
         package_name: OCaml package name, e.g. "lwt", "base". Required for sage.ci.dev lookups.
         version: Optional specific version. Defaults to latest.
         source: Optional source name (e.g. "sage", "local"). If omitted, tries all sources in priority order.
+                Use ocaml_add_doc_source to register additional sources.
 
     Returns:
         Module documentation with preamble, types, values, and submodules
@@ -1556,33 +1727,22 @@ def main():
     import sys
     import asyncio
 
-    global _local_docs_root
-
-    # Parse --local-docs flag from anywhere in argv
     args = sys.argv[1:]
-    if "--local-docs" in args:
-        idx = args.index("--local-docs")
-        if idx + 1 < len(args):
-            _local_docs_root = Path(args[idx + 1])
-            register_doc_source("local", LocalDocSource(_local_docs_root))
-            args = args[:idx] + args[idx + 2:]
-        else:
-            print("Error: --local-docs requires a path argument", file=sys.stderr)
-            sys.exit(1)
 
     if args and args[0] == "--test":
         test_args = args[1:]
 
         async def run_test():
             if not test_args:
-                print("Usage: mcp_server.py [--local-docs <path>] --test <command> [args...]")
+                print("Usage: mcp_server.py --test <command> [args...]")
                 print("Commands:")
                 print("  sherlodoc <query>")
                 print("  search-packages <query> [repo_url]")
                 print("  package-info <package> [version]")
                 print("  module-doc <package> <module_path> [version]")
-                print("  list-local")
-                print("  local-module-doc <module_path>")
+                print("  add-source <name> <uri> [description]")
+                print("  remove-source <name>")
+                print("  list-modules [source]")
                 print("  list-sources")
                 print("  opam-versions <package>")
                 print("  opam-show <package> [version]")
@@ -1612,11 +1772,22 @@ def main():
                 mod = test_args[2] if len(test_args) > 2 else "Lwt"
                 ver = test_args[3] if len(test_args) > 3 else None
                 result = await get_module_doc(mod, package_name=pkg, version=ver)
-            elif cmd == "list-local":
-                result = await list_local_modules()
-            elif cmd == "local-module-doc":
-                mod = test_args[1] if len(test_args) > 1 else "Stdlib"
-                result = await get_module_doc(mod, source="local")
+            elif cmd == "add-source":
+                if len(test_args) < 3:
+                    result = {"error": "Usage: add-source <name> <uri> [description]"}
+                else:
+                    name = test_args[1]
+                    uri = test_args[2]
+                    desc = test_args[3] if len(test_args) > 3 else ""
+                    result = await add_doc_source(name, uri, desc)
+            elif cmd == "remove-source":
+                if len(test_args) < 2:
+                    result = {"error": "Usage: remove-source <name>"}
+                else:
+                    result = await remove_doc_source(test_args[1])
+            elif cmd == "list-modules":
+                src = test_args[1] if len(test_args) > 1 else None
+                result = await list_modules(src)
             elif cmd == "opam-versions":
                 pkg = test_args[1] if len(test_args) > 1 else "lwt"
                 result = await opam_list_versions(pkg, OPAM_REPO_URL)

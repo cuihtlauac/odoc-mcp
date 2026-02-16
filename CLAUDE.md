@@ -48,8 +48,10 @@ can launch it directly.
 | `ocaml_search` | Search by name or type signature across all packages |
 | `ocaml_package_search` | Find packages by substring match (sage.ci.dev + opam repos) |
 | `ocaml_package_doc` | Get package doc overview: description, libraries, and modules |
-| `ocaml_module_doc` | Get a module's preamble and signatures (tries local, then sage.ci.dev) |
-| `ocaml_module_list_local` | List modules in local odoc output |
+| `ocaml_module_doc` | Get a module's preamble and signatures (tries registered sources, then sage.ci.dev) |
+| `ocaml_module_list` | List modules from file-based documentation sources |
+| `ocaml_add_doc_source` | Register a filesystem path or HTTP URL as a documentation source |
+| `ocaml_remove_doc_source` | Remove a previously added documentation source |
 | `ocaml_package_versions` | List all versions of a package |
 | `ocaml_package_meta` | Show package metadata (deps, license, authors, etc.) |
 | `ocaml_deps_managers` | List active dependency managers (opam, dune-pkg) |
@@ -64,7 +66,7 @@ can launch it directly.
 | Resource | Description |
 |----------|-------------|
 | `ocaml-docs://sage` | Metadata for the sage.ci.dev documentation source (always available) |
-| `ocaml-docs://local` | Metadata for the local odoc documentation source (when `--local-docs` is set) |
+| `ocaml-docs://<name>` | Metadata for each source added via `ocaml_add_doc_source` |
 
 Clients discover available documentation sources via `resources/list`.
 Each resource returns JSON with `name`, `description`, and `priority`
@@ -78,10 +80,10 @@ uv run python mcp_server.py --test search-packages lwt
 uv run python mcp_server.py --test search-packages lwt https://github.com/ocaml/opam-repository
 uv run python mcp_server.py --test package-info base
 uv run python mcp_server.py --test module-doc base Base.List
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-local
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test local-module-doc MyModule
+uv run python mcp_server.py --test add-source mylib /path/to/odoc/output
+uv run python mcp_server.py --test remove-source mylib
+uv run python mcp_server.py --test list-modules
 uv run python mcp_server.py --test list-sources
-uv run python mcp_server.py --local-docs _build/default/_doc/_html --test list-sources
 uv run python mcp_server.py --test opam-versions lwt
 uv run python mcp_server.py --test opam-show lwt
 uv run python mcp_server.py --test opam-show lwt 5.9.0
@@ -102,11 +104,8 @@ claude mcp add --scope user ocaml-docs -- uv run --directory /path/to/odoc-mcp p
 This makes the server available in all projects. To restrict it to the
 current project, drop `--scope user`.
 
-To include local docs (project-scoped, since the path is project-specific):
-
-```bash
-claude mcp add ocaml-docs -- uv run --directory /path/to/odoc-mcp python mcp_server.py --local-docs /path/to/_build/default/_doc/_html
-```
+Once the server is running, use `ocaml_add_doc_source` during a conversation
+to point it at project-specific odoc output or a remote documentation URL.
 
 ### Using with Claude Desktop
 
